@@ -2,105 +2,88 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B002C4FA571
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  9 Apr 2022 08:35:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E44BF4FAB05
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  9 Apr 2022 23:59:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233231AbiDIGhH (ORCPT
+        id S232487AbiDIWBK (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 9 Apr 2022 02:37:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33580 "EHLO
+        Sat, 9 Apr 2022 18:01:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229538AbiDIGhG (ORCPT
+        with ESMTP id S231857AbiDIWBJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 9 Apr 2022 02:37:06 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0728B15F55E
-        for <platform-driver-x86@vger.kernel.org>; Fri,  8 Apr 2022 23:35:01 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id c23so9771751plo.0
-        for <platform-driver-x86@vger.kernel.org>; Fri, 08 Apr 2022 23:35:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=DNFhsPbkfGfOWNF5M4aRb8nwKD8L5aVj2WV/H46NM8s=;
-        b=BNnv4yl/74WQl+Wzby6lZq0BLal/rzE/P9lqD+bVFuYKc2jEklEfPO6sytbV7skqJY
-         ftBjSodn9FzeZTQUOrhRX71dFPAoVkfARXQ8lJrVQ+MYVxQ4JS0SmK0DDZndTtRUtRob
-         OyM0F5d6/rAuyZG3WlAkUFMWS3CLO9Z21hb84dD5M7if++lkwGyLq2eDxP6nHJfbBdzr
-         2fDlJnWiHPs2iJqI8/wwx2N5NMibjfhAvy9RvjtwNIF/q6qArCT08AmH+ArPQScJ7bnA
-         VhQcjNND8vkRaxoGDodwV27dFVr13FOnU0trXnP6UAcnyRY/M3iU2bSnHzUKN1WOoj0I
-         O0tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=DNFhsPbkfGfOWNF5M4aRb8nwKD8L5aVj2WV/H46NM8s=;
-        b=XmZbU8BVmZPdVV0/ZE/SJMcPaL2Sm/SwClBgSakedq1bB0BR9i6bDXNFmrfxi20VFC
-         NAqLRaewoKR5wdWAJy0stwEO31HD0ct+u2T/+e4lG4obPsWX6x49qMikP11XFj7JvujB
-         f1I1yN9M9pHwEc21aoW1djwMkbFV4GiH7QrTFDP9+fIUEugACQO1sB5r5IAInMp5rrS7
-         MtYGJ6450JUDKVeo9GTsf0PKtkpIQiXUzkLKr+nJg99aLVL2l67p31u804Z/FtNCbJ5U
-         UaLY1MdYrcYRg6y0XmJtnY76zgrktxXgfcTl8KFFq0cTGZE2PleAUUU807e3dSdHUWuh
-         dNHw==
-X-Gm-Message-State: AOAM531SVGixX0W5iiHfuVKoMH/rjO3/eAxNw8SV26R/DHXesjnRhDGk
-        WrclpGp9rWQMrh2G53PjrW45aR6Wq4jqNM+IeXY=
-X-Google-Smtp-Source: ABdhPJyMiYdildsAo6gYB+i7fy1hThl6DJjTQVOT0i8l+wNHDwmp6njk80NbBAcO37bObjuVUovl/TAoQTeb8bDFJ2Q=
-X-Received: by 2002:a17:902:ea52:b0:153:fd04:c158 with SMTP id
- r18-20020a170902ea5200b00153fd04c158mr22450968plg.83.1649486100441; Fri, 08
- Apr 2022 23:35:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a05:7300:6486:b0:58:374b:10b4 with HTTP; Fri, 8 Apr 2022
- 23:34:59 -0700 (PDT)
-Reply-To: fred49508@gmail.com
-From:   "Fred Martins." <lorfordlandrew02@gmail.com>
-Date:   Fri, 8 Apr 2022 23:34:59 -0700
-Message-ID: <CAHMCJface6+DPpA8m_OcXPfmnG_twKgLNP9q_uqbvWEiXupyiQ@mail.gmail.com>
-Subject: Greetings
-To:     undisclosed-recipients:;
+        Sat, 9 Apr 2022 18:01:09 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36681216A78
+        for <platform-driver-x86@vger.kernel.org>; Sat,  9 Apr 2022 14:59:00 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 36745CE0DBE
+        for <platform-driver-x86@vger.kernel.org>; Sat,  9 Apr 2022 21:58:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7A614C385AA
+        for <platform-driver-x86@vger.kernel.org>; Sat,  9 Apr 2022 21:58:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1649541537;
+        bh=DIbwyVKcmhoseMnXi5G0yi62il/fpzfnR4l+k+16r0g=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=fMRWLZO4bq64YJG/z6tTpcDkwy397a1Bw1a3dnF0NEq0Yvym9rZPCfF/h+biOmz2f
+         fa0zb1Z5KHXPBTzMTi4HuAHmdGZosYaNRURTifTJajpxWkQEqa4nD0+zQS1ERksa+9
+         b4x1y17g2ClDinb1xfL+IaFIfP9CLqtttibz1h9rkmS+XMpbtBeRGJTxVO4PNopRBg
+         em/IDD2+vlgESmbrOQJsvmLlvUpha57Wtw+UMjQZWwuQHhcGf137dlZ9QhtljEqz3U
+         VNzPy/ipa08nNBgpYLeSxLnS9K57wzmt2z3izKESQEQ4NpvZLmtPIRYrDJqMdNb5aB
+         8jC7cwQdXeNIw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 66207C05FD5; Sat,  9 Apr 2022 21:58:57 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     platform-driver-x86@vger.kernel.org
+Subject: [Bug 215825] Dell Precision 7750 - can't change keyboard backlight
+ timeout and brightness
+Date:   Sat, 09 Apr 2022 21:58:56 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Product: Platform Specific/Hardware
+X-Bugzilla-Component: x86-64
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: bp@alien8.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: assigned_to
+Message-ID: <bug-215825-215701-EGF5sgd594@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215825-215701@https.bugzilla.kernel.org/>
+References: <bug-215825-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:62e listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4698]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [lorfordlandrew02[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [fred49508[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [lorfordlandrew02[at]gmail.com]
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.8 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Greetings,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215825
 
-I wonder why you continue neglecting my emails. Please, acknowledge
-the receipt of this message in reference to the subject above as I
-intend to send to you the details of the mail. Sometimes, try to check
-your spam box because most of these correspondences fall out sometimes
-in SPAM folder.
+Borislav Petkov (bp@alien8.de) changed:
 
-Best regards,
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+           Assignee|platform_x86_64@kernel-bugs |drivers_platform_x86@kernel
+                   |.osdl.org                   |-bugs.osdl.org
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
