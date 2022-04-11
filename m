@@ -2,149 +2,257 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66DA34FBE01
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 11 Apr 2022 16:00:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C8FE4FBE16
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 11 Apr 2022 16:01:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346449AbiDKODC (ORCPT
+        id S237958AbiDKODd (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 11 Apr 2022 10:03:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36580 "EHLO
+        Mon, 11 Apr 2022 10:03:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346923AbiDKOCr (ORCPT
+        with ESMTP id S1346834AbiDKODc (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 11 Apr 2022 10:02:47 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 626AD31923;
-        Mon, 11 Apr 2022 07:00:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DE9B761253;
-        Mon, 11 Apr 2022 14:00:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBCB9C385A4;
-        Mon, 11 Apr 2022 14:00:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649685632;
-        bh=deD3R4iI7HvK5x64Tnw8Uwt4gez6EDV/dTEjtiDSBSU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=avou1tlb519HqrMj7nDgj3Tve9u0f7Hq+yuBNQduRWmKTVRKEeX8Sy5QtyizHjm91
-         4C+fFNbMX99k2GYaMicIhkHohq49/9eEemTub3xYYBtGaLobYxOjFD2zh+rfWpJarI
-         V1ayOqJlVDcE+RuhFOHKdtaKWm75y73pkbIQaApbKL9c5wFLH8RGM95qCp5FiD4td0
-         ldF53gTPJTHPLtq0vju5T8jb3SPTDEHbwpTn9DKDv2CvKcDbzUrvkfPHNB+RHM735Y
-         JcddRXb3CC88JqngQvkKY9yw2+F/Y/xN0UDzXPJZjtrWmIzu9amqxJdvm7NtldO2LV
-         rpNCH2thWJnMg==
-Received: by pali.im (Postfix)
-        id 49FA6947; Mon, 11 Apr 2022 16:00:27 +0200 (CEST)
-Date:   Mon, 11 Apr 2022 16:00:27 +0200
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Pearson <markpearson@lenovo.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        Dell.Client.Kernel@dell.com,
-        Stuart Hayes <stuart.w.hayes@gmail.com>,
-        Divya Bharathi <divya.bharathi@dell.com>,
-        Prasanth Ksr <prasanth.ksr@dell.com>,
-        Perry Yuan <Perry.Yuan@dell.com>
-Subject: Re: [External] Re: Dell laptop touchpad disabling?
-Message-ID: <20220411140027.wc325qdoprzjpuaj@pali>
-References: <b9d9171d-1287-e5aa-46d2-2475817074ba@infradead.org>
- <d1192588-8993-5052-6018-7a2f8393cff9@redhat.com>
- <225c5a10-59a8-d33e-abac-5fbb4341a6eb@lenovo.com>
- <efb7e4bd-a758-3d70-6967-78fa176055e5@redhat.com>
+        Mon, 11 Apr 2022 10:03:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 566B431DEE
+        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Apr 2022 07:01:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1649685677;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=y4F8dqXHcBu4Aif1bka3gidub9+IdsEqN8o95WTESwk=;
+        b=Ys5CSH+LjoW2zqOsmpxzc5jpCINEN6zqidC1fX3tW/9Q2ucQFTnUiyphOEdWzsHtN5QiQc
+        GBPkFWJUDoU8xCUaXA8vzphwWKSn/vzCJZLHSXqrFUYORB6r0f4Ambpa2TXVJtTadmkoV9
+        rRUD8JYC8gXg97BRuTq3djUkMmoUZ9Y=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-215-NUq70mK0NtG1d9n9TclSIA-1; Mon, 11 Apr 2022 10:01:15 -0400
+X-MC-Unique: NUq70mK0NtG1d9n9TclSIA-1
+Received: by mail-ej1-f69.google.com with SMTP id oz37-20020a1709077da500b006e88d00043dso1081077ejc.15
+        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Apr 2022 07:01:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=y4F8dqXHcBu4Aif1bka3gidub9+IdsEqN8o95WTESwk=;
+        b=MVXq8n1g9dGUbp8nOxQuMibp0HJhDP4Njy04ViW5pTXeOXDmICM1sQMYQpPyq8/6jp
+         KuvmZ8zs/HOJVPIKg9X3A3/hcLVXDy/5A/fU51JcDTmkcZGUq0SjKVaciWhgh1Gc8CIt
+         S2Q8Ldb0yXlq7GTwsLoJaw4Uf4QTtkRthVJVid0IMaxarGF6CXaronLtny1LauafcHG8
+         2jB7e584tn3QO56t844nMmk2NV6Kub274rFY3E6EP+vAsJ9xf3sAUBax4rUYkAm1wZ33
+         ZPFANiGCkl/Hw8CsX5bSrxs98uIhEe2Nba0I9wpqmKWl2sHT4tAydTro6k+1l2pUAHLC
+         xnSQ==
+X-Gm-Message-State: AOAM5331cpxELyb3/+SkiO0mlU4odQmZLBIOfaGX3gxge2nr4JDd4HEB
+        p2aUZOrRHNIJSDiH4SZ64wsCbQwv+dvA68deUVzMlu7pnEaEInQX2qC0sIngRo/nDN848/gjMRj
+        riWC6yQ3cVkgx3zr5W3MdahCoB0B83MxHmA==
+X-Received: by 2002:a17:907:1b20:b0:6da:649b:d99e with SMTP id mp32-20020a1709071b2000b006da649bd99emr30060025ejc.712.1649685673427;
+        Mon, 11 Apr 2022 07:01:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx4xzb1BjJ/58+VPibM2TbZRBOLWheMfWS3L+4AvaOAVyXa61wjTMGMfUCBt5PtxsG84x9vKg==
+X-Received: by 2002:a17:907:1b20:b0:6da:649b:d99e with SMTP id mp32-20020a1709071b2000b006da649bd99emr30059978ejc.712.1649685672932;
+        Mon, 11 Apr 2022 07:01:12 -0700 (PDT)
+Received: from [10.40.98.142] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id p14-20020aa7cc8e000000b0040f13865fa9sm14716997edt.3.2022.04.11.07.01.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Apr 2022 07:01:12 -0700 (PDT)
+Message-ID: <d60c470a-ba46-f719-5cc0-8a4b1c9c8cc3@redhat.com>
+Date:   Mon, 11 Apr 2022 16:01:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <efb7e4bd-a758-3d70-6967-78fa176055e5@redhat.com>
-User-Agent: NeoMutt/20180716
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [External] [discuss] Split /sys/firmware/acpi/platform_profile
+ into ac and battery profiles?
+Content-Language: en-US
+To:     Mark Pearson <markpearson@lenovo.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        "S-k, Shyam-sundar" <Shyam-sundar.S-k@amd.com>,
+        Bastien Nocera <hadess@hadess.net>
+Cc:     linux-acpi <linux-acpi@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>
+References: <03b7d1dc-42af-7964-ab7a-bdcc6644cc71@redhat.com>
+ <4b3c2dce-6271-57c3-b9d0-a186b7c82b33@lenovo.com>
+ <d9aa08ef-cc0a-9edf-19a4-6fe75959b3b8@lenovo.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <d9aa08ef-cc0a-9edf-19a4-6fe75959b3b8@lenovo.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello!
+Hi Mark,
 
-On Monday 11 April 2022 15:48:48 Hans de Goede wrote:
-> Hi Mark,
+On 4/1/22 21:24, Mark Pearson wrote:
+> Hi
 > 
-> On 3/21/22 23:18, Mark Pearson wrote:
-> > 
-> > Apologies if this is thread hijacking...but I've got a similarish
-> > problem on Lenovo laptops that we have on the todo list to investigate
-> > so wanted to jump in with a somewhat related question...
+> On 3/21/22 18:29, Mark Pearson wrote:
+>>
+>> Thanks Hans
+>>
+>> On 2022-03-15 05:16, Hans de Goede wrote:
+>>> Hi All,
+>>>
+>>> AMD based ThinkPads (1) have separate ac (connected to an external 
+>>> powersource) and on battery tuned versions of the low-power, balanced
+>>> and performance profiles. So in essence they have six profiles:
+>>> low-power-ac, low-power-battery, balanced-ac, balanced-battery,
+>>> performance-ac and performance-battery.
+>>>
+>>> The question is how to deal with this. There is a previous
+>>> discussion about this here: 
+>>> https://lore.kernel.org/platform-driver-x86/20220301201554.4417-1-markpearson@lenovo.com/>>>  From that previous discussions 3 possible solutions come to mind:
+>>>
+>>> 1. Simply treat this as 6 different profiles, maybe with documenting 
+>>> -ac/-battery postfixes for the profile-names and let userspace sort
+>>> it out.
+>>>
+>>> Pro:    -Simple from the kernel side Contra: -Does not work with
+>>> existing userspace code -This is quite ugly IMHO / does not feel
+>>> right
+>> Agreed - I initially looked at implementing it this way and it's not
+>> good. I don't recommend it
+>>
+>>>
+>>> 2. Only export three profiles to userspace, while going "all in" on
+>>> this concept and change drivers/acpi/platform_profile.c to add new: 
+>>> /sys/firmware/acpi/platform_profile_ac 
+>>> /sys/firmware/acpi/platform_profile_battery files which can contain
+>>> different desired settings for the ac/battery case and have the
+>>> kernel automatically switch between the two and also have it pass the
+>>> ac/battery state to platform_profile_handler.profile_set so that for
+>>> hw which has different ac/battery flavors of the profile the driver
+>>> knows which one to select (without needing to detect this itself)
+>>>
+>>> Pro:    -This matches well with the behavior which we want for the
+>>> user (which is for the system to save the profile as 2 separate
+>>> settings for ac/battery and switch the profile to the last selected
+>>> setting for ac/battery when the state changes) -Solve the ac/battery
+>>> state listening/notification only once instead of having all
+>>> platform_profile drivers DIY Contra: -This means deprecating
+>>> /sys/firmware/acpi/platform_profile and defining how it maps to the 2
+>>> new files, e.g. if it is written does that only set the current
+>>> active profile, or both ? -Userspace needs to be adjusted to use the
+>>> new uapi and once it has been adjusted it also still needs to work on
+>>> the older kernels which will be tricky/nasty to implement and also
+>>> is a problem from CI / testing pov.
+>>
+>> I don't think the contra here is that complicated or causing backwards
+>> compatibility issues.
+>>
+>> For the platform_profile attribute
+>>  - If you read it then you get the current active configured profile
+>> regardless of whether you are plugged in or not.
+>>  - If you set it then it sets both ac and battery profile and they
+>> stay in sync
+>>
+>> For the platform_profile_ac and platform_profile_dc
+>>  - If you read it you get the configured setting for that power mode
+>>  - If you set it, then that mode is active for the appropriate power mode
+>>
+>> I think that keeps this backwards compatible and user space can decide
+>> on their own schedule/preferences/design if they implement something extra.
+>> Am I missing something?
+>>
+>>>
+>>> 3. Only export three profiles to userspace and have the 
+>>> drivers/acpi/platform_profile.c "core" code pass the ac/battery
+>>> state to platform_profile_handler.profile_set so that for hw which
+>>> has different ac/battery flavors of the profile the driver knows
+>>> which one to select (without needing to detect this itself)
+>>>
+>>> Pro:    -Solve the ac/battery state listening/notification only once 
+>>> instead of having all platform_profile drivers DIY -Leaves the
+>>> existing userspace API 100% unchanged and leaves existing userspace
+>>> code working without it requiring any changes Contra: -As part of the
+>>> discussion on this the RFE to "have separate "last selected"
+>>> ac/battery profile settings and automatically switch when the state
+>>> changes" has surfaced; and that is not solved
+>>>
+>> All looks reasonable to me.
+>>
+>>>
+>>> Writing it down like this, to me 3. is the clear winner. The only 
+>>> downside of 3. I can come up with arguably is better solved in 
+>>> userspace (2), esp. since this will likely also require some UI
+>>> design work to somehow make it clear to the user that there are two
+>>> different settings (3).
+>>
+>> For me I went with #2 in the RFC implementation as I thought it was a
+>> nice feature to have generally which is it's big plus - but I'm
+>> genuinely fairly split as to whether #2 or #3 is best. I could easily go
+>> either way.
+>>
+>> One Q I have is that I would like our platforms to have the ability to
+>> auto-switch between AC and battery profile for their configured mode
+>> automatically. So if we go with option #3 I want to implement an event
+>> handler in the thinkpad_acpi driver for these platforms. Does that raise
+>> any flags or concerns? I prototyped this before I wrote the RFC and it's
+>> pretty simple.
+>>
+>>>
+>>> Also even if no UI changes are deemed necessary this will still
+>>> require userspace changes to save+restore the two separate "last
+>>> selected" profile settings over reboots.
+>>>
+>>> Please let me know what you think of this, and of course another 
+>>> completely different approach is welcome too.
+>>>
+>>> Regards,
+>>>
+>>> Hans
+>>>
+>>>
+>>> 1) Although AMD based ThinkPads are the trigger for this discussion, 
+>>> this applies to more new AMD based laptops, so this is not ThinkPad 
+>>> specific
+>> It's not even really AMD specific - doing support for them was just want
+>> got the idea started.
+>>>
+>>> 2) IMHO it would be good to file a RFE issue for this against p-p-d: 
+>>> https://gitlab.freedesktop.org/hadess/power-profiles-daemon/-/issues/new>> Once we reach conclusion if this is a ack or nack I can do that.
+>> I'd love for my team to get more involved with development at that level
+>> if possible.
+>>
+>>>  3) AFAICT Windows does the 2 separate "last selected" ac/battery
+>>> profile settings thing while just showing a single slider in its UI,
+>>> but that really is a whole other discussion which the userspace/UI
+>>> folks can have.
+>>
+>> Thanks
+>> Mark
 > 
-> No problem.
-> 
-> > On 3/18/22 04:54, Hans de Goede wrote:
-> >>
-> >> Regardless of the method, the kernel's responsibility here is
-> >> to make sure the touchpad gets seen as a touchpad and after that
-> >> "disabling" it is a userspace problem.
-> >>
-> > 
-> > The issue on our platforms is that if you disable the touchpad in the
-> > BIOS it doesn't actually disable the touchpad. It sets a flag in the EC
-> > registers to let the OS know the touchpad is not supposed to be enabled
-> > (I only just found out this is how it is supposed to work).
-> 
-> Interesting.
-> 
-> > I'm not 100% sure the reasons for this - I think it's to do with keeping
-> > the trackpoint usable (maybe).
-> 
-> Yes that makes sense the trackpoint often sends its data to the touchpad
-> which then muxes the trackpoint data into its own datastream as special
-> trackpoint packets. So disabling the touchpad at the hw level would also
-> disable the trackpoint in these kinda setups.
+> Just wanted to check that, with limited responses, this thread is
+> effectively closed and the decision is to go with #3 - we'll leave any
+> implementation up to user space (if they want to take it on).
 
-That is truth. And some kernel drivers are smart and try to de-mux these
-packets and reports trackstick events via different input device as
-touchpad input device. So via xinput it is possible to disable e.g.
-touchpad while keeping trackstick working. This disable method is of
-course Xserver specific and just instruct Xserver to ignore events on
-one input device.
+Yes I was hoping for some more feedback here from e.g. Rafael, but
+I agree that it seems that the conclusion is to go with 3. which
+is also the option which I prefer myself.
 
-> > So just curious on the comment above - is there a standard way to let
-> > user space know to ignore the touchpad or disable it by default?
+> Maybe this
+> is the prod I needed to go and play there. As a note, if anybody does
+> take this and needs help testing etc just let me know.
 > 
-> Not yet, but we could define one. Or we could even try to see if
-> a patch to drop all non trackpoint data inside the kernel when the
-> flag is set would be accepted.
-> 
-> Someone needs to write the code for this though and if we want to let
-> userspace know also define a userspace API. I think the all kernel
-> solution might be the easiest to implement, but I'm not sure if this
-> will be accepted by the input subsystem maintainer.
+> I do plan to follow up with a thinkpad_acpi specific patch for our
+> platforms using PSC mode.
 
-There is really no standard way...
+Sounds good, note as I indicated in the original description of 3.
+I think it might be good to do the AC/battery switching listening
+inside the core platform_profile code as I expect more drivers to
+eventually need this.
 
-> > I'm obviously being lazy here as I've been meaning to go and read code
-> > but I was flicking thru the mailing list and this caught my eye....and
-> > if there's a shortcut to the answer that would be awesome.
-> > 
-> > I've no idea if this is a Lenovo specific issue or more generic - but
-> > this thread made me wonder if it's actually a common/standard problem?
-> 
-> This is the first time I have heard about this.
-> 
-> Regards,
-> 
-> Hans
-> 
+Regards,
 
-... and this not first time I read about this request. In past there was
-request for Nokia N900 touchscreen driver and its userspace to disable
-receiving events on opened touchscreen input device. External tool
-monitored ambient light sensor and determined when phone was in pocket
-and when not. And it needed to instruct kernel to not send touchscreen
-events when phone was in pocket. IIRC at that time kernel for Nokia N900
-had custom patch with custom API for enabling/disabling touchscreen.
+Hans
 
-This requirement is not exactly same as yours, but have common thing:
-ability to enable / disable input device and report if device is
-disabled or not.
+
