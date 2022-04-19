@@ -2,119 +2,105 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7589B5064C0
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 19 Apr 2022 08:43:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C37B65065A4
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 19 Apr 2022 09:22:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348982AbiDSGpz (ORCPT
+        id S243921AbiDSHYf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 19 Apr 2022 02:45:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56082 "EHLO
+        Tue, 19 Apr 2022 03:24:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348966AbiDSGpw (ORCPT
+        with ESMTP id S1349286AbiDSHY3 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 19 Apr 2022 02:45:52 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CC1E30F7F;
-        Mon, 18 Apr 2022 23:43:10 -0700 (PDT)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KjDlB2KG7zhXb2;
-        Tue, 19 Apr 2022 14:43:02 +0800 (CST)
-Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 19 Apr 2022 14:43:08 +0800
-Received: from localhost.localdomain (10.175.112.125) by
- dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 19 Apr 2022 14:43:07 +0800
-From:   Wupeng Ma <mawupeng1@huawei.com>
-To:     <akpm@linux-foundation.org>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <corbet@lwn.net>
-CC:     <ardb@kernel.org>, <tglx@linutronix.de>, <mingo@redhat.com>,
-        <bp@alien8.de>, <dave.hansen@linux.intel.com>, <x86@kernel.org>,
-        <dvhart@infradead.org>, <andy@infradead.org>, <rppt@kernel.org>,
-        <paulmck@kernel.org>, <peterz@infradead.org>, <jroedel@suse.de>,
-        <songmuchun@bytedance.com>, <macro@orcam.me.uk>,
-        <frederic@kernel.org>, <W_Armin@gmx.de>, <john.garry@huawei.com>,
-        <seanjc@google.com>, <tsbogend@alpha.franken.de>,
-        <anshuman.khandual@arm.com>, <chenhuacai@kernel.org>,
-        <david@redhat.com>, <gpiccoli@igalia.com>, <mark.rutland@arm.com>,
-        <wangkefeng.wang@huawei.com>, <mawupeng1@huawei.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-efi@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>, <linux-mm@kvack.org>
-Subject: [PATCH 2/2] arm64/boot: Add support to relocate kernel image to mirrored region without kaslr
-Date:   Tue, 19 Apr 2022 15:01:50 +0800
-Message-ID: <20220419070150.254377-3-mawupeng1@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220419070150.254377-1-mawupeng1@huawei.com>
-References: <CAMj1kXGSStDgj9ABmUaTLnBmpQFksh3wx4tx=mJohum4GQe3Gg@mail.gmail.com>
- <20220419070150.254377-1-mawupeng1@huawei.com>
+        Tue, 19 Apr 2022 03:24:29 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E47D3326C4;
+        Tue, 19 Apr 2022 00:21:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650352907; x=1681888907;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=zn5qckyF4wgTfjbl8sye8FXpD4CMqZJPRK+O9uow4hA=;
+  b=l7Hg6XmjoKW0dFydGn2h4kA0l3vXeVcdliStNVgcJT39YpdcAWpmhcb0
+   xM3+kSsghjn6ZHfjyhMvUGoEu8ObTVozZGAa/gtFFGUWu0HQNV6hDCpOg
+   5SayJRv0R9QulqT7ATYw9id7hydfA+wi4fP9Q+JkjDOnzfDUT3kE76wqe
+   8w9i1VrCrXwqGEXF8Yf8aXaB5hX1MtHMAjaqGs2Usq4maWBKBqRVEaFdF
+   pB2DIZCW4yRPcbvT5ycDlFPYSogV+UrSAzSTHtRnWpaxfXPsmS9rSW4er
+   NJk9SdwGzvq3bnQ7yXB8UDSfn2YyEv0JEukWNS4t06KblxCxoJSCN81pl
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10321"; a="262558664"
+X-IronPort-AV: E=Sophos;i="5.90,272,1643702400"; 
+   d="scan'208";a="262558664"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2022 00:21:46 -0700
+X-IronPort-AV: E=Sophos;i="5.90,272,1643702400"; 
+   d="scan'208";a="702089665"
+Received: from csambran-mobl.amr.corp.intel.com (HELO khuang2-desk.gar.corp.intel.com) ([10.254.58.20])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2022 00:21:43 -0700
+Message-ID: <386efdc4a7f9dabd84cd19823c094a468a8644c4.camel@intel.com>
+Subject: Re: [PATCH v3 2/4] x86/tdx: Add tdx_hcall_get_quote() API support
+From:   Kai Huang <kai.huang@intel.com>
+To:     Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>
+Cc:     "H . Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Andi Kleen <ak@linux.intel.com>, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Date:   Tue, 19 Apr 2022 19:21:41 +1200
+In-Reply-To: <67eda184-6823-7b23-85d2-9ff22bc0d215@linux.intel.com>
+References: <20220415220109.282834-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+         <20220415220109.282834-3-sathyanarayanan.kuppuswamy@linux.intel.com>
+         <4ad97e6118688faf35e96ade46690c84f6c729f4.camel@intel.com>
+         <0a49a4f1-637a-fa92-555f-485b529e6811@linux.intel.com>
+         <7f6f73aeb37aeb4339059ad9a139a0d24458affc.camel@intel.com>
+         <67eda184-6823-7b23-85d2-9ff22bc0d215@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-1.fc35) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.112.125]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500014.china.huawei.com (7.185.36.153)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Ma Wupeng <mawupeng1@huawei.com>
+On Mon, 2022-04-18 at 22:28 -0700, Sathyanarayanan Kuppuswamy wrote:
+> 
+> On 4/18/22 9:40 PM, Kai Huang wrote:
+> > > Please check the latest 1.0 specification (updated on Feb 2022). It has
+> > > details about R13 register.
+> > Thanks.  So it seems GHCI 1.0 has also been updated and it is consistent with
+> > GHCI 1.5 now.  In this case, why do we still assume 8K shared memory?  Are you
+> > going to update the driver?
+> > 
+> 
+> Since the GetQuote spec only requires memory in 4K alignment, we just
+> went with 8k constant allocation. Since existing users does not
+> require more than 8k, it works. But I agree that this needs to be
+> changed.
 
-Add support to relocate kernel image to mirrord regions if KASLR doesn't
-work.
+Quote format can be vendor specific, so there's no guarantee 3rd party won't
+have a Quote larger than 8k.
 
-If a suiable mirrored slot if found, call efi_random_alloc() with
-random_seed be zero to relocate kernel code and data to the first slot
-available.
+> 
+> In next version, I will change the driver to choose the allocation size
+> based on user space request. Since this change would require us to do
+> the memory allocation in IOCTL routine (instead of init code), it will
+> make it slower. But I think this is negligible compared to time it takes
+> for Quote request. So it should be fine.
+> 
+> > 
 
-Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
----
- drivers/firmware/efi/libstub/arm64-stub.c  | 10 ++++++++++
- drivers/firmware/efi/libstub/randomalloc.c |  1 +
- 2 files changed, 11 insertions(+)
-
-diff --git a/drivers/firmware/efi/libstub/arm64-stub.c b/drivers/firmware/efi/libstub/arm64-stub.c
-index 39b774853b93..851a8948cafb 100644
---- a/drivers/firmware/efi/libstub/arm64-stub.c
-+++ b/drivers/firmware/efi/libstub/arm64-stub.c
-@@ -190,6 +190,16 @@ efi_status_t handle_kernel_image(unsigned long *image_addr,
- 	}
- 
- 	if (status != EFI_SUCCESS) {
-+		if (efi_mirror_found) {
-+			status = efi_random_alloc(*reserve_size, min_kimg_align,
-+					  reserve_addr, 0,
-+					  efi_mirror_found);
-+			if (status == EFI_SUCCESS)
-+				goto out;
-+
-+			efi_err("Failed to relocate kernel to mirrored region\n");
-+		}
-+
- 		if (!check_image_region((u64)_text, kernel_memsize)) {
- 			efi_err("FIRMWARE BUG: Image BSS overlaps adjacent EFI memory region\n");
- 		} else if (IS_ALIGNED((u64)_text, min_kimg_align)) {
-diff --git a/drivers/firmware/efi/libstub/randomalloc.c b/drivers/firmware/efi/libstub/randomalloc.c
-index dd81d6c3c406..d5f4249943a7 100644
---- a/drivers/firmware/efi/libstub/randomalloc.c
-+++ b/drivers/firmware/efi/libstub/randomalloc.c
-@@ -50,6 +50,7 @@ unsigned long get_entry_num_slots(efi_memory_desc_t *md,
-  */
- #define MD_NUM_SLOTS(md)	((md)->virt_addr)
- 
-+/* random_seed == 0 means alloc mem from the first suitable slot */
- efi_status_t efi_random_alloc(unsigned long size,
- 			      unsigned long align,
- 			      unsigned long *addr,
--- 
-2.25.1
-
+Yes attestation request should never be something that is very frequent, thus
+should never be in a performance critical path.
