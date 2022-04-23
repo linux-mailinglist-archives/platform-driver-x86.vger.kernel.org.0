@@ -2,129 +2,107 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EFB850C44C
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 23 Apr 2022 01:12:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E88350C9E9
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 23 Apr 2022 14:31:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231991AbiDVWLE (ORCPT
+        id S232276AbiDWMd7 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 22 Apr 2022 18:11:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41514 "EHLO
+        Sat, 23 Apr 2022 08:33:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231981AbiDVWJf (ORCPT
+        with ESMTP id S231449AbiDWMd6 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 22 Apr 2022 18:09:35 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFE932D823C;
-        Fri, 22 Apr 2022 13:56:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650660986; x=1682196986;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=cwJd5e6aeRwgU9xPsGnRNV1wC06YL4Fz8JBExprqrBA=;
-  b=MzL1M7mrxG9O455ycAVFH0PzUG2znA0DkXqw9Wgm3CdpcZsN9QJq/ma7
-   cp2mIJuZGHVgCuclLckCx0PpqFLQlLNHY4YFNZoz3SEoIfbtDFvMoszUb
-   mH8zdtBxQspUqbCr8wUbhbBqRsy30JjXpJ5A0r7zPN7wUGHO0sVMM2avP
-   lMVfHcdhGXJODsQqWTjVz3o1/R3hw3KfEOeA04Cj1MyV1XojLQqhT5Jiv
-   n5p6rQ97Sh03sMCOc1Lo1AU6hY37B7ZkS/gvsSZXgy9scpKxzvIGyGrCZ
-   VdAftODcfUtZahnwW1I6CcESz8rVd/+XS/cVzcaoXS2Azkit7BP/pnpfL
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10324"; a="289897476"
-X-IronPort-AV: E=Sophos;i="5.90,282,1643702400"; 
-   d="scan'208";a="289897476"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2022 13:02:29 -0700
-X-IronPort-AV: E=Sophos;i="5.90,282,1643702400"; 
-   d="scan'208";a="511719367"
-Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2022 13:02:29 -0700
-From:   Tony Luck <tony.luck@intel.com>
-To:     hdegoede@redhat.com, markgross@kernel.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        corbet@lwn.net, gregkh@linuxfoundation.org,
-        andriy.shevchenko@linux.intel.com, jithu.joseph@intel.com,
-        ashok.raj@intel.com, tony.luck@intel.com, rostedt@goodmis.org,
-        dan.j.williams@intel.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        patches@lists.linux.dev, ravi.v.shankar@intel.com
-Subject: [PATCH v4 10/10] platform/x86/intel/ifs: add ABI documentation for IFS
-Date:   Fri, 22 Apr 2022 13:02:19 -0700
-Message-Id: <20220422200219.2843823-11-tony.luck@intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220422200219.2843823-1-tony.luck@intel.com>
-References: <20220419163859.2228874-1-tony.luck@intel.com>
- <20220422200219.2843823-1-tony.luck@intel.com>
+        Sat, 23 Apr 2022 08:33:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 50498169E6A
+        for <platform-driver-x86@vger.kernel.org>; Sat, 23 Apr 2022 05:31:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1650717060;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=BeOJYjv9Uq2XAYhQoQ5l1QOio0YQGcQSqiAKchKFN5I=;
+        b=E9/ioy77zwY21eX+UcpvtdiQp7kIrGOwyLaIlUDUqof3GRr+g1vSHYf9fBDJPYeFm13/Lh
+        5DmhvvO23lmQ5ScMglaT++D0RUrZ/7edi2+FCFwXFVbtucpeGMbdCJ79kW9UAFY2PZCmL4
+        x6mVT9yNHg9nqeT7uKIGtJEuTVcSZJ8=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-149-IPn56wFbNpSjsHEciaS0WA-1; Sat, 23 Apr 2022 08:30:59 -0400
+X-MC-Unique: IPn56wFbNpSjsHEciaS0WA-1
+Received: by mail-qv1-f71.google.com with SMTP id kk23-20020a056214509700b004542af238feso2861982qvb.19
+        for <platform-driver-x86@vger.kernel.org>; Sat, 23 Apr 2022 05:30:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BeOJYjv9Uq2XAYhQoQ5l1QOio0YQGcQSqiAKchKFN5I=;
+        b=H5D3V8zN+z1fQZBDzptdgG3HiXmOp/8NUquxxc8JjaRbeNEuPUjtWcDD/hK/pxoeBF
+         LvZ80wjN1vQePPDW4/g1BNtW9Kn9UJNt4gnsF6euhTEqZ2cCj+K/1MORMNJoEJebZvhs
+         5sxgltV60Cnfj5EQ41aeuS6sELN3ey4KrJ5YX8IJCunq68ZYO8glJmc7wLZfD/w2hO94
+         y+re6N+n0nrUR0Ga+UG7yES7b55H7FQIL1b8bPx213dJaBdqKTkHpJD9ndS4O0q7qUhF
+         VJL40RgTnVsQuV+qdZLI+nkPB/v2oQ3+8w7VtdIIK+RhP9cZ1fzq7m6gKuEhI5zTrz7l
+         3QXg==
+X-Gm-Message-State: AOAM532WGt154f0eDww5fbbT0jszuLqpomf1Psb97o1jCLVlu6AXhfz0
+        p/SFflb3+CL2mIvRvyIWyt5AaQaX2QyW9ceGmiHdR7ZxC9dtziYtpQYs111jL6TJ7ygwYUgWZwl
+        8BvUtC1VzQ0GCQEwu4KdfeGNsnFOflSSrMA==
+X-Received: by 2002:ad4:5be1:0:b0:440:a2ec:ea99 with SMTP id k1-20020ad45be1000000b00440a2ecea99mr6617960qvc.20.1650717058479;
+        Sat, 23 Apr 2022 05:30:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzhVcaF6hVaQMxy2Bx+WEj0Dv5VCNN+pTO04EbmEvOcA4BOxWj6bxa7W6hRQnXKI8Wa64U7Yg==
+X-Received: by 2002:ad4:5be1:0:b0:440:a2ec:ea99 with SMTP id k1-20020ad45be1000000b00440a2ecea99mr6617945qvc.20.1650717058312;
+        Sat, 23 Apr 2022 05:30:58 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+        by smtp.gmail.com with ESMTPSA id y15-20020a05620a09cf00b0069c80404de6sm2105323qky.31.2022.04.23.05.30.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Apr 2022 05:30:57 -0700 (PDT)
+From:   Tom Rix <trix@redhat.com>
+To:     irenic.rajneesh@gmail.com, david.e.box@intel.com,
+        hdegoede@redhat.com, markgross@kernel.org
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tom Rix <trix@redhat.com>
+Subject: [PATCH] platform/x86/intel: pmc/core: change pmc_lpm_modes to static
+Date:   Sat, 23 Apr 2022 08:30:48 -0400
+Message-Id: <20220423123048.591405-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Jithu Joseph <jithu.joseph@intel.com>
+Sparse reports this issue
+core.c: note: in included file:
+core.h:239:12: warning: symbol 'pmc_lpm_modes' was not declared. Should it be static?
 
-Add the sysfs attributes in ABI/testing for In-Field Scan.
+Global variables should not be defined in headers.  This only works
+because core.h is only included by core.c. Single file use
+variables should be static, so change its storage-class specifier
+to static.
 
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-Signed-off-by: Jithu Joseph <jithu.joseph@intel.com>
-Co-developed-by: Tony Luck <tony.luck@intel.com>
-Signed-off-by: Tony Luck <tony.luck@intel.com>
+Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- .../ABI/testing/sysfs-platform-intel-ifs      | 39 +++++++++++++++++++
- 1 file changed, 39 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-platform-intel-ifs
+ drivers/platform/x86/intel/pmc/core.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-platform-intel-ifs b/Documentation/ABI/testing/sysfs-platform-intel-ifs
-new file mode 100644
-index 000000000000..486d6d2ff8a0
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-platform-intel-ifs
-@@ -0,0 +1,39 @@
-+What:		/sys/devices/virtual/misc/intel_ifs_<N>/run_test
-+Date:		April 21 2022
-+KernelVersion:	5.19
-+Contact:	"Jithu Joseph" <jithu.joseph@intel.com>
-+Description:	Write <cpu#> to trigger IFS test for one online core.
-+		Note that the test is per core. The cpu# can be
-+		for any thread on the core. Running on one thread
-+		completes the test for the core containing that thread.
-+		Example: to test the core containing cpu5: echo 5 >
-+		/sys/devices/platform/intel_ifs.<N>/run_test
-+
-+What:		/sys/devices/virtual/misc/intel_ifs_<N>/status
-+Date:		April 21 2022
-+KernelVersion:	5.19
-+Contact:	"Jithu Joseph" <jithu.joseph@intel.com>
-+Description:	The status of the last test. It can be one of "pass", "fail"
-+		or "untested".
-+
-+What:		/sys/devices/virtual/misc/intel_ifs_<N>/details
-+Date:		April 21 2022
-+KernelVersion:	5.19
-+Contact:	"Jithu Joseph" <jithu.joseph@intel.com>
-+Description:	Additional information regarding the last test. The details file reports
-+		the hex value of the SCAN_STATUS MSR. Note that the error_code field
-+		may contain driver defined software code not defined in the Intel SDM.
-+
-+What:		/sys/devices/virtual/misc/intel_ifs_<N>/image_version
-+Date:		April 21 2022
-+KernelVersion:	5.19
-+Contact:	"Jithu Joseph" <jithu.joseph@intel.com>
-+Description:	Version (hexadecimal) of loaded IFS binary image. If no scan image
-+		is loaded reports "none".
-+
-+What:		/sys/devices/virtual/misc/intel_ifs_<N>/reload
-+Date:		April 21 2022
-+KernelVersion:	5.19
-+Contact:	"Jithu Joseph" <jithu.joseph@intel.com>
-+Description:	Write "1" (or "y" or "Y") to reload the IFS image from
-+		/lib/firmware/intel/ifs/ff-mm-ss.scan.
+diff --git a/drivers/platform/x86/intel/pmc/core.h b/drivers/platform/x86/intel/pmc/core.h
+index a46d3b53bf61..7a059e02c265 100644
+--- a/drivers/platform/x86/intel/pmc/core.h
++++ b/drivers/platform/x86/intel/pmc/core.h
+@@ -236,7 +236,7 @@ enum ppfear_regs {
+ #define ADL_LPM_STATUS_LATCH_EN_OFFSET		0x1704
+ #define ADL_LPM_LIVE_STATUS_OFFSET		0x1764
+ 
+-const char *pmc_lpm_modes[] = {
++static const char *pmc_lpm_modes[] = {
+ 	"S0i2.0",
+ 	"S0i2.1",
+ 	"S0i2.2",
 -- 
-2.35.1
+2.27.0
 
