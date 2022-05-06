@@ -2,130 +2,152 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E077551DE7C
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  6 May 2022 19:55:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89ABE51DE91
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  6 May 2022 20:03:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352411AbiEFR66 (ORCPT
+        id S1353222AbiEFSHR (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 6 May 2022 13:58:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46904 "EHLO
+        Fri, 6 May 2022 14:07:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351577AbiEFR66 (ORCPT
+        with ESMTP id S1345265AbiEFSHQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 6 May 2022 13:58:58 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01B986D3AB;
-        Fri,  6 May 2022 10:55:13 -0700 (PDT)
-Received: from [127.0.0.1] (dynamic-002-247-254-212.2.247.pool.telefonica.de [2.247.254.212])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 367B91EC01B5;
-        Fri,  6 May 2022 19:55:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1651859708;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=WrS6zMRai2e5YLLJbn36HLgL1yxwpiepU+QWEjmX0NA=;
-        b=oy+cicerrACsFn7WKW0lodO2FEe5WV4r9TEhbjCDKaBcAwZAlWHVNS8ucEFsvq6jCZ9Vhd
-        WukviSu8bAQZfzmHpwH98RuQT1NF9lzEENQ8Uz9+K7re6b9/iWYWq+eSEVmiEiyLYXQc4b
-        DwqLl2CqnSyUAcAokdFBagYxYISWJ9U=
-Date:   Fri, 06 May 2022 17:55:05 +0000
-From:   Boris Petkov <bp@alien8.de>
-To:     Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>
-CC:     Martin Fernandez <martin.fernandez@eclypsium.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        platform-driver-x86@vger.kernel.org,
+        Fri, 6 May 2022 14:07:16 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FDE462BEB;
+        Fri,  6 May 2022 11:03:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651860212; x=1683396212;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8fFvGdzoG/rA8+1UZY/4PHel/cIyIvtKdIsOtXJKLw8=;
+  b=II6nW9dbL6gLFUl5di4Q+aQcHl4FMSc1ZIo1g35/zSzZFTjTMmM1RRXn
+   zJtLk6U25whU0Hm7oH4b3ASBPNNxUk0xKnytuDqVY3nJ7BAwwZOuB5oeE
+   0x2s+ciTdD218iB7Ejda8JC/i/orkaVxjShwdWCPGRX90N72vTGp9bNIf
+   Jk7a7NXn/ArBidNUi0EnzailEKBpWdzJha7O7i9K5YysATsL4dqV0qPdd
+   bcq0tJ1XHYpLILjTngz/3R6QMiogc66Dna2fyHGiE1ZvMiHNqR7PwoHT0
+   qMc2z4RuG0i3J7KFyQsaZSJPbc2eEqAZNAIaeA+ZbjQJGlemnzOTD4f3J
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10339"; a="248443577"
+X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; 
+   d="scan'208";a="248443577"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2022 11:03:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; 
+   d="scan'208";a="735870259"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 06 May 2022 11:03:24 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nn2IV-000DjU-Ps;
+        Fri, 06 May 2022 18:03:23 +0000
+Date:   Sat, 7 May 2022 02:02:39 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, X86 ML <x86@kernel.org>,
-        "Schofield, Alison" <alison.schofield@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ard Biesheuvel <ardb@kernel.org>, daniel.gutson@eclypsium.com,
-        "H. Peter Anvin" <hpa@zytor.com>, alex.bazhaniuk@eclypsium.com,
-        hughsient@gmail.com, Kees Cook <keescook@chromium.org>,
+        Len Brown <lenb@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <eballetbo@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        usama.anjum@collabora.com,
+        Collabora Kernel ML <kernel@collabora.com>,
+        groeck@chromium.org, dtor@chromium.org, gwendal@chromium.org,
+        vbendeb@chromium.org, andy@infradead.org,
+        Ayman Bagabas <ayman.bagabas@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        =?utf-8?B?Qmxhxb4=?= Hrastnik <blaz@mxxn.io>,
         Darren Hart <dvhart@infradead.org>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        "Huang, Kai" <kai.huang@intel.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v8_0/8=5D_x86=3A_Show_in_sysfs_i?= =?US-ASCII?Q?f_a_memory_node_is_able_to_do_encryption?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CAPcyv4i73m6iPPfJE9CBdxf-OWGXahvGqvh6G-pqVO=3LB6ktQ@mail.gmail.com>
-References: <20220429201717.1946178-1-martin.fernandez@eclypsium.com> <YnKr+aMf4PspDpHZ@zn.tnic> <CAKgze5YDD02AsrF0yESv2sptZ4qxyTMgCDmnOKcbQWjKQsJRsw@mail.gmail.com> <YnUYLDjIThbIz/Uf@zn.tnic> <6d90c832-af4a-7ed6-4f72-dae08bb69c37@intel.com> <CAPcyv4i73m6iPPfJE9CBdxf-OWGXahvGqvh6G-pqVO=3LB6ktQ@mail.gmail.com>
-Message-ID: <47140A56-D3F8-4292-B355-5F92E3BA9F67@alien8.de>
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jeremy Soller <jeremy@system76.com>,
+        Mattias Jacobsson <2pi@mok.nu>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Rajat Jain <rajatja@google.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-acpi@vger.kernel.org,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v9] platform/chrome: Add ChromeOS ACPI device driver
+Message-ID: <202205070117.SW4TyTN4-lkp@intel.com>
+References: <YnTw/iQ1Asjjmsb9@debian-BULLSEYE-live-builder-AMD64>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YnTw/iQ1Asjjmsb9@debian-BULLSEYE-live-builder-AMD64>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On May 6, 2022 4:00:57 PM UTC, Dan Williams <dan=2Ej=2Ewilliams@intel=2Ecom=
-> wrote:
->On Fri, May 6, 2022 at 8:32 AM Dave Hansen <dave=2Ehansen@intel=2Ecom> wr=
-ote:
->>
->> On 5/6/22 05:44, Borislav Petkov wrote:
->> >> Dave Hansen pointed those out in a previuos patch serie, here is the
->> >> quote:
->> >>
->> >>> CXL devices will have normal RAM on them, be exposed as "System RAM=
-" and
->> >>> they won't have encryption capabilities=2E  I think these devices w=
-ere
->> >>> probably the main motivation for EFI_MEMORY_CPU_CRYPTO=2E
->> > So this would mean that if a system doesn't have CXL devices and has
->> > TME/SME/SEV-* enabled, then it is running with encrypted memory=2E
->> >
->> > Which would then also mean, you don't need any of that code - you onl=
-y
->> > need to enumerate CXL devices which, it seems, do not support memory
->> > encryption, and then state that memory encryption is enabled on the
->> > whole system, except for the memory of those devices=2E
->>
->> CXL devices are just the easiest example to explain, but they are not
->> the only problem=2E
->>
->> For example, Intel NVDIMMs don't support TDX (or MKTME with integrity)
->> since TDX requires integrity protection and NVDIMMs don't have metadata
->> space available=2E
->>
->> Also, if this were purely a CXL problem, I would have expected this to
->> have been dealt with in the CXL spec alone=2E  But, this series is
->> actually driven by an ACPI spec=2E  That tells me that we'll see these
->> mismatched encryption capabilities in many more places than just CXL
->> devices=2E
->
->Yes, the problem is that encryption capabilities cut across multiple
->specifications=2E For example, you might need to consult a CPU
->vendor-specific manual, ACPI, EFI, PCI, and CXL specifications for a
->single security feature=2E
+Hi Muhammad,
 
-So here's the deal: we can say in the kernel that memory encryption is ena=
-bled and active=2E  But then all those different devices and so on,  can or=
- cannot support encryption=2E IO devices do not support encryption either, =
-afaict=2E And there you don't have node granularity etc=2E So you can't do =
-this per node thing anyway=2E Or you do it and it becomes insufficient soin=
- after=2E
+I love your patch! Perhaps something to improve:
 
-But that is not the question - they don't wanna say in fwupd whether every=
- transaction was encrypted or not - they wanna say that encryption is activ=
-e=2E And that we can give them now=2E=20
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on chrome-platform/for-next v5.18-rc5 next-20220506]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Thx=2E
+url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/platform-chrome-Add-ChromeOS-ACPI-device-driver/20220506-175951
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20220507/202205070117.SW4TyTN4-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5e004fb787698440a387750db7f8028e7cb14cfc)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/4f6407962feddc57bc7c80e5b29d5d339a1dba6c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Muhammad-Usama-Anjum/platform-chrome-Add-ChromeOS-ACPI-device-driver/20220506-175951
+        git checkout 4f6407962feddc57bc7c80e5b29d5d339a1dba6c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/platform/chrome/
 
---=20
-Sent from a small device: formatting sux and brevity is inevitable=2E 
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/platform/chrome/chromeos_acpi.c:254:5: warning: format specifies type 'long' but the argument has type 'unsigned int' [-Wformat]
+                            (ARRAY_SIZE(chromeos_acpi_all_groups) - 2), chromeos_acpi_gpio_groups);
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:146:70: note: expanded from macro 'dev_warn'
+           dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                                       ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
+                                ~~~    ^~~~~~~~~~~
+   1 warning generated.
+
+
+vim +254 drivers/platform/chrome/chromeos_acpi.c
+
+   244	
+   245	static int chromeos_acpi_device_probe(struct platform_device *pdev)
+   246	{
+   247		chromeos_acpi_gpio_groups = get_gpio_pkg_num(&pdev->dev);
+   248	
+   249		/* If platform has more GPIO attribute groups than the number of
+   250		 * groups this driver supports, give out a warning message.
+   251		 */
+   252		if (chromeos_acpi_gpio_groups > (ARRAY_SIZE(chromeos_acpi_all_groups) - 2))
+   253			dev_warn(&(pdev->dev), "Only %ld GPIO attr groups supported by the driver out of total %d.\n",
+ > 254				 (ARRAY_SIZE(chromeos_acpi_all_groups) - 2), chromeos_acpi_gpio_groups);
+   255		return 0;
+   256	}
+   257	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
