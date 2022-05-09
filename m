@@ -2,90 +2,81 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8F3851ED23
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  8 May 2022 12:51:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 537DD51F37F
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 May 2022 06:28:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232029AbiEHKyp (ORCPT
+        id S230110AbiEIEbM (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 8 May 2022 06:54:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32794 "EHLO
+        Mon, 9 May 2022 00:31:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232171AbiEHKyj (ORCPT
+        with ESMTP id S231659AbiEIEWm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 8 May 2022 06:54:39 -0400
-Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net [IPv6:2a01:37:1000::53df:5f64:0])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89D3239A;
-        Sun,  8 May 2022 03:50:49 -0700 (PDT)
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-         client-signature RSA-PSS (4096 bits) client-digest SHA256)
-        (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
-        by bmailout1.hostsharing.net (Postfix) with ESMTPS id 49F423002C27F;
-        Sun,  8 May 2022 12:50:47 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-        id 3E4C228DC2F; Sun,  8 May 2022 12:50:47 +0200 (CEST)
-Date:   Sun, 8 May 2022 12:50:47 +0200
-From:   Lukas Wunner <lukas@wunner.de>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Wolfram Sang <wsa@kernel.org>, Jean Delvare <jdelvare@suse.de>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Tan Jui Nee <jui.nee.tan@intel.com>,
-        Kate Hsuan <hpa@redhat.com>,
-        Jonathan Yong <jonathan.yong@intel.com>,
-        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Peter Tyser <ptyser@xes-inc.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mark Gross <markgross@kernel.org>,
-        Henning Schild <henning.schild@siemens.com>
-Subject: Re: [PATCH v4 1/8] platform/x86/intel: Add Primary to Sideband
- (P2SB) bridge support
-Message-ID: <20220508105047.GA28082@wunner.de>
-References: <20220131151346.45792-1-andriy.shevchenko@linux.intel.com>
- <20220131151346.45792-2-andriy.shevchenko@linux.intel.com>
- <20220505145503.GA25423@wunner.de>
- <CAHp75VdQqQj0fS6t5nYj+7rJ1tuSt7+5GT78eN06PShWnrDZgA@mail.gmail.com>
- <20220508071308.GA27815@wunner.de>
- <CAHp75Vfy3Z0+YmPucL=xbP9tiSL6jM34mJ5-fK=og91eEzq5hw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75Vfy3Z0+YmPucL=xbP9tiSL6jM34mJ5-fK=og91eEzq5hw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 9 May 2022 00:22:42 -0400
+X-Greylist: delayed 40282 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 08 May 2022 21:18:49 PDT
+Received: from yodobashi.com (unknown [107.155.45.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 796CD20D
+        for <platform-driver-x86@vger.kernel.org>; Sun,  8 May 2022 21:18:49 -0700 (PDT)
+Sender: info@yodobashi.com
+Date:   Mon, 9 May 2022 12:18:38 +0800
+From:   "yodobashi.com" <mail@yodobashi.com>
+To:     <platform-driver-x86@vger.kernel.org>
+Subject: =?gb2312?B?peilyaXQpbelyaXDpcils6Xgo7qhuKSqv82YlMfpiPOhuYnkuPzSwA==?=
+        =?gb2312?B?7m3K3Li2pM6ktN9CvWogM3ZhdXRkam5kbngy?=
+Message-ID: <20220509121849071003@yodobashi.com>
+X-mailer: Foxmail 6, 13, 102, 15 [cn]
+Mime-Version: 1.0
+Content-Type: text/plain;
+        charset="gb2312"
+Content-Transfer-Encoding: base64
+X-Spam-Status: Yes, score=7.6 required=5.0 tests=BAYES_50,
+        RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_SBL_CSS,RCVD_IN_VALIDITY_RPBL,RDNS_NONE,
+        SPF_FAIL,SPF_HELO_FAIL,TVD_SPACE_ENCODED,TVD_SPACE_RATIO_MINFP,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: *  1.3 RCVD_IN_BL_SPAMCOP_NET RBL: Received via a relay in
+        *      bl.spamcop.net
+        *      [Blocked - see <https://www.spamcop.net/bl.shtml?107.155.45.197>]
+        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        *      [107.155.45.197 listed in zen.spamhaus.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  1.3 RCVD_IN_VALIDITY_RPBL RBL: Relay in Validity RPBL,
+        *      https://senderscore.org/blocklistlookup/
+        *      [107.155.45.197 listed in bl.score.senderscore.com]
+        *  0.0 SPF_FAIL SPF: sender does not match SPF record (fail)
+        *      [SPF failed: Please see http://www.openspf.org/Why?s=mfrom;id=info%40yodobashi.com;ip=107.155.45.197;r=lindbergh.monkeyblade.net]
+        *  0.0 SPF_HELO_FAIL SPF: HELO does not match SPF record (fail)
+        *      [SPF failed: Please see http://www.openspf.org/Why?s=helo;id=yodobashi.com;ip=107.155.45.197;r=lindbergh.monkeyblade.net]
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+        *  0.0 TVD_SPACE_ENCODED Space ratio & encoded subject
+        *  0.0 TVD_SPACE_RATIO_MINFP Space ratio (vertical text obfuscation?)
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sun, May 08, 2022 at 12:05:53PM +0200, Andy Shevchenko wrote:
-> On Sun, May 8, 2022 at 9:13 AM Lukas Wunner <lukas@wunner.de> wrote:
-> > pci_lock_rescan_remove() prevents concurrent unhiding as well as
-> > removal via sysfs.
-> 
-> Yep, that's good. In any case this piece of code will be gone if your
-> above suggestion works, have I got it right?
+ofah9qG4pKq/zZiUx+mI86G5ieS4/NLA7m3K3Li2pM6ktN9CvWqh9qH2DQqjqKSzpM6l4algpeuk
+z6GixeTQxYyf08OkzqWipcml7KW5pMfF5NDFpLWk7KTGpKSk3qS5o6kNCg0KDQql6KXJpdClt6XJ
+pcOlyKWzpeCk8qS0wPvTw6SkpL+kwKStoaKkoqTqpKykyKSmpLSktqSkpN6kuaGjDQqkqr/NmJSk
+zqSqv82YlMfpiPOJ5Lj8yta+QaStpPKkqqSzpMqkpKTepLekv6GjDQrE2sjdpM6ktLRf1Uqk8qSq
+7oqkpKSkpL+kt6TepLmhow0Ko6il0aW5pe+pYKXJpM+horHtyr6kt6TGpKqk6qTepLuk86OpDQoN
+CqG+ieS4/Iydz/OkzrvhhlRJRKG/DQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0Ku+GGVElEoaE6oaFwbGF0Zm9ybS1kcml2ZXIteDg2
+QHZnZXIua2VybmVsLm9yZw0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0NCg0KofGJ5Lj8pLWk7KS/pKq/zZiUx+mI8yANCi0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQrritSS
+t6y6xQ0KyNXW0KTOpLTfQr1qz8jritSSt6y6xQ0KDQqktLXH5WjH6YjzpM+hos/C05uhuKSqv82Y
+lIyf08Ol2qlgpbihuaSrpOmktLRf1Uqkr6TApLWkpKGjDQoNCqGhqIukqr/NmJSMn9PDpdqpYKW4
+DQpodHRwczovL3MueWFtLmNvbS9XZkM3bQ0KDQqh+aSzpM6l4algpevE2sjdpMvQxKSipL+k6qTO
+pMqkpIj2us+kz6GipKrK1sr9pMekuaSsoaKl6KXJpdCltz+lyaXDpcg/pbOl4KSqhpakpLrPpO+k
+u7eZv9qk2NbBvLGktN9CvWqk8qSq7oqkpKSkpL+kt6TepLmhow0KDQoNCqSzpM6l4algpeukz6Gi
+xeTQxYyf08OkzqWipcml7KW5pMfF5NDFpLWk7KTGpKSk3qS5oaMNCqSqytbK/aTypKqS7KSxpKSk
+v6S3pN6kuaSsoaKks6TOpeGpYKXrpM7E2sjdpMukxKSkpMakzqSqhpakpLrPpO+ku6TPz8LTm6TO
+30K9as/IpN6kx6Sq7oqkpKSkpL+kt6TepLmhow0KDQql6KXJpdClt6XJpcOlyKWzpeAgpKqGlqSk
+us+k76S7t5m/2g0KRW1haWw6IGluZm9AeW9kb2Jhc2hpLmNvbQ0KDQpDb3B5cmlnaHQyMDIyIFlv
+ZG9iYXNoaSBDYW1lcmEgQ28uLEx0ZC4NCg0KIA0K
 
-Yes.  You just need to make sure that you call pci_scan_single_device()
-*after* unhiding the P2SB device so that this check succeeds:
 
-  pci_scan_single_device()
-    pci_scan_device()
-      pci_bus_read_dev_vendor_id()
-
-Thanks,
-
-Lukas
