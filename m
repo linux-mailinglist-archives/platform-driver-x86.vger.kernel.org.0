@@ -2,105 +2,106 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF995522982
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 11 May 2022 04:16:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E0E1522B5F
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 11 May 2022 06:42:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232969AbiEKCQp (ORCPT
+        id S232711AbiEKEmA (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 10 May 2022 22:16:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59396 "EHLO
+        Wed, 11 May 2022 00:42:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229891AbiEKCQo (ORCPT
+        with ESMTP id S238666AbiEKEl6 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 10 May 2022 22:16:44 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBAE481644;
-        Tue, 10 May 2022 19:16:42 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id v10so525638pgl.11;
-        Tue, 10 May 2022 19:16:42 -0700 (PDT)
+        Wed, 11 May 2022 00:41:58 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3292BCEB0
+        for <platform-driver-x86@vger.kernel.org>; Tue, 10 May 2022 21:41:51 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id i24so960181pfa.7
+        for <platform-driver-x86@vger.kernel.org>; Tue, 10 May 2022 21:41:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=buRI718RFPrTtdiRLJoEyVax+0RYy5X13JOpEpadUuU=;
-        b=O38Tu6+beNDnnVNtxh7fOgBixYQaJXblJOrMVxDv629pCOwVzoPH1O4x3it3LR9GWm
-         WmSwqKjedt/f3uWUmwbXgxDqBSAIELGRm2sEUwe7zPkn4uf9k9o0tjRlGY+58AlIX6f+
-         3ivEDQw1au4QnXgkrtPV5V6tcCB889NVaX4KMa3/OvLO/e4P1RmYFS4c1cySw6G2UaaJ
-         pNIW64MLUCJlsBgvHGUQWppfXYV34agKMin093B8ASOXxiXK3SArgPcUhCo7v7WYjCM0
-         rIOBwuwZccdegIbYgwgn1cocMgNXJkytVusVODABrIKITsRpgDWE9bUwm9seX6/2SraB
-         oWRg==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
+        b=crfI6LDY4zdwb51InG7AHpY2OQsv0U+ZcsbrWQ4xznl2v6tqINUkJbYT6vduPxTeKj
+         LcsKJ9SCTBRB+F7T1yGAGOy9gYKd4/MGgemnnE0Hkdd7D5sC7q5AF/HBEcegIFV2OAz0
+         QYPAZoQxk+vBn9FVbvTE1x46byRhAKtTgcNka2ceI4Hll4kFNuppRhVDY81QO19S7HTI
+         yoc1Z1o4MIF+Lc1o5XZKcnVyoITI3L7XV0zq77flA/u1JDjRYp99ezMpF8TnAzPMQ08b
+         nu04waRdwYR8dPLU0516NKRoSLa1lr5tnijeqK5/oJ+laGkoIMgVReFiofoBZXSEfZCG
+         wieg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=buRI718RFPrTtdiRLJoEyVax+0RYy5X13JOpEpadUuU=;
-        b=VYiwUQgLjrm62sRwqRJz0EIW3FGOvvN92JJvTdeJQ91c48mskCSy7k5lz0krQ/fWhK
-         okj2SWzfm46tRe/U+J09zyoVK97vULTJcbwFqEH86iK3Tbl7cVidCPCot3YZlg/mWkQa
-         ZVlEdn+9WpiCSM8TVRDCEAceGgOp2nuEc7hvc69MQF3nxmmBLnpUm8QbacWFK2JvJYan
-         z4wYrez3KVYozjL1UTa8BLx7bU61k9y332+65c25SwDLu3ylOuuB8Jt6mLrZmDDyAcJr
-         DG8qr36FpodCGin9ym7b0NK85x3jBqDGRgdERijfK7d7CYrPRqOZargMqCqCia9TQsBT
-         bZaw==
-X-Gm-Message-State: AOAM532Wa3qVJByOYnjChE+vQcjbH+VCSuju1ORmwfe7Y/oUKXnhbQjn
-        WOotTTh2pBpfguGG0bGwp7BoAcLCxo4=
-X-Google-Smtp-Source: ABdhPJwSTNC7XV5g8rgzvLhMnHke+15+xCA+f/9KoLJUeFW2q/tcqIfUyrGoJdlVs17dXjSkPjgyjA==
-X-Received: by 2002:a63:d241:0:b0:3db:11bc:8d6e with SMTP id t1-20020a63d241000000b003db11bc8d6emr2313497pgi.229.1652235402492;
-        Tue, 10 May 2022 19:16:42 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id j12-20020a17090a2a8c00b001d792761e2esm2566405pjd.47.2022.05.10.19.16.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 May 2022 19:16:42 -0700 (PDT)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: chi.minghao@zte.com.cn
-To:     andy.shevchenko@gmail.com
-Cc:     cgel.zte@gmail.com, chi.minghao@zte.com.cn, coproscefalo@gmail.com,
-        hdegoede@redhat.com, linux-kernel@vger.kernel.org,
-        markgross@kernel.org, platform-driver-x86@vger.kernel.org,
-        zealci@zte.com.cn
-Subject: [PATCH V2] toshiba_acpi: use kobj_to_dev()
-Date:   Wed, 11 May 2022 02:16:38 +0000
-Message-Id: <20220511021638.1488650-1-chi.minghao@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <CAHp75VfzbWAS6phV3eB7ehe50NrXitkuS54sYjdVK-OqqYVieA@mail.gmail.com>
-References: <CAHp75VfzbWAS6phV3eB7ehe50NrXitkuS54sYjdVK-OqqYVieA@mail.gmail.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
+        b=KDCxrnPDdW3dango6ISTnbqMnQhtsz64b4gSPJQ155c4YhxcxOHsJLcI9TBsmbgELS
+         BHuSJ3Y8sYaYCTHM9Ded7HYuQi3Hs93CZeGQO6Am7D8mdMaW5BM/efGLFaTkGc8CqbB4
+         iL/cKsRiZ1cnl/k4F6sG0Oc+YhZP2bajXaUWfJXiwsfgVYqb8L61btxQhU58onDluHe2
+         WB+/T1eRgSfONHTHg4v8+F0ngtYdgiohQBS/5rA3586X5aHvscouHl2vlSSq2AVU7WRv
+         4E3XXwyBELkVnuVsOLKiuqQuf+0ZH05Xnz0/fCEjzdS/LEqQ1RQOGRp4FMsjxBZFQ7E6
+         jQGA==
+X-Gm-Message-State: AOAM530qlAazQulUFeZOintwUZ3eoVatqxnZgqCM/ZaZrhs3Lnl3MGAc
+        vxxuTs0Vl7ArjkDdTmjIlqPgiv/mdJR+OabUmXs=
+X-Google-Smtp-Source: ABdhPJxRT2VF3kksMu0TjrqavK6VDv9EtZvdjThs9Dpa9DoMjqaRUkX4hOeywSSVMMQvh0qSdR7nrPytG4wy2W750qY=
+X-Received: by 2002:a62:5ec6:0:b0:510:71a1:f2f6 with SMTP id
+ s189-20020a625ec6000000b0051071a1f2f6mr23804137pfb.69.1652244111305; Tue, 10
+ May 2022 21:41:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Received: by 2002:a05:6a10:319:0:0:0:0 with HTTP; Tue, 10 May 2022 21:41:50
+ -0700 (PDT)
+From:   Private Mail <privatemail1961@gmail.com>
+Date:   Tue, 10 May 2022 21:41:50 -0700
+Message-ID: <CANjAOAhh9gBV+h7FM7L0tu5AiLZs7dsMvjxZGHKuXKsf=W+EYg@mail.gmail.com>
+Subject: Have you had this? It is for your Benefit
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.3 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
+        BAYES_50,DEAR_BENEFICIARY,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
+        DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLY,
+        LOTS_OF_MONEY,MONEY_FRAUD_5,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Minghao Chi <chi.minghao@zte.com.cn>
+Our Ref: BG/WA0151/2022
 
-Use kobj_to_dev() instead of open-coding it.
+Dear Beneficiary
 
-Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
----
-v1->v2:
-	remove Reported-by: Zeal Robot <zealci@zte.com.cn>
+Subject: An Estate of US$15.8 Million
 
- drivers/platform/x86/toshiba_acpi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Blount and Griffin Genealogical Investigators specializes in probate
+research to locate missing heirs and beneficiaries to estates in the
+United Kingdom and Europe.
 
-diff --git a/drivers/platform/x86/toshiba_acpi.c
-b/drivers/platform/x86/toshiba_acpi.c
-index f113dec98e21..0fc9e8b8827b 100644
---- a/drivers/platform/x86/toshiba_acpi.c
-+++ b/drivers/platform/x86/toshiba_acpi.c
-@@ -2353,7 +2353,7 @@ static struct attribute *toshiba_attributes[] = {
- static umode_t toshiba_sysfs_is_visible(struct kobject *kobj,
- 					struct attribute *attr, int idx)
- {
--	struct device *dev = container_of(kobj, struct device, kobj);
-+	struct device *dev = kobj_to_dev(kobj);
- 	struct toshiba_acpi_dev *drv = dev_get_drvdata(dev);
- 	bool exists = true;
- 
--- 
-2.25.1
+We can also help you find wills, obtain copies of certificates, help
+you to administer an estate, as well as calculating how an estate,
+intestacy or trust should be distributed.
 
+You may be entitled to a large pay out for an inheritance in Europe
+worth US$15.8 million. We have discovered an estate belonging to the
+late Depositor has remained unclaimed since he died in 2011 and we
+have strong reasons to believe you are the closest living relative to
+the deceased we can find.
 
+You may unknowingly be the heir of this person who died without
+leaving a will (intestate). We will conduct a probate research to
+prove your entitlement, and can submit a claim on your behalf all at
+no risk to yourselves.
+
+Our service fee of 10% will be paid to us after you have received the estate.
+
+The estate transfer process should take just a matter of days as we
+have the mechanism and expertise to get this done very quickly. This
+message may come to you as a shock, however we hope to work with you
+to transfer the estate to you as quickly as possible.
+
+Feel free to email our senior case worker Mr. Malcolm Casey on email:
+malcolmcasey68@yahoo.com for further discussions.
+
+With warm regards,
+
+Mr. Blount W. Gort, CEO.
+Blount and Griffin Associates Inc
