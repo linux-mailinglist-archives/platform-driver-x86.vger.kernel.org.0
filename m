@@ -2,74 +2,139 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52CA252529E
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 May 2022 18:33:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78ECB5251EF
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 May 2022 18:05:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356496AbiELQdK (ORCPT
+        id S1356237AbiELQFE (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 12 May 2022 12:33:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36042 "EHLO
+        Thu, 12 May 2022 12:05:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352803AbiELQdK (ORCPT
+        with ESMTP id S1356212AbiELQE7 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 12 May 2022 12:33:10 -0400
-Received: from mail.pekanbaru.go.id (mail.pekanbaru.go.id [103.131.245.194])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C2FE633BF;
-        Thu, 12 May 2022 09:33:09 -0700 (PDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.pekanbaru.go.id (Postfix) with ESMTP id 94A3998ADC9;
-        Thu, 12 May 2022 10:45:37 +0700 (WIB)
-Received: from mail.pekanbaru.go.id ([127.0.0.1])
-        by localhost (mail.pekanbaru.go.id [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id bz977f0ptty5; Thu, 12 May 2022 10:45:37 +0700 (WIB)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.pekanbaru.go.id (Postfix) with ESMTP id D124196C991;
-        Thu, 12 May 2022 10:45:36 +0700 (WIB)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.pekanbaru.go.id D124196C991
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pekanbaru.go.id;
-        s=EA5C5C9E-4206-11EC-835B-1ADACEA726A0; t=1652327137;
-        bh=WgQd2bW8hb2KeIDNbeIeW1Bb4lp6m29iibMhAQT/egc=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=HZVqCR5Tr8MRywzndbx3VEB8rPHFi8hkQt0DaXiy470QCj6AWqbAiZ5nAYknH7mqx
-         BzNkOLtgUizMz9JwuRifYTy4h3VMAO6HDNXrhPdm44/t9xZ5IXT53o5oZGPZYmrW8s
-         lM8/JKCQCAkUEs8IwvicaD4p/v849xfI8xb+ExjT1Tt0B14kLq1l782Q1iGJUuitkX
-         BOgLqdHTOcXpufUHP0C7buk1iRDvYlRsxlRF2ynyD+GrfR5iAvCghRc+sgfLaM44jv
-         v6tN4QPaWtB6ilpHE8g93hcmimclJsDiemlAHSblldqYb7QZbsKIYH4TwOKRXeYwbv
-         AKSPPz5bBh02g==
-X-Virus-Scanned: amavisd-new at mail.pekanbaru.go.id
-Received: from mail.pekanbaru.go.id ([127.0.0.1])
-        by localhost (mail.pekanbaru.go.id [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id A1YBu_hPHoAx; Thu, 12 May 2022 10:45:36 +0700 (WIB)
-Received: from [192.168.15.101] (unknown [41.79.219.176])
-        by mail.pekanbaru.go.id (Postfix) with ESMTPSA id 0A5BF98ADED;
-        Thu, 12 May 2022 10:45:25 +0700 (WIB)
-Content-Type: text/plain; charset="iso-8859-1"
+        Thu, 12 May 2022 12:04:59 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EC1562BD5
+        for <platform-driver-x86@vger.kernel.org>; Thu, 12 May 2022 09:04:58 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id w4so7875302wrg.12
+        for <platform-driver-x86@vger.kernel.org>; Thu, 12 May 2022 09:04:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=QbECvT15E4W7/wFT2xYXuo6yIOKSonMrztm7bwUstF8=;
+        b=y7TbWI505OM9r4QfmR1oa5OPuJvJCNXquu4pD895WX47HdmQJ8IL2M/cW7jnJ3jBnq
+         P4Vck7ywqn770X1j/baz1uFJOP8Wr6kYUS/wb+Gv3ob2EOUQIpeawZ6oq+qHqmpObCoH
+         hHTTJPKw6l8dyZyBkdSbxMrfLOG6MoJgSBqN4sR8hTtWuAKZnTCwQ+iWd2nHFF6G6JFw
+         451wpxPzihUEiS+TzfEWI/OuYHh56S7h+DceZWt5Z9qd4SOLQpBsTjSdR1/SzWQU1V2t
+         rPcgblASh/QjGx5unRKwLgOfforgTLvvC0BDqZgo4XIOTlsPPWF85MmnLs8WRhAYw+iG
+         M1vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=QbECvT15E4W7/wFT2xYXuo6yIOKSonMrztm7bwUstF8=;
+        b=Uiwotv2dn6B/J/IG3CM/2/wWFQUvfAe5k64lPJhxV/ceCVjHBn8fmciiLzi6Wf5xYY
+         RyDQBKkZWdGiChJxG1OUiirWnIC8dLvX8zz3d/fU3yP8ROesRZdKGMmnM/2lBKeAjomo
+         yNzqorO/NdC//ID3Fr9VE4OzoEevZfGEeP5ZVNyiFqpVjBDpoTQ/zIzLZ/Xhhb3+f5ve
+         kJqdWJXdXLtpKbrgZ/QDIaAA2L3VyRaOX6gk0+U2QYO6uAYK0XKzIJ4Js2djPuc/VC4e
+         /LbVtpLObecQ4oAZoLzLgXTAu4GTBVqbIAGleC9nEi5AgZUXFRr8ejblULQfWQoO23t1
+         XytA==
+X-Gm-Message-State: AOAM5336lUGXel4mrvP6LaVYRYCeUJVy3HOVnMmTTncbxt+ZhR5JNwAZ
+        1VPvbZS/qHw8w0svD7Hw5VllMg==
+X-Google-Smtp-Source: ABdhPJy7zRqEJRjSEEuUjB7/oBw3OPRyfUzDhJc1bOY5V5/KbwB+hySji3cZvBHbaUBiOzIvC5igeA==
+X-Received: by 2002:adf:e891:0:b0:20a:d653:7cd2 with SMTP id d17-20020adfe891000000b0020ad6537cd2mr314620wrm.195.1652371496851;
+        Thu, 12 May 2022 09:04:56 -0700 (PDT)
+Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
+        by smtp.gmail.com with ESMTPSA id i3-20020adff303000000b0020c5253d923sm4135881wro.111.2022.05.12.09.04.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 May 2022 09:04:55 -0700 (PDT)
+Date:   Thu, 12 May 2022 17:04:53 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Tony Luck <tony.luck@intel.com>, Wolfram Sang <wsa@kernel.org>,
+        Jean Delvare <jdelvare@suse.de>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        =?utf-8?Q?=C5=81ukasz?= Bartosik <lb@semihalf.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Yong <jonathan.yong@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-edac@vger.kernel.org, linux-i2c <linux-i2c@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Peter Tyser <ptyser@xes-inc.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Mark Gross <markgross@kernel.org>
+Subject: Re: [PATCH v5 0/8] platform/x86: introduce p2sb_bar() helper
+Message-ID: <Yn0wJba+u2C3LSw2@google.com>
+References: <20220510151451.85561-1-andriy.shevchenko@linux.intel.com>
+ <eff9907f-e92b-9115-bea7-b1093d1dc28e@redhat.com>
+ <CAHp75Vcnq=Ou6QNyPjwC+HR9wJ2BheonTqmkGvQU0qFtHO2BDw@mail.gmail.com>
+ <YnzaxiNBU1awfLoG@google.com>
+ <Ynzfl9u4v6/JjwLM@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Awaiting your response 
-To:     Recipients <waterproject@pekanbaru.go.id>
-From:   waterproject@pekanbaru.go.id
-Date:   Thu, 12 May 2022 04:45:15 +0100
-Reply-To: test@hostnextdoor.com
-Message-Id: <20220512034526.0A5BF98ADED@mail.pekanbaru.go.id>
-X-Spam-Status: No, score=3.4 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_BL_SPAMCOP_NET,
-        RCVD_IN_SBL,RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Ynzfl9u4v6/JjwLM@smile.fi.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi =
+On Thu, 12 May 2022, Andy Shevchenko wrote:
 
+> On Thu, May 12, 2022 at 11:00:38AM +0100, Lee Jones wrote:
+> > On Wed, 11 May 2022, Andy Shevchenko wrote:
+> > > On Wed, May 11, 2022 at 6:08 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> > > > On 5/10/22 17:14, Andy Shevchenko wrote:
+> 
+> ...
+> 
+> > > > I must admit I have lost track of all the Ack-s / Reviewed-by-s a bit.
+> > > >
+> > > > So from the above I take it that the Ack-s resp. Reviewed-by-s on the
+> > > > other non drivers/platform/x86 bits also signal an Ack to merge the entire
+> > > > series through the pdx86 tree?
+> > > >
+> > > > Lee, any chance you can take a look at patches 3-5 and give your Ack
+> > > > for merging these through the pdx86 tree together with the rest?
+> > > 
+> > > Actually I misinterpreted Lee's different tags again. Acked-by is
+> > > normal for routing MFD code via other subsystems, while
+> > > Acked-for-MFD-by is for Lee (scripts?) to route the code via MFD tree.
+> > > Lee, is it the correct interpretation now?
+> > 
+> > Yes, that is correct.
+> 
+> Thanks for clarification. I'm learning hard way :-)
+> 
+> > I just replied to your 0th patch (before I saw this, sorry).
+> 
+> Thanks for the tag.
+> 
+> So, it seems we all set to route this via MFD then. Do you think we can go?
+> Or do need to postpone this to be after v5.19-rc1?
 
-Did you get my previous email? I have attempted over 3 times to open up com=
-munication with you. Please acknowledge if you receive this email. =
+I think Hans is correct.
 
+I would like to see this soak before submitting directly to Mainline.
 
-Regards
-Morten Friis
+-- 
+Lee Jones [李琼斯]
+Principal Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
