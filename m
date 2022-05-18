@@ -2,107 +2,102 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB05252C274
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 May 2022 20:37:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 677FC52C3E0
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 May 2022 21:59:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241395AbiERS3F (ORCPT
+        id S242219AbiERT5Q (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 18 May 2022 14:29:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43730 "EHLO
+        Wed, 18 May 2022 15:57:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241376AbiERS3C (ORCPT
+        with ESMTP id S242111AbiERT5P (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 18 May 2022 14:29:02 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C26FC205242
-        for <platform-driver-x86@vger.kernel.org>; Wed, 18 May 2022 11:29:00 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id j6so2881771pfe.13
-        for <platform-driver-x86@vger.kernel.org>; Wed, 18 May 2022 11:29:00 -0700 (PDT)
+        Wed, 18 May 2022 15:57:15 -0400
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D911116D103
+        for <platform-driver-x86@vger.kernel.org>; Wed, 18 May 2022 12:57:14 -0700 (PDT)
+Received: by mail-oi1-x243.google.com with SMTP id l16so3988524oil.6
+        for <platform-driver-x86@vger.kernel.org>; Wed, 18 May 2022 12:57:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rs+hYjREIGQRrA6fYOwB+iDuVdssLJ9+QtiHFV7DjL0=;
-        b=56li6rLC4mQzRo0A2kXqCOMihPnh37A1HauoHxo4CjJMMuRdOwMf25S0Gg0mhW4H1V
-         9oOovgGOyX26iKhdSLr17ZDHUilwvfRWItX4kYjWxDcZeJLKtWZdFg1s7NiWZdD+GyVM
-         KJttKiC4l1M5erBf0kwMAuhlpCYSJef4Ht1zQqWzfQh9U259WzwAbZy7OglBSEw1Kkt5
-         I8zIKarbcikHCK0RFMumk20d6U4SinIwA/pHFrpQj3jVTbbDOPe4Z+fN1BJJD+DxEI+B
-         O7cWYnGGR+LQ4+Smr495r3EMtIZ9/Hrn5EVFhO1s214IbW9ifIzL2RKvXS2XHrYOVgOA
-         InyA==
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=AeF58LI/PJfNkOmwQj/FJlhbvvlWl0RMB3ap67+sjO4=;
+        b=LuphkSkb8y+Va9EEmmk/9tZVSND2sjl1sc5jcWdyEz8N6+JYaSMg64Ql9AZinp6NcB
+         ChEc5OKjIPL1kHp1lx7OFpTA9eUR7bbno5UluBquuqGsMJ21RIiqUGZnWdq8ZlnpPr80
+         IFle/KLOc/BUZpVpeGaDy4yxztaaOFInDKVLbKG0SPxb4TQ0+ZOzy6CPl63VUf77t+5c
+         vq3ZizpufbzJqQEyoIk9rN5i8ZyqfexgYtjiXLBGHnFAwRQqJYJIzOX2bHFlKsQr0+8u
+         G5J41p1XdQ55w0EJdXt3ZvpSWFWlzo9oU8KzYqXXCTQ17ZUg6aawDqmJxSSMol9lrrOn
+         a1ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rs+hYjREIGQRrA6fYOwB+iDuVdssLJ9+QtiHFV7DjL0=;
-        b=7nUHNj6uFZw8LWIIz5QhyiGE/5g/Mlw58cEV95QmJ9SdATIO0W0AaVEprAchqxeqj4
-         UPx7z8ZXtmalO81fOylmJdp4LGNC1dikglpUAVNvMdwbPs0G/k8++KeThPzDCve/68wP
-         LEyJctqCMGjK00qee4Hzko0yZeRMklwa+0J3DV6qKMG2eCPVr43vPi3/b6MjsBaXFybi
-         zeg+oz3vUUa/ZL9Z2OOqLX4hOm5qTovRh8h2vd0WZ/ItZhPk92qFW1bPduYO2ATUC9oE
-         i8Zwqb6TeyxdxC5gfrH1l1R7yx6awlx2Ihf5NnBZ6ebIK6uLZOL11dXKyfyRu8FZJkj9
-         eUiw==
-X-Gm-Message-State: AOAM532ch661jynseWt3s6GL3Qc8RfBiqIi2uHGce/c4IHX0MlOPr27y
-        VEehpUXdR9H/OucJbp7z52yvwNKqBWIKNl1bVdFCEA==
-X-Google-Smtp-Source: ABdhPJwMwJen2kHUljMxLGhfJo+EhmxX/T4W59DWfSThgOD6IYw6SPZuTRmwpc9boSVZhrVVAKPtxD2J9ln9cKQkELQ=
-X-Received: by 2002:a63:e648:0:b0:3f2:7ade:8f86 with SMTP id
- p8-20020a63e648000000b003f27ade8f86mr670271pgj.40.1652898540353; Wed, 18 May
- 2022 11:29:00 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=AeF58LI/PJfNkOmwQj/FJlhbvvlWl0RMB3ap67+sjO4=;
+        b=EuZTzsp1weMvTbn0UTjM5NZ7bpGR6ylpaR76CrOQeO96MpEXlMQsuKa21g6LFn02yT
+         q9Qk5uN6aWuSwJ/cWkACwMUZG5HcZAFgn0pU4RexbRf8YJ+PR9qClgAYd4z+nH/ugs14
+         HeqNIJwFVuxbDnxeJSwhDR5eNsJSvJTRQMhTIp5kiPSlY3h02btc+NEW1Ox1rWOA9T5I
+         s5ODr5dk9AGH0TlVs6clFjzatcpyeisZ8MSb9EotkP4/PsNo6dQQdWIUKaPatfBEJdjL
+         XCItoBULLqulGOduFfSbUNInKX3lM+nx6YgAWVjwUZu57N7MDrzADZP5ESRGI8LKvJyU
+         u1Ig==
+X-Gm-Message-State: AOAM531KQ1LlqvirFanwlZRoHbQ+4gRpwhGmk1fDX6HfuozdoqQXwbwB
+        N27PN69cD3WQ+fP4BYkG69lDuPKMWFdkL/1gShU=
+X-Google-Smtp-Source: ABdhPJx5xNzxfTI+LL5bm67TrW1Vw0AY4wratUFBTG5P3RYGpWgkXiy1iKD0Q4xSuJPGB7Nc2pc6+B+w8SCgWe9ZR0M=
+X-Received: by 2002:a05:6808:18a3:b0:326:68c8:cb47 with SMTP id
+ bi35-20020a05680818a300b0032668c8cb47mr703410oib.165.1652903834342; Wed, 18
+ May 2022 12:57:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAKgze5YDD02AsrF0yESv2sptZ4qxyTMgCDmnOKcbQWjKQsJRsw@mail.gmail.com>
- <YnUYLDjIThbIz/Uf@zn.tnic> <6d90c832-af4a-7ed6-4f72-dae08bb69c37@intel.com>
- <CAPcyv4i73m6iPPfJE9CBdxf-OWGXahvGqvh6G-pqVO=3LB6ktQ@mail.gmail.com>
- <47140A56-D3F8-4292-B355-5F92E3BA9F67@alien8.de> <6abea873-52a2-f506-b21b-4b567bee1874@intel.com>
- <FDABC5C8-B80A-4977-9F97-5A8FC47F69D6@alien8.de> <4bc56567-e2ce-40ec-19ab-349c8de8d969@intel.com>
- <CE52D65A-C9F4-408D-B18A-72D87495A433@alien8.de> <CAD2FfiHe3hCSNHEA0mSWPbH4LEWhj+FgxkhO83U1GgYEJR6wrw@mail.gmail.com>
- <YoSlzqSGLrQ+jdnD@zn.tnic>
-In-Reply-To: <YoSlzqSGLrQ+jdnD@zn.tnic>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Wed, 18 May 2022 11:28:49 -0700
-Message-ID: <CAPcyv4jv52nv=Q=gm783ysU8D56iHzh9-UJrqqkgUve0f_kyZw@mail.gmail.com>
-Subject: Re: [PATCH v8 0/8] x86: Show in sysfs if a memory node is able to do encryption
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Richard Hughes <hughsient@gmail.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Martin Fernandez <martin.fernandez@eclypsium.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org, Linux MM <linux-mm@kvack.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, daniel.gutson@eclypsium.com,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, X86 ML <x86@kernel.org>,
-        "Schofield, Alison" <alison.schofield@intel.com>,
-        alex.bazhaniuk@eclypsium.com, Greg KH <gregkh@linuxfoundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        "Huang, Kai" <kai.huang@intel.com>
+Received: by 2002:a05:6839:6809:0:0:0:0 with HTTP; Wed, 18 May 2022 12:57:13
+ -0700 (PDT)
+Reply-To: bbir2657@gmail.com
+From:   "SGT. Irene" <alexnationwidepaper@gmail.com>
+Date:   Wed, 18 May 2022 22:57:13 +0300
+Message-ID: <CAPuazPhQ1Ok-fAriux-bxXM8W-kFT0EDuofkhpbLo3Up9qFLTA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
         version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:243 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4995]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [alexnationwidepaper[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [bbir2657[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.4 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, May 18, 2022 at 12:53 AM Borislav Petkov <bp@alien8.de> wrote:
->
-> On Mon, May 16, 2022 at 09:39:06AM +0100, Richard Hughes wrote:
-> > This is still something consumers need; at the moment users have no
-> > idea if data is *actually* being encrypted.
->
-> As it was already pointed out - that's in /proc/cpuinfo.
+-- 
+Hello!
 
-For TME you still need to compare it against the EFI memory map as
-there are exclusion ranges for things like persistent memory. Given
-that persistent memory can be forced into volatile "System RAM"
-operation by various command line options and driver overrides, you
-need to at least trim the assumptions of what is encrypted to the
-default "conventional memory" conveyed by platform firmware / BIOS.
+Did you see my blessed deal message in your favor???
+For quick response and further info, send response only to my private
+email (bbir2657@gmail.com)
+
+Sgt Irene
+United States Marine Corps (USMC)
