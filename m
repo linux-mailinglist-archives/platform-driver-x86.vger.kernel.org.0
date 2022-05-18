@@ -2,80 +2,94 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E226852C52B
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 May 2022 23:03:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79FB952C748
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 19 May 2022 01:03:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243007AbiERVAf (ORCPT
+        id S230088AbiERXDd (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 18 May 2022 17:00:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58884 "EHLO
+        Wed, 18 May 2022 19:03:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242898AbiERVAR (ORCPT
+        with ESMTP id S229752AbiERXDc (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 18 May 2022 17:00:17 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EDCB2550AA;
-        Wed, 18 May 2022 14:00:09 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9B7D960B82;
-        Wed, 18 May 2022 21:00:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4BDCC34118;
-        Wed, 18 May 2022 21:00:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652907608;
-        bh=KcS5GI4xf1k64PlWdqRXj976hlEmI3j8PQlC7U+Rs4U=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=eVuCqyttWm3s81U5rgu5NjkkkKPWZdWATppI6afGf+VTj6TXIZN9Hwnl/7xhQky6Q
-         mjYUJOcu6em4FApsXOHKPue2KsHmWzhc+HWL5AYO0uxdz+sr/bx7ykV7moJSeMLoMr
-         rOLc7YHGgiapwNmZl3rk0/C6AdMPa3LrH0SZoZhG7ZjADck/eh7GTNp/3qOuk2kR55
-         BGiboC/7kjN57A5+CH4VGeMVA8SANjbXWcjQ+AKS67mGzbq0kVi9m+mzdTdkYy9bbQ
-         P/zbU3GCXC2OR2j9nOxsHu5mKM1e0EQNn31ZCjmTvi0Z0YRsfFy4nu7kTTZl2qJe+m
-         bDMBDeYlT1nGA==
-Content-Type: text/plain; charset="utf-8"
+        Wed, 18 May 2022 19:03:32 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D5C214C74A
+        for <platform-driver-x86@vger.kernel.org>; Wed, 18 May 2022 16:03:31 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id q135so6144241ybg.10
+        for <platform-driver-x86@vger.kernel.org>; Wed, 18 May 2022 16:03:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=mZ3wqB4NmL7z6lpFr/h15h1rYqsZKafJnUpMVahbEPg=;
+        b=ZOWKL2a5YAULp3xCPZWW0AfOGBC9qOCSnbSOBPFpNTADv4ekt2OyewRQzIgKPc5v5n
+         J4/BNSpT64FsD683lRLOWbND0BMgUvpMKwdc35/zOqBkhgFR2g5jdBavCpWNZgRC7859
+         7WIsChvwYVF+0f91uKB1OB4NZbOL5hrsR8eEZQPxDQdYWqxWxBp11kKtpRHGQFttvIKO
+         G9NMqJh/mSfBMMdYbkf7iDEd6vVD39fHgOznTfBBPCb3K+CW4Vz/qPyRoXhSpLHZvMg2
+         8FsG6zPLDkv1YfCzM3dw0gkJTlA1x569+pKVwoq78sfi2uSzvOJ7ElSD/+Zsje9z4C8I
+         Cllw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=mZ3wqB4NmL7z6lpFr/h15h1rYqsZKafJnUpMVahbEPg=;
+        b=cQqWA/mZ+4bTfWNSkbL2+KVpzG8NdXyIUDbRl02yMqmdVFhRGdsEmkicksAR5qPZbq
+         eNXAwLPHULkyigRmpm90CFDqn5rPcIxiaYA8YCOPReeL76c5ZFleYT2esfQeDg8h45Gg
+         K1iUT3bFdURqq3oFuWxlebl4p5k2e7qSfBMC+0mvMrqonrAzwRBfZ4iKqVQALCHCzp6B
+         CJIuEJpqNWCjO7XIneZuIjOE5K/424Pg3DIDuZRjqT/jJV7V4RpI+QcJQq1mclL1WE0R
+         IhBexCS5GxnaJ0+WfYUZ4sfl9hxieukU/M33v7oLl3FEfyue90FEgrdfVHJSPzZHSIfg
+         OhkQ==
+X-Gm-Message-State: AOAM533iGQ24TF0bCHDlGx8Au+u6VXs4X+szp0YSoflIbhdsJBHZVYvL
+        MyX0InrQtEZea4bqifWf8KsM9M/PGLhICf0eu/Y=
+X-Google-Smtp-Source: ABdhPJxf0tV08vbzN0rAFCI3UEXsuJ12IdkPsLmyZH50P5b/emd8l5uHEOLPh+wJvW5UqwAUsVSEb1BnrFoN6RVV1B4=
+X-Received: by 2002:a25:2488:0:b0:64e:a74d:fc7e with SMTP id
+ k130-20020a252488000000b0064ea74dfc7emr1804952ybk.563.1652915010915; Wed, 18
+ May 2022 16:03:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220503114607.98844-2-hdegoede@redhat.com>
-References: <20220503114607.98844-1-hdegoede@redhat.com> <20220503114607.98844-2-hdegoede@redhat.com>
-Subject: Re: [PATCH 1/1] platform/x86: Drop the PMC_ATOM Kconfig option
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        platform-driver-x86@vger.kernel.org, linux-clk@vger.kernel.org
-To:     Andy Shevchenko <andy@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>
-Date:   Wed, 18 May 2022 14:00:06 -0700
-User-Agent: alot/0.10
-Message-Id: <20220518210007.E4BDCC34118@smtp.kernel.org>
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Received: by 2002:a05:7000:7143:0:0:0:0 with HTTP; Wed, 18 May 2022 16:03:30
+ -0700 (PDT)
+Reply-To: tonywenn@asia.com
+From:   Tony Wen <weboutloock4@gmail.com>
+Date:   Thu, 19 May 2022 07:03:30 +0800
+Message-ID: <CAE2_YrD_q4RQ8FABWS-V7Ntbjw=B4TRdbwdVhRsdjWZbffLM8Q@mail.gmail.com>
+Subject: engage
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:b2d listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4722]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [weboutloock4[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [weboutloock4[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.4 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Quoting Hans de Goede (2022-05-03 04:46:07)
-> The def_bool y PMC_ATOM Kconfig option provides a couple of symbols used
-> by the code enabled by the X86_INTEL_LPSS option and it registers some
-> clocks. These clocks are only registered on Bay Trail, Cherry Trail and
-> Brasswell Intel SoCs and kernels targeting these SoCs must always have
-> the X86_INTEL_LPSS option enabled otherwise many things will not work.
->=20
-> Building the PMC_ATOM code on kernels which are not targeting the
-> mentioned SoCs and which do not have the X86_INTEL_LPSS enabled is
-> not useful.
->=20
-> This means that we can simplify things by replacing the PMC_ATOM Kconfig
-> option in Makefiles with X86_INTEL_LPSS and then drop the option.
->=20
-> Cc: Paul Gortmaker <paul.gortmaker@windriver.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
-
-Acked-by: Stephen Boyd <sboyd@kernel.org>
+Can I engage your services?
