@@ -2,116 +2,145 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B776530386
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 22 May 2022 16:27:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B243153070C
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 23 May 2022 03:18:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239316AbiEVO12 (ORCPT
+        id S232824AbiEWBSn (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 22 May 2022 10:27:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46364 "EHLO
+        Sun, 22 May 2022 21:18:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234015AbiEVO11 (ORCPT
+        with ESMTP id S230072AbiEWBSm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 22 May 2022 10:27:27 -0400
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3EBB377DA
-        for <platform-driver-x86@vger.kernel.org>; Sun, 22 May 2022 07:27:26 -0700 (PDT)
-Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-f233f06563so3821990fac.7
-        for <platform-driver-x86@vger.kernel.org>; Sun, 22 May 2022 07:27:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=TU6sSgMKeqRSiWt5TJD7Hv1A6wt4RMRql0Ea/R3Hyvw=;
-        b=YRyGY3Sjun1X3H1iK1wGKMVVE8JdJw3ZesBVySwxTaQHDbScnsunBl4+YUs2MlUq0T
-         GDxABBSfXuFNZ6v49hpRbrk718MaFioUip+icvFKfSyNpb3FOEeBr6/ltnd7Kml+5M6N
-         yRF7ioiyTdY/1Sw5/2nl0VBqaENBaV9BCbMkui2PgVyJc1TzI4veAXd2UPGGnGLZRwKi
-         NCxogSxc6I/TP6v/8pXopvikmII2bL1HiA/FSqOhFMtWqDQY0Zxy+3sC9pUiBxIy1pAr
-         Hbdr1pCiKYWc0dPCXeDwefy+PTQSoZ0l0ta6G/B3DBp7qa0K1w6hHjASJrjAYG+8Tb1o
-         r5Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=TU6sSgMKeqRSiWt5TJD7Hv1A6wt4RMRql0Ea/R3Hyvw=;
-        b=F9NdmB9WkepzkoY1Zj2XMFvMUF7SniiGlCHpL2RZ+efro6UzcZmTBqs5KuNsknQgfv
-         KppgBruPjeOXsVcUdtrYPnTcJznHWNv3IqqGWgS26jVKN6G9yrmfzAkhA9BhvJXUBfze
-         kfj+K4B3H/ksGWJSVduBY0L107ADCB73cE9h85w4i/0FeVk8c06DzGZ+8+cydqqnr7uH
-         4rqvGDCU6c1TX52DpS1DS5oymizbjpHJlciwJy6NZCaXdDVPyknkwdLkbsOu1etGys0S
-         1Gmn25dB9d8eN0uheLalTAndaDCCEFhvK/6EMxC299O0dmcoXh+FDa2mcdFLpaVYMUAn
-         6LIA==
-X-Gm-Message-State: AOAM530ZrGvofbcsQa5WUMXb6UgPz2kgJzagWRtTsgTTejM+q+Etb/BS
-        1bSUoMnqZHSTBYvfCRE7bbM/gjdFTMDhba4wids=
-X-Google-Smtp-Source: ABdhPJwu/Xes2ejVqdD6B0DziCF8xulFcOOa2TKlTfcgxXCkmUtMx2RMMvucjs8DdJDBZoT/SgJdGrpuLT4b3k36LoQ=
-X-Received: by 2002:a05:6870:3114:b0:ee:533a:3c0c with SMTP id
- v20-20020a056870311400b000ee533a3c0cmr9489744oaa.285.1653229645748; Sun, 22
- May 2022 07:27:25 -0700 (PDT)
+        Sun, 22 May 2022 21:18:42 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E491B63;
+        Sun, 22 May 2022 18:18:41 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.56])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4L5zvX1KQDz1JC5q;
+        Mon, 23 May 2022 09:17:12 +0800 (CST)
+Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 23 May 2022 09:18:39 +0800
+Received: from [10.174.178.120] (10.174.178.120) by
+ dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 23 May 2022 09:18:37 +0800
+Message-ID: <7a1ce182-343a-75f9-5447-f7ca12cb0c36@huawei.com>
+Date:   Mon, 23 May 2022 09:18:37 +0800
 MIME-Version: 1.0
-Reply-To: elodieantoine78875@yahoo.com
-Sender: mmrsmarian@gmail.com
-Received: by 2002:a05:6358:2c52:b0:a3:38b9:ca5f with HTTP; Sun, 22 May 2022
- 07:27:24 -0700 (PDT)
-From:   Mrs Elodie Antoine <mrselodieatonie32@gmail.com>
-Date:   Sun, 22 May 2022 07:27:24 -0700
-X-Google-Sender-Auth: O_A1KIBHA_4Zy28yXltrRqb8C0c
-Message-ID: <CADY_32Pm2_+Z2hs-H58nwy824g1Rg=tDZOoRK7vXP3x3p5bXVw@mail.gmail.com>
-Subject: May God bless you In Jesus name Amen!!!
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=7.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2001:4860:4864:20:0:0:0:31 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [elodieantoine78875[at]yahoo.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [mmrsmarian[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  3.3 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  1.7 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  1.1 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *******
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 0/2] Add support to relocate kernel image to mirrored
+ region
+To:     <ardb@kernel.org>
+CC:     <akpm@linux-foundation.org>, <catalin.marinas@arm.com>,
+        <will@kernel.org>, <corbet@lwn.net>, <tglx@linutronix.de>,
+        <mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+        <x86@kernel.org>, <dvhart@infradead.org>, <andy@infradead.org>,
+        <rppt@kernel.org>, <paulmck@kernel.org>, <peterz@infradead.org>,
+        <jroedel@suse.de>, <songmuchun@bytedance.com>, <macro@orcam.me.uk>,
+        <frederic@kernel.org>, <W_Armin@gmx.de>, <john.garry@huawei.com>,
+        <seanjc@google.com>, <tsbogend@alpha.franken.de>,
+        <anshuman.khandual@arm.com>, <chenhuacai@kernel.org>,
+        <david@redhat.com>, <gpiccoli@igalia.com>, <mark.rutland@arm.com>,
+        <wangkefeng.wang@huawei.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-efi@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
+        <platform-driver-x86@vger.kernel.org>, <linux-mm@kvack.org>,
+        <mawupeng1@huawei.com>
+References: <CAMj1kXGSStDgj9ABmUaTLnBmpQFksh3wx4tx=mJohum4GQe3Gg@mail.gmail.com>
+ <20220419070150.254377-1-mawupeng1@huawei.com>
+ <CAMj1kXHr2RdYSPor1st1ZnL=O42c8N6e=bNG+eFhatfefWLUrw@mail.gmail.com>
+ <c65d22b4-f654-21aa-bd5f-d4f8b0939a25@huawei.com>
+ <7058b8d8-c0cb-108e-0db9-2fdf5fb154cf@huawei.com>
+ <CAMj1kXHnL12j6FPGtEeSQB2-kHzoVF+LJMUF9YBq43Yi1UntDg@mail.gmail.com>
+From:   mawupeng <mawupeng1@huawei.com>
+In-Reply-To: <CAMj1kXHnL12j6FPGtEeSQB2-kHzoVF+LJMUF9YBq43Yi1UntDg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.120]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500014.china.huawei.com (7.185.36.153)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Dear Altruist,
 
-With confidence that this message will find you in good fate, i wish
-to share with you my last wish. I have a terminal ailment and writing
-from my hospital bed. I got your contact from humanitarian event with
-hope you have the welfare of less privilege around the globe at heart.
-I wish to submit my remaining fund the sum of ($ 6,200,000.00 Dollars)
-to you for continuation of charity service. My life is no longer
-promising as a result of cancer.
-I need your urgent cooperation for more details.
 
-Thanks in advance for your kind heart and quick response to this gesture.
+在 2022/5/20 14:52, Ard Biesheuvel 写道:
+> On Thu, 19 May 2022 at 13:09, mawupeng <mawupeng1@huawei.com> wrote:
+>>
+>>
+>>
+>> 在 2022/5/7 17:28, mawupeng 写道:
+>>>
+>>>
+>>> 在 2022/5/3 17:58, Ard Biesheuvel 写道:
+>>>> On Tue, 19 Apr 2022 at 08:43, Wupeng Ma <mawupeng1@huawei.com> wrote:
+>>>>>
+>>>>> From: Ma Wupeng <mawupeng1@huawei.com>
+>>>>>
+>>>>> Now system image will perfer to be located to mirrored regions both KASLR
+>>>>> on and off.
+>>>>>
+>>>>
+>>>> Hello Ma Wupeng,
+>>>>
+>>>> I wonder if we could simplify this as follows:
+>>>> - ignore the non-KASLR case for now, and rely on the bootloader  > load the image into mirrored memory if it exists;
+>>>
+>>> In grub, memory for static image is allocated via the following path:
+>>>
+>>> grub_cmd_linux
+>>>     kernel = grub_malloc(filelen)
+>>>     kernel_alloc_addr = grub_efi_allocate_any_pages (kernel_alloc_pages)
+>>>     grub_memcpy (kernel_addr, kernel, grub_min(filelen, kernel_size))
+>>>      grub_loader_set (grub_linux_boot, grub_linux_unload, 0)
+>>>
+>>> Can we get memory from mirrored region by the following steps:
+>>> 1. get memory map by calling grub_efi_get_memory_map()
+>>> 2. iter all memory map to find a suitable mirrored memory area
+>>> 3. locate kernel image to this area
+>>>
+>>> So, if kaslr is not enabled
+>>>    - grub will load kernel into mirrored region
+>>> else
+>>>    - arm64-stub.c will relocate kernel image to mirrored region
+>>>
+>>> Is this feasible?
+>>
+>> Is this a feasible proposal to relocate the static kernel image itself
+>> into more reliable memory?
+>>
+> 
+> I'm not sure, it all depends on the firmware.
+> 
+> When GRUB calls LoadImage(), the firmware will reallocate the image
+> and unpack it there. So it is really the firmware's job to ensure that
+> the image is loaded into a suitable location.
+> 
+> I have some code here that implements a EFI based decompressor, and
+> which loads the kernel image into mirrored memory if it exists,
+> without the need to move it again. It could trivially be modified to
+> deal with non-randomized loads as well.
+> 
+> But the bottom line is that UEFI should expose the ability to target
+> mirrored memory, hacking around it like this is not a sustainable
+> approach.
 
-Yours faithfully,
-Elodie Antoine.
+Since firmware is responsible for put kernel static image into mirrored
+region and kernel is responsible for relocate this image into mirrored
+region if kaslr is enabled. There is no conflict between these two.
+
+Can we integrate the kernel part(introduce mirrored support to arm64) first?
+
+> .
