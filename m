@@ -2,60 +2,64 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FC2C5362D5
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 May 2022 14:43:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A5B5536E1F
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 28 May 2022 21:06:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352716AbiE0Mnl convert rfc822-to-8bit (ORCPT
+        id S229527AbiE1TGS convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 27 May 2022 08:43:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58034 "EHLO
+        Sat, 28 May 2022 15:06:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352963AbiE0Mnb (ORCPT
+        with ESMTP id S229506AbiE1TGR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 27 May 2022 08:43:31 -0400
-X-Greylist: delayed 5689 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 27 May 2022 05:40:52 PDT
-Received: from mail.composit.net (mail.composit.net [195.49.185.119])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 50B3419284;
-        Fri, 27 May 2022 05:40:52 -0700 (PDT)
-Received: from mail.composit.net (localhost.localdomain [127.0.0.1])
-        by mail.composit.net (Proxmox) with ESMTP id 70A2C38A824;
-        Fri, 27 May 2022 14:02:43 +0300 (MSK)
-Received: from mail.composit.net (mail.industrial-flow.com [192.168.101.14])
-        by mail.composit.net (Proxmox) with SMTP id 3733E38F9FA;
-        Fri, 27 May 2022 14:02:43 +0300 (MSK)
-Received: from [192.168.1.105] (Unknown [197.234.219.23])
-        by mail.composit.net with ESMTPSA
-        (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256)
-        ; Fri, 27 May 2022 14:02:44 +0300
-Message-ID: <7ABC466F-919F-4F2A-9EAC-76D0177AB17D@mail.composit.net>
+        Sat, 28 May 2022 15:06:17 -0400
+X-Greylist: delayed 44393 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 28 May 2022 12:06:13 PDT
+Received: from srv1.ensanne.nl (srv1.ensanne.nl [185.27.141.228])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C53762232;
+        Sat, 28 May 2022 12:06:13 -0700 (PDT)
+Received: from [156.146.34.48] (helo=[192.168.4.104])
+        by srv1.ensanne.nl with esmtpa (Exim 4.94.2)
+        (envelope-from <ensanne@cybertrade.co.za>)
+        id 1nubiq-0003KI-DB; Fri, 27 May 2022 17:17:53 +0200
 Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8BIT
 Content-Description: Mail message body
-Subject: Greetings From Ukraine.  
-To:     Recipients <heiss@dnet.it>
-From:   "Kostiantyn Chichkov" <heiss@dnet.it>
-Date:   Fri, 27 May 2022 11:59:39 +0100
-Reply-To: kostiantync@online.ee
-X-Spam-Status: No, score=3.7 required=5.0 tests=BAYES_50,RCVD_IN_SBL,
-        RCVD_IN_SORBS_WEB,RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+Subject: Re: blessed deal.!nl
+To:     Recipients <ensanne@cybertrade.co.za>
+From:   "United States Marine Corps" <ensanne@cybertrade.co.za>
+Date:   Fri, 27 May 2022 18:17:22 +0300
+Reply-To: bbirenebh242@gmail.com
+Message-ID: <GENERATED-WASMISSING-1nubiq-0003KI-DB@srv1.ensanne.nl>
+X-ACL-Warn: Adding Message-ID header because it is missing!
+X-Authenticated-Id: info@ensanne.nl
+X-Spam-Status: Yes, score=7.4 required=5.0 tests=BAYES_50,
+        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,NIXSPAM_IXHASH,
+        RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5047]
+        *  1.3 RCVD_IN_VALIDITY_RPBL RBL: Relay in Validity RPBL,
+        *      https://senderscore.org/blocklistlookup/
+        *      [185.27.141.228 listed in bl.score.senderscore.com]
+        *  3.0 NIXSPAM_IXHASH http://www.nixspam.org/
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 SPF_NONE SPF: sender does not publish an SPF Record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [bbirenebh242[at]gmail.com]
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Good Morning,
+Hello!
 
-We are Kostiantyn Chychkov and Maryna Chudnovska from Ukraine, we need your service, we have gone through your profile and we will like to work with you on an important service that needs urgent attention due to the ongoing war in our country. Kindly acknowledge this inquiry as soon as possible for a detailed discussion about the service.
+Did you see my blessed deal message in your favor???
 
-Thank you.
-
-Yours expectantly,
-
-Kostiantyn Chichkov & Ms. Maryna Chudnovska,
-From Ukraine.
-
-
+Sgt Irene.
+United States Marine Corps (USMC)
