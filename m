@@ -2,92 +2,82 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 751C5538890
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 30 May 2022 23:20:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86345538DA8
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 31 May 2022 11:24:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241969AbiE3VU1 (ORCPT
+        id S245166AbiEaJYf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 30 May 2022 17:20:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36436 "EHLO
+        Tue, 31 May 2022 05:24:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241918AbiE3VUZ (ORCPT
+        with ESMTP id S245168AbiEaJY2 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 30 May 2022 17:20:25 -0400
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B0A46A428;
-        Mon, 30 May 2022 14:20:22 -0700 (PDT)
-Received: (Authenticated sender: peter@korsgaard.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 6D8F420005;
-        Mon, 30 May 2022 21:20:16 +0000 (UTC)
-Received: from peko by dell.be.48ers.dk with local (Exim 4.94.2)
-        (envelope-from <peter@korsgaard.com>)
-        id 1nvmoB-006sq4-Sw; Mon, 30 May 2022 23:20:15 +0200
-From:   Peter Korsgaard <peter@korsgaard.com>
-To:     Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Cc:     santoshkumar.yadav@barco.com, peter.korsgaard@barco.com,
-        hdegoede@redhat.com, markgross@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] platform/x86: barco-p50-gpio: Add check for
- platform_driver_register
-References: <20220526090345.1444172-1-jiasheng@iscas.ac.cn>
-Date:   Mon, 30 May 2022 23:20:15 +0200
-In-Reply-To: <20220526090345.1444172-1-jiasheng@iscas.ac.cn> (Jiasheng Jiang's
-        message of "Thu, 26 May 2022 17:03:45 +0800")
-Message-ID: <87bkve4t0w.fsf@dell.be.48ers.dk>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        Tue, 31 May 2022 05:24:28 -0400
+Received: from mail.meizu.com (edge05.meizu.com [157.122.146.251])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93C608B0AC;
+        Tue, 31 May 2022 02:24:26 -0700 (PDT)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail12.meizu.com
+ (172.16.1.108) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 31 May
+ 2022 17:24:26 +0800
+Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
+ (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 31 May
+ 2022 17:24:24 +0800
+From:   Haowen Bai <baihaowen@meizu.com>
+To:     Jeremy Soller <jeremy@system76.com>,
+        System76 Product Development <productdev@system76.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>
+CC:     Haowen Bai <baihaowen@meizu.com>,
+        <platform-driver-x86@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH] platform/x86: system76_acpi: use dev_get_drvdata
+Date:   Tue, 31 May 2022 17:24:23 +0800
+Message-ID: <1653989063-20180-1-git-send-email-baihaowen@meizu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Originating-IP: [172.16.137.70]
+X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
+ IT-EXMB-1-125.meizu.com (172.16.1.125)
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
+        SPF_HELO_NONE,SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
->>>>> "Jiasheng" == Jiasheng Jiang <jiasheng@iscas.ac.cn> writes:
+Eliminate direct accesses to the driver_data field.
 
- > As platform_driver_register() could fail, it should be better
- > to deal with the return value in order to maintain the code
- > consisitency.
+Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+---
+ drivers/platform/x86/system76_acpi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- > Fixes: 86af1d02d458 ("platform/x86: Support for EC-connected GPIOs for
- > identify LED/button on Barco P50 board")
-
- > Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-
-Acked-by: Peter Korsgaard <peter.korsgaard@barco.com>
-
-
-> ---
- >  drivers/platform/x86/barco-p50-gpio.c | 5 ++++-
- >  1 file changed, 4 insertions(+), 1 deletion(-)
-
- > diff --git a/drivers/platform/x86/barco-p50-gpio.c b/drivers/platform/x86/barco-p50-gpio.c
- > index 05534287bc26..8dd672339485 100644
- > --- a/drivers/platform/x86/barco-p50-gpio.c
- > +++ b/drivers/platform/x86/barco-p50-gpio.c
- > @@ -405,11 +405,14 @@ MODULE_DEVICE_TABLE(dmi, dmi_ids);
- >  static int __init p50_module_init(void)
- >  {
- >  	struct resource res = DEFINE_RES_IO(P50_GPIO_IO_PORT_BASE, P50_PORT_CMD + 1);
- > +	int ret;
+diff --git a/drivers/platform/x86/system76_acpi.c b/drivers/platform/x86/system76_acpi.c
+index 7299ad08c838..958df41ad509 100644
+--- a/drivers/platform/x86/system76_acpi.c
++++ b/drivers/platform/x86/system76_acpi.c
+@@ -339,7 +339,7 @@ static ssize_t kb_led_color_show(
+ 	struct led_classdev *led;
+ 	struct system76_data *data;
  
- >  	if (!dmi_first_match(dmi_ids))
- >  		return -ENODEV;
+-	led = (struct led_classdev *)dev->driver_data;
++	led = dev_get_drvdata(dev);
+ 	data = container_of(led, struct system76_data, kb_led);
+ 	return sysfs_emit(buf, "%06X\n", data->kb_color);
+ }
+@@ -356,7 +356,7 @@ static ssize_t kb_led_color_store(
+ 	unsigned int val;
+ 	int ret;
  
- > -	platform_driver_register(&p50_gpio_driver);
- > +	ret = platform_driver_register(&p50_gpio_driver);
- > +	if (ret)
- > +		return ret;
- 
- >  	gpio_pdev = platform_device_register_simple(DRIVER_NAME, PLATFORM_DEVID_NONE, &res, 1);
- >  	if (IS_ERR(gpio_pdev)) {
- > -- 
-
- > 2.25.1
-
-
+-	led = (struct led_classdev *)dev->driver_data;
++	led = dev_get_drvdata(dev);
+ 	data = container_of(led, struct system76_data, kb_led);
+ 	ret = kstrtouint(buf, 16, &val);
+ 	if (ret)
 -- 
-Bye, Peter Korsgaard
+2.7.4
+
