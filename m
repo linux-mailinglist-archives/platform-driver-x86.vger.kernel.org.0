@@ -2,108 +2,108 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1F1553CDA3
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  3 Jun 2022 19:02:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0C1453CDA7
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  3 Jun 2022 19:02:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243045AbiFCRCs (ORCPT
+        id S1344176AbiFCRC5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 3 Jun 2022 13:02:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38776 "EHLO
+        Fri, 3 Jun 2022 13:02:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235555AbiFCRCq (ORCPT
+        with ESMTP id S1344177AbiFCRC5 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 3 Jun 2022 13:02:46 -0400
-Received: from mail1.bemta31.messagelabs.com (mail1.bemta31.messagelabs.com [67.219.246.3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5640B6402
-        for <platform-driver-x86@vger.kernel.org>; Fri,  3 Jun 2022 10:02:45 -0700 (PDT)
+        Fri, 3 Jun 2022 13:02:57 -0400
+Received: from mail1.bemta33.messagelabs.com (mail1.bemta33.messagelabs.com [67.219.247.4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EDB551E4D
+        for <platform-driver-x86@vger.kernel.org>; Fri,  3 Jun 2022 10:02:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lenovo.com;
-        s=Selector; t=1654275764; i=@lenovo.com;
-        bh=9pUivFiImyWzJWeniHebLKBDI/a3lUKxV8o97veGHS8=;
+        s=Selector; t=1654275765; i=@lenovo.com;
+        bh=1XwJ5MKvplvlvAcGIWizrxrjY/xE4tMFAH56NGQqopk=;
         h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
          MIME-Version:Content-Transfer-Encoding:Content-Type;
-        b=mBPqhPPtzirDiuvR06bPn1o4/i6kOTWCMt4kRej9XGsVQemepphrLFB3GFNmSE9GU
-         ZLmrtUkOp7j1U5azYpT9njWai0Wpd9XRokfhgu8nOTnYqXetiOjdkKneyFxE5apaj3
-         rHlaSZE9GMppjRU/inb2uupZNq03FMX9kQMsHnH8dWUV2LFRm4s1qU6tUaQpfvQ5mm
-         VF/1zUusVO5b6I5pTTaWppKVM9Ux/Q122liU0uwbWWyPJ0oBHehpXvEOI8sDjEyV8i
-         6hhR8TtxuW/Fkqte7ftdfAYlmqvg0Ji+623mjKm7PkUWVXgl/VaIuHx3LfSiKWyHsR
-         aJErLuUrxiy2Q==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFJsWRWlGSWpSXmKPExsWSoZ+nrbvFbla
-  SwdulLBZvjk9nsjgwdRqzxeo9L5gdmD02repk83i/7yqbx+dNcgHMUayZeUn5FQmsGbem7mQv
-  aNWv2LtmH3sD4wqNLkYuDkaBpcwSLxc1M0I4i1glNh97xQrhdDJJLOqeyQbiCAnMYZJ4vWwlE
-  4RziEniRONf9i5GTg4JgeOMEt2r3CESnYwSu7f+gGrpZ5LonDMHquUxo8SlU2ugnFuMEu/6Hj
-  CC9LMJaEts2fILqIWDQ0RARuLDWk+QGmaQUZ/XnGIDqREWCJTYteY3E0gNi4CKxPLv/CBhXgE
-  bif7L91kgzpCX2DC/lxnE5hRQlTjT9RgsLgRUfv/BEjaIekGJkzOfgMWZgeqbt85mhrAlJA6+
-  eMEMUa8s8av/PDPMzLZLtxkh7ASJnn+P2CBsSYlrNy9AvS8rcfTsHKgbfCWu/tgHVaMrsf7zF
-  FYI20bi7Y0tUDNzJDput0PVyEmc6j3HNIFRdxaS82YhOW8WkvMWMDKvYrRMKspMzyjJTczM0T
-  U0MNA1NDTRNda1NNRLrNJN1Cst1k1NLC7RBXLLi/VSi4v1iitzk3NS9PJSSzYxApNOShFz9A7
-  G/p6feocYJTmYlER5VRbOTBLiS8pPqcxILM6ILyrNSS0+xCjDwaEkwfvaalaSkGBRanpqRVpm
-  DjABwqQlOHiURHhN5YHSvMUFibnFmekQqVOMlhxXtu3dy8zx4MRJIHlt/YJ9zEIsefl5qVLiv
-  B9sgRoEQBoySvPgxsGS9CVGWSlhXkYGBgYhnoLUotzMElT5V4ziHIxKwrz5IFN4MvNK4La+Aj
-  qICeigktczQA4qSURISTUwqW02ndvz2U4tZfvaGXJrzVmLdjx2UH8g8SRA8bdzckn6RSWGq/v
-  K9H4ZTMjTb2dueHlzb3yR34tc2SunzPuOPl3XK715x8ESTwfWO8Wnvs4OuVRu57Lp+KOeHRGn
-  zm/kyit48WH96v6NDm0ZCQJ/t63LiRFsW58Yy7bO1MtL9Oxi2YJPp1lncJ/l4Fp1q/WRbPQau
-  2jvp7ybzBbZaU/eeTWmX9D4SaD7Cr0l+osK/Zf55r/+ey/CuD/S9/0d3Qnc/0IWhOScr256+d
-  u7YPcevoBzh84Li3Kv1/nT8VUpm0Xz4Cq3R9fmOi7g4U5wXbzimza/fPGjm2KPJn1mrKl1Xf1
-  7etKx7T7CsdYLdf+fUWIpzkg01GIuKk4EAJDRkCVNBAAA
+        b=SmugUGjx8W4WoHMlfbfFaw6gszUAANIaOqvTw3w9NME/hKDrrcGtcplkcFDRQ0u21
+         OiyHWi3Uo8il6VvBxqJKWavQTGV3MXi9eSUpPgA4DNwNeBTb/JEatO/PzYqf2yVUpa
+         DlxV+k/oCEaJfCKaL64t113owYbjJj3Ha/TJqCKDq9aPgF2xdpjv5sF5nGEFvOAZ2w
+         /ZSFWGdpXKLIfuM9D4xaq6v+iZZCAZ1LgEFPlUyt5P2q2vc+tNQ/K288WItgCVGYqP
+         FQtfTyACJstxtZZiZ7H0bcjP7WMUEE53a8/ow7WXzlQ3MUklNXBrK8vL6K0A6By+u2
+         x9zN1bJBPUdYg==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJJsWRWlGSWpSXmKPExsWSoS9VqLvFbla
+  SweVHlhZvjk9nsjgwdRqzxeo9L5gdmD02repk83i/7yqbx+dNcgHMUayZeUn5FQmsGesnTGUv
+  WC1dcWTSe7YGxn9iXYycHIwCS5klHi5ThrAXsUpsXOzcxcgFZHcySUyed48dxBESmMkk8fv3M
+  yjnAJPEvDuX2EAcCYHjjBLdh9YxQWQ6GSV+vDrFAuH0M0m8PLqBFWSykMBjoLIFARCJW4wSS5
+  vPgiXYBLQltmz5BTSLg0NEQEbiw1pPkBpmkEmf15xiA6kRFoiVOHZtPjuIzSKgInHmXg8TiM0
+  rYCNx6PcyMFtCQF5iw/xeZhCbU8BWYvLOZ2wQi8Mkdp98zghRLyhxcuYTFhCbGai+eetsZghb
+  QuLgixfMEPXKEr/6zzPDzGy7dJsRwk6Q6Pn3iA3ClpS4dvMCO4QtK3H07BwWkPslBHwlWhttI
+  MK6EjMeT4EaYyPx9sYWKDtHYtfnpVBj5CRO9Z5jmsCoOwvJdbOQXDcLyXULGJlXMVolFWWmZ5
+  TkJmbm6BoaGOgaGprompkDKb3EKt1EvdJi3dTE4hJdI73E8mK91OJiveLK3OScFL281JJNjMC
+  Uk1LkzL2D8dfKn3qHGCU5mJREeVUWzkwS4kvKT6nMSCzOiC8qzUktPsQow8GhJMH72mpWkpBg
+  UWp6akVaZg4w/cGkJTh4lER4TeWB0rzFBYm5xZnpEKlTjJYcV7bt3cvM8eDESSB5bf2CfcxCL
+  Hn5ealS4rwfbIEaBEAaMkrz4MbBUvQlRlkpYV5GBgYGIZ6C1KLczBJU+VeM4hyMSsK8+SBTeD
+  LzSuC2vgI6iAnooJLXM0AOKklESEk1MIWWz9f2/Ffm0H7FNTjXd9WyWwmqLQWKv16sSnx8KVB
+  170S5ZaxfV86xnj2lRaUmJ0x4d1PkhvWRdbNPW7UcVg5fHsA1W/Ra2I6qNe+u673cwFudM6Po
+  rThv92El3VjHN3cdvi+5nyX3Idb5Is+7KxNUr3P+87fN3z/xVz3zVj0Vq2jrvd2r3YR/LOZjt
+  xYW/Te98NAJkxW/RJNkp6lx/Jc9qt0bxrKjomFh6df3n3x6v0RsMQmbGfOO75bN27qo9xGz2x
+  VCt//9+ZM3v1xjOfuLF2uqu6eoFb5P63p87YbjF+3wswtcG+KMnk46q7rM+dI/m5AHrB8sTM4
+  pzIz139e92z/6W7O2SuDN70eLViixFGckGmoxFxUnAgAftxv0TAQAAA==
 X-Env-Sender: markpearson@lenovo.com
-X-Msg-Ref: server-8.tower-706.messagelabs.com!1654275762!27338!1
-X-Originating-IP: [104.47.110.43]
+X-Msg-Ref: server-5.tower-715.messagelabs.com!1654275763!5955!1
+X-Originating-IP: [104.47.26.113]
 X-SYMC-ESS-Client-Auth: mailfrom-relay-check=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.86.7; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 18553 invoked from network); 3 Jun 2022 17:02:43 -0000
-Received: from mail-tyzapc01lp2043.outbound.protection.outlook.com (HELO APC01-TYZ-obe.outbound.protection.outlook.com) (104.47.110.43)
-  by server-8.tower-706.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 3 Jun 2022 17:02:43 -0000
+Received: (qmail 31138 invoked from network); 3 Jun 2022 17:02:44 -0000
+Received: from mail-sgaapc01lp2113.outbound.protection.outlook.com (HELO APC01-SG2-obe.outbound.protection.outlook.com) (104.47.26.113)
+  by server-5.tower-715.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 3 Jun 2022 17:02:44 -0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HuHVQ2NNW3blTYkEeAiQiGlmrnsEMGF9Ac7Pmqxku/Mj4ApCh5+m69N0jauxcA1QwI9Vq6JmJXFVjVuucWxioo+BItZeNvrc7O2RfmHc5HDQzmIN1pOc6682+QNcSmBGUOv7bAfTv/vbWl0C5N2i5j7UscMrAkCb5FSXxPSV1axr65aqm98/ugXkOjBD7pDK+gcqQfz9zCUcYOp7CxCXJDeMODnDc2iJSIhgSvl7qo0DTuZFuo2Unc9GVwBj1KePXbrgwQVxiJwPbX1evfYuLG9Tlp0L3r+VSxhTet+Gi9+WVldyfiERtdsS3CwTMMQx4qTka3dRqZbA/7GcvqDB5Q==
+ b=CtMBKrwr0ugwLp40zBuZC0oFGuR62SY4KJ4cUC/1ozuXu4zXbFqpQaK4e4YMtkDWq/iWJnPUvQJdTDu2gcMSVIU9eWU/uFsL0ibhclLDD6MLuzSgKoiptpIX9Wl/xPtg+pf0Mv3KRIC7mb8y60NRWYORY3LeKQByWH6bWf4LCis0wW/EBxwpFGW0aJsPGuWuB0hyXuLzBGXDU1IbzgTmAdvcNoA1gibV0oJz1U3FIFmdik7/1rS4vwUjs3rWSjVT43DzPXaTfwye03thKkG25GJzgBzp+oRYd8xvU4f5Eh05KVun+9H5keasPCMwDuqfPGWNxJ7G3GcaDOukn9T+dQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9pUivFiImyWzJWeniHebLKBDI/a3lUKxV8o97veGHS8=;
- b=OosClg9bTs5V4CkheZghC0e2fkRXE8gqCuA4myc0ukim1Co/3oCKu7LEyvnOud4GvVsxSKQLysVMNEUx0GL0vKFukniAGTiCNAHynJkL56Q1vbxug8UhZVuOBfxtbUz1QfxPNRodvcHFguNq2To0YpwmJLkYSioh918/dOKB8yAWkGtUn0j5WnPZ27GqhE+SEdYoVI5tjHe9K19j34pujVoLN8tH3wrDJy21LICk+HUfT3r/DFgHa90YGFDiZW+btXtNLoTGYSwDglWcIsjqcXWlgEAIg34IZoeIbb3RF8duwSXTfNz+wVIGbjV55EfkV3wzRa4N6IaFEqihy7BaZA==
+ bh=1XwJ5MKvplvlvAcGIWizrxrjY/xE4tMFAH56NGQqopk=;
+ b=lJOOU/X3MsGlQBBMU69aWCTokh1QFjFfd/ad/tQzBh2q50Kc7Ouf2SY002BQVUY1QazU9KxUgZZk62o3uaMhbYMe8lletgeyjFpkArmA+wgmDkpoyBQu8HdgicgRJaj4wqqb1H7tVGI16ruVYbgOkOSecHnDYXAkU8FOqSH5B1XkJRb3pW90TDBolSWvFGjhdc3nbunhQa8zjkDZ6P0L91Up2qRbHOrgWz0YteXiAwF2hLEemDP1VpIMD+A6cImEcxSRTFHQpexqDXyPm+5aT/+eR8pADxdJr/WhpM0adTmaxRjBOfpnSp+71i9InvGpJBY15QjaGpGNPIvi5oxa0w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 104.232.225.6) smtp.rcpttodomain=redhat.com smtp.mailfrom=lenovo.com;
+ is 104.232.225.7) smtp.rcpttodomain=redhat.com smtp.mailfrom=lenovo.com;
  dmarc=fail (p=none sp=none pct=100) action=none header.from=lenovo.com;
  dkim=none (message not signed); arc=none
-Received: from PU1PR04CA0013.apcprd04.prod.outlook.com (2603:1096:803:29::25)
- by SI2PR03MB5195.apcprd03.prod.outlook.com (2603:1096:4:108::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.6; Fri, 3 Jun
- 2022 17:02:38 +0000
-Received: from PSAAPC01FT048.eop-APC01.prod.protection.outlook.com
- (2603:1096:803:29:cafe::c5) by PU1PR04CA0013.outlook.office365.com
- (2603:1096:803:29::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.13 via Frontend
- Transport; Fri, 3 Jun 2022 17:02:38 +0000
+Received: from SL2P216CA0100.KORP216.PROD.OUTLOOK.COM (2603:1096:101:3::15) by
+ SG2PR03MB6777.apcprd03.prod.outlook.com (2603:1096:4:1de::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5332.4; Fri, 3 Jun 2022 17:02:41 +0000
+Received: from PSAAPC01FT061.eop-APC01.prod.protection.outlook.com
+ (2603:1096:101:3:cafe::e2) by SL2P216CA0100.outlook.office365.com
+ (2603:1096:101:3::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.12 via Frontend
+ Transport; Fri, 3 Jun 2022 17:02:41 +0000
 X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
- 104.232.225.6) smtp.mailfrom=lenovo.com; dkim=none (message not signed)
+ 104.232.225.7) smtp.mailfrom=lenovo.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=lenovo.com;
 Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- lenovo.com discourages use of 104.232.225.6 as permitted sender)
-Received: from mail.lenovo.com (104.232.225.6) by
- PSAAPC01FT048.mail.protection.outlook.com (10.13.38.164) with Microsoft SMTP
+ lenovo.com discourages use of 104.232.225.7 as permitted sender)
+Received: from mail.lenovo.com (104.232.225.7) by
+ PSAAPC01FT061.mail.protection.outlook.com (10.13.38.140) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5314.12 via Frontend Transport; Fri, 3 Jun 2022 17:02:37 +0000
+ 15.20.5314.12 via Frontend Transport; Fri, 3 Jun 2022 17:02:40 +0000
 Received: from reswpmail01.lenovo.com (10.62.32.20) by mail.lenovo.com
- (10.62.123.116) with Microsoft SMTP Server (version=TLS1_2,
+ (10.62.123.117) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Fri, 3 Jun
- 2022 13:02:36 -0400
+ 2022 13:02:38 -0400
 Received: from z13.home (10.46.51.79) by reswpmail01.lenovo.com (10.62.32.20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Fri, 3 Jun
- 2022 13:02:34 -0400
+ 2022 13:02:36 -0400
 From:   Mark Pearson <markpearson@lenovo.com>
 To:     <markpearson@lenovo.com>
 CC:     <hdegoede@redhat.com>, <markgross@kernel.org>,
         <platform-driver-x86@vger.kernel.org>,
         Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH 1/4] platform/x86: thinkpad-acpi: profile capabilities as integer
-Date:   Fri, 3 Jun 2022 13:02:09 -0400
-Message-ID: <20220603170212.164963-1-markpearson@lenovo.com>
+Subject: [PATCH 2/4] platform/x86: thinkpad-acpi: Add support for automatic  mode transitions
+Date:   Fri, 3 Jun 2022 13:02:10 -0400
+Message-ID: <20220603170212.164963-2-markpearson@lenovo.com>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <markpearson@lenovo.com>
+In-Reply-To: <20220603170212.164963-1-markpearson@lenovo.com>
 References: <markpearson@lenovo.com>
+ <20220603170212.164963-1-markpearson@lenovo.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -112,25 +112,25 @@ X-ClientProxiedBy: reswpmail04.lenovo.com (10.62.32.23) To
  reswpmail01.lenovo.com (10.62.32.20)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 028d4c7d-cc22-4f0c-39ff-08da4582dd0f
-X-MS-TrafficTypeDiagnostic: SI2PR03MB5195:EE_
+X-MS-Office365-Filtering-Correlation-Id: cf099dab-688f-4f4b-c8c7-08da4582deb4
+X-MS-TrafficTypeDiagnostic: SG2PR03MB6777:EE_
 X-LD-Processed: 5c7d0b28-bdf8-410c-aa93-4df372b16203,ExtAddr
-X-Microsoft-Antispam-PRVS: <SI2PR03MB5195AE943229A30FF84A050EC5A19@SI2PR03MB5195.apcprd03.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <SG2PR03MB6777C0A87B032EF2A2070145C5A19@SG2PR03MB6777.apcprd03.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ypsr5bAmT5X7imo07XkJuNro5mfXDKep6vCkt7lGghanpXtNM6w2mwQZaV8631fMka/jbcq0tbzc2dCEXh2APDDo1iPotCYHlw2G/4woIFISf8MsUnjsFdfL/2Hzz1GnyETzN/solKkmXcnHwDcT4E1r1UcxGuuUYJQjPAxNvMn2rqoy4+OHiY3itg39lYa1OR104BMfFHtN5YMQy8v0ujOhMkbE2cYFg1PSgC/G50vZy42qSr8CvBefahQNly5kf+5Msu6dHfPw1JeYUCVPEf7G9RCKfbh8Ppcr2MFP+AW8XlujbLDNZpC3Ik5jHpWniGD+Vz3U8Ijl6Woubc7X37UKfZOCSai5tRjLXYMDoF0bqwMe07ROIEuGzFAJOLTmWygr+5pjEvPgy9CzOLILzS+a0jESZgxNh19CXPTqmmMhJCLQ2kDALPScx00DkGOTsi96v202FtU2o/e/P4RLy6TrpQGzzL4Pd29Dna5Y6M52P3JWDX5oOsng+VfI4jZOrQQbUdfGIFXQq+yvkZ6Jagvwen5BFIqC0Dwqujr6uuZlEkQZYR1/kSv5HHcC6mbH8/rIV0680zYoWR0j2x27PgFxic4Ihab/IrRc3oeZdYR2XNC6y9bq8Px9n/qpWScqbX7rn1vcOE3H9rzbQN3hI8kHE5cVz2iQ4aVwk239I95k1BhFQwMAiRT32OiJ/0xfgLjhi9z/8dC/aS5J/sjCIyPdcMY8N+rH/N9fhKaqpYGlrWwdVZPhOTYRJ8x4l9YaT+F6NuHEUb/Cg0b6UfYwcQ==
-X-Forefront-Antispam-Report: CIP:104.232.225.6;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.lenovo.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(36860700001)(83380400001)(26005)(6666004)(508600001)(36756003)(356005)(82310400005)(40460700003)(82960400001)(8936002)(4326008)(7049001)(37006003)(36906005)(1076003)(2616005)(426003)(70206006)(336012)(2906002)(186003)(8676002)(16526019)(316002)(70586007)(6862004)(86362001)(47076005)(6200100001)(54906003)(81166007)(5660300002)(36900700001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: layH/DWzmG28uIZO+JX+EH4vME0erH4JtWQfTpkscrv7qQmRN3gITTNI8Aeh72pMc+jB0xsVmye3XZ7KJJLYydr0aiU8lbxH++T+M+6p9R4XZF484OarhcQu4gJO8TTrZ8BdiSfQaM1KEAylcieCiwSyv5rq8TtQoyik3h4+Kg9Ter75JiRzdkh9mh7sHpUEiyQwORDOBK18PG86l24H5KzXEkM78iUE5u3H9rtlUST3FdBiXYyv9u1mT3COw1yLlcW2YLsdi90PnCHL7sTnJTkwnMizVNKj4IywPXyG01nPKT7nXFR+dC1QP/Jt4NJcmzWIBhqRJmI0aoufd9SY+GU2I0tdNWQAnMfOpghCWzfFlpDah8RYaQfUn8BSrBECrGUn5k7HNRvk/jrg82R6ZjUufU3g90Hgrz2xc9UTwPptq3Xt8XkWwDCb0RbsvqtItQTo148TPgsd9TOXGJUfZN3cRz2bLxIqphq8uvr2JaZ/Mr8L2h3qnve66Otbglgk8ASXNLuv8GMmEd/Y+QPfPjICYTZdjX6aseCmGKblFotRXWg3Wv0svPIjur4jv86Nrx4m1cLMLKXAGlL0wzDsLoIxoy6dg66MIWmAccI213in4cio9U0NizSGYKpvtQD/yaGWQaJC+z437lIZyXLa73L94iT1JcLlW2sgNMdwrg75fmiSxQf21qmBsKrMS+2jT585oh9Ex9tOeTAQFjW6qg==
+X-Forefront-Antispam-Report: CIP:104.232.225.7;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.lenovo.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(8936002)(5660300002)(2906002)(47076005)(82310400005)(336012)(426003)(36860700001)(6666004)(86362001)(7049001)(316002)(37006003)(40460700003)(54906003)(36906005)(6862004)(83380400001)(8676002)(4326008)(70206006)(70586007)(6200100001)(2616005)(36756003)(81166007)(82960400001)(356005)(186003)(16526019)(1076003)(26005)(508600001)(36900700001);DIR:OUT;SFP:1102;
 X-OriginatorOrg: lenovo.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2022 17:02:37.8643
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2022 17:02:40.6270
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 028d4c7d-cc22-4f0c-39ff-08da4582dd0f
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf099dab-688f-4f4b-c8c7-08da4582deb4
 X-MS-Exchange-CrossTenant-Id: 5c7d0b28-bdf8-410c-aa93-4df372b16203
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5c7d0b28-bdf8-410c-aa93-4df372b16203;Ip=[104.232.225.6];Helo=[mail.lenovo.com]
-X-MS-Exchange-CrossTenant-AuthSource: PSAAPC01FT048.eop-APC01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5c7d0b28-bdf8-410c-aa93-4df372b16203;Ip=[104.232.225.7];Helo=[mail.lenovo.com]
+X-MS-Exchange-CrossTenant-AuthSource: PSAAPC01FT061.eop-APC01.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR03MB5195
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR03MB6777
 X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
@@ -141,161 +141,92 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Currently the active mode (PSC/MMC) is stored in an enum and queried
-throughout the driver.
+Some AMD Thinkpads support automatic mode transitions.  The actual
+transition logic doesn't live in the `thinkpad_acpi` driver. The events
+to activate this logic come from this driver though.
 
-Other driver changes will enumerate additional submodes that are relevant
-to be tracked, so instead track PSC/MMC in a single integer variable.
+Populate these events when switching PSC power modes.
 
 Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 Signed-off-by: Mark Pearson <markpearson@lenovo.com>
 ---
- drivers/platform/x86/thinkpad_acpi.c | 45 +++++++++++-----------------
- 1 file changed, 18 insertions(+), 27 deletions(-)
+ drivers/platform/x86/thinkpad_acpi.c | 34 ++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
 diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index e6cb4a14cdd4..5d1e0a3a5c1e 100644
+index 5d1e0a3a5c1e..2df290cee0a1 100644
 --- a/drivers/platform/x86/thinkpad_acpi.c
 +++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -10299,21 +10299,15 @@ static struct ibm_struct proxsensor_driver_data = {
+@@ -10266,6 +10266,7 @@ static struct ibm_struct proxsensor_driver_data = {
+ #define DYTC_CMD_FUNC_CAP     3 /* To get DYTC capabilities */
+ #define DYTC_FC_MMC           27 /* MMC Mode supported */
+ #define DYTC_FC_PSC           29 /* PSC Mode supported */
++#define DYTC_FC_AMT           31 /* AMT mode supported */
+ 
+ #define DYTC_GET_FUNCTION_BIT 8  /* Bits  8-11 - function setting */
+ #define DYTC_GET_MODE_BIT     12 /* Bits 12-15 - mode setting */
+@@ -10278,6 +10279,10 @@ static struct ibm_struct proxsensor_driver_data = {
+ #define DYTC_FUNCTION_CQL     1  /* Function = 1, lap mode */
+ #define DYTC_FUNCTION_MMC     11 /* Function = 11, MMC mode */
+ #define DYTC_FUNCTION_PSC     13 /* Function = 13, PSC mode */
++#define DYTC_FUNCTION_AMT     15 /* Function = 15, AMT mode */
++
++#define DYTC_MODE_AMT_ENABLE   0x1 /* Enable AMT (in balanced mode) */
++#define DYTC_MODE_AMT_DISABLE  0xF /* Disable AMT (in other modes) */
+ 
+ #define DYTC_MODE_MMC_PERFORM  2  /* High power mode aka performance */
+ #define DYTC_MODE_MMC_LOWPOWER 3  /* Low power mode */
+@@ -10298,6 +10303,8 @@ static struct ibm_struct proxsensor_driver_data = {
+ 
  #define DYTC_DISABLE_CQL DYTC_SET_COMMAND(DYTC_FUNCTION_CQL, DYTC_MODE_MMC_BALANCE, 0)
  #define DYTC_ENABLE_CQL DYTC_SET_COMMAND(DYTC_FUNCTION_CQL, DYTC_MODE_MMC_BALANCE, 1)
++static int dytc_control_amt(bool enable);
++static bool dytc_amt_active;
  
--enum dytc_profile_funcmode {
--	DYTC_FUNCMODE_NONE = 0,
--	DYTC_FUNCMODE_MMC,
--	DYTC_FUNCMODE_PSC,
--};
--
--static enum dytc_profile_funcmode dytc_profile_available;
  static enum platform_profile_option dytc_current_profile;
  static atomic_t dytc_ignore_event = ATOMIC_INIT(0);
- static DEFINE_MUTEX(dytc_mutex);
-+static int dytc_capabilities;
- static bool dytc_mmc_get_available;
+@@ -10380,6 +10387,30 @@ static int dytc_profile_get(struct platform_profile_handler *pprof,
+ 	return 0;
+ }
  
- static int convert_dytc_to_profile(int dytcmode, enum platform_profile_option *profile)
- {
--	if (dytc_profile_available == DYTC_FUNCMODE_MMC) {
-+	if (dytc_capabilities & BIT(DYTC_FC_MMC)) {
- 		switch (dytcmode) {
- 		case DYTC_MODE_MMC_LOWPOWER:
- 			*profile = PLATFORM_PROFILE_LOW_POWER;
-@@ -10330,7 +10324,7 @@ static int convert_dytc_to_profile(int dytcmode, enum platform_profile_option *p
- 		}
- 		return 0;
- 	}
--	if (dytc_profile_available == DYTC_FUNCMODE_PSC) {
-+	if (dytc_capabilities & BIT(DYTC_FC_PSC)) {
- 		switch (dytcmode) {
- 		case DYTC_MODE_PSC_LOWPOWER:
- 			*profile = PLATFORM_PROFILE_LOW_POWER;
-@@ -10352,21 +10346,21 @@ static int convert_profile_to_dytc(enum platform_profile_option profile, int *pe
- {
- 	switch (profile) {
- 	case PLATFORM_PROFILE_LOW_POWER:
--		if (dytc_profile_available == DYTC_FUNCMODE_MMC)
-+		if (dytc_capabilities & BIT(DYTC_FC_MMC))
- 			*perfmode = DYTC_MODE_MMC_LOWPOWER;
--		else if (dytc_profile_available == DYTC_FUNCMODE_PSC)
-+		else if (dytc_capabilities & BIT(DYTC_FC_PSC))
- 			*perfmode = DYTC_MODE_PSC_LOWPOWER;
- 		break;
- 	case PLATFORM_PROFILE_BALANCED:
--		if (dytc_profile_available == DYTC_FUNCMODE_MMC)
-+		if (dytc_capabilities & BIT(DYTC_FC_MMC))
- 			*perfmode = DYTC_MODE_MMC_BALANCE;
--		else if (dytc_profile_available == DYTC_FUNCMODE_PSC)
-+		else if (dytc_capabilities & BIT(DYTC_FC_PSC))
- 			*perfmode = DYTC_MODE_PSC_BALANCE;
- 		break;
- 	case PLATFORM_PROFILE_PERFORMANCE:
--		if (dytc_profile_available == DYTC_FUNCMODE_MMC)
-+		if (dytc_capabilities & BIT(DYTC_FC_MMC))
- 			*perfmode = DYTC_MODE_MMC_PERFORM;
--		else if (dytc_profile_available == DYTC_FUNCMODE_PSC)
-+		else if (dytc_capabilities & BIT(DYTC_FC_PSC))
- 			*perfmode = DYTC_MODE_PSC_PERFORM;
- 		break;
- 	default: /* Unknown profile */
-@@ -10445,7 +10439,7 @@ static int dytc_profile_set(struct platform_profile_handler *pprof,
- 	if (err)
- 		goto unlock;
- 
--	if (dytc_profile_available == DYTC_FUNCMODE_MMC) {
-+	if (dytc_capabilities & BIT(DYTC_FC_MMC)) {
- 		if (profile == PLATFORM_PROFILE_BALANCED) {
- 			/*
- 			 * To get back to balanced mode we need to issue a reset command.
-@@ -10464,7 +10458,7 @@ static int dytc_profile_set(struct platform_profile_handler *pprof,
- 				goto unlock;
- 		}
- 	}
--	if (dytc_profile_available == DYTC_FUNCMODE_PSC) {
-+	if (dytc_capabilities & BIT(DYTC_FC_PSC)) {
++static int dytc_control_amt(bool enable)
++{
++	int dummy;
++	int err;
++	int cmd;
++
++	if (!(dytc_capabilities & BIT(DYTC_FC_AMT))) {
++		pr_warn("Attempting to toggle AMT on a system that doesn't advertise support\n");
++		return -ENODEV;
++	}
++
++	if (enable)
++		cmd = DYTC_SET_COMMAND(DYTC_FUNCTION_AMT, DYTC_MODE_AMT_ENABLE, enable);
++	else
++		cmd = DYTC_SET_COMMAND(DYTC_FUNCTION_AMT, DYTC_MODE_AMT_DISABLE, enable);
++
++	pr_debug("%sabling AMT (cmd 0x%x)", enable ? "en":"dis", cmd);
++	err = dytc_command(cmd, &dummy);
++	if (err)
++		return err;
++	dytc_amt_active = enable;
++	return 0;
++}
++
+ /*
+  * Helper function - check if we are in CQL mode and if we are
+  *  -  disable CQL,
+@@ -10462,6 +10493,9 @@ static int dytc_profile_set(struct platform_profile_handler *pprof,
  		err = dytc_command(DYTC_SET_COMMAND(DYTC_FUNCTION_PSC, perfmode, 1), &output);
  		if (err)
  			goto unlock;
-@@ -10483,12 +10477,12 @@ static void dytc_profile_refresh(void)
- 	int perfmode;
- 
- 	mutex_lock(&dytc_mutex);
--	if (dytc_profile_available == DYTC_FUNCMODE_MMC) {
-+	if (dytc_capabilities & BIT(DYTC_FC_MMC)) {
- 		if (dytc_mmc_get_available)
- 			err = dytc_command(DYTC_CMD_MMC_GET, &output);
- 		else
- 			err = dytc_cql_command(DYTC_CMD_GET, &output);
--	} else if (dytc_profile_available == DYTC_FUNCMODE_PSC)
-+	} else if (dytc_capabilities & BIT(DYTC_FC_PSC))
- 		err = dytc_command(DYTC_CMD_GET, &output);
- 
- 	mutex_unlock(&dytc_mutex);
-@@ -10517,7 +10511,6 @@ static int tpacpi_dytc_profile_init(struct ibm_init_struct *iibm)
- 	set_bit(PLATFORM_PROFILE_BALANCED, dytc_profile.choices);
- 	set_bit(PLATFORM_PROFILE_PERFORMANCE, dytc_profile.choices);
- 
--	dytc_profile_available = DYTC_FUNCMODE_NONE;
- 	err = dytc_command(DYTC_CMD_QUERY, &output);
- 	if (err)
- 		return err;
-@@ -10530,13 +10523,12 @@ static int tpacpi_dytc_profile_init(struct ibm_init_struct *iibm)
- 		return -ENODEV;
- 
- 	/* Check what capabilities are supported */
--	err = dytc_command(DYTC_CMD_FUNC_CAP, &output);
-+	err = dytc_command(DYTC_CMD_FUNC_CAP, &dytc_capabilities);
- 	if (err)
- 		return err;
- 
--	if (output & BIT(DYTC_FC_MMC)) { /* MMC MODE */
--		dytc_profile_available = DYTC_FUNCMODE_MMC;
--
-+	if (dytc_capabilities & BIT(DYTC_FC_MMC)) { /* MMC MODE */
-+		pr_debug("MMC is supported\n");
- 		/*
- 		 * Check if MMC_GET functionality available
- 		 * Version > 6 and return success from MMC_GET command
-@@ -10547,8 +10539,8 @@ static int tpacpi_dytc_profile_init(struct ibm_init_struct *iibm)
- 			if (!err && ((output & DYTC_ERR_MASK) == DYTC_ERR_SUCCESS))
- 				dytc_mmc_get_available = true;
- 		}
--	} else if (output & BIT(DYTC_FC_PSC)) { /* PSC MODE */
--		dytc_profile_available = DYTC_FUNCMODE_PSC;
-+	} else if (dytc_capabilities & BIT(DYTC_FC_PSC)) { /* PSC MODE */
-+		pr_debug("PSC is supported\n");
- 	} else {
- 		dbg_printk(TPACPI_DBG_INIT, "No DYTC support available\n");
- 		return -ENODEV;
-@@ -10574,7 +10566,6 @@ static int tpacpi_dytc_profile_init(struct ibm_init_struct *iibm)
- 
- static void dytc_profile_exit(void)
- {
--	dytc_profile_available = DYTC_FUNCMODE_NONE;
- 	platform_profile_remove();
- }
- 
++		/* system supports AMT, activate it when on balanced */
++		if (dytc_capabilities & BIT(DYTC_FC_AMT))
++			dytc_control_amt(profile == PLATFORM_PROFILE_BALANCED);
+ 	}
+ 	/* Success - update current profile */
+ 	dytc_current_profile = profile;
 -- 
 2.36.1
 
