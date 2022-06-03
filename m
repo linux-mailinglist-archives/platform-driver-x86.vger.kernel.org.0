@@ -2,138 +2,135 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B263553CDA5
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  3 Jun 2022 19:02:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2630E53CDEC
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  3 Jun 2022 19:14:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235555AbiFCRCv (ORCPT
+        id S234417AbiFCROP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 3 Jun 2022 13:02:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39026 "EHLO
+        Fri, 3 Jun 2022 13:14:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344176AbiFCRCu (ORCPT
+        with ESMTP id S1344310AbiFCROO (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 3 Jun 2022 13:02:50 -0400
-Received: from mail1.bemta33.messagelabs.com (mail1.bemta33.messagelabs.com [67.219.247.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AC1826562
-        for <platform-driver-x86@vger.kernel.org>; Fri,  3 Jun 2022 10:02:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lenovo.com;
-        s=Selector; t=1654275769; i=@lenovo.com;
-        bh=W5HasEbbVFfehRW1L8wY+7vaBIQCcPfG7zm1enN0GMc=;
-        h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-         MIME-Version:Content-Transfer-Encoding:Content-Type;
-        b=y74V2ugPPKDjHyhsSfj+3r2xMuz8GCqXTxUAxzc3KnFAcr0HPj0lz1i37bHHPWNNd
-         /6j6igXjpTqWnZc9DR4wwtdBVSjEYpCTbr6f+Aem44CUyAB/41gF0zeU7g9WXUlio3
-         pMa4xebXAK3+UxWyEjBFawnTii1Io9fDdgGlmqC86a0ZbuWoWc0gm1LpPG2IH3qtpn
-         O0fAMp1SzpOWdijkz32ZWtLF38GyuLlKYc8BoduqZMbjyvx/K2KHr1bDfu3xPa2sli
-         phNzxS+p+S9tbRqKoBjFyxzwhGkFTo0k0U7v9aY47sxQLw8SB/+PEPc+B+enZTkekW
-         AzUJYzFW+zGNQ==
-X-Brightmail-Tracker: H4sIAAAAAAAAA1VSfUwbZRzmvfd6HNhuRxnwto6R1ZGo23V0YUJ
-  Ip0twC4YYN//YzLZsXO3ZNumXvdZ1JCqRYIRBQJvhetWBYxvug3Vip1MoQg1jrR9zBfFzDpk4
-  bEuGw0RXCdrjysR/Ls9zz8f7/PEjoXyIUJKs28k6rIxZRWTjxo1KG33pUV5XEuTLyhMjb2Llg
-  0faYfnZ/mm4FVb1nmkkqm4PfE1UzfWu2QH3SExWnc1dIzGe8gShfZZ0J04o6sD1zCaQTQLqJE
-  RTfQNpclyCJkM8JpJGDHmO/ZRSskg5xWPIFzooCHJqCEPxxOhiBFEjAB0OncdEpRGgv2IRXCS
-  tGOq89hoUyU2Akt03JCL5HqD4z3eg0ExQ61EgkCSaAEmuolaj2Z4nBA8UqubORQjBk0vtQ+1j
-  Z4GAcWod6v1NxDJKiz7ruYsLGFFF6EJHy2JnFrUFeT76lRCX70J94Vtpfw4Ke39Z9MOUv/6iD
-  4oYoaHpaSj6H0DJ1qtwqfPV6A9AxDWoeWGSELECjX/3VaaIC9HwF2+lNzyJJju601ka/R2PSk
-  SsRTPfBtL/zWjQk0xn16BIy5dYG6D5ZfP4ZfP4ZfM6ATwDKnQOk8HotDAmM60pKaE1mlL6kVK
-  6XKNmamlG7eJoluGc9CY1c5BTsxyn5g5ZnjXr1VbW2QtSt6N3bN15Ccy8e1cdAgoSU+XJ1r3j
-  1clX6Gz6Q0aGMx5wuMwsFwKrSVKFZPEKXifPcbAG1v2cyZy6wCUZkVLVKtnmopQs4+yMhTMZR
-  CkCHiPHPggGITlxJZz6jvs7ByB5xLfwCZTjVpuVVRbIZrekYpQQM7qs90qXLjsKCpW5MpCRkS
-  GX2lmHxeT8vx4DBSRQ5cpsQovUZHXeezuWmoWlZjnjR4VZTuY/SVmHNZFFm/aeezt/14oid8Q
-  7kSjjt93qbpt3PNPXWhx9/elRaWc1X/iGwbO2KtkQ7vZ+Ht7HKdzKAy/sfz5YYVm4Wu23g4hb
-  emd8ZKL+5OHa6gVtZX3DcIfd3+aaivXc2N0fyH8/cLRrI/nxHy81dDVqk2xUm7ldod5b8xDMD
-  q7HDcnAtrYNE9vbC06NPci5pu6TVeo9o3i+pubKnm9yBvVD0q7z1unY/pfz7l/pup3487gOh2
-  rlTMtlVfb83DEHKl2Z1/XKe3gl9CaKH29+cYMvvHP+99rdtWWfGupGx6b+8ftabyqi/sunrw+
-  Ph5p1H15ryLpY3B/9sf80Mbt5LbjwlArnjIzmYejgmH8BcK1KYVQEAAA=
-X-Env-Sender: markpearson@lenovo.com
-X-Msg-Ref: server-5.tower-715.messagelabs.com!1654275766!5960!2
-X-Originating-IP: [104.47.26.111]
-X-SYMC-ESS-Client-Auth: mailfrom-relay-check=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.86.7; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 31758 invoked from network); 3 Jun 2022 17:02:48 -0000
-Received: from mail-sgaapc01lp2111.outbound.protection.outlook.com (HELO APC01-SG2-obe.outbound.protection.outlook.com) (104.47.26.111)
-  by server-5.tower-715.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 3 Jun 2022 17:02:48 -0000
+        Fri, 3 Jun 2022 13:14:14 -0400
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2054.outbound.protection.outlook.com [40.107.93.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65BFF50B29
+        for <platform-driver-x86@vger.kernel.org>; Fri,  3 Jun 2022 10:14:12 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nCk/E4wc5r4icf3xSI+Ct+WERzi77HPD8wGKYohC1S52qm+Pu/qeBTNp3Uui4S88IT9Cjg0svySLzTLJ1eX81QQWuOab7Vuo+i+k1vOImsuyVBfGaGZP7p/17hvtwbreInn3F1eDXUQkN+xmZ6Csj29FL+RtwZxTOdavZYOrswULCOcGoBnNqvm/in5S2ruEj+2k/bkyUyd0nxvHmPPih+dZ7wwx6ysvkjlR9D1j/Bj477+WXAVaTv4+FvDuMZ+sNIhh/OHyLbr7plDd1TTAgHgqygChlOq97PLnGx1SJQxDwAaRXEvsPIrolElHZ3Wn0XVQIeI+fzyW0kQHlESvgw==
+ b=L+04H/35VM6QdLjJGnOv7tfFqJe18YzLOa87V++7ixTHOg31iRn6G9kZkd9xbbuI4jCuhaxbq7W7SnTzo89UMtfgO19wcrBV5a7eRQwhGntkO38CiFg6YilfaYTPPm+HRiwqT+YPlWSLaVHl2o/r7nAJiKooaofDYJsQRtBsiU3ur72RGvM4msjDGfQ9KJikE6WH1uqYFCOFvlgoVgyqk0lRVc4lDG2b/Nanx6uNk4zxQ981vR/78NSc899/suk2gV9HhuQ7d+YG10uFeCIv98pD0qBGJNhyd0WvbAKzoYTLfQm6sd1zQDxGJPQf3uys0onejKWn013n4sf5OxmjUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W5HasEbbVFfehRW1L8wY+7vaBIQCcPfG7zm1enN0GMc=;
- b=G0Dp7ww8nxmb72v8FB2OWbwLNyuK6hePr5T46K0oEFdyK1dg12RERrh/ni/QU+jxIF0123bm1ohPkitql0npEiEDhPCVzjJ9FhOy0hfrqfQtfbtVIxdxriBqlO+u/PQX0NwgI0dh1vrvMaZkI7IfpUDZqHhbavO+PCSDHQMvHsDKxjLYpcaX83JRSLHLF1EOYR7PoB8SJovBrORk064xG+BjkYGNtFyIuANTLpbI8oGcvashXjYBjDEZq/RyJXhHYMNpVNyKG1nAjzGzBn5qboWHUp9G9d1BGrV4xXqmEXvs7Fz3xpRmoOZRU3aToYbIxF0lVBcA/WouALa0RchO9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 104.232.225.7) smtp.rcpttodomain=redhat.com smtp.mailfrom=lenovo.com;
- dmarc=fail (p=none sp=none pct=100) action=none header.from=lenovo.com;
- dkim=none (message not signed); arc=none
-Received: from SL2P216CA0149.KORP216.PROD.OUTLOOK.COM (2603:1096:101:35::9) by
- HK0PR03MB4882.apcprd03.prod.outlook.com (2603:1096:203:bb::19) with Microsoft
+ bh=/QvXETnJL96bKKHv8DbAR1IYtSusc2yD1/L9Zbbp47Q=;
+ b=NIjwue6jTPB3WRjuTxRVCPKFcVWQDspGYVDDptbrwKZNLg9LqZKP3WWgSJfeQFchw9efRCm7lGNUs7JGqacH+Jdv+6FhLKmAyp37wiAWvz11kmwfefgYHoOLiUWdjOJVrAxQuWKttp32Pbliv2qgFBZpAyJhknQOeuMgDsxLZJSfKS7UQU1BfOSxUWEcR+E33teSWs6fJhkHCHOAoTIOeNKhAdQbZNkGn659QXVRyoqhrYftHXhjbB9OKtrLAWXvAJgnIpVCHbw5u7e5MovZasg81bXaNlAlVfVegw3zGXrM+skO49+bdbspY2S8hbtv4wABIHAg0QjgKkbC32m1YQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/QvXETnJL96bKKHv8DbAR1IYtSusc2yD1/L9Zbbp47Q=;
+ b=U+HVzTANPwuXsuAfErLqgYGBRCDTI3ZpeUncfNoceya0/q6f8WAYES9JUj1vLARsgeEhJXIxDG6zFLIRZ1gkWlil9UITqSEHgP363O4eVANIKcx6BgCwEagT9RrLZ0RuifVPYiS1sUc1g5yM3G1uO8V32D18SVPdODF6sDf0ckw=
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by DS0PR12MB6632.namprd12.prod.outlook.com (2603:10b6:8:d0::9) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5314.5; Fri, 3 Jun 2022 17:02:44 +0000
-Received: from PSAAPC01FT024.eop-APC01.prod.protection.outlook.com
- (2603:1096:101:35:cafe::cc) by SL2P216CA0149.outlook.office365.com
- (2603:1096:101:35::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.12 via Frontend
- Transport; Fri, 3 Jun 2022 17:02:44 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
- 104.232.225.7) smtp.mailfrom=lenovo.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=lenovo.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- lenovo.com discourages use of 104.232.225.7 as permitted sender)
-Received: from mail.lenovo.com (104.232.225.7) by
- PSAAPC01FT024.mail.protection.outlook.com (10.13.38.118) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5314.12 via Frontend Transport; Fri, 3 Jun 2022 17:02:43 +0000
-Received: from reswpmail01.lenovo.com (10.62.32.20) by mail.lenovo.com
- (10.62.123.117) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Fri, 3 Jun
- 2022 13:02:42 -0400
-Received: from z13.home (10.46.51.79) by reswpmail01.lenovo.com (10.62.32.20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Fri, 3 Jun
- 2022 13:02:40 -0400
-From:   Mark Pearson <markpearson@lenovo.com>
-To:     <markpearson@lenovo.com>
-CC:     <hdegoede@redhat.com>, <markgross@kernel.org>,
-        <platform-driver-x86@vger.kernel.org>,
-        Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH 4/4] platform/x86: thinkpad-acpi: Enable AMT by default on supported systems
-Date:   Fri, 3 Jun 2022 13:02:12 -0400
-Message-ID: <20220603170212.164963-4-markpearson@lenovo.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220603170212.164963-1-markpearson@lenovo.com>
+ 15.20.5314.15; Fri, 3 Jun 2022 17:14:10 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::3d0f:71a7:3a0f:ac2e]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::3d0f:71a7:3a0f:ac2e%6]) with mapi id 15.20.5314.013; Fri, 3 Jun 2022
+ 17:14:10 +0000
+From:   "Limonciello, Mario" <Mario.Limonciello@amd.com>
+To:     Mark Pearson <markpearson@lenovo.com>
+CC:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "markgross@kernel.org" <markgross@kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>
+Subject: RE: [PATCH 3/4] platform/x86: thinkpad-acpi: Add support for hotkey
+ 0x131a
+Thread-Topic: [PATCH 3/4] platform/x86: thinkpad-acpi: Add support for hotkey
+ 0x131a
+Thread-Index: AQHYd2vCF10sc/sGK0y9ws+t20IvAa096wdA
+Date:   Fri, 3 Jun 2022 17:14:10 +0000
+Message-ID: <MN0PR12MB6101B587428E030D96AAA127E2A19@MN0PR12MB6101.namprd12.prod.outlook.com>
 References: <markpearson@lenovo.com>
  <20220603170212.164963-1-markpearson@lenovo.com>
+ <20220603170212.164963-3-markpearson@lenovo.com>
+In-Reply-To: <20220603170212.164963-3-markpearson@lenovo.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=true;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2022-06-03T17:14:06Z;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=eb97474c-5d64-40dd-a10b-90506a43dca6;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=1
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_enabled: true
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_setdate: 2022-06-03T17:14:06Z
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_method: Standard
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_name: General
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_actionid: 35c46edb-e42f-46b5-943c-f40ce80ddbc7
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_contentbits: 0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 28fa6acd-5171-4c83-613d-08da4584795c
+x-ms-traffictypediagnostic: DS0PR12MB6632:EE_
+x-microsoft-antispam-prvs: <DS0PR12MB6632D336650E7A57B6427879E2A19@DS0PR12MB6632.namprd12.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: dkOEEQn4j5zeXQY053n8ARW2DUIj2po+XXELbT/C72G59P2PF7enHAgbDw7V1te7oRotumkkg+It+fsnbKo5vQLqH8MCKarbQzu/03Nwx6RPSn9NZRkaRLbTT9lSZvtRahWOMyWxCDucpSRdinEPQmkWWOP/wqxtMqzeJLtSN/9sthIXYQnDk28XtAi9wFjkuXE8JPuQFCDDzc4prBzk4yZjm4IoP5sg8VgIYxQz3DPR6JSexOfIEAtfJiJGUDXrDGYrzC4gO9ctyvRYeN5Z4BIFu0WuSCcgIIAzJvRZVwAeV01I9K6UWnNTD/OW2GZ0DFLBMO+TSRQKY7ZogxRYTRW4NdqARy6PRGUm4bVdtwH4zD/+EJo2RBiSSoxNiWFFNsDhN3WFPPXDJ/DyOMHwl1CEP+HxC4Q/yTLpC58rf3EiHm/T5wriYYKBQr1Ike1AbSN+aVcoAziZnqImkshcAKREUeaDhdRXJw4MW0UcJodhIxjn3ws+AMkyZJyIf6i41/DwetRtpSIhB6p0EsLaYszl1SiOL6d//4Tt90LfBweZHiKidfDUZNucWGHVjT9BKILUoq5184sIjJMaXvpxpdXQF877F7qSn3hA1kzPSJ85iPzbpvyXnuIbz7i7aUwlAOMj7bJ9q5UFinR9Dh8WcTnV2ejfe2W9PEJ/7GqoQih+ovZzmJKgYGPaVVPzX2cOnjNZeqYBhZaS/kwGJUyQDw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(186003)(53546011)(33656002)(122000001)(6916009)(54906003)(71200400001)(316002)(9686003)(38070700005)(26005)(2906002)(52536014)(7696005)(6506007)(86362001)(55016003)(508600001)(5660300002)(66476007)(83380400001)(38100700002)(66446008)(8936002)(64756008)(66556008)(8676002)(76116006)(4326008)(66946007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?E0EzY7JbHG5NNm0BxPEzJAQ/TAmNT1kadXSHMxRlrkhqPKLdibrHxxr3IrZ4?=
+ =?us-ascii?Q?BnA5GpdXLZVuXBhx5RVBYD1J6/fO4UYMmT2EnHhvmodMXBUA0y+0N2bNPsw8?=
+ =?us-ascii?Q?RBB6sUaCocFo1m6vwqTSUzlKm64CNWpN7D++vGb24kMSvB0aS3OSyyDnoIMd?=
+ =?us-ascii?Q?rCO3kY0yU0SmRkM7NHr2376+nu4ZuvOHZ+3Ay+cJYRrFOPgXG5IuUHtlpbIs?=
+ =?us-ascii?Q?LefijNaj+l0cOUuM+RFZ75Ci/mxl3257maYEbwvMjQtWNwz1si2mw46Z8egR?=
+ =?us-ascii?Q?9gKsIXqdZkVbKkkiDJuu3rETmCK3jmewefa7MZJA5L9w2yFZ+/FZkb29cSRh?=
+ =?us-ascii?Q?rGHG9tFWmRZCV+sj5FmTKKcdUW7CiIGqjprjSdxG9vhvVxxfSSjhiHvtB+xY?=
+ =?us-ascii?Q?KTRG+YUPXq82MXd2zNXbR+Nj5r3hxldLvmMdFrOpFixt9j8mBi/3aH+p8Oe9?=
+ =?us-ascii?Q?Imtcn937onHHS2aj//wJxKpDJsKtBlZ8meBGRVmNtcmurSiRh2yFIutjSSuD?=
+ =?us-ascii?Q?jZBGV7CAbPXGuOKdpiTn77xZ7QdBNOLqK7xrCvmlKoMR8t8pJVdAYlHxILe6?=
+ =?us-ascii?Q?5ASjfY7Kd9zUeTmwzAq1/VWv6WcX4ALGqna/qgkY7Y2aiANO758ZiRj6pEUY?=
+ =?us-ascii?Q?PzbLEmubhRBLRi3Icob2wx7PmNPrb3nFPOOIbPMBikN231rtp9u5c0bhArTE?=
+ =?us-ascii?Q?GoH26T82I6OK+pkM3u/PyFO3SxKxbXl82DPfsbYdQ+vqYtzTRBvhA/ED6TpX?=
+ =?us-ascii?Q?TCQqRgPiQsoNn1dv54UO230vqvStrk7SGP4i+I+P7buTL0iUaQ0t9vqYFSuF?=
+ =?us-ascii?Q?WyY+sHmOVsTTF41tIkvNgNL/OLYmBsrC9Fx6HPb7TNgDZL2evN/NEFXe1z0U?=
+ =?us-ascii?Q?0P9aSNDzr/xhPEIMsrDus7cdD5H+byassFpD7ZTUgmbwwmLN1bBR7Um4YxwL?=
+ =?us-ascii?Q?JWLG4vRvOWgx3GICr1tCYUsGVVuegBpffv1WZPGzm6ASCay8BPMPB16dVdPZ?=
+ =?us-ascii?Q?FrYyi4vaQxFTxK9iYDJNkxYQPmTdkFpvsLnEWFao0C+VlnJNtfWbM1Fek7Op?=
+ =?us-ascii?Q?tlceZKFpvkbDIYP6c7P6bD1FophRBEJ9fSv2/yl69sU9mEq1tcLZZ4IJI5YV?=
+ =?us-ascii?Q?SBQju14aUbeu2iBac+K+XmxkVsWdlwCNV3UteTzmXeEqJZDpPZ/89PFt5u46?=
+ =?us-ascii?Q?HX+8nn+NfMe/aRIIrg78fD10FYMg/4mfGz0TinsStJdG2ULjuWlrOLITmwF2?=
+ =?us-ascii?Q?kzL6YZZczHl+l8kUxzafO19WyRv4F3qvbbSsQwtN7i8U8CHkXevnATvNjqWh?=
+ =?us-ascii?Q?wUxxjTyTtT3ENcdXmlV4hOEgx49UayvlMiLCc9hH4CtNjsQYHc0bEx+3ggOJ?=
+ =?us-ascii?Q?hlV/0zi6IWlCieB40zSrqDtFv70y2nRaUOGmmJ6TntKT15vM7+JkUnTWnQTY?=
+ =?us-ascii?Q?Av/DU5AHgEBAbfPkGqTKkvP3y4Scw/ruSRJFLCyn+pX1cBTBjRQ9VQIW+pqD?=
+ =?us-ascii?Q?LRTAuHraECzQ+P4ofmwADAI+LLC9MxaOF5J7v09dukRPcfiRcCM4oTzpcpQY?=
+ =?us-ascii?Q?P7arRfr4P4kG8yff95OjEdvgUNe6XTPU7W716dBZ0HtPc5x89E7s1je5kYt0?=
+ =?us-ascii?Q?qkrVGMlm0OX1SyoGupd2h3GV2mHuzct3nY04cLSNiIvufzBJowDPiU6X1eCL?=
+ =?us-ascii?Q?kOj2itVw4hfou6ezNsxg0nGGKxfWH7KU3kD/ti5G9Opzb9Df?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.46.51.79]
-X-ClientProxiedBy: reswpmail04.lenovo.com (10.62.32.23) To
- reswpmail01.lenovo.com (10.62.32.20)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0c558c70-3cfc-48c1-d466-08da4582e0b4
-X-MS-TrafficTypeDiagnostic: HK0PR03MB4882:EE_
-X-LD-Processed: 5c7d0b28-bdf8-410c-aa93-4df372b16203,ExtAddr
-X-Microsoft-Antispam-PRVS: <HK0PR03MB48823FDA4C4A21B2D265B545C5A19@HK0PR03MB4882.apcprd03.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +jGA0Az2LhW+bXK+ByL6UiyQ1+L0h6Y3F5g8i9uk1UvxEGA7xy0bS6dhT0emFJzbL1NsDN8g1crATcBVe2MTiK35fKUjoZ1088uNeCRz7r9/60RDCQ89l36UseAx0yD/jlazzJxmTwxns5DXdJLDu0j7rRIlgJEOfZ2NFtOiclJIqqVHYvBXYntlcRn55OR2nhPq36/ICT6xceLKN280zACSp6dONFWS5cKSK0+hSYlpcyyu5K2Q8E72n+q8RB/OQzeIQhfhHc+Z6px4lQNhBWyCaUfDLZ5gfyEt9hK3T3wgfk8dKIPjOWX0BTpYKcNXFZqf8Up4u5mEMumotbvrEKG6rTPdZ2grYWK6m09i2aRk5zm/IMikSqgobhvy8g1IqleI/SYjNb7heGFyVSjPloBBLDyH31uy9OB4Rnuud8Mz/iv9zjuErDCXTeqTytCyQ6vDUMCNkpG8AE5em1LGrMad567wwOCcTgSULN+lSr8mjo/Esk/pAwE8BK+9E7bvyvOpE3XxBS/s3M+yXzY/WOj2+f3z0WmdeH/Wc2zqtTTZEIIgebad4g/SLPzBmmphgENhAOZ6DJubvDcGWWb8jZ+sTdnCZj2Q+QD3trDd92rLSl93EZn1ORLlUl62TaneChk92F5VDuHw4mS2vathaWKyOMd/V5ciE3Q8eM3zv7LMCidyMnuS9D0V38emww+eEyrZ9DdAdzMb++6m0pxfpw==
-X-Forefront-Antispam-Report: CIP:104.232.225.7;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.lenovo.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(426003)(36756003)(356005)(7049001)(2616005)(82960400001)(316002)(36906005)(36860700001)(6666004)(81166007)(82310400005)(70206006)(5660300002)(54906003)(336012)(47076005)(37006003)(40460700003)(8936002)(8676002)(1076003)(6200100001)(16526019)(6862004)(508600001)(2906002)(26005)(4326008)(86362001)(186003)(70586007)(36900700001);DIR:OUT;SFP:1102;
-X-OriginatorOrg: lenovo.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2022 17:02:43.9984
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28fa6acd-5171-4c83-613d-08da4584795c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jun 2022 17:14:10.0286
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c558c70-3cfc-48c1-d466-08da4582e0b4
-X-MS-Exchange-CrossTenant-Id: 5c7d0b28-bdf8-410c-aa93-4df372b16203
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5c7d0b28-bdf8-410c-aa93-4df372b16203;Ip=[104.232.225.7];Helo=[mail.lenovo.com]
-X-MS-Exchange-CrossTenant-AuthSource: PSAAPC01FT024.eop-APC01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR03MB4882
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1FMNHv2xDlBUKCLCxaobxWr0NjiqoiZKQEYMrMWtRLfzwt5Kv8MhL0O2TKxGi4kGxNkF2+0+01g7EWpu3wBBJg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6632
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -141,36 +138,89 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-By default the ACPI platform profile starts in balanced mode.  On
-supported systems AMT is supposed to be enabled in balanced mode
-by default.
+[AMD Official Use Only - General]
 
-When checking the capabilities during initialization, set up AMT to be
-enabled if it's supported.
 
-Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-Signed-off-by: Mark Pearson <markpearson@lenovo.com>
----
- drivers/platform/x86/thinkpad_acpi.c | 5 +++++
- 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index f11866225ef3..ae819ece9900 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -10597,6 +10597,11 @@ static int tpacpi_dytc_profile_init(struct ibm_init_struct *iibm)
- 	/* Ensure initial values are correct */
- 	dytc_profile_refresh();
- 
-+	/* Set AMT correctly now we know current profile */
-+	if ((dytc_capabilities & BIT(DYTC_FC_PSC)) &&
-+	    (dytc_capabilities & BIT(DYTC_FC_AMT)))
-+	    dytc_control_amt(dytc_current_profile == PLATFORM_PROFILE_BALANCED);
-+
- 	return 0;
- }
- 
--- 
-2.36.1
+> -----Original Message-----
+> From: Mark Pearson <markpearson@lenovo.com>
+> Sent: Friday, June 3, 2022 12:02
+> To: markpearson@lenovo.com
+> Cc: hdegoede@redhat.com; markgross@kernel.org; platform-driver-
+> x86@vger.kernel.org; Limonciello, Mario <Mario.Limonciello@amd.com>
+> Subject: [PATCH 3/4] platform/x86: thinkpad-acpi: Add support for hotkey
+> 0x131a
+>=20
+> On some AMD platforms if you press FN+T it will toggle whether automatic
+> mode transitions are active.
+>=20
+> Recognize this keycode and use it to toggle AMT.
+>=20
+> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Mark Pearson <markpearson@lenovo.com>
+> ---
+>  drivers/platform/x86/thinkpad_acpi.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>=20
+> diff --git a/drivers/platform/x86/thinkpad_acpi.c
+> b/drivers/platform/x86/thinkpad_acpi.c
+> index 2df290cee0a1..f11866225ef3 100644
+> --- a/drivers/platform/x86/thinkpad_acpi.c
+> +++ b/drivers/platform/x86/thinkpad_acpi.c
+> @@ -159,6 +159,7 @@ enum tpacpi_hkey_event_t {
+>  	TP_HKEY_EV_VOL_DOWN		=3D 0x1016, /* Volume down or
+> unmute */
+>  	TP_HKEY_EV_VOL_MUTE		=3D 0x1017, /* Mixer output
+> mute */
+>  	TP_HKEY_EV_PRIVACYGUARD_TOGGLE	=3D 0x130f, /* Toggle priv.guard
+> on/off */
+> +	TP_HKEY_EV_AMT_TOGGLE		=3D 0x131a, /* Toggle AMT
+> on/off */
+>=20
+>  	/* Reasons for waking up from S3/S4 */
+>  	TP_HKEY_EV_WKUP_S3_UNDOCK	=3D 0x2304, /* undock
+> requested, S3 */
+> @@ -3735,6 +3736,7 @@ static bool hotkey_notify_extended_hotkey(const
+> u32 hkey)
+>=20
+>  	switch (hkey) {
+>  	case TP_HKEY_EV_PRIVACYGUARD_TOGGLE:
+> +	case TP_HKEY_EV_AMT_TOGGLE:
+>  		tpacpi_driver_event(hkey);
+>  		return true;
+>  	}
+> @@ -11038,6 +11040,15 @@ static void tpacpi_driver_event(const unsigned i=
+nt
+> hkey_event)
+>  		if (changed)
+>=20
+> 	drm_privacy_screen_call_notifier_chain(lcdshadow_dev);
+>  	}
+> +	if (hkey_event =3D=3D TP_HKEY_EV_AMT_TOGGLE) {
+> +		/* If we're enabling AMT we need to force balanced mode */
+> +		if (!dytc_amt_active)
+> +			/* This will also set AMT mode enabled */
+> +			dytc_profile_set(NULL,
+> PLATFORM_PROFILE_BALANCED);
+> +		else
+> +			dytc_control_amt(!dytc_amt_active);
 
+I missed this while we were making the series, but a fresh set of eyes tell=
+s me
+shouldn't dytc_control_amt(..)  run in either case - not just in the "else"=
+ case?
+
+* If AMT is not active and you press the key (to activate it) you=20
+should switch to balanced mode "and" turn it on.
+* If AMT is active and you press the key (to deactivate it) you're already =
+in=20
+balanced mode, so you should just turn it off.
+
+> +	}
+> +
+>  }
+>=20
+>  static void hotkey_driver_event(const unsigned int scancode)
+> --
+> 2.36.1
