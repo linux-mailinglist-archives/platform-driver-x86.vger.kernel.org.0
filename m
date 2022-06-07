@@ -2,133 +2,148 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4491953F9E1
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 Jun 2022 11:34:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFBEC53F94E
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 Jun 2022 11:16:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234297AbiFGJeP (ORCPT
+        id S239206AbiFGJQw (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 7 Jun 2022 05:34:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60590 "EHLO
+        Tue, 7 Jun 2022 05:16:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239176AbiFGJeN (ORCPT
+        with ESMTP id S239182AbiFGJQr (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 7 Jun 2022 05:34:13 -0400
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A6741C939
-        for <platform-driver-x86@vger.kernel.org>; Tue,  7 Jun 2022 02:34:09 -0700 (PDT)
-Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-edeb6c3642so22455555fac.3
-        for <platform-driver-x86@vger.kernel.org>; Tue, 07 Jun 2022 02:34:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=ohM259uqobJqtM7gttWurWj7P+4iDfPJquHax95olDY=;
-        b=KjKOLTuVP/QAf9yH8iPuuU/x6DeKYvDoO2kd21ZDgmKT03P3TujSiuChwLy76VmkEu
-         mvlpNk7wxttEfoG7OzCYvnEvX+b0+4YUs/nxfLxIZrF1+B3Uj34cKOr944BljsBdyBfR
-         hbM4xviWDxlvEE2dAjvBA/1hwVpYir9ZTzmm36jE4J6vhnY/Bha+1v8oD9HDELc0YZ/A
-         LzUqCIA+p9vcnoxLVqvZGvBTYaPy7O03uFH8rgtd9hYo7SK29FmQOUziLkceOOozaHRk
-         giP15UzqazPmkirENyunOArKoheiK7IObLq32O13/LCN+KFtwUB5lVGJUWgdvv6AbFwR
-         fJPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=ohM259uqobJqtM7gttWurWj7P+4iDfPJquHax95olDY=;
-        b=SGwScc25PHEE1/u7OdK8ljY2vfa9ywn0dYa9+FtdjPEjzlpYIM4DFzXvnVS83s80sQ
-         nfe/6mOazLhXJ5zenZ0tIV/QM9X4qa7WShiTlXYX5J96Ch5oOJKjWw9HQieUcTOE2go+
-         scnqKSAD/FWO5Xo3jYRbZda6k7/SwvMoww6fhAlG8ZfdAN/6L8HvxxjaWEaNBUw0x1S0
-         YUgx6/GUvVqE3kinTFw/csXvvxXCWwWlPTQm8FNGKFJf6kuZlRS2Nv7fqLa5K0c3w5Ks
-         KmCzTlSg0zMwSD+xrfiW2WBB8jCQ7rqHXPMtSzlY3X/zLDSwz5buaWVwDyn6HkzxLy2I
-         enAg==
-X-Gm-Message-State: AOAM532y9OJk/toMd4/PrhZiJPDvHbGzFqXbmCIq0/PlpyB0jKy2Xjsq
-        bhSQxDB5PyN4tV4tUBnnh7CymGgeTm0vqam3HgU=
-X-Google-Smtp-Source: ABdhPJzPuYhrAb27uNBTRB+tm5UX6G4/G//vGm2Rl7BPctzuqMmOzshbGpr2jaKLmyFzPARSFVGO8TXVf5EsZCHCbFA=
-X-Received: by 2002:a05:6870:b41b:b0:f2:c8c7:b30a with SMTP id
- x27-20020a056870b41b00b000f2c8c7b30amr32691784oap.22.1654594448529; Tue, 07
- Jun 2022 02:34:08 -0700 (PDT)
+        Tue, 7 Jun 2022 05:16:47 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F3EDB0D00;
+        Tue,  7 Jun 2022 02:16:44 -0700 (PDT)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LHPmC185MzRp5T;
+        Tue,  7 Jun 2022 17:13:31 +0800 (CST)
+Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 7 Jun 2022 17:16:42 +0800
+Received: from localhost.localdomain (10.175.112.125) by
+ dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 7 Jun 2022 17:16:40 +0800
+From:   Wupeng Ma <mawupeng1@huawei.com>
+To:     <corbet@lwn.net>, <will@kernel.org>, <ardb@kernel.org>,
+        <catalin.marinas@arm.com>
+CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+        <dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+        <dvhart@infradead.org>, <andy@infradead.org>, <rppt@kernel.org>,
+        <akpm@linux-foundation.org>, <paul.walmsley@sifive.com>,
+        <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
+        <paulmck@kernel.org>, <keescook@chromium.org>,
+        <songmuchun@bytedance.com>, <rdunlap@infradead.org>,
+        <damien.lemoal@opensource.wdc.com>, <swboyd@chromium.org>,
+        <wei.liu@kernel.org>, <robin.murphy@arm.com>, <david@redhat.com>,
+        <mawupeng1@huawei.com>, <anshuman.khandual@arm.com>,
+        <thunder.leizhen@huawei.com>, <wangkefeng.wang@huawei.com>,
+        <gpiccoli@igalia.com>, <chenhuacai@kernel.org>,
+        <geert@linux-m68k.org>, <chenzhou10@huawei.com>,
+        <vijayb@linux.microsoft.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-efi@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
+        <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>
+Subject: [PATCH v3 0/6] introduce mirrored memory support for arm64
+Date:   Tue, 7 Jun 2022 17:37:59 +0800
+Message-ID: <20220607093805.1354256-1-mawupeng1@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:a05:6358:99a5:b0:a2:a1fa:9308 with HTTP; Tue, 7 Jun 2022
- 02:34:08 -0700 (PDT)
-Reply-To: robertbaileys_spende@aol.com
-From:   Robert Baileys <mercymiji.j@gmail.com>
-Date:   Tue, 7 Jun 2022 11:34:08 +0200
-Message-ID: <CAAD1zObf1QRSpvefhLk-vDU1+buEz4S12HYauiaRggn5nne+pA@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY autolearn=no
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.112.125]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500014.china.huawei.com (7.185.36.153)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2001:4860:4864:20:0:0:0:36 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [mercymiji.j[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.3 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  0.6 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
---=20
-Hallo, lieber Beg=C3=BCnstigter,
+From: Ma Wupeng <mawupeng1@huawei.com>
 
-Sie haben diese E-Mail von der Robert Bailey Foundation erhalten. Ich
-bin ein pensionierter Regierungsangestellter aus Harlem und ein
-Powerball-Lotterie-Jackpot-Gewinner von 343,8 Millionen Dollar. Ich
-bin der gr=C3=B6=C3=9Fte Jackpot-Gewinner in der Geschichte der New York Lo=
-ttery
-in Amerika. Ich habe diesen Wettbewerb am 27. Oktober 2018 gewonnen
-und m=C3=B6chte Ihnen mitteilen, dass Google in Kooperation mit Microsoft
-Ihre "E-Mail-Adresse" f=C3=BCr meine Anfrage hat und diese 3.000.000,00
-Millionen Euro kosten wird. Ich spende diese 3 Millionen Euro an Sie,
-um auch Wohlt=C3=A4tigkeitsorganisationen und armen Menschen in Ihrer
-Gemeinde zu helfen, damit wir die Welt zu einem besseren Ort f=C3=BCr alle
-machen k=C3=B6nnen. Bitte besuchen Sie die folgende Website f=C3=BCr weiter=
-e
-Informationen, damit Sie diesen 3 Mio. EUR Ausgaben nicht skeptisch
-gegen=C3=BCberstehen.
-https://nypost.com/2018/11/14/meet-the-winner-of-the-biggest-lottery-jackpo=
-t-in-new-york-history/Sie
-Weitere Best=C3=A4tigungen kann ich auch auf meinem Youtube suchen:
-https://www.youtube.com/watch?v=3DH5vT18Ysavc
-Bitte antworten Sie mir per E-Mail (robertbaileys_spende@aol.com).
-Sie m=C3=BCssen diese E-Mail sofort beantworten, damit die =C3=BCberweisend=
-e
-Bank mit dem Erhalt dieser Spende in H=C3=B6he von 3.000.000,00 Millionen
-Euro beginnen kann.
-Bitte kontaktieren Sie die untenstehende E-Mail-Adresse f=C3=BCr weitere
-Informationen, damit Sie diese Spende von der =C3=BCberweisenden Bank
-erhalten k=C3=B6nnen. E-Mail: robertbaileys_spende@aol.com
+Commit b05b9f5f9dcf ("x86, mirror: x86 enabling - find mirrored memory ranges")
+introduced mirrored memory support for x86. This support rely on UEFI to
+report mirrored memory address ranges.  See UEFI 2.5 spec pages 157-158:
 
-Gr=C3=BC=C3=9Fe,
-Robert Bailey
-* * * * * * * * * * * * * * * *
+  http://www.uefi.org/sites/default/files/resources/UEFI%202_5.pdf
 
-Powerball-Jackpot-Gewinner
-E-Mail: robertbaileys_spende@aol.com
+Memory mirroring is a technique used to separate memory into two separate
+channels, usually on a memory device, like a server. In memory mirroring,
+one channel is copied to another to create redundancy. This method makes
+input/output (I/O) registers and memory appear with more than one address
+range because the same physical byte is accessible at more than one
+address. Using memory mirroring, higher memory reliability and a higher
+level of memory consolidation are possible.
+
+These EFI memory regions have various attributes, and the "mirrored"
+attribute is one of them. The physical memory region whose descriptors
+in EFI memory map has EFI_MEMORY_MORE_RELIABLE attribute (bit: 16) are
+mirrored. The address range mirroring feature of the kernel arranges such
+mirrored regions into normal zones and other regions into movable zones.
+
+Arm64 can support this too. So mirrored memory support is added to support
+arm64.
+
+The main purpose of this patch set is to introduce mirrored support for
+arm64 and we have already fixed the problems we had which is shown in
+patch #5 to patch #8 and try to bring total isolation in patch #9 which
+will disable mirror feature if kernelcore is not specified.
+
+In order to test this support in arm64:
+- patch this patch set
+- add kernelcore=mirror in kernel parameter
+- start you kernel
+
+Patch #1-#2 introduce mirrored memory support form arm64.
+Patch #3-#5 fix some bugs for arm64 if memory reliable is enabled.
+Patch #6 disable mirror feature if kernelcore is not specified.
+
+Thanks to Ard Biesheuvel's hard work [1], now kernel will perfer mirrored
+memory if kaslr is enabled.
+
+[1] https://lore.kernel.org/linux-arm-kernel/CAMj1kXEPVEzMgOM4+Yj6PxHA-jFuDOAUdDJSiSxy_XaP4P7LSw@mail.gmail.com/T/
+
+Changelog since v2:
+- remove efi_fake_mem support
+- remove Commit ("remove some redundant code in ia64 efi_init") since
+  efi_print_memmap() is not public
+- add mirror flag back on initrd memory
+
+Changelog since v1:
+- update changelog in cover letter
+- use PHYS_PFN in patch #7
+
+Ma Wupeng (6):
+  efi: Make efi_find_mirror() public
+  arm64/mirror: arm64 enabling - find mirrored memory ranges
+  mm: Ratelimited mirrored memory related warning messages
+  mm: Demote warning message in vmemmap_verify() to debug level
+  mm: Add mirror flag back on initrd memory
+  efi: Disable mirror feature if kernelcore is not specified
+
+ .../admin-guide/kernel-parameters.txt         |  2 +-
+ arch/arm64/kernel/setup.c                     |  1 +
+ arch/arm64/mm/init.c                          |  9 +++++++
+ arch/x86/include/asm/efi.h                    |  4 ---
+ arch/x86/platform/efi/efi.c                   | 23 ----------------
+ drivers/firmware/efi/efi.c                    | 26 +++++++++++++++++++
+ include/linux/efi.h                           |  3 +++
+ include/linux/memblock.h                      |  1 +
+ include/linux/mm.h                            |  2 ++
+ mm/memblock.c                                 | 24 +++++++++++++++--
+ mm/page_alloc.c                               |  2 +-
+ mm/sparse-vmemmap.c                           |  2 +-
+ 12 files changed, 67 insertions(+), 32 deletions(-)
+
+-- 
+2.25.1
+
