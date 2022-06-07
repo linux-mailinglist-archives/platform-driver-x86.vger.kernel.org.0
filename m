@@ -2,61 +2,63 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D00654258E
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jun 2022 08:54:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 910665424EC
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jun 2022 08:53:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356853AbiFHBbF (ORCPT
+        id S1380503AbiFHAiY (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 7 Jun 2022 21:31:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52894 "EHLO
+        Tue, 7 Jun 2022 20:38:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1389692AbiFHB2x (ORCPT
+        with ESMTP id S1574588AbiFGXZz (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 7 Jun 2022 21:28:53 -0400
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A35BA30D915
-        for <platform-driver-x86@vger.kernel.org>; Tue,  7 Jun 2022 13:43:15 -0700 (PDT)
-Received: by mail-oi1-x230.google.com with SMTP id w16so15611154oie.5
-        for <platform-driver-x86@vger.kernel.org>; Tue, 07 Jun 2022 13:43:15 -0700 (PDT)
+        Tue, 7 Jun 2022 19:25:55 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28CCB401BF5
+        for <platform-driver-x86@vger.kernel.org>; Tue,  7 Jun 2022 14:37:06 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id p8so16626022pfh.8
+        for <platform-driver-x86@vger.kernel.org>; Tue, 07 Jun 2022 14:37:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=EjwV2W94o8gcJXSCbcVxSj8joAYvl6gC9y3qsKhwzXk=;
-        b=e9Qjos6qJj1vQE+TFifVKPPU4Q3sngoBncMy3lu1Bg1NCAkXfsEy3Ojt8WKyML5wiK
-         3JwbrWozbBKpYXuyaugBUbEjWpjpUEEJdOvVBx6nF03BHlNF9M2hWVUhjCuYQG8GuReo
-         CnDbWcY/IZw/1ejZJbWaT9j/IgWh9LggTDTAIhSBnwlnWc69iTYvXmKOj++4lwQRuReC
-         woIdoyprC5+ZQIvz/SKYgohGDuXD152677yxyqeFHqVQAPBfHRoeCJVlVcYgHGp2yJj0
-         Malitv//TWc3XOTTnVBoI0bKczdc0tPo7qlEoCPfh5BWXx5HaP9fTZ8SdZwmKYBo6sRY
-         o51w==
+        bh=DTvYG6vUXmBDPGSvzYQyN/7uYcWQjt7gPfq8E7HXzmo=;
+        b=aoGH1BTPYJprtHOp06snSR7UZAY6VNv3KrAzVMglRz31rZNoIErpXeq9l47Y/aFsTo
+         SAYMq9BP8bLIoSRM3lYNGAtRcDkYVWL0sSoPt+eDlr36jmsFGcNm/xIOj/NAbsYFW7EA
+         SAREov9YjSzsU6DUWadRTdAf39sMRN+5GqjnmN3ud6qL1oIrdiAt6r65c/Rwegs/Xora
+         NszvPPtJKzHI6z2eKu5+KvbqpJhdVbIdKQiO/HX6c2WUa6sn0Qk28BTKqSmTKjQZyZpW
+         2glCpxd7Xkwane+TvVGotOd6pBm0tpaJGVuxORJmPDLOzg7YXMXW3AJrkk7sfVGJKjnf
+         01pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=EjwV2W94o8gcJXSCbcVxSj8joAYvl6gC9y3qsKhwzXk=;
-        b=5kX5sO/9m26w2gY4O5M5ANykuoggUGc8n17/JBNAP/jTs5TQwMSTXHtUpxLTVjuGvi
-         Q2pYK/ZMSRGnvmMZTmK+LEaj1jvNe81tQKM9mindUqD69WhmvnOFWhn0Os1kiu4a64nB
-         eltdSBZueDxSu9wg6f5IpDTcYDUaMZvndmUjdcJWNtOzAEkTctXHiyywRD4SGOZ+Upd7
-         l56+nkg1y3CkPNqtlu9reCuqPgnjP+ktoOYUQrXfxo/TvxYvE7Yd2o7hUnKtd3hRF5y9
-         9aMJWnRqvzCpGQ1cLkf/egpMtTN4PFTwcxBl9/Q0sSrNcxEchmHH8W6FTtR/8U26w70M
-         stkQ==
-X-Gm-Message-State: AOAM533zwGhqh6TayyyWEyvrclFq3bgQbHd0dzN4zw4yaAknIkYjixw7
-        Uz77EOXyklZf6YUVJgA0DgjKvGiObPM=
-X-Google-Smtp-Source: ABdhPJypqnX2GJ5PMbbkP7c6jNf0S/E7LYFqcBziem83LpyeVvGndKqypXR8zkca5O3Oh52Amx4Ayw==
-X-Received: by 2002:a05:6808:1919:b0:32e:6d83:d72 with SMTP id bf25-20020a056808191900b0032e6d830d72mr465477oib.13.1654634594791;
-        Tue, 07 Jun 2022 13:43:14 -0700 (PDT)
-Received: from grumpy-vm.hsd1.tx.comcast.net ([2601:2c3:480:7390:5209:73c:4f88:a572])
-        by smtp.gmail.com with ESMTPSA id nd24-20020a056871441800b000f44c6041e1sm8595962oab.50.2022.06.07.13.43.13
-        for <platform-driver-x86@vger.kernel.org>
+        bh=DTvYG6vUXmBDPGSvzYQyN/7uYcWQjt7gPfq8E7HXzmo=;
+        b=qwOKhlqNvDDWP7sM+8IMne853zy46/AF0Ao5ZQrLqfnkwIHF1kVIzZybBhPiaCF+LE
+         /J0FdFG1Q5BEHP6QflZSuuExHhzKrlKP+xDnBhdNaUDCD/QC3l6NY+Noj1j2BptHKEOV
+         0gpCSrh78Z2lvg4b8p6FNNtF6AxC58PlCUiRFKjLFs05tzoaPqHodcvSszzi8SIIHGzS
+         y9DMuUrptRELveuzoY7UKRCrOjtSZzU6BcOyaM47scoDj1Rb7HRzrWHi+Pwluhi3mA2a
+         zIMwwofJD85WyBcFSXx8lSLLeJnDaTsTljBt4hMkQYmytWSq22GTF8qcQC+7rUzXlYEA
+         yTtw==
+X-Gm-Message-State: AOAM531eOcc2RUHTRnODFFEKZiBBksjJYjopesq660MRoS5QUU0jE/Xt
+        NabDGCld1moQC5VZYPwCUO4=
+X-Google-Smtp-Source: ABdhPJzPbjvaiyFqmdg0Q4BymFeLVQIjhP7Z7BdnCj9RG2+ZLzBshbl88XCyduEwYTooUwS20ikwYA==
+X-Received: by 2002:a63:894a:0:b0:3fc:a724:578c with SMTP id v71-20020a63894a000000b003fca724578cmr27432205pgd.499.1654637826176;
+        Tue, 07 Jun 2022 14:37:06 -0700 (PDT)
+Received: from chopin.mithril (ip72-220-159-98.sd.sd.cox.net. [72.220.159.98])
+        by smtp.gmail.com with ESMTPSA id v12-20020a170902b7cc00b00163f2fe1e64sm13051844plz.255.2022.06.07.14.37.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 13:43:14 -0700 (PDT)
-From:   Jorge Lopez <jorgealtxwork@gmail.com>
-X-Google-Original-From: Jorge Lopez <jorge.lopez2@hp.com>
-To:     platform-driver-x86@vger.kernel.org
-Subject: [PATCH] Resolve WMI query failures on some devices
-Date:   Tue,  7 Jun 2022 15:43:13 -0500
-Message-Id: <20220607204313.5374-1-jorge.lopez2@hp.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 07 Jun 2022 14:37:05 -0700 (PDT)
+From:   Duke Lee <krnhotwings@gmail.com>
+To:     Alex Hung <alex.hung@canonical.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        platform-driver-x86@vger.kernel.org,
+        Duke Lee <krnhotwings@gmail.com>
+Subject: [PATCH] platform/x86/intel: hid: Add Surface Go to VGBS allow list
+Date:   Tue,  7 Jun 2022 14:36:54 -0700
+Message-Id: <20220607213654.5567-1-krnhotwings@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -69,67 +71,35 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-WMI queries fail on some devices where the ACPI method HWMC
-unconditionally attempts to create Fields beyond the buffer
-if the buffer is too small, this breaks essential features
-such as power profiles:
+The Surface Go reports Chassis Type 9 (Laptop,) so the device needs to be
+added to dmi_vgbs_allow_list to enable tablet mode when an attached Type
+Cover is folded back.
 
-         CreateByteField (Arg1, 0x10, D008)
-         CreateByteField (Arg1, 0x11, D009)
-         CreateByteField (Arg1, 0x12, D010)
-         CreateDWordField (Arg1, 0x10, D032)
-         CreateField (Arg1, 0x80, 0x0400, D128)
+Relevant bug report and discussion:
+https://github.com/linux-surface/linux-surface/issues/837
 
-In cases where args->data had zero length, ACPI BIOS Error
-(bug): AE_AML_BUFFER_LIMIT, Field [D008] at bit
-offset/length 128/8 exceeds size of target Buffer (128 bits)
-(20211217/dsopcode-198) was obtained.
-
-ACPI BIOS Error (bug): AE_AML_BUFFER_LIMIT, Field [D009] at bit
-offset/length 136/8 exceeds size of target Buffer (136bits)
-(20211217/dsopcode-198)
-
-The original code created a buffer size of 128 bytes regardless if
-the WMI call required a smaller buffer or not.  This particular
-behavior occurs in older BIOS and reproduced in OMEN laptops.  Newer
-BIOS handles buffer sizes properly and meets the latest specification
-requirements.  This is the reason why testing with a dynamically
-allocated buffer did not uncover any failures with the test systems at
-hand.
-
-This patch was tested on several OMEN, Elite, and Zbooks.  It was
-confirmed the patch resolves HPWMI_FAN GET/SET calls in an OMEN
-Laptop 15-ek0xxx.  No problems were reported when testing on several Elite
-and Zbooks notebooks.
-
-Signed-off-by: Jorge Lopez <jorge.lopez2@hp.com>
-
+Signed-off-by: Duke Lee <krnhotwings@gmail.com>
 ---
-Based on the latest platform-drivers-x86.git/for-next
----
- drivers/platform/x86/hp-wmi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/platform/x86/intel/hid.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/platform/x86/hp-wmi.c b/drivers/platform/x86/hp-wmi.c
-index 0e9a25b56e0e..7bcfa07cc6ab 100644
---- a/drivers/platform/x86/hp-wmi.c
-+++ b/drivers/platform/x86/hp-wmi.c
-@@ -292,12 +292,14 @@ static int hp_wmi_perform_query(int query, enum hp_wmi_command command,
- 	struct bios_args *args = NULL;
- 	int mid, actual_outsize, ret;
- 	size_t bios_args_size;
-+	int actual_insize;
+diff --git a/drivers/platform/x86/intel/hid.c b/drivers/platform/x86/intel/hid.c
+index 216d31e3403d..79cff1fc675c 100644
+--- a/drivers/platform/x86/intel/hid.c
++++ b/drivers/platform/x86/intel/hid.c
+@@ -122,6 +122,12 @@ static const struct dmi_system_id dmi_vgbs_allow_list[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "HP Spectre x360 Convertible 15-df0xxx"),
+ 		},
+ 	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Microsoft Corporation"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Surface Go"),
++		},
++	},
+ 	{ }
+ };
  
- 	mid = encode_outsize_for_pvsz(outsize);
- 	if (WARN_ON(mid < 0))
- 		return mid;
- 
--	bios_args_size = struct_size(args, data, insize);
-+	actual_insize = max(insize, 128);
-+	bios_args_size = struct_size(args, data, actual_insize);
- 	args = kmalloc(bios_args_size, GFP_KERNEL);
- 	if (!args)
- 		return -ENOMEM;
 -- 
-2.25.1
+2.36.1
 
