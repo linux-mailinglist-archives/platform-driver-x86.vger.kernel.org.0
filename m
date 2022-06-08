@@ -2,57 +2,58 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD688543CD9
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jun 2022 21:29:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F65F543CE6
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jun 2022 21:31:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235444AbiFHT26 (ORCPT
+        id S232223AbiFHTbP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 Jun 2022 15:28:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33566 "EHLO
+        Wed, 8 Jun 2022 15:31:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235442AbiFHT25 (ORCPT
+        with ESMTP id S229830AbiFHTbO (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 Jun 2022 15:28:57 -0400
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A566E1BBACD
-        for <platform-driver-x86@vger.kernel.org>; Wed,  8 Jun 2022 12:28:56 -0700 (PDT)
-Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-3137c877092so19725827b3.13
-        for <platform-driver-x86@vger.kernel.org>; Wed, 08 Jun 2022 12:28:56 -0700 (PDT)
+        Wed, 8 Jun 2022 15:31:14 -0400
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D360A1E734A
+        for <platform-driver-x86@vger.kernel.org>; Wed,  8 Jun 2022 12:31:13 -0700 (PDT)
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-3137c877092so19786097b3.13
+        for <platform-driver-x86@vger.kernel.org>; Wed, 08 Jun 2022 12:31:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=hycE+c4GAVzLjEPq9KDawunvbRo0DGeEFzP1XH9fj10=;
-        b=eDrWO0s9anS7W9YINJzPSTQrvgB0sCbebfya9U2d/1e6qIVDaZprszYjONj4pgSwHw
-         SAEeFeC7oqX1VekcwlYXRoFRwO0ZF8Uq0qQ4G8bOXaZY0pTO7GPO7cFMcbSv/P1GP+2x
-         sV1WT9Ydb2BliyS+QpBi4IFvZtu+HBIwAksuiqKRbX21J34JUK4LvgYHWR3LUYFV0lRW
-         H1N1DKWc1tskqqbVOjaHJCeNr1cKADa1xrXx24ju7xyEBTMTGqSlghn3YaHJP+Q4pq4K
-         7dWhJL7ICS/+TW4L9AvOkC4f1JOBwh/RImYjJv3tNYgP9gSZIfENWyEhhdaJKrVkWyAx
-         yCTw==
+        bh=ETpLC3cy51Fj5+hyz5IIgCxtJmcDgr2Kfn962MlmfOQ=;
+        b=UA16HsDRORGXNGF3XVvUm5CTyMZ6qheiG7w9rptlVWi5bNCEk865lzbJ37W3tzdqTH
+         vHKkgnRASJxVmBtIJj5UsZSjAnVDOaTdNjvw8qliVJV0tg51QYyFztraM9img8Eded35
+         uKyrO1GBwxnzrV5dxl5pi9A52Ntl+KDulS9N1ChlbLL4D9WrPs8R8kXlH3I2QAJ5BGXp
+         iDNgezc/Ij6zCX6cBZHDE7J6EliWKRWW0SDSlVe6iqUr/trD3S0ZDhaZXXXDTj1JenRs
+         XpEIfzHWi3XvWdrl5hKgh1dIE82JglWjOxQgcGcXnrWOBd2l1YFyRkQjxrDafpksTPmS
+         D7+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=hycE+c4GAVzLjEPq9KDawunvbRo0DGeEFzP1XH9fj10=;
-        b=dkZ5w0a5ZeY6JOrvTbMo1gYf2WIeBsu+osaJ+inJIMWoZlVJHmh4eONf19OghKX6qN
-         IUQg2J3pZgFplo+QMXLoox5TqJK6glSbNkcXgeRMm0mV2T+x6A2Ly/H3+onJ2ZHHhGvI
-         FlTNy2EfrHam8LydcIcQqM69canCYe+1VvmRc2esr6WpYR6PeewBu0L0j7wr/cZT+6Fj
-         2Qgr9XaA+n5ObuBkNeYOlSHy241RwSoGlIkiGkw0JANt1H+reqrs3yv8uv3VHcPxZH+R
-         G8XV51n9pQiOSvu47n8Am1nCb+arEGc9LfMPMvWhzyQzLE4WFpOJf/TwUdYR51mh3qWu
-         DWAw==
-X-Gm-Message-State: AOAM532f1XzLOvCOHKR/vIc9OC7mUTUnoNeqp1KugkOxuLJS1vmYYMh8
-        dOZIDebD6ZibifaNFCezuRSXTxF4gSMaPZZ2bLX2tFyd
-X-Google-Smtp-Source: ABdhPJxP0u4VEl6Ng8Cd9XbjTmmTZTqVusQQc4wpCGWP/exeq+5n868+nnUUPI6Pc+FSJEDLCJ9KeCI9MRRae1tdDb4=
-X-Received: by 2002:a81:a006:0:b0:30c:37e3:846c with SMTP id
- x6-20020a81a006000000b0030c37e3846cmr38107510ywg.310.1654716535945; Wed, 08
- Jun 2022 12:28:55 -0700 (PDT)
+        bh=ETpLC3cy51Fj5+hyz5IIgCxtJmcDgr2Kfn962MlmfOQ=;
+        b=4Hp1Ul1vO+S62BYoK/H1Zd7TJTRfkAXrO/ir/2IBSLnWaHbJ9zzAQYP6Jag6+I1nCR
+         2Gq4RLOEqMiaoRKaQgRg3FDU+VFeUaMb0Y7gqhX9kn9m0ymtX/Wjm6GO/24IncEy5SL9
+         pGrZRB31jDhWorrXkORMyTYcwNawj+FLY8oY+6inOw18DQuHWDDg/rZC1TBNN9y7MlgJ
+         hbbFzQYDnJwc3zv8jaOiJFz1sbjU08KfjXdIFaAZT5EnMy537jcK76vaPnbhMO1HxclV
+         5HaB/GYCDfR3nEzW2GZEFMNztTnmSYCIZqubI9mpODhr4f4dRdm2P2/jTbvWc454BBcB
+         O6Sw==
+X-Gm-Message-State: AOAM531rH4kBvUXodAfNBWBFXgZl/N3jHdwNC5aaXYWpIcFU2waUf3vj
+        M7jOJWtkREikhczdWw+LoXrO7tbD+szbWtE0Y/M=
+X-Google-Smtp-Source: ABdhPJwhdsCMG9rL/GjiMTMklH3Kuwbnrhn2qTA98for/Hi1qALI/CuCzpg+27Cu/fqtB/oAEBp8Y5g15x11J9kqVkY=
+X-Received: by 2002:a0d:d90e:0:b0:30c:bcae:ac17 with SMTP id
+ b14-20020a0dd90e000000b0030cbcaeac17mr38394556ywe.446.1654716672951; Wed, 08
+ Jun 2022 12:31:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220608170220.5751-1-jorge.lopez2@hp.com> <CAHp75VfG5aanMFz+F_JE1oTF8B-nxc=LaH=T-R=RAC3S+VguLg@mail.gmail.com>
-In-Reply-To: <CAHp75VfG5aanMFz+F_JE1oTF8B-nxc=LaH=T-R=RAC3S+VguLg@mail.gmail.com>
+References: <20220608170220.5751-1-jorge.lopez2@hp.com> <20220608170220.5751-3-jorge.lopez2@hp.com>
+ <CAHp75VdcnNkomj5125QRmo20LKX0CzCVo8R=qUsEHaNspviFYg@mail.gmail.com>
+In-Reply-To: <CAHp75VdcnNkomj5125QRmo20LKX0CzCVo8R=qUsEHaNspviFYg@mail.gmail.com>
 From:   Jorge Lopez <jorgealtxwork@gmail.com>
-Date:   Wed, 8 Jun 2022 14:28:45 -0500
-Message-ID: <CAOOmCE81hchN+f+BtAuOYM0bZ_psrx71suN66JEJ-fjd-KTOSQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] Resolve-WMI-query-failures-on-some-devices
+Date:   Wed, 8 Jun 2022 14:31:02 -0500
+Message-ID: <CAOOmCE9_vM45V5+QKWGQz+SzzC5BoYvxV2Vk5eYm3Krb9_LGog@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] Organize declaration variables
 To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -66,41 +67,17 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Will do, thanks!
+Will do. Thank you
 
-On Wed, Jun 8, 2022 at 1:43 PM Andy Shevchenko
+On Wed, Jun 8, 2022 at 1:45 PM Andy Shevchenko
 <andy.shevchenko@gmail.com> wrote:
 >
-> On Wed, Jun 8, 2022 at 7:21 PM Jorge Lopez <jorgealtxwork@gmail.com> wrote:
+> On Wed, Jun 8, 2022 at 7:20 PM Jorge Lopez <jorgealtxwork@gmail.com> wrote:
 > >
-> > The intention for this patch is resolve WMI query failures reported
-> > in several HP OMEN notebooks.  WMI queries fail on some devices where
-> > the ACPI method HWMC unconditionally attempts to create Fields beyond
-> > the buffer if the buffer is too small, this breaks essential features
-> > such as power profiles.
+> > This patch organizes declaration variables in method
+> > hp_wmi_perform_query as requested.
 >
-> Maintainers are still missed. Try first to send patches to yourself
-> (another address or so) and check.
->
-> > Description of changes between version 1 and version 2
-> > ------------------------------------------------------
-> > v2 patch 1: Resolve-WMI-query-failures-on-some-devices
-> >             - No new changes to the logic.
-> >
-> > v2 patch 2: Organize-declaration-variables
-> >             - Organize declared variables in hp_wmi_perform_query method
-> >
-> > Jorge Lopez (2):
-> >   Resolve WMI query failures on some devices
-> >   Organize declaration variables
-> >
-> >  drivers/platform/x86/hp-wmi.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> >
-> > --
-> > 2.25.1
-> >
->
+> Ah, I see now. Please squash these changes in one patch.
 >
 > --
 > With Best Regards,
