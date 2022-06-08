@@ -2,85 +2,93 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93646542EBB
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jun 2022 13:07:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C1A35436F7
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jun 2022 17:16:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233907AbiFHLHY (ORCPT
+        id S243579AbiFHPPT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 Jun 2022 07:07:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50374 "EHLO
+        Wed, 8 Jun 2022 11:15:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236707AbiFHLHX (ORCPT
+        with ESMTP id S244268AbiFHPOG (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 Jun 2022 07:07:23 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C93A195910
-        for <platform-driver-x86@vger.kernel.org>; Wed,  8 Jun 2022 04:07:22 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id b8so9895272edj.11
-        for <platform-driver-x86@vger.kernel.org>; Wed, 08 Jun 2022 04:07:22 -0700 (PDT)
+        Wed, 8 Jun 2022 11:14:06 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 834DB103F
+        for <platform-driver-x86@vger.kernel.org>; Wed,  8 Jun 2022 08:06:08 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id j5-20020a05600c1c0500b0039c5dbbfa48so1984498wms.5
+        for <platform-driver-x86@vger.kernel.org>; Wed, 08 Jun 2022 08:06:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=r7TKNFnuLQgNZmbfpsLPq04QgicTySb3NKPuhUkYYSk=;
-        b=ptYojN9mmrqT12hgSCuKFa8CPH4dqnDGUg4QCKsHbKcJut8tiAbRrASOApcI0x07Me
-         lmtthkNmKA3XevlojZA8MOHpi+OkWU1+8y80LYjj/CNtrVd3zXbvsna/dYeUm/mGZv/X
-         ySNANvOuz7JB3qL7ecz3JSKH5XiJoa3fdGmu3MqMmoO6tWpHjCg67MWlrka9RwcxKgUG
-         9C8iyBlIByvgoBaMsAK71rx8Tg6doDjfUiXywQMJK/FdEltDb4o4dEBtufTU793QverG
-         CiT/BFjHsu0zOg1q4HKpFSvckqKpNI63IjUWPzuSerT1o1sWufBr2hzlE1gLuPce5SuN
-         sPZg==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=LicVPwnZXPcISn2oDvw38YiCixBz7nAXnKboREn28oA=;
+        b=I7m34TKJF2NVViuUzoxPzWj8ttUrTOIGWj2xW4XB3ylIEc1yrNODIeL1VOuF7iJ5FB
+         ooSZMlyVOKvfizUy0PMH5xh9vogbKZuB49YOJjdSQDfttO8NEMmtoQ8n7LiLrTHTXvd3
+         CXO3FFGAoydiI2ZoekMfsawXP61UBvWer9WUSGvxRqA2AQuzIV35RT2L6pXiF2cGbR02
+         eSk1oTwEWrur/5qKg00r+NjTDMDsyqaqvepdhgUvTawtk3kanMGD6rp7nS6wdaiXLFAV
+         Ti/P5WvQJBv1yjrPLxokBccZEq0b5GTRe96WFjkPNaoMLY1BpYfbFdzJQAIkzNQHe2mn
+         0E3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=r7TKNFnuLQgNZmbfpsLPq04QgicTySb3NKPuhUkYYSk=;
-        b=jYJrxSRzNyaG3mNQUNONq2UxfeFweFk+2FSbMWEegzJiECvBCmhEShx4Ue75AHp/CE
-         CXoUT2K+qQ1vwv+xipGAiW5Mx+NJUtLwIgTIF7Hw8o56ttO/oqu9Q2mtXwPbF5exD+FG
-         LvPTaeyjkAA/BhoeeB4+IyT2l4lqLBUZx5XYmF0pQ8iC2jF0Np0VhBybyVKr4pPz3C0W
-         8LvAaAm1SlJJzRDHR1cSaTOJRGvCWqT3Ecx/LJlVBZirCsy3XetnwIn8aMO+rmqdfRzk
-         9MFfwMNUVzjPshIKV+VTDg/eCEHyeQFs8NcRUlr9qCeKCe9q3X5NDxmso7Ikl5R13gzr
-         FnfA==
-X-Gm-Message-State: AOAM531Qsq52WiVrexD6Yj4bdwVt/hNtpj8UC7q8WSmuxPOYbL10JQ3/
-        W9OBEQwnZ6YdJ1mRAwUdY1hFXea4A2CioHQZXTU=
-X-Google-Smtp-Source: ABdhPJxXyvBqPl9Vi0cgwRyWthEQkDnR7+s1dluHegKQZmrcp67hCPH8+HfZ3WdJWpOh64tBzMVdEOo5cGrRAsIbfKw=
-X-Received: by 2002:aa7:d303:0:b0:42d:d192:4c41 with SMTP id
- p3-20020aa7d303000000b0042dd1924c41mr39150350edq.178.1654686440989; Wed, 08
- Jun 2022 04:07:20 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=LicVPwnZXPcISn2oDvw38YiCixBz7nAXnKboREn28oA=;
+        b=kVY3Cxz2cCx3Sba+cx7bYavEcSVj14VckzVpL2afEyRAlxH+W6ZS4Z1UR9hp2NSBYX
+         wV/ZFktmrdkf6AeP0d5d/s1BsxOVeN/vqjOq7pAbYrtPER9Ut+12Z7PtI9FIvIUCERdF
+         mOKeapy5qzl8TTwtIdwDuaMq6WTNEK40jOQX5T5RF5iXY8w6urAu0P+TaEjBLv5wkiYD
+         RZm5w6iursDLfhbjVCLaKW+DZF36K57Nf4QSBKoN3sG38QVPgt4uJDWUQu4C86ec2mnR
+         HrxVjPrqTvIA7+tE6El9b8vtunDmbVE2oqHLpF3ZNvF0sMKnZOKnBO8NKYkFwVk4WDuQ
+         iMTA==
+X-Gm-Message-State: AOAM530I5YXslHhd1chThMtRhZswQCPKkAEoRvR2HMVYiLypdrAhtVPV
+        9V1n5ChUhznHfN8lRA7H0qcp4yJ3+0bW1tdP
+X-Google-Smtp-Source: ABdhPJwrBsVQb8xDnZ+yujUU0xErzW+etDwKNXI8QuX1wGqVPGpSrbiuoNnXKmCtMaB74NmcqTq0xw==
+X-Received: by 2002:a05:600c:590:b0:39c:5cd4:8623 with SMTP id o16-20020a05600c059000b0039c5cd48623mr7718911wmd.45.1654700766860;
+        Wed, 08 Jun 2022 08:06:06 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
+        by smtp.gmail.com with ESMTPSA id m3-20020a05600c3b0300b003942a244f2fsm29352020wms.8.2022.06.08.08.06.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jun 2022 08:06:06 -0700 (PDT)
+Date:   Wed, 8 Jun 2022 16:06:04 +0100
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Stephen Kitt <steve@sk2.org>
+Cc:     "Lee, Chun-Yi" <jlee@suse.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
+        Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] platform/x86: acer-wmi: Use backlight helper
+Message-ID: <20220608150604.l7act7qvtbshnpux@maple.lan>
+References: <20220607184635.1127913-1-steve@sk2.org>
+ <20220607184635.1127913-2-steve@sk2.org>
 MIME-Version: 1.0
-References: <20220607204313.5374-1-jorge.lopez2@hp.com> <CAHp75VeB4vg_rHw4S_xWiUn=yhT8DyTjKt1=jOM41ceQA1JzVw@mail.gmail.com>
-In-Reply-To: <CAHp75VeB4vg_rHw4S_xWiUn=yhT8DyTjKt1=jOM41ceQA1JzVw@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 8 Jun 2022 13:06:44 +0200
-Message-ID: <CAHp75Vd7V6b7ujhfK0zQz=2Dmy2ff916uHH+KHeNwfu7Dcs=Jg@mail.gmail.com>
-Subject: Re: [PATCH] Resolve WMI query failures on some devices
-To:     Jorge Lopez <jorgealtxwork@gmail.com>
-Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220607184635.1127913-2-steve@sk2.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jun 8, 2022 at 1:02 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Wed, Jun 8, 2022 at 8:06 AM Jorge Lopez <jorgealtxwork@gmail.com> wrote:
+On Tue, Jun 07, 2022 at 08:46:32PM +0200, Stephen Kitt wrote:
+> Instead of retrieving the backlight brightness in struct
+> backlight_properties manually, and then checking whether the backlight
+> should be on at all, use backlight_get_brightness() which does all
+> this and insulates this from future changes.
+> 
+> Signed-off-by: Stephen Kitt <steve@sk2.org>
+> Cc: "Lee, Chun-Yi" <jlee@suse.com>
+> Cc: Hans de Goede <hdegoede@redhat.com>
+> Cc: Mark Gross <markgross@kernel.org>
+> Cc: platform-driver-x86@vger.kernel.org
 
-...
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-> I am in general fine with the change, only a nit-pick below.
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-...and do not forget to include maintainers and other parties who
-might be interested in this change. I can recommend to utilize my
-"smart" [1] script for that.
-
-[1]: https://github.com/andy-shev/home-bin-tools/blob/master/ge2maintainer.sh
-
--- 
-With Best Regards,
-Andy Shevchenko
+Daniel.
