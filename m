@@ -2,104 +2,80 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 910665424EC
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jun 2022 08:53:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35AB25423BA
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jun 2022 08:51:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380503AbiFHAiY (ORCPT
+        id S231669AbiFHEzf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 7 Jun 2022 20:38:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39382 "EHLO
+        Wed, 8 Jun 2022 00:55:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1574588AbiFGXZz (ORCPT
+        with ESMTP id S232571AbiFHEyx (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 7 Jun 2022 19:25:55 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28CCB401BF5
-        for <platform-driver-x86@vger.kernel.org>; Tue,  7 Jun 2022 14:37:06 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id p8so16626022pfh.8
-        for <platform-driver-x86@vger.kernel.org>; Tue, 07 Jun 2022 14:37:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DTvYG6vUXmBDPGSvzYQyN/7uYcWQjt7gPfq8E7HXzmo=;
-        b=aoGH1BTPYJprtHOp06snSR7UZAY6VNv3KrAzVMglRz31rZNoIErpXeq9l47Y/aFsTo
-         SAYMq9BP8bLIoSRM3lYNGAtRcDkYVWL0sSoPt+eDlr36jmsFGcNm/xIOj/NAbsYFW7EA
-         SAREov9YjSzsU6DUWadRTdAf39sMRN+5GqjnmN3ud6qL1oIrdiAt6r65c/Rwegs/Xora
-         NszvPPtJKzHI6z2eKu5+KvbqpJhdVbIdKQiO/HX6c2WUa6sn0Qk28BTKqSmTKjQZyZpW
-         2glCpxd7Xkwane+TvVGotOd6pBm0tpaJGVuxORJmPDLOzg7YXMXW3AJrkk7sfVGJKjnf
-         01pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DTvYG6vUXmBDPGSvzYQyN/7uYcWQjt7gPfq8E7HXzmo=;
-        b=qwOKhlqNvDDWP7sM+8IMne853zy46/AF0Ao5ZQrLqfnkwIHF1kVIzZybBhPiaCF+LE
-         /J0FdFG1Q5BEHP6QflZSuuExHhzKrlKP+xDnBhdNaUDCD/QC3l6NY+Noj1j2BptHKEOV
-         0gpCSrh78Z2lvg4b8p6FNNtF6AxC58PlCUiRFKjLFs05tzoaPqHodcvSszzi8SIIHGzS
-         y9DMuUrptRELveuzoY7UKRCrOjtSZzU6BcOyaM47scoDj1Rb7HRzrWHi+Pwluhi3mA2a
-         zIMwwofJD85WyBcFSXx8lSLLeJnDaTsTljBt4hMkQYmytWSq22GTF8qcQC+7rUzXlYEA
-         yTtw==
-X-Gm-Message-State: AOAM531eOcc2RUHTRnODFFEKZiBBksjJYjopesq660MRoS5QUU0jE/Xt
-        NabDGCld1moQC5VZYPwCUO4=
-X-Google-Smtp-Source: ABdhPJzPbjvaiyFqmdg0Q4BymFeLVQIjhP7Z7BdnCj9RG2+ZLzBshbl88XCyduEwYTooUwS20ikwYA==
-X-Received: by 2002:a63:894a:0:b0:3fc:a724:578c with SMTP id v71-20020a63894a000000b003fca724578cmr27432205pgd.499.1654637826176;
-        Tue, 07 Jun 2022 14:37:06 -0700 (PDT)
-Received: from chopin.mithril (ip72-220-159-98.sd.sd.cox.net. [72.220.159.98])
-        by smtp.gmail.com with ESMTPSA id v12-20020a170902b7cc00b00163f2fe1e64sm13051844plz.255.2022.06.07.14.37.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 14:37:05 -0700 (PDT)
-From:   Duke Lee <krnhotwings@gmail.com>
-To:     Alex Hung <alex.hung@canonical.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Wed, 8 Jun 2022 00:54:53 -0400
+X-Greylist: delayed 628 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 07 Jun 2022 18:27:48 PDT
+Received: from smtp.ruc.edu.cn (m177126.mail.qiye.163.com [123.58.177.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 281E487A36;
+        Tue,  7 Jun 2022 18:27:46 -0700 (PDT)
+Received: from localhost.localdomain (unknown [202.112.113.212])
+        by smtp.ruc.edu.cn (Hmail) with ESMTPSA id 3DE65800A4;
+        Wed,  8 Jun 2022 09:17:17 +0800 (CST)
+From:   Xiaohui Zhang <xiaohuizhang@ruc.edu.cn>
+To:     Xiaohui Zhang <xiaohuizhang@ruc.edu.cn>,
+        "David E . Box" <david.e.box@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <markgross@kernel.org>,
-        platform-driver-x86@vger.kernel.org,
-        Duke Lee <krnhotwings@gmail.com>
-Subject: [PATCH] platform/x86/intel: hid: Add Surface Go to VGBS allow list
-Date:   Tue,  7 Jun 2022 14:36:54 -0700
-Message-Id: <20220607213654.5567-1-krnhotwings@gmail.com>
-X-Mailer: git-send-email 2.36.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/1] platform/x86/intel: Fix uninitialized entry in pmt_crashlog_probe
+Date:   Wed,  8 Jun 2022 09:17:12 +0800
+Message-Id: <20220608011712.2371-1-xiaohuizhang@ruc.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
+        kWDxoPAgseWUFZKDYvK1lXWShZQUhPN1dZLVlBSVdZDwkaFQgSH1lBWUNLS0pWSh9NTkIYSkgaTh
+        0ZVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktITUpVS1kG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MxA6ERw4Gj08IRcUIzJLDUNK
+        SRdPCxxVSlVKTU5PTU5KS0hMQ0lDVTMWGhIXVQMSGhQTDhIBExoVHDsJDhhVHh8OVRgVRVlXWRIL
+        WUFZSUtJVUpKSVVKSkhVSUpJWVdZCAFZQUlITkw3Bg++
+X-HM-Tid: 0a8140e327092c20kusn3de65800a4
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The Surface Go reports Chassis Type 9 (Laptop,) so the device needs to be
-added to dmi_vgbs_allow_list to enable tablet mode when an attached Type
-Cover is folded back.
+Similar to the handling of pmt_telem_probe in commit 2cdfa0c20d58
+("platform/x86/intel: Fix 'rmmod pmt_telemetry' panic"), we thought
+a patch might be needed here as well.
 
-Relevant bug report and discussion:
-https://github.com/linux-surface/linux-surface/issues/837
+The probe function, pmt_crashlog_probe(), adds an entry for devices even if
+they have not been initialized.  This results in the array of initialized
+devices containing both initialized and uninitialized entries.  This
+causes a panic in the remove function, pmt_crashlog_remove() which expects
+the array to only contain initialized entries.
 
-Signed-off-by: Duke Lee <krnhotwings@gmail.com>
+Only use an entry when a device is initialized.
+
+Signed-off-by: Xiaohui Zhang <xiaohuizhang@ruc.edu.cn>
 ---
- drivers/platform/x86/intel/hid.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/platform/x86/intel/pmt/crashlog.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/intel/hid.c b/drivers/platform/x86/intel/hid.c
-index 216d31e3403d..79cff1fc675c 100644
---- a/drivers/platform/x86/intel/hid.c
-+++ b/drivers/platform/x86/intel/hid.c
-@@ -122,6 +122,12 @@ static const struct dmi_system_id dmi_vgbs_allow_list[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "HP Spectre x360 Convertible 15-df0xxx"),
- 		},
- 	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Microsoft Corporation"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Surface Go"),
-+		},
-+	},
- 	{ }
- };
+diff --git a/drivers/platform/x86/intel/pmt/crashlog.c b/drivers/platform/x86/intel/pmt/crashlog.c
+index 34daf9df168b..ace1239bc0a0 100644
+--- a/drivers/platform/x86/intel/pmt/crashlog.c
++++ b/drivers/platform/x86/intel/pmt/crashlog.c
+@@ -282,7 +282,7 @@ static int pmt_crashlog_probe(struct auxiliary_device *auxdev,
+ 	auxiliary_set_drvdata(auxdev, priv);
  
+ 	for (i = 0; i < intel_vsec_dev->num_resources; i++) {
+-		struct intel_pmt_entry *entry = &priv->entry[i].entry;
++		struct intel_pmt_entry *entry = &priv->entry[priv->num_entries].entry;
+ 
+ 		ret = intel_pmt_dev_create(entry, &pmt_crashlog_ns, intel_vsec_dev, i);
+ 		if (ret < 0)
 -- 
-2.36.1
+2.17.1
 
