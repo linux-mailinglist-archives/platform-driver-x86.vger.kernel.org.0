@@ -2,54 +2,54 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86C315436FA
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jun 2022 17:16:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CD20543700
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jun 2022 17:16:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243743AbiFHPPU (ORCPT
+        id S243523AbiFHPPT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 Jun 2022 11:15:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44394 "EHLO
+        Wed, 8 Jun 2022 11:15:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244293AbiFHPOX (ORCPT
+        with ESMTP id S244340AbiFHPOa (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 Jun 2022 11:14:23 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC53412DBF3
-        for <platform-driver-x86@vger.kernel.org>; Wed,  8 Jun 2022 08:06:53 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id r123-20020a1c2b81000000b0039c1439c33cso11226865wmr.5
-        for <platform-driver-x86@vger.kernel.org>; Wed, 08 Jun 2022 08:06:53 -0700 (PDT)
+        Wed, 8 Jun 2022 11:14:30 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6252B12E326
+        for <platform-driver-x86@vger.kernel.org>; Wed,  8 Jun 2022 08:07:10 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id k19so28751157wrd.8
+        for <platform-driver-x86@vger.kernel.org>; Wed, 08 Jun 2022 08:07:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=jATA95LsnhYFzxsaTpEfiLLPxPwn/THDoyk5wt0l0nI=;
-        b=hbOY8G1cNdcNSM2rz9aqfN80nHdpQjF3stZaJaXKZ1lZ6OvH8TqhGf/WurVi4UR7My
-         VVtmf2kO7y8EDorkGEycNEFb/gxL5p1HxdqniF/SCzMt3gGSzLbua7akAAkgGYPjo6RS
-         Cp6Z4xJZMXZnN5UtvWBrqFrUqbgoCdjM6B3rhuQsRqbiQnP1UON3jfG+y54PDv3d/inF
-         oJC+66zFO6/KhCZzWqtSm5CwwdguT2X2//ldNrfFB8QF9odQhhDBFMfjfo5tUqlJI4/4
-         LrfM4vISzALHDnOqMxB1dLF4Iepfdrfzo4oT/FY0dRbeq2/JWHKoGWWS2CdUYldd7qdn
-         ge1w==
+        bh=jR5ucCRD1ctjVwCehTL8/SWrd6GdcH9zFkM7ubCwloY=;
+        b=r9pPqM8xpt4wuylBRff/ucXvli/IL8AT6e5ujPXj7W0sxQShSi4vSzFvBPtleE/arT
+         52P2pGJSMAtvjESFWTEk4YQzjof7UsrgznsJZmD5q8OvLGZHMpf/dv84svtTinZcmLIF
+         eU86GhRZ/CuwERlgwHQiEV/5jtye/wcpYdF9kLH0JLg2mflhmrwEaj86qxueENn3Ae2Z
+         uuQR+j8GxrWQnEjTiho8wBGVU6DVTd4aiRfKTM6mBh3/ZZXM2fs6faBcw0he9XDEQZkz
+         LbmO6pqkZk5PwmTJX2ANZesI6XiSbfuLnrNu3klX79FWXV2/Mhx5V3LvMC65yrAux3Xk
+         Wjpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=jATA95LsnhYFzxsaTpEfiLLPxPwn/THDoyk5wt0l0nI=;
-        b=GLZm3gIt58y4hQ0FwOfRNoOjoTP1Iefvtw9fi6ts5+zkqHrL1H/ASBTiVgrTdIWWV/
-         XBuX/788hNN9qZpnAyYzupEuTKJl7qrM5c0YsbbHBW00xbqdRlyVqIURTSZooo0G8FCD
-         kl7E48peFTMhCOVwp/YXDCd2HFlXPIK9/xn5KU7JGaUsCBWLlY0Xaf2D2EmJIs48dbjL
-         lt/Dc7VODqSZKA8ksNpTOZP5A43EEng1nDvva1XuKwJ6+BPq+DFCqvEgHUHmwKLDSrQR
-         CZCu+8YHHmt+4YGS9gffdpKE710yqPtPoioRMmfY1T9IemHMURPv8Oe42lx5LwalDoIJ
-         oxcQ==
-X-Gm-Message-State: AOAM530a6hCzkslVfRAZsN28TXCpvKdZjoXmPenfjXOlr5dIARhSgamw
-        d/fu6qbAsoVniaSfkpHJtTiIuA==
-X-Google-Smtp-Source: ABdhPJzQqTXDqbgmmxZv/Q2GpTtx2kbX9ghYxOw2jBT+X54NeFZwyWg1HZJNdvhY5FiyH3VIHer5TA==
-X-Received: by 2002:a05:600c:1f05:b0:39c:51c6:7c85 with SMTP id bd5-20020a05600c1f0500b0039c51c67c85mr16583501wmb.33.1654700812170;
-        Wed, 08 Jun 2022 08:06:52 -0700 (PDT)
+        bh=jR5ucCRD1ctjVwCehTL8/SWrd6GdcH9zFkM7ubCwloY=;
+        b=Kor11mQxweZ3SF08KKqmw693qhu3ZJXPjubFFD9N8C+WXhCUWXY/TbW2+JfxU0M/Mr
+         zPe8WOQCg+02PmKd3CxPODzAvvcDsJKfQ+Eo1UnifCqjqmeVSTZ+95lNH8LL8RKa3AJt
+         ccEUBedkqrSsL82/KZ3YEbSxys7hrue7Jt8ci377bdjg+s+Sy+7BlUsGZJvoJjCCC0FY
+         4iqh/K5bZdXWmRXkQHbhCA7/3gZIRlitrhG9iK1wMERv+q4KJCDRYmmXBq5wIuTqmIPF
+         5y8LZkQPBkPLp6eZsCr8+Jjfdriw3clAi2zKJLM2USxdY2xC0uGOg34mLnZgGEonbPsB
+         1Tgw==
+X-Gm-Message-State: AOAM533TNYI+UL3ZgwzCdTbNXUZPol3/DG56eC4eDo0dWrCaNE/DSNTf
+        8P4eytNggXAAxOp8Vi8iP/UejKM1jVVarTl5
+X-Google-Smtp-Source: ABdhPJzrABVEahqOXkCw0qRSD5dcC11oiJcuHfkbfmFnxlBzYOua2IJdBPwEY/KsP8iILy5/KZwxQg==
+X-Received: by 2002:a5d:624e:0:b0:210:a42:f29d with SMTP id m14-20020a5d624e000000b002100a42f29dmr33145631wrv.615.1654700828851;
+        Wed, 08 Jun 2022 08:07:08 -0700 (PDT)
 Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
-        by smtp.gmail.com with ESMTPSA id f7-20020a1c3807000000b0039c5b9e9142sm5076671wma.17.2022.06.08.08.06.51
+        by smtp.gmail.com with ESMTPSA id x4-20020adfffc4000000b0021018642ff8sm21453128wrs.76.2022.06.08.08.07.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jun 2022 08:06:51 -0700 (PDT)
-Date:   Wed, 8 Jun 2022 16:06:50 +0100
+        Wed, 08 Jun 2022 08:07:08 -0700 (PDT)
+Date:   Wed, 8 Jun 2022 16:07:06 +0100
 From:   Daniel Thompson <daniel.thompson@linaro.org>
 To:     Stephen Kitt <steve@sk2.org>
 Cc:     "Lee, Chun-Yi" <jlee@suse.com>,
@@ -57,15 +57,16 @@ Cc:     "Lee, Chun-Yi" <jlee@suse.com>,
         Mark Gross <markgross@kernel.org>,
         Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
         Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] platform/x86: compal-laptop: Use backlight helper
-Message-ID: <20220608150650.azsobwjurgf34jbm@maple.lan>
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ibm-acpi-devel@lists.sourceforge.net
+Subject: Re: [PATCH 4/4] platform/x86: thinkpad_acpi: Use backlight helper
+Message-ID: <20220608150706.fjuaalab5kzapc47@maple.lan>
 References: <20220607184635.1127913-1-steve@sk2.org>
- <20220607184635.1127913-4-steve@sk2.org>
+ <20220607184635.1127913-5-steve@sk2.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220607184635.1127913-4-steve@sk2.org>
+In-Reply-To: <20220607184635.1127913-5-steve@sk2.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -76,14 +77,17 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Jun 07, 2022 at 08:46:34PM +0200, Stephen Kitt wrote:
-> Instead of manually checking the power state in struct
-> backlight_properties, use backlight_is_blank().
+On Tue, Jun 07, 2022 at 08:46:35PM +0200, Stephen Kitt wrote:
+> Instead of retrieving the backlight brightness in struct
+> backlight_properties manually, and then checking whether the backlight
+> should be on at all, use backlight_get_brightness() which does all
+> this and insulates this from future changes.
 > 
 > Signed-off-by: Stephen Kitt <steve@sk2.org>
-> Cc: Cezary Jackiewicz <cezary.jackiewicz@gmail.com>
+> Cc: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
 > Cc: Hans de Goede <hdegoede@redhat.com>
 > Cc: Mark Gross <markgross@kernel.org>
+> Cc: ibm-acpi-devel@lists.sourceforge.net
 > Cc: platform-driver-x86@vger.kernel.org
 
 Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
