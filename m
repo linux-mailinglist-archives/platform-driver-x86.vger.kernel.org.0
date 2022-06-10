@@ -2,99 +2,78 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26411545957
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 10 Jun 2022 02:53:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 187F4545B5B
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 10 Jun 2022 06:53:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239432AbiFJAxJ (ORCPT
+        id S240094AbiFJEwS (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 9 Jun 2022 20:53:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58028 "EHLO
+        Fri, 10 Jun 2022 00:52:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239357AbiFJAxI (ORCPT
+        with ESMTP id S233688AbiFJEwR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 9 Jun 2022 20:53:08 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFBDF1C204C
-        for <platform-driver-x86@vger.kernel.org>; Thu,  9 Jun 2022 17:53:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7869461680
-        for <platform-driver-x86@vger.kernel.org>; Fri, 10 Jun 2022 00:53:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E05F3C3411F
-        for <platform-driver-x86@vger.kernel.org>; Fri, 10 Jun 2022 00:53:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654822386;
-        bh=M+sVAZ4dN3ctzfeKANysRNl/lb2vvKzH5qx37TFRuO4=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=fE5kMsHz9kphD+Ob7T685l/eX67rCwhXCUWZ1OGOF2BIL+AAx8OgdW314C9oxkviX
-         ju+aL46fFCqcXcYeJ9HLq8xOlrpqEoeVDlB0H9JLI578YfJsAu34N5T85LE1/Mpk5j
-         HEf1yIIZ2HGM72l4LX3rL1nY0VCQ+tl+WXdAdMvQ6jE5y8r7Df9TadSLWVBWLEPSY8
-         BCrJShuQBsjBnbyxwiRyqVspee1uHmOoA+ewpAzkpSDU6Aks0Gxv93zxdkfQD6zG/o
-         2EgCCjYKaOYSHv/hBqtl9bOMkwtSc9ZUS7Q3IIhWukC8EluAqtOeBctgG/qebv/kdo
-         JNptmc2K12Ctg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id CF9F6CC13B4; Fri, 10 Jun 2022 00:53:06 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     platform-driver-x86@vger.kernel.org
-Subject: [Bug 204807] Hardware monitoring sensor nct6798d doesn't work unless
- acpi_enforce_resources=lax is enabled
-Date:   Fri, 10 Jun 2022 00:53:04 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: mike@carns.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc attachments.created
-Message-ID: <bug-204807-215701-X8fPcJW2S1@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204807-215701@https.bugzilla.kernel.org/>
-References: <bug-204807-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        Fri, 10 Jun 2022 00:52:17 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 698F9317504
+        for <platform-driver-x86@vger.kernel.org>; Thu,  9 Jun 2022 21:52:16 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id gd1so23118207pjb.2
+        for <platform-driver-x86@vger.kernel.org>; Thu, 09 Jun 2022 21:52:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=1RyHqCxoLsTpmMsHtqy/wdC2TroVDxtcrh2h0YEDbOs=;
+        b=emOn0HVZ+/CbHAVrkFbyfFAjRnjTL9t83sGdsiy+CztuNpBqkV0d9jU5QWei3/N86d
+         EWRDiW7cuaIkmEAwO4//CnBocUjwWkmisJFAuwO+KQfMiN3iChw6wJcssbdUzqb9iRY7
+         8dDUdFq4mgWcMUyed/n1ACXQ8VCzMcvbU5aCZpAd2CpgbPDQQhJxmGDogF2f35o8CdIl
+         R9XvETy4IdejeXdeZkzmDiNoHhGVCsaO0rqBzd5Qdq0q19ro0MedqDJT8KPzf2iorswO
+         iOPQgwGhS7ZyGvAbqGsQnhPqs0oYGDyQEAh3mg8N4o9OLH8cNn1xwaWiPCtWk6AgMqVN
+         Sj6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=1RyHqCxoLsTpmMsHtqy/wdC2TroVDxtcrh2h0YEDbOs=;
+        b=1qcEPJbjWddYEt3razkyr+lTbuBmCrEj+Gtno8uEJQuf0rTQqn/lYZ+2XOV+zhLOEa
+         TV2fHvzXaZsC+jEEY/z3Ip+rz+TDYlDcYOYgL0xbO9J4Ec2QtXoT2aSyVZ7GF64BhBmd
+         4mK5PsGaD99qmNuxyM9Yil/Evh0Uosd/PPjc9TLjD0xOAb+YMo/zJ8c6fljal3rv3t8i
+         zr1EYdgEhTHDFSWhuHaLJfgTd2cgfeH1GEJglEy/mCGC+HRumitI1jhuwsa4racWUDMX
+         6QPqzIpUjaMVlflwimADDpZricgctrFhTQhFUc/lM5HmpLkuAEKYGhp14v84D47Essze
+         5OTg==
+X-Gm-Message-State: AOAM530ijkOPNIbtfEpEic9K7e2BRD1yKBzi1WufZhAswpym3FZEkK2N
+        gf6IbUxtOA8G4sYRQsHZi6D78CJ+IXfNNgo5NQI=
+X-Google-Smtp-Source: ABdhPJy9tyEjk3xzdcLRHoU/03QIXy1pdQ1lHnET/kenM682mHYKQ98e78PCPfRvZV+VKicFJwVr9/wC1dght6wHkTY=
+X-Received: by 2002:a17:902:ccd0:b0:156:7ac2:5600 with SMTP id
+ z16-20020a170902ccd000b001567ac25600mr42527926ple.156.1654836735870; Thu, 09
+ Jun 2022 21:52:15 -0700 (PDT)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Received: by 2002:a05:7300:7b83:b0:67:f675:929 with HTTP; Thu, 9 Jun 2022
+ 21:52:15 -0700 (PDT)
+Reply-To: sophiaernest566@gmail.com
+From:   Sophia Ernest <maryfury204@gmail.com>
+Date:   Thu, 9 Jun 2022 21:52:15 -0700
+Message-ID: <CAKLzTuDoxUWitoUNYYV7KLy2GbbAN+wU2dzYbau6kqK6wuJObQ@mail.gmail.com>
+Subject: Greetings
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.4 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D204807
+Greetings,
 
-Michael Carns (mike@carns.com) changed:
+I wonder why you continue neglecting my emails. Please, acknowledge
+the receipt of this message in reference to the subject above as I
+intend to send to you the details of the mail. Sometimes, try to check
+your spam box because most of these correspondences fall out sometimes
+in SPAM folder.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |mike@carns.com
-
---- Comment #253 from Michael Carns (mike@carns.com) ---
-Created attachment 301145
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D301145&action=3Dedit
-Add Maximus XI Hero
-
-I have an older Maximus XI Hero (WiFi) that works fine once I add it to the
-appropriate lists.  I'm attaching the patch I've been using on top of the
-existing nct6775.patch.  Hopefully, it can get integrated into the next
-iteration.
-
-Thanks!
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Best regards,
+Sophia Ernest
