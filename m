@@ -2,169 +2,117 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 870DE547370
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 11 Jun 2022 11:56:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6002547406
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 11 Jun 2022 12:56:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230170AbiFKJ42 (ORCPT
+        id S229775AbiFKK4z (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 11 Jun 2022 05:56:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49438 "EHLO
+        Sat, 11 Jun 2022 06:56:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229541AbiFKJ41 (ORCPT
+        with ESMTP id S230367AbiFKK4y (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 11 Jun 2022 05:56:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08B6BEE15;
-        Sat, 11 Jun 2022 02:56:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 965DA60BA3;
-        Sat, 11 Jun 2022 09:56:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF641C3411E;
-        Sat, 11 Jun 2022 09:56:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654941386;
-        bh=G3SijAZJFwW8PPbomjAxbmJ1C1Qf1Qf77wWOoRRw+dg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=je5xCyBasUps0lw+zm8BT+55x7BMo8QBuhxo7JbtlactdaXmHz6lygNzLVrkm8nAX
-         HjEppJFc+QzCFrtWjpMbQ5TNT070wVV+inQya2B9+gtBdLCpCi5lhYrB8oioVSA00t
-         hIu1Oa3GrD0WLeAPrt7UP5jlkYHkU2fo87dm0Y2tsE2pbKenH7urJXTDUAgrXYtoWI
-         sACEfm3Hy0H/485yd2z03sytvQHGo5HqeAr0OHZgDGtUHNS7u3v0z9DoUqRmcgnTGS
-         yJ2Edt+EBxtqLD6Zk4/TW4K+j7AB4xUoNv3rGt0AT9EmLHGsWZAuNEVqCOGQlFxuD6
-         6hRDH3YDodvdQ==
-Date:   Sat, 11 Jun 2022 12:56:12 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Wupeng Ma <mawupeng1@huawei.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>, songmuchun@bytedance.com,
-        Randy Dunlap <rdunlap@infradead.org>,
-        damien.lemoal@opensource.wdc.com,
-        Stephen Boyd <swboyd@chromium.org>,
-        Wei Liu <wei.liu@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>, gpiccoli@igalia.com,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        chenzhou10@huawei.com, vijayb@linux.microsoft.com,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-mm@kvack.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v3 0/6] introduce mirrored memory support for arm64
-Message-ID: <YqRmvJDiy2UQkEDu@kernel.org>
-References: <20220607093805.1354256-1-mawupeng1@huawei.com>
- <CAMj1kXH5r=CUoLCndBUsZ04_0UCJ2VqgJDdp2wbdNCtEx0Yxag@mail.gmail.com>
+        Sat, 11 Jun 2022 06:56:54 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4498A737B4
+        for <platform-driver-x86@vger.kernel.org>; Sat, 11 Jun 2022 03:56:54 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id g10-20020a17090a708a00b001ea8aadd42bso1650052pjk.0
+        for <platform-driver-x86@vger.kernel.org>; Sat, 11 Jun 2022 03:56:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=NkqkIm6NRuvnh36ZiCD/S9l+w84cqlTuqp9AoZn8V4o=;
+        b=TnQT+ASehQ9pl1fUqvF85eXscRDlMEB5s3xFzERs9OLqaubF/eFeqZ8DIXgdSKOYzQ
+         I6eN+g7PGj4ezgqJqWmt6T6dduIWHOcIPqfbGB67whaD2OTdJqMv3ABszTcvDCi7o6uo
+         WZWhhWQ4giLqR75Nn4mHEx02XjCJ7wodWfFKFR4UQp0tKUSA7FaFIAnOFZeOkm1YD+B8
+         DqWzFrAg3e/4GROoBmaKKEGLsa2pzbYEwyPpoqGcC4lDqH4+tq37VWlKl4xMjme5qV84
+         cieGhVanhUE4iS/4cJaCBBxK420kaO8FkuoVmF809jwN2lmEBP7CQ3RCWayTCKIjsgi3
+         ZFmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to:content-transfer-encoding;
+        bh=NkqkIm6NRuvnh36ZiCD/S9l+w84cqlTuqp9AoZn8V4o=;
+        b=JVp+KZ1oZZNzYvVs1oUjLSejlXcUKW2W/brdcfRRfTzQhXqLd298wuo1njp2XHrz74
+         KQrOW42qG3KVzBui71Ls8jpO4vKYf0mYuPLFbNEjlYh/4sfQRuMJEjd8g4rqMtLMuY9G
+         EjWVs4rTQD4rzsD8BP63wkoUKMD//lyXeTsUhYbryyS8mH8j3KXhW3f8XrTkuHEV/Egi
+         a+5LpDsKaefu5d6bwRCbXVUoty7kid4ai/2NwZAOSKV2Q57rktaJs35pNmasPCzyCCab
+         CRRE/v6hIWHJ2w9/9BTNbf2pqE0MeWgx9REEr/89s7ZIR23pQQgc2y8bz7PXQRjtZh+G
+         tXlA==
+X-Gm-Message-State: AOAM532rPyNa0DpOQdkqvZIDx6wpH+nJBD0C5WudFyqUYRkbF99L0YOd
+        6tQXdtgHClMsdw2gC1OeoRQb76sB3g0zPdK2NOo=
+X-Google-Smtp-Source: ABdhPJzpJNc4ywunqjpxHqIyYiZtlcopSADVlk26C5pLyTnMoLpV917/K1gC4gZediS+XfnYCxjmaSLuNoxHVpn28gA=
+X-Received: by 2002:a17:902:d4cc:b0:167:735a:e796 with SMTP id
+ o12-20020a170902d4cc00b00167735ae796mr32860819plg.5.1654945013680; Sat, 11
+ Jun 2022 03:56:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMj1kXH5r=CUoLCndBUsZ04_0UCJ2VqgJDdp2wbdNCtEx0Yxag@mail.gmail.com>
-X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Sender: ekpem.and.sons@gmail.com
+Received: by 2002:a17:90b:1d01:0:0:0:0 with HTTP; Sat, 11 Jun 2022 03:56:53
+ -0700 (PDT)
+From:   Jackie Grayson <jackiegrayson08@gmail.com>
+Date:   Fri, 10 Jun 2022 22:56:53 -1200
+X-Google-Sender-Auth: FQm8nNf887ao32Pb1L0zneP4DAU
+Message-ID: <CAKA2oYs6z-aLKTrOZwFJo3d92sJV2MvtGe+tPO_TJSBqTcMVfw@mail.gmail.com>
+Subject: Greethings my beloved
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=4.2 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
+        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FREEMAIL_FROM,LOTS_OF_MONEY,MONEY_FRAUD_8,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Jun 10, 2022 at 01:23:34PM +0200, Ard Biesheuvel wrote:
-> On Tue, 7 Jun 2022 at 11:16, Wupeng Ma <mawupeng1@huawei.com> wrote:
-> >
-> > From: Ma Wupeng <mawupeng1@huawei.com>
-> >
-> > Commit b05b9f5f9dcf ("x86, mirror: x86 enabling - find mirrored memory ranges")
-> > introduced mirrored memory support for x86. This support rely on UEFI to
-> > report mirrored memory address ranges.  See UEFI 2.5 spec pages 157-158:
-> >
-> >   http://www.uefi.org/sites/default/files/resources/UEFI%202_5.pdf
-> >
-> > Memory mirroring is a technique used to separate memory into two separate
-> > channels, usually on a memory device, like a server. In memory mirroring,
-> > one channel is copied to another to create redundancy. This method makes
-> > input/output (I/O) registers and memory appear with more than one address
-> > range because the same physical byte is accessible at more than one
-> > address. Using memory mirroring, higher memory reliability and a higher
-> > level of memory consolidation are possible.
-> >
-> > These EFI memory regions have various attributes, and the "mirrored"
-> > attribute is one of them. The physical memory region whose descriptors
-> > in EFI memory map has EFI_MEMORY_MORE_RELIABLE attribute (bit: 16) are
-> > mirrored. The address range mirroring feature of the kernel arranges such
-> > mirrored regions into normal zones and other regions into movable zones.
-> >
-> > Arm64 can support this too. So mirrored memory support is added to support
-> > arm64.
-> >
-> > The main purpose of this patch set is to introduce mirrored support for
-> > arm64 and we have already fixed the problems we had which is shown in
-> > patch #5 to patch #8 and try to bring total isolation in patch #9 which
-> > will disable mirror feature if kernelcore is not specified.
-> >
-> > In order to test this support in arm64:
-> > - patch this patch set
-> > - add kernelcore=mirror in kernel parameter
-> > - start you kernel
-> >
-> > Patch #1-#2 introduce mirrored memory support form arm64.
-> > Patch #3-#5 fix some bugs for arm64 if memory reliable is enabled.
-> > Patch #6 disable mirror feature if kernelcore is not specified.
-> >
-> > Thanks to Ard Biesheuvel's hard work [1], now kernel will perfer mirrored
-> > memory if kaslr is enabled.
-> >
-> > [1] https://lore.kernel.org/linux-arm-kernel/CAMj1kXEPVEzMgOM4+Yj6PxHA-jFuDOAUdDJSiSxy_XaP4P7LSw@mail.gmail.com/T/
-> >
-> > Changelog since v2:
-> > - remove efi_fake_mem support
-> > - remove Commit ("remove some redundant code in ia64 efi_init") since
-> >   efi_print_memmap() is not public
-> > - add mirror flag back on initrd memory
-> >
-> > Changelog since v1:
-> > - update changelog in cover letter
-> > - use PHYS_PFN in patch #7
-> >
-> > Ma Wupeng (6):
-> >   efi: Make efi_find_mirror() public
-> >   arm64/mirror: arm64 enabling - find mirrored memory ranges
-> >   mm: Ratelimited mirrored memory related warning messages
-> >   mm: Demote warning message in vmemmap_verify() to debug level
-> >   mm: Add mirror flag back on initrd memory
-> >   efi: Disable mirror feature if kernelcore is not specified
-> >
-> 
-> I have tested these changes on QEMU/arm64 with the patch below, and
-> things seem to work as expected. We have some minor issues to work out
-> but the general shape of this code is good.
-> 
-> As for the mm/ changes: does anyone mind if I take those through the
-> EFI tree as well?
+Hello my beloved,
 
-No objections from me.
+  I sent this mail praying it will get to you in a good condition of
+health, since I myself are in a very critical health condition in
+which I sleep every night without knowing if I may be alive to see the
+next day. I bring peace and love to you. It is by the grace of God, I
+had no choice than to do what is lawful and right in the sight of God
+for eternal life and in the sight of man, for witness of God=E2=80=99s merc=
+y
+and glory upon my life,I am Mrs,Jackie Grayson.a widow,I am suffering
+from a long time brain tumor, It has defiled all forms of medical
+treatment, and right now I have about a few months to leave, according
+to medical experts.
 
-> I don't think the EFI and -mm changes depend on each other, so they
-> can go into -mm separately as well.
+   The situation has gotten complicated recently with my inability to
+hear proper, am communicating with you with the help of the chief
+nurse herein the hospital, from all indication my conditions is really
+deteriorating and it is quite obvious that, according to my doctors
+they have advised me that I may not live too long, Because this
+illness has gotten to a very bad stage. I plead that you will not
+expose or betray this trust and confidence that I am about to repose
+on you for the mutual benefit of the orphans and the less privilege. I
+have some funds I inherited from my late husband, the sum of
+($11,500,000.00 Dollars).Having known my condition, I decided to
+donate this fund to you believing that you will utilize it the way i
+am going to instruct herein.
 
---
-Sincerely yours,
-Mike.
+   I need you to assist me and reclaim this money and use it for
+Charity works, for orphanages and gives justice and help to the poor,
+needy and widows says The Lord." Jeremiah 22:15-16.=E2=80=9C and also build
+schools for less privilege that will be named after my late husband if
+possible and to promote the word of God and the effort that the house
+of God is maintained. I do not want a situation where this money will
+be used in an ungodly manner. That's why I'm taking this decision. I'm
+not afraid of death, so I know where I'm going. I accept this decision
+because I do not have any child who will inherit this money after I
+die. Please I want your sincerely and urgent answer to know if you
+will be able to execute this project for the glory of God, and I will
+give you more information on how the fund will be transferred to your
+bank account. May the grace, peace, love and the truth in the Word of
+God be with you and all those that you love and care for.
+I'm waiting for your immediate reply,
+Faithfully.
+Mrs,Jackie Grayson.
+Writting From the hospital.
+May God Bless you.
