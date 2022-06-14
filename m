@@ -2,100 +2,203 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B13554A5FC
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Jun 2022 04:23:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DAA554AAE0
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Jun 2022 09:49:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353403AbiFNCP0 (ORCPT
+        id S1354828AbiFNHtA (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 13 Jun 2022 22:15:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57546 "EHLO
+        Tue, 14 Jun 2022 03:49:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353946AbiFNCOK (ORCPT
+        with ESMTP id S1352747AbiFNHs6 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 13 Jun 2022 22:14:10 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C2DB3B289;
-        Mon, 13 Jun 2022 19:08:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Tue, 14 Jun 2022 03:48:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E40EA3E5C6
+        for <platform-driver-x86@vger.kernel.org>; Tue, 14 Jun 2022 00:48:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1655192937;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=p+wrdfuMBKazwT1cY4RvGcWmJDzmwuDS6uqWLtKiUfE=;
+        b=IIjvIQIo0b4/slD68YR7n73NVoMiMwJr5SDoalKdcL0d/rkeeqegwmzRjIbDKF7OuenPcA
+        wCEOBT2p09N7W0l/ohsmX0ZpBPJWHyPrRgEXR5IDhGj6sCbSNJCK4tZ367sC7kJwF3b4Fk
+        dFBrFDUuZ9LrHTYd0LthJsxc58OAKpA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-528-4fwtt90OOBmlDGWDtDQvWg-1; Tue, 14 Jun 2022 03:48:55 -0400
+X-MC-Unique: 4fwtt90OOBmlDGWDtDQvWg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 20E61B80AC1;
-        Tue, 14 Jun 2022 02:08:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4C21C36B00;
-        Tue, 14 Jun 2022 02:08:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655172494;
-        bh=8el3SqLdZcIbqsykJyEZKxNlrqeGOrQgzCDXMo6yEMo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=p0j16W7EGkbAEGjvsJHnnmfQp5oB4O4/Nua0rutk5sm0C1yM31wE0ujRloW55sw5u
-         htfz+BnB8fJ4EAnF3u5JAXwm7KPIJPHVAo42mn5m9bs5VPIAcWRnyuy4wMM5fbByxB
-         SaKkq6fia6UcNOWOPAh5ocfqN3pG7Ae/vB2GqTxsdnMxGBlbYiRX3YSAoUcAEkSh+F
-         UOD117EP03A8tVZ9QqDwvg1M6rIbbrxe9ppjYH8UjvWDhqmZMYvuNowbLnh0b+C3o3
-         zJYMOPszoCytu1ndMEG9H8q5E4RT6xFV2TcfM/ZDBukFrePITQGQhHs4GV0U6smGCq
-         XY1QR3DBf+/hA==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Duke Lee <krnhotwings@gmail.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, dvhart@infradead.org,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 41/41] platform/x86/intel: hid: Add Surface Go to VGBS allow list
-Date:   Mon, 13 Jun 2022 22:07:06 -0400
-Message-Id: <20220614020707.1099487-41-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220614020707.1099487-1-sashal@kernel.org>
-References: <20220614020707.1099487-1-sashal@kernel.org>
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF52A8041BD;
+        Tue, 14 Jun 2022 07:48:54 +0000 (UTC)
+Received: from [10.39.194.250] (unknown [10.39.194.250])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1D770492C3B;
+        Tue, 14 Jun 2022 07:48:52 +0000 (UTC)
+Message-ID: <9bc97629-8680-75f3-7cca-c6029a9235fa@redhat.com>
+Date:   Tue, 14 Jun 2022 09:48:52 +0200
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 00/12] platform/surface: aggregator: Add support for
+ client hot-removal
+Content-Language: en-US
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>
+Cc:     Mark Gross <markgross@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20220527023447.2460025-1-luzmaximilian@gmail.com>
+ <23f92ec3-a739-6ee7-10f9-f66b17ae6088@redhat.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+In-Reply-To: <23f92ec3-a739-6ee7-10f9-f66b17ae6088@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Duke Lee <krnhotwings@gmail.com>
+On 6/13/22 17:27, Hans de Goede wrote:
+> Hi,
+> 
+> On 5/27/22 04:34, Maximilian Luz wrote:
+>> Summary:
+>>
+>>    Add support for the HID type cover input devices on the Pro 8 and all
+>>    requirements for that.
+>>
+>>
+>> Blurb from v1:
+>>
+>>    This series adds support for the type cover of the Surface Pro 8. On
+>>    the Pro 8, the type cover is (unlike on previous generations) handled
+>>    via the Surface System Aggregator Module (SSAM). As the type cover is
+>>    detachable, care needs to be taken and the respective SSAM (HID)
+>>    client devices need to be properly removed when detached and
+>>    re-initialized when attached.
+>>    
+>>    Therefore, this series does three things:
+>>    
+>>     1. Improve hot-removal support for SSAM client devices. When
+>>        hot-removing clients, subsequent communication may time out.
+>>    
+>>        In the worst case, this can lead to problems when devices are
+>>        detached and re-attached quickly, before we can remove their
+>>        respective kernel representations. This can then lead to devices
+>>        being in an uninitialized state, preventing, for example, touchpad
+>>        gestures from working properly as the required HID feature report
+>>        has not been sent.
+>>    
+>>        Therefore, handle hot-removal of devices more gracefully by
+>>        avoiding communication once it has been detected and ensure that
+>>        devices are actually removed.
+>>     
+>>     2. Generify SSAM subsystem hubs and add a KIP hub. On the Surface Pro
+>>        8, the KIP subsystem (only that abbreviation is known) is
+>>        responsible for managing type-cover devices. This hub acts as the
+>>        controller for device removal similar to the BAS (detachable base)
+>>        subsystem hub on the Surface Book 3 (therefore we can share most
+>>        of the code between them).
+>>    
+>>     3. Add the (HID) type-cover clients of the Surface Pro 8 to the
+>>        aggregator registry.
+>>
+>>
+>> Changes in v2:
+>>
+>>   - Introduce "platform/surface: aggregator: Allow is_ssam_device() to be
+>>     used when CONFIG_SURFACE_AGGREGATOR_BUS is disabled" to fix an
+>>     undefined reference  build issue when CONFIG_SURFACE_AGGREGATOR_BUS
+>>     is disabled.
+>>
+>>   - Make SSAM hub device UIDs consistent.
+>>      - Introduce "platform/surface: aggregator_registry: Change device ID
+>>        for base hub" to make association between hub and subsystem target
+>>        category more obvious.
+>>      - Change hub device ID for KIP subsystem hub to be consistent with
+>>        the id of the already existing BAS hub.
+> 
+> Thank you for your patch-series, I've applied the series to my
+> review-hans branch:
+> https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+> 
+> Once I've run some tests on this branch the patches there will be
+> added to the platform-drivers-x86/for-next branch and eventually
+> will be included in the pdx86 pull-request to Linus for the next
+> merge-window.
+> 
+> Jiri, Benjamin, note I've also taken the one small(ish) HID patch
+> which is a part of this series, despite it lacking an Ack from
+> either of you. I hope this is ok, if not let me know.
 
-[ Upstream commit d4fe9cc4ff8656704b58cfd9363d7c3c9d65e519 ]
+Sorry I am well behind on my patch processing.
 
-The Surface Go reports Chassis Type 9 (Laptop,) so the device needs to be
-added to dmi_vgbs_allow_list to enable tablet mode when an attached Type
-Cover is folded back.
+The patch is simple enough and if you reviewed the rest, that is fine by me.
 
-BugLink: https://github.com/linux-surface/linux-surface/issues/837
-Signed-off-by: Duke Lee <krnhotwings@gmail.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Link: https://lore.kernel.org/r/20220607213654.5567-1-krnhotwings@gmail.com
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/intel/hid.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Just for the archives:
+For the HID part
+Acked-by: Benjamin Tissoires <benjamin.tisssoires@redhat.com>
 
-diff --git a/drivers/platform/x86/intel/hid.c b/drivers/platform/x86/intel/hid.c
-index e9e8554147e0..d7d6782c40c2 100644
---- a/drivers/platform/x86/intel/hid.c
-+++ b/drivers/platform/x86/intel/hid.c
-@@ -129,6 +129,12 @@ static const struct dmi_system_id dmi_vgbs_allow_list[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "HP Spectre x360 Convertible 15-df0xxx"),
- 		},
- 	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Microsoft Corporation"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Surface Go"),
-+		},
-+	},
- 	{ }
- };
- 
--- 
-2.35.1
+(no need to force push your branch unless you think it's really 
+important to have my ack).
+
+Cheers,
+Benjamin
+
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+> 
+>> Maximilian Luz (12):
+>>    platform/surface: aggregator: Allow is_ssam_device() to be used when
+>>      CONFIG_SURFACE_AGGREGATOR_BUS is disabled
+>>    platform/surface: aggregator: Allow devices to be marked as
+>>      hot-removed
+>>    platform/surface: aggregator: Allow notifiers to avoid communication
+>>      on unregistering
+>>    platform/surface: aggregator_registry: Use client device wrappers for
+>>      notifier registration
+>>    power/supply: surface_charger: Use client device wrappers for notifier
+>>      registration
+>>    power/supply: surface_battery: Use client device wrappers for notifier
+>>      registration
+>>    HID: surface-hid: Add support for hot-removal
+>>    platform/surface: aggregator: Add comment for KIP subsystem category
+>>    platform/surface: aggregator_registry: Generify subsystem hub
+>>      functionality
+>>    platform/surface: aggregator_registry: Change device ID for base hub
+>>    platform/surface: aggregator_registry: Add KIP device hub
+>>    platform/surface: aggregator_registry: Add support for keyboard cover
+>>      on Surface Pro 8
+>>
+>>   .../driver-api/surface_aggregator/client.rst  |   6 +-
+>>   drivers/hid/surface-hid/surface_hid_core.c    |  38 +-
+>>   .../platform/surface/aggregator/controller.c  |  53 ++-
+>>   .../surface/surface_aggregator_registry.c     | 403 +++++++++++++-----
+>>   drivers/power/supply/surface_battery.c        |   4 +-
+>>   drivers/power/supply/surface_charger.c        |   4 +-
+>>   include/linux/surface_aggregator/controller.h |  24 +-
+>>   include/linux/surface_aggregator/device.h     | 125 +++++-
+>>   include/linux/surface_aggregator/serial_hub.h |   2 +-
+>>   9 files changed, 513 insertions(+), 146 deletions(-)
+>>
+> 
 
