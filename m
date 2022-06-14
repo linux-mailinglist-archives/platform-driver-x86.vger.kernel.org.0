@@ -2,203 +2,153 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DAA554AAE0
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Jun 2022 09:49:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C96054ACB6
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Jun 2022 11:02:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354828AbiFNHtA (ORCPT
+        id S242064AbiFNJBJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 14 Jun 2022 03:49:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38174 "EHLO
+        Tue, 14 Jun 2022 05:01:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352747AbiFNHs6 (ORCPT
+        with ESMTP id S241913AbiFNJBI (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 14 Jun 2022 03:48:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E40EA3E5C6
-        for <platform-driver-x86@vger.kernel.org>; Tue, 14 Jun 2022 00:48:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655192937;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=p+wrdfuMBKazwT1cY4RvGcWmJDzmwuDS6uqWLtKiUfE=;
-        b=IIjvIQIo0b4/slD68YR7n73NVoMiMwJr5SDoalKdcL0d/rkeeqegwmzRjIbDKF7OuenPcA
-        wCEOBT2p09N7W0l/ohsmX0ZpBPJWHyPrRgEXR5IDhGj6sCbSNJCK4tZ367sC7kJwF3b4Fk
-        dFBrFDUuZ9LrHTYd0LthJsxc58OAKpA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-4fwtt90OOBmlDGWDtDQvWg-1; Tue, 14 Jun 2022 03:48:55 -0400
-X-MC-Unique: 4fwtt90OOBmlDGWDtDQvWg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF52A8041BD;
-        Tue, 14 Jun 2022 07:48:54 +0000 (UTC)
-Received: from [10.39.194.250] (unknown [10.39.194.250])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1D770492C3B;
-        Tue, 14 Jun 2022 07:48:52 +0000 (UTC)
-Message-ID: <9bc97629-8680-75f3-7cca-c6029a9235fa@redhat.com>
-Date:   Tue, 14 Jun 2022 09:48:52 +0200
+        Tue, 14 Jun 2022 05:01:08 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3CD827B37;
+        Tue, 14 Jun 2022 02:01:06 -0700 (PDT)
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LMj4q5qWfzRhtq;
+        Tue, 14 Jun 2022 16:57:47 +0800 (CST)
+Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 14 Jun 2022 17:00:35 +0800
+Received: from localhost.localdomain (10.175.112.125) by
+ dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 14 Jun 2022 17:00:33 +0800
+From:   Wupeng Ma <mawupeng1@huawei.com>
+To:     <corbet@lwn.net>, <will@kernel.org>, <ardb@kernel.org>,
+        <catalin.marinas@arm.com>
+CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+        <dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+        <dvhart@infradead.org>, <andy@infradead.org>, <rppt@kernel.org>,
+        <akpm@linux-foundation.org>, <paul.walmsley@sifive.com>,
+        <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
+        <paulmck@kernel.org>, <keescook@chromium.org>,
+        <songmuchun@bytedance.com>, <rdunlap@infradead.org>,
+        <damien.lemoal@opensource.wdc.com>, <swboyd@chromium.org>,
+        <wei.liu@kernel.org>, <robin.murphy@arm.com>, <david@redhat.com>,
+        <mawupeng1@huawei.com>, <anshuman.khandual@arm.com>,
+        <thunder.leizhen@huawei.com>, <wangkefeng.wang@huawei.com>,
+        <gpiccoli@igalia.com>, <chenhuacai@kernel.org>,
+        <geert@linux-m68k.org>, <vijayb@linux.microsoft.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-efi@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
+        <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>
+Subject: [PATCH v5 0/5] introduce mirrored memory support for arm64
+Date:   Tue, 14 Jun 2022 17:21:51 +0800
+Message-ID: <20220614092156.1972846-1-mawupeng1@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 00/12] platform/surface: aggregator: Add support for
- client hot-removal
-Content-Language: en-US
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>
-Cc:     Mark Gross <markgross@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20220527023447.2460025-1-luzmaximilian@gmail.com>
- <23f92ec3-a739-6ee7-10f9-f66b17ae6088@redhat.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-In-Reply-To: <23f92ec3-a739-6ee7-10f9-f66b17ae6088@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.112.125]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500014.china.huawei.com (7.185.36.153)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 6/13/22 17:27, Hans de Goede wrote:
-> Hi,
-> 
-> On 5/27/22 04:34, Maximilian Luz wrote:
->> Summary:
->>
->>    Add support for the HID type cover input devices on the Pro 8 and all
->>    requirements for that.
->>
->>
->> Blurb from v1:
->>
->>    This series adds support for the type cover of the Surface Pro 8. On
->>    the Pro 8, the type cover is (unlike on previous generations) handled
->>    via the Surface System Aggregator Module (SSAM). As the type cover is
->>    detachable, care needs to be taken and the respective SSAM (HID)
->>    client devices need to be properly removed when detached and
->>    re-initialized when attached.
->>    
->>    Therefore, this series does three things:
->>    
->>     1. Improve hot-removal support for SSAM client devices. When
->>        hot-removing clients, subsequent communication may time out.
->>    
->>        In the worst case, this can lead to problems when devices are
->>        detached and re-attached quickly, before we can remove their
->>        respective kernel representations. This can then lead to devices
->>        being in an uninitialized state, preventing, for example, touchpad
->>        gestures from working properly as the required HID feature report
->>        has not been sent.
->>    
->>        Therefore, handle hot-removal of devices more gracefully by
->>        avoiding communication once it has been detected and ensure that
->>        devices are actually removed.
->>     
->>     2. Generify SSAM subsystem hubs and add a KIP hub. On the Surface Pro
->>        8, the KIP subsystem (only that abbreviation is known) is
->>        responsible for managing type-cover devices. This hub acts as the
->>        controller for device removal similar to the BAS (detachable base)
->>        subsystem hub on the Surface Book 3 (therefore we can share most
->>        of the code between them).
->>    
->>     3. Add the (HID) type-cover clients of the Surface Pro 8 to the
->>        aggregator registry.
->>
->>
->> Changes in v2:
->>
->>   - Introduce "platform/surface: aggregator: Allow is_ssam_device() to be
->>     used when CONFIG_SURFACE_AGGREGATOR_BUS is disabled" to fix an
->>     undefined reference  build issue when CONFIG_SURFACE_AGGREGATOR_BUS
->>     is disabled.
->>
->>   - Make SSAM hub device UIDs consistent.
->>      - Introduce "platform/surface: aggregator_registry: Change device ID
->>        for base hub" to make association between hub and subsystem target
->>        category more obvious.
->>      - Change hub device ID for KIP subsystem hub to be consistent with
->>        the id of the already existing BAS hub.
-> 
-> Thank you for your patch-series, I've applied the series to my
-> review-hans branch:
-> https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
-> 
-> Once I've run some tests on this branch the patches there will be
-> added to the platform-drivers-x86/for-next branch and eventually
-> will be included in the pdx86 pull-request to Linus for the next
-> merge-window.
-> 
-> Jiri, Benjamin, note I've also taken the one small(ish) HID patch
-> which is a part of this series, despite it lacking an Ack from
-> either of you. I hope this is ok, if not let me know.
+From: Ma Wupeng <mawupeng1@huawei.com>
 
-Sorry I am well behind on my patch processing.
+Commit b05b9f5f9dcf ("x86, mirror: x86 enabling - find mirrored memory ranges")
+introduced mirrored memory support for x86. This support rely on UEFI to
+report mirrored memory address ranges.  See UEFI 2.5 spec pages 157-158:
 
-The patch is simple enough and if you reviewed the rest, that is fine by me.
+  http://www.uefi.org/sites/default/files/resources/UEFI%202_5.pdf
 
-Just for the archives:
-For the HID part
-Acked-by: Benjamin Tissoires <benjamin.tisssoires@redhat.com>
+Memory mirroring is a technique used to separate memory into two separate
+channels, usually on a memory device, like a server. In memory mirroring,
+one channel is copied to another to create redundancy. This method makes
+input/output (I/O) registers and memory appear with more than one address
+range because the same physical byte is accessible at more than one
+address. Using memory mirroring, higher memory reliability and a higher
+level of memory consolidation are possible.
 
-(no need to force push your branch unless you think it's really 
-important to have my ack).
+These EFI memory regions have various attributes, and the "mirrored"
+attribute is one of them. The physical memory region whose descriptors
+in EFI memory map has EFI_MEMORY_MORE_RELIABLE attribute (bit: 16) are
+mirrored. The address range mirroring feature of the kernel arranges such
+mirrored regions into normal zones and other regions into movable zones.
 
-Cheers,
-Benjamin
+Arm64 can support this too. So mirrored memory support is added to support
+arm64.
 
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> 
-> 
->> Maximilian Luz (12):
->>    platform/surface: aggregator: Allow is_ssam_device() to be used when
->>      CONFIG_SURFACE_AGGREGATOR_BUS is disabled
->>    platform/surface: aggregator: Allow devices to be marked as
->>      hot-removed
->>    platform/surface: aggregator: Allow notifiers to avoid communication
->>      on unregistering
->>    platform/surface: aggregator_registry: Use client device wrappers for
->>      notifier registration
->>    power/supply: surface_charger: Use client device wrappers for notifier
->>      registration
->>    power/supply: surface_battery: Use client device wrappers for notifier
->>      registration
->>    HID: surface-hid: Add support for hot-removal
->>    platform/surface: aggregator: Add comment for KIP subsystem category
->>    platform/surface: aggregator_registry: Generify subsystem hub
->>      functionality
->>    platform/surface: aggregator_registry: Change device ID for base hub
->>    platform/surface: aggregator_registry: Add KIP device hub
->>    platform/surface: aggregator_registry: Add support for keyboard cover
->>      on Surface Pro 8
->>
->>   .../driver-api/surface_aggregator/client.rst  |   6 +-
->>   drivers/hid/surface-hid/surface_hid_core.c    |  38 +-
->>   .../platform/surface/aggregator/controller.c  |  53 ++-
->>   .../surface/surface_aggregator_registry.c     | 403 +++++++++++++-----
->>   drivers/power/supply/surface_battery.c        |   4 +-
->>   drivers/power/supply/surface_charger.c        |   4 +-
->>   include/linux/surface_aggregator/controller.h |  24 +-
->>   include/linux/surface_aggregator/device.h     | 125 +++++-
->>   include/linux/surface_aggregator/serial_hub.h |   2 +-
->>   9 files changed, 513 insertions(+), 146 deletions(-)
->>
-> 
+The main purpose of this patch set is to introduce mirrored support for
+arm64 and we have already fixed the problems we had which is shown in
+patch #5 to patch #8 and try to bring total isolation in patch #9 which
+will disable mirror feature if kernelcore is not specified.
+
+In order to test this support in arm64:
+- patch this patch set
+- add kernelcore=mirror in kernel parameter
+- start you kernel
+
+Patch #1 introduce mirrored memory support form arm64.
+Patch #2-#4 fix some bugs for arm64 if memory reliable is enabled.
+Patch #5 disable mirror feature if kernelcore is not specified.
+
+Thanks to Ard Biesheuvel's hard work [1], now kernel will perfer mirrored
+memory if kaslr is enabled.
+
+[1] https://lore.kernel.org/linux-arm-kernel/CAMj1kXEPVEzMgOM4+Yj6PxHA-jFuDOAUdDJSiSxy_XaP4P7LSw@mail.gmail.com/T/
+
+Changelog since v4:
+- merge the first two patches into one
+- change __initdata to __initdata_memblock in patch #5
+
+Changelog since v3:
+- limit warning message in vmemmap_verify via pr_warn_once()
+- only clear memblock_nomap flags rather than bring the mirrored flag back
+- disable mirrored feature in memblock_mark_mirror()
+
+Changelog since v2:
+- remove efi_fake_mem support
+- remove Commit ("remove some redundant code in ia64 efi_init") since
+  efi_print_memmap() is not public
+- add mirror flag back on initrd memory
+
+Changelog since v1:
+- update changelog in cover letter
+- use PHYS_PFN in patch #7
+
+Ma Wupeng (5):
+  efi: arm64: Introduce ability to find mirrored memory ranges
+  mm: Ratelimited mirrored memory related warning messages
+  mm: Limit warning message in vmemmap_verify() to once
+  arm64: mm: Only remove nomap flag for initrd
+  memblock: Disable mirror feature if kernelcore is not specified
+
+ arch/arm64/mm/init.c            |  2 +-
+ arch/x86/include/asm/efi.h      |  4 ----
+ arch/x86/platform/efi/efi.c     | 23 -----------------------
+ drivers/firmware/efi/efi-init.c |  1 +
+ drivers/firmware/efi/efi.c      | 23 +++++++++++++++++++++++
+ include/linux/efi.h             |  3 +++
+ mm/internal.h                   |  2 ++
+ mm/memblock.c                   |  7 +++++--
+ mm/page_alloc.c                 |  2 +-
+ mm/sparse-vmemmap.c             |  2 +-
+ 10 files changed, 37 insertions(+), 32 deletions(-)
+
+-- 
+2.25.1
 
