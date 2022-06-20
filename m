@@ -2,60 +2,70 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB900551FF0
+	by mail.lfdr.de (Postfix) with ESMTP id 51653551FEE
 	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Jun 2022 17:11:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231253AbiFTPLT (ORCPT
+        id S242656AbiFTPLW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 Jun 2022 11:11:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35556 "EHLO
+        Mon, 20 Jun 2022 11:11:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240247AbiFTPJ4 (ORCPT
+        with ESMTP id S243092AbiFTPLH (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 Jun 2022 11:09:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 89DEB24968
-        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Jun 2022 07:56:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655736998;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=lKyF+z79fHYcBhESudOJe7xlGopRWYOzajO6RkvOs0E=;
-        b=NreE8oOwEUKkZEfSUW6TYv1DCKp2Jgm2pMhHYeHicSdDgY/9MCugn4By4+W4z2XkiXtY83
-        WHxHcAI8uYiNPxfqFCjKBoBEiZD+YqrS4G7EtQzonIxYjtMlQPOEH1rMFGbClyI/A+izyL
-        qt8Qj8ozWES83O3ipwbP6GXuY6+SUOA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-460-Fg4g1VbTM46DW6nRZ-erXw-1; Mon, 20 Jun 2022 10:56:35 -0400
-X-MC-Unique: Fg4g1VbTM46DW6nRZ-erXw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        Mon, 20 Jun 2022 11:11:07 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ABFD2DF5
+        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Jun 2022 07:59:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DA1FE8339A2;
-        Mon, 20 Jun 2022 14:56:34 +0000 (UTC)
-Received: from x1.nl (unknown [10.39.192.239])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6D1CB9D63;
-        Mon, 20 Jun 2022 14:56:33 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Mark Gross <mgross@linux.intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v2 3/3] platform/x86/dell: Kconfig: Remove unnecessary "depends on X86_PLATFORM_DEVICES"
-Date:   Mon, 20 Jun 2022 16:56:28 +0200
-Message-Id: <20220620145628.5882-3-hdegoede@redhat.com>
-In-Reply-To: <20220620145628.5882-1-hdegoede@redhat.com>
-References: <20220620145628.5882-1-hdegoede@redhat.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0C4E2B811CB
+        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Jun 2022 14:59:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 87BFDC3411B
+        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Jun 2022 14:59:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655737178;
+        bh=1ZKc8CjhbJX7zAJq4+t6uWvFbARAjQ40HWmpgJII4w4=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=LO4lKxwdDz/M0bh3hMA0y6/TP7Sj4x0LqZf7QY1fBJy6xwfGRvLPZnDPn5Il8yU8Q
+         gQy94oFuEAKBB/F0bwJ2iunj7kl7DHWsAuBWuCzZs+YdiXCDI5TxcxRZ+NWOctSxd7
+         2gpIbyYXnYopjHwf9AOoWG2Q6pWev/YfLiD62w2vvPXzpj0Q5vtiZ7MLoihIlooIqH
+         1AsmEiFNxCmeiKn6mWXKeb0Y7EmiWBV5lIcNAAInNgzhvAPrEdVAfmgdi7baVx6sHD
+         i3T/hb5lrJITKjdIJ5ynEQW78fBs8fQ717hTZUIjBF1E353fNPiuYtbi5y8rXmrXLS
+         Wb1ioInrMSO2A==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 6AFC1CC13AD; Mon, 20 Jun 2022 14:59:38 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     platform-driver-x86@vger.kernel.org
+Subject: [Bug 216150] ideapad-laptop exposes only two keyboard backlight
+ levels, instead of three
+Date:   Mon, 20 Jun 2022 14:59:38 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Platform_x86
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pobrn@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-216150-215701-kfs1RTnqqL@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216150-215701@https.bugzilla.kernel.org/>
+References: <bug-216150-215701@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,27 +73,32 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-platform/x86/dell/Kconfig is only sourced if X86_PLATFORM_DEVICES is set,
-so it does not need to depend on it.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216150
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/dell/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+Barnab=C3=A1s P=C5=91cze (pobrn@protonmail.com) changed:
 
-diff --git a/drivers/platform/x86/dell/Kconfig b/drivers/platform/x86/dell/Kconfig
-index fe224a54f24c..25421e061c47 100644
---- a/drivers/platform/x86/dell/Kconfig
-+++ b/drivers/platform/x86/dell/Kconfig
-@@ -5,7 +5,6 @@
- 
- menuconfig X86_PLATFORM_DRIVERS_DELL
- 	bool "Dell X86 Platform Specific Device Drivers"
--	depends on X86_PLATFORM_DEVICES
- 	help
- 	  Say Y here to get to see options for device drivers for various
- 	  Dell x86 platforms, including vendor-specific laptop extension drivers.
--- 
-2.36.0
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |pobrn@protonmail.com
 
+--- Comment #1 from Barnab=C3=A1s P=C5=91cze (pobrn@protonmail.com) ---
+From https://bugzilla.redhat.com/show_bug.cgi?id=3D1979909:
+
+> Hi
+>=20
+> This is a limitation of the interface. The device I tested this feature on
+> also has three keyboard backlight levels that can be changed using Fn+spa=
+ce,
+> however, the Lenovo Vantage software on Windows can only turn it on/off,
+> because the that's all the interface is capable of. And since I based my =
+work
+> on that, this limitation is carried over to the Linux kernel driver. If I
+> recall correctly there is another interface that has multiple backlight
+> levels, but my device was not compatible so I didn't attempt to implement
+> that. Curiously, the backlight change notification is still sent.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
