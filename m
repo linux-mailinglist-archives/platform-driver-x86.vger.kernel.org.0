@@ -2,50 +2,53 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 99053551472
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Jun 2022 11:36:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93741551474
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Jun 2022 11:36:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232170AbiFTJgo (ORCPT
+        id S232789AbiFTJgr (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 Jun 2022 05:36:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43032 "EHLO
+        Mon, 20 Jun 2022 05:36:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232000AbiFTJgn (ORCPT
+        with ESMTP id S232000AbiFTJgq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 Jun 2022 05:36:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F1F0E13D67
-        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Jun 2022 02:36:42 -0700 (PDT)
+        Mon, 20 Jun 2022 05:36:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2625913D67
+        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Jun 2022 02:36:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655717802;
+        s=mimecast20190719; t=1655717805;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=JSZp0yA+KjRoh2VaWCiAsqzkCTe2noZ8GpHX1yIh4cA=;
-        b=ZVgwyNJHI9m7yJRhnpxgwe3KkHd1ZL7EYptG/uWXPUtsRKeLe39pCxcprYyzEKGNWiADKR
-        RrNG5aRlq8UwgobcGxfQkbHc/emALIWveF4hlh++30drl3fxAo4O9GrbVVvTD8WPoWnmzi
-        uhosWm5d5aguo0AMLHC+fvhH7EEo+JA=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=oUihp6QOhBXwOLdEMNJp4UFXHvIuR5TBuHBAdenGQz4=;
+        b=aru5fyjpXHYK3UdJY+S5wI3ah+RoZvzGpOYBolT8UMuY0y7//J56lIzJF0UvEiXd4PkMWg
+        lIxZhayewYwuCqtUO+XSPRJbHGVbVEmOo/zoetkxavvKWICBAi04H0dvsH/pS02ooji0hE
+        DOw0h2vUnRWYZKzbYa/e5VT3vTGJX1s=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-601-8BfnPFfWMyiCPpz8HNM0Kg-1; Mon, 20 Jun 2022 05:36:40 -0400
-X-MC-Unique: 8BfnPFfWMyiCPpz8HNM0Kg-1
+ us-mta-648-UAa4uaQ6NsWERg9OERD6yQ-1; Mon, 20 Jun 2022 05:36:41 -0400
+X-MC-Unique: UAa4uaQ6NsWERg9OERD6yQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E343E101AA45;
-        Mon, 20 Jun 2022 09:36:39 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 37A0780013E;
+        Mon, 20 Jun 2022 09:36:41 +0000 (UTC)
 Received: from x1.nl (unknown [10.39.195.183])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 62715C08F22;
-        Mon, 20 Jun 2022 09:36:38 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4F74CC28112;
+        Mon, 20 Jun 2022 09:36:40 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <mgross@linux.intel.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Andy Shevchenko <andy@infradead.org>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH 1/3] platform/x86: acer_wmi: Cleanup Kconfig selects
-Date:   Mon, 20 Jun 2022 11:36:35 +0200
-Message-Id: <20220620093637.9429-1-hdegoede@redhat.com>
+Subject: [PATCH 2/3] platform/x86: Kconfig: Remove unnecessary "depends on X86"
+Date:   Mon, 20 Jun 2022 11:36:36 +0200
+Message-Id: <20220620093637.9429-2-hdegoede@redhat.com>
+In-Reply-To: <20220620093637.9429-1-hdegoede@redhat.com>
+References: <20220620093637.9429-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
@@ -59,44 +62,27 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-ACER_WMI already depends on ACPI_WMI which depends on ACPI
-so the "depends on ACPI" is unnecessary.
-
-And since ACER_WMI already depends on ACPI adding an "if ACPI"
-to the ACPI_VIDEO select is non-sense.
-
-While at it also group all the selects together.
+The sourcing of drivers/platform/x86/Kconfig is protected by
+a "if X86", so the "depends on X86" for X86_PLATFORM_DEVICES
+is unnecessary, remove it.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/Kconfig | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/platform/x86/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 08852a1cd51d..6e22ac916f7a 100644
+index 6e22ac916f7a..0f723c34a637 100644
 --- a/drivers/platform/x86/Kconfig
 +++ b/drivers/platform/x86/Kconfig
-@@ -177,17 +177,15 @@ config ACER_WIRELESS
- 
- config ACER_WMI
- 	tristate "Acer WMI Laptop Extras"
--	depends on ACPI
--	select LEDS_CLASS
--	select NEW_LEDS
- 	depends on BACKLIGHT_CLASS_DEVICE
- 	depends on SERIO_I8042
- 	depends on INPUT
- 	depends on RFKILL || RFKILL = n
- 	depends on ACPI_WMI
-+	select ACPI_VIDEO
- 	select INPUT_SPARSEKMAP
--	# Acer WMI depends on ACPI_VIDEO when ACPI is enabled
--        select ACPI_VIDEO if ACPI
-+	select LEDS_CLASS
-+	select NEW_LEDS
+@@ -6,7 +6,6 @@
+ menuconfig X86_PLATFORM_DEVICES
+ 	bool "X86 Platform Specific Device Drivers"
+ 	default y
+-	depends on X86
  	help
- 	  This is a driver for newer Acer (and Wistron) laptops. It adds
- 	  wireless radio and bluetooth control, and on some laptops,
+ 	  Say Y here to get to see options for device drivers for various
+ 	  x86 platforms, including vendor-specific laptop extension drivers.
 -- 
 2.36.0
 
