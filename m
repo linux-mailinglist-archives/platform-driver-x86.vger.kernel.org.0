@@ -2,109 +2,221 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 534AD552EEA
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Jun 2022 11:41:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE6CF552F6A
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Jun 2022 12:06:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349535AbiFUJlO (ORCPT
+        id S230029AbiFUKG4 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 21 Jun 2022 05:41:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52386 "EHLO
+        Tue, 21 Jun 2022 06:06:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349389AbiFUJkq (ORCPT
+        with ESMTP id S229929AbiFUKGz (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 21 Jun 2022 05:40:46 -0400
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5026A27B09
-        for <platform-driver-x86@vger.kernel.org>; Tue, 21 Jun 2022 02:40:30 -0700 (PDT)
-Received: by mail-yb1-xb2f.google.com with SMTP id l66so22055886ybl.10
-        for <platform-driver-x86@vger.kernel.org>; Tue, 21 Jun 2022 02:40:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=/0bRExIb6Mv4sy5raFRmeQINC+UUx7zEZcUUOWWOPJg=;
-        b=B1uCY/ZGxNv+SuvqzWI7knAzBdNvauy3nycV+ph3RUTsvc0bIgej//rBgD1IbACYxY
-         lotdEVzyaNtdyVr9ZeDp1niOo7yWEas4CEV2rY79ha1BAmRV0SJsI0qYuWVETvQd814U
-         IfaxegJeOLNpcCtScCHv1MyD1aVb2XNeky1ErJbpgKCjDLU3YsdgKBLHmT3Y0/J19L9b
-         m8rTR6N22ab0ixAnPqqzGqoCuZOXu6a5y2yQURUBJDXOTpTpi+tACyJCOVO2zP3qjTHg
-         /yKEOCgygfbhX/it3nTJSDfK5FzkQJn0DFcaL9qjtnGeiS7i3VfV1apluDHIhCyiGayz
-         po2w==
+        Tue, 21 Jun 2022 06:06:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CDADE27FED
+        for <platform-driver-x86@vger.kernel.org>; Tue, 21 Jun 2022 03:06:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1655806012;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=OVKCPH4a0JKLpBoajp+D/luYrEgaQCvDF1hMTvEYmdY=;
+        b=Y9rqJ24QvNz+LV/goHeMUxvaoPY7kQNYqxTxuufaax8THicH59WCwMaIY2MrCtGHXENklM
+        L7wuVMvxlQ2bTTZExYxv8VC3vVbkRCxkyU7XxsX4ncv7XpXlPI75kWUuVPgrYz6mwBOfBB
+        nlIudVjCE1hr+IGY696Jo7wngWavPNs=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-161-yYHlErPlODGXsLHq_C4ujg-1; Tue, 21 Jun 2022 06:06:51 -0400
+X-MC-Unique: yYHlErPlODGXsLHq_C4ujg-1
+Received: by mail-ej1-f70.google.com with SMTP id p10-20020a170906b20a00b0070c21a6d378so4573401ejz.2
+        for <platform-driver-x86@vger.kernel.org>; Tue, 21 Jun 2022 03:06:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=/0bRExIb6Mv4sy5raFRmeQINC+UUx7zEZcUUOWWOPJg=;
-        b=QqRzo1nm5cAd1ZPCpuIkRELL8jpdf7awhv9RLogy1fiwbXHEw2ipfaDQ6sVHzgfcxu
-         HTZOiLE1llzw6wf4JSpSj+K/tPiUgGLOi9XLgOB/1NfeqFO423a7+7iRVfpAyZvfT2qt
-         UuY0VlHIaG9j9D6quOrSEtBAwBZ+evN8msmEgA2hcYXCOAlk6HM0szyyEuibnedIt/YQ
-         9vfts+X2Bozt8wTDf45Qst5e7JVkCMkuImxrCJVn7msnVxSVmh5efjpZDyN20ew/q2ir
-         Gt7t8CHgjo8ZFjxdfIJZa3c9S6J1ibL9Lst/9j31wCP+Fpo/CB2qUiPEZ4NUsueCaekq
-         R+8Q==
-X-Gm-Message-State: AJIora+ySp3kPC0pEHNP9LJGhGDsIeyASdBVtaL9Byg9Gz4vhy/WSp19
-        7t54wEQXe0PsaNW6UzB7GRvzWV0Nw7Xtnql5mX0=
-X-Google-Smtp-Source: AGRyM1vSG2x5HwdezAKpMjHbtzSz/0s+tkpOBdmPJ9GeMAc1/LDkVjTgZNgrzSoFFu/of0F2Wkd9f0ksztrfYtGwCsw=
-X-Received: by 2002:a25:b08c:0:b0:664:6f87:87a with SMTP id
- f12-20020a25b08c000000b006646f87087amr29569039ybj.181.1655804429168; Tue, 21
- Jun 2022 02:40:29 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=OVKCPH4a0JKLpBoajp+D/luYrEgaQCvDF1hMTvEYmdY=;
+        b=DwFqCE6aX7vNns/XeRTL9HKGZyUTLgMIJR7WzW8u0Be2b/zh4g7DAY6hTK18oWq9FC
+         U7Ik4OuxGOyewsL8KHhwraoS22JeCep6NvOppQkgeF0AfwbodFYUKmefj1kgqgM0INWU
+         8htw5qBwpnmwYWLoQK2IAzAschddRSesE69U9A25QjgKNt91+BcVmCkstmw887A7YsQa
+         rrqNwnaIiFZbXU3+EI29DuAGSvX9F61g8uQnG+QIgQKJIiZKlEDvGpyWfwNQOS/LYCsR
+         sPZOk2rci9csX1BrtPQY8LnFGH8TnWKm/3G4efuQRyCYO5zNHHBeUDoLMX2XWMZloNA1
+         8E5A==
+X-Gm-Message-State: AJIora/OzbYXdP76fYnZA5Kx2146jn3C7WVxUGLkCivYSuh+isIJIq2M
+        rYqKgLxxf249rgEBoXnDs3tjSexRiP7gdmrdZSfLThpX1FKtHksQ4zELnFDn0sZ5MehhHpKXBIG
+        VB2uRiVkJhInhrlGKBRJvYI9CXfCUr3hGjA==
+X-Received: by 2002:a17:907:7e90:b0:704:b67d:623e with SMTP id qb16-20020a1709077e9000b00704b67d623emr24830595ejc.634.1655806009494;
+        Tue, 21 Jun 2022 03:06:49 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vfDU5HBc6eg5PVLcqUujSoxltFjtYrZOrHgADfRD8wTvWQQMXNdkhuwCq1OBqcEKcR1dzWmQ==
+X-Received: by 2002:a17:907:7e90:b0:704:b67d:623e with SMTP id qb16-20020a1709077e9000b00704b67d623emr24830566ejc.634.1655806009205;
+        Tue, 21 Jun 2022 03:06:49 -0700 (PDT)
+Received: from [10.1.0.34] ([31.137.219.240])
+        by smtp.gmail.com with ESMTPSA id d13-20020a170906304d00b00704757b1debsm7329217ejd.9.2022.06.21.03.06.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jun 2022 03:06:48 -0700 (PDT)
+Message-ID: <7a9bec36-b699-4a5f-ba79-36806f3d36b5@redhat.com>
+Date:   Tue, 21 Jun 2022 12:06:45 +0200
 MIME-Version: 1.0
-Received: by 2002:a05:7010:e10a:b0:2d9:e631:94d0 with HTTP; Tue, 21 Jun 2022
- 02:40:28 -0700 (PDT)
-Reply-To: dimitryedik@gmail.com
-From:   Dimitry Edik <lsbthdwrds@gmail.com>
-Date:   Tue, 21 Jun 2022 02:40:28 -0700
-Message-ID: <CAGrL05buidt0f_Qx_VLU5-ZtAbz7vtzWPfVEnvxRmi33r-ALaA@mail.gmail.com>
-Subject: Dear Partner,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=7.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_MONEY_PERCENT,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,
-        UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:b2f listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [lsbthdwrds[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  0.0 T_MONEY_PERCENT X% of a lot of money for you
-        *  2.0 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *******
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 01/14] ACPI: video: Add a native function parameter to
+ acpi_video_get_backlight_type()
+Content-Language: en-US
+To:     Jani Nikula <jani.nikula@linux.intel.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
+        Daniel Dadap <ddadap@nvidia.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>
+Cc:     nouveau@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+References: <20220517152331.16217-1-hdegoede@redhat.com>
+ <20220517152331.16217-2-hdegoede@redhat.com> <87y1yzdxtk.fsf@intel.com>
+ <dc30ddc2-b00e-234e-5ec3-b1ea79c74082@redhat.com> <87pmk9dhe1.fsf@intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <87pmk9dhe1.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello Dear,
+Hi,
 
-My Name is Dimitry Edik from Russia A special assistance to my Russia
-boss who deals in oil import and export He was killed by the Ukraine
-soldiers at the border side. He supplied
-oil to the Philippines company and he was paid over 90 per cent of the
-transaction and the remaining $18.6 Million dollars have been paid into a
-Taiwan bank in the Philippines..i want a partner that will assist me
-with the claims. Is a (DEAL ) 40% for you and 60% for me
-I have all information for the claims.
-Kindly read and reply to me back is 100 per cent risk-free
+On 5/19/22 11:02, Jani Nikula wrote:
+> On Wed, 18 May 2022, Hans de Goede <hdegoede@redhat.com> wrote:
+>> Hi,
+>>
+>> On 5/18/22 10:55, Jani Nikula wrote:
+>>> On Tue, 17 May 2022, Hans de Goede <hdegoede@redhat.com> wrote:
+>>>> ATM on x86 laptops where we want userspace to use the acpi_video backlight
+>>>> device we often register both the GPU's native backlight device and
+>>>> acpi_video's firmware acpi_video# backlight device. This relies on
+>>>> userspace preferring firmware type backlight devices over native ones, but
+>>>> registering 2 backlight devices for a single display really is undesirable.
+>>>>
+>>>> On x86 laptops where the native GPU backlight device should be used,
+>>>> the registering of other backlight devices is avoided by their drivers
+>>>> using acpi_video_get_backlight_type() and only registering their backlight
+>>>> if the return value matches their type.
+>>>>
+>>>> acpi_video_get_backlight_type() uses
+>>>> backlight_device_get_by_type(BACKLIGHT_RAW) to determine if a native
+>>>> driver is available and will never return native if this returns
+>>>> false. This means that the GPU's native backlight registering code
+>>>> cannot just call acpi_video_get_backlight_type() to determine if it
+>>>> should register its backlight, since acpi_video_get_backlight_type() will
+>>>> never return native until the native backlight has already registered.
+>>>>
+>>>> To fix this add a native function parameter to
+>>>> acpi_video_get_backlight_type(), which when set to true will make
+>>>> acpi_video_get_backlight_type() behave as if a native backlight has
+>>>> already been registered.
+> 
+> Regarding the question below, this is the part that throws me off.
+> 
+>>>>
+>>>> Note that all current callers are updated to pass false for the new
+>>>> parameter, so this change in itself causes no functional changes.
+>>>
+>>>
+>>>> diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
+>>>> index becc198e4c22..0a06f0edd298 100644
+>>>> --- a/drivers/acpi/video_detect.c
+>>>> +++ b/drivers/acpi/video_detect.c
+>>>> @@ -17,12 +17,14 @@
+>>>>   * Otherwise vendor specific drivers like thinkpad_acpi, asus-laptop,
+>>>>   * sony_acpi,... can take care about backlight brightness.
+>>>>   *
+>>>> - * Backlight drivers can use acpi_video_get_backlight_type() to determine
+>>>> - * which driver should handle the backlight.
+>>>> + * Backlight drivers can use acpi_video_get_backlight_type() to determine which
+>>>> + * driver should handle the backlight. RAW/GPU-driver backlight drivers must
+>>>> + * pass true for the native function argument, other drivers must pass false.
+>>>>   *
+>>>>   * If CONFIG_ACPI_VIDEO is neither set as "compiled in" (y) nor as a module (m)
+>>>>   * this file will not be compiled and acpi_video_get_backlight_type() will
+>>>> - * always return acpi_backlight_vendor.
+>>>> + * return acpi_backlight_native when its native argument is true and
+>>>> + * acpi_backlight_vendor when it is false.
+>>>>   */
+>>>
+>>> Frankly, I think the boolean native parameter here, and at the call
+>>> sites, is confusing, and the slightly different explanations in the
+>>> commit message and comment here aren't helping.
+>>
+>> Can you elaborate the "slightly different explanations in the
+>> commit message and comment" part a bit (so that I can fix this) ?
+>>
+>>> I suggest adding a separate function that the native backlight drivers
+>>> should use. I think it's more obvious all around, and easier to document
+>>> too.
+>>
+>> Code wise I think this would mean renaming the original and
+>> then adding 2 wrappers, but that is fine with me. I've no real
+>> preference either way and I'm happy with adding a new variant of
+>> acpi_video_get_backlight_type() for the native backlight drivers
+>> any suggestion for a name ?
+> 
+> Alternatively, do the native backlight drivers have any need for the
+> actual backlight type information from acpi? They only need to be able
+> to ask if they should register themselves, right?
+> 
+> I understand this sounds like bikeshedding, but I'm trying to avoid
+> duplicating the conditions in the drivers where a single predicate
+> function call could be sufficient, and the complexity could be hidden in
+> acpi.
+> 
+> 	if (!acpi_video_backlight_use_native())
+> 		return;
 
-Yours Sincerely
-Dimitry Edik
+acpi_video_backlight_use_native() sounds good, I like I will change
+this for v2. This also removes churn in all the other
+acpi_video_get_backlight_type() callers.
+
+> Perhaps all the drivers/platform/x86/* backlight drivers could use:
+> 
+> 	if (acpi_video_backlight_use_vendor())
+> 		...
+
+Hmm, as part of the ractoring there also will be new apple_gmux
+and nvidia_wmi_ec types. I'm not sure about adding seperate functions
+for all of those vs get_type() != foo. I like get_type != foo because
+it makes clear that there will also be another caller somewhere
+where get_type == foo and that that one will rbe the one which
+actually gets to register its backlight.
+
+> You can still use the native parameter etc. internally, but just hide
+> the details from everyone else, and, hopefully, make it harder for them
+> to do silly things?
+
+Ack.
+
+Regards,
+
+Hans
+
