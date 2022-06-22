@@ -2,74 +2,99 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7F3C554E93
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jun 2022 17:05:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A925C555333
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jun 2022 20:17:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358007AbiFVPFE (ORCPT
+        id S1377628AbiFVSRx (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 22 Jun 2022 11:05:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36772 "EHLO
+        Wed, 22 Jun 2022 14:17:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358721AbiFVPEv (ORCPT
+        with ESMTP id S1377624AbiFVSRs (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 22 Jun 2022 11:04:51 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 109F03983F
-        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Jun 2022 08:04:48 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id h192so16354720pgc.4
-        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Jun 2022 08:04:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=vhZEVnaGNBjosB86GDUW8b2wHjB/+QU31bPXl36TqFE=;
-        b=NNrbGK6djS0CRtM3/UQ95LhI2eEXoWUxLsDnUA13MFRNJk/9mmQU3ox4fvrjHHphG6
-         Uk/KgNtAhYWz5i7hein52o157kcoxgXWDZDT27h/956I4acbXf9Y/nkriGxcNVM2r8P4
-         wcgFg1F/jkIaLSrQaqlUO+8pMLEosbdY7OOsWr3AMLc2TBO3+SIkCWKgxM/nVMk6ZFoJ
-         uDK8nqq6dnszsTc7PBBlIz9Hg4YUuuTbSHyTc+E08CrWi3+L7GeeFiCasIYZ9Q8VsLG8
-         S4vhAK+7u11z+m5Hxkc6y5oajBPWYBYxPxJpo4DQkMntf9H3LyL8L9ttwwDWjcJf+c8U
-         PpJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=vhZEVnaGNBjosB86GDUW8b2wHjB/+QU31bPXl36TqFE=;
-        b=CymIk39ZGhM8GkycKmozochgNhN4tmlxXSBafd8ZTB89Tor6BD0FIJl+HZyHNAtjaK
-         IOR8UfL3HctDXUCNEET5zSS/aKCI5yoCgwEEwiLp8M2XCjOdNjpr/chefV2f+cnIPGp4
-         d0tCwcdYVXf6yCet6qqLfis0YIHIKG5WOAmKVHKrzs0pHgTbxkdojZRLR6HMPindt3ef
-         plz2BkXJnaZ72fvDNVm3l5Tm/wee21ziJyJ1U4EMS+kGrPP0u1NQOlO5LOwDB8qCrR6z
-         i3+Ddv4++ElXLG6DHY89kggzom/WNPO5J1tkLlW0/Nb5Nw5uqIOZ8Gj6HaORL60Rwi7V
-         2Yqg==
-X-Gm-Message-State: AJIora9Rp56eUjqFPXEE1mtuIcfrxJAV4TXxuRPvpbblmdTBynMxy7v5
-        cbASUlx69sbWsJvosFQXz+EDumiyqFBLQV6qmvc=
-X-Google-Smtp-Source: AGRyM1vUU+8KcpqHjKd+XwOIzLZo81GCNo8g1T8NcsXoedjztrD28nv6b5dX/4HlbDQGNJto4FvnUxTvx2PWypG1x+c=
-X-Received: by 2002:a62:5a81:0:b0:525:301a:1445 with SMTP id
- o123-20020a625a81000000b00525301a1445mr12459103pfb.53.1655910287542; Wed, 22
- Jun 2022 08:04:47 -0700 (PDT)
+        Wed, 22 Jun 2022 14:17:48 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F12F03EAB7;
+        Wed, 22 Jun 2022 11:17:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655921866; x=1687457866;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=L4w+G98hAtmvimBUATH9wqRh6U1vIpTCGqGsLMHPPA8=;
+  b=Oj9D0QUl6rs4FhNfkJUXZY9qCuh2WiaP7YwLyVVZyZ7UJdnpeuKdj/KO
+   cnucczxzO3o4JB/+Pof1Vxf4R7rd3NwF2V/0GQuPhCHGtf9t3iQ0q3JvV
+   1PZJ6P+Vgu3HXZrzCoiNrFQhmN+mwN3DEzuhbXwi3Vnk4hjFA6idkkaIx
+   tbDTT7BTeVY5ZZppx5juIXTQzg1cUEZG9psgT9C2RN+fcRK3WjcISH39T
+   25DbS+JcvUTQ23CCyfyPBVCWz8mImgHi1CLv9onuhCe34xMzzvBcM/Rba
+   S7c5XFhqgPuR8u8fDi8+5d8xuw5lLyxNIsd7SGIi+Y9sFUoA1VtUz6y1N
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10386"; a="260319692"
+X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; 
+   d="scan'208";a="260319692"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2022 10:53:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; 
+   d="scan'208";a="592301764"
+Received: from linux.intel.com ([10.54.29.200])
+  by fmsmga007.fm.intel.com with ESMTP; 22 Jun 2022 10:53:41 -0700
+Received: from otcpl-manager.jf.intel.com (otcpl-manager.jf.intel.com [10.54.39.82])
+        by linux.intel.com (Postfix) with ESMTP id 1ED8F580A31;
+        Wed, 22 Jun 2022 10:53:41 -0700 (PDT)
+From:   Gayatri Kammela <gayatri.kammela@linux.intel.com>
+To:     hdegoede@redhat.com
+Cc:     irenic.rajneesh@gmail.com, markgross@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Gayatri Kammela <gayatri.kammela@linux.intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "David E . Box" <david.e.box@linux.intel.com>
+Subject: [PATCH v2] platform/x86: intel/pmc: Add Alder Lake N support to PMC core driver
+Date:   Wed, 22 Jun 2022 10:53:31 -0700
+Message-Id: <20220622175331.2520187-1-gayatri.kammela@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:a17:903:2308:b0:16a:1b3f:f74b with HTTP; Wed, 22 Jun 2022
- 08:04:46 -0700 (PDT)
-Reply-To: sales0212@asonmedsystemsinc.com
-From:   Prasad Ronni <lerwickfinance7@gmail.com>
-Date:   Wed, 22 Jun 2022 16:04:46 +0100
-Message-ID: <CAFkto5svN1NyCQiZSkoPmgcYL+0E3kX-uHcBQ6dfg3Gd861ZGQ@mail.gmail.com>
-Subject: Service Needed.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Add Alder Lake N (ADL-N) to the list of the platforms that Intel's
+PMC core driver supports. Alder Lake N reuses all the TigerLake PCH IPs.
+
+Cc: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: David E. Box <david.e.box@linux.intel.com>
+Reviewed-by: Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>
+Signed-off-by: Gayatri Kammela <gayatri.kammela@linux.intel.com>
+---
+Changes since v1:
+Fixed a typo pointed out by Rajneesh.
+
+ drivers/platform/x86/intel/pmc/core.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/platform/x86/intel/pmc/core.c b/drivers/platform/x86/intel/pmc/core.c
+index 40183bda7894..a1fe1e0dcf4a 100644
+--- a/drivers/platform/x86/intel/pmc/core.c
++++ b/drivers/platform/x86/intel/pmc/core.c
+@@ -1911,6 +1911,7 @@ static const struct x86_cpu_id intel_pmc_core_ids[] = {
+ 	X86_MATCH_INTEL_FAM6_MODEL(ATOM_TREMONT_L,	&icl_reg_map),
+ 	X86_MATCH_INTEL_FAM6_MODEL(ROCKETLAKE,		&tgl_reg_map),
+ 	X86_MATCH_INTEL_FAM6_MODEL(ALDERLAKE_L,		&tgl_reg_map),
++	X86_MATCH_INTEL_FAM6_MODEL(ALDERLAKE_N,		&tgl_reg_map),
+ 	X86_MATCH_INTEL_FAM6_MODEL(ALDERLAKE,		&adl_reg_map),
+ 	X86_MATCH_INTEL_FAM6_MODEL(RAPTORLAKE_P,        &tgl_reg_map),
+ 	{}
+
+base-commit: a111daf0c53ae91e71fd2bfe7497862d14132e3e
 -- 
-Hi,
+2.25.1
 
-Are you currently open to work as our executive company representative
-on contractual basis working remotely? If yes, we will be happy to
-share more details. Looking forward to your response.
-
-Regards,
