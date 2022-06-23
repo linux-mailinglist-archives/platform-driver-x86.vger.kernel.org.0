@@ -2,70 +2,111 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B4EB557688
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Jun 2022 11:23:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 942435579A6
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Jun 2022 14:00:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230148AbiFWJXN (ORCPT
+        id S231764AbiFWMAt (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 23 Jun 2022 05:23:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58266 "EHLO
+        Thu, 23 Jun 2022 08:00:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230063AbiFWJXM (ORCPT
+        with ESMTP id S230230AbiFWMAh (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 23 Jun 2022 05:23:12 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C477C248E3
-        for <platform-driver-x86@vger.kernel.org>; Thu, 23 Jun 2022 02:23:11 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id w17so27010804wrg.7
-        for <platform-driver-x86@vger.kernel.org>; Thu, 23 Jun 2022 02:23:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=Jh3M8LDovYWs/mBJiVJoI/DS8xun0EDDqspVSX/swmY=;
-        b=JPOFwcL0GWY9q5L0pE/EgIWS3aartb3ez1LLPgm2liZiBHEsmLVr5PK28eKPqxyaR9
-         nDB1Y1KeiqT9I/ehlq1I9tLKDBnFU4hD8E6+p/crha6FkWW1WAMxlzELCsGMXGuJsqBY
-         GS+iSX1mbCdK1KS1PC6gnjXRneBORAIudnkBEeEqqeQJ9Bi9buayvZENF7mavBZKbdAx
-         YZZ5GyeTo8Xmwz4FoB2aL9OdwCd4xurAaObIeU+49mTSoPUvj4CyUEqDpqNQBbuMv40Z
-         U+f6Dq/ZT0sppQoNGhHDfT4lHu1AkZwqBKUm2Oo8XelhgyG2b5cAXgbfvroqZIuqqDkW
-         Jeew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=Jh3M8LDovYWs/mBJiVJoI/DS8xun0EDDqspVSX/swmY=;
-        b=5VpmI2lZVRETVjKXNHD4saR2MYmESgUlULxQBETgKRF+kik8ED1aUWanl3bOoaEn/y
-         9tTgregJQwxvCk8dHy/yndV36Vb3i314ZK/3preI8jChysxZRE25ChsLN2FEaoEs1E+T
-         9fAeqpPAF2rV8DEU5Nx6hCzfBwqzldglsrAbjhC7dbWTdeu3RKfkqjkZwcMEvu0aw9qT
-         aQkANNLSHJjW6PaItMhi/2DQItheakRnmdRSfv4vMSMbtlLBKLLrIgsETNC9fHVEf+ze
-         ZIk/veo78BJeNFo74tg3TgZle/NzOYzH2M0hLJN0vNU2anCc2sqNFE+40NMFT9Ynr/Vb
-         gGIQ==
-X-Gm-Message-State: AJIora+UNVeXyqJMbPexKSNuxhaF4p1xVusES7cyc2shRM4huPDKv6af
-        2hJNtNbG80b9qCrytA5M7vhQeDVu70r82yrk1S4=
-X-Google-Smtp-Source: AGRyM1tRgGHAAbTOTyNuXFzAnJfT2f6IxHikjmFFHY5bfo3x/CEXboz9PAbZQqYvZuBljeDvHA+PRVZtVMliMjiGWnY=
-X-Received: by 2002:a5d:4205:0:b0:21b:8ffa:fdb2 with SMTP id
- n5-20020a5d4205000000b0021b8ffafdb2mr7477276wrq.16.1655976190429; Thu, 23 Jun
- 2022 02:23:10 -0700 (PDT)
+        Thu, 23 Jun 2022 08:00:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AD93F4ECEC
+        for <platform-driver-x86@vger.kernel.org>; Thu, 23 Jun 2022 04:59:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1655985559;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=zpSbw8USYTD2/vSbBa+jRtXWvNM8lf4r151ZBD9rtTQ=;
+        b=UX15hFORgiLyejLDDuUMGnaLhsf5wCRDTcj6mO2xYM6p5FB7Vq9+2mRlxa92mXOSCyQqG5
+        GoXTUNPhtIFQcam5LudmjxP8WbdzAya/QIWBEk7KcfOwWeBqPoxhrm12PmXOgpRXAJgqh8
+        y4lei3pfoaUEvNBmyuUIUqQeeMbUzX4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-639-77ijmxqPPWmORozP3APTBA-1; Thu, 23 Jun 2022 07:59:16 -0400
+X-MC-Unique: 77ijmxqPPWmORozP3APTBA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3784F294EDD5;
+        Thu, 23 Jun 2022 11:59:16 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.194.109])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4B7F4C2810D;
+        Thu, 23 Jun 2022 11:59:15 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH] platform: x86: ideapad-laptop: Add allow_v4_dytc module parameter
+Date:   Thu, 23 Jun 2022 13:59:14 +0200
+Message-Id: <20220623115914.103001-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Received: by 2002:a05:600c:26c3:0:0:0:0 with HTTP; Thu, 23 Jun 2022 02:23:10
- -0700 (PDT)
-Reply-To: josephkavin71@gmail.com
-From:   Joseph Kavin <gildasetse21@gmail.com>
-Date:   Thu, 23 Jun 2022 03:23:10 -0600
-Message-ID: <CAExewP5Y5vQCWuyyDvm5vRDxRcUe+m4MN5kKB-2d8hHvmKatrA@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi   are you available to  speak now
-Thanks
+Add an allow_v4_dytc module parameter to allow users to easily test if
+DYTC version 4 platform-profiles work on their laptop.
+
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=213297
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/platform/x86/ideapad-laptop.c | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
+index 3ccb7b71dfb1..71f4b59eed4b 100644
+--- a/drivers/platform/x86/ideapad-laptop.c
++++ b/drivers/platform/x86/ideapad-laptop.c
+@@ -152,6 +152,10 @@ static bool no_bt_rfkill;
+ module_param(no_bt_rfkill, bool, 0444);
+ MODULE_PARM_DESC(no_bt_rfkill, "No rfkill for bluetooth.");
+ 
++static bool allow_v4_dytc;
++module_param(allow_v4_dytc, bool, 0444);
++MODULE_PARM_DESC(allow_v4_dytc, "Enable DYTC version 4 platform-profile support.");
++
+ /*
+  * ACPI Helpers
+  */
+@@ -901,13 +905,16 @@ static int ideapad_dytc_profile_init(struct ideapad_private *priv)
+ 
+ 	dytc_version = (output >> DYTC_QUERY_REV_BIT) & 0xF;
+ 
+-	if (dytc_version < 5) {
+-		if (dytc_version < 4 || !dmi_check_system(ideapad_dytc_v4_allow_table)) {
+-			dev_info(&priv->platform_device->dev,
+-				 "DYTC_VERSION is less than 4 or is not allowed: %d\n",
+-				 dytc_version);
+-			return -ENODEV;
+-		}
++	if (dytc_version < 4) {
++		dev_info(&priv->platform_device->dev, "DYTC_VERSION < 4 is not supported\n");
++		return -ENODEV;
++	}
++
++	if (dytc_version < 5 &&
++	    !(allow_v4_dytc || dmi_check_system(ideapad_dytc_v4_allow_table))) {
++		dev_info(&priv->platform_device->dev,
++			 "DYTC_VERSION 4 support may not work. Pass ideapad_laptop.allow_v4_dytc=Y on the kernel commandline to enable\n");
++		return -ENODEV;
+ 	}
+ 
+ 	priv->dytc = kzalloc(sizeof(*priv->dytc), GFP_KERNEL);
+-- 
+2.36.0
+
