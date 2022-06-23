@@ -2,89 +2,69 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01B99557E7C
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Jun 2022 17:15:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DAE455879C
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Jun 2022 20:34:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229900AbiFWPPA (ORCPT
+        id S233048AbiFWSeW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 23 Jun 2022 11:15:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33972 "EHLO
+        Thu, 23 Jun 2022 14:34:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229863AbiFWPO7 (ORCPT
+        with ESMTP id S234533AbiFWScU (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 23 Jun 2022 11:14:59 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D221A3917F
-        for <platform-driver-x86@vger.kernel.org>; Thu, 23 Jun 2022 08:14:58 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6A35961EA6
-        for <platform-driver-x86@vger.kernel.org>; Thu, 23 Jun 2022 15:14:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9D96CC341C4
-        for <platform-driver-x86@vger.kernel.org>; Thu, 23 Jun 2022 15:14:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655997297;
-        bh=1UR7Bv+lQ1vrET0Q732tLaa577SmPenbPhG0PLKXdm0=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=ArhQz//VfBZHhYNEGNXo0uTiijq7Xo7QGQq8LGOBGfnO9MCF5d1WcOjLS+mNJlAgP
-         LK6AqjeDa7NewmczVHr66NZLU0YLOk2V91j7U1/PFT8cNDbik/nQmw0hHLKeCmMuxt
-         qB75mvxIpSnj/ajVpfct5APM3NQ6c4Tu3LCVUURprId/y5VSUV5i63uj+uxPW7hxal
-         CuX+axrSvO5wY8olMukWcR74dJ5lHKr4PwEBNqf2VF1ayBjMQElwh38Bo/n5tGFkuh
-         S4PfISSNi05djs1V35gQlF0lSOToKJKryXjQBQVffXl03hhlDkNMu7nJiQ9SjUrywz
-         J0uXaC2SA/cmQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 79F77C05FD2; Thu, 23 Jun 2022 15:14:57 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     platform-driver-x86@vger.kernel.org
-Subject: [Bug 213297] ideapad-laptop: DYTC interface not found, several
- functionalities missing
-Date:   Thu, 23 Jun 2022 15:14:57 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: lortegap@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-213297-215701-4ISP11b9WR@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213297-215701@https.bugzilla.kernel.org/>
-References: <bug-213297-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        Thu, 23 Jun 2022 14:32:20 -0400
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 487128AC35
+        for <platform-driver-x86@vger.kernel.org>; Thu, 23 Jun 2022 10:33:52 -0700 (PDT)
+Received: by mail-io1-xd36.google.com with SMTP id l24so72348ion.13
+        for <platform-driver-x86@vger.kernel.org>; Thu, 23 Jun 2022 10:33:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=U/J7z9OVS3gtGadxdTf6r3xqpzpgRwX7yoVQ/m4SeED/dgw3O517Pd8heJCXavb1h8
+         2Ai7rTxV+EZcnzjbgVBnsVukVyoNhYmLHi4E5upMUz9J0VhEfEy3NL8S3uHSOaYIxUwH
+         07xJCqPb3NOobYPpviG+03CTOKmEjElQ/cEuW10ZPQ3L2D3RbkaNJUVzsczf1nEIXiwy
+         UpAoJUp2q5Tbw09AEb+4+DJ5tF5Gm5Ju0UBRX3C86zYkBsDuxLtQ6akL4mV4wrDoOFxc
+         r++kx+acnRLEaGY6ebf0CNHOUf54LSB36ryS5Dyq3tFE4xb+Im0iCelYvEhWHJvv91Y6
+         +2IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=OccW5hyYl/dOFOGMxhuAAQc5V9cP6RwKTWLDJ3EYpcz+bs57IIljr5yBff/VRnELPE
+         tVBnRIoRwt6ybJ59LvQrmoWMtU1Keu1HVkvW1rN36U8sE9htmru3NHpVfI1JgS3J3z5T
+         PIUzEXx0VOkPSD3tPYaW6mMjnzopc6NnwwZltPGp3qIy+0ASJmECYseeTgpXfsaRNMyz
+         UIgTRUEczfEHzPjID7B9im7/feTYfNQjR9ecRitBw4f1HSckDZ64wM1r2zNXnAczZWJr
+         9tZAN2S8tXUIgxFJVMf/NJOdiA2i3GFfEAqWrdKrNMPnA2Uuh0vOp0RhGj7Nye960bTf
+         SRTQ==
+X-Gm-Message-State: AJIora/uYpXbOTg/6Mj532qE8AD7rouTe9Z95vBdgmv1htFsmDzPaH0H
+        m5T0hhQr4TzVyDGLR/jLYmA+k6/AHUqc8GTOWyE=
+X-Google-Smtp-Source: AGRyM1tXTqM8WU1uj7xzOFNsaxZR/BKOGGJcwnX64CAgUs0BpwuixmSdMKgZ8AVQWGDremwJsV7kUz4DUeZR13VW+OQ=
+X-Received: by 2002:a02:95e7:0:b0:331:5fd2:396c with SMTP id
+ b94-20020a0295e7000000b003315fd2396cmr6103743jai.78.1656005631160; Thu, 23
+ Jun 2022 10:33:51 -0700 (PDT)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Received: by 2002:a05:6638:349e:b0:331:fcfd:adf4 with HTTP; Thu, 23 Jun 2022
+ 10:33:50 -0700 (PDT)
+Reply-To: info_citiuk@yahoo.com
+From:   =?UTF-8?B?7ZWE66a9?= <alfredkammer23@gmail.com>
+Date:   Thu, 23 Jun 2022 18:33:50 +0100
+Message-ID: <CA+Bp8-KYE50thZf2uCpGKqnxqLvboC28D91Rn3T6AEHpPpFmCw@mail.gmail.com>
+Subject: =?UTF-8?B?VklTQSDsubTrk5wg7ZmV7J24?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,SUBJ_ALL_CAPS,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213297
 
---- Comment #11 from Luis O (lortegap@protonmail.com) ---
-Created attachment 301264
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D301264&action=3Dedit
-dmidecode of the ideapad 5 15itl05 laptop
-
-Indeed, it does work! Thank you! I don't know if this is ok to ask here, but
-any chance for this to *also* be included on the stock fedora kernel?
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
