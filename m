@@ -2,123 +2,114 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B82C559875
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 Jun 2022 13:24:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23D5955A11A
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 Jun 2022 20:55:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230520AbiFXLYK (ORCPT
+        id S230129AbiFXShD (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 24 Jun 2022 07:24:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51928 "EHLO
+        Fri, 24 Jun 2022 14:37:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229552AbiFXLYG (ORCPT
+        with ESMTP id S229647AbiFXShC (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 24 Jun 2022 07:24:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id ADE8A562CD
-        for <platform-driver-x86@vger.kernel.org>; Fri, 24 Jun 2022 04:24:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1656069844;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=7RSyoX5JF+fiCC6pwzkKD/3FMsAKUa5ol13lBYRFfEw=;
-        b=fnyYg8eD8vWN1YwXNdS8NNFeY0S2KirTbFRwv4ZlGkXHZ/TCqF+vWbq0xpdOjfK5WZ/+KA
-        Zqlk2D69mMe9SiAuaWBRhZ/Ij3U60dh1BYv3JmV1QillkUzITH/CwYLVL8AeVaBMoyCFji
-        qL+9DFF73vqPpypy+UxYaLWZHM1eRJY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-632-rGdbMChIMEKb5wBRSiQG_g-1; Fri, 24 Jun 2022 07:24:01 -0400
-X-MC-Unique: rGdbMChIMEKb5wBRSiQG_g-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD291801E67;
-        Fri, 24 Jun 2022 11:24:00 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.193.57])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 80187492C3B;
-        Fri, 24 Jun 2022 11:23:59 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     "Rafael J . Wysocki" <rafael@kernel.org>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>, Len Brown <lenb@kernel.org>,
-        linux-acpi@vger.kernel.org,
-        Stefan Seyfried <stefan.seyfried@googlemail.com>,
-        Kenneth Chan <kenneth.t.chan@gmail.com>,
-        platform-driver-x86@vger.kernel.org,
-        Stefan Seyfried <seife+kernel@b1-systems.com>
-Subject: [PATCH 7/7] platform/x86: panasonic-laptop: Use acpi_video_get_backlight_type()
-Date:   Fri, 24 Jun 2022 13:23:40 +0200
-Message-Id: <20220624112340.10130-8-hdegoede@redhat.com>
-In-Reply-To: <20220624112340.10130-1-hdegoede@redhat.com>
-References: <20220624112340.10130-1-hdegoede@redhat.com>
+        Fri, 24 Jun 2022 14:37:02 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7516B80507;
+        Fri, 24 Jun 2022 11:37:01 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id g26so6391086ejb.5;
+        Fri, 24 Jun 2022 11:37:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=R7x+93/bf/OFy0gtgD7o9zovjDkSW2Dr+HMDRLcG03E=;
+        b=UBwZQNMdfo8T1yoq3GvmXbSulJCGmOEiLiJslZupN8Vsv1vKmyEAa8FpFSp5w8lDVt
+         gD1+oEJ/u4JQa5z6mv2+rrUWaItISlPOp1Ni2ByexriZl1+UmYQ463CNS3B5QBIU/Wur
+         /DM6EKKWLLtJdzxXqrCkH2/umepgecr9rOBlfidU9M73txE6LOwntNlezSTuhmbHMPdx
+         4Qc6K17jBxKm6fp1HViA6J4ZJtzCmkAVMhhZiIxeHu9+Z4B9CJeM+4vwDgIOaYWE3lzT
+         Tkcm+ADukm2KPWjmfsXI8lxcR2sM8SV7mNDkei9rC7hGIiMGZM9VZyIV+PJKelhr702n
+         U6eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=R7x+93/bf/OFy0gtgD7o9zovjDkSW2Dr+HMDRLcG03E=;
+        b=1pz6H0JE0O8fxcJYUzEwzsZR7zcl+uSZRK6jlyAmEMwqt8eHwDC1rCgaCCIbz6quXw
+         pEc6iMZc9Bg0eJEgon80J8tUOwlQYpc+SFuGNzWJuhXgfXxMsPrvC4gj+nPJGr4kp64S
+         rHvyCI5AUWX7FRg/BpQwRbSFVOXRTeMnfeUooWbfhsFBl8vVL+aiTTq8iNZFZ40VxaZ8
+         XHmdwWhWJ4JvUzt1t0HkrU/3YjpgwgBQm42Wx6fH3yata10yGgSB/Utcf7c5a+CS6801
+         7e6HuNiO0WLR5F2BhILAzKSQWoY36o8wBZA4iN2p35ZCf/HyACcefC4IrcHhLblw5KZL
+         A2ug==
+X-Gm-Message-State: AJIora/kCtj7/lPN6jzLkX+T4pJttNG7sWn+aKe+l3fHz/7dvgbRYd/G
+        3tCY8KnMsAZp7g9Ob0Fx1K+2bBgVsEo=
+X-Google-Smtp-Source: AGRyM1uze8mxsLSfHcjqNG1xbj2n7dYFcrYO4BpMGtGidaD6HXzNi7n2yCadoGyUWWMSuXX1dReA8A==
+X-Received: by 2002:a17:906:4f:b0:712:af2:29d9 with SMTP id 15-20020a170906004f00b007120af229d9mr320542ejg.751.1656095819920;
+        Fri, 24 Jun 2022 11:36:59 -0700 (PDT)
+Received: from xws.localdomain ([37.120.217.162])
+        by smtp.gmail.com with ESMTPSA id jw12-20020a170906e94c00b00722e8827c53sm1493822ejb.208.2022.06.24.11.36.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jun 2022 11:36:59 -0700 (PDT)
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mark Gross <markgross@kernel.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Maximilian Luz <luzmaximilian@gmail.com>
+Subject: [PATCH 0/4] platform/surface: Add support for tablet mode switch via Surface Aggregator Module
+Date:   Fri, 24 Jun 2022 20:36:38 +0200
+Message-Id: <20220624183642.910893-1-luzmaximilian@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Use acpi_video_get_backlight_type() to determine if we should register
-the panasonic specific backlight interface. To avoid registering this
-on systems where the ACPI or GPU native backlight control methods
-should be used instead.
+This series adds a driver providing a tablet mode switch on the Surface
+Pro 8, Surface Pro X, and Surface Laptop Studio.
 
-Tested-by: Stefan Seyfried <seife+kernel@b1-systems.com>
-Tested-by: Kenneth Chan <kenneth.t.chan@gmail.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/panasonic-laptop.c | 28 ++++++++++++++-----------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+These devices provide posture information via subsystems of the Surface
+Aggregator Module (SAM; embedded controller). While the specific
+subsystems used for the Pro and Laptop models differ, large parts of the
+respective subsystem drivers would be equal. Therefore, we essentially
+provide a generic framework for tablet-mode switches via the Surface
+Aggregator module and use that to implement specific support for the KIP
+and POS subsystems used on the aforementioned devices.
 
-diff --git a/drivers/platform/x86/panasonic-laptop.c b/drivers/platform/x86/panasonic-laptop.c
-index 615e39cbbbf1..d9a095d2c0eb 100644
---- a/drivers/platform/x86/panasonic-laptop.c
-+++ b/drivers/platform/x86/panasonic-laptop.c
-@@ -998,19 +998,23 @@ static int acpi_pcc_hotkey_add(struct acpi_device *device)
- 		pr_err("Couldn't retrieve BIOS data\n");
- 		goto out_input;
- 	}
--	/* initialize backlight */
--	memset(&props, 0, sizeof(struct backlight_properties));
--	props.type = BACKLIGHT_PLATFORM;
--	props.max_brightness = pcc->sinf[SINF_AC_MAX_BRIGHT];
--	pcc->backlight = backlight_device_register("panasonic", NULL, pcc,
--						   &pcc_backlight_ops, &props);
--	if (IS_ERR(pcc->backlight)) {
--		result = PTR_ERR(pcc->backlight);
--		goto out_input;
--	}
- 
--	/* read the initial brightness setting from the hardware */
--	pcc->backlight->props.brightness = pcc->sinf[SINF_AC_CUR_BRIGHT];
-+	if (acpi_video_get_backlight_type() == acpi_backlight_vendor) {
-+		/* initialize backlight */
-+		memset(&props, 0, sizeof(struct backlight_properties));
-+		props.type = BACKLIGHT_PLATFORM;
-+		props.max_brightness = pcc->sinf[SINF_AC_MAX_BRIGHT];
-+
-+		pcc->backlight = backlight_device_register("panasonic", NULL, pcc,
-+							   &pcc_backlight_ops, &props);
-+		if (IS_ERR(pcc->backlight)) {
-+			result = PTR_ERR(pcc->backlight);
-+			goto out_input;
-+		}
-+
-+		/* read the initial brightness setting from the hardware */
-+		pcc->backlight->props.brightness = pcc->sinf[SINF_AC_CUR_BRIGHT];
-+	}
- 
- 	/* Reset initial sticky key mode since the hardware register state is not consistent */
- 	acpi_pcc_write_sset(pcc, SINF_STICKY_KEY, 0);
+In addition, this series first introduces some helper macros for
+synchronous stack-allocated SAM requests used in the subsequent patches,
+extending the already existing ones.
+
+Further, this series adds the respective firmware nodes to the Surface
+Aggregator Registry.
+
+Maximilian Luz (4):
+  platform/surface: aggregator: Add helper macros for requests with
+    argument and return value
+  platform/surface: Add KIP/POS tablet-mode switch driver
+  platform/surface: aggregator_registry: Add support for tablet mode
+    switch on Surface Pro 8
+  platform/surface: aggregator_registry: Add support for tablet mode
+    switch on Surface Laptop Studio
+
+ .../sysfs-bus-surface_aggregator-tabletsw     |  57 ++
+ MAINTAINERS                                   |   6 +
+ drivers/platform/surface/Kconfig              |  23 +
+ drivers/platform/surface/Makefile             |   1 +
+ .../surface/surface_aggregator_registry.c     |  15 +-
+ .../surface/surface_aggregator_tabletsw.c     | 533 ++++++++++++++++++
+ include/linux/surface_aggregator/controller.h | 125 ++++
+ include/linux/surface_aggregator/device.h     |  36 ++
+ 8 files changed, 795 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-surface_aggregator-tabletsw
+ create mode 100644 drivers/platform/surface/surface_aggregator_tabletsw.c
+
 -- 
-2.36.0
+2.36.1
 
