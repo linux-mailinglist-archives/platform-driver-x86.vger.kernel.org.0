@@ -2,199 +2,91 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 81B7355C289
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Jun 2022 14:46:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F9D655C94D
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Jun 2022 14:56:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233079AbiF0IOi (ORCPT
+        id S236537AbiF0WsH convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 27 Jun 2022 04:14:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46598 "EHLO
+        Mon, 27 Jun 2022 18:48:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229668AbiF0IOh (ORCPT
+        with ESMTP id S242850AbiF0Wro (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 27 Jun 2022 04:14:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 11C00626C
-        for <platform-driver-x86@vger.kernel.org>; Mon, 27 Jun 2022 01:14:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1656317675;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=pajM9hI9fI/87uBaTeYfHZ+TkaK2uNfPmDfKI6EwRtM=;
-        b=EyZZHRmoVJ+rehBBd3oEfBipAtm9T5wlssvDIk1u1sv/gm/Rh1wOari7YQyZeRBvCseanR
-        Qf1J3k5Lt2xsXd/89FTE13s9BMbu6ji049gm20KXV9n8sq95QA81MFDzSWpjd5snxK0aDV
-        CJ6pZMNJ+1VjUNpo4iIpeANxM/bDA3E=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-76-qjX4pwABMxSv_eq-BkiS9g-1; Mon, 27 Jun 2022 04:14:33 -0400
-X-MC-Unique: qjX4pwABMxSv_eq-BkiS9g-1
-Received: by mail-lf1-f72.google.com with SMTP id h18-20020a056512055200b004810d1b257aso1773897lfl.13
-        for <platform-driver-x86@vger.kernel.org>; Mon, 27 Jun 2022 01:14:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pajM9hI9fI/87uBaTeYfHZ+TkaK2uNfPmDfKI6EwRtM=;
-        b=DbzZFuDv8bFk/dNy1UdHjS0XmDKplxL0HQX7O+OiVcip9S+3D5Km05Y38m++jqWHpM
-         g0sgpbAxqjrN/tbS6wuAHoHjJPC6bvfYsPwMMO2V0Qhjrr7pHuRIwHhHcbvQ+FzXmZlo
-         KktXH7ZD8csFoOAXKTWXMUvTP3YTdBB1G9k1YAc92Lqxt7kpzaxo8MiqC+449N6pCziQ
-         Defp+KmzaLZyOuXLyZc0K4p/P1wZo8pYD5XB6sCIZTKdZQfET6qEjbkD/0nK6GXgSHYp
-         smPw+FwRXci4fHsjJ8XNeGHanF86kVoCEjjU2nDp/guR+PnFZXqLHaPsVrzYrgYjphuH
-         YLlw==
-X-Gm-Message-State: AJIora/G4g8UiMBDEWjLi4j5fu7rpp0jVxcPbIbDwQ3+o3PNCSWXP4pp
-        7EXstFPKDXdWo9WvTZP9/dBkbsTROXZ7RciIUhhXUX2kKiD08BejN/EMv2cNDp9AmNfedApPips
-        r0sxIXrH+nXAW4LkktCpm0b8XIqhA0mVxN8OdD3p26arm+v0I0w==
-X-Received: by 2002:a05:6512:3f0f:b0:47f:6f89:326 with SMTP id y15-20020a0565123f0f00b0047f6f890326mr7309032lfa.124.1656317672172;
-        Mon, 27 Jun 2022 01:14:32 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1stSWl4OiPqPtvMuSHVstpPhV2ncpnK2QP/uZDvpStVqiSUc6+7r6HgRqJbkG0p8fApLKYURBWKalbv9dZOpEk=
-X-Received: by 2002:a05:6512:3f0f:b0:47f:6f89:326 with SMTP id
- y15-20020a0565123f0f00b0047f6f890326mr7309001lfa.124.1656317671894; Mon, 27
- Jun 2022 01:14:31 -0700 (PDT)
+        Mon, 27 Jun 2022 18:47:44 -0400
+X-Greylist: delayed 49100 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 27 Jun 2022 15:47:41 PDT
+Received: from mail.dica.am (inntech.am [109.75.47.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2B0A18E21
+        for <platform-driver-x86@vger.kernel.org>; Mon, 27 Jun 2022 15:47:41 -0700 (PDT)
+X-Footer: aW5udGVjaC5hbQ==
+Received: from johnlewis.com ([35.89.234.8])
+        (authenticated user info@inntech.am)
+        by mail.dica.am (Kerio Connect 9.2.1) with ESMTPSA
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256 bits))
+        for platform-driver-x86@vger.kernel.org;
+        Mon, 27 Jun 2022 13:10:04 +0400
+Reply-To: robert_turner@johnlewis-trades.com
+From:   John Lewis & Partners <robert_turner049@johnlewis.com>
+To:     platform-driver-x86@vger.kernel.org
+Subject: Order Emquiry 27/06/22
+Date:   27 Jun 2022 19:09:09 +1000
+Message-ID: <20220627171945.5FB70597009F4327@johnlewis.com>
 MIME-Version: 1.0
-References: <20220624025621.128843-1-xuanzhuo@linux.alibaba.com>
- <20220624025621.128843-26-xuanzhuo@linux.alibaba.com> <20220624025817-mutt-send-email-mst@kernel.org>
- <CACGkMEseptD=45j3kQr0yciRxR679Jcig=292H07-RYC2vXmFQ@mail.gmail.com>
- <20220627023841-mutt-send-email-mst@kernel.org> <CACGkMEvy8xF2T_vubKeUEPC2aroO_fbB0Xe8nnxK4OBUgAS+Gw@mail.gmail.com>
- <20220627034733-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220627034733-mutt-send-email-mst@kernel.org>
-From:   Jason Wang <jasowang@redhat.com>
-Date:   Mon, 27 Jun 2022 16:14:20 +0800
-Message-ID: <CACGkMEtpjUBaUML=fEs5hR66rzNTBhBXOmfpzyXV1F-6BqvsGg@mail.gmail.com>
-Subject: Re: [PATCH v10 25/41] virtio_pci: struct virtio_pci_common_cfg add queue_notify_data
-To:     "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-        virtualization <virtualization@lists.linux-foundation.org>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Vadim Pasternak <vadimp@nvidia.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Vincent Whitchurch <vincent.whitchurch@axis.com>,
-        linux-um@lists.infradead.org, netdev <netdev@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
-        kvm <kvm@vger.kernel.org>,
-        "open list:XDP (eXpress Data Path)" <bpf@vger.kernel.org>,
-        kangjie.xu@linux.alibaba.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: Yes, score=5.0 required=5.0 tests=ADVANCE_FEE_3_NEW,BAYES_50,
+        SPF_FAIL,SPF_HELO_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.7 SPF_HELO_SOFTFAIL SPF: HELO does not match SPF record
+        *      (softfail)
+        *  0.0 SPF_FAIL SPF: sender does not match SPF record (fail)
+        *      [SPF failed: Please see http://www.openspf.org/Why?s=mfrom;id=robert_turner049%40johnlewis.com;ip=109.75.47.174;r=lindbergh.monkeyblade.net]
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.5 ADVANCE_FEE_3_NEW Appears to be advance fee fraud (Nigerian
+        *      419)
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Jun 27, 2022 at 3:58 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Mon, Jun 27, 2022 at 03:45:30PM +0800, Jason Wang wrote:
-> > On Mon, Jun 27, 2022 at 2:39 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >
-> > > On Mon, Jun 27, 2022 at 10:30:42AM +0800, Jason Wang wrote:
-> > > > On Fri, Jun 24, 2022 at 2:59 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > > >
-> > > > > On Fri, Jun 24, 2022 at 10:56:05AM +0800, Xuan Zhuo wrote:
-> > > > > > Add queue_notify_data in struct virtio_pci_common_cfg, which comes from
-> > > > > > here https://github.com/oasis-tcs/virtio-spec/issues/89
-> > > > > >
-> > > > > > For not breaks uABI, add a new struct virtio_pci_common_cfg_notify.
-> > > > >
-> > > > > What exactly is meant by not breaking uABI?
-> > > > > Users are supposed to be prepared for struct size to change ... no?
-> > > >
-> > > > Not sure, any doc for this?
-> > > >
-> > > > Thanks
-> > >
-> > >
-> > > Well we have this:
-> > >
-> > >         The drivers SHOULD only map part of configuration structure
-> > >         large enough for device operation.  The drivers MUST handle
-> > >         an unexpectedly large \field{length}, but MAY check that \field{length}
-> > >         is large enough for device operation.
-> >
-> > Yes, but that's the device/driver interface. What's done here is the
-> > userspace/kernel.
-> >
-> > Userspace may break if it uses e.g sizeof(struct virtio_pci_common_cfg)?
-> >
-> > Thanks
->
-> Hmm I guess there's risk... but then how are we going to maintain this
-> going forward?  Add a new struct on any change?
+Dear platform-driver-x86
 
-This is the way we have used it for the past 5 or more years. I don't
-see why this must be handled in the vq reset feature.
 
->Can we at least
-> prevent this going forward somehow?
+ 
+The world famous brand John Lewis & Partners, is UK's largest 
+multi-channel retailer with over 126 shops and multiple expansion 
+in Africa furnished by European/Asian/American products. We are
+sourcing new products to attract new customers and also retain 
+our existing ones, create new partnerships with companies dealing 
+with different kinds of goods globally.
+ 
+Your company's products are of interest to our market as we have 
+an amazing market for your products.Provide us your current 
+catalog through email to review more. We hope to be able to order
+with you and start a long-term friendly, respectable and solid 
+business partnership. Please we would appreciate it if you could 
+send us your stock availability via email if any.
 
-Like have some padding?
+ 
+Our payment terms are 15 days net in Europe, 30 days Net in UK 
+and 30 days net in Asia/USA as we have operated with over 5297 
+suppliers around the globe for the past 50 years now. For
+immediate response Send your reply to "robert_turner@johnlewis-
+trades.com" for us to be able to treat with care and urgency.
+ 
+ 
+Best Regards
+Rob Turner
+Head Of Procurement Operations
+John Lewis & Partners.
+robert_turner@johnlewis-trades.com
+Tel: +44-7451-274090
+WhatsApp: +447497483925
+www.johnlewis.com
+REGISTERED OFFICE: 171 VICTORIA STREET, LONDON SW1E 5NN
 
-Thanks
-
->
->
-> > >
-> > >
-> > >
-> > > >
-> > > > >
-> > > > >
-> > > > > > Since I want to add queue_reset after queue_notify_data, I submitted
-> > > > > > this patch first.
-> > > > > >
-> > > > > > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-> > > > > > Acked-by: Jason Wang <jasowang@redhat.com>
-> > > > > > ---
-> > > > > >  include/uapi/linux/virtio_pci.h | 7 +++++++
-> > > > > >  1 file changed, 7 insertions(+)
-> > > > > >
-> > > > > > diff --git a/include/uapi/linux/virtio_pci.h b/include/uapi/linux/virtio_pci.h
-> > > > > > index 3a86f36d7e3d..22bec9bd0dfc 100644
-> > > > > > --- a/include/uapi/linux/virtio_pci.h
-> > > > > > +++ b/include/uapi/linux/virtio_pci.h
-> > > > > > @@ -166,6 +166,13 @@ struct virtio_pci_common_cfg {
-> > > > > >       __le32 queue_used_hi;           /* read-write */
-> > > > > >  };
-> > > > > >
-> > > > > > +struct virtio_pci_common_cfg_notify {
-> > > > > > +     struct virtio_pci_common_cfg cfg;
-> > > > > > +
-> > > > > > +     __le16 queue_notify_data;       /* read-write */
-> > > > > > +     __le16 padding;
-> > > > > > +};
-> > > > > > +
-> > > > > >  /* Fields in VIRTIO_PCI_CAP_PCI_CFG: */
-> > > > > >  struct virtio_pci_cfg_cap {
-> > > > > >       struct virtio_pci_cap cap;
-> > > > > > --
-> > > > > > 2.31.0
-> > > > >
-> > >
->
 
