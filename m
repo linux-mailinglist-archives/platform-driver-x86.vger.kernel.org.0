@@ -2,69 +2,98 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A34BC55D6E9
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Jun 2022 15:17:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4997055CCA8
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Jun 2022 15:01:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345216AbiF1LhG (ORCPT
+        id S1344330AbiF1KYv (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 28 Jun 2022 07:37:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32980 "EHLO
+        Tue, 28 Jun 2022 06:24:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345145AbiF1LhG (ORCPT
+        with ESMTP id S239377AbiF1KYr (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 28 Jun 2022 07:37:06 -0400
-X-Greylist: delayed 3480 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 28 Jun 2022 04:37:05 PDT
-Received: from www2055.sakura.ne.jp (www2055.sakura.ne.jp [59.106.171.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78A8C32ED1
-        for <platform-driver-x86@vger.kernel.org>; Tue, 28 Jun 2022 04:37:05 -0700 (PDT)
-Received: from fsav113.sakura.ne.jp (fsav113.sakura.ne.jp [27.133.134.240])
-        by www2055.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 25S97E01026599;
-        Tue, 28 Jun 2022 18:07:14 +0900 (JST)
-        (envelope-from 1955@kkden.co.jp)
-Received: from www2055.sakura.ne.jp (59.106.171.65)
- by fsav113.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav113.sakura.ne.jp);
- Tue, 28 Jun 2022 18:07:14 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav113.sakura.ne.jp)
-Received: from www2055.sakura.ne.jp (localhost [127.0.0.1])
-        by www2055.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 25S97DsY026581;
-        Tue, 28 Jun 2022 18:07:13 +0900 (JST)
-        (envelope-from 1955@kkden.co.jp)
-Received: (from kkden@localhost)
-        by www2055.sakura.ne.jp (8.15.2/8.15.2/Submit) id 25S97DN6026577;
-        Tue, 28 Jun 2022 18:07:13 +0900 (JST)
-        (envelope-from 1955@kkden.co.jp)
-Message-Id: <202206280907.25S97DN6026577@www2055.sakura.ne.jp>
-X-Authentication-Warning: www2055.sakura.ne.jp: kkden set sender to 1955@kkden.co.jp using -f
-Subject: THIS IS VERY CONFIDENTIAL
-From:   Steve Dibenedetto <1955@kkden.co.jp>
-To:     stevedibenedetto17@gmail.com
+        Tue, 28 Jun 2022 06:24:47 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1749531200;
+        Tue, 28 Jun 2022 03:24:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656411887; x=1687947887;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Xlq0heybwteppeO6xSJNvQp8iMqjAGgxIhiwFvhtCz0=;
+  b=I/rBr/V0B9pcZD3lhqNQtVWNLvVnj6pZZuQWv+JsKL0cpwLgKA7clPiM
+   W/lSzEqIaRAzuqU3YXqDiK4HuHSvGmEIzbHt1hbJKi5ft+/bBvTS4k86e
+   zwaVeZwtu0xrLaHE7m0Abp0r6FxMCfhiF1wi5fts6fHEiNlQDHjW5FDjN
+   d+odadSiusdENvTQPYThPS67++PaNZB+PP8rBq/+eiksVq48XIhhd93as
+   vtaJbKy6k3q6NQS+Dqeop+d/xKlIdXr/hg2SAp/3GyaPQshGiJupkZ5HR
+   uG3+IdRyxx0SiW2QI3Kc/h1+9w07tz2rwC3q9vqIW31RXrRB5eZVWcoZ3
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10391"; a="307182935"
+X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; 
+   d="scan'208";a="307182935"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2022 03:24:39 -0700
+X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; 
+   d="scan'208";a="693054369"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2022 03:24:36 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1o68OX-000whm-PK;
+        Tue, 28 Jun 2022 13:24:33 +0300
+Date:   Tue, 28 Jun 2022 13:24:33 +0300
+From:   Andy Shevchenko <andriy.shevchenko@intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     "Rafael J . Wysocki" <rafael@kernel.org>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Len Brown <lenb@kernel.org>,
+        linux-acpi@vger.kernel.org,
+        Stefan Seyfried <stefan.seyfried@googlemail.com>,
+        Kenneth Chan <kenneth.t.chan@gmail.com>,
+        platform-driver-x86@vger.kernel.org,
+        Stefan Seyfried <seife+kernel@b1-systems.com>
+Subject: Re: [PATCH 1/7] ACPI: video: Change how we determine if brightness
+ key-presses are handled
+Message-ID: <YrrW4V+plHWUtgiH@smile.fi.intel.com>
+References: <20220624112340.10130-1-hdegoede@redhat.com>
+ <20220624112340.10130-2-hdegoede@redhat.com>
 MIME-Version: 1.0
-Date:   Tue, 28 Jun 2022 18:07:13 +0900
-Content-Type: text/plain; charset="ISO-2022-JP"
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=1.3 required=5.0 tests=BAYES_50,SPF_HELO_NONE,
-        SPF_NONE,SUBJ_ALL_CAPS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220624112340.10130-2-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Fri, Jun 24, 2022 at 01:23:34PM +0200, Hans de Goede wrote:
+> Some systems have an ACPI video bus but not ACPI video devices with
+> backlight capability. On these devices brightness key-presses are
+> (logically) not reported through the ACPI video bus.
+> 
+> Change how acpi_video_handles_brightness_key_presses() determines if
+> brightness key-presses are handled by the ACPI video driver to avoid
+> vendor specific drivers/platform/x86 drivers filtering out their
+> brightness key-presses even though they are the only ones reporting
+> these presses.
 
-Hello,
+...
 
-My name is Steve Dibenedetto.
-I apologize to have contacted you this way without a direct relationship. There is an opportunity to collaborate with me in the sourcing of some materials needed by our company for production of the different medicines we are researching.
+> -	return have_video_busses &&
+> +	return has_backlight &&
+>  	       (report_key_events & REPORT_BRIGHTNESS_KEY_EVENTS);
 
-I'm aware that this might be totally outside your professional specialization, but it will be a great source for generating extra revenue. I  discovered a manufacturer who can supply us at a lower rate than our company's previous purchases.
-I will give you more specific details when/if I receive feedback from you showing interest.
+I would combine on one line.
 
-Warm Regards  
-Steve Dibenedetto
-Production & Control Manager,
-Green Field Laboratories
-Gothic House, Barker Gate,
-Nottingham, NG1 1JU,
-United Kingdom.
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
