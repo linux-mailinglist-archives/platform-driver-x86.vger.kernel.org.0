@@ -2,80 +2,88 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7681B5661EA
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 Jul 2022 05:40:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0F4A56647C
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 Jul 2022 10:00:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231626AbiGEDkP (ORCPT
+        id S229575AbiGEH7e (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 4 Jul 2022 23:40:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56334 "EHLO
+        Tue, 5 Jul 2022 03:59:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230449AbiGEDkP (ORCPT
+        with ESMTP id S229552AbiGEH7d (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 4 Jul 2022 23:40:15 -0400
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAAA311A34;
-        Mon,  4 Jul 2022 20:40:14 -0700 (PDT)
-Received: by mail-qt1-x841.google.com with SMTP id he28so12077987qtb.13;
-        Mon, 04 Jul 2022 20:40:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:mime-version:content-transfer-encoding
-         :content-description:subject:to:from:date:reply-to;
-        bh=wUQDaT8WbROvuA8fdokHEDXDYlyV+cZbGMOIqIZCVpQ=;
-        b=fXj//W47LzecMHz4CDl0quh1U8YS5fzqCycVCQP7AcxnfWb+hb68e3SgG+3naktf6d
-         BUquoglGds8xo1pAV1zo8ZnqB3Ab1PWwvoKQoK51XSAoOfAi0YalifiAS1sKs5bDKSui
-         2Op25SGABLpJIr/+9MYC7HzhGAzZuITrDneu+bXAPQXE5nRv4Mn2c1jGtTHKaVn4i5kw
-         qAhA2ah5iSBFp72o4rjn+dGf05vYa136wPeiSRwmkbXcFLgzfk76pRXDNyM5+fR0PHDx
-         eiaicRH0xOZ6z4yp4g00xdrwDJIS2K6I4LlhdajbSniWbkiCFoL5huYgNM6OEzDnnOz2
-         iDpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:mime-version
-         :content-transfer-encoding:content-description:subject:to:from:date
-         :reply-to;
-        bh=wUQDaT8WbROvuA8fdokHEDXDYlyV+cZbGMOIqIZCVpQ=;
-        b=Xc+L+Ejaw2zeHY532wiVwM9Kumt57ZU2ZTQr+hw2XU39s5N6pgzU3o4NKUH8NhPM2p
-         02anIGTwqy7Twb1viOya31ClMBQUJuAtmJj0gEfBxRIER7WzdC5QaqbimtNRDMw5bONl
-         SdpWm0awN62gL8SrHBpeTGEvG1CT0jkx9fqm5/Z7V479aqzGzAo6VdmLI0snB+Qdffzg
-         Wb43pzBVx3zQDC61FmSuXzNYpW/QACAyv/zzH+fG0rZS/rXdb0imw3H65Grylgfyxsjg
-         cEOF+mvMqf4cgJQb3Gz0cC4WCfoVN4jeuEGEjgDPEA/mEU6bdknuKVHEG37h4kl0gVKV
-         zJ0g==
-X-Gm-Message-State: AJIora9PTV2I+n8pq1kqdbDNLP5625dkG2kJPBbHkDQ4ecXIM85ONVSH
-        j7D+cq+ffGSvAj3FQEpEoRHG2QSA9NHl1fv+
-X-Google-Smtp-Source: AGRyM1t73dL36xuKZX4Pr9rWwwSNkdoKnDAe7HrrqCKpxNWKHz4TGvPDrQoP4Cn2Onvs6ixGXCRrBw==
-X-Received: by 2002:a05:6214:1cc9:b0:473:2f6:22f8 with SMTP id g9-20020a0562141cc900b0047302f622f8mr1543698qvd.22.1656992413900;
-        Mon, 04 Jul 2022 20:40:13 -0700 (PDT)
-Received: from SCP-85YJ4TJHBRL.226.130.106 ([23.226.130.106])
-        by smtp.gmail.com with ESMTPSA id b19-20020ae9eb13000000b006aee672937esm25708318qkg.37.2022.07.04.20.40.12
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Mon, 04 Jul 2022 20:40:13 -0700 (PDT)
-Message-ID: <62c3b29d.1c69fb81.3f861.714d@mx.google.com>
-Content-Type: text/plain; charset="iso-8859-1"
-MIME-Version: 1.0
+        Tue, 5 Jul 2022 03:59:33 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0753F37
+        for <platform-driver-x86@vger.kernel.org>; Tue,  5 Jul 2022 00:59:31 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 815B3B815FA
+        for <platform-driver-x86@vger.kernel.org>; Tue,  5 Jul 2022 07:59:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2E88DC341CD
+        for <platform-driver-x86@vger.kernel.org>; Tue,  5 Jul 2022 07:59:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657007969;
+        bh=E5PXYF36HqcNU6rFnOBH1mKNO7uLz9cpKyG6J6F5I3s=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=bx5H+zh6K6z86UShcePoAxEnhQGLfv9EUFaZAVqfLBm2UvM4EocyiCFu4kZdsqkvk
+         xIchfAUdkjTHOMOCXmZcdPJdWGWOXPYfcy+KZ6cDizKGDHHvP4rpkhLNirMMZ42PFy
+         rq02ql/xmaoeUl83H24jrQSP1SK2jTSsFppqcL13RYYko8zEpR4SQO4U/rekw/2Xwu
+         kLLaU8Zg4oDVUeqd9m8Hpczs3hgYGxtX+E4whO1/X34a1OOiGa9rFUJ99Oym4BSRFt
+         pxiOFtjsl12HE3PLEZNDn6/jM7llMBCmj49m43HqrqVrEhco7LT1HGd0PvopTZfal2
+         pzOcPGsFweSrA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 0E4BACC13B0; Tue,  5 Jul 2022 07:59:29 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     platform-driver-x86@vger.kernel.org
+Subject: [Bug 214899] ideapad-laptop: brightness hotkeys not working
+Date:   Tue, 05 Jul 2022 07:59:28 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Platform_x86
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: johannes.penssel@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-214899-215701-68CC2vyF3u@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214899-215701@https.bugzilla.kernel.org/>
+References: <bug-214899-215701@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Hello From Keating C
-To:     Recipients <djryuma@gmail.com>
-From:   "Catherine Keat" <djryuma@gmail.com>
-Date:   Tue, 05 Jul 2022 05:40:08 +0200
-Reply-To: cathketg@gmail.com
-X-Spam-Status: No, score=1.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello And Good Morning,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214899
 
-How are you?Just to confirm if,you got my previous message or not,Please le=
-t me know,Thank you,Please write me back so that I can Resend it again to y=
-ou.
+--- Comment #48 from Johannes Pen=C3=9Fel (johannes.penssel@gmail.com) ---
+(In reply to Hans de Goede from comment #46)
+> Johannes, can you please test the 2 patches which I've just attached?=20
+> (these replace the 4 previous patches).
 
-Thanks.
-Catherine K.
+On my system, the two new patches are working just as well as the four older
+ones did.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
