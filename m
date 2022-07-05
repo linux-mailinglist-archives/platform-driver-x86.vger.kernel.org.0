@@ -2,121 +2,80 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A15A5661A5
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 Jul 2022 05:01:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7681B5661EA
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 Jul 2022 05:40:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231717AbiGEDBH (ORCPT
+        id S231626AbiGEDkP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 4 Jul 2022 23:01:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42376 "EHLO
+        Mon, 4 Jul 2022 23:40:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230005AbiGEDBG (ORCPT
+        with ESMTP id S230449AbiGEDkP (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 4 Jul 2022 23:01:06 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1346AB08
-        for <platform-driver-x86@vger.kernel.org>; Mon,  4 Jul 2022 20:01:06 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B4926B80EF7
-        for <platform-driver-x86@vger.kernel.org>; Tue,  5 Jul 2022 03:01:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6C6EAC3411E
-        for <platform-driver-x86@vger.kernel.org>; Tue,  5 Jul 2022 03:01:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656990063;
-        bh=kjzuP7/7FaQjAfMMRL2wG3eG5cIxYcZ/UdS97WJ6QIU=;
-        h=From:To:Subject:Date:From;
-        b=sohawdEZ18oFockrPXaOVu/Dmv1FRXjKX5XOUQCWTnHzItz4QSpgdBRVQouA7MKl6
-         QYbqqf0ahXUPHMwo0JE9MrZ1QVg9Qjruu+RcuJw5+xjUx0RiauPW3/v5mR5SN79LOU
-         LRgTMWvCk6TtetalREYsKp1SGbC5H8t2mmiA5LCykwuqFQb5QYvGlVqCnqAJo20wOI
-         WVpVTIQxOBCT7i021ofSQKo6bOupInDo5TB2g7fmHHnQj03Dz0lAf3VOLwt4vcD78e
-         HH0D5G9xVaTCHrOFwMupbc0P/v2tmU3gfuFky82ixEDltHzF8fsRx6j5XJQbrUE2cN
-         /46I0EhcLTs1A==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 3B453C05FD2; Tue,  5 Jul 2022 03:01:03 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     platform-driver-x86@vger.kernel.org
-Subject: [Bug 216204] New: ideapad-laptop: Testing for DYTC platform-profile
- support
-Date:   Tue, 05 Jul 2022 03:01:02 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: git@tenseventyseven.cf
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-216204-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        Mon, 4 Jul 2022 23:40:15 -0400
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAAA311A34;
+        Mon,  4 Jul 2022 20:40:14 -0700 (PDT)
+Received: by mail-qt1-x841.google.com with SMTP id he28so12077987qtb.13;
+        Mon, 04 Jul 2022 20:40:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:mime-version:content-transfer-encoding
+         :content-description:subject:to:from:date:reply-to;
+        bh=wUQDaT8WbROvuA8fdokHEDXDYlyV+cZbGMOIqIZCVpQ=;
+        b=fXj//W47LzecMHz4CDl0quh1U8YS5fzqCycVCQP7AcxnfWb+hb68e3SgG+3naktf6d
+         BUquoglGds8xo1pAV1zo8ZnqB3Ab1PWwvoKQoK51XSAoOfAi0YalifiAS1sKs5bDKSui
+         2Op25SGABLpJIr/+9MYC7HzhGAzZuITrDneu+bXAPQXE5nRv4Mn2c1jGtTHKaVn4i5kw
+         qAhA2ah5iSBFp72o4rjn+dGf05vYa136wPeiSRwmkbXcFLgzfk76pRXDNyM5+fR0PHDx
+         eiaicRH0xOZ6z4yp4g00xdrwDJIS2K6I4LlhdajbSniWbkiCFoL5huYgNM6OEzDnnOz2
+         iDpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:mime-version
+         :content-transfer-encoding:content-description:subject:to:from:date
+         :reply-to;
+        bh=wUQDaT8WbROvuA8fdokHEDXDYlyV+cZbGMOIqIZCVpQ=;
+        b=Xc+L+Ejaw2zeHY532wiVwM9Kumt57ZU2ZTQr+hw2XU39s5N6pgzU3o4NKUH8NhPM2p
+         02anIGTwqy7Twb1viOya31ClMBQUJuAtmJj0gEfBxRIER7WzdC5QaqbimtNRDMw5bONl
+         SdpWm0awN62gL8SrHBpeTGEvG1CT0jkx9fqm5/Z7V479aqzGzAo6VdmLI0snB+Qdffzg
+         Wb43pzBVx3zQDC61FmSuXzNYpW/QACAyv/zzH+fG0rZS/rXdb0imw3H65Grylgfyxsjg
+         cEOF+mvMqf4cgJQb3Gz0cC4WCfoVN4jeuEGEjgDPEA/mEU6bdknuKVHEG37h4kl0gVKV
+         zJ0g==
+X-Gm-Message-State: AJIora9PTV2I+n8pq1kqdbDNLP5625dkG2kJPBbHkDQ4ecXIM85ONVSH
+        j7D+cq+ffGSvAj3FQEpEoRHG2QSA9NHl1fv+
+X-Google-Smtp-Source: AGRyM1t73dL36xuKZX4Pr9rWwwSNkdoKnDAe7HrrqCKpxNWKHz4TGvPDrQoP4Cn2Onvs6ixGXCRrBw==
+X-Received: by 2002:a05:6214:1cc9:b0:473:2f6:22f8 with SMTP id g9-20020a0562141cc900b0047302f622f8mr1543698qvd.22.1656992413900;
+        Mon, 04 Jul 2022 20:40:13 -0700 (PDT)
+Received: from SCP-85YJ4TJHBRL.226.130.106 ([23.226.130.106])
+        by smtp.gmail.com with ESMTPSA id b19-20020ae9eb13000000b006aee672937esm25708318qkg.37.2022.07.04.20.40.12
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Mon, 04 Jul 2022 20:40:13 -0700 (PDT)
+Message-ID: <62c3b29d.1c69fb81.3f861.714d@mx.google.com>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Hello From Keating C
+To:     Recipients <djryuma@gmail.com>
+From:   "Catherine Keat" <djryuma@gmail.com>
+Date:   Tue, 05 Jul 2022 05:40:08 +0200
+Reply-To: cathketg@gmail.com
+X-Spam-Status: No, score=1.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216204
+Hello And Good Morning,
 
-            Bug ID: 216204
-           Summary: ideapad-laptop: Testing for DYTC platform-profile
-                    support
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.18.9
-          Hardware: Intel
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: low
-          Priority: P1
-         Component: Platform_x86
-          Assignee: drivers_platform_x86@kernel-bugs.osdl.org
-          Reporter: git@tenseventyseven.cf
-        Regression: No
+How are you?Just to confirm if,you got my previous message or not,Please le=
+t me know,Thank you,Please write me back so that I can Resend it again to y=
+ou.
 
-Created attachment 301332
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D301332&action=3Dedit
-Decompiled DSDT of Lenovo IdeaPad 3 (14ITL05) - BIOS ver GCCN26WW
-
-Hello! I'm just curious on how do I test DYTC platform profiles compatibili=
-ty
-with ideapad-laptop and my Lenovo laptop? I've merged the newest changes to=
- the
-driver that adds (experimental) support to DYTC v4, but I couldn't find any
-concrete way to test it.
-
-Even without the change applied (and boot option enabled),
-power-profiles-daemon is still present on GNOME and throttles the CPU speed=
-. Is
-there any other way I can test for it? I currently am running the kernel on
-Fedora 36, if it helps.
-
-I've attached the decompiled DSDT, and it seems to be very similar to
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213297.
-
-Hoping for your reply.
-Thank you very much!
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Thanks.
+Catherine K.
