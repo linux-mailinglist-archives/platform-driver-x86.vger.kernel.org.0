@@ -2,70 +2,61 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29BA156B7DE
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  8 Jul 2022 12:59:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FCC056BA73
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  8 Jul 2022 15:14:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237649AbiGHK7f (ORCPT
+        id S238044AbiGHNOa (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 8 Jul 2022 06:59:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33932 "EHLO
+        Fri, 8 Jul 2022 09:14:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237642AbiGHK7e (ORCPT
+        with ESMTP id S238046AbiGHNO2 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 8 Jul 2022 06:59:34 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3809C88F07
-        for <platform-driver-x86@vger.kernel.org>; Fri,  8 Jul 2022 03:59:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Fri, 8 Jul 2022 09:14:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EA0FB13F95
+        for <platform-driver-x86@vger.kernel.org>; Fri,  8 Jul 2022 06:14:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1657286065;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=xahRR/MGCN4opUKZtfERLy3MATM50vexXH0Q0OxZ6Kk=;
+        b=QQE/vPHMRwFSKvenSXNGt7xWAKTQSTQ6jCZGArLhSzzkk27ls/CFD61vKCG3j1Pn1ezl+R
+        Zm2r7x8HmMqwhnbvem73ppYJcAEIlU6YDrWumNQzZb3MH0EU5D/z3q55FNTZsPYH1qniYK
+        VB4K0QMePo3+JGlhgoH9ad3IS8rU/cc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-635-vFZrUz05PrOtVJI0C0VS3A-1; Fri, 08 Jul 2022 09:14:15 -0400
+X-MC-Unique: vFZrUz05PrOtVJI0C0VS3A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E21B3B80189
-        for <platform-driver-x86@vger.kernel.org>; Fri,  8 Jul 2022 10:59:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A18C5C341C7
-        for <platform-driver-x86@vger.kernel.org>; Fri,  8 Jul 2022 10:59:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657277971;
-        bh=5DcOw5DH2/mpo/bNpwgx1sdgDkoSb2PpRlurF8lIFJs=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=mVGrm37psUMnH2987hRbqML18l2tzoOuHNTVKz5RoUnQiNvtCwmLTfjr1Yvrtq5Ts
-         IlK9pBng+qGW9clpkUXtZ/5LodP/e3E8p0njV4pFug/YwBuUCB+qHlQL9gubvoGHXJ
-         XSJYb3gt9RstZ4gJ7jmeqCjWw8Mgiq8AV9eiL40ckAPh3ooigkApS2KAKFIDpTQXLE
-         smqqnPWFfR7J+2Uwv7cKot/H13BmOz//kRqgWu0kabq6QXZZAsObPuQZIfflh7knWw
-         fEnUWDvp/+T8YOk70cOU4uk8DTU3u+FIRPFrdjaOJ5u2DTGYEHR2qZXApeIIqTZzn2
-         IHCTL/M8rBJ4Q==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 82D1CC05FD2; Fri,  8 Jul 2022 10:59:31 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     platform-driver-x86@vger.kernel.org
-Subject: [Bug 215993] Serial Bus Multi Instantiate driver fails to allocate
- SPI device CSC3551:00
-Date:   Fri, 08 Jul 2022 10:59:31 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: blur.3rd@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-215993-215701-9L1HRzhyzr@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-215993-215701@https.bugzilla.kernel.org/>
-References: <bug-215993-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 64F2219705AB;
+        Fri,  8 Jul 2022 13:14:14 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.193.188])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B43461121314;
+        Fri,  8 Jul 2022 13:14:12 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     "Rafael J . Wysocki" <rafael@kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-acpi@vger.kernel.org,
+        linux-pm@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        x86@kernel.org, linux-efi@vger.kernel.org
+Subject: [PATCH 0/2] Fix 2 5.19 power-off regressions caused by sys-off-handler work
+Date:   Fri,  8 Jul 2022 15:14:10 +0200
+Message-Id: <20220708131412.81078-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,18 +64,39 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D215993
+Hi All,
 
---- Comment #6 from Supasak Sutha (blur.3rd@gmail.com) ---
-Now it's like this
+I noticed that my Lenovo Yoga Tablet 2 1050L was hanging on power-off again
+with 5.19, even though I had implemented a workaround for this in 5.17 .
 
-[   21.037999] Serial bus multi instantiate pseudo device driver CSC3551:00:
-error -2404: failed to allocate SPI device CSC3551:00 from ACPI: -2404
-[   21.038102] Serial bus multi instantiate pseudo device driver: probe of
-CSC3551:00 failed with error -2404
+I quickly realized that this was caused by the recent sys-off-handler work
+and fixed this by switching the workaround over to register_sys_off_handler
+with a priority of SYS_OFF_PRIO_FIRMWARE + 1, so that the workaround runs
+before acpi_power_off() get a chance to run.
 
---=20
-You may reply to this email to add a comment.
+This made me realize that the efi_power_off handler which sometimes is
+used in preference of acpi_power_off had the same problem, so the second
+patch in this series fixes that.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+I plan to include patch 1/2 in a fixes pull-req to Linus soon. Ard,
+if I can get your Ack for 2/2 then I can include this in the pull-req
+if you want; or you can send this to Linus yourself.
+
+Regards,
+
+Hans
+
+
+Hans de Goede (2):
+  platform/x86: x86-android-tablets: Fix Lenovo Yoga Tablet 2 830/1050
+    poweroff again
+  efi: Fix efi_power_off() not being run before acpi_power_off() when
+    necessary
+
+ drivers/firmware/efi/reboot.c              | 21 +++++++++++----------
+ drivers/platform/x86/x86-android-tablets.c | 17 +++++++++++++----
+ 2 files changed, 24 insertions(+), 14 deletions(-)
+
+-- 
+2.36.0
+
