@@ -2,45 +2,45 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CDC3C571DEE
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Jul 2022 17:04:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CC23571DE0
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Jul 2022 17:04:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233823AbiGLPES (ORCPT
+        id S230011AbiGLPDi (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 12 Jul 2022 11:04:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53272 "EHLO
+        Tue, 12 Jul 2022 11:03:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233906AbiGLPDF (ORCPT
+        with ESMTP id S232941AbiGLPDC (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 12 Jul 2022 11:03:05 -0400
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2075.outbound.protection.outlook.com [40.107.92.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EDB9C164D
-        for <platform-driver-x86@vger.kernel.org>; Tue, 12 Jul 2022 08:00:00 -0700 (PDT)
+        Tue, 12 Jul 2022 11:03:02 -0400
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2060.outbound.protection.outlook.com [40.107.102.60])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6DA7C1647
+        for <platform-driver-x86@vger.kernel.org>; Tue, 12 Jul 2022 07:59:56 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EqDJWuv7iC7IJB65nP9rmmVSDcdrVBVlM4YSobFcuPm98oY/wg1xMxtgBGduHnUO/NkD4/bH7BhwgvpJP+mc9JBIGhLvkl+cL1OTY4s1GDidBVN8ZY2+z7k/ORyawgct1DJIj9mUWkzZ9KoQ2NSNAAtJyyO/cddi0zCZ6/6promRnGCrAd4xoL8HjlIJI53azEdE/V1jCIN1SenVfiqKlaDJrPFprtCaTA2NAox75ZQxenORleEfZ+JeQq8wzI/yXdKr7HP+T0N/5vWUpstL27fVtY3qVkYa9EpoLE8QOz10zv1KXERjQhEFhsx03giJZPf5agunFvEnR8zX0QxFqQ==
+ b=EJxbm/AXmxybYPRmCPWOMc5GwCUCU9idPG25uLE9nlOcuHWE0Ja63m0cDQTSym2PVl3we9/O3Jpf81DVfi4BXYq0rliO31DvCZyGWGFZNykcU0ZDh8zlyHGoftzKbxe4B35IBvXWufaW9QelzcQHLlj3cdTuCrPD4wOfRqdjDeWDjpBgESxEsdCVX8r1RjKWFhNzxyEh0WpyQxjQs9eZfDwLCN6nozNMZDlbrYhTlH5u+Jiuy2Ety8TvSVkddOgF/GnFHC7cSW/uD4gvyeQRJeKKHmRxP8rsxaBofzbQY0g0yBHghHzuXW+fg0e3JntdqeIKzK2OuYBYWBU84CtLQg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T66EDmRU+C+eGaTf1Yx4OKpPYx5qzwKoytGcXqyEkP0=;
- b=VCLBwhhPyMof7Ix4wi8zOZxetrP4kbuE40NA9Jx8khqFPalmuC93smcGT/Du438Ls7WPwnuw2U00tqLCwKnEAPrqD0ZjIvLTEapE37mGJVonBpeQWHvN/614SSIykai53AmDB235CboYf1GkQ4eRz0Y3Z/7jUy4+k2/GHUVScKnxcfLOmxG7mR1xyyZNlrWdpgh4Om+wr78rdJ3nZ4EHMymI6qbQYFaUIk2ysv/g2/M4yI04+6pOFwKJewARUCo7vO5OtoQLnuqIq6QqlboDghNlYHIWcOMTUZG69fWlNsl/5N5sfDriJWg3buBRYh5R/0QS53ArFxflWNWT2GGknw==
+ bh=c1MCDjK1aBghNsFClQHItRu2Z3CdEosv8nrOboO7TIc=;
+ b=HibX4MibBP5oLqCFAYRhdHUVHyvh886Uaucfah388xANeFYJpZOJjKAQqK6h/T9bVoB/WLQNFbH/un9123neI/X3oDcbZz8O6O12hADyeb8/0a7JKaJ+7rBN78RM9SqoBgXWYTXjW65xYKgBV6a7VtAOC1JQu7GzueiuoV/zxmXmQ1de0QEQfRUeZ1uM4j1ao5HI96l9dQNy6noIshNi8nSXcU78N/mdGaB1ukh/7aAUR4IG3iYSUWQaMncAOfcHloCX/Pl3cSJqDXVl/AeKa69tq+dYyTW7qrhvv1EVtM7gzn4WES+eI3EeSj1VxqVKgqX1OtaAXvUOUO1J3/pRFg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T66EDmRU+C+eGaTf1Yx4OKpPYx5qzwKoytGcXqyEkP0=;
- b=3nDAMvzYwewjVP/uM18IRijjWg4cbespZiLG6BRzecKHuqe6YN5RRl+46F6t+8gV9db6pxek93XoAhUlkyOMLrG3hK1DRRIsyOI9qHTEEYR8/YTVdagzAzoJt/RQRpSLbE08iUvF7VI+EiRfdz4XMlx5SgMVflO+xguIQoK21vM=
-Received: from BN8PR04CA0041.namprd04.prod.outlook.com (2603:10b6:408:d4::15)
- by MN2PR12MB3229.namprd12.prod.outlook.com (2603:10b6:208:102::27) with
+ bh=c1MCDjK1aBghNsFClQHItRu2Z3CdEosv8nrOboO7TIc=;
+ b=LgEtQL+xS3lgWzlrLtDGdgYX3KmYc67IyXMvrU8Pmw0nc709/49iT/ZGRHaHaSx/kITyyzrloa4DgCiUoH0Lg83iMgXgxtVwL3kGOoD1ovkt2oEXMzJTvMup5T2KU7cS5NsoA7TP0eX1j+VCj9xxX0xz9uJOC5RMKCB4+g+Rl2o=
+Received: from BN8PR04CA0054.namprd04.prod.outlook.com (2603:10b6:408:d4::28)
+ by BN9PR12MB5178.namprd12.prod.outlook.com (2603:10b6:408:11b::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.20; Tue, 12 Jul
- 2022 14:59:42 +0000
+ 2022 14:59:45 +0000
 Received: from BN8NAM11FT041.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:d4:cafe::a8) by BN8PR04CA0041.outlook.office365.com
- (2603:10b6:408:d4::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.17 via Frontend
- Transport; Tue, 12 Jul 2022 14:59:42 +0000
+ (2603:10b6:408:d4:cafe::eb) by BN8PR04CA0054.outlook.office365.com
+ (2603:10b6:408:d4::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.19 via Frontend
+ Transport; Tue, 12 Jul 2022 14:59:45 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,18 +50,18 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  BN8NAM11FT041.mail.protection.outlook.com (10.13.177.18) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5417.15 via Frontend Transport; Tue, 12 Jul 2022 14:59:42 +0000
+ 15.20.5417.15 via Frontend Transport; Tue, 12 Jul 2022 14:59:45 +0000
 Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Tue, 12 Jul
- 2022 09:59:39 -0500
+ 2022 09:59:41 -0500
 From:   Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 To:     <hdegoede@redhat.com>, <markgross@kernel.org>
 CC:     <platform-driver-x86@vger.kernel.org>, <Patil.Reddy@amd.com>,
         "Shyam Sundar S K" <Shyam-sundar.S-k@amd.com>
-Subject: [PATCH v1 06/15] platform/x86/amd/pmf: Add heartbeat signal support
-Date:   Tue, 12 Jul 2022 20:28:38 +0530
-Message-ID: <20220712145847.3438544-7-Shyam-sundar.S-k@amd.com>
+Subject: [PATCH v1 07/15] platform/x86/amd/pmf: Add fan control support
+Date:   Tue, 12 Jul 2022 20:28:39 +0530
+Message-ID: <20220712145847.3438544-8-Shyam-sundar.S-k@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220712145847.3438544-1-Shyam-sundar.S-k@amd.com>
 References: <20220712145847.3438544-1-Shyam-sundar.S-k@amd.com>
@@ -73,23 +73,23 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: be3092d7-903a-4039-6460-08da6417269b
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3229:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8ba9c432-500a-414b-b761-08da641728bf
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5178:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EsTPpQl0dB03GI2CmzzKjmM9qycvr5GILUGKAv90eOjwjws0CGEPabfhzfhUZF/5BI+lkWzs9ElKapvS/VTpBJCF9Jwzdp2uk0fydJD3rkW8w6CuSNQQ27ideV8CnZGzDHqUtBYb2M09BRt5EQtsdmAehJ0Ftrdju9IjDP0H9WhxLCPquB5R+cFjsj8HGO1Ct2crn9LgdNXX5haVGcqA/MocUCMgr++NA0jVZpFgO0DScv3GHU7HZ4Wipb0o6nb2DYs4XBbXZE/AoUkkHrKm41KZXXsR7ky7BX1O2li5jWz77Gz67cdlWlqIb1Dl3Rwc+HTYfgvapWV9+ZTaOBhmifybpwj2UqVvSSr+kjk2Z9b4tkGuvJPKnE/rGSuYorJ/KhY19qzx1xBhxefQLC2y+5gR3r+4uq4hfhVmv87SbRmXPiZeaziOPsj6qfisTu9o73/juGUXlV8qSUca5a6zt3mmGaLSn6gJ1zM87K8EpaZpK3lGyxiBz6twHU35lu/QPDeIg98Dwvokmn3wnGq63+5FWDMONTbhjVzKwzJgCqqBU1YdSkZqs8I7qbfcrMxIXgkdVIsqhtKyePIrTzj08pUTp/sYwuuAjQZ1apkFeCq1sKXZcfqqdK7J4gQ3LJ5YDkW3OMsP3oFDbxp+rYnl5X9KqjIHGM+NlVFfSbRa0mw39LWWgcS6P9XjvPKFRrjIanXkzC2ghzBDDnwjWhZptPx0s8TZwVPBvq/ZxfrK8C6LP0hkAbJleP4/x2GLtSOpV7jNiqdI57AInQcpcKSxE9+m/eDCDSFkPYkpiR0Ztv1EcD26LP8/uj5zQc8V4oGWUqPOSscVDLmpIE/UR2S/5tKQ8NJcqniXrm+0WlZgEss=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230016)(4636009)(376002)(346002)(39860400002)(136003)(396003)(36840700001)(46966006)(40470700004)(47076005)(83380400001)(2906002)(426003)(336012)(40460700003)(36860700001)(82310400005)(36756003)(16526019)(40480700001)(186003)(4326008)(1076003)(5660300002)(8936002)(478600001)(86362001)(54906003)(70206006)(26005)(8676002)(70586007)(316002)(7696005)(81166007)(2616005)(110136005)(356005)(82740400003)(41300700001)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: PtHhpb3UaEWwxjxjNC0IckV2ue20w/Z+VDnkDrDhhJSqfaHKpTTkRClwRXHDZ/HQTNin7+3Q34AXdp4beUIZnxxxjao9KNwcvvO+gByvWklnE283nS4/YhJJFkmTXgJoUciQJEGD+tcaYFyk296Ujn10Et5hGgQs9QfE1ZZcTd5NOuR79CM9z72DYYaUKK0clafj4UTiPaDkoW4c5D3K7fQnba2Ad9tczQ0Fud5INzpa/3WjI6XqRZzOlR7bsWZ2ZeI3dVTMCCHOCj2fKJv9RF8gClMPnrDUAYoya4z65kDKqbpmPmQp7Ehm9Ndo2ZodqIlBzcLUm+aNoJiHOp+J32Zv2cmu5wIjlRZZpE7dgiZ8zCSPgoUWpQwCkMFolRbGYxRILoUQxZG4RrYq0Jj1rtQaY857QQbcZOWGKIcFisYi4KdwFizL2hpF/yZThsEVekE7E4YHM4Kwh37rdvoq4dYn8fByRGA7qLvXk3ktFi/a3jteaKNtaExlloVccdKOcVeSzggzlGAZr2JbPcjcBaOp0vHmhzLBA+m7uuQ0vp2gqX5JY/7azT5VtslnUrd5jUnD1drRU36g38ivV1hyDnex2JuPOLN8IQ0J8J36F+KSEUfI6p5/1ZPHsdl79REI1y9bHzA0ey6MRrPlgz+3CXVzfNS5xTM3CQ7HeG+cocPQDMyQpCqkUB3qN4PPAqssO1Da/DvrfthEcoE6C7pjbmTbH0gsGg+fg+PZmb1j66EhfrLbkw2QwG7RFzS6Nzyuw9NVMSCUQVolDZ6zcjpCF0O04IYvbNEoWkWpKcZC18mqH60wxJCn1c9Xr1E8Xg3jnD3agpuwZYI8Wq4PDZtu+fkKk2LqnbfQIME3wDPz3Ag=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230016)(4636009)(396003)(39860400002)(376002)(136003)(346002)(40470700004)(46966006)(36840700001)(4326008)(356005)(81166007)(336012)(70586007)(82740400003)(36756003)(316002)(70206006)(426003)(110136005)(54906003)(36860700001)(47076005)(82310400005)(8676002)(2616005)(40480700001)(1076003)(16526019)(5660300002)(86362001)(8936002)(41300700001)(26005)(2906002)(7696005)(186003)(40460700003)(83380400001)(478600001)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2022 14:59:42.0464
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2022 14:59:45.6399
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: be3092d7-903a-4039-6460-08da6417269b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ba9c432-500a-414b-b761-08da641728bf
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT041.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3229
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5178
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -100,181 +100,126 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-PMF driver can send periodic heartbeat signals to OEM BIOS. When BIOS does
-not receive the signal after a period of time, it can infer that AMDPMF
-has hung or failed to load.
+PMF has a generic interface defined via PMF ACPI fn9 for influencing fan
+policy during mode switch.
 
-In this situation, BIOS can fallback to legacy operations. OEM can modify
-the time interval of the signal or completely disable signals through
-ACPI Method.
+PMF ACPI fn9 will normally be invoked when AMDPMF needs to change the fan
+table index for the EC. When AMDPMF is loaded this function will be invoked
+to change fan speed. OEM can also choose to report the actual fan table
+index and fan RPM to PMF through OEM structure.
+
+This information will be communicated by PMF driver to customer BIOS.
 
 Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 ---
- drivers/platform/x86/amd/pmf/acpi.c | 42 +++++++++++++++++++++++++++--
- drivers/platform/x86/amd/pmf/core.c |  1 +
- drivers/platform/x86/amd/pmf/pmf.h  | 10 +++++++
- 3 files changed, 51 insertions(+), 2 deletions(-)
+ drivers/platform/x86/amd/pmf/acpi.c | 26 ++++++++++++++++++++++++++
+ drivers/platform/x86/amd/pmf/pmf.h  | 17 +++++++++++++++++
+ 2 files changed, 43 insertions(+)
 
 diff --git a/drivers/platform/x86/amd/pmf/acpi.c b/drivers/platform/x86/amd/pmf/acpi.c
-index fd5ab7a116f0..60ffc9ba4adc 100644
+index 60ffc9ba4adc..e4822c6f4259 100644
 --- a/drivers/platform/x86/amd/pmf/acpi.c
 +++ b/drivers/platform/x86/amd/pmf/acpi.c
-@@ -97,6 +97,7 @@ int is_apmf_func_supported(unsigned long index)
- 
- static int apmf_get_system_params(struct apmf_if *ampf_if)
+@@ -55,6 +55,7 @@ static void apmf_if_parse_functions(struct apmf_if_functions *func, u32 mask)
  {
-+	struct apmf_notification_cfg *n = &ampf_if->notify_cfg;
- 	struct apmf_system_params params;
- 	union acpi_object *info;
- 	size_t size;
-@@ -120,11 +121,13 @@ static int apmf_get_system_params(struct apmf_if *ampf_if)
- 	memset(&params, 0, sizeof(params));
- 	memcpy(&params, info->buffer.pointer, size);
- 
--	pr_debug("PMF: system params mask:0x%x flags:0x%x cmd_code:0x%x\n",
-+	pr_debug("PMF: system params mask:0x%x flags:0x%x cmd_code:0x%x heartbeat:%d\n",
- 		 params.valid_mask,
- 		 params.flags,
--		 params.command_code);
-+		 params.command_code,
-+		 params.heartbeat_int);
- 	params.flags = params.flags & params.valid_mask;
-+	n->hb_interval = params.heartbeat_int;
- 
- out:
- 	kfree(info);
-@@ -159,6 +162,26 @@ int apmf_get_static_slider_granular(struct apmf_if *ampf_if,
- 	return err;
+ 	func->system_params = mask & APMF_FUNC_GET_SYS_PARAMS;
+ 	func->static_slider_granular = mask & APMF_FUNC_STATIC_SLIDER_GRANULAR;
++	func->fan_table_idx = mask & APMF_FUNC_SET_FAN_IDX;
  }
  
-+static void apmf_sbios_heartbeat_notify(struct work_struct *work)
+ static int apmf_if_verify_interface(struct amd_pmf_dev *pdev, struct apmf_if *ampf_if)
+@@ -182,6 +183,31 @@ static void apmf_sbios_heartbeat_notify(struct work_struct *work)
+ 	kfree(info);
+ }
+ 
++int apmf_update_fan_idx(struct apmf_if *ampf_if, bool manual, u32 idx)
 +{
-+	struct amd_pmf_dev *dev = container_of(work, struct amd_pmf_dev, heart_beat.work);
-+	struct apmf_notification_cfg *n = &dev->apmf_if->notify_cfg;
 +	union acpi_object *info;
++	struct apmf_fan_idx args;
++	struct acpi_buffer params;
 +	int err = 0;
 +
-+	dev_dbg(dev->dev, "Sending heartbeat to SBIOS\n");
-+	info = apmf_if_call(dev->apmf_if, APMF_FUNC_SBIOS_HEARTBEAT, NULL);
++	args.size = sizeof(args);
++	args.fan_ctl_mode = manual;
++	args.fan_ctl_idx = idx;
++
++	params.length = sizeof(args);
++	params.pointer = (void *)&args;
++
++	info = apmf_if_call(ampf_if, APMF_FUNC_SET_FAN_IDX, &params);
 +	if (!info) {
 +		err = -EIO;
 +		goto out;
 +	}
 +
-+	schedule_delayed_work(&dev->heart_beat, msecs_to_jiffies(n->hb_interval * 1000));
-+
 +out:
 +	kfree(info);
++	return err;
 +}
 +
  static acpi_handle apmf_if_probe_handle(void)
  {
  	acpi_handle handle = NULL;
-@@ -179,8 +202,15 @@ static acpi_handle apmf_if_probe_handle(void)
- 	return handle;
- }
- 
-+void apmf_acpi_deinit(struct amd_pmf_dev *pmf_dev)
-+{
-+	if (pmf_dev->apmf_if->func.sbios_heartbeat)
-+		cancel_delayed_work_sync(&pmf_dev->heart_beat);
-+}
-+
- int apmf_acpi_init(struct amd_pmf_dev *pmf_dev)
- {
-+	struct apmf_notification_cfg *n;
- 	acpi_handle apmf_if_handle;
- 	struct apmf_if *apmf_if;
- 	int ret;
-@@ -202,6 +232,7 @@ int apmf_acpi_init(struct amd_pmf_dev *pmf_dev)
- 		goto out;
- 	}
- 	pmf_dev->apmf_if = apmf_if;
-+	n = &apmf_if->notify_cfg;
- 
- 	if (apmf_if->func.system_params) {
- 		ret = apmf_get_system_params(apmf_if);
-@@ -212,6 +243,13 @@ int apmf_acpi_init(struct amd_pmf_dev *pmf_dev)
- 		}
- 	}
- 
-+	if (n->hb_interval) {
-+		apmf_if->func.sbios_heartbeat = true;
-+		/* send heartbeats only if the interval is not zero */
-+		INIT_DELAYED_WORK(&pmf_dev->heart_beat, apmf_sbios_heartbeat_notify);
-+		schedule_delayed_work(&pmf_dev->heart_beat, 0);
-+	}
-+
- out:
- 	return ret;
- }
-diff --git a/drivers/platform/x86/amd/pmf/core.c b/drivers/platform/x86/amd/pmf/core.c
-index 3d2af6a8e5e4..ff26928e6a49 100644
---- a/drivers/platform/x86/amd/pmf/core.c
-+++ b/drivers/platform/x86/amd/pmf/core.c
-@@ -289,6 +289,7 @@ static int amd_pmf_remove(struct platform_device *pdev)
- 
- 	mutex_destroy(&dev->lock);
- 	amd_pmf_deinit_features(dev);
-+	apmf_acpi_deinit(dev);
- 	amd_pmf_dbgfs_unregister(dev);
- 	kfree(dev->buf);
- 	return 0;
 diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
-index 77021ef4bfde..504e1ae79706 100644
+index 504e1ae79706..1e9e2e498d15 100644
 --- a/drivers/platform/x86/amd/pmf/pmf.h
 +++ b/drivers/platform/x86/amd/pmf/pmf.h
-@@ -17,6 +17,7 @@
- /* APMF Functions */
+@@ -18,6 +18,7 @@
  #define APMF_FUNC_VERIFY_INTERFACE			0
  #define APMF_FUNC_GET_SYS_PARAMS			1
-+#define APMF_FUNC_SBIOS_HEARTBEAT			4
+ #define APMF_FUNC_SBIOS_HEARTBEAT			4
++#define APMF_FUNC_SET_FAN_IDX				7
  #define APMF_FUNC_STATIC_SLIDER_GRANULAR	9
  
  /* Message Definitions */
-@@ -43,12 +44,18 @@
+@@ -39,12 +40,16 @@
+ #define GET_STT_LIMIT_APU	0x20
+ #define GET_STT_LIMIT_HS2	0x21
+ 
++/* Fan Index for Auto Mode */
++#define FAN_INDEX_AUTO 0xFFFFFFFF
++
+ #define ARG_NONE 0
+ 
  /* AMD PMF BIOS interfaces */
  struct apmf_if_functions {
  	bool system_params;
-+	bool sbios_heartbeat;
+ 	bool sbios_heartbeat;
++	bool fan_table_idx;
  	bool static_slider_granular;
  };
  
-+struct apmf_notification_cfg {
-+	int hb_interval; /* SBIOS heartbeat interval */
-+};
-+
- struct apmf_if {
- 	acpi_handle handle;
- 	struct apmf_if_functions func;
-+	struct apmf_notification_cfg notify_cfg;
- };
- 
- struct apmf_verify_interface {
-@@ -63,6 +70,7 @@ struct apmf_system_params {
- 	u32 valid_mask;
- 	u32 flags;
- 	u8 command_code;
-+	u32 heartbeat_int;
+@@ -73,6 +78,12 @@ struct apmf_system_params {
+ 	u32 heartbeat_int;
  } __packed;
  
++struct apmf_fan_idx {
++	u16 size;
++	u8 fan_ctl_mode;
++	u32 fan_ctl_idx;
++} __packed;
++
  enum amd_stt_skin_temp {
-@@ -101,6 +109,7 @@ struct amd_pmf_dev {
- 	struct apmf_if *apmf_if;
- 	enum platform_profile_option current_profile;
- 	struct platform_profile_handler pprof;
-+	struct delayed_work heart_beat;
- 	struct mutex lock; /* protects the PMF interface */
- #if IS_ENABLED(CONFIG_DEBUG_FS)
- 	struct dentry *dbgfs_dir;
-@@ -130,6 +139,7 @@ struct amd_pmf_static_slider_granular {
+ 	STT_TEMP_APU,
+ 	STT_TEMP_HS2,
+@@ -137,6 +148,11 @@ struct amd_pmf_static_slider_granular {
+ 	struct apmf_sps_prop_granular prop[POWER_SOURCE_MAX][POWER_MODE_MAX];
+ };
  
++struct fan_table_control {
++	bool manual;
++	unsigned long fan_id;
++};
++
  /* Core Layer */
  int apmf_acpi_init(struct amd_pmf_dev *pmf_dev);
-+void apmf_acpi_deinit(struct amd_pmf_dev *pmf_dev);
- int is_apmf_func_supported(unsigned long index);
- int amd_pmf_send_cmd(struct amd_pmf_dev *dev, u8 message, bool get, u32 arg, u32 *data);
- int amd_pmf_get_power_source(void);
+ void apmf_acpi_deinit(struct amd_pmf_dev *pmf_dev);
+@@ -154,4 +170,5 @@ int apmf_get_static_slider_granular(struct apmf_if *ampf_if,
+ 				    struct apmf_static_slider_granular_output *output);
+ void amd_pmf_load_defaults_sps(struct amd_pmf_dev *dev);
+ 
++int apmf_update_fan_idx(struct apmf_if *ampf_if, bool manual, u32 idx);
+ #endif /* PMF_H */
 -- 
 2.25.1
 
