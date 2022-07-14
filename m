@@ -2,152 +2,99 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 43590573E90
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 Jul 2022 23:11:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 202675746E3
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 14 Jul 2022 10:36:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237329AbiGMVLP (ORCPT
+        id S235978AbiGNIgn (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 13 Jul 2022 17:11:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33508 "EHLO
+        Thu, 14 Jul 2022 04:36:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237244AbiGMVLP (ORCPT
+        with ESMTP id S235558AbiGNIgm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 13 Jul 2022 17:11:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 719E433371
-        for <platform-driver-x86@vger.kernel.org>; Wed, 13 Jul 2022 14:11:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1657746673;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=7rtE+Bk3sES4x0SarCTWMJ0nW8KkYc8L6tR25sLo1as=;
-        b=QvA0h3i+fU1e7vcj3YbkS6uAz0IsXclxblz841kF5r5nMw61uMQS7A+2TqW+9/6lqfw56f
-        M7vxD73MtRkZt5JWccTXItqdrrT0hs30b2Ykbec8R8VglnjTVU+yyPogd/F2sitRPo/QhK
-        M+Sdd+g860LY8rqZ22EECh80u6S8dIs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-92-5585GaorND-YniR9TB9ygw-1; Wed, 13 Jul 2022 17:11:10 -0400
-X-MC-Unique: 5585GaorND-YniR9TB9ygw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D3D6729AA3AF;
-        Wed, 13 Jul 2022 21:11:09 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.9])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0B0EB141510F;
-        Wed, 13 Jul 2022 21:11:07 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     "Rafael J . Wysocki" <rafael@kernel.org>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-acpi@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, regressions@lists.linux.dev,
-        Ben Greening <bgreening@gmail.com>
-Subject: [PATCH] ACPI: video: Fix acpi_video_handles_brightness_key_presses()
-Date:   Wed, 13 Jul 2022 23:11:01 +0200
-Message-Id: <20220713211101.85547-2-hdegoede@redhat.com>
-In-Reply-To: <20220713211101.85547-1-hdegoede@redhat.com>
-References: <20220713211101.85547-1-hdegoede@redhat.com>
+        Thu, 14 Jul 2022 04:36:42 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63E8D3DBFA
+        for <platform-driver-x86@vger.kernel.org>; Thu, 14 Jul 2022 01:36:40 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id t1so1625857lft.8
+        for <platform-driver-x86@vger.kernel.org>; Thu, 14 Jul 2022 01:36:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=H3bGT1ZyGPu3PRQJlJHyQI9TvTjBPuNSyHjFOzNfiP0=;
+        b=nfF93HFABydKtKUN6hm08YjvNRh2G4i7biDP0iGWKm0CJI/6tO/7ASVGiMVbrFcvre
+         dFe7LS0o6XmnC1olR6EZQT61Pk5CcDXk8EOCE/ZUPQPC2WOF08wHjQNTI98f51BXkTW7
+         5dyslKzFlMJ1FAFUBcS5XSZMuJJQc0mVGS8sJL1EcuApFLh9MbSY3DeHMChVpm6lylO2
+         ZiD2YD5TYnCnW1RYesj2zabgr2TZokupGOdRW5Wg1Wsic5Yzi6a7GNVAIH/aFq924Tv4
+         l/BLkapdJUQdDh1nnfELCxBLwNTsd2zSHh12MGEWr6e9uOYA2kL+ohlW7KhzBK2CbHvs
+         dAHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=H3bGT1ZyGPu3PRQJlJHyQI9TvTjBPuNSyHjFOzNfiP0=;
+        b=2ynxTyzAue/PHePTMfD20gpEfK8l9XOBs7jQPPH512R5g1V6OCXzBNKItlZqDnNLYA
+         hAr0ZaSG2odE0IRrKV7lcNWnr1Dpai16oaAEy4GRFmc4HU9CeCvAF8fFAPz5+ncOVNZp
+         BoOtobEJ8/55HmGhaDHioS7v6RcA/28wLOw0+j15l5jafd2z2RquJbBX0F8ZxzhDqJJs
+         2LA1TrZOyGopv3flmTA2HrO0Fm6blRYDh0KcrMTyfhDBDJ+2lUuD/7nT0vjrlC9v1Uni
+         07JWb18pfIzVgNOEPv1KXBjRX5uYSa9xjR3fRW+1fL7QH5veve05g3HR4wteREEfLKbf
+         aT0A==
+X-Gm-Message-State: AJIora88hPzYAqUVMnUyjjmleg5mgW25KKVuvvY7OiD9qvohin7W2UP4
+        r/RWUXLsTOZtLXv4f1f5GG2JV4qsuMMfJtOvGoc=
+X-Google-Smtp-Source: AGRyM1sBAY02anFyAAkYvB61573ohyB+lIVHvdune1I2St249pttaSZdeqZISv5rckThyg5u7Q/retQg6yCpkFrJ9YI=
+X-Received: by 2002:a05:6512:1307:b0:47f:baa4:52c5 with SMTP id
+ x7-20020a056512130700b0047fbaa452c5mr4350443lfu.103.1657787798421; Thu, 14
+ Jul 2022 01:36:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Received: by 2002:a2e:9041:0:0:0:0:0 with HTTP; Thu, 14 Jul 2022 01:36:37
+ -0700 (PDT)
+Reply-To: abdwabbomaddahm@gmail.com
+From:   Abdwabbo Maddah <abdwabbomaddah746@gmail.com>
+Date:   Thu, 14 Jul 2022 09:36:37 +0100
+Message-ID: <CAFC-3idDfFB0Mmtq-N-n6z5Ly7T-KDCJtvbc0UgtirMnTLYTCg@mail.gmail.com>
+Subject: Get back to me... URGENT
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:134 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [abdwabbomaddah746[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [abdwabbomaddah746[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Commit 3a0cf7ab8df3 ("ACPI: video: Change how we determine if brightness
-key-presses are handled") made acpi_video_handles_brightness_key_presses()
-report false when none of the ACPI Video Devices support backlight control.
-
-But it turns out that at least on a Dell Inspiron N4010 there is no ACPI
-backlight control, yet brightness hotkeys are still reported through
-the ACPI Video Bus; and since acpi_video_handles_brightness_key_presses()
-now returns false, brightness keypresses are now reported twice.
-
-To fix this rename the has_backlight flag to may_report_brightness_keys and
-also set it the first time a brightness key press event is received.
-
-Depending on the delivery of the other ACPI (WMI) event vs the ACPI Video
-Bus event this means that the first brightness key press might still get
-reported twice, but all further keypresses will be filtered as before.
-
-Note that this relies on other drivers reporting brightness key events
-calling acpi_video_handles_brightness_key_presses() when delivering
-the events (rather then once during driver probe). This is already
-required and documented in include/acpi/video.h:
-
-/*
- * Note: The value returned by acpi_video_handles_brightness_key_presses()
- * may change over time and should not be cached.
- */
-
-Fixes: 3a0cf7ab8df3 ("ACPI: video: Change how we determine if brightness key-presses are handled")
-Link: https://lore.kernel.org/regressions/CALF=6jEe5G8+r1Wo0vvz4GjNQQhdkLT5p8uCHn6ZXhg4nsOWow@mail.gmail.com/
-Reported-by: Ben Greening <bgreening@gmail.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/acpi/acpi_video.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/acpi/acpi_video.c b/drivers/acpi/acpi_video.c
-index 43177c20ce4f..eaea733b368a 100644
---- a/drivers/acpi/acpi_video.c
-+++ b/drivers/acpi/acpi_video.c
-@@ -73,7 +73,7 @@ module_param(device_id_scheme, bool, 0444);
- static int only_lcd = -1;
- module_param(only_lcd, int, 0444);
- 
--static bool has_backlight;
-+static bool may_report_brightness_keys;
- static int register_count;
- static DEFINE_MUTEX(register_count_mutex);
- static DEFINE_MUTEX(video_list_lock);
-@@ -1224,7 +1224,7 @@ acpi_video_bus_get_one_device(struct acpi_device *device,
- 	acpi_video_device_find_cap(data);
- 
- 	if (data->cap._BCM && data->cap._BCL)
--		has_backlight = true;
-+		may_report_brightness_keys = true;
- 
- 	mutex_lock(&video->device_list_lock);
- 	list_add_tail(&data->entry, &video->video_device_list);
-@@ -1693,6 +1693,9 @@ static void acpi_video_device_notify(acpi_handle handle, u32 event, void *data)
- 		break;
- 	}
- 
-+	if (keycode)
-+		may_report_brightness_keys = true;
-+
- 	acpi_notifier_call_chain(device, event, 0);
- 
- 	if (keycode && (report_key_events & REPORT_BRIGHTNESS_KEY_EVENTS)) {
-@@ -2253,7 +2256,7 @@ void acpi_video_unregister(void)
- 	if (register_count) {
- 		acpi_bus_unregister_driver(&acpi_video_bus);
- 		register_count = 0;
--		has_backlight = false;
-+		may_report_brightness_keys = false;
- 	}
- 	mutex_unlock(&register_count_mutex);
- }
-@@ -2275,7 +2278,7 @@ void acpi_video_unregister_backlight(void)
- 
- bool acpi_video_handles_brightness_key_presses(void)
- {
--	return has_backlight &&
-+	return may_report_brightness_keys &&
- 	       (report_key_events & REPORT_BRIGHTNESS_KEY_EVENTS);
- }
- EXPORT_SYMBOL(acpi_video_handles_brightness_key_presses);
 -- 
-2.36.0
-
+Dear,
+I had sent you a mail but i don't think you received it that's why am
+writing you again.It is important you get back to me as soon as you
+can.
+Abd-Wabbo Maddah
