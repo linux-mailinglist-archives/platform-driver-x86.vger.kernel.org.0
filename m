@@ -2,128 +2,138 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FA5D5776A5
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 17 Jul 2022 16:20:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E81B5776CC
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 17 Jul 2022 16:50:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233193AbiGQOUN (ORCPT
+        id S232898AbiGQOuu (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 17 Jul 2022 10:20:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47272 "EHLO
+        Sun, 17 Jul 2022 10:50:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233192AbiGQOUM (ORCPT
+        with ESMTP id S232848AbiGQOut (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 17 Jul 2022 10:20:12 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B065213F0C
-        for <platform-driver-x86@vger.kernel.org>; Sun, 17 Jul 2022 07:20:11 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id 64so16613289ybt.12
-        for <platform-driver-x86@vger.kernel.org>; Sun, 17 Jul 2022 07:20:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=BpeVJlbaPF1GO1c3GKSNMLxfJp7/vvzgIVz48ed0jbo=;
-        b=LRZo5dNvWXxaKlp2R9CM31oQQNY9ZSVMnxFz1lfYLwuYebbi2W3f2Ntm6bvzFT/8GN
-         9xS68uUSEPvI164QZ9mTkXTPONFyix475vs/T0ZOM0nHGY+yZ9sLT5Gh+fccLxOkhYIL
-         b6HwvT9gNQ+7bpF7yDZYFeE1a10WSmnIGd+zOpPa+y8D+nXV7gCk5p/zAU7pxii+pkXT
-         jgYHw2TxhNuv1X0MhBNDgz9+/e+oBtnM5ANu+LJ3LhExxv2Faw2bVvz25I2TkHANY/U5
-         ntCw/kXHhgHzTLfETsVKXPGSF3KfadXao9qW9xVD7gpr0DBDqlPGJ4DKJ8V6EUvBeszo
-         02LQ==
+        Sun, 17 Jul 2022 10:50:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BC2E4C8
+        for <platform-driver-x86@vger.kernel.org>; Sun, 17 Jul 2022 07:50:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1658069447;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=hkZ/kwPcmy7MO8oN1ITciGcELFqkzl55uZkPhtRqCIk=;
+        b=NvBLdzBsWvlciwyiclHnjxu1ehkQF0Wr4Ighkik2sllUx8iZHXqfV8HpnFRCtKpNHj5lII
+        U35M71pkBmVRQmBD+Cmee1AqFIqKSici6YMaElpWvHJRn2LLNPF9+SGcGOuYb3RVtLDM/2
+        H7glcfbMuwwTzmZeZHOOaRN0TNnHXs0=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-564-laUPLEnvO22izUF90lYI6g-1; Sun, 17 Jul 2022 10:50:44 -0400
+X-MC-Unique: laUPLEnvO22izUF90lYI6g-1
+Received: by mail-ed1-f69.google.com with SMTP id w13-20020a05640234cd00b0043a991fb3f3so6414454edc.3
+        for <platform-driver-x86@vger.kernel.org>; Sun, 17 Jul 2022 07:50:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=BpeVJlbaPF1GO1c3GKSNMLxfJp7/vvzgIVz48ed0jbo=;
-        b=o7QPFILeYgC5z+0NXuOlTKwKiYw0bqWys4b1+B/NkgLfToCMyAE+TnyS9WwGIR9sSO
-         Lis8T5NRl/O9JS0oZCJfYqxUEzmOMv1jYXJJDZ3cU/RaUi36YOgV6+KtvNubyu8bMGx9
-         HwLhNDhLHBf/Tl2WLIggRLkvjuSA+/rB6xQZ6O9IAhLOni22Y2grBtsK4qIlr2sBQ0pm
-         OcNqc8s4guu09l11TPUMmap5yC8Mn0XuZt2nKv7sBk6lBP3wla9eBIeawCY9SfMrHzx+
-         gSJG8V5Br760WtUYmZcTXR1v8aZ9jlFtZwR0ZC7fzn9Z4yDU3enQu802HXKMLrojrWft
-         8HDA==
-X-Gm-Message-State: AJIora/AQYM01/mjDD+ZJKtIIxKIoIkaT/3+vX1ZCYvRfOSNdZ7Xq3cf
-        hghuJtdV6U8BPNtvFVQYLV/+k++FvDgR+jxPP8ljh9E07eDDug==
-X-Google-Smtp-Source: AGRyM1tQsDYRdcyDZq0S1jyZa+uMlAFiLPBKvWU+HQtkcyekT2jEKOivqFAO/n5YV7qV62I4UVv+CwakIra7UlpP7dE=
-X-Received: by 2002:a4a:ba12:0:b0:435:8a39:2197 with SMTP id
- b18-20020a4aba12000000b004358a392197mr2697124oop.35.1658067600540; Sun, 17
- Jul 2022 07:20:00 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=hkZ/kwPcmy7MO8oN1ITciGcELFqkzl55uZkPhtRqCIk=;
+        b=S3ULNQ2uGRnuu9DXDnbP3bBw1cWhNXK6sz59kF04UjQp3XMNnGTLBvYaRDstPqfk+x
+         oCmAW1X15PL4xFx0a0DPBH8c1PCQQJ7DxuFcVbG/zt7FM0Y2yM2CTu5fviMwB37Z2vtp
+         gjDBQh1mLBdTrieM8RdcK2kwDJ9ENVB2eG4tw83o7ip3KuUVvB2RFVBc5peg5lTxO1pa
+         pPUytO14rHth3JTHd/yyK8JrVBPqoXeFlNhOIHHh3iDRb/kyWt3zXDuMmhL4YLnanl9P
+         ZWW4R3UXVY0nz0bgrp9AEdkoOXxco6UIQxI343ytthAHuxtEULwi9ZYzXI9dyLX8FFix
+         6rKA==
+X-Gm-Message-State: AJIora9iiG7imJ/cJKtBJ/xv/oqq3wi+HdUNbGhg9dCbrhDXSKIIMjkr
+        HdEVk9RNxUfu7ufwQ3pf0N9T4b06dELbexV8MaRYKtmlJs2KmpUzXWxovttavSNGvP+7feoQYwG
+        +hGmZDFCeZH1ogDKBb7MrC2cIrvI7gZaOqA==
+X-Received: by 2002:a05:6402:c44:b0:431:52cc:f933 with SMTP id cs4-20020a0564020c4400b0043152ccf933mr31731720edb.41.1658069442837;
+        Sun, 17 Jul 2022 07:50:42 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1t68Dj5m2zJTHbj18uYrkPS87PtDkKTD2pdvO8clhSLlNtqLUuh6ZBXO80+BgNQwuv416VITw==
+X-Received: by 2002:a05:6402:c44:b0:431:52cc:f933 with SMTP id cs4-20020a0564020c4400b0043152ccf933mr31731701edb.41.1658069442625;
+        Sun, 17 Jul 2022 07:50:42 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id l10-20020a1709060cca00b007262b9f7120sm4419676ejh.167.2022.07.17.07.50.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 Jul 2022 07:50:42 -0700 (PDT)
+Message-ID: <28928879-9543-e423-89af-d53c19b7b164@redhat.com>
+Date:   Sun, 17 Jul 2022 16:50:41 +0200
 MIME-Version: 1.0
-Received: by 2002:a05:6358:a081:b0:ad:bc01:40fd with HTTP; Sun, 17 Jul 2022
- 07:20:00 -0700 (PDT)
-Reply-To: mathurin.cecilia@aol.com
-From:   Cecilia Mathurin <mathurincecilia719@gmail.com>
-Date:   Sun, 17 Jul 2022 15:20:00 +0100
-Message-ID: <CAMoFKqQrdp5YhE9FoHEp6FnsN323+jNNA8G50Ct0m9WTwAnytQ@mail.gmail.com>
-Subject: =?UTF-8?B?VOG7qyBNcy5DZWNpbGlhIE1hdGh1cmlu?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] platform/surface: tabletsw: Fix __le32 integer access
+Content-Language: en-US
+To:     Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     Mark Gross <markgross@kernel.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel test robot <lkp@intel.com>
+References: <20220717120735.2052160-1-luzmaximilian@gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20220717120735.2052160-1-luzmaximilian@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-VOG7qyBNcy5DZWNpbGlhIE1hdGh1cmluDQoNCkLhuqFuIHRow6JuLA0KDQpUw7RpIHLhuqV0IHRp
-4bq/YyBraGkgxJHhur9uIHbhu5tpIGLhuqFuDQpC4bqxbmcgY8OhY2ggbsOgeSwgdMO0aSB2aeG6
-v3QgdGjGsCBuw6B5IGNobyBi4bqhbiB24bubaSBz4buxIHRpbiB0xrDhu59uZyB2w6AgbmjDom4g
-dsSDbg0KdMO0biB0cuG7jW5nLCB0w7RpIGvDqnUgZ+G7jWkgYuG6oW4gaMOjeSBracOqbiBuaOG6
-q24gbeG7mXQgY2jDunQgdsOgIMSR4buNYyBo4bq/dCB0aW4gbmjhuq9uDQpj4bunYSB0w7RpLCB0
-w7RpIMSRw6MgeGVtIHF1YSBo4buTIHPGoSBj4bunYSBi4bqhbiB2w6AgdGluaCB0aOG6p24gY+G7
-p2EgdMO0aSBk4bqrbiB0w7RpIMSR4bq/bg0KbGnDqm4gaOG7hyB24bubaSBi4bqhbiwgdMO0aSB0
-aOG7sWMgc+G7sSBUw7RpIGPhuqduIG3hu5l0IG5nxrDhu51pIHRydW5nIHRo4buxYywgY2jDom4g
-dGjhuq10DQrEkeG7gyBjaGlhIHPhursgY+G6o20geMO6YyB2w6AgZ8OhbmggbuG6t25nIGPhu6dh
-IHTDtGkgduG7m2kgYuG6oW4sIGjDo3kgxJHhu4MgdMO0aSBnaeG7m2kgdGhp4buHdQ0KYuG6o24g
-dGjDom4gY+G7p2EgdMO0aSB24bubaSBi4bqhbiwgdMO0aSBsw6AgTXMuQ2VjaWxpYSBNYXRodXJp
-biwgMjIgdHXhu5VpLCBjb24gZ8OhaQ0KZHV5IG5o4bqldCBj4bunYSDDtG5nIC8gYsOgIE1hcmsg
-TWF0aHVyaW4gcXXDoSBj4buRLiBt4buZdCBuZ8aw4budaSBi4bqjbiDEkeG7i2EgQ290ZQ0KZCdJ
-dm9pcmUg4bufIFTDonkgUGhpLiBDaGEgdMO0aSBsw6AgbeG7mXQgZG9hbmggbmjDom4gcuG6pXQg
-Z2nDoHUgY8OzIGtoaSBjw7JuDQpz4buRbmcsIMO0bmcga2luaCBkb2FuaCB2aeG7h2Mgbmjhuq1w
-IGto4bqpdSDDtCB0w7QgdsOgIMO0bmcgxJHDoyBi4buLIG3hu5l0IHRow6BuaCB2acOqbg0KdHJv
-bmcgZ2lhIMSRw6xuaCBjaMO6bmcgdMO0aSBnaeG6v3QgdsOsIHPhu7EgZ2nDoHUgY8OzIGPhu6dh
-IG3DrG5oIMSR4buDIMO0bmcgdGEgxJHDsmkgbOG6oWkNCnTDoGkgc+G6o24gY+G7p2EgY2hhIHTD
-tGkgbcOgIMO0bmcg4bqleSDEkcOjIGtow7RuZyBjw7MsIG3hurkgdMO0aSDEkcOjIGNo4bq/dCBr
-aGkgdMO0aSBjw7JuDQpz4buRbmcuIDYgdHXhu5VpIHbDoCBjaGEgdMO0aSDEkcOjIGNoxINtIHPD
-s2MgdMO0aSBy4bqldCBjaHUgxJHDoW8gbmjGsCDEkeG7qWEgY29uIGfDoWkNCmR1eSBuaOG6pXQg
-Y+G7p2Egw7RuZywgVHLGsOG7m2Mga2hpIGNoYSB0w7RpIHF1YSDEkeG7nWkgdOG6oWkgbeG7mXQg
-YuG7h25oIHZp4buHbiB0xrAgbmjDom4NCuG7nyBDb3RlZCdpdm9pcmUsIG7GoWkgw7RuZyBuaOG6
-rXAgdmnhu4duLCDDtG5nIMSRw6MgYsOtIG3huq10IGfhu41pIMSRaeG7h24gY2hvIHTDtGkg4buf
-DQpiw6puIGdpxrDhu51uZyBj4bunYSDDtG5nIOG6pXkgdsOgIHRp4bq/dCBs4buZIGNobyB0w7Rp
-IHbhu4Egc+G7sSB04buVbmcgY+G7p2EgYuG7kW4NCnRyaeG7h3UgbsSDbSB0csSDbSBVUw0KxJHD
-tCBsYSAoNCw1IHRyaeG7h3UgxJHDtCBsYSkgYW5oIHRhIMSR4buDIGzhuqFpIHRyb25nIG3hu5l0
-IHTDoGkga2hv4bqjbiB04bqhbSBuZ8awbmcNCnThuqFpIG3hu5l0IHRyb25nIG5o4buvbmcgbmfD
-om4gaMOgbmcg4bufIMSRw6J5IOG7nyBBYmlkamFuIENvdGUgZCdpdm9pcmUuIHbDoCBhbmgg4bql
-eQ0KY8WpbmcgbsOzaSB24bubaSB0w7RpIG7GoWkgYW5oIOG6pXkgZ2nhu68gdOG6pXQgY+G6oyBj
-w6FjIHTDoGkgbGnhu4d1IG3DoCBuZ8OibiBow6BuZyDEkcOjDQpj4bqlcCBjaG8gYW5oIOG6pXkg
-a2hpIGFuaCDhuqV5IGfhu61pIHRp4buBbiwgdsOgDQp0w6puIMSRxrDhu6NjIHZp4bq/dCBsw6Ag
-Y29uIGfDoWkgZHV5IG5o4bqldCBj4bunYSB2dWEsIHbDrCB24bqteSB0w7RpIMSRYW5nIGxpw6pu
-IGjhu4cgduG7m2kNCmLhuqFuIMSR4buDIGdpw7pwIHTDtGkgdsOgIMSR4bupbmcgduG7m2kgdMaw
-IGPDoWNoIGzDoCDEkeG7kWkgdMOhYyBuxrDhu5tjIG5nb8OgaSBj4bunYSB0w7RpLA0KbmfGsOG7
-nWkgbXXhu5FuIGjhu5cgdHLhu6MgdMO0aSBjaHV54buDbiB0aeG7gW4gdHJvbmcgdMOgaSBraG/h
-uqNuIGPhu6dhIGLhuqFuIHNhbmcgxJHDsyDhu58NCsSR4bqldCBuxrDhu5tjIGPhu6dhIGLhuqFu
-IHbhu5tpIHTGsCBjw6FjaCBsw6AgY2hhIHTDtGkNCsSRw6MgaMaw4bubbmcgZOG6q24gdMO0aSB0
-w6xtIGtp4bq/bSBt4buZdCBuZ8aw4budaSBi4bqhbiDEkeG7nWkgbcOgIHTDtGkgbOG7sWEgY2jh
-u41uIMSR4buDIGPhu6l1IGzhuqV5DQpt4bqhbmcgc+G7kW5nIGPhu6dhIHTDtGksIHbDrCB24bqt
-eSBzYXUga2hpIHhlbSBo4buTIHPGoSBj4bunYSBi4bqhbiwgdMOibSB0csOtIHTDtGkgxJHDow0K
-Y2hvIHBow6lwIHTDtGkgbGnDqm4gaOG7hyB24bubaSBi4bqhbi4NCg0KKDEpIELhuqFuIGPDsyB0
-aOG7gyBjaMO6YyBt4burbmcgdMO0aSBraGkgdMO0aSDEkeG6v24gxJHhuqV0IG7GsOG7m2MgY+G7
-p2EgYuG6oW4gxJHGsOG7o2Mga2jDtG5nDQooMikgQuG6oW4gY8OzIHRo4buDIMSR4bupbmcgbMOg
-IG5nxrDhu51pIHRo4bulIGjGsOG7n25nIGPhu6dhIHF14bu5IHThu6sga2hpIHTDtGkgbeG7m2kg
-MjIgdHXhu5VpLg0KKDMpIELhuqFuIGPDsyB0aOG7gyBnacO6cCB0w7RpIHbhu5tpIHTGsCBjw6Fj
-aCBsw6AgQ2jhu4sgLyBDb24gZ8OhaSAvIELhuqFuIGPhu6dhIGLhuqFuIMSRxrDhu6NjIGtow7Ru
-Zw0KKDQpIELhuqFuIGPDsyB0aOG7gyBz4bqvcCB44bq/cA0KxJHhu4MgdMO0aSDEkeG6v24gxJHh
-uqV0IG7GsOG7m2MgY+G7p2EgYuG6oW4gc2F1IGtoaSB0aeG7gW4gxJHGsOG7o2MgY2h1eeG7g24s
-IHbDoA0KbsOibmcgY2FvIHRyw6xuaCDEkeG7mSBo4buNYyB24bqlbiBj4bunYSB0w7RpIHbDoCBj
-xaluZyDEkeG6p3UgdMawIHRp4buBbiB2w6BvIMSR4bqldCBuxrDhu5tjIGPhu6dhIGLhuqFuLg0K
-DQpOZ2F5IGzhuq1wIHThu6ljLCB0w7RpIG5o4bqtbiDEkcaw4bujYyBwaOG6o24gaOG7k2kgdOG7
-qyBi4bqhbiB24buBIHnDqnUgY+G6p3UgY+G7p2EgdMO0aSwgdMO0aSBz4bq9DQpjaHV54buDbiBj
-aG8gYuG6oW4gdOG6pXQgY+G6oyBjw6FjIHTDoGkgbGnhu4d1IGPhuqduIHRoaeG6v3QgbGnDqm4g
-cXVhbiDEkeG6v24ga2hv4bqjbiB0aeG7gW4NCmfhu61pIG7DoHkgduG7m2kgbmfGsOG7nWkgbGnD
-qm4gaOG7hyBuZ8OibiBow6BuZyDEkeG7gyBi4bqhbiBsacOqbiBo4buHIHbhu5tpIG5nw6JuIGjD
-oG5nIMSR4buDDQpjaHV54buDbiB0aeG7gW4gdsOgbyB0w6BpIGtob+G6o24gY+G7p2EgYuG6oW4u
-DQoNCkPhuqNtIMahbiBjaG8gc+G7sSBoaeG7g3UgYmnhur90IGPhu6dhIGLhuqFuLg0KDQpUcsOi
-biB0cuG7jW5nDQpNcy5DZWNpbGlhIE1hdGh1cmluDQo=
+Hi,
+
+On 7/17/22 14:07, Maximilian Luz wrote:
+> The sources.count field is a __le32 inside a packed struct. So use the
+> proper functions to access it.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Fixes: 9f794056db5b ("platform/surface: Add KIP/POS tablet-mode switch driver")
+> Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
+
+Thank you for your patch, I've applied this patch to my review-hans 
+branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+
+Note it will show up in my review-hans branch once I've pushed my
+local branch there, which might take a while.
+
+Once I've run some tests on this branch the patches there will be
+added to the platform-drivers-x86/for-next branch and eventually
+will be included in the pdx86 pull-request to Linus for the next
+merge-window.
+
+Regards,
+
+Hans
+
+
+> ---
+>  drivers/platform/surface/surface_aggregator_tabletsw.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/platform/surface/surface_aggregator_tabletsw.c b/drivers/platform/surface/surface_aggregator_tabletsw.c
+> index 596ca6c80681..27d95a6a7851 100644
+> --- a/drivers/platform/surface/surface_aggregator_tabletsw.c
+> +++ b/drivers/platform/surface/surface_aggregator_tabletsw.c
+> @@ -410,7 +410,7 @@ static int ssam_pos_get_source(struct ssam_tablet_sw *sw, u32 *source_id)
+>  	if (status)
+>  		return status;
+>  
+> -	if (sources.count == 0) {
+> +	if (get_unaligned_le32(&sources.count) == 0) {
+>  		dev_err(&sw->sdev->dev, "no posture sources found\n");
+>  		return -ENODEV;
+>  	}
+> @@ -422,7 +422,7 @@ static int ssam_pos_get_source(struct ssam_tablet_sw *sw, u32 *source_id)
+>  	 * is a device that provides multiple sources, at which point we can
+>  	 * then try to figure out how to handle them.
+>  	 */
+> -	WARN_ON(sources.count > 1);
+> +	WARN_ON(get_unaligned_le32(&sources.count) > 1);
+>  
+>  	*source_id = get_unaligned_le32(&sources.id[0]);
+>  	return 0;
+
