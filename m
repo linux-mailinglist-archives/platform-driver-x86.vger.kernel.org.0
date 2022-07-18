@@ -2,179 +2,108 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15307578816
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Jul 2022 19:06:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BC18578AB2
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Jul 2022 21:28:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235832AbiGRRGA (ORCPT
+        id S235916AbiGRT2X (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 18 Jul 2022 13:06:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57600 "EHLO
+        Mon, 18 Jul 2022 15:28:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235787AbiGRRF6 (ORCPT
+        with ESMTP id S235541AbiGRT2V (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 18 Jul 2022 13:05:58 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 826AA2C123
-        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Jul 2022 10:05:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658163951; x=1689699951;
-  h=from:to:cc:subject:date:message-id:content-id:
-   content-transfer-encoding:mime-version;
-  bh=hbMGL2qOoEg9Bn5KDB7Cl6LEX7tm4o2Ef28mabbRImM=;
-  b=nnhKs0RYYqWtlobLaItL98kSrrN/Tfjz9hfQjRoexg6GzSK4M9PbtHZA
-   jptnZXuY0uyUqexmcB26T4c760qqR9NxWbRy4cF3s7RfJqCkcLQV1BCSr
-   Ld+AQT9LCHWy455NHy70QK4cpG75EIewP6uug4qX0ckcd2MHHy7bUc5Ya
-   3wERM491a405IwOQifEHZ5HtZTZ+fdxsvrrhSGC3MvMr6znybtYkNH7+T
-   1gcU0ogA74Ml03JIASW0bcaxHnS7kHExXPolrrNiUeggqaPse/1QpMTup
-   Fs5dB/ADUnAcqnqi6zX8piW37x16GbIyN2ui5jhrK7T0ZvIkftU4RoaO7
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10412"; a="286290504"
-X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; 
-   d="scan'208";a="286290504"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2022 10:05:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; 
-   d="scan'208";a="686809891"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by FMSMGA003.fm.intel.com with ESMTP; 18 Jul 2022 10:05:48 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Mon, 18 Jul 2022 10:05:48 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28 via Frontend Transport; Mon, 18 Jul 2022 10:05:48 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.105)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Mon, 18 Jul 2022 10:05:48 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RiYT8UorjmIPch8xxvHBTCf6Ms2qmy+umgZ3K45yfrXU2cuYQ6JsCT7AxRyGHshGKWn7oo724AUKDurAq4WCy3TAqohCHP2QLV4W9wo4pADLomiC41k1QISA7VR1mMNaqg12A6NjWUoHqRiPdvlpqtgC4q2MUIdgGu+3Gha2dnuxO1T/iRdj9uDt0QWmrDTSffyojj3pIgXaSzJGIiAkqX10QwoYZkFbox9r5iX+qpK/eTu1JxiBoFyfmphO873r1FHVXms1m+e2YeGwQthGcVugf19kK4MOkDeB3Jjy7fQm3ovtk/KywuluVqkfOPV5pvyWojcJ6tNbN3UC8Wv6UQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hbMGL2qOoEg9Bn5KDB7Cl6LEX7tm4o2Ef28mabbRImM=;
- b=V85OXz8qLOyZlezWq6r26e6okzqbSgFMqKgGiqO4gX/Zor7gJlUWw/ZS+Oqx+fN4wRC5gtWEHTu4Fi4H43pSVPTaQidn7nVixG4vTiaSdVktggDuttUMJZE0rtgKCr1yr5f7B30sUEtf+NYlSr0aLOj6rJ4N5D2IxBVR6scmJOoVfvRk6dfR/w7EM/Sg4Qvl0oi/sqCQYUaDmQFo62RHx4qQwsWc58rOp3ERcQeDV5f4fBZhZssShFLORkWVeKyQOF7z/1LbX1ddhUA/3zLlqujLGgkHH7JhWZ/tFoYF1QG1HmbqIl4Ksja9PSLcpkwjnembDgPkTj1QAIBQ0Z79ow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM8PR11MB5592.namprd11.prod.outlook.com (2603:10b6:8:35::6) by
- CH2PR11MB4422.namprd11.prod.outlook.com (2603:10b6:610:4a::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5438.12; Mon, 18 Jul 2022 17:05:46 +0000
-Received: from DM8PR11MB5592.namprd11.prod.outlook.com
- ([fe80::f51a:e3e7:96c5:d23c]) by DM8PR11MB5592.namprd11.prod.outlook.com
- ([fe80::f51a:e3e7:96c5:d23c%9]) with mapi id 15.20.5438.023; Mon, 18 Jul 2022
- 17:05:46 +0000
-From:   "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>
-To:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "mgross@linux.intel.com" <mgross@linux.intel.com>
-CC:     "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>
-Subject: [GIT PULL]: tools/power/x86/intel-speed-select pull request for
- 5.20-rc1
-Thread-Topic: [GIT PULL]: tools/power/x86/intel-speed-select pull request for
- 5.20-rc1
-Thread-Index: AQHYmsifSXkGEAVo6kazuh6l+TUgxw==
-Date:   Mon, 18 Jul 2022 17:05:46 +0000
-Message-ID: <f5d261460d60c546005d126a7629bfd5e4deeaba.camel@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.42.4 (3.42.4-2.fc35) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 52341554-d005-422d-63c7-08da68dfc1b8
-x-ms-traffictypediagnostic: CH2PR11MB4422:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: YK+aYlqEpsrqYJJY5Bneuto8nVumKRg+4eQKm+erm1/V/zTwRphwmdX7lxDj0xxyw6HVeXU/E5EGjbdd4KFlCDyee6krpVdu+7vD/1s9p9W6Gu1Q2TrefbPrsigUvXLnM+MjGqrgrYOWNkJ7ElX0/5OtywkDZdgXIVa7e+Sb9Z4mCZZETqc2QEgdVkpy7N+ZzkArlLPWFwCXsd4bTksl8h6VT8GdF7eiuK/NckFUoeXd6E1JQ56BYpEUGqCNMsOuc7gfldgu1JlfO8YzfafCqZZ6YRRwpmycCY6EzLVxdEici6xrrZdgHJZX50gBdHaO5E+ZoZ3cPn0wyf4AGKCVZXdnGlDoeq9IqcT6JM3asNf7EfZlX1mDLcclLT9XZWPOUlbInLQocI2kv+utYFOBeGd5e1Gc4Zgpsfq7G51CG5GyTXX7UjmqVE/1qfBdkIAHQlucXK+U+WsYZpC/e6nBHH7A86BEat6IJD99Rizr5+H4vtPrAXCqo1NH3/DzDK5VYRH2jxPfAntiInjcfRKJa0crA3YQbutHY/q0K5PkGmpYVVbPOS1iqMaYpoNatsTPYdgdSRmkejl+QeVy4Btkb0xa4TujwfwAfwtuqnVzMqiZ51Nc8Vjx3Vritj777CaDmF4UyjdFaUPrBIHjQUwTRoUgGoeZ7iDuJyKORrse7nmCz6X+qS69eP8SbEjw4+4xNJxeE0tZJxBayb6eVO4DrN3VorD4KATo65rL7/s1ILXWZ0/fwF4tTigiUYONkuTZILBn+1NWee4sUGN8jXBFOmTIW3ocnLsWSvb3FKRBxi0gdZZT25VsHZ757ikbVPg0WTdK/pHScblybE5dHyyGx/QA1iWxSz+2qPhdaE0hhkg=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR11MB5592.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(396003)(136003)(39860400002)(346002)(376002)(366004)(2616005)(86362001)(6512007)(5660300002)(6486002)(6506007)(478600001)(41300700001)(2906002)(8936002)(4326008)(26005)(82960400001)(122000001)(38070700005)(110136005)(186003)(966005)(66556008)(66446008)(36756003)(66476007)(64756008)(38100700002)(76116006)(316002)(66946007)(8676002)(91956017)(71200400001)(83380400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dW9MdFh6RktVUFd2R3hwU29jM3IvUUZieS9OYjBFd3pPM2ZlOWZoSXZxVi92?=
- =?utf-8?B?R0taZmg0MzIycFFXRlNtbHhHQ2Y2djdEWDYzeXplMWVibHJVdStFNEw1c1Iz?=
- =?utf-8?B?cUhOc2xIa0pIbTFKY1VnUGpoOWwvL0ZoU0YxMjZKR1VKeGtNSjZSZmxnQnJT?=
- =?utf-8?B?YUxzSjduSzBvUmJQM0FNYkVvdGYxTk9XM1ZkbWFYcFRST0x1ajhqRXA3cDkz?=
- =?utf-8?B?aTh0VWpFMC8zUWhjd0tiZXdBU0tkc2QvRThOc0tsNG5VWlNMUHE5M1F6THkz?=
- =?utf-8?B?MEplek9JR1NqSEFtSzdmYlptU25ZQk56U2xYUnpVeGQ2b1hRajB4YWcxdlAv?=
- =?utf-8?B?ZDlWaXQyV0dvZ0tkZW00d08yYmlnNTh3YnN1L3kzN3gxaDhNbHJrR2UwTkFk?=
- =?utf-8?B?QXN0ZFFTQk5kbTFVQ2dUeEJseUdMaGx4aXlyblQ5WTRIWFl6Wk1oeEwxUjc1?=
- =?utf-8?B?bGl3czN4c0tBd2c4WFFFV2JQMTJXVlFyTjhsRVFPUlU5QUMyTFVabHFKSFhm?=
- =?utf-8?B?ZWVVZFkxSmdYQUNYZXZVSnZPZkpOdEhFK2JOamI5eUlTUGJiYnpQYjE5cDhP?=
- =?utf-8?B?dHYwRW9QWUxTY1FVSUtXeWF1eFJIbE1hS2l6dmNCS29VeW5KS1RJUDJXTTJr?=
- =?utf-8?B?eVBKRzRqbEdkUkFENmYwVzJ4RjJEUmFmY0xDb1QvcTVNT0oySFk0WUtTMmFL?=
- =?utf-8?B?aEJ5bTNpYmRWR1BINDhPTkdSNDFseFBsdnNKNHVBQnpHRXNjY1FJN1hsajZI?=
- =?utf-8?B?bkxKZ3Iyb3VQWG03TzVHcjhrVGJRYmd0WGdEdjE3Zk56V0tMNHYrVXZXa1JT?=
- =?utf-8?B?cS9BcCt6dkF4T3Bvb29oMVA2OTYxWlhMdXloQ0YyVTVpZVJvVERkUWhvTDJx?=
- =?utf-8?B?RTlOR3NOSEJhM1l3MnRCZUpkRS9iRmRlaGtpWjFqL0cxZWFicnlWbCs2TWMr?=
- =?utf-8?B?bkJqUStlNHg2NVI1V2t0VS9yYkhkVDhmN0cyK1FNMm5DV3JaVzBienBqVXJT?=
- =?utf-8?B?MGtUaXpaMDdsWnRaMDRQeFN6cDNPRDB5QnlJQzZDS0xTSXZYZFVvT0IzZWti?=
- =?utf-8?B?czJmSDRqUDBjaU8wUkdib2hCZXgyR3prKzY4YkRYMkEzUzR2TGR1Rm50T0ZF?=
- =?utf-8?B?bnp6OHNOMTVGZUoyay9ONk1GZXdrY1J1UXBsZDg4ZVQ3VjNvVmFVUCtwaFE4?=
- =?utf-8?B?eVlRSUljdjhjcUxiK3pQV3l6cFFDV2FTc3BvWXVYSVZySjE0MWRKU0QyWjVN?=
- =?utf-8?B?Lzg2Y0RHOUY5V0tweXhLTHlrMHMyUFp4SEg5WDF2YU5LNmRMenZNdUNTMGls?=
- =?utf-8?B?c2FUa3lhNEI0bEIxYWZYUHFWbE0yeW42Mm43amJwTkFrRVlOaTBrdzhhbHFq?=
- =?utf-8?B?ZTVRUnMzRGFVd1hxa0lsZGZOK3lGeG5nUXJVRFpvSUN4dHN3bThhZW9ZQ0Y4?=
- =?utf-8?B?MExBZFo4U0NRRE5pUjU5cUcvVVdnNnhvd3cwSnYyU2RYRjVFeWViMFE0Y0Ey?=
- =?utf-8?B?ZzJxNTJFM1dkd1BYLzI4OXczMm04TUpXRDd2Qm8xMlNLOWpDY3lVRG91MmFR?=
- =?utf-8?B?RW9IbFpxYmtSbkFHNVI2dHpIYWNKOGFkeERtUTFVcWtycTRqWDNYOUdBK2Ur?=
- =?utf-8?B?UWEvM1pnaHBJc0RnUlZhSHFoZzAyK2w4ZzlST0hBRmMyb3FOUVpRa3U3Szhq?=
- =?utf-8?B?R1prUFEvc2ovc253VndzWTltaUxkOXFORnBtQjF0TlN0WUVpOC9wOGdzczg3?=
- =?utf-8?B?ZGZRQkRVR2JpanZCcU00dVdpUTRaNVMxS2haRGYyR2kxTmV3Vjdha3J1WVpI?=
- =?utf-8?B?Ni9FQVgweVJ1Uk5QWHVaWkhhS0w3U3pGaUFxZjF2LzZCaDB6QUZtTmdLTmdn?=
- =?utf-8?B?cGVWOFA5OHJraFFtdGVqT2VqZlhPTDh0dXlzUEJOZURaWC8vdW9TK2ozTEs5?=
- =?utf-8?B?bkQ2eWcwTjN4Z3ZuTjVEaExzaEdNL0k4Rkx5ZHRPWmpPWEYwT2hKaFhxRjdt?=
- =?utf-8?B?cFFyVXdDTkp4dHdBcXVBU0x2TitBUWNGSjNzeVQ5L3lsVnFITFRxK2M5MU41?=
- =?utf-8?B?QUFLNmRSRjhwd3MrY0VsU2VwWWRmN3lWcjZDVGs2MlNEeFFqVVh0TkN1UFJa?=
- =?utf-8?B?SXZjUzVjUjZWSGpIUllBNHVVOUZ3NHArUFFuWXowSmQ5eHRwbmg2dE4xdjlU?=
- =?utf-8?Q?7dOkzxITrLRN6wOhW/460jg=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <04464F0D8CF50647999E232BD42663D4@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        Mon, 18 Jul 2022 15:28:21 -0400
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 315032F67D
+        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Jul 2022 12:28:20 -0700 (PDT)
+Received: by mail-vs1-xe30.google.com with SMTP id x125so11366886vsb.13
+        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Jul 2022 12:28:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=h0ZslgqQ94UM3iGDYCZGEx8ZwvbYHY5ZrQARiO/Kpbc=;
+        b=q4N+U2wWwZMrh3OQvQVYQsPS16Kt7nmi1l0Y18vNkKciPV9ecpFALGlPWG7UmC+Uex
+         2Jeo6Q5jUSR7vFEEliQpFWV6FuJ3wBGt6PVD3Dxl9PNeD1hGstVI+6VZXALLUB5tPS8C
+         3s6VqItKDOCqGoABSKU1puX5U9BeZ9HnSfhB/MIuWq12Jj5aMoaL5ZCSgGJJyYbYnnmT
+         YWodorRwiQyl++yFH/RWBdqoIhhRNWkcUZKqgEnKZ2+C4BsXhz8xfGK5SeY3QF4eJ3JC
+         HEptxDCelgaB95OI6ngP0vsL5MXV9J5w1SoX6XKeiFA/V3IiCLJymdp1C1RhXphXdiWo
+         WWhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=h0ZslgqQ94UM3iGDYCZGEx8ZwvbYHY5ZrQARiO/Kpbc=;
+        b=qZEgNMVe2uoLm603trYW2aeNpJJh/Mg/1MoqaPv7ybiMYQz8pPT8z07a7UnKyxjQtU
+         buZf63LlbNgCBsgTAOrEjCAFeyhpudoPO1nTvT/7Hi5CQYNGGosfkO9l842Gu3Vujfsu
+         +3xNgGZCOVHR3Y8m+LwouStba1w3p088qqYgcKaAkALFYtuowt6niftuZaFINhpIkgjk
+         N3T7FD6iCBAMY1TZLq/N6tmSRJVowtb3zZhPejxPDcKRCJpoCzek96vAlXEffHLFisHN
+         1247a6THYKCoALYXK9BCPVMSmHpNvz3LmfG+q6Pcp+ZnS6FgBawFIL5yj6NN1Wk5cE0I
+         hG5w==
+X-Gm-Message-State: AJIora9eDSBBLcVz8vmBWJLj+H3GdmbNhmAVqDzhRRrIbG3j7Reo5N7q
+        9L+OtK2ndVStsU7l9H/pqrncsVB0v+wabxxOGWVGl1OA3cMHZA==
+X-Google-Smtp-Source: AGRyM1vn6n8Lw8/IXS4U/BzqYfI64etJXnh3KyubVop4i36XEIIICr1bH2XwPqY9QzE6/PnTDu79bmvyBTVzc6G+b58=
+X-Received: by 2002:a05:6102:667:b0:357:6577:a994 with SMTP id
+ z7-20020a056102066700b003576577a994mr9876646vsf.77.1658172498974; Mon, 18 Jul
+ 2022 12:28:18 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5592.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52341554-d005-422d-63c7-08da68dfc1b8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jul 2022 17:05:46.2804
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yDMAOO/QI6bpImIFhqr38OwAddzosAO+xtOTuYg9yGuduMnYm4AWC/1faEIVLTsc3zOvlS7Lpae8Qi3z5IjKnmxOyDDbqAOf6jWPGQGBo9Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR11MB4422
-X-OriginatorOrg: intel.com
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a59:b12a:0:b0:2d3:5030:bb10 with HTTP; Mon, 18 Jul 2022
+ 12:28:18 -0700 (PDT)
+Reply-To: lilywilliam989@gmail.com
+From:   Lily William <blessingiyore3@gmail.com>
+Date:   Mon, 18 Jul 2022 11:28:18 -0800
+Message-ID: <CAKQJGJbusHdnT0buX1Suhq8uuTxd=8HLefF-3tn0QBX4gXKKSA@mail.gmail.com>
+Subject: Hi Dear,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:e30 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [lilywilliam989[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [blessingiyore3[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [blessingiyore3[at]gmail.com]
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-SGkgSGFucywNCg0KVGhlcmUgYXJlIHR3byBtaW5vciBmaXhlczoNCi0gT25lIGZvciBqdXN0IHJl
-bW92aW5nIHVubmVlZGVkIHNlbWljb2xvbg0KLSBBbm90aGVyIGZvciBhcnJheSByYW5nZSBjaGVj
-aw0KDQpUaGVzZSBjaGFuZ2VzIGFyZSBvbiB0b3Agb2YNCmh0dHBzOi8va2VybmVsLmdvb2dsZXNv
-dXJjZS5jb20vcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3BkeDg2L3BsYXRmb3JtLWRyaXZlcnMt
-eDg2LysvcmVmcy9oZWFkcy9mb3ItbmV4dA0KDQpUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2Ug
-Y29tbWl0DQo3YTRhMDRmNGU5MGQ3NDY5Mjg1MDFhNmQ1NTFkZTg3ZDAyYzI4MzIzOg0KDQogIHBs
-YXRmb3JtL3N1cmZhY2U6IHRhYmxldHN3OiBGaXggX19sZTMyIGludGVnZXIgYWNjZXNzICgyMDIy
-LTA3LTE3DQoxNjoyMDozNSArMDIwMCkNCg0KYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9z
-aXRvcnkgYXQ6DQoNCiAgaHR0cHM6Ly9naXRodWIuY29tL3NwYW5kcnV2YWRhL2xpbnV4LWtlcm5l
-bC5naXQgaW50ZWwtc3N0DQoNCmZvciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0bw0KN2Q1NjU1
-NDJmOGJkYzA5N2Q2MTEwMzA1NzJlY2Y4ZDk3MDZmMTRkYzoNCg0KICB0b29scy9wb3dlci94ODYv
-aW50ZWwtc3BlZWQtc2VsZWN0OlVubmVlZGVkIHNlbWljb2xvbiAoMjAyMi0wNy0xOA0KMDk6NTE6
-MDkgLTA3MDApDQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0NCkRhbiBDYXJwZW50ZXIgKDEpOg0KICAgICAgdG9vbHMvcG93
-ZXIveDg2L2ludGVsLXNwZWVkLXNlbGVjdDogRml4IG9mZiBieSBvbmUgY2hlY2sNCg0KWGluIEdh
-byAoMSk6DQogICAgICB0b29scy9wb3dlci94ODYvaW50ZWwtc3BlZWQtc2VsZWN0OlVubmVlZGVk
-IHNlbWljb2xvbg0KDQogdG9vbHMvcG93ZXIveDg2L2ludGVsLXNwZWVkLXNlbGVjdC9oZmktZXZl
-bnRzLmMgIHwgMiArLQ0KIHRvb2xzL3Bvd2VyL3g4Ni9pbnRlbC1zcGVlZC1zZWxlY3QvaXNzdC1k
-YWVtb24uYyB8IDIgKy0NCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxl
-dGlvbnMoLSkNCg0KVGhhbmtzLA0KU3Jpbml2YXMNCg==
+Hi Dear,
+
+My name is Dr Lily William from the United States.I am a French and
+American nationality (dual) living in the U.S and sometimes in France
+for Work Purpose.
+
+I hope you consider my friend request. I will share some of my pics
+and more details about myself when I get your response.
+
+Thanks
+
+With love
+Lily
