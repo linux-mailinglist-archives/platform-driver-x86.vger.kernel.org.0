@@ -2,99 +2,188 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB4E15823A1
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 27 Jul 2022 12:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93B8C58279A
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 27 Jul 2022 15:24:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231439AbiG0KA3 (ORCPT
+        id S232453AbiG0NYq (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 27 Jul 2022 06:00:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39202 "EHLO
+        Wed, 27 Jul 2022 09:24:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230257AbiG0KAZ (ORCPT
+        with ESMTP id S232246AbiG0NYn (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 27 Jul 2022 06:00:25 -0400
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 916FA2BF8;
-        Wed, 27 Jul 2022 03:00:24 -0700 (PDT)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-        by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26R4SNEe032560;
-        Wed, 27 Jul 2022 04:59:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=PODMain02222019;
- bh=T6+2mzXRPTLTtBq7x98yRAkPxVcb5dHCe1xJUV91oCI=;
- b=TNYSGwwh76BBHIpY0CGeSe+1YzJO9YFfbaisikwUU0yT4Gs10ICv3Pu9nAxmuUHshM43
- 9X9DDDTUdbLsTI9hxdNgKJng86o6D4V5amkqeLMwSaJEc9lAIaDdYRzBXmXzc0Ym+Pd/
- NWbzdtjG8fX6hgZfKwNTBcrHcOUy6ayhxsqmP+AUiA4Qh/5x/AVSuUxtsuhS0PnIPqep
- rYuci/HcCGKHQPXn6JlzB4gdrsDID49bFQ9zcni9ZgIdSDc3dFFpX9S/aORkaj9w5fA6
- rKGZxgbSXvFCK6tCOD8aixzcnwExc2Cg8aY0ky9sOMIDJvH1yHDxpoWuZLHtkWYfN1Yd ig== 
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3hged1vtk5-2
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 27 Jul 2022 04:59:31 -0500
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.9; Wed, 27 Jul
- 2022 04:59:29 -0500
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1118.9 via Frontend Transport; Wed, 27 Jul 2022 04:59:29 -0500
-Received: from aryzen.ad.cirrus.com (unknown [198.61.65.94])
-        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 4FDF02D4;
-        Wed, 27 Jul 2022 09:59:29 +0000 (UTC)
-From:   Lucas Tanure <tanureal@opensource.cirrus.com>
-To:     Jaroslav Kysela <perex@perex.cz>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Takashi Iwai <tiwai@suse.com>,
-        Cameron Berkenpas <cam@neo-zeon.de>
-CC:     <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
-        <linux-kernel@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>,
-        Lucas Tanure <tanureal@opensource.cirrus.com>
-Subject: [PATCH v2 4/4] platform/x86: serial-multi-instantiate: Add CLSA0101 Laptop
-Date:   Wed, 27 Jul 2022 10:59:24 +0100
-Message-ID: <20220727095924.80884-5-tanureal@opensource.cirrus.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220727095924.80884-1-tanureal@opensource.cirrus.com>
-References: <20220727095924.80884-1-tanureal@opensource.cirrus.com>
+        Wed, 27 Jul 2022 09:24:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E812D2E6B2
+        for <platform-driver-x86@vger.kernel.org>; Wed, 27 Jul 2022 06:24:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1658928280;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=nHDoEnomjvtwTSpnmbx6/NyLBgAE9XEEagT+s9E03T8=;
+        b=S9o6HHMGrC4eZ1PgKsex9x4VR79xSFNIiWqzdDZkeBXO1OSYElXn4e54wroipX9uLPUQ30
+        5Ao7UWSZxax75xiOYYfkWauX0Fxooz8qt/v8oWe9fAseXwDN5YQyGDtdH7oavvGG6hfpgX
+        hwXc1OCjcHUyxOaZByI3RXmA9xPoD8A=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-622-Ubn8RvipNvC4qV6mqRuY_Q-1; Wed, 27 Jul 2022 09:24:39 -0400
+X-MC-Unique: Ubn8RvipNvC4qV6mqRuY_Q-1
+Received: by mail-ed1-f70.google.com with SMTP id g15-20020a056402424f00b0043bff7a68dbso5405272edb.10
+        for <platform-driver-x86@vger.kernel.org>; Wed, 27 Jul 2022 06:24:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=nHDoEnomjvtwTSpnmbx6/NyLBgAE9XEEagT+s9E03T8=;
+        b=TjtDCflHWyDKizYIWdISynmGXd2sbLX/u6VYH6dwYeZRdRUbXjqTA2L17gSMMK7SpE
+         9jD7k88mBTLyhFhbgbSI2bBwCyu8wN+1DDiDB4Z/6YnpZf1xdPgCAwnoTZD+m2fmQLny
+         sUs8ob7IcLKia+VJEEG2YpR6qVm3e2ziqJzxmmv7ODqa1ZNwCLBV3Su89DvHmlbnymu+
+         4McCwljgVdNnItnHsDSR2CRqDVpTdDuvTNf8VsQ59+OZ1lRKofRkr2MUmAIfuYCIgy+B
+         NKJgWnr6fCKY8xcK7TTkY68h1S0vcNQo8yeG/srWskfQtGMKsh5JwvT8dl+nIsLPtnv2
+         lZfQ==
+X-Gm-Message-State: AJIora+SBSSuKGUAGO7HEnGN4jkZ5bysLKwh7PoZmEIl4v6HKhTM+TFf
+        PFwbMvlvD4lE4oMoilOOPO0vLnRn9RgTnla2kICd513VAL72/y5guLfYc1eZAFD8h4XvewIgHZJ
+        Gh5pWrEkzIke47rSO5+eXV2B2gQnc2Ka9hg==
+X-Received: by 2002:a17:906:9be4:b0:72b:cf9:99d8 with SMTP id de36-20020a1709069be400b0072b0cf999d8mr17585722ejc.747.1658928277971;
+        Wed, 27 Jul 2022 06:24:37 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1si9EV+JumHF+pMBoiVoeJcgUiFENBLgqNEkV2oW6Y6nx6t8IVNlr5sMnFaa2+acVPgAWsDDQ==
+X-Received: by 2002:a17:906:9be4:b0:72b:cf9:99d8 with SMTP id de36-20020a1709069be400b0072b0cf999d8mr17585694ejc.747.1658928277506;
+        Wed, 27 Jul 2022 06:24:37 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id b3-20020aa7d483000000b0043ad162b5e3sm10114987edr.18.2022.07.27.06.24.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Jul 2022 06:24:36 -0700 (PDT)
+Message-ID: <58b9a042-a7de-a64c-ca8b-f3f187c22c83@redhat.com>
+Date:   Wed, 27 Jul 2022 15:24:36 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: KwUWKi34NrhthI5lpKwmDqaU7d1As0EB
-X-Proofpoint-ORIG-GUID: KwUWKi34NrhthI5lpKwmDqaU7d1As0EB
-X-Proofpoint-Spam-Reason: safe
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v1 01/15] ACPI: platform_profile: Add support for
+ notification chains
+Content-Language: en-US
+To:     "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+        "S-k, Shyam-sundar" <Shyam-sundar.S-k@amd.com>,
+        "markgross@kernel.org" <markgross@kernel.org>
+Cc:     "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        Patil Rajesh <Patil.Reddy@amd.com>
+References: <20220712145847.3438544-1-Shyam-sundar.S-k@amd.com>
+ <20220712145847.3438544-2-Shyam-sundar.S-k@amd.com>
+ <MN0PR12MB61018FA44A015793FCF62322E2869@MN0PR12MB6101.namprd12.prod.outlook.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <MN0PR12MB61018FA44A015793FCF62322E2869@MN0PR12MB6101.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The device CLSA0101 has two instances of CS35L41
-connected by I2C.
+Hi,
 
-Signed-off-by: Lucas Tanure <tanureal@opensource.cirrus.com>
----
- drivers/platform/x86/serial-multi-instantiate.c | 1 +
- 1 file changed, 1 insertion(+)
+On 7/12/22 17:03, Limonciello, Mario wrote:
+> [Public]
+> 
+>> -----Original Message-----
+>> From: S-k, Shyam-sundar <Shyam-sundar.S-k@amd.com>
+>> Sent: Tuesday, July 12, 2022 09:59
+>> To: hdegoede@redhat.com; markgross@kernel.org
+>> Cc: platform-driver-x86@vger.kernel.org; Patil Rajesh
+>> <Patil.Reddy@amd.com>; Limonciello, Mario
+>> <Mario.Limonciello@amd.com>; S-k, Shyam-sundar <Shyam-sundar.S-
+>> k@amd.com>
+>> Subject: [PATCH v1 01/15] ACPI: platform_profile: Add support for
+>> notification chains
+>>
+>> From: Mario Limonciello <mario.limonciello@amd.com>
+>>
+>> Allow other drivers to react to determine current active profile
+>> and react to platform profile changes.
+>>
+> 
+> The original patch this came from had notification chains, but as this was
+> pared down to just export the get method, this commit message and title
+> should be updated.
+> 
+>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+>> ---
+>>  drivers/acpi/platform_profile.c  | 26 ++++++++++++++++++++++++++
+>>  include/linux/platform_profile.h |  1 +
+>>  2 files changed, 27 insertions(+)
+>>
+>> diff --git a/drivers/acpi/platform_profile.c b/drivers/acpi/platform_profile.c
+>> index d418462ab791..7e12a1f30f06 100644
+>> --- a/drivers/acpi/platform_profile.c
+>> +++ b/drivers/acpi/platform_profile.c
+>> @@ -49,6 +49,32 @@ static ssize_t platform_profile_choices_show(struct
+>> device *dev,
+>>  	return len;
+>>  }
+>>
+>> +int platform_profile_get(enum platform_profile_option *profile)
+>> +{
+>> +	int err;
+>> +
+>> +	err = mutex_lock_interruptible(&profile_lock);
 
-diff --git a/drivers/platform/x86/serial-multi-instantiate.c b/drivers/platform/x86/serial-multi-instantiate.c
-index 67feed25c9db..5362f1a7b77c 100644
---- a/drivers/platform/x86/serial-multi-instantiate.c
-+++ b/drivers/platform/x86/serial-multi-instantiate.c
-@@ -328,6 +328,7 @@ static const struct acpi_device_id smi_acpi_ids[] = {
- 	{ "INT3515", (unsigned long)&int3515_data },
- 	/* Non-conforming _HID for Cirrus Logic already released */
- 	{ "CLSA0100", (unsigned long)&cs35l41_hda },
-+	{ "CLSA0101", (unsigned long)&cs35l41_hda },
- 	{ }
- };
- MODULE_DEVICE_TABLE(acpi, smi_acpi_ids);
--- 
-2.37.1
+Besides Mario'r remark about the commit message, this must be
+mutex_lock() not mutex_lock_interruptible() since this function
+is intended to be called by other kernel code, rather then from
+userspace.
+
+Regards,
+
+Hans
+
+
+>> +	if (err)
+>> +		return err;
+>> +
+>> +	if (!cur_profile) {
+>> +		mutex_unlock(&profile_lock);
+>> +		return -ENODEV;
+>> +	}
+>> +
+>> +	err = cur_profile->profile_get(cur_profile, profile);
+>> +	mutex_unlock(&profile_lock);
+>> +	if (err)
+>> +		return err;
+>> +
+>> +	/* Check that profile is valid index */
+>> +	if (WARN_ON((*profile < 0) || (*profile >=
+>> ARRAY_SIZE(profile_names))))
+>> +		return -EIO;
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(platform_profile_get);
+>> +
+>>  static ssize_t platform_profile_show(struct device *dev,
+>>  					struct device_attribute *attr,
+>>  					char *buf)
+>> diff --git a/include/linux/platform_profile.h
+>> b/include/linux/platform_profile.h
+>> index e5cbb6841f3a..2395be670dfd 100644
+>> --- a/include/linux/platform_profile.h
+>> +++ b/include/linux/platform_profile.h
+>> @@ -37,5 +37,6 @@ struct platform_profile_handler {
+>>  int platform_profile_register(struct platform_profile_handler *pprof);
+>>  int platform_profile_remove(void);
+>>  void platform_profile_notify(void);
+>> +int platform_profile_get(enum platform_profile_option *profile);
+>>
+>>  #endif  /*_PLATFORM_PROFILE_H_*/
+>> --
+>> 2.25.1
+> 
 
