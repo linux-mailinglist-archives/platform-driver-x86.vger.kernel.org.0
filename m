@@ -2,35 +2,34 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 153EC58A72F
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  5 Aug 2022 09:34:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F93658A8A5
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  5 Aug 2022 11:20:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234474AbiHEHd6 (ORCPT
+        id S235995AbiHEJT7 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 5 Aug 2022 03:33:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37084 "EHLO
+        Fri, 5 Aug 2022 05:19:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231949AbiHEHd5 (ORCPT
+        with ESMTP id S233773AbiHEJT6 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 5 Aug 2022 03:33:57 -0400
-X-Greylist: delayed 1676 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 05 Aug 2022 00:33:55 PDT
+        Fri, 5 Aug 2022 05:19:58 -0400
 Received: from nifty-ride.212-227-211-85.plesk.page (unknown [212.227.211.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACCA314012
-        for <platform-driver-x86@vger.kernel.org>; Fri,  5 Aug 2022 00:33:55 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9E1F753B8
+        for <platform-driver-x86@vger.kernel.org>; Fri,  5 Aug 2022 02:19:55 -0700 (PDT)
 Received: by nifty-ride.212-227-211-85.plesk.page (Postfix, from userid 10001)
-        id 768CF166FA2; Fri,  5 Aug 2022 07:05:58 +0000 (UTC)
+        id 0FABD1610F7; Fri,  5 Aug 2022 07:05:57 +0000 (UTC)
 To:     platform-driver-x86@vger.kernel.org
 Subject: Copie de : THE WORLD FINANCIAL CRISIS CAN MAKE YOU A MILLIONAIRE!
-Date:   Fri, 5 Aug 2022 07:05:58 +0000
+Date:   Fri, 5 Aug 2022 07:05:57 +0000
 From:   Galerie Raymond Dreyfus <gaelle@ruegama.net>
 Reply-To: Charlestiz <platform-driver-x86@vger.kernel.org>
-Message-ID: <272b7ecb8f5ca8fb4d941332939dece0@www.raymond-dreyfus.com>
+Message-ID: <cb2271530970f93f7cd155a398478bb6@www.raymond-dreyfus.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=3.6 required=5.0 tests=BAYES_50,RCVD_IN_VALIDITY_RPBL,
-        RDNS_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no autolearn_force=no
-        version=3.4.6
+        RDNS_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
