@@ -2,294 +2,105 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4986458C4FA
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Aug 2022 10:39:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C16CA58C90A
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Aug 2022 15:09:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232223AbiHHIi7 (ORCPT
+        id S242964AbiHHNJI (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Aug 2022 04:38:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56814 "EHLO
+        Mon, 8 Aug 2022 09:09:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230127AbiHHIi6 (ORCPT
+        with ESMTP id S229690AbiHHNJI (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Aug 2022 04:38:58 -0400
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AECCA55B0;
-        Mon,  8 Aug 2022 01:38:56 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 79E3C5C006F;
-        Mon,  8 Aug 2022 04:38:53 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Mon, 08 Aug 2022 04:38:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1659947933; x=1660034333; bh=zqjaDTRPpN
-        d2Kx1hkomqQMG2U7vx1XaSDkqkLliNO30=; b=WJkqMIz9bcEmFrZ3B6vHnyGUAN
-        WhOA9awUapl9k2O0bdH6WV7ZM6TJedUm4QqIxXNgAMVH78Evqp2vF6app8HE3nQn
-        0RxUx3KXO4Iq+obzp8eLo88bChLxjGjCUekI2cg6v/zdJUAKwLP3POwKst8iV+ca
-        GxXoXMzSqTo16cue9ybkDq0Xmvy6EHAV/oAr+aeHlR9ak89JlHoZBEI9lesxB2Sq
-        UOvYSMpns3AZLViEOk/t7ty/GZetyzxyoHZms2gm1uLkSdiBMsYfDlFQ+4N9zsyi
-        UeZgc3RBg3yFF59jqQpK1hlO3tctv8P4/nIqd9tInjmgtHcifgj74epXQnFQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; t=1659947933; x=1660034333; bh=zqjaDTRPpNd2Kx1hkomqQMG2U7vx
-        1XaSDkqkLliNO30=; b=uSXsmaorJahSOzI/vgc1VkKEOHs76rj9jSQl8axfhs0v
-        Zfmy+JAomQKJ2t9F+cZsu5Zzr8sGa/vwuwnzkp0sDTDyCyswKVuphBkzdB5kB6f3
-        SL4fr2/Jd+WpyHT85XOLzlWpu4aiKsmZrahFiRcwyGrxHugI0+oPI8Pk9mImZILW
-        U0tVUdWrQeznNxQAELCTJmU9fDjvsZEpJKJ19qBEyg487dYfbViQuWFrwZMDOFPm
-        Ubv74/KN9pIkFjmZOs6xwu0cd9ubGbST4iaL5Y2hEpOZvwZBgSceYfr3d8AeWRhA
-        r79sefiVmvj00wFrzPLpO1x3++mrhJ/m6cuK++U37Q==
-X-ME-Sender: <xms:ncvwYm5Ny2yO5b67Z3vg_9L3z_617qwFwlORJYvC2Je6Wd-rMHlxtg>
-    <xme:ncvwYv7nfgeKWsb72uModwqlQRFxx0IsK_OJ6CEhvZSl30VovravECDyvBfpe2oUo
-    bnMNmt4Kbmor_hgy04>
-X-ME-Received: <xmr:ncvwYldT_05V57ssPfiUQMqdWpFuqGFU4Fo5WyuaCv_MhRJaMwY0Y12MzjWtFZ-epOuGeA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdefkedgtdekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffuvfevkfgjfhfogggtsehttd
-    ertdertddvnecuhfhrohhmpefnuhhkvgculfhonhgvshcuoehluhhkvgeslhhjohhnvghs
-    rdguvghvqeenucggtffrrghtthgvrhhnpedvvdegledtheefieejgfevgeefiefhtdevte
-    efteduhfevtdefleethfetgeeludenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
-    mhepmhgrihhlfhhrohhmpehluhhkvgeslhhjohhnvghsrdguvghv
-X-ME-Proxy: <xmx:ncvwYjISrpIhWjI2w6KxinuKvUK-O10CQYGYzxNo_z8V0f47TkuNfw>
-    <xmx:ncvwYqJv0jZy0O7UiiH2azOwRuGRxrUEU5otVcbq9t-RyugGbouVyA>
-    <xmx:ncvwYkywI07l8IjA3xhok0YXyMTaNsOHfYlO_uzDpdFwP4Es8UH6Ow>
-    <xmx:ncvwYshxTtCtsqxNQqG681z5UyXx2rLjnhJuHqnQGYTLWAH151i8bg>
-Feedback-ID: i5ec1447f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 8 Aug 2022 04:38:48 -0400 (EDT)
-Date:   Mon, 08 Aug 2022 20:38:33 +1200
-From:   Luke Jones <luke@ljones.dev>
-Subject: Re: [PATCH v2 6/6] asus-wmi: Add support for dGPU-only mode
-To:     hdegoede@redhat.com
-Cc:     markgross@kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Message-Id: <90GAGR.D69M1ZE8ZLC21@ljones.dev>
-In-Reply-To: <20220808030420.8633-7-luke@ljones.dev>
-References: <20220808030420.8633-1-luke@ljones.dev>
-        <20220808030420.8633-7-luke@ljones.dev>
-X-Mailer: geary/40.0
+        Mon, 8 Aug 2022 09:09:08 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40FBB64CC
+        for <platform-driver-x86@vger.kernel.org>; Mon,  8 Aug 2022 06:09:07 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id uj29so16606964ejc.0
+        for <platform-driver-x86@vger.kernel.org>; Mon, 08 Aug 2022 06:09:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc;
+        bh=LgqngHF2eI0tn262ipdxId4zCNOXeIePWnVjlEFltMg=;
+        b=Ked0K+nNVjmv+8+exz5XeDrdBUwvvQwaqhh9dOQ4QFT6V3JhrYwrRiOKL8r+vna+cV
+         WyTGNGWhr+sIuK0huejjinp4z+SRwBYFkwKNkXkn4Lu4u9f09AgdcYuRLPJE0V5L+FZn
+         SuBIv7OLRzWnOLi8BQf4dykkVv1cK/15Fb7Dk0qpLVYJ/osqo4jrJtNKLor22ZRoE79Q
+         eQmzbMCBYLjwZIwQN/+kFPBi3Vr8eGel1/0MDodhPtRMpBd3ACDT1ZNHXM1+QccJ80hP
+         89RGceanmp57Fb/b5EHbv9pqSAFv2XCpP70JmXqhrCVvnrtncitWAH6IjoUpeL5zXGKZ
+         OpnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=LgqngHF2eI0tn262ipdxId4zCNOXeIePWnVjlEFltMg=;
+        b=YED66Os+d8Hm4Ea2yb6U/Htjr2tgRlXmlselkjTLBPLn5JiNeT/WQv+iJd6QTDs3Oh
+         ufhRkUONc0rIM1m2DvLZNgwuCI85Us5YM4KAX61/RRBVYjT77p+d1vNv4/sqkyf0rTLV
+         uylW5uK15WvAxaCZGd/d/1jO8lx7eqy0BIOQbcZzIBupvmNsf5b52P6VT/vGx5gjONzH
+         kxzgaGfwcpTRhkI2L+BxaL21XCd+ojtQo5jvVkfm3Pbl8qTHLqkPh3Yf4lZ/2ze+PBZo
+         d+Vy5yBNvqCoXJx7wMsxLOhOiSVAh9JtLcva1MeD2orFBfX4z7TtUPEh9Um9pvaOKJv9
+         V9Lw==
+X-Gm-Message-State: ACgBeo3yq3Y37Iw6HWH3T7d3urb4JcnPQ7WeWA0oagMQofTK/8JOCIzH
+        YmziBNajyyE0Sm35TB2B4k9k2M2SXyReqN/Qp/Y=
+X-Google-Smtp-Source: AA6agR5lk0N2M0LWauoO4JQVL/WjsXei3ATecz8J52nezKGi0mPfX9jv9byYyyfPr2Y3iq1I0rLvU69CdnBdn3i5dMY=
+X-Received: by 2002:a17:906:4fd6:b0:70c:9284:cc01 with SMTP id
+ i22-20020a1709064fd600b0070c9284cc01mr13837797ejw.553.1659964145473; Mon, 08
+ Aug 2022 06:09:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a55:c604:0:b0:19d:3a9b:3b3e with HTTP; Mon, 8 Aug 2022
+ 06:09:03 -0700 (PDT)
+Reply-To: e8184566@gmail.com
+From:   All States Funding <marynduta21@gmail.com>
+Date:   Mon, 8 Aug 2022 16:09:03 +0300
+Message-ID: <CACyYKggFNwapQxZHi1fGfyH4o4uop2Dr3_+N1tj4jg6C2wzzrg@mail.gmail.com>
+Subject: Kreditangebot
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:644 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [e8184566[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [marynduta21[at]gmail.com]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [marynduta21[at]gmail.com]
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-It appears I have included the wrong dgpu-only patch. This one has 
-mistakes in it and early testing...
-
-I will include the fixed one in the next version after review.
-
-Kind regards,
-Luke.
-
-On Mon, Aug 8 2022 at 15:04:20 +1200, Luke D. Jones <luke@ljones.dev> 
-wrote:
-> Adds support for a dGPU-only mode on some laptops where when enabled
-> the boot GPU is the dGPU, and the iGPU is not visible.
-> 
-> Signed-off-by: Luke D. Jones <luke@ljones.dev>
-> ---
->  .../ABI/testing/sysfs-platform-asus-wmi       |  9 ++
->  drivers/platform/x86/asus-wmi.c               | 92 
-> +++++++++++++++++++
->  include/linux/platform_data/x86/asus-wmi.h    |  3 +
->  3 files changed, 104 insertions(+)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-platform-asus-wmi 
-> b/Documentation/ABI/testing/sysfs-platform-asus-wmi
-> index 66b262476d92..93d111a65313 100644
-> --- a/Documentation/ABI/testing/sysfs-platform-asus-wmi
-> +++ b/Documentation/ABI/testing/sysfs-platform-asus-wmi
-> @@ -77,6 +77,15 @@ Description:
->  			* 0 - Disable,
->  			* 1 - Enable,
-> 
-> +What:		/sys/devices/platform/<platform>/dgpu_only
-> +Date:		Aug 2022
-> +KernelVersion:	6.0
-> +Contact:	"Luke Jones" <luke@ljones.dev>
-> +Description:
-> +		Set the dGPU to be the only GPU available:
-> +			* 0 - Disable,
-> +			* 1 - Enable,
-> +
->  What:		/sys/devices/platform/<platform>/panel_od
->  Date:		Aug 2022
->  KernelVersion:	5.17
-> diff --git a/drivers/platform/x86/asus-wmi.c 
-> b/drivers/platform/x86/asus-wmi.c
-> index b9e5d87e3e18..840299828512 100644
-> --- a/drivers/platform/x86/asus-wmi.c
-> +++ b/drivers/platform/x86/asus-wmi.c
-> @@ -246,6 +246,9 @@ struct asus_wmi {
->  	bool dgpu_disable_available;
->  	bool dgpu_disable;
-> 
-> +	bool dgpu_only_available;
-> +	bool dgpu_only;
-> +
->  	bool keyboard_rgb_state_available;
->  	bool keyboard_rgb_mode_available;
->  	struct keyboard_rgb_led keyboard_rgb_mode;
-> @@ -750,6 +753,87 @@ static ssize_t egpu_enable_store(struct device 
-> *dev,
-> 
->  static DEVICE_ATTR_RW(egpu_enable);
-> 
-> +/* dedicated GPU only 
-> *********************************************************/
-> +static int dgpu_only_check_present(struct asus_wmi *asus)
-> +{
-> +	u32 result;
-> +	int err;
-> +
-> +	asus->dgpu_only_available = false;
-> +
-> +	err = asus_wmi_get_devstate(asus, ASUS_WMI_DEVID_DGPU, &result);
-> +	if (err) {
-> +		if (err == -ENODEV)
-> +			return 0;
-> +		return err;
-> +	}
-> +
-> +	if (result & ASUS_WMI_DSTS_PRESENCE_BIT) {
-> +		asus->dgpu_only_available = true;
-> +		asus->dgpu_only = result & ASUS_WMI_DSTS_STATUS_BIT;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dgpu_only_write(struct asus_wmi *asus)
-> +{
-> +	u32 retval;
-> +	u8 value;
-> +	int err;
-> +
-> +	/* Don't rely on type conversion */
-> +	value = asus->dgpu_only ? 1 : 0;
-> +
-> +	err = asus_wmi_set_devstate(ASUS_WMI_DEVID_DGPU, value, &retval);
-> +	if (err) {
-> +		pr_warn("Failed to set dGPU-only mode: %d\n", err);
-> +		return err;
-> +	}
-> +
-> +	if (retval > 1) {
-> +		pr_warn("Failed to set dGPU-only mode (retval): 0x%x\n", retval);
-> +		return -EIO;
-> +	}
-> +
-> +	sysfs_notify(&asus->platform_device->dev.kobj, NULL, "dgpu_only");
-> +
-> +	return 0;
-> +}
-> +
-> +static ssize_t dgpu_only_show(struct device *dev,
-> +				   struct device_attribute *attr, char *buf)
-> +{
-> +	struct asus_wmi *asus = dev_get_drvdata(dev);
-> +	u8 mode = asus->dgpu_only;
-> +
-> +	return sysfs_emit(buf, "%d\n", mode);
-> +}
-> +
-> +static ssize_t dgpu_only_store(struct device *dev,
-> +				    struct device_attribute *attr,
-> +				    const char *buf, size_t count)
-> +{
-> +	bool enable;
-> +	int result;
-> +
-> +	struct asus_wmi *asus = dev_get_drvdata(dev);
-> +
-> +	result = kstrtobool(buf, &enable);
-> +	if (result)
-> +		return result;
-> +
-> +	asus->dgpu_only = enable;
-> +
-> +	result = dgpu_only_write(asus);
-> +	if (result)
-> +		return result;
-> +
-> +	return count;
-> +}
-> +
-> +static DEVICE_ATTR_RW(dgpu_only);
-> +
->  /* TUF Laptop Keyboard RGB Modes 
-> **********************************************/
->  static int keyboard_rgb_mode_check_present(struct asus_wmi *asus)
->  {
-> @@ -3473,6 +3557,7 @@ static struct attribute *platform_attributes[] 
-> = {
->  	&dev_attr_touchpad.attr,
->  	&dev_attr_egpu_enable.attr,
->  	&dev_attr_dgpu_disable.attr,
-> +	&dev_attr_dgpu_only.attr,
->  	&dev_attr_keyboard_rgb_mode.attr,
->  	&dev_attr_keyboard_rgb_mode_index.attr,
->  	&dev_attr_keyboard_rgb_state.attr,
-> @@ -3507,6 +3592,8 @@ static umode_t asus_sysfs_is_visible(struct 
-> kobject *kobj,
->  		ok = asus->egpu_enable_available;
->  	else if (attr == &dev_attr_dgpu_disable.attr)
->  		ok = asus->dgpu_disable_available;
-> +	else if (attr == &dev_attr_dgpu_only.attr)
-> +		ok = asus->dgpu_only_available;
->  	else if (attr == &dev_attr_keyboard_rgb_mode.attr)
->  		ok = asus->keyboard_rgb_mode_available;
->  	else if (attr == &dev_attr_keyboard_rgb_mode_index.attr)
-> @@ -3784,6 +3871,10 @@ static int asus_wmi_add(struct platform_device 
-> *pdev)
->  	if (err)
->  		goto fail_dgpu_disable;
-> 
-> +	err = dgpu_only_check_present(asus);
-> +	if (err)
-> +		goto fail_dgpu_only;
-> +
->  	err = keyboard_rgb_mode_check_present(asus);
->  	if (err)
->  		goto fail_keyboard_rgb_mode;
-> @@ -3906,6 +3997,7 @@ static int asus_wmi_add(struct platform_device 
-> *pdev)
->  fail_fan_boost_mode:
->  fail_egpu_enable:
->  fail_dgpu_disable:
-> +fail_dgpu_only:
->  fail_keyboard_rgb_mode:
->  fail_keyboard_rgb_state:
->  fail_platform:
-> diff --git a/include/linux/platform_data/x86/asus-wmi.h 
-> b/include/linux/platform_data/x86/asus-wmi.h
-> index b5c966798ef8..76b0756a0666 100644
-> --- a/include/linux/platform_data/x86/asus-wmi.h
-> +++ b/include/linux/platform_data/x86/asus-wmi.h
-> @@ -98,6 +98,9 @@
->  /* dgpu on/off */
->  #define ASUS_WMI_DEVID_DGPU		0x00090020
-> 
-> +/* Dedicated GPU only. When active the dGPU will be the only visible 
-> GPU */
-> +#define ASUS_WMI_DEVID_DEDICATED	0x00090016
-> +
->  /* TUF laptop RGB control */
->  #define ASUS_WMI_DEVID_TUF_RGB_MODE	0x00100056
->  /* TUF laptop RGB state control */
-> --
-> 2.37.1
-> 
-
-
+--=20
+Brauchen Sie einen Kredit? Wenn ja, kontaktieren Sie uns noch heute,
+wir bieten alle Arten von
+Darlehen wie Privatdarlehen, Hypothekendarlehen, Immobiliendarlehen,
+Firmendarlehen, Investitionsdarlehen, Gesch=C3=A4ftsdarlehen,
+Schuldenkonsolidierungsdarlehen und vieles mehr zu 2 % Zinssatz. Bei
+Interesse kontaktieren Sie uns f=C3=BCr weitere Informationen
