@@ -2,57 +2,57 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D76758CBE5
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Aug 2022 18:12:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9548558CBEE
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Aug 2022 18:13:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234900AbiHHQML (ORCPT
+        id S243303AbiHHQNr (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Aug 2022 12:12:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43966 "EHLO
+        Mon, 8 Aug 2022 12:13:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231475AbiHHQMK (ORCPT
+        with ESMTP id S243936AbiHHQNq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Aug 2022 12:12:10 -0400
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 301B630C;
-        Mon,  8 Aug 2022 09:12:09 -0700 (PDT)
-Received: by mail-qt1-x832.google.com with SMTP id l5so404642qtv.4;
-        Mon, 08 Aug 2022 09:12:09 -0700 (PDT)
+        Mon, 8 Aug 2022 12:13:46 -0400
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9D8C95B6;
+        Mon,  8 Aug 2022 09:13:45 -0700 (PDT)
+Received: by mail-qk1-x731.google.com with SMTP id f14so6848603qkm.0;
+        Mon, 08 Aug 2022 09:13:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=gILE/DsFTOP8PS0Yp1nF3NCvuUGJhqQFgsUGLdHXvV8=;
-        b=jUFe1axofvyCb6gyzxGTtNwHyegk3CnDZMId+aHrAzoNtF8INilsWQPC+STOs1HddK
-         CzGUhG3kK4Dx9QqZ3NWbGmnk2O0HnxRnwHI+Iefs6ZnQhZL9TA/eC3fJeL1Sc8Y6s5wa
-         VAGzRa91ONRrsOdJKwke1gkVMBSwwhhKVOcrydQpj6d5WUi1PyRrd3zZwygESwtCuYce
-         7wqY9ogPv6DbLCNf/yhkPX8W5wdp3bWLoHN6XrXwCv/L3aaZJdGrYyb64m5wkksTl0fS
-         9fXNC/2rpvGtEIElZQsiJt4tqf2Qt4cQZT30fa+E6XOWmRGlE3MzpqvKixvzhy2ljIXx
-         Z6Cw==
+        bh=RydAc2h1TG1DNQLkGPwhdBQh+OZCJYVbtJqYkQv0eqs=;
+        b=lTkujjumqQiRClqVK/7uGOiLol86GKygEm7KB1YnzNtAjcVvg83b5dzIp7yVeX0LD1
+         82rfY6UjfYtUeuyeCr4SbTPsrPixb8+3ki0ohTwe3JwooIUb31lZ2PAatCLuaZWZxakJ
+         zfUD/2tXgv+WMlBL3tLAJr2aZ2n5K8lHFz8FwdUoTnzOSHwLpLV5oIiNrUj+Z6Z4G/Dj
+         2zDjqHI37fsD8r9si8ndG3ZJMblQ7DZmAX/ldd9s5UbLICJFpfN6Oswa2s8wz65f5EY0
+         +edsSU/tbEs84GXgFMpsYzcEYK96H59D4l4m574cLmQ/7BmvEIJDQDZTW5NUjIUIHUe0
+         uW+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=gILE/DsFTOP8PS0Yp1nF3NCvuUGJhqQFgsUGLdHXvV8=;
-        b=acjBgEV211m4J1YzW27A4eBQH+Nx9wM3zGHdBFMlihKt4mIFL2sml+hub79WVjwRhr
-         YOSj/OlVXc+Xb+8O0KtwDZukVmmUtz8uPA3vx0YLUpaKXmad1bokMFIM010NaeobCvzK
-         Y+5IdGvQcyWREy+y7ZYsGec5bEDT+SFIKF/Lb7f/qZjfUWbXrIxBmbtwmG7yE94cqCMo
-         +kY6Fvo2fycQQyI2YzcpLwFvCqCu75r+QlHNNqm6aIYnKQtBVlEcXHutZ8QZ9IegVEyd
-         GsWwwoLt3FaIvNvOI3/4mhHYtrI9m+qCtQTuZgrlxo0r5R+4k9Tbr2jvOnFPI/wBB48t
-         5afA==
-X-Gm-Message-State: ACgBeo2v3gxOnrHcLMJBK9K2ZNbk+aQQw3Lw5Orkvyfma64Ey7W5IKuy
-        MyL1JXLH7pWo/XRwMwCTfQ9gV1ei3EkIE1HwFHU=
-X-Google-Smtp-Source: AA6agR6YMGbmSGWrM3mvE3XFN1H+euyfs1mFLCcKBtY7QVRDfF162WRcbFP1i1/j4WhE6bRQtesrXDtrrJbcldYNPn4=
-X-Received: by 2002:ac8:7fd1:0:b0:31e:e9c0:c071 with SMTP id
- b17-20020ac87fd1000000b0031ee9c0c071mr16765824qtk.481.1659975128238; Mon, 08
- Aug 2022 09:12:08 -0700 (PDT)
+        bh=RydAc2h1TG1DNQLkGPwhdBQh+OZCJYVbtJqYkQv0eqs=;
+        b=AopuPEz9FnLVZUyN3+J8hXL1Kd9j+tTctgh2B9lYjceIzRaEHFg5NOi1WOAfDGZFXZ
+         Wy0zg4kK7W8u0ccpFEAayCyrVRV4ylJUp3i5nqo9AiADCeBpjstoZlYGU64UfLoEPV+d
+         aviDcw8+PAZkPFRWXSec7jEnG6LRQQIpWLSlJijXdQ0VOBv6xyDHsd8giFliaJOZmV57
+         GVK7jutebH7mNx++qxgLZ/xUCkPPwcwhU1TTjinKO7rfYKq08C2LxrSaJHqrW7q0+EVz
+         0gMeSfbf35di57AcLuULOzt46EFicTRxe1kO2JxcbMB5IKmy+zX1N1zZ5+1A1P1kWBD1
+         jY/Q==
+X-Gm-Message-State: ACgBeo0yMjJtMfORNtCN5fco1ZIGEKZvoODDUKvp6GWNRVzsZEtzSar2
+        gzhJ2G1MbxhNihsqUBODC2es7AlO91U5vyT0RpY=
+X-Google-Smtp-Source: AA6agR7XtKMvsHc14GyMFRB4LH96lb/VxXn/pAY+PTjrqAEQKF7Ovqn1Zp8MAOxfO+fUECjMl1ixyoSN8+RNZ1QRrNs=
+X-Received: by 2002:a05:620a:254d:b0:6ab:84b8:25eb with SMTP id
+ s13-20020a05620a254d00b006ab84b825ebmr14564064qko.383.1659975224727; Mon, 08
+ Aug 2022 09:13:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220808030420.8633-1-luke@ljones.dev> <20220808030420.8633-5-luke@ljones.dev>
-In-Reply-To: <20220808030420.8633-5-luke@ljones.dev>
+References: <20220808030420.8633-1-luke@ljones.dev> <20220808030420.8633-6-luke@ljones.dev>
+In-Reply-To: <20220808030420.8633-6-luke@ljones.dev>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 8 Aug 2022 18:11:32 +0200
-Message-ID: <CAHp75VdJyukGnJkhjPiB7wMxS5aQkVfMwVVhqAxA6DppyH3HLQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] asus-wmi: Document previously added attributes
+Date:   Mon, 8 Aug 2022 18:13:08 +0200
+Message-ID: <CAHp75VdgGgp2H906sQjhauzEGLp8Mr-2Hj9hKdkF9MPeOOCbLQ@mail.gmail.com>
+Subject: Re: [PATCH v2 5/6] asus-wmi: Convert all attr-show to use sysfs_emit
 To:     "Luke D. Jones" <luke@ljones.dev>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <markgross@kernel.org>,
@@ -69,87 +69,20 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Aug 8, 2022 at 5:09 AM Luke D. Jones <luke@ljones.dev> wrote:
+On Mon, Aug 8, 2022 at 5:08 AM Luke D. Jones <luke@ljones.dev> wrote:
 >
-> Documents some previously added attributes:
-> - dgpu_disable
-> - egpu_enable
-> - panel_od
-> - keyboard_rgb_mode
-> - keyboard_rgb_state
+> This changes all *_show attributes in asus-wmi.c to use sysfs_emit
+
+We refer to functions as func().
+
+> instead of the older method of writing to the output buffer manually.
 
 ...
 
-> +What:          /sys/devices/platform/<platform>/dgpu_disable
-> +Date:          Aug 2022
-> +KernelVersion: 5.17
-> +Contact:       "Luke Jones" <luke@ljones.dev>
-> +Description:
-> +               Disable discrete GPU:
-> +                       * 0 - Enable dGPU,
-> +                       * 1 - Disable dGPU,
-> +
-> +What:          /sys/devices/platform/<platform>/egpu_enable
-> +Date:          Aug 2022
-> +KernelVersion: 5.17
-> +Contact:       "Luke Jones" <luke@ljones.dev>
-> +Description:
-> +               Enable the external GPU paired with ROG X-Flow laptops.
-> +               Toggling this setting will also trigger ACPI to disable the dGPU:
-> +                       * 0 - Disable,
-> +                       * 1 - Enable,
-> +
-> +What:          /sys/devices/platform/<platform>/panel_od
-> +Date:          Aug 2022
-> +KernelVersion: 5.17
-> +Contact:       "Luke Jones" <luke@ljones.dev>
-> +Description:
-> +               Enable an LCD response-time boost to reduce or remove ghosting:
-> +                       * 0 - Disable,
-> +                       * 1 - Enable,
+> -       return sprintf(buf, "%d\n", value < 0 ? -1 : value*100);
+> +       return sysfs_emit(buf, "%d\n", value < 0 ? -1 : value*100);
 
-These should be in  separate patch(es) with the corresponding Fixes
-tags. (The latter may not be so important, though. I leave it to Hans
-to decide)
-
-...
-
-> +What:          /sys/devices/platform/<platform>/keyboard_rgb_mode
-> +Date:          Aug 2022
-> +KernelVersion: 6.0
-
-These should go separately. Dunno if it should be a separate
-documentation change for the both, or should it be split and
-reattached to the respective patches from the series. Up to Hans.
-
-> +Contact:       "Luke Jones" <luke@ljones.dev>
-> +Description:
-> +               Set some RGB keyboard modes and features (write-only).
-> +
-> +               The accepted input is "save mode speed", where "n n n" options
-> +               are:
-> +                       * save - 0 or 1, if 0 then settings are not retained on boot
-> +                       * mode - 0 to 12, each is an RGB such as static, rainbow, pulse.
-> +                                       Not all keyboards accept every mode.
-> +                       * speed - 0, 1, 2, equal to low, medium, high.
-> +                                       Only applies to certain modes.
-> +
-> +What:          /sys/devices/platform/<platform>/keyboard_rgb_state
-> +Date:          Aug 2022
-> +KernelVersion: 6.0
-> +Contact:       "Luke Jones" <luke@ljones.dev>
-> +Description:
-> +               Set some RGB keyboard power states (write-only).
-> +
-> +               The accepted input is "boot awake sleep keyboard", where "n n n n n"
-> +               options are:
-> +                       * save - 0 or 1, if 0 then settings are not retained on boot
-> +                       * boot - 0 or 1, controls if a boot animation is shown
-> +                       * awake - 0 or 1, controls if the keyboard LED are on during awake
-> +                       * sleep - 0 or 1, controls if a suspended animation is shown.
-> +                                               This is only active if the AC is connected.
-> +                       * keyboard - 0 or 1, unknown what effect this really has
-
+While at it, put spaces around *: 'value * 100'.
 
 -- 
 With Best Regards,
