@@ -2,151 +2,142 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0543758DAC0
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Aug 2022 17:05:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80D1258DFD8
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Aug 2022 21:09:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244790AbiHIPF1 (ORCPT
+        id S1345317AbiHITHh (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 9 Aug 2022 11:05:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47698 "EHLO
+        Tue, 9 Aug 2022 15:07:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244816AbiHIPFO (ORCPT
+        with ESMTP id S1346871AbiHITGY (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 9 Aug 2022 11:05:14 -0400
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2063.outbound.protection.outlook.com [40.107.104.63])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A23551EADE;
-        Tue,  9 Aug 2022 08:05:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UEQeidl3EQa6zlxaKs/w3ZzYeSIqdvJnb9FaJZs93J4VaZZregJQ7Mun5WneTVES+ulciGkInLqaj4bKjRMuSKIvUEZluTUlnUZCJL/jO76GkjcQOI6Pu1BfWtYreIQJ2OBHFCv6id/opro9SasZzdAiKf/lf9RO8J7FkE/PuH2i1v7Mc4JdQzTJaB9OrB5tUVcbWglGqvXaOpk4qsSXNbb6Vq4a4hu8Z1LUmrfn1Zg9R2OTHZ3zGXU4NrrvKF+QgE+jD8gIl/u0i3m6ehV9ci1IP7ViCczKeXiu0iGxTiaZga2OnsNSMRjL8cvBQNdpPN2sYFoMiFbVzWcXXHL/9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q/SIkLdlwCfAKaSHnpyBQjoFHswi4PZziFDzWcXh9Yo=;
- b=YxPo0DWEirbdMG03/cnsFC01lrRLTeh/L3AlayL69kC6theclY73Y6lq6nDGnDoB8+U4WVQTRFWjA43IuGrORmboiSyVsXTuJnPY0gj+csUos+PxXHgs7JWMzQUqLcxmgBGoSqqe0uQpINSncZzBRnFirTWsUExqA1y7S6xViayoBleT6QqNYFJQt4i/1liL2aJ1FoUnN3NOJFINwdSIoT/2SGsIM1iwgmvM3NS75CJrc50b/odpOJfMAq4nD7e4UGIycTcW2HvahsG6VexKR5yF4TotixJYtLUKZZm/m4DKL2c+7toNq9iWqsfbqkqNOOOKSrZsKylJFiwwrSJqhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 194.138.21.75) smtp.rcpttodomain=linaro.org smtp.mailfrom=siemens.com;
- dmarc=fail (p=none sp=none pct=100) action=none header.from=siemens.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q/SIkLdlwCfAKaSHnpyBQjoFHswi4PZziFDzWcXh9Yo=;
- b=hGEgXxUIF31q/8C3QcF+0a3AKljUexBrUZnL0xvonMHJDfLNg/cOhiWnebmJn/cb8YioI4DdcLUbh2Ukn4L0teBgXyrYaSHCiChfg+AwARK0AVgRO4GfbdcEYoTpgtiGnztQzVwQWc4nMIOsTl4afXpH0GXEf6ynEa0tcp8ly9BcuF45NOWSRilr/Lx0GJLY7EnLSfam7XkevMAUFviO3nC42fBNOkxoBK6aR3Vah0sFAl0YQtDv/NAB31GN3M15n09HspAcCQhlR8swrX5sabP0EJ41WKBxOzO615n7+E0d8aVPKTThxEjl6n7FuISTtdiPfF/okYXdj4AbnQHnJw==
-Received: from AM6P195CA0051.EURP195.PROD.OUTLOOK.COM (2603:10a6:209:87::28)
- by DB8PR10MB3483.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:142::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Tue, 9 Aug
- 2022 15:05:05 +0000
-Received: from VE1EUR01FT090.eop-EUR01.prod.protection.outlook.com
- (2603:10a6:209:87:cafe::5f) by AM6P195CA0051.outlook.office365.com
- (2603:10a6:209:87::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.16 via Frontend
- Transport; Tue, 9 Aug 2022 15:05:05 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 194.138.21.75)
- smtp.mailfrom=siemens.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=siemens.com;
-Received-SPF: Fail (protection.outlook.com: domain of siemens.com does not
- designate 194.138.21.75 as permitted sender) receiver=protection.outlook.com;
- client-ip=194.138.21.75; helo=hybrid.siemens.com;
-Received: from hybrid.siemens.com (194.138.21.75) by
- VE1EUR01FT090.mail.protection.outlook.com (10.152.3.118) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5504.14 via Frontend Transport; Tue, 9 Aug 2022 15:05:05 +0000
-Received: from DEMCHDC89XA.ad011.siemens.net (139.25.226.103) by
- DEMCHDC8VRA.ad011.siemens.net (194.138.21.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.9; Tue, 9 Aug 2022 17:05:04 +0200
-Received: from md1za8fc.ad001.siemens.net (139.25.0.80) by
- DEMCHDC89XA.ad011.siemens.net (139.25.226.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.9; Tue, 9 Aug 2022 17:05:04 +0200
-From:   Henning Schild <henning.schild@siemens.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Pavel Machek <pavel@ucw.cz>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Lee Jones <lee@kernel.org>, <linux-gpio@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>
-CC:     Sheng-Yuan Huang <syhuang3@nuvoton.com>,
-        Tasanakorn Phaipool <tasanakorn@gmail.com>,
-        Henning Schild <henning.schild@siemens.com>
-Subject: [PATCH v2 4/4] platform/x86: simatic-ipc: enable watchdog for 227G
-Date:   Tue, 9 Aug 2022 17:04:42 +0200
-Message-ID: <20220809150442.3525-5-henning.schild@siemens.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220809150442.3525-1-henning.schild@siemens.com>
-References: <20220809150442.3525-1-henning.schild@siemens.com>
+        Tue, 9 Aug 2022 15:06:24 -0400
+Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com [IPv6:2607:f8b0:4864:20::e41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EE59FD7
+        for <platform-driver-x86@vger.kernel.org>; Tue,  9 Aug 2022 11:47:35 -0700 (PDT)
+Received: by mail-vs1-xe41.google.com with SMTP id q15so12903611vsr.0
+        for <platform-driver-x86@vger.kernel.org>; Tue, 09 Aug 2022 11:47:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=IogAKhGoBa9QPMdAgVh78qOCFlabkTOpSN00yjBwN70=;
+        b=JjppF8xc+iCYJyTtSAFrHer03eyXVuz+btpU42pMMUqo+jm3VT9CJTV7CslIEsdw0+
+         nnJwrFouHREgdsjHV/aKX93yPCHl0bVCmODU71748UGpgWMBCA2qQnyhhs78tDlahWJQ
+         jH+ZMoDEIkj3DAcNQ2YemuhK9zhSJBIRoRohvomvqxUt4UFF6KQAB5TY5Igsb2bSFCX3
+         pBAGVZgNIN0BI/8dIZVnBRIQrP8QfnTvEcKy8PaQPjmNKtJaFPvLoRIMxDLmrwO++VWr
+         jC+K+0leG4PGbWZ4QBlVIXpB2apT7p2I4LmHTgWJmAeE0uzUM6AcBkIFFyIajUVQBHUg
+         JOdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=IogAKhGoBa9QPMdAgVh78qOCFlabkTOpSN00yjBwN70=;
+        b=oeGc9AByEAF4ymK7X2JCRc+f5FAvXFRn+G6xcGFC8LnpHYg2Dnrh6enERYJdMjhUDG
+         FgeCXWdrFirL/oQk6Ou4pQqzH/BgozetZ63Y9FzX+I8ipgFVDJtfZkIoWfn6FSYRo2z1
+         8Rv5caSKQl3PS9IH77Dmim47pRwcGJnFOOWYwYR0ouHRqEtJG+y+rRkTQh1Cn7P5Valf
+         VNkSLbETHpGaOLW+42kuqQk77oxCoPytGDDfHBV3cLbSZBUtzxjB4chIaj/0NsDNq5k+
+         k8ZdBZ2mlmIZw2L2m83h6VpEk4F5/cVDnsOJFCVRvXcjsBy8AxnlER4mhaZCjWHvYu65
+         qAag==
+X-Gm-Message-State: ACgBeo0ureo7R716DjouB9Pc2JlaNmotJxnQ6L2SdyoD/piCr4mss0GW
+        tCx/TBHgQua54ek6iZjJjs8LT91xcfZRKO6KsdU=
+X-Google-Smtp-Source: AA6agR5pUBHuNiBnfYJi9j/SU93BcziPk99Yo6H69MktpD6tRTVrfU4BlBTV0ZF51lO4Yu9XnbJFY3KdRRJPJZCVMbU=
+X-Received: by 2002:a67:e012:0:b0:376:d7fc:b206 with SMTP id
+ c18-20020a67e012000000b00376d7fcb206mr10714219vsl.28.1660070854361; Tue, 09
+ Aug 2022 11:47:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [139.25.0.80]
-X-ClientProxiedBy: DEMCHDC8A0A.ad011.siemens.net (139.25.226.106) To
- DEMCHDC89XA.ad011.siemens.net (139.25.226.103)
-X-TM-AS-Product-Ver: SMEX-14.0.0.3080-8.6.1018-26680.007
-X-TM-AS-Result: No-10--11.447500-8.000000
-X-TMASE-MatchedRID: L90KqhDWgfOUYAP3WXIsZ3Cm15xQGrnE2mwVXKpQ3BdHg88w74mNDktc
-        8DbogbSE31GU/N5W5BDT/pFzauZLmXEK4P8QtiVHs3gZaLIY9no/aaS8hrB/2J4CIKY/Hg3AaZG
-        o0EeYG97Gr09tQ7Cw/1BIVsvVu9ABIAcCikR3vq9vibMxAqYXjWHFPUyW8t4AX3DcTx0UaPNCEh
-        brM/bogi6eQ3HQcWnw
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--11.447500-8.000000
-X-TMASE-Version: SMEX-14.0.0.3080-8.6.1018-26680.007
-X-TM-SNTS-SMTP: A4D83ADDEC2F83E16A51C985D085CB3DDD5F9A3A4CC587B04CDBD6882E446B2F2000:8
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 39fa3db3-9809-4106-a704-08da7a188ae5
-X-MS-TrafficTypeDiagnostic: DB8PR10MB3483:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oTAEfEMMb43bR9Zj2AuB6yenhgZCyC9OABRq73d31smp65/6RcIHbPb7S5S+uRngghmPT/cMWhNJQSGtALOoa9Ba3X3h6ur5CMutcrUw+oqhN+18BeQPkA0dxZRCkJbdyUIL2L3EHcHEZmfeZ0IN+s5vR5237bQPv6LpBh4uuhFXSvtiz5/z76+e7ZowNN1gollqUALBC2e/WWFAwdl8ACZ2CPA4aq9MptDZarDCX6df4HEg88TQapBCh1lZB8SeVdWnWclhMIU0IxaGMqzG5koHA9NPUzMppJBbh5ezgyVa/VdSzugX2/q4a12jUHM8riApD9/sA/r1RH/TLtIfEWw61yN/Oft8STW23eMzy3Ywm2Odbrww/4znkdz7hw/0TWVcVSdn0bXAUNh2b9RXhqYuA1p7cvpA8BgxLwglAZ0zYvHS2/LvHHjg5Z6zOyHbWRayljl8zWWp6yfSC5FTU+nxPgGD9LErLdxI9icbwH0+Rvhh+RoLWYYsSHmH9LxUDfJgwH6kORC2RptvBqPLwcNDWkHtA9JFt34NHY0tZJQICm3OrXjoXomLn7N2NGIgN7ISRUSHzH1M6C7XG+Vxir6vnsor/ZodFBfgguMgKo+Uy3l1Ni4v7Q/5pixbJ92MHHUof/BgNE5GSDKdtP3jeGKnrgebh8hqgShvQjR0jQs7ywVqBX9vu7cXeZjyhIGONKKn9ZbIXPZvStGVp8NUuIk/Y+S8spEnhFGdmWiLVzm4NpNtmajwqQ4Uxa9DqiYaSHwiOkCbRFFA/9n95+q2mqZp3erS8Z2rMx0Xk8tacvnR91CdTObW5cnGmUA2EQ5XTnZwXJ4+8BY2cB3W2QsyLrCq5gm45Ej4UJooZoUHPqphnl7/M9+y5SJ/92JhvI5qiyXk2hjQMdQZFmA57N5anQ==
-X-Forefront-Antispam-Report: CIP:194.138.21.75;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230016)(4636009)(136003)(376002)(346002)(396003)(39860400002)(36840700001)(46966006)(40470700004)(40480700001)(2906002)(70206006)(70586007)(83380400001)(8676002)(5660300002)(4326008)(82310400005)(316002)(86362001)(4744005)(44832011)(8936002)(36756003)(110136005)(7416002)(54906003)(186003)(36860700001)(41300700001)(82740400003)(6666004)(40460700003)(26005)(478600001)(2616005)(956004)(47076005)(336012)(16526019)(1076003)(107886003)(921005)(356005)(81166007)(82960400001)(2101003)(36900700001)(83996005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2022 15:05:05.3987
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39fa3db3-9809-4106-a704-08da7a188ae5
-X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.75];Helo=[hybrid.siemens.com]
-X-MS-Exchange-CrossTenant-AuthSource: VE1EUR01FT090.eop-EUR01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3483
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a67:ed07:0:0:0:0:0 with HTTP; Tue, 9 Aug 2022 11:47:34 -0700 (PDT)
+Reply-To: payenjane100@gmail.com
+From:   payen jane <sawadogo7015abdou@gmail.com>
+Date:   Tue, 9 Aug 2022 11:47:34 -0700
+Message-ID: <CALKn+Wo4_X3Lhgy_o-beN-KmS-_9z7yZGyjeaJRm7H-JStejZQ@mail.gmail.com>
+Subject: =?UTF-8?B?5oiR6ZyA6KaB5L2g55qE5biu5Yqp?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+X-Spam-Status: Yes, score=7.8 required=5.0 tests=BAYES_99,BAYES_999,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:e41 listed in]
+        [list.dnswl.org]
+        *  0.2 BAYES_999 BODY: Bayes spam probability is 99.9 to 100%
+        *      [score: 1.0000]
+        *  3.5 BAYES_99 BODY: Bayes spam probability is 99 to 100%
+        *      [score: 1.0000]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [sawadogo7015abdou[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [payenjane100[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Just load the watchdog module, after having identified that machine.
-That watchdog module does not have any autoloading support.
-
-Signed-off-by: Henning Schild <henning.schild@siemens.com>
----
- drivers/platform/x86/simatic-ipc.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/platform/x86/simatic-ipc.c b/drivers/platform/x86/simatic-ipc.c
-index 1825ef21a86d..8dd686d1c9f1 100644
---- a/drivers/platform/x86/simatic-ipc.c
-+++ b/drivers/platform/x86/simatic-ipc.c
-@@ -96,6 +96,9 @@ static int register_platform_devices(u32 station_id)
- 			 ipc_wdt_platform_device->name);
- 	}
- 
-+	if (station_id == SIMATIC_IPC_IPC227G)
-+		request_module("w83627hf_wdt");
-+
- 	if (ledmode == SIMATIC_IPC_DEVICE_NONE &&
- 	    wdtmode == SIMATIC_IPC_DEVICE_NONE) {
- 		pr_warn("unsupported IPC detected, station id=%08x\n",
--- 
-2.35.1
-
+5oiR5biM5pyb5L2g6IO955CG6Kej6L+Z5p2h5L+h5oGv77yM5Zug5Li65oiR5q2j5Zyo5L2/55So
+57+76K+R57uZ5L2g5YaZ5L+h44CCDQoNCuaIkeaYr+eugMK35L2p5oGp5Lit5aOr5aSr5Lq644CC
+DQoNCuWcqOe+juWbvemZhuWGm+eahOWGm+S6i+mDqOmXqOOAgue+juWbve+8jOS4gOWQjeS4reWj
+q++8jDMyIOWyge+8jOaIkeaYr+adpeiHque+juWbveeUsOe6s+ilv+W3nuWFi+WIqeWkq+WFsOea
+hOWNlei6q++8jOebruWJjeWcqOWIqeavlOS6muePreWKoOilv+aJp+ihjOS4gOmhueeJueauiuS7
+u+WKoeOAgg0KDQrmiJHmmK/kuIDkuKrlhYXmu6HniLHlv4PjgIHor5rlrp7lkozmt7Hmg4XnmoTk
+urrvvIzlhbfmnInoia/lpb3nmoTlub3pu5jmhJ/vvIzmiJHllpzmrKLnu5Por4bmlrDmnIvlj4vl
+ubbkuobop6Pku5bku6znmoTnlJ/mtLvmlrnlvI/vvIzmiJHllpzmrKLnnIvliLDlpKfmtbfnmoTm
+s6LmtpvlkozlsbHohInnmoTnvo7kuL3ku6Xlj4rlpKfoh6rnhLbmiYDmi6XmnInnmoTkuIDliIfm
+j5DkvpvjgILlvojpq5jlhbTog73mm7TlpJrlnLDkuobop6PmgqjvvIzmiJHorqTkuLrmiJHku6zl
+j6/ku6Xlu7rnq4voia/lpb3nmoTllYbkuJrlj4vosIrjgIINCg0K5oiR5LiA55u05b6I5LiN5byA
+5b+D77yM5Zug5Li65Yeg5bm05p2l55Sf5rS75a+55oiR5LiN5YWs5bmz77yb5oiR5ZyoIDIxDQrl
+soHml7blpLHljrvkuobniLbmr43jgILmiJHniLbkurLnmoTlkI3lrZfmmK/luJXnibnph4zmlq/k
+vanmganlkozmiJHnmoTmr43kurLnjpvkuL3kvanmganjgILmsqHmnInkurrluK7liqnmiJHvvIzk
+vYbmiJHlvojpq5jlhbTmiJHnu4jkuo7lnKjnvo7lhpvkuK3mib7liLDkuoboh6rlt7HjgIINCg0K
+5oiR57uT5ama55Sf5LqG5LiA5Liq5a2p5a2Q77yM5L2G5LuW5Y675LiW5LqG77yM5Zyo5oiR5LiI
+5aSr5byA5aeL6IOM5Y+b5oiR5ZCO5LiN5LmF77yM5oiR5LiN5b6X5LiN5pS+5byD5ama5ae744CC
+DQoNCuaIkeS5n+W+iOW5uOi/kOWcqOaIkeeahOWbveWutue+juWbveWSjOWIqeavlOS6muePreWK
+oOilv+i/memHjOaLpeacieaIkeeUn+a0u+S4remcgOimgeeahOS4gOWIh++8jOS9huayoeacieS6
+uue7meaIkeW7uuiuruOAguaIkemcgOimgeS4gOS4quivmuWunueahOS6uuadpeS/oeS7u++8jOS7
+luS5n+S8muW7uuiuruaIkeWmguS9leaKlei1hOaIkeeahOmSseOAguWboOS4uuaIkeaYr+aIkeeI
+tuavjeWcqOS7luS7rOatu+WJjeeUn+S4i+eahOWUr+S4gOS4gOS4quWls+WtqeOAgg0KDQrmiJHk
+uI3orqTor4bkvaDvvIzkvYbmiJHorqTkuLrmnInkuIDkuKrlj6/ku6Xkv6Hku7vnmoTlpb3kurrv
+vIzlj6/ku6Xlu7rnq4vnnJ/mraPnmoTkv6Hku7vlkozoia/lpb3nmoTllYbkuJrlj4vosIrvvIzl
+poLmnpzkvaDnnJ/nmoTmnInkuIDkuKror5rlrp7nmoTlkI3lrZfvvIzmiJHkuZ/mnInkuIDkupvk
+uovmg4XopoHlkozkvaDliIbkuqvnm7jkv6HjgILlnKjkvaDouqvkuIrvvIzlm6DkuLrmiJHpnIDo
+poHkvaDnmoTluK7liqnjgILmiJHmi6XmnInmiJHlnKjliKnmr5Tkuprnj63liqDopb/otZrliLDn
+moTmgLvpop3vvIg0NzANCuS4h+e+juWFg++8ieOAguaIkeWwhuWcqOS4i+S4gOWwgeeUteWtkOmC
+ruS7tuS4reWRiuivieS9oOaIkeaYr+WmguS9leWBmuWIsOeahO+8jOS4jeimgeaDiuaFjO+8jOWu
+g+S7rOaYr+aXoOmjjumZqeeahO+8jOaIkei/mOWcqOS4jiBSZWQNCuacieiBlOezu+eahOS6uumB
+k+S4u+S5ieWMu+eUn+eahOW4ruWKqeS4i+Wwhui/meeslOmSseWtmOWFpeS6huS4gOWutumTtuih
+jOOAguaIkeW4jOacm+S9oOS7peaIkeeahOWPl+ebiuS6uui6q+S7veaOpeWPl+WfuumHke+8jOW5
+tuWcqOaIkeWcqOi/memHjOWujOaIkOWQjuWmpeWWhOS/neeuoeWug++8jOW5tuiOt+W+l+aIkeea
+hOWGm+S6i+mAmuihjOivge+8jOS7peS+v+WcqOS9oOeahOWbveWutuS4juS9oOS8mumdou+8m+S4
+jeimgeWus+aAlemTtuihjOS8mumAmui/h+eUteaxh+Wwhui1hOmHkei9rOe7meaCqO+8jOi/meWv
+ueaIkeS7rOadpeivtOWuieWFqOS4lOW/q+aNt+OAgg0KDQrnrJTorrA75oiR5LiN55+l6YGT5oiR
+5Lus6KaB5Zyo6L+Z6YeM5b6F5aSa5LmF5ZKM5oiR55qE5ZG96L+Q77yM5Zug5Li65oiR5Zyo6L+Z
+6YeM5bm45YWN5LqO5Lik5qyh54K45by56KKt5Ye777yM6L+Z5a+86Ie05oiR5a+75om+5LiA5Liq
+5YC85b6X5L+h6LWW55qE5Lq65p2l5biu5Yqp5oiR5o6l5pS25ZKM5oqV6LWE5Z+66YeR77yM5Zug
+5Li65oiR5bCG5p2l5Yiw5L2g55qE5Zu95a625Ye66Lqr5oqV6LWE77yM5byA5aeL5paw55Sf5rS7
+77yM5LiN5YaN5b2T5YW144CCDQoNCuWmguaenOaCqOaEv+aEj+iwqOaFjuWkhOeQhu+8jOivt+Wb
+nuWkjeaIkeOAguaIkeS8muWRiuivieS9oOaOpeS4i+adpeeahOa1geeoi++8jOW5tue7meS9oOWP
+kemAgeabtOWkmuWFs+S6juWfuumHkeWtmOWFpemTtuihjOeahOS/oeaBr+OAguS7peWPiumTtuih
+jOWwhuWmguS9leW4ruWKqeaIkeS7rOmAmui/h+eUteaxh+Wwhui1hOmHkei9rOenu+WIsOaCqOea
+hOWbveWutu+8jOeUteaxh+S5n+aYr+mTtuihjOWIsOmTtuihjOeahOi9rOW4kOOAguiLpeacieWF
+tOi2o+ivt+iBlOezu+acrOS6uuOAgg0K
