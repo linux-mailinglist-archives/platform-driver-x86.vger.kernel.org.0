@@ -2,246 +2,158 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B2AA58D261
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Aug 2022 05:31:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4594358D447
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Aug 2022 09:13:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231289AbiHIDbT (ORCPT
+        id S238079AbiHIHNS (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Aug 2022 23:31:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39484 "EHLO
+        Tue, 9 Aug 2022 03:13:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231804AbiHIDbC (ORCPT
+        with ESMTP id S231282AbiHIHNQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Aug 2022 23:31:02 -0400
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E53064DA;
-        Mon,  8 Aug 2022 20:31:01 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id 922A25C0093;
-        Mon,  8 Aug 2022 23:31:00 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 08 Aug 2022 23:31:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
-        :cc:content-transfer-encoding:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm2; t=1660015860; x=1660102260; bh=nv
-        kTijB0VB7W98jLK9gRvJD/2uHgCUQLG98hIofqflg=; b=MTJ037C6UY3HECfJI5
-        yiwYv5l1VHg4zzoCDObJdNOmANYgylb5X02OcH4+bCVVUFnezHE9MEYJdHRP6RXA
-        3ALwJdNR6NP3u9E5Rua293DOM0TlUjHW07RrceeZRrwYrtoFLqmY+24jrPQWIJ/m
-        I+whostDsj3QmDTVVrDvC3b51AsnTtGVMtuHFJ/EGtlPSVyq4egAu77FM+aZAz0m
-        rBg/Ph+GcgB9AbTSewAG8poMriOJcr99LYTf0RV/tQbRRPX8aCZYCLyrUn40THOP
-        od3H0CIVsmcQ9uulpqTLT8sHBWiWibLeex5vtzttDuZnKs5ApfXP9y+KcZccwAmY
-        qagg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; t=1660015860; x=1660102260; bh=nvkTijB0VB7W9
-        8jLK9gRvJD/2uHgCUQLG98hIofqflg=; b=uGff1uiN7xwZGQqgH8CQtnwjtBXv6
-        n2TzbpC0FhxFd7ruu78UmLPclszsLnC0BA+msJp26OhpeDXyAjFKYfAFsW4mihqe
-        PRIVNgB48EOKgnDoFnLt+p/ZhVZdEUiBKbmAgMF5her16o3YWXluOwS5M9o1UAb4
-        XVXGQI33DGa/xT6OKrcpx6IDWqqpoIwXccJFnsDuKrbz0fCnSjkfxUgeNDTZH3NU
-        7/7Spa6cYPBx32e37N2wFNjCjc6tnEdxTxPGhNTz3S4IqafOwsjeae/BL3INCsOT
-        QSQpUjTkzulVtxZUn6S5iSF932tIuzuFptNvSvfDquLiZ+j5aIkmhw0kA==
-X-ME-Sender: <xms:9NTxYu9OST2D1lPcKvSUIWoyq-nJJ0WGCG_YrUy73APweBu9YDz5Tg>
-    <xme:9NTxYutxa0PSwNbp4EiAct7y6YvGccDyGqcNSm8vETJKi_aewR6bLvZKwosMNOF9e
-    JmEcnjUjWYtMh7m9-E>
-X-ME-Received: <xmr:9NTxYkD7HAM10yz4n2rAnCEu_IrkJrnyvvvb-JTyOOB2R4vETo0F_P8DU0Ot>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdefledgjeefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
-    ertdertddtnecuhfhrohhmpedfnfhukhgvucffrdculfhonhgvshdfuceolhhukhgvsehl
-    jhhonhgvshdruggvvheqnecuggftrfgrthhtvghrnhepgfetfedugfetudeuheetjefhue
-    fggfelleetvdevtefhueeujeefvdegleevhefgnecuvehluhhsthgvrhfuihiivgeptden
-    ucfrrghrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvh
-X-ME-Proxy: <xmx:9NTxYmfm9cCFz3sDB2_TIF2lOHyITIQe-Rb9But4UE4SiyqFrh0aNw>
-    <xmx:9NTxYjNo6wp3VkQ04B3yESG356fJAXgeK4ngHBSrKjed5cJ4Me7CDw>
-    <xmx:9NTxYgnMw-8CMGMj7IMRJv33CBxrK06SXK1OqzXI8HxAPwLG3ZmbrQ>
-    <xmx:9NTxYsYoOhd10KmtCo3LAD_yuIGR1QwoDeacfNeWh9UYbmT_JtADLQ>
-Feedback-ID: i5ec1447f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 8 Aug 2022 23:30:58 -0400 (EDT)
-From:   "Luke D. Jones" <luke@ljones.dev>
-To:     hdegoede@redhat.com
-Cc:     andy.shevchenko@gmail.com, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org, "Luke D. Jones" <luke@ljones.dev>
-Subject: [PATCH v3 2/2] asus-wmi: Add support for ROG X13 tablet mode
-Date:   Tue,  9 Aug 2022 15:30:48 +1200
-Message-Id: <20220809033048.1634583-3-luke@ljones.dev>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220809033048.1634583-1-luke@ljones.dev>
-References: <20220809033048.1634583-1-luke@ljones.dev>
+        Tue, 9 Aug 2022 03:13:16 -0400
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C2F41F62B;
+        Tue,  9 Aug 2022 00:13:15 -0700 (PDT)
+Received: by mail-qv1-xf30.google.com with SMTP id l8so3254796qvr.5;
+        Tue, 09 Aug 2022 00:13:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=zPTedhbdghWkbAG9JyUrOmVThlH8q9Ie9dGXSRthGmQ=;
+        b=HsUhyybC49y9dCf7HWcpppvdJ7kITXo6VkL0pR6lG+ODzpWv8VEjlPy4alR1AHYU8j
+         THWktyHD/g3dIq4DihicNSdtWiWbwUpl2cuAXWjeVG6EbX/CPhEUGjNoc7vG8W0PR3bG
+         PyyPqGq8LGqlXxGw17x9jsg+aQ0zslTgjWkJErZ868fKY1LyIEkq3Is93vrF2FS+KDQK
+         xkUxkoBibki92MNpHV8mAMG4rJs49V0Q3fyse0et5fqPpQLNV++iboJlmsQgJX/dPOLE
+         SA4DE7o6KMHCcttlxtrFKcafGQHMXKaX2/hiSKJbh2Ml1YnXSae1VnrPujOFHtsIjWa5
+         yvng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=zPTedhbdghWkbAG9JyUrOmVThlH8q9Ie9dGXSRthGmQ=;
+        b=f0iI9TBK5BoPHbSPg4OhxDSOrmMcnLZdohBKX6JeL6OaHoKChsO3bDqnhaw9Ry2f8t
+         /z4cRnzG10sobI38ZSf4H+N1EhlTpAoorCZcCXaqHYw99y0oH19XOdBuYSwzFCkkkYEH
+         zuEdNDF7OsVZ/yv2WR01YBiZ8zaJ60poPacrjkh4f0bc32AH0hPjNk3ASfUBzFxurfmB
+         ogDxVIfNpGoGKo7KDxhy6weXPB22pu+yDVoUCqPs/m6FcCSZr4D4zktEq017wqIzYe02
+         deNcgPdD4UQiIO9037CgBrlcPXOln5YqiYAoIrzuYMTu4ht+MpD9jiJGBTD3gLJJZjil
+         pLyg==
+X-Gm-Message-State: ACgBeo3b333hq/TmpfAHnPkPbC4FwCoPIal3SxV2VOA4AI6EgaewcSv9
+        O68mTx1wamNjtVTpu1M6gLqL5CqZIr5DPBCV3S4=
+X-Google-Smtp-Source: AA6agR7BNOcHLu8z/kWEKsMvH+v2Q46xqzVbeTqdNCpXw5vAce3mB/ZVkoSoEPFvWHUmMNdjfRlGynVh4RzlCpT98iE=
+X-Received: by 2002:ad4:5baf:0:b0:476:6a9e:b5e1 with SMTP id
+ 15-20020ad45baf000000b004766a9eb5e1mr18847552qvq.64.1660029194573; Tue, 09
+ Aug 2022 00:13:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20220808031132.10075-1-luke@ljones.dev> <20220808031132.10075-3-luke@ljones.dev>
+ <CAHp75VcjTG=fFBjjHRYT2+ARfE-VHWKJ9aV8sF4JtRVo7Ke2vQ@mail.gmail.com> <F8WBGR.2I3OK4ERR79N3@ljones.dev>
+In-Reply-To: <F8WBGR.2I3OK4ERR79N3@ljones.dev>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 9 Aug 2022 09:12:37 +0200
+Message-ID: <CAHp75Vda5KX5pVrNeueQEODoEy405eTb9SYJtts-Lm9jMNocHQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] asus-wmi: Add support for ROG X13 tablet mode
+To:     Luke Jones <luke@ljones.dev>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add quirk for ASUS ROG X13 Flow 2-in-1 to enable tablet mode with
-lid flip (all screen rotations).
+On Tue, Aug 9, 2022 at 5:26 AM Luke Jones <luke@ljones.dev> wrote:
 
-Signed-off-by: Luke D. Jones <luke@ljones.dev>
----
- drivers/platform/x86/asus-nb-wmi.c         | 15 +++++++++
- drivers/platform/x86/asus-wmi.c            | 37 ++++++++++++++++++++++
- drivers/platform/x86/asus-wmi.h            |  1 +
- include/linux/platform_data/x86/asus-wmi.h |  1 +
- 4 files changed, 54 insertions(+)
+...
 
-diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
-index 3a93e056c4e1..d4cc6afc1861 100644
---- a/drivers/platform/x86/asus-nb-wmi.c
-+++ b/drivers/platform/x86/asus-nb-wmi.c
-@@ -123,6 +123,11 @@ static struct quirk_entry quirk_asus_use_lid_flip_devid = {
- 	.tablet_switch_mode = asus_wmi_lid_flip_devid,
- };
- 
-+static struct quirk_entry quirk_asus_tablet_mode = {
-+	.wmi_backlight_set_devstate = true,
-+	.tablet_switch_mode = asus_wmi_lid_flip_rog_devid,
-+};
-+
- static int dmi_matched(const struct dmi_system_id *dmi)
- {
- 	pr_info("Identified laptop model '%s'\n", dmi->ident);
-@@ -471,6 +476,15 @@ static const struct dmi_system_id asus_quirks[] = {
- 		},
- 		.driver_data = &quirk_asus_use_lid_flip_devid,
- 	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUS ROG FLOW X13",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GV301Q"),
-+		},
-+		.driver_data = &quirk_asus_tablet_mode,
-+	},
- 	{},
- };
- 
-@@ -575,6 +589,7 @@ static const struct key_entry asus_nb_wmi_keymap[] = {
- 	{ KE_KEY, 0xC5, { KEY_KBDILLUMDOWN } },
- 	{ KE_IGNORE, 0xC6, },  /* Ambient Light Sensor notification */
- 	{ KE_KEY, 0xFA, { KEY_PROG2 } },           /* Lid flip action */
-+	{ KE_KEY, 0xBD, { KEY_PROG2 } }, /* Lid flip action on ROG xflow laptops */
- 	{ KE_END, 0},
- };
- 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 029c26a218e1..8b8ab48a644e 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -69,6 +69,7 @@ module_param(fnlock_default, bool, 0444);
- #define NOTIFY_KBD_FBM			0x99
- #define NOTIFY_KBD_TTP			0xae
- #define NOTIFY_LID_FLIP			0xfa
-+#define NOTIFY_LID_FLIP_ROG		0xbd
- 
- #define ASUS_WMI_FNLOCK_BIOS_DISABLED	BIT(0)
- 
-@@ -551,6 +552,19 @@ static int asus_wmi_input_init(struct asus_wmi *asus)
- 			dev_err(dev, "Error checking for lid-flip: %d\n", result);
- 		}
- 		break;
-+	case asus_wmi_lid_flip_rog_devid:
-+		result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_LID_FLIP_ROG);
-+		if (result < 0)
-+			asus->driver->quirks->tablet_switch_mode = asus_wmi_no_tablet_switch;
-+		if (result >= 0) {
-+			input_set_capability(asus->inputdev, EV_SW, SW_TABLET_MODE);
-+			input_report_switch(asus->inputdev, SW_TABLET_MODE, result);
-+		} else if (result == -ENODEV) {
-+			dev_err(dev, "This device has lid-flip-rog quirk but got ENODEV checking it. This is a bug.");
-+		} else {
-+			dev_err(dev, "Error checking for lid-flip: %d\n", result);
-+		}
-+		break;
- 	}
- 
- 	err = input_register_device(asus->inputdev);
-@@ -585,6 +599,17 @@ static void lid_flip_tablet_mode_get_state(struct asus_wmi *asus)
- 	}
- }
- 
-+static void lid_flip_rog_tablet_mode_get_state(struct asus_wmi *asus)
-+{
-+	int result;
-+
-+	result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_LID_FLIP_ROG);
-+	if (result >= 0) {
-+		input_report_switch(asus->inputdev, SW_TABLET_MODE, result);
-+		input_sync(asus->inputdev);
-+	}
-+}
-+
- /* dGPU ********************************************************************/
- static int dgpu_disable_check_present(struct asus_wmi *asus)
- {
-@@ -3431,6 +3456,12 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
- 			return;
- 		}
- 		break;
-+	case asus_wmi_lid_flip_rog_devid:
-+		if (code == NOTIFY_LID_FLIP_ROG) {
-+			lid_flip_rog_tablet_mode_get_state(asus);
-+			return;
-+		}
-+		break;
- 	}
- 
- 	if (asus->fan_boost_mode_available && code == NOTIFY_KBD_FBM) {
-@@ -4105,6 +4136,9 @@ static int asus_hotk_resume(struct device *device)
- 	case asus_wmi_lid_flip_devid:
- 		lid_flip_tablet_mode_get_state(asus);
- 		break;
-+	case asus_wmi_lid_flip_rog_devid:
-+		lid_flip_rog_tablet_mode_get_state(asus);
-+		break;
- 	}
- 
- 	return 0;
-@@ -4153,6 +4187,9 @@ static int asus_hotk_restore(struct device *device)
- 	case asus_wmi_lid_flip_devid:
- 		lid_flip_tablet_mode_get_state(asus);
- 		break;
-+	case asus_wmi_lid_flip_rog_devid:
-+		lid_flip_rog_tablet_mode_get_state(asus);
-+		break;
- 	}
- 
- 	return 0;
-diff --git a/drivers/platform/x86/asus-wmi.h b/drivers/platform/x86/asus-wmi.h
-index 413920bad0c6..0187f13d2414 100644
---- a/drivers/platform/x86/asus-wmi.h
-+++ b/drivers/platform/x86/asus-wmi.h
-@@ -29,6 +29,7 @@ enum asus_wmi_tablet_switch_mode {
- 	asus_wmi_no_tablet_switch,
- 	asus_wmi_kbd_dock_devid,
- 	asus_wmi_lid_flip_devid,
-+	asus_wmi_lid_flip_rog_devid,
- };
- 
- struct quirk_entry {
-diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-index 3faeb98f6ea9..69c5308ed4c5 100644
---- a/include/linux/platform_data/x86/asus-wmi.h
-+++ b/include/linux/platform_data/x86/asus-wmi.h
-@@ -64,6 +64,7 @@
- #define ASUS_WMI_DEVID_PANEL_OD		0x00050019
- #define ASUS_WMI_DEVID_CAMERA		0x00060013
- #define ASUS_WMI_DEVID_LID_FLIP		0x00060062
-+#define ASUS_WMI_DEVID_LID_FLIP_ROG	0x00060077
- 
- /* Storage */
- #define ASUS_WMI_DEVID_CARDREADER	0x00080013
+> >>  +                       pr_err("This device has lid-flip-rog quirk
+> >> but got ENODEV checking it. This is a bug.");
+> >
+> > dev_err() ?
+>
+> Okay, changed here and in previous patch to match it.
+>
+> So that I'm clearer on dev_err(), this doesn't do something like exit
+> the module does it? It's just a more detailed error print?
+
+Yes, it's more specific when the user sees it. The pr_err() is global
+and anonymous (you can only point to the driver, and not the instance
+of the device bound to it), while dev_err() is device specific and the
+user will immediately see which device instance is failing. Yet it's
+not a problem for this particular driver, because I don't believe one
+may have two, but it's a good coding practice in general.
+
+(Note the last sentence: "good coding practice")
+
+...
+
+> >>  +static void lid_flip_rog_tablet_mode_get_state(struct asus_wmi
+> >> *asus)
+> >>  +{
+> >>  +       int result = asus_wmi_get_devstate_simple(asus,
+> >> ASUS_WMI_DEVID_LID_FLIP_ROG);
+> >>  +
+> >>  +       if (result >= 0) {
+> >
+> > First of all, it's better to decouple assignment and definition, and
+> > move assignment closer to its user. This is usual pattern.
+>
+> I don't fully understand why you would want the separation given how
+> short these two blocks are (I'll change in this and previous patch of
+> course, I just don't personally understand it).
+
+See above, "good coding practice". Why?
+
+Imagine your code to be in hypothetical v5.10:
+
+  int x = foo(param1, param2, ...);
+
+  if (x)
+    return Y;
+
+
+Now, at v5.12 somebody adds a new feature which touches your code:
+
+  int x = foo(param1, param2, ...);
+  struct bar *baz;
+
+  if (we_have_such_feature_disabled)
+    return Z;
+
+  if (x)
+    return Y;
+
+  baz = ...
+
+And then somebody else in v5.13 does another feature:
+
+  int x = foo(param1, param2, ...);
+  struct bar *baz;
+
+  if (we_have_such_feature_disabled)
+    return Z;
+
+  /* parameter 1 can be NULL, check it */
+  if (!param1)
+    return -EINVAL;
+
+  if (x)
+    return Y;
+
+  baz = ...
+
+Do you see now an issue? If you emulate this as a sequence of Git
+changes the last one is easily missing subtle detail. That's why "good
+coding practice".
+
 -- 
-2.37.1
-
+With Best Regards,
+Andy Shevchenko
