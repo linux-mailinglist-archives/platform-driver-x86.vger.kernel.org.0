@@ -2,170 +2,80 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BCF33593143
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 15 Aug 2022 17:05:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63085593210
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 15 Aug 2022 17:36:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232590AbiHOPF6 (ORCPT
+        id S229770AbiHOPgm (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 15 Aug 2022 11:05:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46728 "EHLO
+        Mon, 15 Aug 2022 11:36:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232837AbiHOPFp (ORCPT
+        with ESMTP id S233033AbiHOPg2 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 15 Aug 2022 11:05:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 914EA62ED
-        for <platform-driver-x86@vger.kernel.org>; Mon, 15 Aug 2022 08:05:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1660575943;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=vp9L10hFdGZDfD/jyC7LozOLpQF/iDyQkMJrWxFBQW8=;
-        b=ezgdNUEDQsR+C2heRL5t+F8pNGeEyRwhXZanG+DCvQ5YrZpeA0V2okthAixlqor8g8eOeo
-        UkHIlCXivQDkQKceV8Uo/cL3uuRI3Xw0r3H4463bferqP+46Ti8UOqlXRT8AKaBxAtgQgY
-        AVcdp3c/lcnBsPXcV5IXTVmqGiBMR6s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-hMJ5gqzXP5Cw1fVGs4598A-1; Mon, 15 Aug 2022 11:05:41 -0400
-X-MC-Unique: hMJ5gqzXP5Cw1fVGs4598A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C84E85A587;
-        Mon, 15 Aug 2022 15:05:41 +0000 (UTC)
-Received: from x1.localdomain.com (unknown [10.39.192.109])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 201362026D64;
-        Mon, 15 Aug 2022 15:05:39 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Mark Gross <mgross@linux.intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org,
-        "Luke D . Jones" <luke@ljones.dev>
-Subject: [PATCH] platform/x86: asus-wmi: Simplify some of the *_check_present() helpers
-Date:   Mon, 15 Aug 2022 17:05:38 +0200
-Message-Id: <20220815150538.474306-1-hdegoede@redhat.com>
+        Mon, 15 Aug 2022 11:36:28 -0400
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22DCA13D1D
+        for <platform-driver-x86@vger.kernel.org>; Mon, 15 Aug 2022 08:36:24 -0700 (PDT)
+Received: by mail-io1-xd41.google.com with SMTP id y187so2322691iof.0
+        for <platform-driver-x86@vger.kernel.org>; Mon, 15 Aug 2022 08:36:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc;
+        bh=tUo13D0NDjhoJuNhUh9CavTBoinYEqrPBXa2rn7Pf4s=;
+        b=pthSHbuKUNIPFamv6EvmwGh0rZwwo3IS6XARmQJcBE5Z3bl/SDh9HeIuOzeGwvezzK
+         BQIlqaCQ72xtYVmhdOqCY9H9McUADAJ5dMI+5l4KOrQJN76Y4DY1Y0Sx92Tf41GW5db7
+         tntSAsd8xxPvZLqsVudGQIbxT81yNfXHEWPPPP2lnR5kcVEckb0/rgmyQai7Yxeh0Ro8
+         97EnNJQmsEkF9iKGggMLF6kMbxm39Lhvx9j7zOlVjSwLd4DPyNuIqhe3CqxCKccB0MsI
+         hoAwxZFylKy2nSRFP9PEHJbwu7h9sTuAxy8TFSxx/kWs2XlcHGbiEWmlJf4dvxcPo7ld
+         3x1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=tUo13D0NDjhoJuNhUh9CavTBoinYEqrPBXa2rn7Pf4s=;
+        b=at1CXeXLoDPBvhrlUsKCrZLcdEleNsQf7RwZMKddUm9c5q5hTI7luKOodWz2sgJqKt
+         uls0kE6T1Z/MWfeIC6IXnmz73F5N5oC6oyTv6BuqDguwfyxt42Gjswwp+M0DnXONUVOT
+         EOvLhirbHO5xFNZAdMR9GZn0qpBr4kAfhvdFlirlO3bDINY6ci+82kqa81lxH4BlPfWp
+         NoZ8DhsGQVSyqoRNa28t0dKf+/q7KCo3T4wfjIoyqqrcr3H30KTmPdKgelgQN0D/iNZO
+         nksRmQVbQr5zXcFdm9oZUDwqpJvFnZN4t46oB/KXVp/8610SVuKAkfjWvmY0b8QXVR/P
+         PaJg==
+X-Gm-Message-State: ACgBeo1vsZgYt3BGh06v9i2gfh+F0P4WUqPOmCb80iT1IMGxejuWGRQx
+        7goDXKzgsO0rsQH4QziPuuoLHKWTUs/cDCDjjVg=
+X-Google-Smtp-Source: AA6agR5JCqxNSmUggJNk2aKDgzYymbcY6yOMMDnaHpIre+I9LVK+3lsDm0bWkwNfVqd7yWuhmlMZBAn4Zk3geizoi/Y=
+X-Received: by 2002:a6b:5f0a:0:b0:688:9725:6d4b with SMTP id
+ t10-20020a6b5f0a000000b0068897256d4bmr442596iob.56.1660577783046; Mon, 15 Aug
+ 2022 08:36:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Received: by 2002:a05:6638:2042:b0:33f:4ae9:aeef with HTTP; Mon, 15 Aug 2022
+ 08:36:22 -0700 (PDT)
+Reply-To: golsonfinancial@gmail.com
+From:   OLSON FINANCIAL GROUP <aniedieedem2020@gmail.com>
+Date:   Mon, 15 Aug 2022 08:36:22 -0700
+Message-ID: <CAP=VDVosA-4_L3uqF9qmQrdHxfrpz7p0sR136frehPDdEMhkuA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-After the recent cleanup patches, some of the *_check_present() helpers
-just propagate the result of asus_wmi_dev_is_present().
-
-Replace these with direct asus_wmi_dev_is_present() calls as a further
-cleanup.
-
-Cc: Luke D. Jones <luke@ljones.dev>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/asus-wmi.c | 47 +++------------------------------
- 1 file changed, 3 insertions(+), 44 deletions(-)
-
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 2d9d709aa59f..d72491fb218b 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -557,16 +557,6 @@ static void lid_flip_tablet_mode_get_state(struct asus_wmi *asus)
- }
- 
- /* dGPU ********************************************************************/
--static int dgpu_disable_check_present(struct asus_wmi *asus)
--{
--	asus->dgpu_disable_available = false;
--
--	if (asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_DGPU))
--		asus->dgpu_disable_available = true;
--
--	return 0;
--}
--
- static ssize_t dgpu_disable_show(struct device *dev,
- 				   struct device_attribute *attr, char *buf)
- {
-@@ -620,16 +610,6 @@ static ssize_t dgpu_disable_store(struct device *dev,
- static DEVICE_ATTR_RW(dgpu_disable);
- 
- /* eGPU ********************************************************************/
--static int egpu_enable_check_present(struct asus_wmi *asus)
--{
--	asus->egpu_enable_available = false;
--
--	if (asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_EGPU))
--		asus->egpu_enable_available = true;
--
--	return 0;
--}
--
- static ssize_t egpu_enable_show(struct device *dev,
- 				   struct device_attribute *attr, char *buf)
- {
-@@ -1497,16 +1477,6 @@ static int asus_wmi_rfkill_init(struct asus_wmi *asus)
- }
- 
- /* Panel Overdrive ************************************************************/
--static int panel_od_check_present(struct asus_wmi *asus)
--{
--	asus->panel_overdrive_available = false;
--
--	if (asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_PANEL_OD))
--		asus->panel_overdrive_available = true;
--
--	return 0;
--}
--
- static ssize_t panel_od_show(struct device *dev,
- 				   struct device_attribute *attr, char *buf)
- {
-@@ -3493,13 +3463,9 @@ static int asus_wmi_add(struct platform_device *pdev)
- 	if (err)
- 		goto fail_platform;
- 
--	err = egpu_enable_check_present(asus);
--	if (err)
--		goto fail_egpu_enable;
--
--	err = dgpu_disable_check_present(asus);
--	if (err)
--		goto fail_dgpu_disable;
-+	asus->egpu_enable_available = asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_EGPU);
-+	asus->dgpu_disable_available = asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_DGPU);
-+	asus->panel_overdrive_available = asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_PANEL_OD);
- 
- 	err = fan_boost_mode_check_present(asus);
- 	if (err)
-@@ -3515,10 +3481,6 @@ static int asus_wmi_add(struct platform_device *pdev)
- 	if (err)
- 		goto fail_platform_profile_setup;
- 
--	err = panel_od_check_present(asus);
--	if (err)
--		goto fail_panel_od;
--
- 	err = asus_wmi_sysfs_init(asus->platform_device);
- 	if (err)
- 		goto fail_sysfs;
-@@ -3613,10 +3575,7 @@ static int asus_wmi_add(struct platform_device *pdev)
- 	if (asus->platform_profile_support)
- 		platform_profile_remove();
- fail_fan_boost_mode:
--fail_egpu_enable:
--fail_dgpu_disable:
- fail_platform:
--fail_panel_od:
- 	kfree(asus);
- 	return err;
- }
--- 
-2.36.1
-
+--=20
+hallo guten Tag,
+Ben=C3=B6tigen Sie dringend einen Kredit f=C3=BCr den Hauskauf? oder ben=C3=
+=B6tigen
+Sie ein Gesch=C3=A4fts- oder Privatdarlehen, um zu investieren? ein neues
+Gesch=C3=A4ft er=C3=B6ffnen, Rechnungen bezahlen? Und Sie zahlen uns
+Installationen zur=C3=BCck? Wir sind ein zertifiziertes Finanzunternehmen.
+Wir bieten Privatpersonen und Unternehmen Kredite an. Zu einem sehr
+niedrigen Zinssatz von 2%. F=C3=BCr weitere Informationen
+mailen Sie uns an: golsonfinancial@gmail.com....
