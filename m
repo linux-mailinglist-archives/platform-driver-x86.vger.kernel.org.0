@@ -2,50 +2,53 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E7A859C26A
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 22 Aug 2022 17:17:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC11559C26D
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 22 Aug 2022 17:17:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236501AbiHVPOY (ORCPT
+        id S236432AbiHVPOX (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 22 Aug 2022 11:14:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37914 "EHLO
+        Mon, 22 Aug 2022 11:14:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236453AbiHVPNv (ORCPT
+        with ESMTP id S236446AbiHVPNv (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
         Mon, 22 Aug 2022 11:13:51 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1D163DBEC
-        for <platform-driver-x86@vger.kernel.org>; Mon, 22 Aug 2022 08:09:13 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F08E3AE52
+        for <platform-driver-x86@vger.kernel.org>; Mon, 22 Aug 2022 08:09:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661180902;
+        s=mimecast20190719; t=1661180903;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=gGKg7CWYTZxWIo9iN5v9VFYPixwwvQphx61QShSlS4g=;
-        b=iI5c936Qejgbjrtn35+qumSeNugOOzdtaNa6DBd+DDrJtR98NWoF6kC4tI/uKAhq7OkhWI
-        2zUGEFi2ZCasvk9gbJlUd+xeQmIsVXIPLS+Ax3/+gBT1h9BnLyUONjv4NFUQK8rGdranVf
-        xeU6RiabPLKT2c3rQf6zNg66Z8qWu7E=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RZbQTBDDA3DjGDsInuMZxes2sYm7c2mI/0KNivK2+Ss=;
+        b=BtBPz/ckf1KptHjB8lrpsTYpj+oM3/VOMOicw9bYM2WQplV2XVYd9D6u+0ELfYb2ZGXNlX
+        lcJ7jR2QF5L7D+FAY/ib2vcqoztPwjGVq7YVl694L6/xtG/GFKtcnVCsuT12u75dKNhKML
+        rZCv5XaAmJDl+81pOYQSkYcjqRVEX7o=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-wEnm0zYxP_2FBh6MJBrMTw-1; Mon, 22 Aug 2022 11:08:20 -0400
-X-MC-Unique: wEnm0zYxP_2FBh6MJBrMTw-1
+ us-mta-361-K-YCskcfM3-PrRKEVGCK_Q-1; Mon, 22 Aug 2022 11:08:22 -0400
+X-MC-Unique: K-YCskcfM3-PrRKEVGCK_Q-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 663E93C10159;
-        Mon, 22 Aug 2022 15:08:20 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A093D1019C95;
+        Mon, 22 Aug 2022 15:08:21 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.193.25])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8F53B40CF8E8;
-        Mon, 22 Aug 2022 15:08:19 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id ADF4240CFD0A;
+        Mon, 22 Aug 2022 15:08:20 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <mgross@linux.intel.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Andy Shevchenko <andy@infradead.org>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH 1/2] platform/x86: msi-laptop: Use MODULE_DEVICE_TABLE()
-Date:   Mon, 22 Aug 2022 17:08:17 +0200
-Message-Id: <20220822150818.45765-1-hdegoede@redhat.com>
+Subject: [PATCH 2/2] platform/x86: msi-laptop: Drop MSI_DRIVER_VERSION
+Date:   Mon, 22 Aug 2022 17:08:18 +0200
+Message-Id: <20220822150818.45765-2-hdegoede@redhat.com>
+In-Reply-To: <20220822150818.45765-1-hdegoede@redhat.com>
+References: <20220822150818.45765-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
@@ -59,41 +62,54 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Use MODULE_DEVICE_TABLE() instead of manually adding a bunch of
-MODULE_ALIAS() statements.
+Modules carrying there own version is a practice which the kernel
+has stopped doing for a long time now, drop it.
+
+While dropping the version pr_info from msi_init() lets remove
+the somewhat useless pr_info() from msi_cleanup() as well.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/msi-laptop.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+ drivers/platform/x86/msi-laptop.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
 diff --git a/drivers/platform/x86/msi-laptop.c b/drivers/platform/x86/msi-laptop.c
-index 24ffc8e2d2d1..843f72200cfc 100644
+index 843f72200cfc..93ef8851b93e 100644
 --- a/drivers/platform/x86/msi-laptop.c
 +++ b/drivers/platform/x86/msi-laptop.c
-@@ -705,6 +705,7 @@ static const struct dmi_system_id msi_dmi_table[] __initconst = {
- 	},
- 	{ }
- };
-+MODULE_DEVICE_TABLE(dmi, msi_dmi_table);
+@@ -53,8 +53,6 @@
+ #include <linux/input/sparse-keymap.h>
+ #include <acpi/video.h>
  
- static int rfkill_bluetooth_set(void *data, bool blocked)
- {
-@@ -1166,14 +1167,3 @@ MODULE_AUTHOR("Lennart Poettering");
- MODULE_DESCRIPTION("MSI Laptop Support");
- MODULE_VERSION(MSI_DRIVER_VERSION);
- MODULE_LICENSE("GPL");
+-#define MSI_DRIVER_VERSION "0.5"
 -
--MODULE_ALIAS("dmi:*:svnMICRO-STARINT'LCO.,LTD:pnMS-1013:pvr0131*:cvnMICRO-STARINT'LCO.,LTD:ct10:*");
--MODULE_ALIAS("dmi:*:svnMicro-StarInternational:pnMS-1058:pvr0581:rvnMSI:rnMS-1058:*:ct10:*");
--MODULE_ALIAS("dmi:*:svnMicro-StarInternational:pnMS-1412:*:rvnMSI:rnMS-1412:*:cvnMICRO-STARINT'LCO.,LTD:ct10:*");
--MODULE_ALIAS("dmi:*:svnNOTEBOOK:pnSAM2000:pvr0131*:cvnMICRO-STARINT'LCO.,LTD:ct10:*");
--MODULE_ALIAS("dmi:*:svnMICRO-STARINTERNATIONAL*:pnMS-N034:*");
--MODULE_ALIAS("dmi:*:svnMICRO-STARINTERNATIONAL*:pnMS-N051:*");
--MODULE_ALIAS("dmi:*:svnMICRO-STARINTERNATIONAL*:pnMS-N014:*");
--MODULE_ALIAS("dmi:*:svnMicro-StarInternational*:pnCR620:*");
--MODULE_ALIAS("dmi:*:svnMicro-StarInternational*:pnU270series:*");
--MODULE_ALIAS("dmi:*:svnMICRO-STARINTERNATIONAL*:pnU90/U100:*");
+ #define MSI_LCD_LEVEL_MAX 9
+ 
+ #define MSI_EC_COMMAND_WIRELESS 0x10
+@@ -1109,8 +1107,6 @@ static int __init msi_init(void)
+ 			set_auto_brightness(auto_brightness);
+ 	}
+ 
+-	pr_info("driver " MSI_DRIVER_VERSION " successfully loaded\n");
+-
+ 	return 0;
+ 
+ fail_create_attr:
+@@ -1156,8 +1152,6 @@ static void __exit msi_cleanup(void)
+ 		if (auto_brightness != 2)
+ 			set_auto_brightness(1);
+ 	}
+-
+-	pr_info("driver unloaded\n");
+ }
+ 
+ module_init(msi_init);
+@@ -1165,5 +1159,4 @@ module_exit(msi_cleanup);
+ 
+ MODULE_AUTHOR("Lennart Poettering");
+ MODULE_DESCRIPTION("MSI Laptop Support");
+-MODULE_VERSION(MSI_DRIVER_VERSION);
+ MODULE_LICENSE("GPL");
 -- 
 2.36.1
 
