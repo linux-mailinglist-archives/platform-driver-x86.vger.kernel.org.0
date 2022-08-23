@@ -2,127 +2,121 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AEDFC59E5D6
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Aug 2022 17:17:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2FD359E770
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Aug 2022 18:37:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240269AbiHWPQ5 (ORCPT
+        id S244396AbiHWQgF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 23 Aug 2022 11:16:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43216 "EHLO
+        Tue, 23 Aug 2022 12:36:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244276AbiHWPPa (ORCPT
+        with ESMTP id S244991AbiHWQf3 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 23 Aug 2022 11:15:30 -0400
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2055.outbound.protection.outlook.com [40.107.95.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3AA516011E
-        for <platform-driver-x86@vger.kernel.org>; Tue, 23 Aug 2022 03:31:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B8Q3itRhoJD0isgR949doc+rDX725BuDnq2xmUDJ2y8NqekC5atp2xvImhvlfQK/+zkl4jIUkEpahRVXkP3A/TZrUpT2zMuIA/HQUZKmELkCxIJmo872/zjPfsWREPtTYLLuVuBI1sj790Q2u/kJPLUK5pVegLY5CRgZDfK4CW/QNzN0FdqlNlZ76suZ4DShru7OS8FjgRbxA/6VjjL+/hB674DW15hZ90zlEj6XhV9TlmIGfsdEmtWIDYyOKB2MFAM5gYAvzjTQpSrHF8UPVdhruvOWf0PYFfydXxtV8BwvKLC71dWec2X+kHQdZ4F+LFbzn/WcDRMRdjY+7mTpog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BGZv40rvLde99cb90vRWRrk2OLr9veoYcxIiLje4ioU=;
- b=i/znryL5lIPZTBOHwQ2Y4unlHkTBGNByhHFpH1QFFKHJh0jVHrZYjmA/RhDViziN6jlsyTZ6senKks11WgQIXuh47Em0ZntEDlTldjIzAvAvW3BYTm/1YAq/k0w1pJYAh3bSZovAwILtKWZKK1zFoHuekWUQSKes/MYD13/dIqP8IiG6e/d7/68oYO5+Cncqp1dZ7mYAt0Wiw50XIfas77OiFtyuzbPqe3oD21/k1L2PpejhnYTXi+Vl+7wc34INEJaDsDpqos0pmQeZSWPm5SEtgsHintzwqYNe5MpiK+BX3ifpcIge2dPU8K2QVs95TbSkvbdTBJyb0SalnXT19g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BGZv40rvLde99cb90vRWRrk2OLr9veoYcxIiLje4ioU=;
- b=nkL/Gpz4QDXTZ9pqHB1NcNUdnH1B13IvID/suOSvjrDqW9W9MYBpJT6gTlUGEX7W8a444nPhmTy3LU+1Y9f7ZHVpnYDWh1KeeoCUJYuzDcwVi4ASDl4/Cau5+j45uwHpalmPffjjK3zeRBhyc5rHArpnU4Orz38WEO8CP3T0W4w=
-Received: from DM6PR01CA0015.prod.exchangelabs.com (2603:10b6:5:296::20) by
- SJ0PR12MB5422.namprd12.prod.outlook.com (2603:10b6:a03:3ac::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.20; Tue, 23 Aug
- 2022 10:29:33 +0000
-Received: from DM6NAM11FT099.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:296:cafe::d1) by DM6PR01CA0015.outlook.office365.com
- (2603:10b6:5:296::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.22 via Frontend
- Transport; Tue, 23 Aug 2022 10:29:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT099.mail.protection.outlook.com (10.13.172.241) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5546.7 via Frontend Transport; Tue, 23 Aug 2022 10:29:33 +0000
-Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Tue, 23 Aug
- 2022 05:29:30 -0500
-From:   Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-To:     <hdegoede@redhat.com>, <markgross@kernel.org>
-CC:     <platform-driver-x86@vger.kernel.org>, <Patil.Reddy@amd.com>,
-        "Shyam Sundar S K" <Shyam-sundar.S-k@amd.com>
-Subject: [PATCH 0/4] platform/x86/amd/pmf: Introduce CnQF feature for AMD PMF
-Date:   Tue, 23 Aug 2022 15:59:09 +0530
-Message-ID: <20220823102913.4181217-1-Shyam-sundar.S-k@amd.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 23 Aug 2022 12:35:29 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9461D6F25D;
+        Tue, 23 Aug 2022 07:47:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661266066; x=1692802066;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/OQEUPblx8ZWr1PbZjofhsyr29E34e1HQ6mir9IbSOk=;
+  b=PULi/HT3akw28FknFLQ1n/mtWUkLbon/s3OICb/bBG/296MwXgbWLKVQ
+   RH4LCqEZLp2HMMma8c6qP06AmgJGRRIISU0AWLcms0gAnmlXvBgiFz3mz
+   xVAg28z+nHRzwzxN9D9FMosUC/M13xPQBPiCYnVDRpSlqgYVpexfFBPO/
+   yYD4PRWmnXkLxJKm47ojy698TailU5WkaJo80wIaK3ulsgzWoMERpfXCi
+   E0UyijNxBuh82ZBpXaz5brgLN0JMBRE/tH8HzOL1EY73tuf2Goi5HN1lg
+   CkUgna+n1GzrmIWO86dZl5wtCiPgMnwZ9bbohRKK/kpltafx+AezNTnAh
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10448"; a="294494394"
+X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; 
+   d="scan'208";a="294494394"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2022 07:47:45 -0700
+X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; 
+   d="scan'208";a="751707348"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2022 07:47:42 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1oQVBq-002TwM-2I;
+        Tue, 23 Aug 2022 17:47:38 +0300
+Date:   Tue, 23 Aug 2022 17:47:38 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Henning Schild <henning.schild@siemens.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Pavel Machek <pavel@ucw.cz>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>, Lee Jones <lee@kernel.org>,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Sheng-Yuan Huang <syhuang3@nuvoton.com>,
+        Tasanakorn Phaipool <tasanakorn@gmail.com>,
+        simon.guinot@sequanux.org
+Subject: Re: [PATCH v4 1/5] gpio-f7188x: Add GPIO support for Nuvoton NCT6116
+Message-ID: <YwToilxquEZGqzQD@smile.fi.intel.com>
+References: <20220823102344.17624-1-henning.schild@siemens.com>
+ <20220823102344.17624-2-henning.schild@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 00e5a11a-6b17-4985-1169-08da84f25eb8
-X-MS-TrafficTypeDiagnostic: SJ0PR12MB5422:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: S092JAU6csad8LGtAnjv4IWJjB2TRgZ+mFwCPWXYNI56cPcgas/idneLFcgx91eumEiVCIxV6U0KY3hQn+pr1y/42SYEVFUYs5yLEvsmPspfMR//PGU3SbHo+78QCp1Gbl+vfpiqJtdxlR7f1cQbCvROYi4Cgu/L9gYB6NM+VIP/60z6I0cDD4hZCdLEjyPoipDpLN1TgEow3d6XYr8ql87n6BbZB+FLSI0WFwHqsJn3w8xFwv668ZOiv7+AzxaRsrGoU7H0SR3dawuvHPTJg58NTDm96MTMXmBeCpGQGlSYwJuJibyyXkSLK8zPfI+ZALAnjXISQwSC1uzejlonl9Ld4eLB06w6Rpj2PkqE/siFVbo+fLuGohUuZAX0zXcicR2NJNh2jZp0OFfPiPdoSsH1xtyaGqr8wWymvDDq/2FRS/c7gfY51/T035zbtEPe4xjFcmtoRwJC9+RWWpM5U1EqjuPlgRos6DJWzbJl1gzhdXwgyTfJXE+hcnqUDc5OaTycil57BBY0bWvfHrcFUfE1oXB//nrm40qzuH5ejNNwmTJ9fD/mWDukpyIkH1BpPIGs8syu+jncBnbUD/9HRHw99j+KvZvVfkZdeoNrnlIPiN3Mw63Vx/i3Io80EzVh5/FS9mEzA3sYS7uNb7A+5n52NDlSNnJI0VH/uHesIGwjxdfJlFj3MpI7rzZP6f201MspO0SLlCHfUhnUuHlYDceAok8bVfZO+tOJgenctSZNJJYKAIMYS7WAT0XBL9qlcSLiu36HXIxImblmIENz1veb90nAcAtAPgYX8h1aIdk=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230016)(4636009)(136003)(396003)(346002)(39860400002)(376002)(46966006)(36840700001)(40470700004)(70586007)(70206006)(8676002)(316002)(8936002)(110136005)(5660300002)(6666004)(54906003)(2906002)(4326008)(7696005)(83380400001)(478600001)(26005)(41300700001)(36756003)(426003)(47076005)(2616005)(336012)(186003)(1076003)(16526019)(40480700001)(40460700003)(86362001)(356005)(36860700001)(81166007)(82740400003)(82310400005)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2022 10:29:33.1326
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00e5a11a-6b17-4985-1169-08da84f25eb8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT099.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5422
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220823102344.17624-2-henning.schild@siemens.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-In this series, support for following features has been added.
-- "Cool n Quiet Framework (CnQF)" is an extension to the static slider,
-  where the system power can be boosted or throttled independent
-  of the selected slider position.
-- On the fly, the CnQF can be turned on/off via a sysfs knob.
+On Tue, Aug 23, 2022 at 12:23:40PM +0200, Henning Schild wrote:
+> Add GPIO support for Nuvoton NCT6116 chip. Nuvoton SuperIO chips are
+> very similar to the ones from Fintek. In other subsystems they also
+> share drivers and are called a family of drivers.
+> 
+> For the GPIO subsystem the only difference is that the direction bit is
+> reversed and that there is only one data bit per pin. On the SuperIO
+> level the logical device is another one.
+> 
+> On a chip level we do not have a manufacturer ID to check and also no
+> revision.
 
-Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+...
 
-Shyam Sundar S K (4):
-  platform/x86/amd/pmf: Add support for CnQF
-  platform/x86/amd/pmf: Add sysfs to toggle CnQF
-  Documentation/ABI/testing/sysfs-amd-pmf: Add ABI doc for AMD PMF
-  MAINTAINERS: Update ABI doc path for AMD PMF
+> - * GPIO driver for Fintek Super-I/O F71869, F71869A, F71882, F71889 and F81866
+> + * GPIO driver for Fintek and Nuvoton Super-I/O chips
 
- Documentation/ABI/testing/sysfs-amd-pmf |  11 +
- MAINTAINERS                             |   1 +
- drivers/platform/x86/amd/pmf/Makefile   |   2 +-
- drivers/platform/x86/amd/pmf/acpi.c     |  10 +
- drivers/platform/x86/amd/pmf/cnqf.c     | 374 ++++++++++++++++++++++++
- drivers/platform/x86/amd/pmf/core.c     |  16 +-
- drivers/platform/x86/amd/pmf/pmf.h      | 100 +++++++
- 7 files changed, 512 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-amd-pmf
- create mode 100644 drivers/platform/x86/amd/pmf/cnqf.c
+I'm not sure it's good idea to drop it from here. It means reader has to get
+this info in a hard way.
+
+...
+
+> +#define gpio_dir_invert(type)	((type) == nct6116d)
+> +#define gpio_data_single(type)	((type) == nct6116d)
+
+What's prevents us to add a proper prefix to these? I don't like the idea of
+them having "gpio" prefix.
+
+...
+
+> +		pr_info(DRVNAME ": Unsupported device 0x%04x\n", devid);
+> +			pr_debug(DRVNAME ": Not a Fintek device at 0x%08x\n", addr);
+> +	pr_info(DRVNAME ": Found %s at %#x\n",
+> +		pr_info(DRVNAME ":   revision %d\n",
+
+Can we, please, utilize pr_fmt()?
+
+> +			(int)superio_inb(addr, SIO_FINTEK_DEVREV));
+
+Explicit casting in printf() means wrong specifier in 99% of cases.
 
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
