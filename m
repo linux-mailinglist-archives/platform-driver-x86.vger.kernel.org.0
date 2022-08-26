@@ -2,123 +2,129 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52D1E5A26B5
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 26 Aug 2022 13:15:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E3FB5A26B2
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 26 Aug 2022 13:15:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231167AbiHZLPF (ORCPT
+        id S229776AbiHZLPe (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 26 Aug 2022 07:15:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41310 "EHLO
+        Fri, 26 Aug 2022 07:15:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240884AbiHZLPA (ORCPT
+        with ESMTP id S1344318AbiHZLPc (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 26 Aug 2022 07:15:00 -0400
+        Fri, 26 Aug 2022 07:15:32 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16325402E1
-        for <platform-driver-x86@vger.kernel.org>; Fri, 26 Aug 2022 04:14:58 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 678B7D86EC
+        for <platform-driver-x86@vger.kernel.org>; Fri, 26 Aug 2022 04:15:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661512497;
+        s=mimecast20190719; t=1661512527;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=5/A6lSJ+udmpvnHvKt5J7SWFqrlXYluDM++LtYXt3j4=;
-        b=a0HAT+YePNiRgYIqHUqyaBxQHSdODSxP2XDtHcyAFCRDA7Zi6wveVmP2IjAZqndZUUzwtC
-        zRZeZXDno8U8ttW9I967UBEEIPMjbkBLjVRxbC2fgaaJaFHoC0aQDdkLDxjyiZNmjt7CO8
-        ZYpSiIs1a1yQv8M7wOAm1sU9XPn8djQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-459-lKaPfcHZMVKExjYjqZWdHw-1; Fri, 26 Aug 2022 07:14:56 -0400
-X-MC-Unique: lKaPfcHZMVKExjYjqZWdHw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4058A81F46A;
-        Fri, 26 Aug 2022 11:14:56 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.144])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8B3A54010FA1;
-        Fri, 26 Aug 2022 11:14:55 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH 2/2] platform/x86: msi-laptop: Add msi_scm_disable_hw_fn_handling() helper
-Date:   Fri, 26 Aug 2022 13:14:53 +0200
-Message-Id: <20220826111453.178962-2-hdegoede@redhat.com>
-In-Reply-To: <20220826111453.178962-1-hdegoede@redhat.com>
-References: <20220826111453.178962-1-hdegoede@redhat.com>
+        bh=ndEnXn9hKIZNqomCfZzqEW1B4vzzluR0TyiraykxJIo=;
+        b=X7CtQHfPcIGD3NZb4i+4YtzrWXBRutDPIMiGHZyy7VUZXXiQXA70ZpXzE9nj0LILczf6ym
+        oXbybiGMUDHx9OY0JMnJm9AMkzTRRnmuf6SVhHxPyFAaWA46NxVO75AiWDE6MyjuRp8WuE
+        IEFPqFtlZjuz/wkR7tIECXa/sQFa9SI=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-77-Wfai_WmVNqip6w1GThhjTw-1; Fri, 26 Aug 2022 07:15:26 -0400
+X-MC-Unique: Wfai_WmVNqip6w1GThhjTw-1
+Received: by mail-ej1-f71.google.com with SMTP id sd6-20020a1709076e0600b0073315809fb5so493684ejc.10
+        for <platform-driver-x86@vger.kernel.org>; Fri, 26 Aug 2022 04:15:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=ndEnXn9hKIZNqomCfZzqEW1B4vzzluR0TyiraykxJIo=;
+        b=KtLkE66JwOK6E86GjgE7iFnPVOHfNbhO0RevxiKjK7Bg07vkYq8/ojqEv6mZ/Txgcy
+         UOpqkokQmSim+Fjq5jRnHjoSUVRZmrE6Y1pbBujMt39s5nQas599/jaNME4xeuWWJzxW
+         NCGKFet483WASexJnvLnxS27esnrdf7niWYfiYlOFNoY54IypajooOWHqiUAFlHy5czw
+         Z5Zz/sM7YVY/4E3zWR60p8RNKib9bm1n1LZysA6pQSDCJeOufxh05AL/7fOyivVTdZOU
+         iBJ5/Ye8U7PIp4QdA9D1b1Gtb+KhA0LHLuAEesUUJqLA4ZwTJ7mediRNR5YoFmeDYV4Q
+         UNlg==
+X-Gm-Message-State: ACgBeo11W/K87WhALL4nZ0ajuJAk9dOqQD7OtCCCei+J6FKxovDy7+Fx
+        pIrqsPo6joCuM1zKaS0inNc4k46b9Tmjlj/meZxR2FJzUBsPWKXdaNVxPz/vSRWicyxWrgaWtED
+        L6aiwRSkDxU17LkyDo6AUU0sb9t+DbeH6hQ==
+X-Received: by 2002:a17:907:84a:b0:733:735:2b1a with SMTP id ww10-20020a170907084a00b0073307352b1amr5082567ejb.290.1661512524609;
+        Fri, 26 Aug 2022 04:15:24 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6w3tZquXyIaMdW6NITygFFwKRfQ2P+uBjCf5tIRwE1caO2dR8zZTUquQDLuojl3Yp6trLk2g==
+X-Received: by 2002:a17:907:84a:b0:733:735:2b1a with SMTP id ww10-20020a170907084a00b0073307352b1amr5082554ejb.290.1661512524364;
+        Fri, 26 Aug 2022 04:15:24 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id r1-20020a1709061ba100b00731745a7e62sm779559ejg.28.2022.08.26.04.15.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Aug 2022 04:15:18 -0700 (PDT)
+Message-ID: <8e484dd1-5286-acfb-d5ed-bdf53b60e551@redhat.com>
+Date:   Fri, 26 Aug 2022 13:15:16 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 1/2] platform/x86: msi-laptop: Use MODULE_DEVICE_TABLE()
+Content-Language: en-US
+To:     Mark Gross <mgross@linux.intel.com>
+Cc:     Andy Shevchenko <andy@infradead.org>,
+        platform-driver-x86@vger.kernel.org
+References: <20220822150818.45765-1-hdegoede@redhat.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20220822150818.45765-1-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add a msi_scm_disable_hw_fn_handling() to remove the duplicate code
-for this in the resume and init paths.
+Hi,
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/msi-laptop.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+On 8/22/22 17:08, Hans de Goede wrote:
+> Use MODULE_DEVICE_TABLE() instead of manually adding a bunch of
+> MODULE_ALIAS() statements.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-diff --git a/drivers/platform/x86/msi-laptop.c b/drivers/platform/x86/msi-laptop.c
-index 74829f766b88..1c29678e5727 100644
---- a/drivers/platform/x86/msi-laptop.c
-+++ b/drivers/platform/x86/msi-laptop.c
-@@ -913,8 +913,7 @@ static int rfkill_init(struct platform_device *sdev)
- 	return retval;
- }
- 
--#ifdef CONFIG_PM_SLEEP
--static int msi_laptop_resume(struct device *device)
-+static int msi_scm_disable_hw_fn_handling(void)
- {
- 	u8 data;
- 	int result;
-@@ -934,6 +933,12 @@ static int msi_laptop_resume(struct device *device)
- 
- 	return 0;
- }
-+
-+#ifdef CONFIG_PM_SLEEP
-+static int msi_laptop_resume(struct device *device)
-+{
-+	return msi_scm_disable_hw_fn_handling();
-+}
- #endif
- 
- static int __init msi_laptop_input_setup(void)
-@@ -966,7 +971,6 @@ static int __init msi_laptop_input_setup(void)
- 
- static int __init load_scm_model_init(struct platform_device *sdev)
- {
--	u8 data;
- 	int result;
- 
- 	if (!quirks->ec_read_only) {
-@@ -980,12 +984,7 @@ static int __init load_scm_model_init(struct platform_device *sdev)
- 	}
- 
- 	/* disable hardware control by fn key */
--	result = ec_read(MSI_STANDARD_EC_SCM_LOAD_ADDRESS, &data);
--	if (result < 0)
--		return result;
--
--	result = ec_write(MSI_STANDARD_EC_SCM_LOAD_ADDRESS,
--		data | MSI_STANDARD_EC_SCM_LOAD_MASK);
-+	result = msi_scm_disable_hw_fn_handling();
- 	if (result < 0)
- 		return result;
- 
--- 
-2.37.2
+I've added this series to my review-hans (soon to be for-next) branch now.
+
+Regards,
+
+Hans
+
+> ---
+>  drivers/platform/x86/msi-laptop.c | 12 +-----------
+>  1 file changed, 1 insertion(+), 11 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/msi-laptop.c b/drivers/platform/x86/msi-laptop.c
+> index 24ffc8e2d2d1..843f72200cfc 100644
+> --- a/drivers/platform/x86/msi-laptop.c
+> +++ b/drivers/platform/x86/msi-laptop.c
+> @@ -705,6 +705,7 @@ static const struct dmi_system_id msi_dmi_table[] __initconst = {
+>  	},
+>  	{ }
+>  };
+> +MODULE_DEVICE_TABLE(dmi, msi_dmi_table);
+>  
+>  static int rfkill_bluetooth_set(void *data, bool blocked)
+>  {
+> @@ -1166,14 +1167,3 @@ MODULE_AUTHOR("Lennart Poettering");
+>  MODULE_DESCRIPTION("MSI Laptop Support");
+>  MODULE_VERSION(MSI_DRIVER_VERSION);
+>  MODULE_LICENSE("GPL");
+> -
+> -MODULE_ALIAS("dmi:*:svnMICRO-STARINT'LCO.,LTD:pnMS-1013:pvr0131*:cvnMICRO-STARINT'LCO.,LTD:ct10:*");
+> -MODULE_ALIAS("dmi:*:svnMicro-StarInternational:pnMS-1058:pvr0581:rvnMSI:rnMS-1058:*:ct10:*");
+> -MODULE_ALIAS("dmi:*:svnMicro-StarInternational:pnMS-1412:*:rvnMSI:rnMS-1412:*:cvnMICRO-STARINT'LCO.,LTD:ct10:*");
+> -MODULE_ALIAS("dmi:*:svnNOTEBOOK:pnSAM2000:pvr0131*:cvnMICRO-STARINT'LCO.,LTD:ct10:*");
+> -MODULE_ALIAS("dmi:*:svnMICRO-STARINTERNATIONAL*:pnMS-N034:*");
+> -MODULE_ALIAS("dmi:*:svnMICRO-STARINTERNATIONAL*:pnMS-N051:*");
+> -MODULE_ALIAS("dmi:*:svnMICRO-STARINTERNATIONAL*:pnMS-N014:*");
+> -MODULE_ALIAS("dmi:*:svnMicro-StarInternational*:pnCR620:*");
+> -MODULE_ALIAS("dmi:*:svnMicro-StarInternational*:pnU270series:*");
+> -MODULE_ALIAS("dmi:*:svnMICRO-STARINTERNATIONAL*:pnU90/U100:*");
 
