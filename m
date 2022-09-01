@@ -2,186 +2,155 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB40B5A9A31
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  1 Sep 2022 16:27:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BA935A9AF2
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  1 Sep 2022 16:55:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234796AbiIAO0G (ORCPT
+        id S234113AbiIAOzY (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 1 Sep 2022 10:26:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50670 "EHLO
+        Thu, 1 Sep 2022 10:55:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234800AbiIAOZr (ORCPT
+        with ESMTP id S234053AbiIAOzW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 1 Sep 2022 10:25:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 153FFFF3
-        for <platform-driver-x86@vger.kernel.org>; Thu,  1 Sep 2022 07:24:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1662042283;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=7t86a/Rwz4UEXAxEsqFbp8XPc3B6sw3pJVS11c5HqPA=;
-        b=KUQyy4Hl5WIPUC2SjupxDGX07qIzRURYOs2YBznNs3Gt4moJPfp8mOGk2/CoRn9exHPSOC
-        YujMll1EAqbDQ91/Z2C4HRIkNYL0mphC4jBxvAeqhKd6rWFosGBD+n/iqKy/ZEyMipTWUA
-        2BP2Zzw09d21zy2Zscv2jN4aMMzYZe8=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-489-LlWRwzzFPiuxRWgMfiDsKA-1; Thu, 01 Sep 2022 10:24:42 -0400
-X-MC-Unique: LlWRwzzFPiuxRWgMfiDsKA-1
-Received: by mail-ed1-f69.google.com with SMTP id q18-20020a056402519200b0043dd2ff50feso11782781edd.9
-        for <platform-driver-x86@vger.kernel.org>; Thu, 01 Sep 2022 07:24:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=7t86a/Rwz4UEXAxEsqFbp8XPc3B6sw3pJVS11c5HqPA=;
-        b=MTMN2iDfMM6sZHmm64UIVYk1ky1199H1tDxFdldg/n7X7Aa8+2V0c1eWZOlKGUZyq+
-         vr5r4tp1b03hRkJfiW0XzUX2zosJNKMwUFEGud3PTykG43xEMeJTEiPfvgeS5qQJ2pfc
-         +ydb7m4R2NQvsodtBeuCsZHBZ+7tUY77dFg+h4voLZeyo6CtvRJ23AwGppUjLv7Z58xj
-         pFMWQQA1d70NE/AjBZC1WzcH7XtwSPESR4P1wesiWQ2odqD4eCTM+xaJ1iCWRYYzlA6q
-         QqdAjMviEU/SS36636WhleUKP28ykov5L8B2WruXAcO2WbNu0c1l+kyphm8jQ+tQY/GX
-         +q0g==
-X-Gm-Message-State: ACgBeo2wtMeH3E+AxfC/l4g2kK8W/Ca6dB+2Fj+GRf3+NnsI8597PFXN
-        +uJhhx7btzpAPNqnDi5WzSBnQjWDYeSz6AeooCvnhKc8RWDciJmk6abP4SH46lpzZ+wMphxOR36
-        EBc4jyVQ2n6ftZ55kc53kkaYyHOnxaaEOzA==
-X-Received: by 2002:a17:907:75c1:b0:730:aa62:7f65 with SMTP id jl1-20020a17090775c100b00730aa627f65mr22949853ejc.355.1662042281149;
-        Thu, 01 Sep 2022 07:24:41 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5DI8eVN0/lLCL/FWyzmn93gTICIv8j7zFdWsgS/8rt2Nnn952d50V+qMI+Rc0HZ4M9/tduTw==
-X-Received: by 2002:a17:907:75c1:b0:730:aa62:7f65 with SMTP id jl1-20020a17090775c100b00730aa627f65mr22949832ejc.355.1662042280901;
-        Thu, 01 Sep 2022 07:24:40 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id f20-20020a17090631d400b006fee7b5dff2sm8671735ejf.143.2022.09.01.07.24.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Sep 2022 07:24:40 -0700 (PDT)
-Message-ID: <9a306d9d-1c47-e250-9cf5-fc6f5d2347de@redhat.com>
-Date:   Thu, 1 Sep 2022 16:24:39 +0200
+        Thu, 1 Sep 2022 10:55:22 -0400
+Received: from vorpal.se (vorpal.se [IPv6:2a01:7e00::f03c:91ff:fe73:398e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C7462A97A;
+        Thu,  1 Sep 2022 07:55:11 -0700 (PDT)
+Received: by vorpal.se (Postfix) with ESMTPSA id 524D9142D4;
+        Thu,  1 Sep 2022 14:49:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=vorpal.se; s=2019;
+        t=1662043789; bh=9wAZDEmqI5kmRDrHJpuWqEbZxzWGX24kBv19o987EbQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JhPMOuCfB/zvq+dN0BqcQrjxq+Vwdddanr7DigfHmNhfA7H6JEh+7rJDNY7oMIfue
+         wopxZso0BhY4uQYbK7DlLdUwpzqMroJ4plEvhwEa7GvNoBZZu2XTXXi/C+uo1CDjTV
+         fdyaRatyE+0J7/VUbPnI8ExKBXgtQPhwQ/FEDNiIvJ7GfP/65sWYG1LqvGQjJaxvRt
+         92TENY4b5jXF2KoalivGlC2opHkaPo6lTANMWEzHOHncerUJgUVjOLNbEcxYREkjUS
+         GK/uyZ5QgCi/I+vo4cxlPjKxiU/g40SXhErOG+sPc3LtSbelU5FKTFjNDm1RNMGNMT
+         NUiP47hzgsteQ==
+From:   Arvid Norlander <lkml@vorpal.se>
+To:     platform-driver-x86@vger.kernel.org
+Cc:     Azael Avalos <coproscefalo@gmail.com>, linux-hwmon@vger.kernel.org,
+        Arvid Norlander <lkml@vorpal.se>
+Subject: [PATCH 0/2] [RFC] platform/x86: toshiba_acpi: HWMON Fan RPM support
+Date:   Thu,  1 Sep 2022 16:49:39 +0200
+Message-Id: <20220901144941.1426407-1-lkml@vorpal.se>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v6 0/7] add support for another simatic board
-Content-Language: en-US
-To:     Henning Schild <henning.schild@siemens.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Pavel Machek <pavel@ucw.cz>, Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Cc:     Sheng-Yuan Huang <syhuang3@nuvoton.com>,
-        Tasanakorn Phaipool <tasanakorn@gmail.com>,
-        simon.guinot@sequanux.org
-References: <20220825104422.14156-1-henning.schild@siemens.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220825104422.14156-1-henning.schild@siemens.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,RCVD_IN_XBL,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi All,
+Fan
+===
 
-On 8/25/22 12:44, Henning Schild wrote:
-> changes since v5:
->   - adding patch to convert to pr_fmt
->   - adding patch to prefix macros with "f7188x_"
->   - rebased p1v4 to be p3v5 and added tag
-> 
-> changes since v4:
->   - remove int case from a printk in p1
->   - include tags into commit messages
-> 
-> changes since v3:
->   - update Kconfig as well
->   - drop chip names from comment in driver header
->   - add manufacturer check for Fintek again, Nuvoton not possible
->   - drop revision printing for Nuvoton
->   - restructure defines again
->   - add new model 427G
-> 
-> changes since v2: (p1 only)
->   - rename macros that change behavior
->   - use chip type not device id in the macros
->   - reorder defines a bit
-> 
-> changes since v1:
->   - remove unused define
->   - fix bug where (base + 2) was used as second data bit
->   - add macros for "inverted" and "single data bit"
-> 
-> The first two patches apply some style refactorings before actual
-> functional changes are made.
-> 
-> Later, This series enables a SuperIO GPIO driver to support a chip from
-> the vendor Nuvoton, the driver is for Fintek devices but those just are
-> very similar. And in watchdog and hwmon subsystems these SuperIO drivers
-> also share code and are sometimes called a family.
-> 
-> In another step the individual banks receive a label to tell them apart,
-> a step which potentially changes an interface to legacy users that might
-> rely on all banks having the same label, or an exact label. But since a
-> later patch wants to use GPIO_LOOKUP unique labels are needed and i
-> decided to assign them for all supported chips.
-> 
-> In a following patch the Simatic GPIO LED driver is extended to provide
-> LEDs in case that SuperIO GPIO driver can be loaded.
-> 
-> Last but not least the watchdog module of that same SuperIO gets loaded
-> on a best effort basis.
-> 
-> The very last patch enables a second model of that same board type.
-> 
-> Henning Schild (7):
->   gpio-f7188x: switch over to using pr_fmt
->   gpio-f7188x: add a prefix to macros to keep gpio namespace clean
->   gpio-f7188x: Add GPIO support for Nuvoton NCT6116
->   gpio-f7188x: use unique labels for banks/chips
->   leds: simatic-ipc-leds-gpio: add new model 227G
->   platform/x86: simatic-ipc: enable watchdog for 227G
->   platform/x86: simatic-ipc: add new model 427G
+Currently /sys/bus/acpi/devices/TOS6208:00/fan allows controlling the fan
+by writing 0 (off) or 1 (on at low speed). However when reading I have
+observed values up to 64 (fan at full speed during prime95 stress test).
 
-Despite the "leds: simatic-ipc-leds-gpio: add new model 227G" missing
-an ack from the LED subsys maintainers I have decided to move forward
-with this.
+Removing the check for "zero or one" shows that on the Z830 at least 64
+levels do indeed seem possible. In fact higher values can be written.
 
-The LED changes in that patch are quite small / trivial, it actually
-touches both drivers/leds and drivers/platform/x86 and the latter
-changes are bigger and it also has been Reviewed by both me and Andy.
-So I'm going for the it is easier to ask for forgiveness then ...
-route here wrt the missing LEDs subsys ack.
+But anything above ~50 seems to max out the RPM.
 
-I've just pushed a new platform-drivers-x86-simatec branch which
-contains 6.0-rc1 + these 7 patches.
-
-Next I'm to send out a pull-req (based on a signed tag)
-to the involved subsys maintainers and merge that signed tag into
-my review-hans branch (and from there it will go to pdx86/for-next).
-
-Regards,
-
-Hans
+I don't know how to detect the supported range, so I have not created a
+patch for this. Advice is welcome.
 
 
+Fan RPM
+=======
+
+There is a way to read Fan RPM:
+
+#define HCI_FAN_RPM 0x45
+
+This one is weird. On windows I have observed the cooling self test program
+(which supposedly verifies that the cooling is working correctly) calling
+this a few different ways. Here is a summary of what I managed to figure
+out:
+
+HCI_SET, 0x45, 0, 1, 0, 0: This sets the fan to run at max speed, but it
+will not be visible when reading /sys/bus/acpi/devices/TOS6208:00/fan.
+I will refer to this operation as "set-max-fan" below.
+
+The only way I found to stop it running at max RPM is to use HCI_FAN
+(e.g. 0 > /sys/bus/acpi/devices/TOS6208:00/fan or call the ACPI method
+directly).
+
+However the get method is more interesting:
+
+HCI_GET, 0x45, 0, 1, 0, 0 returns: {0x0, 0x45, fan_rpm, 0x1db0, 0x0, 0x0}
+
+I believe fan_rpm is accurate, without any scaling factors needed:
+* It behaves properly (higher value when fan is louder/faster/higher
+  pitched, 0 when fan is off).
+* It matches the value range reported by HwInfo64 on Windows (which seems
+  to be able to read this, I have not looked into how it does that).
+* Unfortunately there is no tool by Toshiba that exposes the numerical
+  value that I can find (that would have been ideal). Nor is it shown in
+  BIOS. The Windows tools "Toshiba PC Health Monitor" reports everything in
+  percentages. Yes even the temperatures!
+* It is definitely a loud and whiny fan, even by laptop standards, so the
+  high reported RPM range of 3540-7600 RPM could make sense. Though it did
+  seem a bit high.
+* Finally, to be sure, I borrowed a tachometer from work. Yes, the fan
+  really spins that fast. Byt it is only 30 mm, so I guess that makes
+  sense.
+
+HCI_GET 0x45, 0, 0, 0, 0 returns: {0x0, 0x45, fan_rpm, 0x0, 0x0, 0x0}
+
+The Windows software does *not* use this variant as far as I have observed.
+It appears to work the same except that it doesn't return 0x1db0 in index 3.
+
+I'm not sure, but I strongly suspect 0x1db0 could be the max RPM (7600).
+The most I have observed when using "set-max-fan" is 0x1da6 (7590 RPM),
+which is very close. Note that this is significantly more than I can get
+using just HCI_FAN, which seems to max out at 0x17ac (6060 RPM).
 
 
-> 
->  drivers/gpio/Kconfig                          |   3 +-
->  drivers/gpio/gpio-f7188x.c                    | 275 +++++++++++-------
->  drivers/leds/simple/simatic-ipc-leds-gpio.c   |  42 ++-
->  drivers/platform/x86/simatic-ipc.c            |  10 +-
->  .../platform_data/x86/simatic-ipc-base.h      |   1 +
->  include/linux/platform_data/x86/simatic-ipc.h |   2 +
->  6 files changed, 216 insertions(+), 117 deletions(-)
-> 
+Patches
+=======
+
+I'm not personally particularly interested in user space control of fan
+speed, plus the fact that there is a way to make the fan go faster than
+the *other* max speed makes me wonder about the safety of running the fan
+at that speed for prolonged periods of time. Thus, I have only added a
+read-only hwmon interface for reading the fan RPM.
+
+This is heavily based (read: copy, paste and modify) on the thinkpad_acpi
+hwmon-code. Note that unlike that driver, I do not create a separate
+platform device to be a parent to the hwmon interface. In my testing this
+was un-needed and the ACPI device worked fine as a parent. Should I be
+wrong about this, and there is a good reason to create a separate driver,
+please elucidate me!
+
+I elected to use the same call that the Windows code does, which fetches
+what I believe is the max RPM. I think it is safer to stay as close as
+possible to that code. However I don't currently make use of this value,
+suggestions for where to use it are welcome.
+
+Note! I assume that if the FAN RPM call do not result in an error, that
+it is in fact supported. This may not be true. I would welcome testing by
+anyone who owns a Toshiba laptop!
+
+
+Arvid Norlander (2):
+  platform/x86: toshiba_acpi: Add fan RPM reading (internals)
+  platform/x86: toshiba_acpi: Add fan RPM reading (hwmon interface)
+
+ drivers/platform/x86/Kconfig        |  1 +
+ drivers/platform/x86/toshiba_acpi.c | 79 +++++++++++++++++++++++++++++
+ 2 files changed, 80 insertions(+)
+
+
+base-commit: 1c23f9e627a7b412978b4e852793c5e3c3efc555
+-- 
+2.37.2
 
