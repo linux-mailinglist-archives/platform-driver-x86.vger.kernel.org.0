@@ -2,168 +2,138 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53C575A9AEE
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  1 Sep 2022 16:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6EB75A9AE7
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  1 Sep 2022 16:53:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233938AbiIAOzS (ORCPT
+        id S232430AbiIAOxf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 1 Sep 2022 10:55:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38014 "EHLO
+        Thu, 1 Sep 2022 10:53:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233101AbiIAOzR (ORCPT
+        with ESMTP id S233545AbiIAOxa (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 1 Sep 2022 10:55:17 -0400
-X-Greylist: delayed 318 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 01 Sep 2022 07:55:12 PDT
-Received: from vorpal.se (vorpal.se [151.236.221.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F6311DA4A;
-        Thu,  1 Sep 2022 07:55:11 -0700 (PDT)
-Received: by vorpal.se (Postfix) with ESMTPSA id 4776C147F4;
-        Thu,  1 Sep 2022 14:49:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=vorpal.se; s=2019;
-        t=1662043792; bh=Ky3RZt8+jm1rZGp70aX3vdqaOEd1Zl6fs+DqlwpBbqE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dFP9ryJdYtLqHaenIrLnvfh2QoycVRybjnusu05Dd3ScL38M+Jn93Mis/lC2UIaKO
-         NtW1UlAAyKGhnZFavO4oL0qe7ox/p70Y6AUn17ZvLNfmTWBVGlUfH9VyJPjWbnePV8
-         DiUuJHEK9/moWh1PjrISgDv3fappecCDluLy+pdmGQ1cCGUtNJHt4PRgui1UZZIzUr
-         9ssXdF/VG/a2ppQ4Hkg4qkjKmt59joAdWN/XJ5m6KvJeEFmbLqtOI7ZjtbHe0Y/HAZ
-         AS0MNmISzAh6r6gRtHhgGfsRiXmSi4ucPIeqsfZGKYsOn3x0BpY1FpaG3SnZUe6qFt
-         ofsWJXvF+xtUg==
-From:   Arvid Norlander <lkml@vorpal.se>
-To:     platform-driver-x86@vger.kernel.org
-Cc:     Azael Avalos <coproscefalo@gmail.com>, linux-hwmon@vger.kernel.org,
-        Arvid Norlander <lkml@vorpal.se>
-Subject: [PATCH 2/2] [RFC] platform/x86: toshiba_acpi: Add fan RPM reading (hwmon interface)
-Date:   Thu,  1 Sep 2022 16:49:41 +0200
-Message-Id: <20220901144941.1426407-3-lkml@vorpal.se>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220901144941.1426407-1-lkml@vorpal.se>
-References: <20220901144941.1426407-1-lkml@vorpal.se>
+        Thu, 1 Sep 2022 10:53:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBAD082759
+        for <platform-driver-x86@vger.kernel.org>; Thu,  1 Sep 2022 07:53:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1662044009;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=A0g1blcGod6K82z7PHFW5jtZohl7FHhnQON5Wk+LVyQ=;
+        b=S3EV/+vPYAy1cW7/4C/yQ1rVTrB1E/2GV5Czy7Q8GXM8eMZGmxllsTvMC9inBOxxXFtjNA
+        zjsJBQ5QWNxNChqvMP1q7iHlHTLUnE+v1RABekj/FS2r44/vAtScVmX3dvteN+7+X2iHzV
+        TuedTHRwQMJeqK1+8JSfGXFdAJFAMss=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-547-WF9D6k9TOmC11DVwhIwhVg-1; Thu, 01 Sep 2022 10:53:28 -0400
+X-MC-Unique: WF9D6k9TOmC11DVwhIwhVg-1
+Received: by mail-ed1-f72.google.com with SMTP id l19-20020a056402255300b0043df64f9a0fso11980288edb.16
+        for <platform-driver-x86@vger.kernel.org>; Thu, 01 Sep 2022 07:53:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=A0g1blcGod6K82z7PHFW5jtZohl7FHhnQON5Wk+LVyQ=;
+        b=jxsaLgOMPszUTAQyDnnhXQRsNbwGoKsHEtmUREeVdLUX9TwxSy1pFM5GZ87yfbGfcr
+         gv5B8bycRhWXcDN91hVAtDKmm7gZj/TXXJqkDF86p643h1rwQR1cqFlmgnwZaEf5g+DZ
+         lCIgZA7GPL3Q9yfW8W2rtvdoX/JsuPeMhPN/KJfxEDrdA6AI/a6mazt/6ukV3rpuCMbg
+         USYq/czUombbNj6gSYH6XfgcU9aIDnxZurn8hBmXV7uvSss9b8CYyfOslipGAfFMXayz
+         D+ptWiaIeKMJEqjNBmZzYd6tohOXt/51ydETqVg0IB8lBtFc3jGTZJLkcCKFr7xz9PMg
+         lpCg==
+X-Gm-Message-State: ACgBeo1jp4E+VRekHxYhFvvXqZOJYcQDf1iKqlc30BMQGIkM58BMxv9H
+        b87xNHL3BwGlHEHhZ29pjy9Y6vMu68o9fyWffXQ9vcwYOONpoTsVPEZGZ+w0AgY0YIwpNiQ4oLU
+        dKYXmi2deYh0+TSfAqx+jw4IF1oSR2mVIsg==
+X-Received: by 2002:a17:907:97d3:b0:73d:8b9b:a6c1 with SMTP id js19-20020a17090797d300b0073d8b9ba6c1mr23841558ejc.71.1662044006881;
+        Thu, 01 Sep 2022 07:53:26 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6A5xb5zxDdAmIlrBKOAQ/kfMCQXQVATSUFSS8Zk3+p7j3ebhCP6gZtK0drupcmwhEfsr5TTQ==
+X-Received: by 2002:a17:907:97d3:b0:73d:8b9b:a6c1 with SMTP id js19-20020a17090797d300b0073d8b9ba6c1mr23841540ejc.71.1662044006697;
+        Thu, 01 Sep 2022 07:53:26 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id vs23-20020a170907139700b0072ed9efc9dfsm8530465ejb.48.2022.09.01.07.53.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Sep 2022 07:53:26 -0700 (PDT)
+Message-ID: <298e6d86-dc7b-ed24-893d-2211017463bb@redhat.com>
+Date:   Thu, 1 Sep 2022 16:53:25 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+From:   Hans de Goede <hdegoede@redhat.com>
+Subject: [GIT PULL] Immutable branch with 6.0-rc1 + "[PATCH v6 0/7] add
+ support for another simatic board" series
+To:     Henning Schild <henning.schild@siemens.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Pavel Machek <pavel@ucw.cz>, Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Cc:     Sheng-Yuan Huang <syhuang3@nuvoton.com>,
+        Tasanakorn Phaipool <tasanakorn@gmail.com>,
+        simon.guinot@sequanux.org
+References: <20220825104422.14156-1-henning.schild@siemens.com>
+Content-Language: en-US
+In-Reply-To: <20220825104422.14156-1-henning.schild@siemens.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-This expands on the previous commit, exporting the fan RPM via hwmon.
+Dear GPIO and LED subsystem maintainers,
 
-This will look something like the following when using the "sensors"
-command from lm_sensors:
+Here is a pull-request for v6.0-rc1 + the
+"[PATCH v6 0/7] add support for another simatic board" series
+for merging into the gpio and leds subsystems.
 
-toshiba_acpi_sensors-acpi-0
-Adapter: ACPI interface
-fan1:           0 RPM
+Regards,
 
-Signed-off-by: Arvid Norlander <lkml@vorpal.se>
----
- drivers/platform/x86/Kconfig        |  1 +
- drivers/platform/x86/toshiba_acpi.c | 49 +++++++++++++++++++++++++++++
- 2 files changed, 50 insertions(+)
+Hans
 
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index f2f98e942cf2..9a98974ab8bf 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -799,6 +799,7 @@ config ACPI_TOSHIBA
- 	depends on ACPI_VIDEO || ACPI_VIDEO = n
- 	depends on RFKILL || RFKILL = n
- 	depends on IIO
-+	select HWMON
- 	select INPUT_SPARSEKMAP
- 	help
- 	  This driver adds support for access to certain system settings
-diff --git a/drivers/platform/x86/toshiba_acpi.c b/drivers/platform/x86/toshiba_acpi.c
-index 02e3522f4eeb..2b71dac34cf0 100644
---- a/drivers/platform/x86/toshiba_acpi.c
-+++ b/drivers/platform/x86/toshiba_acpi.c
-@@ -39,6 +39,7 @@
- #include <linux/i8042.h>
- #include <linux/acpi.h>
- #include <linux/dmi.h>
-+#include <linux/hwmon.h>
- #include <linux/uaccess.h>
- #include <linux/miscdevice.h>
- #include <linux/rfkill.h>
-@@ -171,6 +172,7 @@ struct toshiba_acpi_dev {
- 	struct miscdevice miscdev;
- 	struct rfkill *wwan_rfk;
- 	struct iio_dev *indio_dev;
-+	struct device *hwmon_device;
- 
- 	int force_fan;
- 	int last_key_event;
-@@ -2941,6 +2943,38 @@ static int toshiba_acpi_setup_backlight(struct toshiba_acpi_dev *dev)
- 	return 0;
- }
- 
-+
-+/* HWMON support for fan */
-+static ssize_t fan_fan1_input_show(struct device *dev,
-+				   struct device_attribute *attr,
-+				   char *buf)
-+{
-+	u32 value;
-+	int ret;
-+
-+	ret = get_fan_rpm(toshiba_acpi, &value);
-+	if (ret)
-+		return ret;
-+
-+	return sysfs_emit(buf, "%u\n", value);
-+}
-+
-+static DEVICE_ATTR(fan1_input, S_IRUGO, fan_fan1_input_show, NULL);
-+
-+static struct attribute *fan_attributes[] = {
-+	&dev_attr_fan1_input.attr,
-+	NULL
-+};
-+
-+static const struct attribute_group fan_attr_group = {
-+	.attrs = fan_attributes,
-+};
-+
-+static const struct attribute_group *toshiba_acpi_hwmon_groups[] = {
-+	&fan_attr_group,
-+	NULL,
-+};
-+
- static void print_supported_features(struct toshiba_acpi_dev *dev)
- {
- 	pr_info("Supported laptop features:");
-@@ -2995,6 +3029,9 @@ static int toshiba_acpi_remove(struct acpi_device *acpi_dev)
- 
- 	remove_toshiba_proc_entries(dev);
- 
-+	if (dev->hwmon_device)
-+		hwmon_device_unregister(dev->hwmon_device);
-+
- 	if (dev->accelerometer_supported && dev->indio_dev) {
- 		iio_device_unregister(dev->indio_dev);
- 		iio_device_free(dev->indio_dev);
-@@ -3187,6 +3224,18 @@ static int toshiba_acpi_add(struct acpi_device *acpi_dev)
- 	ret = get_fan_rpm(dev, &dummy);
- 	dev->fan_rpm_supported = !ret;
- 
-+	if (dev->fan_rpm_supported) {
-+		dev->hwmon_device = hwmon_device_register_with_groups(
-+			&dev->acpi_dev->dev, "toshiba_acpi_sensors", NULL,
-+			toshiba_acpi_hwmon_groups);
-+		if (IS_ERR(dev->hwmon_device)) {
-+			ret = PTR_ERR(dev->hwmon_device);
-+			dev->hwmon_device = NULL;
-+			pr_err("unable to register hwmon device\n");
-+			goto error;
-+		}
-+	}
-+
- 	toshiba_wwan_available(dev);
- 	if (dev->wwan_supported)
- 		toshiba_acpi_setup_wwan_rfkill(dev);
--- 
-2.37.2
+
+The following changes since commit 568035b01cfb107af8d2e4bd2fb9aea22cf5b868:
+
+  Linux 6.0-rc1 (2022-08-14 15:50:18 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-simatec-1
+
+for you to fetch changes up to 8f5c9858c5db129359b5de2f60f5f034bf5d56c0:
+
+  platform/x86: simatic-ipc: add new model 427G (2022-09-01 16:15:03 +0200)
+
+----------------------------------------------------------------
+Tag (immutable branch) for:
+v6.0-rc1 + "[PATCH v6 0/7] add support for another simatic board" series
+for merging into the gpio, leds and pdx86 subsystems.
+
+----------------------------------------------------------------
+Henning Schild (7):
+      gpio-f7188x: switch over to using pr_fmt
+      gpio-f7188x: add a prefix to macros to keep gpio namespace clean
+      gpio-f7188x: Add GPIO support for Nuvoton NCT6116
+      gpio-f7188x: use unique labels for banks/chips
+      leds: simatic-ipc-leds-gpio: add new model 227G
+      platform/x86: simatic-ipc: enable watchdog for 227G
+      platform/x86: simatic-ipc: add new model 427G
+
+ drivers/gpio/Kconfig                               |   3 +-
+ drivers/gpio/gpio-f7188x.c                         | 275 ++++++++++++---------
+ drivers/leds/simple/simatic-ipc-leds-gpio.c        |  42 +++-
+ drivers/platform/x86/simatic-ipc.c                 |  10 +-
+ include/linux/platform_data/x86/simatic-ipc-base.h |   1 +
+ include/linux/platform_data/x86/simatic-ipc.h      |   2 +
+ 6 files changed, 216 insertions(+), 117 deletions(-)
 
