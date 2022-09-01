@@ -2,132 +2,150 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 711355A9AEC
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  1 Sep 2022 16:55:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 789D35A9B07
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  1 Sep 2022 16:59:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233730AbiIAOzM (ORCPT
+        id S234448AbiIAO7J (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 1 Sep 2022 10:55:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37702 "EHLO
+        Thu, 1 Sep 2022 10:59:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233101AbiIAOzK (ORCPT
+        with ESMTP id S234002AbiIAO7I (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 1 Sep 2022 10:55:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AE711A389
-        for <platform-driver-x86@vger.kernel.org>; Thu,  1 Sep 2022 07:55:09 -0700 (PDT)
+        Thu, 1 Sep 2022 10:59:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DB3682F8E
+        for <platform-driver-x86@vger.kernel.org>; Thu,  1 Sep 2022 07:59:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1662044108;
+        s=mimecast20190719; t=1662044346;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=5poaUCXaJbI2zmBn4LFN02z8P6dE9ZahVD/y5bAwx+s=;
-        b=Eg4CpL7CCh1UvVS0lHqaEokqApdJxskJQHF/+HuM0EEHFeXpeNXsSmqU3dKtIb8hg5QED8
-        l03/CXTJ2q3pTN+amlLaq+PBDIcnZZwv6RPimCLqMUHQ4BESKuA//pfaxTNtCEpE/45D3l
-        GrH/rEQ4jobelGi4a9jCMnF/DDi6SJk=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=bE0TdgbHTlPub8+p6QK52e8GGKi3CU/yaDOC4uYWKQc=;
+        b=OqBTHRdHzAlgJmh9IG0II30HWzg+2Vwi3c1SDlydPJUX9UiclC+t1YtmNjG6tVBMd1anH6
+        z8UPd0c0yR8pKS91vBXQq9CrshVk6c/JW2eXWCG7Xqd50aEgEu3rbpXBCNtiyHjDN5Gjd+
+        kJD7tasb2WMvm+MWbWWADalunchpvWM=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-576-MYqi0pHxPoKIcjm2sU_hBA-1; Thu, 01 Sep 2022 10:55:07 -0400
-X-MC-Unique: MYqi0pHxPoKIcjm2sU_hBA-1
-Received: by mail-ej1-f71.google.com with SMTP id hp14-20020a1709073e0e00b00741a2093c4aso5316410ejc.20
-        for <platform-driver-x86@vger.kernel.org>; Thu, 01 Sep 2022 07:55:07 -0700 (PDT)
+ us-mta-235-ABTHYfq_N9GA29fXKTVudg-1; Thu, 01 Sep 2022 10:58:45 -0400
+X-MC-Unique: ABTHYfq_N9GA29fXKTVudg-1
+Received: by mail-ej1-f69.google.com with SMTP id ho13-20020a1709070e8d00b00730a655e173so6981006ejc.8
+        for <platform-driver-x86@vger.kernel.org>; Thu, 01 Sep 2022 07:58:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=5poaUCXaJbI2zmBn4LFN02z8P6dE9ZahVD/y5bAwx+s=;
-        b=wZ8OEoXvEMl+8v4YyugNxYGxvsw77rhMmJ0RY+Rx4VtJGL9l7SV6uEq8m3171CDGKS
-         On91iHHeyxlKmwjR+32/GTrY2s4Tr6Ta+3QSJx31axfnLNWBX1wqm7+vIekuY+XQF2/A
-         8d/4/SbNB0D0dGQRk+0y0e9e7PI8LADjya6FILvHtBBqwbnZrhWoEagZvsCzylZvKLY3
-         CEjWjkxiqL6VjkkrmtSkN89Ah5AaWM1Pl73pmr4pTym97ibMmEKBgCkqiuGmEV0QdP6V
-         uyWqGPu24AZmg+AOHhr6pVw1C6jZ0W1hqaqYOpZdmREmevF8j9fp7xL6EIF6Ej0Qf1M/
-         sQzA==
-X-Gm-Message-State: ACgBeo1rhuwcZaXJ43yoxt6TLmdqFNvJBx2UjnQuy97oac4Nqu36Xp21
-        NdY7Uvm8rXwConFrDwNAF50vG96IbBiu/5yUnu7QSS2tzN4T8218FlwJyN5Yrl63A4+iIGa9YdQ
-        rKLJ6Nn/JE1ciz7QuYaR5pxRt+ASA8ZSi9w==
-X-Received: by 2002:a17:907:b15:b0:741:8ae4:f79d with SMTP id h21-20020a1709070b1500b007418ae4f79dmr14003338ejl.247.1662044106427;
-        Thu, 01 Sep 2022 07:55:06 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7pHLqWKYnezkwg6Cw+LC0vRhxIy2LH6NjSTOVS+3Vo3GzJgUoIEibH37ESMSoAQeZpV+k1Sg==
-X-Received: by 2002:a17:907:b15:b0:741:8ae4:f79d with SMTP id h21-20020a1709070b1500b007418ae4f79dmr14003324ejl.247.1662044106160;
-        Thu, 01 Sep 2022 07:55:06 -0700 (PDT)
+        bh=bE0TdgbHTlPub8+p6QK52e8GGKi3CU/yaDOC4uYWKQc=;
+        b=nIMjBdWs48kdV0CLDhI42NpcRKTDIS8JfU4798thtu+ahm2atDl1+cnMCNDNgx5k4U
+         VLHTCRahfjyfYAwJxzVciFDAkTc3/Ny60FEigtmc47i2j7jffoCTFZoD3Cn1fprwDnzV
+         z9fPx9dehrC23B4PcM8XByvQkrCmkcwtJyabs7x0Bd2Of2ALeNF489Urx2UCm2FVs5Mf
+         rj/Wj003TRgHP+ro/HNQI3oS5qwbhrA3d8xVL47gIhj0KvH39D+9hhWVzwNCv08+tlfn
+         IkRSER4sFiEcnVx7UzO/5PoqmG7biCoWqkIfHGOPHSY69j8IWT9+/zqLDyLUQR9hYDMj
+         /OqA==
+X-Gm-Message-State: ACgBeo01qX6YZjjzAVxqy+tU9dsOgUHxYFCYi934jCA/ZxYens5j70pv
+        yrUmEq3JTPqfBtz+b01YRzV70ajtxPsAvnQCj9sFE4laxYU+JmkXxi6Lywzf2oZfocFdGf9+kYI
+        WAqHkX32grLtkaqHGUpLndedla+HB6sy6kw==
+X-Received: by 2002:a17:906:99c1:b0:6fe:b01d:134 with SMTP id s1-20020a17090699c100b006feb01d0134mr23529861ejn.598.1662044318573;
+        Thu, 01 Sep 2022 07:58:38 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR58ylG7U3rzoPStiTD88Zrl0UoM9RaMtg4Tbq8sHhi5YXMNCfe2Ur7IUrMZc7HoxVjyrPA0Lw==
+X-Received: by 2002:a17:906:99c1:b0:6fe:b01d:134 with SMTP id s1-20020a17090699c100b006feb01d0134mr23529848ejn.598.1662044318384;
+        Thu, 01 Sep 2022 07:58:38 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id 1-20020a170906210100b0073d61238ae1sm8535366ejt.83.2022.09.01.07.55.05
+        by smtp.gmail.com with ESMTPSA id o1-20020a170906768100b0073d5e1edd1csm8506873ejm.225.2022.09.01.07.58.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Sep 2022 07:55:05 -0700 (PDT)
-Message-ID: <7abac73e-d7e2-f457-7a72-9fecb532ddd5@redhat.com>
-Date:   Thu, 1 Sep 2022 16:55:05 +0200
+        Thu, 01 Sep 2022 07:58:37 -0700 (PDT)
+Message-ID: <5bd15802-a269-420c-7071-1cae63fa6070@redhat.com>
+Date:   Thu, 1 Sep 2022 16:58:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH] platform/x86: dell-wmi: Add WMI event 0x0012 0x0003 to
- the list
+Subject: Re: [PATCH] asus-wmi: Increase FAN_CURVE_BUF_LEN to 32
 Content-Language: en-US
-To:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Mark Gross <markgross@kernel.org>
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220827133040.15932-1-pali@kernel.org>
+To:     Guenter Roeck <linux@roeck-us.net>,
+        "Luke D. Jones" <luke@ljones.dev>
+Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, markgross@kernel.org
+References: <20220828074638.5473-1-luke@ljones.dev>
+ <20220829133556.GA3766826@roeck-us.net>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220827133040.15932-1-pali@kernel.org>
+In-Reply-To: <20220829133556.GA3766826@roeck-us.net>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+Hi All,
 
-On 8/27/22 15:30, Pali Rohár wrote:
-> It looks like that on Dell Latitude E6440 is WMI event 0x0012 0x0003 sent
-> when display changes brightness. When it happens kernel prints
-> "dell_wmi: Unknown WMI event type 0x12" message into dmesg.
+On 8/29/22 15:35, Guenter Roeck wrote:
+> On Sun, Aug 28, 2022 at 07:46:38PM +1200, Luke D. Jones wrote:
+>> Fix for TUF laptops returning with an -ENOSPC on calling
+>> asus_wmi_evaluate_method_buf() when fetching default curves. The TUF method
+>> requires at least 32 bytes space.
+>>
+>> This also moves and changes the pr_debug() in fan_curve_check_present() to
+>> pr_warn() in fan_curve_get_factory_default() so that there is at least some
+>> indication in logs of why it fails.
+>>
+>> Signed-off-by: Luke D. Jones <luke@ljones.dev>
+>> ---
+>>  drivers/platform/x86/asus-wmi.c | 9 ++++-----
+>>  1 file changed, 4 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+>> index 3d9fd58573f9..11203213e00d 100644
+>> --- a/drivers/platform/x86/asus-wmi.c
+>> +++ b/drivers/platform/x86/asus-wmi.c
+>> @@ -108,7 +108,7 @@ module_param(fnlock_default, bool, 0444);
+>>  #define WMI_EVENT_MASK			0xFFFF
+>>  
+>>  #define FAN_CURVE_POINTS		8
+>> -#define FAN_CURVE_BUF_LEN		(FAN_CURVE_POINTS * 2)
+>> +#define FAN_CURVE_BUF_LEN		32
+>>  #define FAN_CURVE_DEV_CPU		0x00
+>>  #define FAN_CURVE_DEV_GPU		0x01
+>>  /* Mask to determine if setting temperature or percentage */
+>> @@ -2383,8 +2383,10 @@ static int fan_curve_get_factory_default(struct asus_wmi *asus, u32 fan_dev)
+>>  	curves = &asus->custom_fan_curves[fan_idx];
+>>  	err = asus_wmi_evaluate_method_buf(asus->dsts_id, fan_dev, mode, buf,
+>>  					   FAN_CURVE_BUF_LEN);
+>> -	if (err)
+>> +	if (err) {
+>> +		pr_warn("%s (0x%08x) failed: %d\n", __func__, fan_dev, err);
+>>  		return err;
+>> +	}
+>>  
+>>  	fan_curve_copy_from_buf(curves, buf);
+>>  	curves->device_id = fan_dev;
+>> @@ -2402,9 +2404,6 @@ static int fan_curve_check_present(struct asus_wmi *asus, bool *available,
+>>  
+>>  	err = fan_curve_get_factory_default(asus, fan_dev);
+>>  	if (err) {
+>> -		pr_debug("fan_curve_get_factory_default(0x%08x) failed: %d\n",
+>> -			 fan_dev, err);
+>> -		/* Don't cause probe to fail on devices without fan-curves */
 > 
-> So ignore it for now to not spam dmesg.
-> 
-> Signed-off-by: Pali Rohár <pali@kernel.org>
+> The pr_warn() should be here. If you want to have a message from the call
+> in fan_curve_enable_store(), add dev_err() there.
 
-Thank you for your patch, I've applied this patch to my review-hans 
-branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+Guenter I can understand where you are coming from with the warn vs err
+thing but IMHO that is a minor concern and I'm actually a fan of pushing
+error logging closer to the first failing call so that we only have
+one place to log the error instead of having to log it separately in
+all the callers.
 
-Note it will show up in my review-hans branch once I've pushed my
-local branch there, which might take a while.
-
-Once I've run some tests on this branch the patches there will be
-added to the platform-drivers-x86/for-next branch and eventually
-will be included in the pdx86 pull-request to Linus for the next
-merge-window.
+So I'm going to take this patch as is.
 
 Regards,
 
 Hans
-
-
-> ---
->  drivers/platform/x86/dell/dell-wmi-base.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/dell/dell-wmi-base.c b/drivers/platform/x86/dell/dell-wmi-base.c
-> index e07d3ba85a3f..0a259a27459f 100644
-> --- a/drivers/platform/x86/dell/dell-wmi-base.c
-> +++ b/drivers/platform/x86/dell/dell-wmi-base.c
-> @@ -344,6 +344,9 @@ static const struct key_entry dell_wmi_keymap_type_0011[] = {
->   * They are events with extended data
->   */
->  static const struct key_entry dell_wmi_keymap_type_0012[] = {
-> +	/* Backlight brightness change event */
-> +	{ KE_IGNORE, 0x0003, { KEY_RESERVED } },
-> +
->  	/* Ultra-performance mode switch request */
->  	{ KE_IGNORE, 0x000d, { KEY_RESERVED } },
->  
 
