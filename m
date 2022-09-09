@@ -2,151 +2,264 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 972C05B1C25
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  8 Sep 2022 14:05:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DF595B3B1D
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  9 Sep 2022 16:51:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231357AbiIHMF4 (ORCPT
+        id S231760AbiIIOvN (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 8 Sep 2022 08:05:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40858 "EHLO
+        Fri, 9 Sep 2022 10:51:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230523AbiIHMFz (ORCPT
+        with ESMTP id S231628AbiIIOvM (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 8 Sep 2022 08:05:55 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98C49F56D7
-        for <platform-driver-x86@vger.kernel.org>; Thu,  8 Sep 2022 05:05:54 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id z21so13960355edi.1
-        for <platform-driver-x86@vger.kernel.org>; Thu, 08 Sep 2022 05:05:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date;
-        bh=61JNgHFLNVCOHtS3GBlVT+sTDzg02TjYElOUCZQYEf8=;
-        b=OIlXIjtv7lgqW8bP/ClWZv82/hfApNDJV2WVfEr00ccIU+YcnCbXZDbYYld6gvxGNZ
-         ynTu4w4jo0SIy1x6X8a1QRvqLQkQg6d+xy2zRw09g8dM8P500FKRXRxd4LhgWgcGxYJ8
-         UH6NjRwTk2SGpK3vZWuLWGyF6Vx/5RYB180MA5dDdZdaAtLcRW0IeeG/ysRRSa9LhgY5
-         zwfmOaTyBXiKTfIy6KKJXgCKbWpT2+T4YuK8r8B9X3DUTAIRns5X7X7dE3o63dcrCYvQ
-         YirULQXceCn5+nnVDysXi07Ly60wvmRWwOa2fb1imjUP514soFyfarrbc2g+uJgDEekN
-         ftXw==
+        Fri, 9 Sep 2022 10:51:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CA6D128958
+        for <platform-driver-x86@vger.kernel.org>; Fri,  9 Sep 2022 07:51:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1662735070;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RDmzyTj6yyAaNS22AzOXgwt8mMLW4ZmpJdqP2JEuFYk=;
+        b=Skzk6Kmce8K2/mOsJik/0PDLHis61mfLBZHyCXvS72UuxzNPpnacqTshwIkOmq+rbteuF9
+        1ZFyTDkmsUcyeupwmbOiavaJMhtQFcyJrbdk3kVHQle48fhvrGegs8p1S7HOiDFIlV2zR2
+        TT+qUkJYhbP5V/KxVurdJSZuabo4ey8=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-457-XPvEYc3kOPiEHbj5O-sEqA-1; Fri, 09 Sep 2022 10:51:09 -0400
+X-MC-Unique: XPvEYc3kOPiEHbj5O-sEqA-1
+Received: by mail-ed1-f69.google.com with SMTP id b16-20020a056402279000b0044f1102e6e2so1468116ede.20
+        for <platform-driver-x86@vger.kernel.org>; Fri, 09 Sep 2022 07:51:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=61JNgHFLNVCOHtS3GBlVT+sTDzg02TjYElOUCZQYEf8=;
-        b=kNkLatYDxbq529oFJ8d5r0+9gzjVw5SXGRu4/N12VDFeJXrf12b84wM4In8216cD+k
-         9wH5QMN0OnRnxb6iRxS04+YIPUEgJ1vejEsoqfMcK6RP+b1cj9S/jw+il2Yt4tJDGb9g
-         nOwLf2xxezGOZM30qCC6tta2rbAib7Gxh3KJRr/NoqzWiTnamTFSE2crXze/jm89ANc6
-         hsubbpK1byymk1D5oXn0gYf/WfXPx2AI8EpBiIvOYZDMLBWZXsr+gBJ6yXUQso1mLujQ
-         vpGUChLuQ99ldBHEw7kPic08CN87a0FoUh0Ch9Fto8MYpwrb/j07v2F8ms2ZLAAblyS5
-         pByw==
-X-Gm-Message-State: ACgBeo2uesi7tZpDVeH8/0QV6emhnrBAnu1LeHHio/iv+8Fd/XcsAHwF
-        2N4+uvsN964MPpWhPoA2oHFT3R+azh9Qu+/hX7Q=
-X-Google-Smtp-Source: AA6agR5pDxHFw25CDcMptl4Z3majyQTFGkO8KTXo1ZlyynGajzTPdsCaQyhRuZoFil7XrTIQi03rH4D6hT+JftKO3CY=
-X-Received: by 2002:a05:6402:3491:b0:44e:ef59:d13b with SMTP id
- v17-20020a056402349100b0044eef59d13bmr6616295edc.406.1662638753171; Thu, 08
- Sep 2022 05:05:53 -0700 (PDT)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=RDmzyTj6yyAaNS22AzOXgwt8mMLW4ZmpJdqP2JEuFYk=;
+        b=3UyvVdPwKd1/GfH9Pkcq+O+yrFFGbc1cUGx/2eQMj9z7Ue+maIJpSst3Gu+PuOgDyh
+         WqV5h7MGEWMWgiYR4HC0mplK13mLTjIbP8ED2I02cRDI92dNvynwshzHXkwbfGiYmAzD
+         xafckbvrV4QOkj1OU4pBYQdTUzajdoZ39w16SLvnlaubn6FQR0di1c4Kg3h6yk9I/wgz
+         25Bma0D2lcuzo0944Mr8mNqzpE3snoEr68rqH2IbJrM+9GtUyuxCJZHl67xeW9KJDz/9
+         oP29dFp1C3+XUN/yF/eu2RAWRvuVcmzzyOb4tbsdnjHUWkjUak8hPObdEDWplRWWjX4H
+         +IoQ==
+X-Gm-Message-State: ACgBeo188rTYiaygY73agZ8u8SpWsxrJ6zph2/PTQWssxMGeCr8lrKqC
+        qyCiTKk8ReHoPnkiFgFJt/PwluMIsyChnsmtBMfmbzgP1CaTl5XlevSPVoCiZVUGo7q8wp5HHoc
+        caL8FB0SQ5u+sBTJx/rQbkh6SU/m4uQT/+Q==
+X-Received: by 2002:a17:906:ef8b:b0:730:d348:61b9 with SMTP id ze11-20020a170906ef8b00b00730d34861b9mr9979830ejb.350.1662735067799;
+        Fri, 09 Sep 2022 07:51:07 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5T5paU7+1Phk7eHCPPms1n7FrrH0d4/P27QhR0UAHXmj4VIXo8C3ckR+QH5DOsZEZ6SIhR1g==
+X-Received: by 2002:a17:906:ef8b:b0:730:d348:61b9 with SMTP id ze11-20020a170906ef8b00b00730d34861b9mr9979815ejb.350.1662735067569;
+        Fri, 09 Sep 2022 07:51:07 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:2a07:3a01:67e5:daf9:cec0:df6? (2001-1c00-2a07-3a01-67e5-daf9-cec0-0df6.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:67e5:daf9:cec0:df6])
+        by smtp.gmail.com with ESMTPSA id 23-20020a170906311700b0077958ddaec6sm349202ejx.186.2022.09.09.07.51.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Sep 2022 07:51:06 -0700 (PDT)
+Message-ID: <7bfed3df-3645-4a73-7658-34dc5a8bd47b@redhat.com>
+Date:   Fri, 9 Sep 2022 16:51:06 +0200
 MIME-Version: 1.0
-Received: by 2002:a17:906:749d:b0:743:2e24:e8cd with HTTP; Thu, 8 Sep 2022
- 05:05:52 -0700 (PDT)
-Reply-To: mrtonyelumelu98@gmail.com
-From:   "Mrs. Cristalina Georgieva" <nastyanastya88889@gmail.com>
-Date:   Thu, 8 Sep 2022 13:05:52 +0100
-Message-ID: <CADsX60Bvf2_ces3z8Fs1W_7JwdVCpLrY7wnqcii55g2uQQnRHA@mail.gmail.com>
-Subject: hi
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=2.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: **
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/2] drivers/platform: toshiba_acpi: Call
+ HCI_PANEL_POWER_ON on resume on some models
+Content-Language: en-US
+To:     Arvid Norlander <lkml@vorpal.se>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Mark Gross <mgross@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org, Andy Shevchenko <andy@infradead.org>,
+        platform-driver-x86@vger.kernel.org
+References: <20220905090005.333429-1-hdegoede@redhat.com>
+ <20220905090005.333429-2-hdegoede@redhat.com>
+ <ce4ba704-c02f-a417-e3a5-98f31bfd9a2d@vorpal.se>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <ce4ba704-c02f-a417-e3a5-98f31bfd9a2d@vorpal.se>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-2LXZhtiv2YjZgiDYp9mE2YbZgtivINin2YTYr9mI2YTZiiAoSS5NLkYpDQrYtNi52KjYqSDYpdiv
-2KfYsdipINin2YTYr9mK2YjZhiDYp9mE2K/ZiNmE2YrYqSDYjA0KIyAxOTAwINiMINi02KfYsdi5
-INin2YTYsdim2YrYsw0KDQrZhdix2K3YqNmL2Kcg2KjZg9mFINmB2Yog2LnZhtmI2KfZhiDYp9mE
-2KjYsdmK2K8g2KfZhNil2YTZg9iq2LHZiNmG2Yog2KfZhNix2LPZhdmKINmE2YTZhdiv2YrYsSBJ
-Lk0uRi4g2YPYsdmK2LPYqtin2YTZitmG2Kcg2KzZiNix2KzZitmB2KcNCg0KDQrYudiy2YrYstmK
-INin2YTZhdiz2KrZgdmK2K8hDQoNCtmE2YLYryDYs9mF2K0g2YTZhtinINmI2LLZitixINin2YTY
-rtiy2KfZhtipINin2YTZhdi52YrZhiDYrdiv2YrYq9mL2Kcg2YjYp9mE2YfZitim2Kkg2KfZhNit
-2KfZg9mF2Kkg2YTZhNiz2YTYt9ipINin2YTZhtmC2K/ZitipDQrZhNmE2KPZhdmFINin2YTZhdiq
-2K3Yr9ipINio2YHYrdi1INin2YTYo9mF2YjYp9mEINin2YTYqtmKINmE2YUg2KrYqtmFINin2YTZ
-hdi32KfZhNio2Kkg2KjZh9inINmI2KfZhNiq2Yog2YTYt9in2YTZhdinINmD2KfZhtiqDQrZhdiv
-2YrZhtipINmE2K3Zg9mI2YXYqSDYp9mE2KPZhdmFINin2YTZhdiq2K3Yr9ipINiMINmE2LDZhNmD
-INiq2YUg2KfYqtmH2KfZhSDZhdin2YTZg9mK2YfYpyDYqNin2YTYp9it2KrZitin2YQuDQrYp9mE
-2YXYrdiq2KfZhNmI2YYg2KfZhNiw2YrZhiDZitiz2KrYrtiv2YXZiNmGINin2LPZhSDYp9mE2KPZ
-hdmFINin2YTZhdiq2K3Yr9ipINiMINmI2YHZgtmL2Kcg2YTYs9is2YQg2KrYrtiy2YrZhiDYp9mE
-2KjZitin2YbYp9iqDQrZhdi5INi52YbZiNin2YYg2KfZhNio2LHZitivINin2YTYpdmE2YPYqtix
-2YjZhtmKINmE2YbYuNin2YXZhtinINij2KvZhtin2KEg2KfZhNiq2K3ZgtmK2YIg2KfZhNiw2Yog
-2KPYrNix2YrZhtin2Ycg2Iwg2YHYpdmGDQrYr9mB2LnYqtmDINmF2K/Ysdis2Kkg2YHZiiDZgtin
-2KbZhdipINiq2LbZhSAxNTAg2YXYs9iq2YHZitiv2YvYpyDZgdmKINin2YTZgdim2KfYqiDYp9mE
-2KrYp9mE2YrYqTog2LXZhtiv2YjZgiDZitin2YbYtdmK2KgNCti62YrYsSDZhdmP2LPZhNmO2ZHZ
-hSAvINi12YbYr9mI2YIg2YrYp9mG2LXZitioINi62YrYsSDZhdiv2YHZiNi5IC8g2YjYsdin2KvY
-qSDZhtmC2YQg2LrZitixINmF2YPYqtmF2YTYqSAvINij2YXZiNin2YQNCtin2YTYudmC2K8uDQoN
-CtmC2KfZhSDZhdiz2KTZiNmE2Ygg2KfZhNio2YbZgyDYp9mE2YHYp9iz2K8g2Iwg2KfZhNiw2YrZ
-hiDYp9ix2KrZg9io2YjYpyDYp9mE2YHYs9in2K8g2YXZhiDYo9is2YQg2KfZhNin2K3YqtmK2KfZ
-hCDYudmE2YkNCtij2YXZiNin2YTZgyDYjCDYqNiq2KPYrtmK2LEg2K/Zgdi52YMg2KjYtNmD2YQg
-2LrZitixINmF2LnZgtmI2YQg2Iwg2YXZhdinINij2K/ZiSDYpdmE2Ykg2KrYrdmF2YTZgyDYp9mE
-2YPYq9mK2LEg2YXZhg0K2KfZhNiq2YPYp9mE2YrZgSDZiNiq2KPYrtmK2LEg2LrZitixINmF2LnZ
-gtmI2YQg2YHZiiDZgtio2YjZhCDZhdiv2YHZiNi52KfYqtmDLiDYp9iu2KrYp9ix2Kog2KfZhNij
-2YXZhSDYp9mE2YXYqtit2K/YqQ0K2YjYtdmG2K/ZiNmCINin2YTZhtmC2K8g2KfZhNiv2YjZhNmK
-IChJTUYpINiv2YHYuSDYrNmF2YrYuSDYp9mE2KrYudmI2YrYttin2Kog2YTZgCAxNTAg2YXYs9iq
-2YHZitiv2YvYpyDYqNin2LPYqtiu2K/Yp9mFDQrYqNi32KfZgtin2KogVmlzYSBBVE0g2YXZhiDY
-o9mF2LHZitmD2Kcg2KfZhNi02YXYp9mE2YrYqSDZiNij2YXYsdmK2YPYpyDYp9mE2KzZhtmI2KjZ
-itipINmI2KfZhNmI2YTYp9mK2KfYqiDYp9mE2YXYqtit2K/YqQ0K2YjYo9mI2LHZiNio2Kcg2YjY
-otiz2YrYpyDZiNit2YjZhCDYp9mE2LnYp9mE2YUg2Iwg2K3ZitirINiq2KrZiNmB2LEg2KrZgtmG
-2YrYqSDYp9mE2K/Zgdi5INin2YTYudin2YTZhdmK2Kkg2YfYsNmHDQrZhNmE2YXYs9iq2YfZhNmD
-2YrZhiDZiNin2YTYtNix2YPYp9iqINmI2KfZhNmF2KTYs9iz2KfYqiDYp9mE2YXYp9mE2YrYqS4g
-2YjZitiz2YXYrSDZhNmE2K3Zg9mI2YXYp9iqINio2KfYs9iq2K7Yr9in2YUg2KfZhNi52YXZhNin
-2KoNCtin2YTYsdmC2YXZitipINio2K/ZhNin2Ysg2YXZhiDYp9mE2YbZgtivINmI2KfZhNi02YrZ
-g9in2KouDQoNCtmE2YLYryDZgtmF2YbYpyDYqNin2YTYqtix2KrZitioINmE2LPYr9in2K8g2YXY
-r9mB2YjYudin2KrZgyDYqNin2LPYqtiu2K/Yp9mFINio2LfYp9mC2KkgVmlzYSBBVE0g2YjYs9mK
-2KrZhSDYpdi12K/Yp9ix2YfYpw0K2YTZgyDZiNil2LHYs9in2YTZh9inINmF2KjYp9i02LHYqdmL
-INil2YTZiSDYudmG2YjYp9mG2YMg2LnYqNixINij2Yog2K7Yr9mF2KfYqiDYqNix2YrYryDYs9ix
-2YrYuSDZhdiq2KfYrdipLiDYqNi52K8NCtin2YTYp9iq2LXYp9mEINio2YbYpyDYjCDYs9mK2KrZ
-hSDYqtit2YjZitmEINmF2KjZhNi6IDHYjDUwMNiMMDAwLjAwINiv2YjZhNin2LEg2KPZhdix2YrZ
-g9mKINil2YTZiSDYqNi32KfZgtipIFZpc2ENCkFUTSDYjCDZiNin2YTYqtmKINiz2KrYs9mF2K0g
-2YTZgyDYqNiz2K3YqCDYo9mF2YjYp9mE2YMg2LnZhiDYt9ix2YrZgiDYs9it2Kgg2YXYpyDZhNin
-INmK2YLZhCDYudmGIDEw2IwwMDAg2K/ZiNmE2KfYsQ0K2KPZhdix2YrZg9mKINmB2Yog2KfZhNmK
-2YjZhSDZhdmGINij2Yog2YXYp9mD2YrZhtipINi12LHYp9mBINii2YTZiiDZgdmKINio2YTYr9mD
-LiDYqNmG2KfYodmLINi52YTZiSDYt9mE2KjZgyDYjCDZitmF2YPZhtmDDQrYstmK2KfYr9ipINin
-2YTYrdivINil2YTZiSAyMNiMMDAwLjAwINiv2YjZhNin2LEg2YHZiiDYp9mE2YrZiNmFLiDZgdmK
-INmH2LDYpyDYp9mE2LXYr9ivINiMINmK2KzYqCDYudmE2YrZgw0K2KfZhNin2KrYtdin2YQg2KjY
-pdiv2KfYsdipINin2YTZhdiv2YHZiNi52KfYqiDZiNin2YTYqtit2YjZitmE2KfYqiDYp9mE2K/Z
-iNmE2YrYqSDZiNiq2YLYr9mK2YUg2KfZhNmF2LnZhNmI2YXYp9iqINin2YTZhdi32YTZiNio2KkN
-CtmF2YYg2K7ZhNin2YQ6DQoNCjEuINin2LPZhdmDINin2YTZg9in2YXZhCAuLi4uLi4uLi4uLi4u
-Lg0KMi4g2LnZhtmI2KfZhtmDINin2YTZg9in2YXZhCAuLi4NCjMuINin2YTYrNmG2LPZitipIC4u
-Li4uLi4uLi4uLi4uLi4NCjQuINiq2KfYsdmK2K4g2KfZhNmF2YrZhNin2K8gLyDYp9mE2KzZhtiz
-IC4uLi4uLi4uLg0KNS4g2KfZhNiq2K7Ytdi1IC4uLg0KNi4g2LHZgtmFINin2YTZh9in2KrZgSAu
-Li4uLi4uLi4NCjcuINi52YbZiNin2YYg2KfZhNio2LHZitivINin2YTYpdmE2YPYqtix2YjZhtmK
-INmE2LTYsdmD2KrZgyAuLi4uLi4NCjguINi52YbZiNin2YYg2KfZhNio2LHZitivINin2YTYpdmE
-2YPYqtix2YjZhtmKINin2YTYtNiu2LXZiiAuLi4uLi4NCg0KDQrZhNiq2K3Yr9mK2K8g2YfYsNin
-INin2YTYsdmF2LIgKNin2YTYsdin2KjYtzogQ0xJRU5ULTk2Ni8xNikg2Iwg2KfYs9iq2K7Yr9mF
-2Ycg2YPZhdmI2LbZiNi5INmE2YTYqNix2YrYrw0K2KfZhNil2YTZg9iq2LHZiNmG2Yog2KfZhNiu
-2KfYtSDYqNmDINmI2K3Yp9mI2YQg2KrZgtiv2YrZhSDYp9mE2YXYudmE2YjZhdin2Kog2KfZhNmF
-2LDZg9mI2LHYqSDYo9i52YTYp9mHINil2YTZiSDYp9mE2YXZiNi42YHZitmGDQrYp9mE2KrYp9mE
-2YrZitmGINmE2KXYtdiv2KfYsSDZiNiq2LPZhNmK2YUg2KjYt9in2YLYqSBWaXNhIEFUTSDYmw0K
-DQrZhtmI2LXZitmDINio2YHYqtitINi52YbZiNin2YYg2KjYsdmK2K8g2KXZhNmD2KrYsdmI2YbZ
-iiDYtNiu2LXZiiDYqNix2YLZhSDYrNiv2YrYryDZhNmE2LPZhdin2K0g2YTZiNmD2YrZhCDYp9mE
-2KjZhtmDINio2KrYqtio2LkNCtmH2LDZhyDYp9mE2YXYr9mB2YjYudin2Kog2YjYqtio2KfYr9mE
-INin2YTYsdiz2KfYptmEINmE2YXZhti5INin2YTZhdiy2YrYryDZhdmGINin2YTYqtij2K7Zitix
-INij2Ygg2KfZhNiq2YjYrNmK2Ycg2KfZhNiu2KfYt9imDQrZhNij2YXZiNin2YTZgy4g2KfYqti1
-2YQg2KjZiNmD2YrZhCDYp9mE2KjZhtmDINin2YTYpdmB2LHZitmC2Yog2KfZhNmF2KrYrdivINin
-2YTYotmGINio2KfYs9iq2K7Yr9in2YUg2YXYudmE2YjZhdin2KoNCtin2YTYp9iq2LXYp9mEINij
-2K/Zhtin2Yc6DQoNCtin2YTYtNiu2LUg2KfZhNmF2LPYpNmI2YQ6INin2YTYs9mK2K8g2KrZiNmG
-2Yog2KXZhNmI2YXZitmE2YgNCtil2K/Yp9ix2Kkg2KrYrdmI2YrZhCDYo9mF2YjYp9mEINin2YTY
-qti52YjZiti22KfYqiDYjCDYrNmH2Kkg2KfZhNin2KrYtdin2YQg2KjYp9mE2KjYsdmK2K8g2KfZ
-hNil2YTZg9iq2LHZiNmG2Yog2YTYqNmG2YMNCtil2YHYsdmK2YLZitinINin2YTZhdiq2K3Yrzog
-KG1ydG9ueWVsdW1lbHU5OEBnbWFpbC5jb20pDQoNCtmG2K3Yqtin2Kwg2KXZhNmJINix2K8g2LPY
-sdmK2Lkg2LnZhNmJINmH2LDYpyDYp9mE2KjYsdmK2K8g2KfZhNil2YTZg9iq2LHZiNmG2Yog2YTY
-qtis2YbYqCDYp9mE2YXYstmK2K8g2YXZhiDYp9mE2KrYo9iu2YrYsS4NCg0K2LXYr9mK2YLZgyDY
-p9mE2YXYrtmE2LUNCtin2YTYs9mR2YrYr9ipLiDZg9ix2YrYs9iq2KfZhNmK2YbYpyDYrNmI2LHY
-rNmK2YHYpw0K
+Hi,
+
+On 9/5/22 11:37, Arvid Norlander wrote:
+> Hi,
+> 
+> On 2022-09-05 11:00, Hans de Goede wrote:
+>> Some Toshibas have a broken acpi-video interface for brightness control, so
+>> far these have been using a special workaround in drivers/acpi/acpi_video.c
+>> which gets activated by the disable_backlight_sysfs_if module-param/quirks.
+>>
+>> The recent x86/acpi backlight refactoring has broken this workaround:
+>> 1. This workaround relies on acpi_video_get_backlight_type() returning
+>>    acpi_video so that the acpi_video code actually runs; and
+>> 2. this relies on the actual native GPU driver to offer the sysfs
+>>    backlight interface to userspace.
+>>
+>> After the refactor this breaks since the native driver will no
+>> longer register its backlight-device if acpi_video_get_backlight_type()
+>> does not return native and making it return native breaks 1.
+>>
+>> Keeping the acpi_video backlight handling on resume active, while not
+>> using it to set the brightness, is necessary because it does a _BCM
+>> call on resume which is necessary to turn the panel back on on resume.
+>>
+>> Looking at the DSDT shows that this _BCM call results in a Toshiba
+>> HCI_SET HCI_LCD_BRIGHTNESS call, which turns the panel back on.
+>>
+>> This commit makes toshiba_acpi do a HCI_SET HCI_PANEL_POWER_ON call
+>> on resume on the affected models, so that the (now broken)
+>> acpi_video disable_backlight_sysfs_if workaround will no longer
+>> be necessary.
+>>
+>> Note this uses HCI_PANEL_POWER_ON instead of HCI_LCD_BRIGHTNESS
+>> to avoid changing the configured brightness level.
+> 
+> With the previous ACPI Video based approach this quirk was possible to
+> control from the kernel command line. This does not seem to be the case
+> here. This raises the difficulty for users with as of yet unlisted models
+> to test if this quirk would help. Would it be worth adding support for the
+> enabling this from the kernel command line?
+
+Yes that is a good idea, I will send out a v2 where this becomes a
+module parameter for the toshiba_acpi module.
+
+> 
+>>
+>> Fixes: b1d36e73cc1c ("drm/i915: Don't register backlight when another backlight should be used (v2)")
+>> Tested-by: Arvid Norlander <lkml@vorpal.se>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>  drivers/platform/x86/toshiba_acpi.c | 46 +++++++++++++++++++++++++++++
+>>  1 file changed, 46 insertions(+)
+>>
+>> diff --git a/drivers/platform/x86/toshiba_acpi.c b/drivers/platform/x86/toshiba_acpi.c
+>> index 030dc37d50b8..826ffac4af1c 100644
+>> --- a/drivers/platform/x86/toshiba_acpi.c
+>> +++ b/drivers/platform/x86/toshiba_acpi.c
+>> @@ -23,6 +23,7 @@
+>>  #define PROC_INTERFACE_VERSION	1
+>>  
+>>  #include <linux/compiler.h>
+>> +#include <linux/dmi.h>
+>>  #include <linux/kernel.h>
+>>  #include <linux/module.h>
+>>  #include <linux/moduleparam.h>
+>> @@ -100,6 +101,7 @@ MODULE_LICENSE("GPL");
+>>  #define TOS_NOT_INSTALLED		0x8e00
+>>  
+>>  /* Registers */
+>> +#define HCI_PANEL_POWER_ON		0x0002
+>>  #define HCI_FAN				0x0004
+>>  #define HCI_TR_BACKLIGHT		0x0005
+>>  #define HCI_SYSTEM_EVENT		0x0016
+>> @@ -206,6 +208,7 @@ struct toshiba_acpi_dev {
+>>  
+>>  	bool kbd_event_generated;
+>>  	bool killswitch;
+>> +	bool turn_on_panel_on_resume;
+> 
+> You added this bool to the section that changes at runtime, rather than
+> the feature section just above.
+> 
+> Also, many of the bools are bitfields, especially (almost) all the ones
+> that are about detecting a feature once then setting it. (I belive
+> "special_functions" is an exception since it can take more values, and
+> when I add support for the non-working buttons on the 830 this will be
+> significant).
+> 
+> In summary I thus believe it would make sense to add your new boolean to
+> bitfield section above this one.
+
+Making this a module-parameter will make it a global variable,
+completely moving it out of the struct. See the v2 which I will
+send out shortly.
+
+Regards,
+
+Hans
+
+
+
+> 
+>>  };
+>>  
+>>  static struct toshiba_acpi_dev *toshiba_acpi;
+>> @@ -2999,6 +3002,43 @@ static const char *find_hci_method(acpi_handle handle)
+>>  	return NULL;
+>>  }
+>>  
+>> +/*
+>> + * Some Toshibas have a broken acpi-video interface for brightness control,
+>> + * these are quirked in drivers/acpi/video_detect.c to use the GPU native
+>> + * (/sys/class/backlight/intel_backlight) instead.
+>> + * But these need a HCI_SET call to actually turn the panel back on at resume,
+>> + * without this call the screen stays black at resume.
+>> + * Either HCI_LCD_BRIGHTNESS (used by acpi_video's _BCM) or HCI_PANEL_POWER_ON
+>> + * works. toshiba_acpi_resume() uses HCI_PANEL_POWER_ON to avoid changing
+>> + * the configured brightness level.
+>> + */
+>> +static const struct dmi_system_id turn_on_panel_on_resume_dmi_ids[] = {
+>> +	{
+>> +	 /* Toshiba Portégé R700 */
+>> +	 /* https://bugzilla.kernel.org/show_bug.cgi?id=21012 */
+>> +	 .matches = {
+>> +		DMI_MATCH(DMI_SYS_VENDOR, "TOSHIBA"),
+>> +		DMI_MATCH(DMI_PRODUCT_NAME, "PORTEGE R700"),
+>> +		},
+>> +	},
+>> +	{
+>> +	 /* Toshiba Satellite/Portégé R830 */
+>> +	 /* Portégé: https://bugs.freedesktop.org/show_bug.cgi?id=82634 */
+>> +	 /* Satellite: https://bugzilla.kernel.org/show_bug.cgi?id=21012 */
+>> +	 .matches = {
+>> +		DMI_MATCH(DMI_SYS_VENDOR, "TOSHIBA"),
+>> +		DMI_MATCH(DMI_PRODUCT_NAME, "R830"),
+>> +		},
+>> +	},
+>> +	{
+>> +	 /* Toshiba Satellite/Portégé Z830 */
+>> +	 .matches = {
+>> +		DMI_MATCH(DMI_SYS_VENDOR, "TOSHIBA"),
+>> +		DMI_MATCH(DMI_PRODUCT_NAME, "Z830"),
+>> +		},
+>> +	},
+>> +};
+>> +
+>>  static int toshiba_acpi_add(struct acpi_device *acpi_dev)
+>>  {
+>>  	struct toshiba_acpi_dev *dev;
+>> @@ -3141,6 +3181,9 @@ static int toshiba_acpi_add(struct acpi_device *acpi_dev)
+>>  	ret = get_fan_status(dev, &dummy);
+>>  	dev->fan_supported = !ret;
+>>  
+>> +	dev->turn_on_panel_on_resume =
+>> +		dmi_check_system(turn_on_panel_on_resume_dmi_ids);
+>> +
+>>  	toshiba_wwan_available(dev);
+>>  	if (dev->wwan_supported)
+>>  		toshiba_acpi_setup_wwan_rfkill(dev);
+>> @@ -3257,6 +3300,9 @@ static int toshiba_acpi_resume(struct device *device)
+>>  			rfkill_set_hw_state(dev->wwan_rfk, !dev->killswitch);
+>>  	}
+>>  
+>> +	if (dev->turn_on_panel_on_resume)
+>> +		hci_write(dev, HCI_PANEL_POWER_ON, 1);
+>> +
+>>  	return 0;
+>>  }
+>>  #endif
+> 
+> Best regards,
+> Arvid Norlander
+> 
+
+
