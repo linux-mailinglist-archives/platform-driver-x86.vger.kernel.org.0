@@ -2,48 +2,48 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 340175B49B6
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 10 Sep 2022 23:22:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 988F25B4A04
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 10 Sep 2022 23:25:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230011AbiIJVW1 (ORCPT
+        id S231228AbiIJVZb (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 10 Sep 2022 17:22:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42732 "EHLO
+        Sat, 10 Sep 2022 17:25:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230383AbiIJVVm (ORCPT
+        with ESMTP id S231430AbiIJVYL (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 10 Sep 2022 17:21:42 -0400
+        Sat, 10 Sep 2022 17:24:11 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D9724F667;
-        Sat, 10 Sep 2022 14:18:36 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA8C44E615;
+        Sat, 10 Sep 2022 14:20:41 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 179CFB80943;
-        Sat, 10 Sep 2022 21:18:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2C23C43140;
-        Sat, 10 Sep 2022 21:18:29 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7A9C5B80943;
+        Sat, 10 Sep 2022 21:19:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76B64C4347C;
+        Sat, 10 Sep 2022 21:18:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662844710;
-        bh=tsW+DTT6znUFkdm+6frZ1ZNI7hnR2AHb0jpdcpRlyKI=;
+        s=k20201202; t=1662844739;
+        bh=r3AOt/UinTmkKytVgah9WWipiOgfRN/VZBI8HsmGJPg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Vv4+++c7MMZS3ki3WlzNruLS65UW2H9a4uv3rJRN0N486sCgLZwkDSeKvHwysAvoA
-         Vi2I+H4HtRRyXlVSLLRyjn0Jb/t552kJqQWWdJx90oO4tUnqDmHmjGPxmgI838Yksh
-         wgfT6KR+/IthoX/xu3pY1SelNCS9AWDHAHbfQcg6cgRRUaJeFnmst8hOizpfUxGgL1
-         OfosQAJSOSMcKGhNWWYTcYEjbrv1rqXJJL2bmw66HhCB2kjgwyhoT5Lxhk+gp0oNHC
-         ZCYj/h98ObaYW4W8I4nrNySWoFqd48NDh1phSTDPbSS1VxUScidnafxNAKDPVzGKUB
-         4fs972g+Q6PvA==
+        b=MNCBFaTPEy/IK8IJf5daa8NpGgwFrunJPaMYvbF7eHpk0r0MNLK0gZWCu3cyJoPaE
+         cufjxU1Wb6J5Gw7hfzNNbJigcis5S9qDXDsJewK1SzeLlbGmOw7IzgDg8RT5xuCjxW
+         w+7bp50rwdBwHJxNbOn5lumxJbg0bEzYyHzdubDQSKjpmA28YIxCon/fpJCeLmaBj9
+         3npPF1E3yTnQq5SA2SSrUHRQjjEIJetUTadLdQMLBYYm0f9WSHhYHFsfZERZyDsAIc
+         pFHbaC+UjoUP6WZSLGPAKuwH28Vbut5QftfQmPyEsIjHjzsmh0Mv0cRJ4d5rYzW0vG
+         ph5mX3HupOTBw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Sasha Levin <sashal@kernel.org>, jlee@suse.com,
         markgross@kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 20/21] platform/x86: acer-wmi: Acer Aspire One AOD270/Packard Bell Dot keymap fixes
-Date:   Sat, 10 Sep 2022 17:17:51 -0400
-Message-Id: <20220910211752.70291-20-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 13/14] platform/x86: acer-wmi: Acer Aspire One AOD270/Packard Bell Dot keymap fixes
+Date:   Sat, 10 Sep 2022 17:18:31 -0400
+Message-Id: <20220910211832.70579-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220910211752.70291-1-sashal@kernel.org>
-References: <20220910211752.70291-1-sashal@kernel.org>
+In-Reply-To: <20220910211832.70579-1-sashal@kernel.org>
+References: <20220910211832.70579-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -82,10 +82,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
-index 694b45ed06a21..8c2a73d5428d7 100644
+index 80983f9dfcd55..8e696262215fc 100644
 --- a/drivers/platform/x86/acer-wmi.c
 +++ b/drivers/platform/x86/acer-wmi.c
-@@ -99,6 +99,7 @@ static const struct key_entry acer_wmi_keymap[] __initconst = {
+@@ -93,6 +93,7 @@ static const struct key_entry acer_wmi_keymap[] __initconst = {
  	{KE_KEY, 0x22, {KEY_PROG2} },    /* Arcade */
  	{KE_KEY, 0x23, {KEY_PROG3} },    /* P_Key */
  	{KE_KEY, 0x24, {KEY_PROG4} },    /* Social networking_Key */
@@ -93,7 +93,7 @@ index 694b45ed06a21..8c2a73d5428d7 100644
  	{KE_KEY, 0x29, {KEY_PROG3} },    /* P_Key for TM8372 */
  	{KE_IGNORE, 0x41, {KEY_MUTE} },
  	{KE_IGNORE, 0x42, {KEY_PREVIOUSSONG} },
-@@ -112,7 +113,13 @@ static const struct key_entry acer_wmi_keymap[] __initconst = {
+@@ -106,7 +107,13 @@ static const struct key_entry acer_wmi_keymap[] __initconst = {
  	{KE_IGNORE, 0x48, {KEY_VOLUMEUP} },
  	{KE_IGNORE, 0x49, {KEY_VOLUMEDOWN} },
  	{KE_IGNORE, 0x4a, {KEY_VOLUMEDOWN} },
