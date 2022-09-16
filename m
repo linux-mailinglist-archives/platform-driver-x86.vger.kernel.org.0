@@ -2,175 +2,99 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A69815BA390
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Sep 2022 02:46:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9692A5BAE40
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Sep 2022 15:35:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229625AbiIPAqm (ORCPT
+        id S231682AbiIPNf3 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 15 Sep 2022 20:46:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59608 "EHLO
+        Fri, 16 Sep 2022 09:35:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbiIPAql (ORCPT
+        with ESMTP id S231345AbiIPNf0 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 15 Sep 2022 20:46:41 -0400
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E427857D3;
-        Thu, 15 Sep 2022 17:46:39 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id E565F5C017D;
-        Thu, 15 Sep 2022 20:46:35 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Thu, 15 Sep 2022 20:46:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
-        :cc:content-transfer-encoding:date:date:from:from:in-reply-to
-        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
-         s=fm3; t=1663289195; x=1663375595; bh=rAkof9cLu14wZYnqIpfOS4n0J
-        VHqZxl+jYCd09cLVKY=; b=X47oEd+kRy1T93c3u71EhvDRT62E+nXn2dWnITtr4
-        cuwTtCSCl8KDHRDqo0Ee3tvfQIo9RJBRSLWoRal1BP0w6f0bUft/CoLjt+ku1xyW
-        RT3BEzyX9dEjbm5tqyTePkB/C+hIsfjJ1sbjzEHZuS4uIwOU8Jy6iQGHTWfZy/oL
-        SHJSeIGT7+jrXnuEoo5hA2JOaWVxRDYJGotYKzI8IPg3L5S+SDqbZG0XJT0k0CRN
-        v28ueZUrWm1BDTN6ZFaemBIrJAv7+5IFvNlozbW8RKGg1Tp6qsJSLpYKKWnc55s6
-        IvOHwd3k7dCiPNJ90omK8jrTe7csVz1Z7JSfS5s2bCdwA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:message-id
-        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-        1663289195; x=1663375595; bh=rAkof9cLu14wZYnqIpfOS4n0JVHqZxl+jYC
-        d09cLVKY=; b=s5r/DnE58+V/FA+vJPkSoBP+ekYsWfHz0p8B5zBEelIKPbIfC/4
-        BYL+PAngH1pwdTiQfo9HgFJaeZJVq6WKNT/lFon1hw8bOuNPtKFpKtCTJ7q5n1+z
-        OAN4rH3RaLCoQN9YTPNMR8M6IuOD9ODJwyhyTrOxbMPOW2X8lEKSbkcaxP8yJM6V
-        44Nu2vzesit8AHbnxvDYUq4lNxsxT+Y1egg+5R7ctkdWATe7l2cTe5u0iVHpKEV/
-        wEZcStl997WNSI+bqHMiHPNAd2bAGVRK/twIJgfZj13bmhNA3nsBCQp+bYuM0SGA
-        ddEiwM0GigZUu5/PgOBQ8eR2zQrzyk+MFOg==
-X-ME-Sender: <xms:a8cjY9zSAPf4piQfz61oPxvOtDtUW6jggpbzGYc1eFLIhW6q7InnPw>
-    <xme:a8cjY9SLkVuZdOzcm6l5jFoTllQ3Tx3mFjYE-ZM2KbMUyowP9OPFtXPWrxgBQHX3n
-    3mJsSKKkYCCfREUR4s>
-X-ME-Received: <xmr:a8cjY3VZaXdo2ECubPKsjSIXWhdLmoJ-F8Qb6ozc7ptXiggDmSdzcZ4AEIhL>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeduledgfeehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
-    ertddtnecuhfhrohhmpedfnfhukhgvucffrdculfhonhgvshdfuceolhhukhgvsehljhho
-    nhgvshdruggvvheqnecuggftrfgrthhtvghrnhepgfdujedthfduudekffefkeeiffdttd
-    dvhfegudduueffuefhfefggeefteevvdegnecuvehluhhsthgvrhfuihiivgeptdenucfr
-    rghrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvh
-X-ME-Proxy: <xmx:a8cjY_ig-bApxXRDRSe0HzSOLe3pTdJrg_qlbVuqrcfiiymuDovoRw>
-    <xmx:a8cjY_AdzFHnOwbceWH-6rCfH6W-7zbQitbVRM8QsaSeIfpE00almA>
-    <xmx:a8cjY4L79HAueiZ1tj7VzseDDoK-tL1vTAFrCgo0rEJTK0zzmduggA>
-    <xmx:a8cjYxCzhTHJeWTzykE5Ex_mzOJ-72zPhKSevgUtu_Ogvpe4-8qCXA>
-Feedback-ID: i5ec1447f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 15 Sep 2022 20:46:30 -0400 (EDT)
-From:   "Luke D. Jones" <luke@ljones.dev>
-To:     hdegoede@redhat.com
-Cc:     markgross@kernel.org, corentin.chary@gmail.com, linux@roeck-us.net,
-        jdelvare@suse.com, acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, "Luke D. Jones" <luke@ljones.dev>
-Subject: [PATCH] asus-wmi: Expand support of GPU fan to read RPM and label
-Date:   Fri, 16 Sep 2022 12:46:23 +1200
-Message-Id: <20220916004623.10992-1-luke@ljones.dev>
-X-Mailer: git-send-email 2.37.3
+        Fri, 16 Sep 2022 09:35:26 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 708504A120
+        for <platform-driver-x86@vger.kernel.org>; Fri, 16 Sep 2022 06:35:25 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id n23-20020a17090a091700b00202a51cc78bso19451164pjn.2
+        for <platform-driver-x86@vger.kernel.org>; Fri, 16 Sep 2022 06:35:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date;
+        bh=FcyQcUXi9xALQQ6Lm7VNXiWYStBjH/LCUTADg6v4m+k=;
+        b=XBgI6ZlxmVZJbSOGVrVn4ynHthe1TjLbMLt+ayh57JNlHB099nou1IKB9vCUUFQDEx
+         k/fD4T8kRegnEhHpLrtEKjPwXlL1sbx/ycvFoIY4apD86k3NoI0AoCCM97tfpqzFfLmc
+         GIPOGZVQM5+OJVKphzap/IfpiJln1AmkGDlmhec5EFseeTYXVrPqFlZCLw0omWNze7dT
+         hfxVycXEcJNhVl7HZ+ITDWMyQWDUxZ/A5vRZaHbUxVUX2qksXIduCJiPPrzmnGBWqUya
+         t050uVC/vabnjK/IdABQgcg7qylpSRoH176zYT/ouCsaV7zC0CY4bGMITzL+7U8LPj9s
+         kUkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=FcyQcUXi9xALQQ6Lm7VNXiWYStBjH/LCUTADg6v4m+k=;
+        b=k6Nybv4qER+VT8zJNrkUUGPodrNp3J9tK+NxuIW7vB1whmYrXo+8CkBbYRruEwKsxQ
+         yyvs9LzIPQqQwb1i1lg67/uZaXqvkbL7tYBlLB9FAKHU9W4BMctZdZxbpxsbZKZe3Rze
+         wkFmDAP52AbIOJeUhRsVHRtYA9XDNVKak11WJwvNDjtzSn5OC7OX2nj5nGgkkGpM6xDn
+         BdUZdzCv3gCAJdaoLUUSSgg46GWzBtsngkOe2CMVlQyntvR2WgX4e5soFbBALzG19Ndi
+         SpmQ+WTnqEhA1Hwi7YUOXc53czyK0IFC5UEDwR2EJ+OkqQzn4s+xJDuQLsYV+IS5+B/z
+         Lp+w==
+X-Gm-Message-State: ACrzQf0h2PSpw+5dzm/gMhHeXkS0MMtCWDwkoYDVngRb1piwt4ByhOJj
+        p1Ba3YwMSrpmDeO6JSWj1w5GwLQE2Yl7kOEnojo=
+X-Google-Smtp-Source: AMsMyM7a/9Gl0doc8PT0Z+Zg4Xeg5lrFx5rHzKI8eQeU8iCHnIFlNKvH0ZiL10n2KlC3qcaoLXtnIKvEtlUO400Mzjk=
+X-Received: by 2002:a17:90b:4c8f:b0:202:bcbb:1984 with SMTP id
+ my15-20020a17090b4c8f00b00202bcbb1984mr16081621pjb.64.1663335324869; Fri, 16
+ Sep 2022 06:35:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a17:902:7787:b0:173:104b:45f5 with HTTP; Fri, 16 Sep 2022
+ 06:35:24 -0700 (PDT)
+Reply-To: maryalbertt00045@gmail.com
+From:   Mary Albert <edithbrown044@gmail.com>
+Date:   Fri, 16 Sep 2022 14:35:24 +0100
+Message-ID: <CALdG5eq90Bmc6HmZ=CDk5mBdwNaME=aLeTXc5ch_UHmZz9DLWw@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:102d listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4866]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [edithbrown044[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [maryalbertt00045[at]gmail.com]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [edithbrown044[at]gmail.com]
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The previously added patch to add support for pwm change for TUF laptops
-also is usuable for more than TUF. The same method `0x00110014` is
-used to read the fan RPM.
-
-Add two extra attributes for reading fan2 plus fan2 label.
-
-Signed-off-by: Luke D. Jones <luke@ljones.dev>
----
- drivers/platform/x86/asus-wmi.c | 36 +++++++++++++++++++++++++++++++--
- 1 file changed, 34 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index ae46af731de9..7fe6ce25da0a 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -72,6 +72,7 @@ module_param(fnlock_default, bool, 0444);
- 
- #define ASUS_WMI_FNLOCK_BIOS_DISABLED	BIT(0)
- 
-+#define ASUS_GPU_FAN_DESC		"gpu_fan"
- #define ASUS_FAN_DESC			"cpu_fan"
- #define ASUS_FAN_MFUN			0x13
- #define ASUS_FAN_SFUN_READ		0x06
-@@ -2078,6 +2079,30 @@ static ssize_t asus_hwmon_temp1(struct device *dev,
- }
- 
- /* GPU fan on modern ROG laptops */
-+static ssize_t fan2_input_show(struct device *dev,
-+					struct device_attribute *attr,
-+					char *buf)
-+{
-+	struct asus_wmi *asus = dev_get_drvdata(dev);
-+	int value;
-+	int ret;
-+
-+	ret = asus_wmi_get_devstate(asus, ASUS_WMI_DEVID_GPU_FAN_CTRL, &value);
-+	if (ret < 0)
-+		return ret;
-+
-+	value &= 0xffff;
-+
-+	return sysfs_emit(buf, "%d\n", value < 0 ? -1 : value * 100);
-+}
-+
-+static ssize_t fan2_label_show(struct device *dev,
-+					  struct device_attribute *attr,
-+					  char *buf)
-+{
-+	return sprintf(buf, "%s\n", ASUS_GPU_FAN_DESC);
-+}
-+
- static ssize_t pwm2_enable_show(struct device *dev,
- 				struct device_attribute *attr,
- 				char *buf)
-@@ -2127,9 +2152,12 @@ static ssize_t pwm2_enable_store(struct device *dev,
- /* Fan1 */
- static DEVICE_ATTR_RW(pwm1);
- static DEVICE_ATTR_RW(pwm1_enable);
--static DEVICE_ATTR_RW(pwm2_enable);
- static DEVICE_ATTR_RO(fan1_input);
- static DEVICE_ATTR_RO(fan1_label);
-+/* Fan2 - GPU fan */
-+static DEVICE_ATTR_RW(pwm2_enable);
-+static DEVICE_ATTR_RO(fan2_input);
-+static DEVICE_ATTR_RO(fan2_label);
- 
- /* Temperature */
- static DEVICE_ATTR(temp1_input, S_IRUGO, asus_hwmon_temp1, NULL);
-@@ -2140,6 +2168,8 @@ static struct attribute *hwmon_attributes[] = {
- 	&dev_attr_pwm2_enable.attr,
- 	&dev_attr_fan1_input.attr,
- 	&dev_attr_fan1_label.attr,
-+	&dev_attr_fan2_input.attr,
-+	&dev_attr_fan2_label.attr,
- 
- 	&dev_attr_temp1_input.attr,
- 	NULL
-@@ -2160,7 +2190,9 @@ static umode_t asus_hwmon_sysfs_is_visible(struct kobject *kobj,
- 	    || attr == &dev_attr_pwm1_enable.attr) {
- 		if (asus->fan_type == FAN_TYPE_NONE)
- 			return 0;
--	} else if (attr == &dev_attr_pwm2_enable.attr) {
-+	} else if (attr == &dev_attr_fan2_input.attr
-+	    || attr == &dev_attr_fan2_label.attr
-+	    || attr == &dev_attr_pwm2_enable.attr) {
- 		if (asus->gpu_fan_type == FAN_TYPE_NONE)
- 			return 0;
- 	} else if (attr == &dev_attr_temp1_input.attr) {
 -- 
-2.37.3
-
+Hello,
+how are you?
