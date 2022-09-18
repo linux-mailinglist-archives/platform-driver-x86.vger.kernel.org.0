@@ -1,106 +1,95 @@
 Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD96E5BBA8B
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 17 Sep 2022 23:04:16 +0200 (CEST)
+Received: from out1.vger.email (unknown [IPv6:2620:137:e000::1:20])
+	by mail.lfdr.de (Postfix) with ESMTP id 960EB5BBC44
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 18 Sep 2022 09:16:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229462AbiIQVEO (ORCPT
+        id S229501AbiIRHQe (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 17 Sep 2022 17:04:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53156 "EHLO
+        Sun, 18 Sep 2022 03:16:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229455AbiIQVEM (ORCPT
+        with ESMTP id S229498AbiIRHQe (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 17 Sep 2022 17:04:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB5672C658
-        for <platform-driver-x86@vger.kernel.org>; Sat, 17 Sep 2022 14:04:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663448650;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=eD055yD72ytGrWLwmCULS6WL+LR1pBuSfH6qBO8xEO4=;
-        b=Cl50aESIzxtgK4gKN1nwGJHoZFg/dgvqJKOim0cbIsuc2ZZeXl34hNsF9tTQY/fM6vSQl6
-        h6KFNRcg6rzdL6pWcaz1ni8ZX7acu5mR5Gdn7WIJwtEqEglUX8VdUTxkzDZbThoh0noQCo
-        A/8uiHMBbXmNTcwhYnpC7ryAUy2RDo4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-673-x78qWhOtMcKhy6snsvkcJg-1; Sat, 17 Sep 2022 17:04:08 -0400
-X-MC-Unique: x78qWhOtMcKhy6snsvkcJg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 849A8811726;
-        Sat, 17 Sep 2022 21:04:08 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.28])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id D06672166B26;
-        Sat, 17 Sep 2022 21:04:07 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH] platform/x86: msi-laptop: Change DMI match / alias strings to fix module autoloading
-Date:   Sat, 17 Sep 2022 23:04:07 +0200
-Message-Id: <20220917210407.647432-1-hdegoede@redhat.com>
+        Sun, 18 Sep 2022 03:16:34 -0400
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A0D3140E1
+        for <platform-driver-x86@vger.kernel.org>; Sun, 18 Sep 2022 00:16:33 -0700 (PDT)
+Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-3452214cec6so306656647b3.1
+        for <platform-driver-x86@vger.kernel.org>; Sun, 18 Sep 2022 00:16:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date;
+        bh=FcyQcUXi9xALQQ6Lm7VNXiWYStBjH/LCUTADg6v4m+k=;
+        b=Mu8Fn4C0YnsMlj+J4NrMcn8c1yCIW1Q32SMhc1R9Hp3JbedOK8uhvtvFmyaiYqsJbD
+         tWoN2/oHGGY6tE9qf/HoanJLXCxXnmFFYOS2znZjWzGpP6bguTOFnO3i1F0HlszX4oyh
+         79AqpgF7L0y8jGEU632oA+FC6qhqeN2bZGT525xVbGSUdt+zyX8UnTP0jTogbaUaD2cl
+         kH0rUXLj6i4FJ3zRbH0sbC+fEB2vcV4ohWr5uT7TM05774GTetFsRRWpfNE52ZgImMN6
+         ZZlV6Eunyq4OqvPsvMwV6xELfZbHqmSq/zkuLCSzVBnp3sVxHvZ0x97f/SDHUQ1ojM4R
+         iwnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=FcyQcUXi9xALQQ6Lm7VNXiWYStBjH/LCUTADg6v4m+k=;
+        b=X3SsTSB8LM+W7kjQa49cQNVrZeFEFKRD/EC3kinqAtN/vy6NeNpr64qJfxhp0xtcBl
+         ENA0JKetx9EcUSbfJvWncAoF6N8qOVUhiCginbtdEUP3s/EVqNyeEEFLxid4jrkAL89m
+         4QpEdmQjU/y4lXLcbUCRrDO9xAGvoi1t1wugoBJNnj9NUoRr3mKePtQgO/GO/1evAiV9
+         TURx7TGqIrmroBKI1+TRYGFJyjuP3wOJ3sqmO0QkKwjRuJ5vAkUK6VyC0aemWnRp1zu3
+         965Omi7l/hyqsgZ420KWosWW+sU8WuSFwOxj1K07eOc92QGaCRlW5kDpwQweW86i89As
+         Ot6w==
+X-Gm-Message-State: ACrzQf3WYYe6cUAOMwmzqU3BtSTifCsh+o1pc73gNfGd3+ZOmbTfQI9B
+        uvpgoj5jm3n7w96i4n4qsAgQ7AwU3HPm9TIRpKI=
+X-Google-Smtp-Source: AMsMyM630npuxh3uD/y5OJ0mP9tRbc5nf583vg92Liwx+QDiWddCX1YtgjmK944DwknsDruqgt+DaVcpxq6khGOg+hQ=
+X-Received: by 2002:a0d:d881:0:b0:349:241c:b164 with SMTP id
+ a123-20020a0dd881000000b00349241cb164mr10892763ywe.372.1663485392800; Sun, 18
+ Sep 2022 00:16:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a25:f87:0:0:0:0:0 with HTTP; Sun, 18 Sep 2022 00:16:32 -0700 (PDT)
+Reply-To: maryalbertt00045@gmail.com
+From:   Mary Albert <ourogounimouhamed@gmail.com>
+Date:   Sun, 18 Sep 2022 08:16:32 +0100
+Message-ID: <CAHwLVq6V36bkONyvwWM5T8Wr-P67YXYtuPbkJe5MufJWM2q6YQ@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:1129 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4970]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [ourogounimouhamed[at]gmail.com]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [maryalbertt00045[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  3.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On a MSI S270 with Fedora 37 x86_64 / systemd-251.4 the module does not
-properly autoload.
-
-This is likely caused by issues with how systemd-udevd handles the single
-quote char (') which is part of the sys_vendor / chassis_vendor strings
-on this laptop. As a workaround remove the single quote char + everything
-behind it from the sys_vendor + chassis_vendor matches. This fixes
-the module not autoloading.
-
-Link: https://github.com/systemd/systemd/issues/24715
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/msi-laptop.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/platform/x86/msi-laptop.c b/drivers/platform/x86/msi-laptop.c
-index 1c29678e5727..2f850396e9a7 100644
---- a/drivers/platform/x86/msi-laptop.c
-+++ b/drivers/platform/x86/msi-laptop.c
-@@ -602,11 +602,10 @@ static const struct dmi_system_id msi_dmi_table[] __initconst = {
- 	{
- 		.ident = "MSI S270",
- 		.matches = {
--			DMI_MATCH(DMI_SYS_VENDOR, "MICRO-STAR INT'L CO.,LTD"),
-+			DMI_MATCH(DMI_SYS_VENDOR, "MICRO-STAR INT"),
- 			DMI_MATCH(DMI_PRODUCT_NAME, "MS-1013"),
- 			DMI_MATCH(DMI_PRODUCT_VERSION, "0131"),
--			DMI_MATCH(DMI_CHASSIS_VENDOR,
--				  "MICRO-STAR INT'L CO.,LTD")
-+			DMI_MATCH(DMI_CHASSIS_VENDOR, "MICRO-STAR INT")
- 		},
- 		.driver_data = &quirk_old_ec_model,
- 		.callback = dmi_check_cb
-@@ -639,8 +638,7 @@ static const struct dmi_system_id msi_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "NOTEBOOK"),
- 			DMI_MATCH(DMI_PRODUCT_NAME, "SAM2000"),
- 			DMI_MATCH(DMI_PRODUCT_VERSION, "0131"),
--			DMI_MATCH(DMI_CHASSIS_VENDOR,
--				  "MICRO-STAR INT'L CO.,LTD")
-+			DMI_MATCH(DMI_CHASSIS_VENDOR, "MICRO-STAR INT")
- 		},
- 		.driver_data = &quirk_old_ec_model,
- 		.callback = dmi_check_cb
 -- 
-2.37.3
-
+Hello,
+how are you?
