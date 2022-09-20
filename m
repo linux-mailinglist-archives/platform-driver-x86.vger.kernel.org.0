@@ -2,71 +2,171 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BC235BEADD
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Sep 2022 18:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44DCD5BEE3C
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Sep 2022 22:08:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229928AbiITQK4 (ORCPT
+        id S231185AbiITUIs (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 20 Sep 2022 12:10:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51114 "EHLO
+        Tue, 20 Sep 2022 16:08:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230492AbiITQKz (ORCPT
+        with ESMTP id S231190AbiITUIq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 20 Sep 2022 12:10:55 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B927665546
-        for <platform-driver-x86@vger.kernel.org>; Tue, 20 Sep 2022 09:10:50 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id u69so3131092pgd.2
-        for <platform-driver-x86@vger.kernel.org>; Tue, 20 Sep 2022 09:10:50 -0700 (PDT)
+        Tue, 20 Sep 2022 16:08:46 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D072361D40
+        for <platform-driver-x86@vger.kernel.org>; Tue, 20 Sep 2022 13:08:45 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id l8so2947115wmi.2
+        for <platform-driver-x86@vger.kernel.org>; Tue, 20 Sep 2022 13:08:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date;
-        bh=FcyQcUXi9xALQQ6Lm7VNXiWYStBjH/LCUTADg6v4m+k=;
-        b=Q0buYiQ31v13H9F8z2eHRrWk1+Ty74VvYlzr1Gj3uksgdY6vCuss6ebw5CqbwC0Qc+
-         XhycklIJa7j5gksmxBHymYRxy9gw6slbahYRNwdAw2e/4E4EFIFfaxblAdPznAgGnSjX
-         RzXg+EopXMmdifRB/6/b45gABhRtt257cGNXlDiG2+GygUqXoDawbP6HEMzgPOzM1a+z
-         4T3SuAFkJ3224JQ7CR2zTq776qCE9WFM34ijl3FWb5KDktsWHhMSsue6x4Sm2cpMy8Z+
-         TEGxvJDqLD7bh5EtdpAmLTQlgWLY3xRyFb0UgyETd3fXgOehe8iyv2F8ngI0IdBwS/pf
-         VInA==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=UD8k0mQ5NpkaKNinDClx9j6el0r7CVPHHHta9WMZUNY=;
+        b=M2pGRnVrzVLetQVLdTGOLZCPVpqysVCpKjsWh341XWHKC6OmIQ1wmcZnjlW9X3xhZk
+         XP8QT5TfsTx03dfZA6jKU6CCd9S0bAvoOUBkKZ+HPJE551Fgn7TsD8EU6V+NrmVduQTz
+         lhDHFlseorZRQFKvE6xWl/OzhxtMvCCdJPAl7FVZXddmivnvflzMSXs2u2VwhLRutJMj
+         SQeLsLRTYfh7OP0IlTDJqEWHBBA4td1bCpxE57hf2KYdjEH2sWqkCxbMSt1CIub091Kh
+         7QvZj1z0ipo1NGF7GrIpOIkLtsGx7xt2BA+0kcrQ46LYT3JRCmcvbVZRaHziP5xSrnMX
+         fzLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=FcyQcUXi9xALQQ6Lm7VNXiWYStBjH/LCUTADg6v4m+k=;
-        b=am24Co7wq+KO1dcvTpMQkd6/7TCPFcTovj3ZhN/pCgN9Xgrqx6y55SyIhsrvFX9Td5
-         c/6r8MGcWylO4+w6u1KANk5XVRUz96/Sbze3lsFkh3Keqr/TOHb9ZUoFb/D+1lB+J1DY
-         Ealcl1UlHJQQlkFH8wNvdNTNBtcLWgayvVV38+bvJJGENNRCP5W9pw4eV3PHKKyUVJTp
-         acqJd20p2Vmwjh7hw4Q9wK9F6WT3ThqNn9fPo5Uqis9o/HzOw1O1kela6LTdMY+8YFMM
-         ryvNq37wEmmoxAUUQGKOaRk6J9awUPtlR9kUi6qkXGv7RsH9e3s01CQiKPexztZvVxgr
-         LGhA==
-X-Gm-Message-State: ACrzQf0HAftc39zjZxIdZOY4/ziFcSdtD4ojP8Isg06Xrwj5ArcVyVSP
-        LYJimDwf6cA7CZFwVX0JLPHFFbon2y364mdg
-X-Google-Smtp-Source: AMsMyM4ydyVjKs+2Ug7VCGWDkKE28WvcrzYR3k9+4Wcvewp8unz3hLYp/5CxRbZe/WV2pWVx0WAaGzaIjay031HEzls=
-X-Received: by 2002:a05:6a00:1a08:b0:545:362c:b219 with SMTP id
- g8-20020a056a001a0800b00545362cb219mr24905083pfv.27.1663690250343; Tue, 20
- Sep 2022 09:10:50 -0700 (PDT)
+        bh=UD8k0mQ5NpkaKNinDClx9j6el0r7CVPHHHta9WMZUNY=;
+        b=cxmm+kPA43QtmONHR7/nhfhdk9lWAVELg83x007okJaiaF5+90PBffHkl6hGiv9aaE
+         VAjJZnUODlZKJpSQuqG2uB1yVQH3hV13Ws7i2uIkamUNBu3dVGHpg11kfLoYVFH4xvNv
+         6yuJ2T4FUdQ2Ro6GE/kDNA2cdjsTVHqIdDCMFCyBZBNe/TLrKr+OzFeEdph77romjR/u
+         fafr4MlHFi0/I+DX9EyBupPm6jWtcrX3LNqMrxAPL6CVjt/P8mAcxdFruKCLnRx1uPFF
+         JCdOt2/B6Ww+Y9W2fJ+F7kEhvF722zMPv3wQOeiifwlJ7UEzZZv2B7FWo6wxduDeRGOa
+         9Jng==
+X-Gm-Message-State: ACrzQf0bUxb+hyPku7BcebGD6Necein7l2sObskUoIHb0Qe5s/ZZ2m/S
+        PD6kLwPS/D1762vTyRgdEv2V3AHtKWk=
+X-Google-Smtp-Source: AMsMyM4gcN5QgzLR6UZErEhvOVmd40hzG2KzfgMPw+NF+N4171iUMtiNJnw03wbMJbEjjRwNih7GSA==
+X-Received: by 2002:a05:600c:20b:b0:3b4:86ff:ce with SMTP id 11-20020a05600c020b00b003b486ff00cemr3531396wmi.179.1663704524299;
+        Tue, 20 Sep 2022 13:08:44 -0700 (PDT)
+Received: from [192.168.0.30] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id k13-20020a05600c1c8d00b003b476cabf1csm658773wms.26.2022.09.20.13.08.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Sep 2022 13:08:43 -0700 (PDT)
+Message-ID: <86e9a6a2-a6b7-4079-61e6-7683332ff7f3@gmail.com>
+Date:   Tue, 20 Sep 2022 21:08:42 +0100
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:e896:b0:2f4:3ded:66bc with HTTP; Tue, 20 Sep 2022
- 09:10:49 -0700 (PDT)
-Reply-To: linadavid0089@gmail.com
-From:   Lina David <tinaeevan@gmail.com>
-Date:   Tue, 20 Sep 2022 17:10:49 +0100
-Message-ID: <CADEuEs_sFOmHVmwFbE6_69XxY7hqJAnt9AjPhps5Z_RjAug+zg@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] platform/x86: int3472/discrete: Drop a forward
+ declaration
+Content-Language: en-US
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>
+Cc:     platform-driver-x86@vger.kernel.org, kernel@pengutronix.de
+References: <20220920070101.907596-1-u.kleine-koenig@pengutronix.de>
+From:   Daniel Scally <djrscally@gmail.com>
+In-Reply-To: <20220920070101.907596-1-u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
--- 
-Hello,
-how are you?
+Hi Uwe
+
+On 20/09/2022 08:01, Uwe Kleine-König wrote:
+> By swapping the definition of skl_int3472_discrete_remove() and
+> skl_int3472_discrete_probe() the forward declaration of the former can
+> be dropped. This is a good thing as it removes code duplication.
+>
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+
+
+Ah thanks - not sure why I ever did it that way now that you point it out :)
+
+
+Reviewed-by: Daniel Scally <djrscally@gmail.com>
+
+> ---
+> Hello,
+>
+> I didn't check in detail, but in my experience calling the remove
+> function in the error path of the probe function is prone to cleanup
+> errors. I didn't spot anything after a quick glance, but let me point
+> out this is unstable. E.g. in an error path of
+> skl_int3472_register_clock() the function is left with
+> int3472->clock.clk pointing to an unregistered clk and int3472->clock.cl
+> == NULL. Someone modifying the return function must be well aware of
+> that.
+>
+> Best regards
+> Uwe
+
+
+I take your point - I have to revisit this driver shortly anyway, so 
+I'll try to remember to revise that away. Thanks
+
+>
+>   drivers/platform/x86/intel/int3472/discrete.c | 34 +++++++++----------
+>   1 file changed, 16 insertions(+), 18 deletions(-)
+>
+> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+> index ed4c9d760757..974a132db651 100644
+> --- a/drivers/platform/x86/intel/int3472/discrete.c
+> +++ b/drivers/platform/x86/intel/int3472/discrete.c
+> @@ -331,7 +331,22 @@ static int skl_int3472_parse_crs(struct int3472_discrete_device *int3472)
+>   	return 0;
+>   }
+>   
+> -static int skl_int3472_discrete_remove(struct platform_device *pdev);
+> +static int skl_int3472_discrete_remove(struct platform_device *pdev)
+> +{
+> +	struct int3472_discrete_device *int3472 = platform_get_drvdata(pdev);
+> +
+> +	gpiod_remove_lookup_table(&int3472->gpios);
+> +
+> +	if (int3472->clock.cl)
+> +		skl_int3472_unregister_clock(int3472);
+> +
+> +	gpiod_put(int3472->clock.ena_gpio);
+> +	gpiod_put(int3472->clock.led_gpio);
+> +
+> +	skl_int3472_unregister_regulator(int3472);
+> +
+> +	return 0;
+> +}
+>   
+>   static int skl_int3472_discrete_probe(struct platform_device *pdev)
+>   {
+> @@ -383,23 +398,6 @@ static int skl_int3472_discrete_probe(struct platform_device *pdev)
+>   	return 0;
+>   }
+>   
+> -static int skl_int3472_discrete_remove(struct platform_device *pdev)
+> -{
+> -	struct int3472_discrete_device *int3472 = platform_get_drvdata(pdev);
+> -
+> -	gpiod_remove_lookup_table(&int3472->gpios);
+> -
+> -	if (int3472->clock.cl)
+> -		skl_int3472_unregister_clock(int3472);
+> -
+> -	gpiod_put(int3472->clock.ena_gpio);
+> -	gpiod_put(int3472->clock.led_gpio);
+> -
+> -	skl_int3472_unregister_regulator(int3472);
+> -
+> -	return 0;
+> -}
+> -
+>   static const struct acpi_device_id int3472_device_id[] = {
+>   	{ "INT3472", 0 },
+>   	{ }
+>
+> base-commit: 568035b01cfb107af8d2e4bd2fb9aea22cf5b868
