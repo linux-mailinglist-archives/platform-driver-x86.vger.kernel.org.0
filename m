@@ -2,178 +2,124 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A0155E6AE0
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 22 Sep 2022 20:28:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C64E15E6C9F
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 22 Sep 2022 22:02:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232627AbiIVS2I (ORCPT
+        id S232701AbiIVUCy (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 22 Sep 2022 14:28:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51154 "EHLO
+        Thu, 22 Sep 2022 16:02:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232664AbiIVS1r (ORCPT
+        with ESMTP id S229777AbiIVUCW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 22 Sep 2022 14:27:47 -0400
-Received: from vorpal.se (vorpal.se [151.236.221.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0DB810BB2D;
-        Thu, 22 Sep 2022 11:26:00 -0700 (PDT)
-Received: by vorpal.se (Postfix) with ESMTPSA id 9E859147F2;
-        Thu, 22 Sep 2022 18:24:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=vorpal.se; s=2019;
-        t=1663871079; bh=OFY9dwdCRbyPOSLKBVEyfR0KTYBzrQGtG4ctexJw8jo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QSLceP+Kqo4BjLvHDJBACUTfZ1MpFg2YlkKxMieNf7cVZCC2bbdd3gSe6Mv3djAW7
-         0w9oTvK6cUjQRJPR5yZbD6AV7jMKREMhFQ/uV9DRz+zo5IWNHQE8++CmD9dbCO3+RA
-         //00V+7awtFijVv0913jBB2KRBl902d/yHDDbc5sacrPyTJYAdTdu+h5fGnDbOM6qQ
-         cyGcq4IZqx+nOX0rFYSq9fnYtvXjzlOpEhNWCizrPNGLO+IiIRbUG5Q2Nu6+fhGUZN
-         P3VlOh0zHHwzfuqvfX511uAa/uy8A9O4oHFCTZsBzP/7JtL8z841nhcXV0JRSMgurn
-         1VwE5viUs7REA==
-From:   Arvid Norlander <lkml@vorpal.se>
-To:     platform-driver-x86@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-acpi@vger.kernel.org,
-        Len Brown <lenb@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-input@vger.kernel.org, Azael Avalos <coproscefalo@gmail.com>,
-        =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>,
-        Arvid Norlander <lkml@vorpal.se>
-Subject: [PATCH v2 2/2] platform/x86: toshiba_acpi: Add quirk for buttons on Z830
-Date:   Thu, 22 Sep 2022 20:24:24 +0200
-Message-Id: <20220922182424.934340-3-lkml@vorpal.se>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220922182424.934340-1-lkml@vorpal.se>
-References: <20220922182424.934340-1-lkml@vorpal.se>
+        Thu, 22 Sep 2022 16:02:22 -0400
+Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AE3B2F647;
+        Thu, 22 Sep 2022 13:02:20 -0700 (PDT)
+Received: from pps.filterd (m0150241.ppops.net [127.0.0.1])
+        by mx0a-002e3701.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28MHCnSr018532;
+        Thu, 22 Sep 2022 20:01:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pps0720;
+ bh=hrmDoxXNnaoMzX0uDj4vrE4mN2zUsUoIEygEbT+8Fgg=;
+ b=ggzTAojvzWg9UuHd2E3gGj0AQolEZFYj69pwstnwr6PXevDpRAlZwN7ReF8PZlgNKyvF
+ R5451w6y5HL6y9H51iz+Sos6TTt7WpsRjbNczX1rSVKxh4LTo+00R7ZWPkvwI1FCKK5c
+ JrXddx9GBriQmOqL3uA9kb1yeHz8iTJ9L2pK+XkMMwht4LnCxyAgV1vs45wtZSbiMuhY
+ o1r7OMwPYSnh4HRoqRXLHroaWpwbZ6kTDMYFdPEuPQ0L81ZJX+BC6IK8hgW6V7t+XKfy
+ Kj+8shhPat0PRxjRO5mmIZpXJFleYWEegUHvgXepsPZbkMjSmgobeM5z14XCjtk6/kZD yg== 
+Received: from p1lg14880.it.hpe.com (p1lg14880.it.hpe.com [16.230.97.201])
+        by mx0a-002e3701.pphosted.com (PPS) with ESMTPS id 3jruwbhb07-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 22 Sep 2022 20:01:41 +0000
+Received: from p1lg14885.dc01.its.hpecorp.net (unknown [10.119.18.236])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by p1lg14880.it.hpe.com (Postfix) with ESMTPS id 382EE801AD4;
+        Thu, 22 Sep 2022 20:01:40 +0000 (UTC)
+Received: from dog.eag.rdlabs.hpecorp.net (unknown [16.231.227.36])
+        by p1lg14885.dc01.its.hpecorp.net (Postfix) with ESMTP id E0EF9807672;
+        Thu, 22 Sep 2022 20:01:37 +0000 (UTC)
+From:   Mike Travis <mike.travis@hpe.com>
+To:     Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Steve Wahl <steve.wahl@hpe.com>, x86@kernel.org
+Cc:     Mike Travis <mike.travis@hpe.com>,
+        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+        stable@vger.kernel.org, Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Russ Anderson <russ.anderson@hpe.com>,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: [PATCH v2] x86/platform/uv: Dont use smp_processor_id while preemptible
+Date:   Thu, 22 Sep 2022 15:00:35 -0500
+Message-Id: <20220922200035.94823-1-mike.travis@hpe.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Proofpoint-GUID: hHU9eJaViupHQ3IJVxCe-wNB3pgRoexl
+X-Proofpoint-ORIG-GUID: hHU9eJaViupHQ3IJVxCe-wNB3pgRoexl
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-22_14,2022-09-22_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
+ adultscore=0 clxscore=1011 phishscore=0 mlxscore=0 priorityscore=1501
+ spamscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209220129
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The Z830 has some buttons that will only work properly as "quickstart"
-buttons. To enable them in that mode, a value between 1 and 7 must be
-used for HCI_HOTKEY_EVENT. Windows uses 0x5 on this laptop so use that for
-maximum predictability and compatibility.
+To avoid a "BUG: using smp_processor_id() in preemptible" debug warning
+message, disable preemption around use of the processor id.  This code
+sequence merely decides which portal that this CPU uses to read the RTC.
+It does this to avoid thrashing the cache but even if preempted it still
+reads the same time from the single RTC clock.
 
-As there is not yet a known way of auto detection, this patch uses a DMI
-quirk table. A module parameter is exposed to allow setting this on other
-models for testing.
-
-Signed-off-by: Arvid Norlander <lkml@vorpal.se>
+Signed-off-by: Mike Travis <mike.travis@hpe.com>
+Reviewed-by: Steve Wahl <steve.wahl@hpe.com>
+Reviewed-by: Dimitri Sivanich <dimitri.sivanich@hpe.com>
+Cc: stable@vger.kernel.org
 ---
- drivers/platform/x86/toshiba_acpi.c | 36 ++++++++++++++++++++++++++---
- 1 file changed, 33 insertions(+), 3 deletions(-)
+v2: modify patch description, add Cc:stable tag
+---
+ arch/x86/platform/uv/uv_time.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/platform/x86/toshiba_acpi.c b/drivers/platform/x86/toshiba_acpi.c
-index 9f1394b73895..894afe74d815 100644
---- a/drivers/platform/x86/toshiba_acpi.c
-+++ b/drivers/platform/x86/toshiba_acpi.c
-@@ -58,6 +58,11 @@ module_param(turn_on_panel_on_resume, int, 0644);
- MODULE_PARM_DESC(turn_on_panel_on_resume,
- 	"Call HCI_PANEL_POWER_ON on resume (-1 = auto, 0 = no, 1 = yes");
- 
-+static int hci_hotkey_quickstart = -1;
-+module_param(hci_hotkey_quickstart, int, 0644);
-+MODULE_PARM_DESC(hci_hotkey_quickstart,
-+	"Call HCI_HOTKEY_EVENT with value 0x5 for quickstart button support (-1 = auto, 0 = no, 1 = yes");
-+
- #define TOSHIBA_WMI_EVENT_GUID "59142400-C6A3-40FA-BADB-8A2652834100"
- 
- /* Scan code for Fn key on TOS1900 models */
-@@ -137,6 +142,7 @@ MODULE_PARM_DESC(turn_on_panel_on_resume,
- #define HCI_ACCEL_MASK			0x7fff
- #define HCI_ACCEL_DIRECTION_MASK	0x8000
- #define HCI_HOTKEY_DISABLE		0x0b
-+#define HCI_HOTKEY_ENABLE_QUICKSTART	0x05
- #define HCI_HOTKEY_ENABLE		0x09
- #define HCI_HOTKEY_SPECIAL_FUNCTIONS	0x10
- #define HCI_LCD_BRIGHTNESS_BITS		3
-@@ -2731,10 +2737,15 @@ static int toshiba_acpi_enable_hotkeys(struct toshiba_acpi_dev *dev)
- 		return -ENODEV;
- 
- 	/*
-+	 * Enable quickstart buttons if supported.
-+	 *
- 	 * Enable the "Special Functions" mode only if they are
- 	 * supported and if they are activated.
- 	 */
--	if (dev->kbd_function_keys_supported && dev->special_functions)
-+	if (hci_hotkey_quickstart)
-+		result = hci_write(dev, HCI_HOTKEY_EVENT,
-+				   HCI_HOTKEY_ENABLE_QUICKSTART);
-+	else if (dev->kbd_function_keys_supported && dev->special_functions)
- 		result = hci_write(dev, HCI_HOTKEY_EVENT,
- 				   HCI_HOTKEY_SPECIAL_FUNCTIONS);
- 	else
-@@ -3260,7 +3271,14 @@ static const char *find_hci_method(acpi_handle handle)
-  * works. toshiba_acpi_resume() uses HCI_PANEL_POWER_ON to avoid changing
-  * the configured brightness level.
+diff --git a/arch/x86/platform/uv/uv_time.c b/arch/x86/platform/uv/uv_time.c
+index 54663f3e00cb..094190814a28 100644
+--- a/arch/x86/platform/uv/uv_time.c
++++ b/arch/x86/platform/uv/uv_time.c
+@@ -275,14 +275,17 @@ static int uv_rtc_unset_timer(int cpu, int force)
   */
--static const struct dmi_system_id turn_on_panel_on_resume_dmi_ids[] = {
-+#define QUIRK_TURN_ON_PANEL_ON_RESUME		BIT(0)
-+/*
-+ * Some Toshibas use "quickstart" keys. On these, HCI_HOTKEY_EVENT must use
-+ * the value HCI_HOTKEY_ENABLE_QUICKSTART.
-+ */
-+#define QUIRK_HCI_HOTKEY_QUICKSTART		BIT(1)
-+
-+static const struct dmi_system_id toshiba_dmi_quirks[] = {
- 	{
- 	 /* Toshiba Portégé R700 */
- 	 /* https://bugzilla.kernel.org/show_bug.cgi?id=21012 */
-@@ -3268,6 +3286,7 @@ static const struct dmi_system_id turn_on_panel_on_resume_dmi_ids[] = {
- 		DMI_MATCH(DMI_SYS_VENDOR, "TOSHIBA"),
- 		DMI_MATCH(DMI_PRODUCT_NAME, "PORTEGE R700"),
- 		},
-+	 .driver_data = (void *)QUIRK_TURN_ON_PANEL_ON_RESUME,
- 	},
- 	{
- 	 /* Toshiba Satellite/Portégé R830 */
-@@ -3277,6 +3296,7 @@ static const struct dmi_system_id turn_on_panel_on_resume_dmi_ids[] = {
- 		DMI_MATCH(DMI_SYS_VENDOR, "TOSHIBA"),
- 		DMI_MATCH(DMI_PRODUCT_NAME, "R830"),
- 		},
-+	 .driver_data = (void *)QUIRK_TURN_ON_PANEL_ON_RESUME,
- 	},
- 	{
- 	 /* Toshiba Satellite/Portégé Z830 */
-@@ -3284,6 +3304,7 @@ static const struct dmi_system_id turn_on_panel_on_resume_dmi_ids[] = {
- 		DMI_MATCH(DMI_SYS_VENDOR, "TOSHIBA"),
- 		DMI_MATCH(DMI_PRODUCT_NAME, "Z830"),
- 		},
-+	 .driver_data = (void *)(QUIRK_TURN_ON_PANEL_ON_RESUME | QUIRK_HCI_HOTKEY_QUICKSTART),
- 	},
- };
+ static u64 uv_read_rtc(struct clocksource *cs)
+ {
+-	unsigned long offset;
++	unsigned long offset, time;
++	unsigned int cpu = get_cpu();
  
-@@ -3292,6 +3313,8 @@ static int toshiba_acpi_add(struct acpi_device *acpi_dev)
- 	struct toshiba_acpi_dev *dev;
- 	const char *hci_method;
- 	u32 dummy;
-+	const struct dmi_system_id *dmi_id;
-+	long quirks = 0;
- 	int ret = 0;
+ 	if (uv_get_min_hub_revision_id() == 1)
+ 		offset = 0;
+ 	else
+-		offset = (uv_blade_processor_id() * L1_CACHE_BYTES) % PAGE_SIZE;
++		offset = (uv_cpu_blade_processor_id(cpu) * L1_CACHE_BYTES) % PAGE_SIZE;
  
- 	if (toshiba_acpi)
-@@ -3444,8 +3467,15 @@ static int toshiba_acpi_add(struct acpi_device *acpi_dev)
- 	}
- #endif
+-	return (u64)uv_read_local_mmr(UVH_RTC | offset);
++	time = (u64)uv_read_local_mmr(UVH_RTC | offset);
++	put_cpu();
++	return time;
+ }
  
-+	dmi_id = dmi_first_match(toshiba_dmi_quirks);
-+	if (dmi_id)
-+		quirks = (long)dmi_id->driver_data;
-+
- 	if (turn_on_panel_on_resume == -1)
--		turn_on_panel_on_resume = dmi_check_system(turn_on_panel_on_resume_dmi_ids);
-+		turn_on_panel_on_resume = !!(quirks & QUIRK_TURN_ON_PANEL_ON_RESUME);
-+
-+	if (hci_hotkey_quickstart == -1)
-+		hci_hotkey_quickstart = !!(quirks & QUIRK_HCI_HOTKEY_QUICKSTART);
- 
- 	toshiba_wwan_available(dev);
- 	if (dev->wwan_supported)
+ /*
 -- 
-2.37.3
+2.26.2
 
