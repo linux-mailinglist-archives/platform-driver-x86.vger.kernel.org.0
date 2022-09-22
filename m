@@ -2,99 +2,151 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7134F5E698A
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 22 Sep 2022 19:22:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD2505E6A0A
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 22 Sep 2022 19:56:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230281AbiIVRWO (ORCPT
+        id S231896AbiIVR4r (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 22 Sep 2022 13:22:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59524 "EHLO
+        Thu, 22 Sep 2022 13:56:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231740AbiIVRWN (ORCPT
+        with ESMTP id S230002AbiIVR4q (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 22 Sep 2022 13:22:13 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDB90101972
-        for <platform-driver-x86@vger.kernel.org>; Thu, 22 Sep 2022 10:22:12 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id j16so15834166lfg.1
-        for <platform-driver-x86@vger.kernel.org>; Thu, 22 Sep 2022 10:22:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date;
-        bh=FHk82wnT5upmAL9U2Ppt51tTSNetmvVdtzhUocqSk6g=;
-        b=oaNwr90OubMAUZ9IGhMzOJJPfXMcc6lB/Owc4t6K4yvx+artv8Ug2V2Fjuw3AvJqoz
-         LUnPsIe6RR/QZTY9YC7FQd3t0M4c4JdVJX3Y5F+maidTxaCR40MY87ZQRK3M8ISmlI9K
-         L90fhAKzlrzzyKGqlplHtupV+fwvwHlY1rSBveoNIzCGf+7sK1N1cPPrfZfC0k1hJTQQ
-         6CfbMyblEgN7+cL8A+9rhJpcfw6pnMBopYraWyh6bFH5V0Wq3TyKrLPQ3u2ye8+xEvhZ
-         kdlk28dUuzrHlnmrE0wCi05c8zO+tBTXujKoXbC+RG+DfBY5669DrzyOZLPFmtaLOFT2
-         iEuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=FHk82wnT5upmAL9U2Ppt51tTSNetmvVdtzhUocqSk6g=;
-        b=1FYslgLCiMOTDmfMuEaLMMwRO8R44zMu/R1+DiWeN+nhW1K32nksz56Hq0kQFuvxHd
-         KDU6iDACYIjvvnmkA6BNfzMhuTu71a18s8PeIHkGzFFWAC/sFmafbbR+RoUG4dBmOrkC
-         d698TYBjnPxAKJDG1pWJm62c9Hdce/7lbk4naeEMTJpHsTUVVpR6VTEbuddhDJYKUmbC
-         qYWx1g1Ta19ibClVew4RYmpdQlSS+r1+4Bgh/n+4FXKwJRv3hbL7kQQkRVBulUESPH05
-         TNkEvKVOAAmIyBRWIsaVYThfK2M0aF6xGQQn/e1rAJ+o40rCgzzWcmEAGLAdALCIXHTO
-         WMYg==
-X-Gm-Message-State: ACrzQf3S8weWnGeEyXk8rklZAW7XgbWFPA7ha8VtI7vK5if6i+aRR2S8
-        nASJsDO1WTXKGlUpAY+R/CeIbNfd5ZxYkRFJiiQ=
-X-Google-Smtp-Source: AMsMyM7m9u6eHdJwiM3j8M4nOdT9/jHcc09GE9nWWP0abBWROkzgVf2Ao6ZfrAJs10n5BIT2bQwxxoal7oirYavF5Ls=
-X-Received: by 2002:a05:6512:1050:b0:499:f8f4:992e with SMTP id
- c16-20020a056512105000b00499f8f4992emr1529729lfb.424.1663867331152; Thu, 22
- Sep 2022 10:22:11 -0700 (PDT)
+        Thu, 22 Sep 2022 13:56:46 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2081.outbound.protection.outlook.com [40.107.243.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D66FFFA48
+        for <platform-driver-x86@vger.kernel.org>; Thu, 22 Sep 2022 10:56:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bvh3p7h5Em9SGiP1ZjvOEGr461sPlpGyTclHvBECIpw6R4FDQ1s3dfOK85FMwNnuWZjAXY0wzMk192tzBFfu4OqcxDIdwRL0QoaI0OrY5Y1+o6fFGEZbuomZVrWbcll5m1Z6kCUFMLa4NRVN+wEXuHwGeY7qPnvVdKLhO8XkwHD7aHpYqgDjaefQI6wxJJnXenre83uEoO0s5p6Zj2mFLnGfCZE1zgW1+0pwwBy/3k36MBu4T5amcwCZZVhMbPvsOA18XN11lg5K3OZewR3yhjGJ4rZ4Gzg3eTDyW/NQJMdmEsisXbzzTm6qqtoNP2ZrRyc67bvhVano3S9DLmYvaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8JdIiEgV3w4dJcEsnAkRlLH5igq4R+xBg8DWXLgIyZ0=;
+ b=EEudgKiVgqxosiBB7SsuKh9lf5uJcAoLSArPCeeqDq8we1vMHDsv0CiNt+WEwLLG5YhrdzOU/wOcKWR8UYMkdPzUuDu+Vq1WCT9tsypb2G7PRfXzGZEm6C3NE5QGdpYbrQtzBxI1vwyQFUIqRemRxKcubSCqgn1GBYlGo/YLxzjeH7dPcUkvVIREVB3ZOuLlZBkn73uXR2pXVGabGfM8keV1rzZxBk6IdjaKHtvsiN4+tdbiX9LRgYnxkdQqB3mTnHBhoojewwsBrvYEu+Yf92G7yGBrDqW4SBwSIeHjvqU6unplRTpI/+3m+4YzkjXxk0P0MQUaEtvHPfWINM8gqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8JdIiEgV3w4dJcEsnAkRlLH5igq4R+xBg8DWXLgIyZ0=;
+ b=2kP9o4TwB7Woe7P5h+EbGLTtXWzY0V0WxDDjrKDh1pCoS+179O+ld+OdbOvnvWX9NigF1PpSxz53gn5XVOqThofAC4Sl61j74Gvr8UyzBxAyB+oCJ4JaIMOESHJfH5tsSEf+65ao2DcK4fvCcJtCS9PiLnE8xBxnz8QIEIMH8Yk=
+Received: from MW4PR04CA0229.namprd04.prod.outlook.com (2603:10b6:303:87::24)
+ by SJ1PR12MB6050.namprd12.prod.outlook.com (2603:10b6:a03:48b::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.17; Thu, 22 Sep
+ 2022 17:56:42 +0000
+Received: from CO1NAM11FT102.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:87:cafe::46) by MW4PR04CA0229.outlook.office365.com
+ (2603:10b6:303:87::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.18 via Frontend
+ Transport; Thu, 22 Sep 2022 17:56:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT102.mail.protection.outlook.com (10.13.175.87) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5654.14 via Frontend Transport; Thu, 22 Sep 2022 17:56:42 +0000
+Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 22 Sep
+ 2022 12:56:39 -0500
+From:   Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+To:     <hdegoede@redhat.com>, <markgross@kernel.org>,
+        <Sanket.Goswami@amd.com>
+CC:     <platform-driver-x86@vger.kernel.org>,
+        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: [PATCH] platform/x86/amd: pmc: remove CONFIG_DEBUG_FS checks
+Date:   Thu, 22 Sep 2022 23:26:08 +0530
+Message-ID: <20220922175608.630046-1-Shyam-sundar.S-k@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:a2e:58b:0:0:0:0:0 with HTTP; Thu, 22 Sep 2022 10:22:10 -0700 (PDT)
-Reply-To: sgtkaylam28@gmail.com
-From:   SgtKayla Manthey <erikacontton7@gmail.com>
-Date:   Thu, 22 Sep 2022 17:22:10 +0000
-Message-ID: <CAAr1escu_oSQ9kZDVCeBryKmfdGxGxcaaRBXTi9YcLAo-uCOCQ@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=7.4 required=5.0 tests=BAYES_95,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT102:EE_|SJ1PR12MB6050:EE_
+X-MS-Office365-Filtering-Correlation-Id: c8bad89c-f37f-40d7-a71f-08da9cc3cea4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ntYGU9v/mpwg8jmKPnmI3TMO7mbKjy2jEaXwU1kr7Oj1ecZqqs5YufCY5DzsMmoKwfeXQHb+vtHsNvW5WasCT0fRxv8ClUrrtscJinbf43dOZwo9PJU+GOWg3MrlFZsEdPx/P2XMMCFqnfr4onnNgggHVdynPHKsvFQeoXPIUwmWQxlOGgSnGxjOXNDZPLj/mrvQWF7MHF+SRiAIv8CgvI6kUN6LGNTJlcRUC9mqVd4BadSnOeabzIlY+XJl+o1GISlkNrL3nMmb7xaMs+CWyPG+o2NmVbnv7EBsBXCNUO1AtD1VEMhPdxX11EDFx5lJ8jbSa1RBWwr0yRjCK72gWx9RkkW74HZqCeetGKzTKSgZl0MMs5CA09NODGqwpEfWyvtHmb+T+awUp6TzZmTX2xcdHF9qUTVROGp82CNQh8GdtUv7r76hc9v9BSYc9bKIIW8UvgFsDlLaL2FbRg3tmH+NNPXXpLX7w+gKvTfU1SdyptHJdujejVMw+Bexd2Hrk3zyM9dt4zLWy9Zi36KLaLsIcCj0mZQ3jt4+P5xCb/tPewZ/kNWG/5pQ4p27isfgheSGQc6t/A+ROlsxpZTV5rEtm5mvWfL+rtfrNDUAzKxOjXvitCgEYyV7pxcWArvzu7eWb0XodvIEXnZbSfb+XOc6gTF3DKegkZZSthcl7ciFZuYQ4+vo7xBFu0Fr6zj0MQh7yLFAXCJI/6VKHoeyFMkvvwTkIXNidGQZ760GtNXj3jp1aROF3sH2zoTUKcjLLQsdmZhJUuvoxjw+bUMWH8vRg/esI6869psl/ATsvX3aFwCLWdOi5TPbJ58OqEq/
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(376002)(346002)(396003)(136003)(39860400002)(451199015)(36840700001)(40470700004)(46966006)(47076005)(83380400001)(82740400003)(2906002)(426003)(7696005)(70206006)(6636002)(86362001)(356005)(478600001)(110136005)(6666004)(8676002)(70586007)(4326008)(54906003)(186003)(8936002)(82310400005)(2616005)(16526019)(1076003)(40460700003)(336012)(316002)(41300700001)(26005)(36756003)(5660300002)(81166007)(36860700001)(40480700001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2022 17:56:42.3924
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8bad89c-f37f-40d7-a71f-08da9cc3cea4
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT102.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6050
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:132 listed in]
-        [list.dnswl.org]
-        *  3.0 BAYES_95 BODY: Bayes spam probability is 95 to 99%
-        *      [score: 0.9732]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [sgtkaylam28[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [erikacontton7[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [erikacontton7[at]gmail.com]
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Since linux/debugfs.h already has the stubs for the used debugfs
+functions when debugfs is not enabled, remove the #ifdef CONFIG_DEBUG_FS
+checks.
+
+Fixes: 156ec4731cb22 ("platform/x86: amd-pmc: Add AMD platform support for S2Idle")
+Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+---
+ drivers/platform/x86/amd/pmc.c | 12 ------------
+ 1 file changed, 12 deletions(-)
+
+diff --git a/drivers/platform/x86/amd/pmc.c b/drivers/platform/x86/amd/pmc.c
+index e47e54b095af..047e47449ff9 100644
+--- a/drivers/platform/x86/amd/pmc.c
++++ b/drivers/platform/x86/amd/pmc.c
+@@ -153,9 +153,7 @@ struct amd_pmc_dev {
+ 	struct device *dev;
+ 	struct pci_dev *rdev;
+ 	struct mutex lock; /* generic mutex lock */
+-#if IS_ENABLED(CONFIG_DEBUG_FS)
+ 	struct dentry *dbgfs_dir;
+-#endif /* CONFIG_DEBUG_FS */
+ };
+ 
+ static bool enable_stb;
+@@ -429,7 +427,6 @@ static struct attribute *pmc_attrs[] = {
+ };
+ ATTRIBUTE_GROUPS(pmc);
+ 
+-#ifdef CONFIG_DEBUG_FS
+ static int smu_fw_info_show(struct seq_file *s, void *unused)
+ {
+ 	struct amd_pmc_dev *dev = s->private;
+@@ -544,15 +541,6 @@ static void amd_pmc_dbgfs_register(struct amd_pmc_dev *dev)
+ 					    &amd_pmc_stb_debugfs_fops);
+ 	}
+ }
+-#else
+-static inline void amd_pmc_dbgfs_register(struct amd_pmc_dev *dev)
+-{
+-}
+-
+-static inline void amd_pmc_dbgfs_unregister(struct amd_pmc_dev *dev)
+-{
+-}
+-#endif /* CONFIG_DEBUG_FS */
+ 
+ static void amd_pmc_dump_registers(struct amd_pmc_dev *dev)
+ {
 -- 
-Hello,
-please did you receive my previous message?
-write me back.
+2.25.1
+
