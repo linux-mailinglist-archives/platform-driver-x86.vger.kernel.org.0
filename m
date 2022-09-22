@@ -2,151 +2,261 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD2505E6A0A
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 22 Sep 2022 19:56:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF0F25E6AE5
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 22 Sep 2022 20:28:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231896AbiIVR4r (ORCPT
+        id S232634AbiIVS2J (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 22 Sep 2022 13:56:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49780 "EHLO
+        Thu, 22 Sep 2022 14:28:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230002AbiIVR4q (ORCPT
+        with ESMTP id S232633AbiIVS1r (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 22 Sep 2022 13:56:46 -0400
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2081.outbound.protection.outlook.com [40.107.243.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D66FFFA48
-        for <platform-driver-x86@vger.kernel.org>; Thu, 22 Sep 2022 10:56:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bvh3p7h5Em9SGiP1ZjvOEGr461sPlpGyTclHvBECIpw6R4FDQ1s3dfOK85FMwNnuWZjAXY0wzMk192tzBFfu4OqcxDIdwRL0QoaI0OrY5Y1+o6fFGEZbuomZVrWbcll5m1Z6kCUFMLa4NRVN+wEXuHwGeY7qPnvVdKLhO8XkwHD7aHpYqgDjaefQI6wxJJnXenre83uEoO0s5p6Zj2mFLnGfCZE1zgW1+0pwwBy/3k36MBu4T5amcwCZZVhMbPvsOA18XN11lg5K3OZewR3yhjGJ4rZ4Gzg3eTDyW/NQJMdmEsisXbzzTm6qqtoNP2ZrRyc67bvhVano3S9DLmYvaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8JdIiEgV3w4dJcEsnAkRlLH5igq4R+xBg8DWXLgIyZ0=;
- b=EEudgKiVgqxosiBB7SsuKh9lf5uJcAoLSArPCeeqDq8we1vMHDsv0CiNt+WEwLLG5YhrdzOU/wOcKWR8UYMkdPzUuDu+Vq1WCT9tsypb2G7PRfXzGZEm6C3NE5QGdpYbrQtzBxI1vwyQFUIqRemRxKcubSCqgn1GBYlGo/YLxzjeH7dPcUkvVIREVB3ZOuLlZBkn73uXR2pXVGabGfM8keV1rzZxBk6IdjaKHtvsiN4+tdbiX9LRgYnxkdQqB3mTnHBhoojewwsBrvYEu+Yf92G7yGBrDqW4SBwSIeHjvqU6unplRTpI/+3m+4YzkjXxk0P0MQUaEtvHPfWINM8gqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8JdIiEgV3w4dJcEsnAkRlLH5igq4R+xBg8DWXLgIyZ0=;
- b=2kP9o4TwB7Woe7P5h+EbGLTtXWzY0V0WxDDjrKDh1pCoS+179O+ld+OdbOvnvWX9NigF1PpSxz53gn5XVOqThofAC4Sl61j74Gvr8UyzBxAyB+oCJ4JaIMOESHJfH5tsSEf+65ao2DcK4fvCcJtCS9PiLnE8xBxnz8QIEIMH8Yk=
-Received: from MW4PR04CA0229.namprd04.prod.outlook.com (2603:10b6:303:87::24)
- by SJ1PR12MB6050.namprd12.prod.outlook.com (2603:10b6:a03:48b::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.17; Thu, 22 Sep
- 2022 17:56:42 +0000
-Received: from CO1NAM11FT102.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:87:cafe::46) by MW4PR04CA0229.outlook.office365.com
- (2603:10b6:303:87::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.18 via Frontend
- Transport; Thu, 22 Sep 2022 17:56:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT102.mail.protection.outlook.com (10.13.175.87) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5654.14 via Frontend Transport; Thu, 22 Sep 2022 17:56:42 +0000
-Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 22 Sep
- 2022 12:56:39 -0500
-From:   Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-To:     <hdegoede@redhat.com>, <markgross@kernel.org>,
-        <Sanket.Goswami@amd.com>
-CC:     <platform-driver-x86@vger.kernel.org>,
-        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Subject: [PATCH] platform/x86/amd: pmc: remove CONFIG_DEBUG_FS checks
-Date:   Thu, 22 Sep 2022 23:26:08 +0530
-Message-ID: <20220922175608.630046-1-Shyam-sundar.S-k@amd.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 22 Sep 2022 14:27:47 -0400
+Received: from vorpal.se (vorpal.se [151.236.221.200])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FA7310B5B6;
+        Thu, 22 Sep 2022 11:25:58 -0700 (PDT)
+Received: by vorpal.se (Postfix) with ESMTPSA id 36A73147E0;
+        Thu, 22 Sep 2022 18:24:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=vorpal.se; s=2019;
+        t=1663871075; bh=YPp9XLQrHEmQ1Fh3VV7+MtWVpj8ChtEPDyhsr15+7K4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=i9ty52qyXZK9r+Kg04qD61SuQqpDF87mD+W3Kf1j37yc+IE1ebukP6yHnE7qK4m77
+         VGkL1+V0WUDFO01qAzbVL6UZcl/4N1g/zbD1HPF+oIJd5iI+4IIkfqdIc+tOWRim8H
+         6Ki1BDdtV62Ze/7JW1KzyKv/CgIpUk3Es5gxy5/2AJjfWcLE6vt23H5cddmmLZoy4l
+         UPDEMyVUf1d38LShPnGiJrYerOZGjcrj79T2cEzaKixlPXD9+H1C9Uzm1PmX9zFI+J
+         px3DH+2GHYNUFBKO99tQLO0uA6HeQy5C7UoGcAhVseRRVxR/0kDl0H+ocHUMVmuQbG
+         r2OL6OZOsyfng==
+From:   Arvid Norlander <lkml@vorpal.se>
+To:     platform-driver-x86@vger.kernel.org
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-acpi@vger.kernel.org,
+        Len Brown <lenb@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-input@vger.kernel.org, Azael Avalos <coproscefalo@gmail.com>,
+        =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>,
+        Arvid Norlander <lkml@vorpal.se>
+Subject: [PATCH RFC v2 0/2] Quickstart buttons driver and Toshiba Z830
+Date:   Thu, 22 Sep 2022 20:24:22 +0200
+Message-Id: <20220922182424.934340-1-lkml@vorpal.se>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT102:EE_|SJ1PR12MB6050:EE_
-X-MS-Office365-Filtering-Correlation-Id: c8bad89c-f37f-40d7-a71f-08da9cc3cea4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ntYGU9v/mpwg8jmKPnmI3TMO7mbKjy2jEaXwU1kr7Oj1ecZqqs5YufCY5DzsMmoKwfeXQHb+vtHsNvW5WasCT0fRxv8ClUrrtscJinbf43dOZwo9PJU+GOWg3MrlFZsEdPx/P2XMMCFqnfr4onnNgggHVdynPHKsvFQeoXPIUwmWQxlOGgSnGxjOXNDZPLj/mrvQWF7MHF+SRiAIv8CgvI6kUN6LGNTJlcRUC9mqVd4BadSnOeabzIlY+XJl+o1GISlkNrL3nMmb7xaMs+CWyPG+o2NmVbnv7EBsBXCNUO1AtD1VEMhPdxX11EDFx5lJ8jbSa1RBWwr0yRjCK72gWx9RkkW74HZqCeetGKzTKSgZl0MMs5CA09NODGqwpEfWyvtHmb+T+awUp6TzZmTX2xcdHF9qUTVROGp82CNQh8GdtUv7r76hc9v9BSYc9bKIIW8UvgFsDlLaL2FbRg3tmH+NNPXXpLX7w+gKvTfU1SdyptHJdujejVMw+Bexd2Hrk3zyM9dt4zLWy9Zi36KLaLsIcCj0mZQ3jt4+P5xCb/tPewZ/kNWG/5pQ4p27isfgheSGQc6t/A+ROlsxpZTV5rEtm5mvWfL+rtfrNDUAzKxOjXvitCgEYyV7pxcWArvzu7eWb0XodvIEXnZbSfb+XOc6gTF3DKegkZZSthcl7ciFZuYQ4+vo7xBFu0Fr6zj0MQh7yLFAXCJI/6VKHoeyFMkvvwTkIXNidGQZ760GtNXj3jp1aROF3sH2zoTUKcjLLQsdmZhJUuvoxjw+bUMWH8vRg/esI6869psl/ATsvX3aFwCLWdOi5TPbJ58OqEq/
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(376002)(346002)(396003)(136003)(39860400002)(451199015)(36840700001)(40470700004)(46966006)(47076005)(83380400001)(82740400003)(2906002)(426003)(7696005)(70206006)(6636002)(86362001)(356005)(478600001)(110136005)(6666004)(8676002)(70586007)(4326008)(54906003)(186003)(8936002)(82310400005)(2616005)(16526019)(1076003)(40460700003)(336012)(316002)(41300700001)(26005)(36756003)(5660300002)(81166007)(36860700001)(40480700001)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2022 17:56:42.3924
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8bad89c-f37f-40d7-a71f-08da9cc3cea4
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT102.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6050
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Since linux/debugfs.h already has the stubs for the used debugfs
-functions when debugfs is not enabled, remove the #ifdef CONFIG_DEBUG_FS
-checks.
+Hi,
 
-Fixes: 156ec4731cb22 ("platform/x86: amd-pmc: Add AMD platform support for S2Idle")
-Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
----
- drivers/platform/x86/amd/pmc.c | 12 ------------
- 1 file changed, 12 deletions(-)
+This is version 2 of this patch series, incorporating the various feedback
+on the first version. However, there are some remaining issues that makes
+me keep this marked RFC:
+1. I tried to get rid of the memory allocation in quickstart_acpi_ghid (as
+   suggested by Barnabás Pőcze), but I could not get that working. I'm not
+   sure why I did wrong, but I kept getting ACPI errors indicating a buffer
+   overflow. I would appreciate knowing how to allocate the buffer on stack
+   properly in this case. The memory leak is at least fixed on the error
+   path though.
+2. The open question mentioned in the original cover letter remains
+   undiscussed. I would still like some feedback on those points as well.
 
-diff --git a/drivers/platform/x86/amd/pmc.c b/drivers/platform/x86/amd/pmc.c
-index e47e54b095af..047e47449ff9 100644
---- a/drivers/platform/x86/amd/pmc.c
-+++ b/drivers/platform/x86/amd/pmc.c
-@@ -153,9 +153,7 @@ struct amd_pmc_dev {
- 	struct device *dev;
- 	struct pci_dev *rdev;
- 	struct mutex lock; /* generic mutex lock */
--#if IS_ENABLED(CONFIG_DEBUG_FS)
- 	struct dentry *dbgfs_dir;
--#endif /* CONFIG_DEBUG_FS */
- };
- 
- static bool enable_stb;
-@@ -429,7 +427,6 @@ static struct attribute *pmc_attrs[] = {
- };
- ATTRIBUTE_GROUPS(pmc);
- 
--#ifdef CONFIG_DEBUG_FS
- static int smu_fw_info_show(struct seq_file *s, void *unused)
- {
- 	struct amd_pmc_dev *dev = s->private;
-@@ -544,15 +541,6 @@ static void amd_pmc_dbgfs_register(struct amd_pmc_dev *dev)
- 					    &amd_pmc_stb_debugfs_fops);
- 	}
- }
--#else
--static inline void amd_pmc_dbgfs_register(struct amd_pmc_dev *dev)
--{
--}
--
--static inline void amd_pmc_dbgfs_unregister(struct amd_pmc_dev *dev)
--{
--}
--#endif /* CONFIG_DEBUG_FS */
- 
- static void amd_pmc_dump_registers(struct amd_pmc_dev *dev)
- {
+The original cover letter follows:
+
+In the following patch series I implement support for three buttons on
+the Toshiba Satellite/Portege Z830 (same laptop, different markets).
+
+These buttons work via a PNP0C32 ACPI device. Hans de Goede pointed out
+an old and flawed attempt to implement this as a staging driver.
+
+With that staging driver as a starting point I have now implemented proper
+support. I believe I have fixed the flaws with the original staging driver.
+As it required almost a complete rewrite I have decided to present it as a
+new driver instead of starting with a revert commit to restore the old
+driver and then apply fixes on top.
+
+The specification for PNP0C32 devices exists as a Microsoft specification.
+It was previously available on their web site, but seems to have been taken
+down during the last month. I had a local copy and I have uploaded it to
+archive.org. It is available here for anyone interested (including a
+conversion of the docx to PDF):
+
+https://archive.org/details/microsoft-acpi-dirapplaunch
+
+The old emails about support for these buttons can be found at:
+https://marc.info/?l=linux-acpi&m=120550727131007
+https://lkml.org/lkml/2010/5/28/327
+
+Table of contents:
+1. Summary of standard
+2. Issues
+2.1. Issue 1: Wake support
+2.2. Issue 2: Button identification
+2.3. Issue 3: GHID: 64-bit values?
+2.4. Issue 4: MAINTAINERS?
+3. User space API
+3.1. Input device
+3.2. Sysfs file: button_id (Read only)
+3.3. Sysfs file: wakeup_cause (Read write)
+4. HCI_HOTKEY_EVENT register (toshiba_acpi)
+
+
+1. Summary of standard
+======================
+
+Here is a brief high level summary of the standard for PNP0C32. See
+https://archive.org/details/microsoft-acpi-dirapplaunch for the full
+standard.
+
+PNP0C32 devices are "Direct Application Launch" buttons. The idea is that
+they should work while the laptop is in various sleep modes (or even off).
+The Z830 does not support waking from any sleep mode using these buttons,
+it only supports them while it is awake.
+
+Each PNP0C32 device represents a single button. Their meaning is completely
+vendor defined. On Windows you can either:
+* Make them launch an application when pressed (defined in the registry)
+* Or an application can subscribe to specific Window messages to get
+  notified when they are pressed (this is how they are used by the Toshiba
+  software).
+
+2. Issues
+=========
+Unfortunately there are a few issues where I would like some input.
+
+On top of that I'm sure there are lots of issues as I'm fairly new to
+kernel programming!
+
+2.1. Issue 1: Wake support
+--------------------------
+This is untested as the Toshiba Z830 that I have simply does not support
+this part in the firmware. I left the old behaviour in and only adapted it
+slightly.
+
+The driver adds a sysfs file "wakeup_cause" to each PNP0C32 device
+(inspired by old approach) that would read "true" after causing the wakeup.
+It would be up to user space query this and reset the value to false.
+This is basically what the old staging driver did, only moved from an
+(un-needed) platform driver to each ACPI driver.
+
+As I cannot test it (the Z830 does not support the wakeup part of the spec)
+I'm more inclined to just drop this feature, especially if the current
+approach is suboptimal. It would then be up to someone else to implement
+this in the future.
+
+2.2. Issue 2: Button identification
+-----------------------------------
+There is NO generic way to know what the buttons are "supposed" to do.
+Each button has a vendor defined ID (an 8-, 16- or 32-bit unsigned integer).
+This ID can be read with the GHID ACPI method.
+
+As such I map all these to KEY_UNKNOWN. Then suitable hwdb entries can be
+created for udev that remap these to some sort of meaningful values.
+
+Here is an example hwdb file I created for my laptop:
+$ cat /etc/udev/hwdb.d/quickstart.hwdb 
+evdev:name:Quickstart Button 1:dmi:bvn*:bvr*:bd*:svnTOSHIBA:pn*Z830:*
+ KEYBOARD_KEY_01=prog1
+
+evdev:name:Quickstart Button 2:dmi:bvn*:bvr*:bd*:svnTOSHIBA:pn*Z830:*
+ KEYBOARD_KEY_01=prog2
+
+evdev:name:Quickstart Button 3:dmi:bvn*:bvr*:bd*:svnTOSHIBA:pn*Z830:*
+ KEYBOARD_KEY_01=touchpad_toggle
+
+As can be seen I always use the scancode 1 here. Would it be better to use
+the ID from GHID instead? This can be an arbitrary 32-bit value.
+
+Note also that prog1 and prog2 are poor approximations of the real buttons.
+In reality the buttons are "Eco mode" and "Open Windows Mobility center on
+screen about switching to projection mode". However Linux seem to lack
+suitable key definitions for these.
+
+2.3. Issue 3: GHID: 64-bit values?
+----------------------------------
+The old staging driver had support for GHID returning a 64-bit value. It is
+not clear to me why, as it is not mentioned in the specification. I could
+not find anything when reading the old emails either. As such, I'm unsure
+if I should drop it. The variable this gets stored to is just 32-bit
+anyway.
+
+If we decide to use GHID for scancode (see "Issue 2"), 64-bit values
+might be a problem, as the scan code field is only 32 bits.
+
+2.4. Issue 4: MAINTAINERS?
+--------------------------
+I got this from checkpatch.pl:
+WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+I'm not sure? Advice would be welcome.
+
+
+3. User space API
+=================
+Currently the user space API is as a sparse keymap input device, plus two
+unique sysfs files. Discussion on this is welcome!
+
+3.1. Input device
+-----------------
+The device produces KEY_UNKNOWN events when the button is pressed, with
+the scan code 1. We could change the scan code to the button ID reported
+by ACPI via GHID. See also "Issue 2" and "Issue 3" above.
+
+3.2. Sysfs file: button_id (Read only)
+--------------------------
+This file can be read to get the button ID as reported by GHID. It is
+returned in human readable ASCII with a trailing newline.
+
+3.3. Sysfs file: wakeup_cause (Read write)
+-----------------------------
+Will return "true\n" when read after the button was the wakeup cause.
+This is latched until user space writes "false" to the file.
+
+See also "Issue 1" above. If this is not a suitable interface I'm inclined
+to just drop the wakeup handling entirely.
+
+
+4. HCI_HOTKEY_EVENT register (toshiba_acpi)
+============================
+To enable quickstart hotkeys, the HCI_HOTKEY_EVENT (0x1e) register needs
+to be set correctly by toshiba_acpi. toshiba_acpi currently sets this to
+HCI_HOTKEY_ENABLE (0x9) on the Z830. This is not suitable.
+
+* Windows drivers reads the register then sets it to 0x5. Presumably there
+  is some logic going on there.
+* HCI_GET on HCI_HOTKEY_EVENT returns 0xf before first call to set it when
+  booting Linux on this laptop.
+* From my testing any value between 1 and 7 (inclusive) gives the correct
+  behaviour for the quickstart buttons. However, for normal hotkeys to work
+  in toshiba_acpi, only values with the least significant bit set work.
+
+Toshiba_acpi already detects some laptops using SCI_KBD_FUNCTION_KEYS. That
+call is not supported on this laptop (return status TOS_NOT_SUPPORTED).
+
+It is not clear to me how to detect when to use the 0x5 value. In the
+attached patch I use a quirk table to enable this. There may be a better
+way to do it.
+
+Note! This series is based off the review-hans branch.
+
+Best regards,
+Arvid Norlander
+
+Arvid Norlander (2):
+  platform/x86: quickstart: Add ACPI quickstart button (PNP0C32) driver
+  platform/x86: toshiba_acpi: Add quirk for buttons on Z830
+
+ drivers/platform/x86/Kconfig        |  13 ++
+ drivers/platform/x86/Makefile       |   3 +
+ drivers/platform/x86/quickstart.c   | 320 ++++++++++++++++++++++++++++
+ drivers/platform/x86/toshiba_acpi.c |  36 +++-
+ 4 files changed, 369 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/platform/x86/quickstart.c
+
 -- 
-2.25.1
+2.37.3
 
