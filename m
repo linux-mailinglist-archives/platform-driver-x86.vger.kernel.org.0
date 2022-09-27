@@ -2,84 +2,97 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A2085EC50A
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 27 Sep 2022 15:55:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CEEE5EC515
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 27 Sep 2022 15:56:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231724AbiI0Ny5 (ORCPT
+        id S232147AbiI0N4n (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 27 Sep 2022 09:54:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51208 "EHLO
+        Tue, 27 Sep 2022 09:56:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230428AbiI0Nyy (ORCPT
+        with ESMTP id S231906AbiI0N4l (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 27 Sep 2022 09:54:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 423605C9EB
-        for <platform-driver-x86@vger.kernel.org>; Tue, 27 Sep 2022 06:54:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1664286890;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=yFzWTqg7ruOuMFEnKyj9bxOrUs1pn+4Pk6/g3H0UuoQ=;
-        b=WcInro/KVCbLlIQ2lOwYpir/BJoScjG+vGo9y7ZCAwzWBqNP8ttKha9w7D1bMr51nwZHmI
-        UyvhF1nTMWR/ox7Z3c4/HVTVzvWNdiR7ARod0VHW6GWnDK7HCFTgxdxjeKoWn0UntDl78i
-        gAJiOW2a6Ld4hCRQBI8iJTjpn8U5A9w=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-561-75vKvDSwNl-GOBExhjZ4qQ-1; Tue, 27 Sep 2022 09:54:49 -0400
-X-MC-Unique: 75vKvDSwNl-GOBExhjZ4qQ-1
-Received: by mail-ed1-f71.google.com with SMTP id y14-20020a056402440e00b0044301c7ccd9so7814177eda.19
-        for <platform-driver-x86@vger.kernel.org>; Tue, 27 Sep 2022 06:54:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=yFzWTqg7ruOuMFEnKyj9bxOrUs1pn+4Pk6/g3H0UuoQ=;
-        b=yAKPCYZEL+3Cu2ScBctWpwrPQGwLnXmLJh9ak5X+0R3fcuMpVhhihhnuVCCYbdjbCv
-         GhLTMUcjCQIMrZbsQ9UmjkvpzY3JbrqB75le46DVRgbSU05urU2rDHDInE4QWl4pHP2A
-         ZNDomgGWl/QjuePCRe+j/2cLe7IoVyK4j5oyxIRg30kxpFCBs7vBZMLS5LjHhMChxhOO
-         x29q2TFfyO5wBQjHcnl+ITsD7YcB3yifDsmGlyZLzmyaieyn1euqU5LKRuv/2wI3+vxj
-         Ssx8AWZal53KkapCVEa5fP3KETTC32eUA0VVCt+9UvePkUoEO7OYG45HIntD9AJAmk7S
-         F7eA==
-X-Gm-Message-State: ACrzQf2ZhBcxnj7qAWSBLyrUj3caJpEhVyBAsQ1eb7Q9exc7nbCwizy+
-        9TTBzue7MTwqZ57OxOK10Nx+UZLCgBpYlxsBcbkyIKDLJBM4YlOawDgra/iCOWlUL7Q3iBKh6qy
-        0t59uELnyqADQlmqDPXQ0uMV0ZUqVwjpXlQ==
-X-Received: by 2002:a17:907:7f1e:b0:783:4f25:39c1 with SMTP id qf30-20020a1709077f1e00b007834f2539c1mr10782923ejc.160.1664286886984;
-        Tue, 27 Sep 2022 06:54:46 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6vfc+y+BCHoreRx7vSsbDNVO2bEWZe13YRu0e91G8JnDCf1EqiwdHvGwQ54C6OrKnPkEfvNw==
-X-Received: by 2002:a17:907:7f1e:b0:783:4f25:39c1 with SMTP id qf30-20020a1709077f1e00b007834f2539c1mr10782744ejc.160.1664286885735;
-        Tue, 27 Sep 2022 06:54:45 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id k2-20020a17090632c200b0074150f51d86sm815969ejk.162.2022.09.27.06.54.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Sep 2022 06:54:45 -0700 (PDT)
-Message-ID: <36cc9c55-bc8c-ed9e-3467-8be0aa450167@redhat.com>
-Date:   Tue, 27 Sep 2022 15:54:44 +0200
+        Tue, 27 Sep 2022 09:56:41 -0400
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2076.outbound.protection.outlook.com [40.107.244.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B52F13942B
+        for <platform-driver-x86@vger.kernel.org>; Tue, 27 Sep 2022 06:56:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aVpF9lD5ibfVUWVY4H5d1HrezjolSWnAH4TwMtqIEAATrAMjQvbv038UFEDTFY31tRr/Ropwg1Ncrk57EAvhP3agrOnWKLrPFn8VlmJ5q+imLKtYe4enCWmKJAc4vHbtKiwjurRpd/FWH3Y2Go9KqFUrUxIizrHC10mBRtVdGYlQUiC64Elkdcj+Rd3YJhQuRlFXCVkaHs1DMAqdOFSBrQ9fN1tQ/fYYiDPPF+NJf/94/xj9edK+ljtJQJO3shHdUjsaOe2PgXhKAS9k0BPP8cexO+BoKtrnPbcT+A9x1t9ZNIB2V7fExF4AHgTBUIYJajpDW0rn91PbIbrm3IH/WA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ozY/egBsu3+3rSH5FN0VMfSSy2ctcoE6FHUjGURi4Ns=;
+ b=bbpwObPP6r6W8CcrEA1CS388z34xBu92n3wkUNHhqAy1khtDJVIVh0mqS1IPI2+RaoquCI+sOZDtB8AR5X1KHRMg/OH3NZBR3WLJynYtOCPDRGLsxZUKDf7Z3Fftyh044jjoeKfP/yoyEzsl28Po9p6UlFQjn3CI5arQrK1eT/SwFApbD15SVyMOP8gs4FPhjtBoYYHM662fmIhsbs9x+duCQlaiTIyvDjQn9ky+QpUJrVzDdGiKoeDl312v2tiXaC16XFqHxKajgHcssTSyLBUfyo5ZbrtogXgYzTa4w4C5iSFM7+qE4oAUS/QqlXVvieLT85DgNcQdB96NbY1eIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ozY/egBsu3+3rSH5FN0VMfSSy2ctcoE6FHUjGURi4Ns=;
+ b=Wof/WuJiHqvmK/sGtxFgomRml1JKHyuaKYTmewaB2RKqw8dQO/bntOupe4nQ+pcBidgwKx0sguNp4cYGyXdo/nw5TJeDiigc/OdWNYN/qCeTn7iXZX1eHBfZ4z+XUimY5EXlAQB9sZ9U2go0cU+LLGHuBSeQ3bxsGm1aTz/UufQ=
+Received: from MW4PR04CA0135.namprd04.prod.outlook.com (2603:10b6:303:84::20)
+ by BL1PR12MB5363.namprd12.prod.outlook.com (2603:10b6:208:317::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.15; Tue, 27 Sep
+ 2022 13:56:37 +0000
+Received: from CO1NAM11FT005.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:84:cafe::18) by MW4PR04CA0135.outlook.office365.com
+ (2603:10b6:303:84::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.26 via Frontend
+ Transport; Tue, 27 Sep 2022 13:56:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT005.mail.protection.outlook.com (10.13.174.147) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5654.14 via Frontend Transport; Tue, 27 Sep 2022 13:56:37 +0000
+Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Tue, 27 Sep
+ 2022 08:56:33 -0500
+From:   Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+To:     <hdegoede@redhat.com>, <markgross@kernel.org>,
+        <mario.limonciello@amd.com>
+CC:     <platform-driver-x86@vger.kernel.org>,
+        <Dell.Client.Kernel@dell.com>,
+        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: [PATCH] platform/x86/intel/wmi: thunderbolt: use dev_groups callback
+Date:   Tue, 27 Sep 2022 19:26:12 +0530
+Message-ID: <20220927135612.1602491-1-Shyam-sundar.S-k@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH RFC v2 1/2] platform/x86: quickstart: Add ACPI quickstart
- button (PNP0C32) driver
-Content-Language: en-US
-To:     Arvid Norlander <lkml@vorpal.se>,
-        platform-driver-x86@vger.kernel.org
-Cc:     linux-acpi@vger.kernel.org, Len Brown <lenb@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-input@vger.kernel.org, Azael Avalos <coproscefalo@gmail.com>,
-        =?UTF-8?Q?Barnab=c3=a1s_P=c5=91cze?= <pobrn@protonmail.com>
-References: <20220922182424.934340-1-lkml@vorpal.se>
- <20220922182424.934340-2-lkml@vorpal.se>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220922182424.934340-2-lkml@vorpal.se>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=ham
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT005:EE_|BL1PR12MB5363:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6fa4159c-21b2-4a32-e634-08daa090186d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Wo54125/ybCxH20yojpi1Fvn1D9BVgXdjT+shtqV8/iGlLj4ycqwPjVI9uGWNH53S3N8NLZwxxSfb2OBotxHJyM7gvESqNb4esg8+yWtPLP8ojG9oWqCrQZdt+z52asoRXlWGblDy8QPxP7DymxpsAES8rBsTAfJOgeUI7OCruiK7bx3tU8SQ+UX8XIMcQJIKG4RiMxSQJ4gJFP9sfWLp8D/gzWM+tkiAxRK7Z5QJ21sHyvfl8y3M3bOUOIEPYfxNZTsOxsb29qI1dAFwquL8o4JNIRGIvoJLEr8V+jJlP8qxd/SjQ2X8IL19HRYK/tSSvvGFtA3k9oxp9obyRV8KTpG5hiLlPGCK02dcxr3hf7/Lx78GVXkw1vEbS0EK91/n7idD/MbQcrkYkUz/VzH66i/ILOQ7xQGtMr3HDCrKs4jRz5vyE3tt87JEzTkWpZrqBHktBoB8M9uJhHYPLI+qSWx8OdDDRfvb6Nh1JsKNCRYkkuA8ahs2Hj8sXpIr/Woaah24ZqsiqkTsqYQ8HMbLA/kXTw6+/LH2KH/tbfGdMbP3tGoPprrZlrzNInaBfBGl2vJHhnOXCk2klyOIXIo7PXHX0Pxohkm46OJ7Jxpcoy1ztjYaFqzyWKyHRyB2i7lIrRcEQ5IBH2LLMqwqfn2zEQiTl6es3slpwfoCt5iLWHRSsqI8nzYOiREjjK5ykiIKRcmC4Dxx1x3l7hWqDZ4P6K8yj3KTqDvpNY84FmBrxZAEPH+ozJYjhbbcoqgFej86O8dHpMGpiFLXE+Irvd1ERO4TlcdVnQtc8EarjOSOnBigNVGwkOf6ZdueNq+fMN+g8b5/kSpGtYHLgYioQo7KQ==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(136003)(39860400002)(346002)(396003)(376002)(451199015)(46966006)(40470700004)(36840700001)(2616005)(26005)(478600001)(36756003)(2906002)(6636002)(316002)(8936002)(54906003)(110136005)(86362001)(4326008)(8676002)(41300700001)(70586007)(6666004)(7696005)(70206006)(82740400003)(82310400005)(5660300002)(356005)(40460700003)(81166007)(36860700001)(426003)(47076005)(40480700001)(1076003)(186003)(16526019)(336012)(83380400001)(2101003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2022 13:56:37.0218
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6fa4159c-21b2-4a32-e634-08daa090186d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT005.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5363
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -87,476 +100,58 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+use .dev_groups callback instead of manual sysfs registration.
+Remove .probe and .remove callbacks as they become dummy after
+using .dev_groups.
 
-On 9/22/22 20:24, Arvid Norlander wrote:
-> This is loosely based on a previous staging driver that was removed. See
-> links below for more info on that driver. The original commit ID was
-> 0be013e3dc2ee79ffab8a438bbb4e216837e3d52.
-> 
-> However, here a completely different approach is taken to the user space
-> API (which should solve the issues the original driver had). Each PNP0C32
-> device is a button, and each such button gets a separate input device
-> associated with it (instead of a shared platform input device).
-> 
-> The button ID (as read from ACPI method GHID) is provided via a sysfs file
-> "button_id".
-> 
-> If the button caused a wakeup it will "latch" the "wakeup_cause" sysfs file
-> to true. This can be reset by a user space process.
-> 
-> Link: https://marc.info/?l=linux-acpi&m=120550727131007
-> Link: https://lkml.org/lkml/2010/5/28/327
-> Signed-off-by: Arvid Norlander <lkml@vorpal.se>
-> ---
->  drivers/platform/x86/Kconfig      |  13 ++
->  drivers/platform/x86/Makefile     |   3 +
->  drivers/platform/x86/quickstart.c | 320 ++++++++++++++++++++++++++++++
->  3 files changed, 336 insertions(+)
->  create mode 100644 drivers/platform/x86/quickstart.c
-> 
-> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> index f5312f51de19..eebd70ef4a7c 100644
-> --- a/drivers/platform/x86/Kconfig
-> +++ b/drivers/platform/x86/Kconfig
-> @@ -685,6 +685,18 @@ config THINKPAD_LMI
->  
->  source "drivers/platform/x86/intel/Kconfig"
->  
-> +config ACPI_QUICKSTART
-> +	tristate "ACPI Quickstart key driver"
-> +	depends on ACPI
-> +	depends on INPUT
-> +	select INPUT_SPARSEKMAP
-> +	help
-> +	  Say Y here if you have a platform that supports the ACPI
-> +	  quickstart key protocol.
-> +
-> +	  To compile this driver as a module, choose M here: the module will be
-> +	  called quickstart.
-> +
->  config MSI_LAPTOP
->  	tristate "MSI Laptop Extras"
->  	depends on ACPI
-> @@ -803,6 +815,7 @@ config ACPI_TOSHIBA
->  	depends on RFKILL || RFKILL = n
->  	depends on IIO
->  	select INPUT_SPARSEKMAP
-> +	select ACPI_QUICKSTART
->  	help
->  	  This driver adds support for access to certain system settings
->  	  on "legacy free" Toshiba laptops.  These laptops can be recognized by
-> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-> index 5a428caa654a..a8a8e1ddb2a3 100644
-> --- a/drivers/platform/x86/Makefile
-> +++ b/drivers/platform/x86/Makefile
-> @@ -72,6 +72,9 @@ obj-$(CONFIG_THINKPAD_LMI)	+= think-lmi.o
->  # Intel
->  obj-y				+= intel/
->  
-> +# Microsoft
-> +obj-$(CONFIG_ACPI_QUICKSTART)	+= quickstart.o
-> +
->  # MSI
->  obj-$(CONFIG_MSI_LAPTOP)	+= msi-laptop.o
->  obj-$(CONFIG_MSI_WMI)		+= msi-wmi.o
-> diff --git a/drivers/platform/x86/quickstart.c b/drivers/platform/x86/quickstart.c
-> new file mode 100644
-> index 000000000000..ce51abe012f7
-> --- /dev/null
-> +++ b/drivers/platform/x86/quickstart.c
-> @@ -0,0 +1,320 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + *  quickstart.c - ACPI Direct App Launch driver
-> + *
-> + *  Copyright (C) 2022 Arvid Norlander <lkml@vorapal.se>
-> + *  Copyright (C) 2007-2010 Angelo Arrifano <miknix@gmail.com>
-> + *
-> + *  Information gathered from disassembled dsdt and from here:
-> + *  <https://archive.org/details/microsoft-acpi-dirapplaunch>
+Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+---
+ drivers/platform/x86/intel/wmi/thunderbolt.c | 24 ++------------------
+ 1 file changed, 2 insertions(+), 22 deletions(-)
 
-SPDX fully covers all the license stuff, so please drop the below
-part of this comment block:
-
-> + *
-> + *  This program is free software; you can redistribute it and/or modify
-> + *  it under the terms of the GNU General Public License as published by
-> + *  the Free Software Foundation; either version 2 of the License, or
-> + *  (at your option) any later version.
-> + *
-> + *  This program is distributed in the hope that it will be useful,
-> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + *  GNU General Public License for more details.
-> + *
-
-And stop dropping the comment here (obviously).
-
-> + */
-> +
-> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> +
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/init.h>
-> +#include <linux/types.h>
-> +#include <linux/acpi.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/input.h>
-> +#include <linux/input/sparse-keymap.h>
-> +#include <asm/unaligned.h>
-> +
-> +MODULE_AUTHOR("Arvid Norlander <lkml@vorpal.se>");
-> +MODULE_AUTHOR("Angelo Arrifano");
-> +MODULE_DESCRIPTION("ACPI Direct App Launch driver");
-> +MODULE_LICENSE("GPL");
-> +
-> +#define QUICKSTART_ACPI_DEVICE_NAME	"quickstart"
-> +#define QUICKSTART_ACPI_HID		"PNP0C32"
-> +
-> +/*
-> + * There will be two events:
-> + * 0x02 - A hot button was pressed while device was off/sleeping.
-> + * 0x80 - A hot button was pressed while device was up.
-> + */
-> +#define QUICKSTART_EVENT_WAKE		0x02
-> +#define QUICKSTART_EVENT_RUNTIME	0x80
-> +
-> +/*
-> + * Each PNP0C32 device is an individual button. This structure
-> + * keeps track of data associated with said device.
-> + */
-> +struct quickstart_acpi {
-> +	struct platform_device *platform_dev;
-
-Everywhere where this is used you use platform_dev->dev,
-instead please just store &platform_dev->dev in a
-struct device *dev here.
-
-> +	struct input_dev *input_device;
-> +	struct quickstart_button *button;
-> +	/* ID of button as returned by GHID */
-> +	u32 id;
-> +	/* Name of input device */
-> +	char input_name[32];
-> +	/* Physical path for the input device */
-> +	char phys[32];
-> +	/* Track if a wakeup event was received */
-> +	bool wakeup_cause;
-> +};
-> +
-> +#define quickstart_name(dev) acpi_device_bid(dev->acpi_dev)
-> +
-> +/*
-> + * Knowing what these buttons do require system specific knowledge.
-> + * This could be done by matching on DMI data in a long quirk table.
-> + * However, it is easier to leave it up to user space to figure this out.
-> + *
-> + * Using for example udev hwdb the scancode 0x1 can be remapped suitably.
-> + */
-> +static const struct key_entry quickstart_keymap[] = {
-> +	{ KE_KEY, 0x1, { KEY_UNKNOWN } },
-> +	{ KE_END, 0 },
-> +};
-> +
-> +static ssize_t wakeup_cause_show(struct device *dev,
-> +				 struct device_attribute *attr, char *buf)
-> +{
-> +	struct quickstart_acpi *quickstart = dev_get_drvdata(dev);
-> +
-> +	return sysfs_emit(buf, "%s\n",
-> +			  (quickstart->wakeup_cause ? "true" : "false"));
-> +}
-> +
-> +static ssize_t wakeup_cause_store(struct device *dev,
-> +				  struct device_attribute *attr,
-> +				  const char *buf, size_t count)
-> +{
-> +	struct quickstart_acpi *quickstart = dev_get_drvdata(dev);
-> +
-> +	if (count < 2)
-> +		return -EINVAL;
-> +
-> +	if (strncasecmp(buf, "false", 4) != 0)
-> +		return -EINVAL;
-> +
-> +	quickstart->wakeup_cause = false;
-> +	return count;
-> +}
-> +static DEVICE_ATTR_RW(wakeup_cause);
-
-I think it would be best here to just use the standard kernel boolean
-convention like how it is also used for bool type module parameters,
-then you would get something like this:
-
-static ssize_t wakeup_cause_show(struct device *dev,
-				 struct device_attribute *attr, char *buf)
-{
-	struct quickstart_acpi *quickstart = dev_get_drvdata(dev);
-
-	return sysfs_emit(buf, "%c\n", quickstart->wakeup_cause ? 'Y' : 'N');
-}
-
-static ssize_t wakeup_cause_store(struct device *dev,
-				  struct device_attribute *attr,
-				  const char *buf, size_t count)
-{
-	struct quickstart_acpi *quickstart = dev_get_drvdata(dev);
-	bool value;
-	int ret;
-
-	ret = kstrtobool(buf, &value);
-	if (ret)
-		return ret;
-
-	/* Only allow clearing, not setting */
-	if (value)
-		return -EINVAL;
-
-	quickstart->wakeup_cause = false;
-	return count;
-}
-static DEVICE_ATTR_RW(wakeup_cause);
-
-Note I have chosen to show 'Y' and 'N' as values when reading because
-that is what the kernel does when showing bool module parameters under
-/sys/modules/*/parameters/*
-
-But if you prefer to keep the true/false strings that is fine too.
-
-Note you should also add a Documentation/ABI/testing/sysfs-platform-PNP0C32 or
-Documentation/ABI/testing/sysfs-platform-quickstart file documenting the
-sysfs attributes. So that whatever you chose (Y/N vs true/false) is
-documented.
-
-I think that Documentation/ABI/testing/sysfs-platform-PNP0C32 will
-be easier to find for users since that is the name of the devices under
-/sys/bus/platform/devices, but either suggested name works for me.
-
-
-> +static ssize_t button_id_show(struct device *dev, struct device_attribute *attr,
-> +			      char *buf)
-> +{
-> +	struct quickstart_acpi *quickstart = dev_get_drvdata(dev);
-> +
-> +	return sysfs_emit(buf, "%u\n", quickstart->id);
-> +}
-> +static DEVICE_ATTR_RO(button_id);
-> +
-> +/* ACPI Driver functions */
-> +static void quickstart_acpi_notify(acpi_handle handle, u32 event, void *context)
-> +{
-> +	struct platform_device *device = context;
-> +	struct quickstart_acpi *quickstart = dev_get_drvdata(&device->dev);
-> +
-> +	if (!quickstart)
-> +		return;
-> +
-> +	switch (event) {
-> +	case QUICKSTART_EVENT_WAKE:
-> +		quickstart->wakeup_cause = true;
-> +		break;
-> +	case QUICKSTART_EVENT_RUNTIME:
-> +		if (!sparse_keymap_report_event(quickstart->input_device, 0x1,
-> +						1, true)) {
-> +			pr_info("Key handling error\n");
-> +		}
-> +		break;
-> +	default:
-> +		pr_err("Unexpected ACPI event notify (%u)\n", event);
-
-Also as Barnabás mentioned already please use dev_*, so:
-
-		dev_err(quickstart->dev, "Unexpected ACPI event notify (%u)\n", event);
-
-
-> +		break;
-> +	}
-> +}
-> +
-> +/*
-> + * The GHID ACPI method is used to indicate the "role" of the button.
-> + * However, all the meanings of these values are vendor defined.
-> + *
-> + * We do however expose this value to user space.
-> + */
-> +static int quickstart_acpi_ghid(struct quickstart_acpi *quickstart)
-> +{
-> +	acpi_handle handle = ACPI_HANDLE(&quickstart->platform_dev->dev);
-> +	acpi_status status;
-> +	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
-> +	int ret = 0;
-> +	union acpi_object *obj = NULL;
-> +
-> +	/*
-> +	 * This returns a buffer telling the button usage ID,
-> +	 * and triggers pending notify events (The ones before booting).
-> +	 */
-> +	status = acpi_evaluate_object(handle, "GHID", NULL, &buffer);
-> +	if (ACPI_FAILURE(status)) {
-> +		dev_err(&quickstart->platform_dev->dev,
-> +			"GHID method failed, ACPI status %u\n", status);
-> +		return -EINVAL;
-> +	}
-> +	obj = buffer.pointer;
-> +
-> +	/*
-> +	 * GHID returns buffers, sanity check that is the case.
-> +	 */
-> +	if (obj->type != ACPI_TYPE_BUFFER) {
-> +		dev_err(&quickstart->platform_dev->dev,
-> +			"GHID did not return buffer\n");
-> +		ret = -EINVAL;
-> +		goto free_and_return;
-> +	}
-> +
-> +	/*
-> +	 * Quoting the specification:
-> +	 * "The GHID method can return a BYTE, WORD, or DWORD.
-> +	 *  The value must be encoded in little-endian byte
-> +	 *  order (least significant byte first)."
-> +	 */
-> +	switch (obj->buffer.length) {
-> +	case 1:
-> +		quickstart->id = *(u8 *)obj->buffer.pointer;
-> +		break;
-> +	case 2:
-> +		quickstart->id = get_unaligned_le16(obj->buffer.pointer);
-> +		break;
-> +	case 4:
-> +		quickstart->id = get_unaligned_le32(obj->buffer.pointer);
-> +		break;
-> +	case 8:
-> +		quickstart->id = get_unaligned_le64(obj->buffer.pointer);
-> +		break;
-> +	default:
-> +		dev_err(&quickstart->platform_dev->dev,
-> +			"GHID method returned buffer of unexpected length %lu\n",
-> +			(unsigned long)obj->buffer.length);
-> +		ret = -EINVAL;
-> +		break;
-> +	}
-> +
-> +free_and_return:
-> +	kfree(buffer.pointer);
-> +
-> +	return ret;
-> +}
-> +
-> +static struct attribute *quickstart_attributes[] = {
-> +	&dev_attr_wakeup_cause.attr,
-> +	&dev_attr_button_id.attr,
-> +	NULL,
-> +};
-> +
-> +static const struct attribute_group quickstart_attr_group = {
-> +	.attrs = quickstart_attributes,
-> +};
-> +
-> +static int quickstart_remove(struct platform_device *device)
-> +{
-> +	acpi_handle handle = ACPI_HANDLE(&device->dev);
-> +
-> +	acpi_remove_notify_handler(handle, ACPI_DEVICE_NOTIFY,
-> +				   quickstart_acpi_notify);
-> +
-> +	return 0;
-> +}
-> +
-> +static int quickstart_probe(struct platform_device *device)
-> +{
-> +	int ret;
-> +	acpi_handle handle = ACPI_HANDLE(&device->dev);
-> +	acpi_status status;
-> +	struct quickstart_acpi *quickstart;
-> +
-> +	if (!device)
-> +		return -EINVAL;
-> +
-> +	quickstart =
-> +		devm_kzalloc(&device->dev, sizeof(*quickstart), GFP_KERNEL);
-> +	if (!quickstart)
-> +		return -ENOMEM;
-> +
-> +	/*
-> +	 * This must be set early for proper cleanup on error handling path.
-> +	 * After this point generic error handling can be used.
-> +	 */
-> +	quickstart->platform_dev = device;
-> +	dev_set_drvdata(&device->dev, quickstart);
-> +
-> +	/* Retrieve the GHID ID */
-> +	ret = quickstart_acpi_ghid(quickstart);
-> +	if (ret < 0)
-> +		goto error;
-> +
-> +	/* Set up sysfs entries */
-> +	ret = devm_device_add_group(&quickstart->platform_dev->dev,
-> +				    &quickstart_attr_group);
-> +	if (ret) {
-> +		dev_err(&device->dev, "Unable to setup sysfs entries\n");
-> +		goto error;
-> +	}
-> +
-> +	/* Set up input device */
-> +	quickstart->input_device =
-> +		devm_input_allocate_device(&quickstart->platform_dev->dev);
-> +	if (!quickstart->input_device) {
-> +		ret = -ENOMEM;
-> +		goto error;
-> +	}
-> +	ret = sparse_keymap_setup(quickstart->input_device, quickstart_keymap,
-> +				  NULL);
-> +	if (ret)
-> +		goto error;
-> +
-> +	snprintf(quickstart->input_name, sizeof(quickstart->phys),
-> +		 "Quickstart Button %u", quickstart->id);
-> +	snprintf(quickstart->phys, sizeof(quickstart->phys),
-> +		 QUICKSTART_ACPI_DEVICE_NAME "/input%u", quickstart->id);
-> +
-> +	quickstart->input_device->name = quickstart->input_name;
-> +	quickstart->input_device->phys = quickstart->phys;
-> +	quickstart->input_device->id.bustype = BUS_HOST;
-> +
-> +	ret = input_register_device(quickstart->input_device);
-> +
-> +	/* Set up notify handler */
-> +	status = acpi_install_notify_handler(handle, ACPI_DEVICE_NOTIFY,
-> +					     quickstart_acpi_notify, device);
-> +	if (ACPI_FAILURE(status)) {
-> +		dev_err(&device->dev, "Error installing notify handler\n");
-> +		return -EIO;
-> +	}
-> +
-> +	return 0;
-> +error:
-> +	quickstart_remove(device);
-> +	return ret;
-> +}
-> +
-> +static const struct acpi_device_id quickstart_device_ids[] = {
-> +	{ QUICKSTART_ACPI_HID, 0 },
-> +	{ "", 0 },
-> +};
-> +MODULE_DEVICE_TABLE(acpi, quickstart_device_ids);
-> +
-> +static struct platform_driver quickstart_platform_driver = {
-> +	.probe	= quickstart_probe,
-> +	.remove	= quickstart_remove,
-> +	.driver	= {
-> +		.name = QUICKSTART_ACPI_DEVICE_NAME,
-> +		.acpi_match_table = quickstart_device_ids,
-> +		.owner = THIS_MODULE,
-> +	}
-> +};
-> +
-> +module_platform_driver(quickstart_platform_driver);
-
-Otherwise this looks good to me, thanks.
-
-Regards,
-
-Hans
+diff --git a/drivers/platform/x86/intel/wmi/thunderbolt.c b/drivers/platform/x86/intel/wmi/thunderbolt.c
+index 4ae87060d18b..fc333ff82d1e 100644
+--- a/drivers/platform/x86/intel/wmi/thunderbolt.c
++++ b/drivers/platform/x86/intel/wmi/thunderbolt.c
+@@ -51,26 +51,7 @@ static struct attribute *tbt_attrs[] = {
+ 	&dev_attr_force_power.attr,
+ 	NULL
+ };
+-
+-static const struct attribute_group tbt_attribute_group = {
+-	.attrs = tbt_attrs,
+-};
+-
+-static int intel_wmi_thunderbolt_probe(struct wmi_device *wdev,
+-				       const void *context)
+-{
+-	int ret;
+-
+-	ret = sysfs_create_group(&wdev->dev.kobj, &tbt_attribute_group);
+-	kobject_uevent(&wdev->dev.kobj, KOBJ_CHANGE);
+-	return ret;
+-}
+-
+-static void intel_wmi_thunderbolt_remove(struct wmi_device *wdev)
+-{
+-	sysfs_remove_group(&wdev->dev.kobj, &tbt_attribute_group);
+-	kobject_uevent(&wdev->dev.kobj, KOBJ_CHANGE);
+-}
++ATTRIBUTE_GROUPS(tbt);
+ 
+ static const struct wmi_device_id intel_wmi_thunderbolt_id_table[] = {
+ 	{ .guid_string = INTEL_WMI_THUNDERBOLT_GUID },
+@@ -80,9 +61,8 @@ static const struct wmi_device_id intel_wmi_thunderbolt_id_table[] = {
+ static struct wmi_driver intel_wmi_thunderbolt_driver = {
+ 	.driver = {
+ 		.name = "intel-wmi-thunderbolt",
++		.dev_groups = tbt_groups,
+ 	},
+-	.probe = intel_wmi_thunderbolt_probe,
+-	.remove = intel_wmi_thunderbolt_remove,
+ 	.id_table = intel_wmi_thunderbolt_id_table,
+ };
+ 
+-- 
+2.25.1
 
