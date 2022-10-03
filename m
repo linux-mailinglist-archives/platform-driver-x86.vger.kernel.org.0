@@ -2,54 +2,54 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE08E5F2D96
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  3 Oct 2022 11:30:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C9635F2D8C
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  3 Oct 2022 11:29:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229704AbiJCJ3w (ORCPT
+        id S231401AbiJCJ3V (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 3 Oct 2022 05:29:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57398 "EHLO
+        Mon, 3 Oct 2022 05:29:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231330AbiJCJ3F (ORCPT
+        with ESMTP id S230392AbiJCJ2F (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 3 Oct 2022 05:29:05 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E0AA4CA05
-        for <platform-driver-x86@vger.kernel.org>; Mon,  3 Oct 2022 02:27:22 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id f11so13133748wrm.6
-        for <platform-driver-x86@vger.kernel.org>; Mon, 03 Oct 2022 02:27:21 -0700 (PDT)
+        Mon, 3 Oct 2022 05:28:05 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66FC9402E5
+        for <platform-driver-x86@vger.kernel.org>; Mon,  3 Oct 2022 02:27:05 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id iv17so6615534wmb.4
+        for <platform-driver-x86@vger.kernel.org>; Mon, 03 Oct 2022 02:27:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=cMvv+kIwS7Npnyybgo7TEwbxPHKi63Y9shqXlNy7AcU=;
-        b=yi4VTCWl66asZJGgOiCtWes+qE0VnkocHkD0eBBeny1MYYN+R3rTKORSVOaC88Q2oX
-         JRsM3CLMkQwSIHa5y3FFOcz4ltlIgM05/xPu813pIFXaPXqa3zCTtwDVbOQDxaux+5L5
-         JiXxieD7E/R3HZ6soWRzOn0AWkTUDkf8zsDqnxvOH7OHQeNgKaE0jGjkDO/3dVCkFifm
-         mQm5VsPQdRcsJTAO9xBeDmfrPQsZSAQu+3TcGJp00T4WGA+U0ePr4unggjF9AwECDhaN
-         aG/Ru7kk+KPAVk2IaiuxPMovsRwtACIw4UlNcJwnnMFkbksYC4RDckPqkwRukdetxXJL
-         XaqA==
+        bh=XrpGuF2vxbaEuk6VfKG2/A6XesW21KLMiogPr2+Ux0s=;
+        b=FwUjYB2T9AIbmzsYSBvKKCrMjm17HTvWwOASeQXEfBL+bsID1ypiKj38B2o73wNPnZ
+         H7JokdH/viUXtBFWJDoT9UMCG3wLOqDDLsleZpO3qE7otsTFSOirgQezV3hRcIjJinDc
+         FvZ6fxuFoLaA+uLAPeX98iW6dU3KhuFxEJJ6msX7KcEyYCgnRdd3mXykDJmaN8mq1UqL
+         XghXhEjxJAUYOsEusCP2sbokgsVHFEn0u4YUnD3IYcj+9SLpLzHE3B0e5W2h25gleWU7
+         SUCwhvoUm94R19mGmZf2YcM1wYSzK1y7dW1mgfFDr5qeOR2Bbq1Rg5R9MMpgQVF9ACvP
+         sNTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=cMvv+kIwS7Npnyybgo7TEwbxPHKi63Y9shqXlNy7AcU=;
-        b=39NZ+jl/ISUaBmZt15nES+OpJAYraaKf9A15Oawitq/Wl+k7iXmF+AqTHE5zPj7mDd
-         H8A8mvBvZKiJnm64md5rukPY4A8r9qEtxKhOhc9MRA/Ihmp7CKUwsAB9gPzHiA5rzbXF
-         T//vb0v2v+RRzTFZGqeet1nGEq+MitA1g1r2m+HaPLr/CE0ScX0xpuOYq/9O1dLTMGnh
-         4NjtoEqpi125VGDeb+k7GXLT88hReoK+YMmZQZsVHjdhoNqdwrO9ejBbEF62D3nj0BBc
-         zDDLgrxGT/6ysEUGt4iYSrK5RXnbOWYgpEDQN3J5Y2z6+s0PZkU3TsEieCVbqYXek6+9
-         6LIw==
-X-Gm-Message-State: ACrzQf0V0twom7OhitokqujgJ65qnumvf/R/B0vaXIAl08Q/OuDwpsaT
-        pWl0LJmMe896Ld8SDsidaaYqXg==
-X-Google-Smtp-Source: AMsMyM5LSVGHa2B7QFUFr1zaSy/AhonL+K72D1Y7jFUTXO214W6XCygAW6zpiwRBxLGflGmpLtfJPQ==
-X-Received: by 2002:adf:f48f:0:b0:22e:4244:970e with SMTP id l15-20020adff48f000000b0022e4244970emr1125977wro.140.1664789221410;
-        Mon, 03 Oct 2022 02:27:01 -0700 (PDT)
+        bh=XrpGuF2vxbaEuk6VfKG2/A6XesW21KLMiogPr2+Ux0s=;
+        b=d1/pxrtxsxsj4AhyD4HZl0aXckxn9xHoxg39juMxLem6TmlPsTo8LvCYI3WH1a6WJR
+         /puSwhSOX+mnSYWw994VheIwylbJ7WPCZMqu0OVSxqR6eRryg+eOqmjlABEddcMDB98T
+         GsMp++V1QbLYEXaMb6I/IWyFvm51aYFEkpmY+KZFLNzxVhdUUWPuwFyQbSehXCeTmZQZ
+         lSng+amHKI/6n28f8ctxD90RRrrKN7jge70kgdsBEkI6gQfjJgVl8CTs/bwj2E/HcRfk
+         4rCH5PEcuNjoo/detfx03hGP9DPEuBydgAADzGv9U1CloO9nYtarAIsr0elj907B2Is2
+         V5uQ==
+X-Gm-Message-State: ACrzQf017da+jx3h5xCPIUlz0f32YgluuOFXrpSNVP7EeNPLcPg00sxO
+        QgbqhCpBRcsp1Nxg+iOeYeBijw==
+X-Google-Smtp-Source: AMsMyM5CoTiedooJHR0qKnaNmrKMBIhIvE4B2WnI/NfMGQIrAouQKGzz3pCBUk7YCEc4DZcpXF+oEQ==
+X-Received: by 2002:a05:600c:19ce:b0:3b9:c36f:f9e2 with SMTP id u14-20020a05600c19ce00b003b9c36ff9e2mr2242971wmq.110.1664789224486;
+        Mon, 03 Oct 2022 02:27:04 -0700 (PDT)
 Received: from mai.. ([2a05:6e02:1041:c10:f3a:9f5e:1605:a75a])
-        by smtp.gmail.com with ESMTPSA id ay3-20020a5d6f03000000b0022cc157bf26sm9707520wrb.85.2022.10.03.02.26.58
+        by smtp.gmail.com with ESMTPSA id ay3-20020a5d6f03000000b0022cc157bf26sm9707520wrb.85.2022.10.03.02.27.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Oct 2022 02:27:00 -0700 (PDT)
+        Mon, 03 Oct 2022 02:27:04 -0700 (PDT)
 From:   Daniel Lezcano <daniel.lezcano@linaro.org>
 To:     daniel.lezcano@linaro.org, rafael@kernel.org
 Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
@@ -96,95 +96,49 @@ Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-omap@vger.kernel.org
-Subject: [PATCH v8 14/29] thermal/drivers/armada: Use generic thermal_zone_get_trip() function
-Date:   Mon,  3 Oct 2022 11:25:47 +0200
-Message-Id: <20221003092602.1323944-15-daniel.lezcano@linaro.org>
+        linux-omap@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v8 15/29] thermal/drivers/rcar_gen3: Use the generic function to get the number of trips
+Date:   Mon,  3 Oct 2022 11:25:48 +0200
+Message-Id: <20221003092602.1323944-16-daniel.lezcano@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221003092602.1323944-1-daniel.lezcano@linaro.org>
 References: <20221003092602.1323944-1-daniel.lezcano@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The thermal framework gives the possibility to register the trip
-points with the thermal zone. When that is done, no get_trip_* ops are
-needed and they can be removed.
-
-Convert ops content logic into generic trip points and register them with the
-thermal zone.
+The thermal core framework allows to get the number of thermal trips,
+use it instead of visiting the thermal core structure internals.
 
 Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/thermal/armada_thermal.c | 39 ++++++++++++++++----------------
- 1 file changed, 20 insertions(+), 19 deletions(-)
+ drivers/thermal/rcar_gen3_thermal.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/thermal/armada_thermal.c b/drivers/thermal/armada_thermal.c
-index 52d63b3997fe..9444e5a22ca0 100644
---- a/drivers/thermal/armada_thermal.c
-+++ b/drivers/thermal/armada_thermal.c
-@@ -785,33 +785,34 @@ static int armada_configure_overheat_int(struct armada_thermal_priv *priv,
- 					 int sensor_id)
- {
- 	/* Retrieve the critical trip point to enable the overheat interrupt */
--	const struct thermal_trip *trips = of_thermal_get_trip_points(tz);
-+	struct thermal_trip trip;
- 	int ret;
- 	int i;
+diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
+index 4c1c6f89aa2f..4ef927437842 100644
+--- a/drivers/thermal/rcar_gen3_thermal.c
++++ b/drivers/thermal/rcar_gen3_thermal.c
+@@ -529,7 +529,7 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
+ 		if (ret)
+ 			goto error_unregister;
  
--	if (!trips)
--		return -EINVAL;
--
--	for (i = 0; i < of_thermal_get_ntrips(tz); i++)
--		if (trips[i].type == THERMAL_TRIP_CRITICAL)
--			break;
-+	for (i = 0; i < thermal_zone_get_num_trips(tz); i++) {
+-		ret = of_thermal_get_ntrips(tsc->zone);
++		ret = thermal_zone_get_num_trips(tsc->zone);
+ 		if (ret < 0)
+ 			goto error_unregister;
  
--	if (i == of_thermal_get_ntrips(tz))
--		return -EINVAL;
-+		ret = thermal_zone_get_trip(tz, i, &trip);
-+		if (ret)
-+			return ret;
-+		
-+		if (trip.type != THERMAL_TRIP_CRITICAL) 
-+			continue;
- 
--	ret = armada_select_channel(priv, sensor_id);
--	if (ret)
--		return ret;
-+		ret = armada_select_channel(priv, sensor_id);
-+		if (ret)
-+			return ret;
-+		
-+		armada_set_overheat_thresholds(priv, trip.temperature,
-+					       trip.hysteresis);
-+		priv->overheat_sensor = tz;
-+		priv->interrupt_source = sensor_id;
- 
--	armada_set_overheat_thresholds(priv,
--				       trips[i].temperature,
--				       trips[i].hysteresis);
--	priv->overheat_sensor = tz;
--	priv->interrupt_source = sensor_id;
-+		armada_enable_overheat_interrupt(priv);
- 
--	armada_enable_overheat_interrupt(priv);
-+		return 0;
-+	}
- 
--	return 0;
-+	return -EINVAL;
- }
- 
- static int armada_thermal_probe(struct platform_device *pdev)
 -- 
 2.34.1
 
