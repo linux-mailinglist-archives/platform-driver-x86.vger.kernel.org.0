@@ -2,110 +2,114 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F36165F95C7
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 10 Oct 2022 02:25:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FF875F985C
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 10 Oct 2022 08:30:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232287AbiJJAZh (ORCPT
+        id S231360AbiJJGaX (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 9 Oct 2022 20:25:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35220 "EHLO
+        Mon, 10 Oct 2022 02:30:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233053AbiJJAYH (ORCPT
+        with ESMTP id S231376AbiJJGaV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 9 Oct 2022 20:24:07 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6024F10C0;
-        Sun,  9 Oct 2022 16:58:54 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1DC8BB80DEA;
-        Sun,  9 Oct 2022 23:58:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DEF5C433D6;
-        Sun,  9 Oct 2022 23:58:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665359931;
-        bh=hBDa7z4NROizZmag3R0CnjyoDUOGhi0cGdYO2NZUw+Q=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gQaHpAn1DUfkpX9hx2qqxAqvCH6afqre14klcEmLoHAOgbSNUOhE4B5MAj1Sodpkz
-         2XT9B/lboWMuDzQsLki0h63ptrJ2+lDxQ/SzDPKeDn9b3lUbyT3XOXpkxOc6g0FMOg
-         3mZjefrOtRSY+kqmrRpvAvH/Gpr4Ft7yJafgY2jioi5nw0MQp1l/OcDBStwNErJyki
-         /igSGZ7BfkZ+ggpluXyUF+ZwJKLzA8VmgXFXowmPYuz5HBjFnpa/watOEMWw6XoLO7
-         LNjSAlClknCyFPqUq7f+bBYwGTSdena0UufFzbfwj9Vf/GGgtwrWWN29P6EaJw/1U0
-         XYgstDU8+fRyg==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, jlee@suse.com,
-        markgross@kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 3/4] platform/x86: msi-laptop: Change DMI match / alias strings to fix module autoloading
-Date:   Sun,  9 Oct 2022 19:58:40 -0400
-Message-Id: <20221009235841.1232395-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221009235841.1232395-1-sashal@kernel.org>
-References: <20221009235841.1232395-1-sashal@kernel.org>
+        Mon, 10 Oct 2022 02:30:21 -0400
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFDCB4D4FD;
+        Sun,  9 Oct 2022 23:30:20 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.west.internal (Postfix) with ESMTP id 4FCF13200929;
+        Mon, 10 Oct 2022 02:30:19 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Mon, 10 Oct 2022 02:30:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
+        :cc:content-transfer-encoding:date:date:from:from:in-reply-to
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm1; t=1665383418; x=1665469818; bh=QgWFXZJMByTxewkr+8LX9hI9U
+        gOQHwYcjRmMNM2oVGQ=; b=oSrwXp5SQUHNgFVhc9Y+Jb2SYOPCrkUsdyq6I/l/f
+        yC7f6FMaGNar82Rc6dnuDiXPGVtwCNYBtQCH3213TO7Dg71eg55RNOtK0SpBV6BP
+        GAMkSs6LOs+wcpK0i4kPXxFYSBdv1DLmIcNLs8TZkuOHdr5gCT1KGGlK5NBtm8Gr
+        yUD5b8a7A/lcPx5m6fWt6clJcm6ysMbi2kYJdhSv/kzrtqvR+uOJ7WqJD+6e3bao
+        k75+FGhaNjLbLzUR7bP2nnkAx/XTZcIxhuurCQvaQc5WiMz6G006MNHpkSZB3h6t
+        4DGDRvNmekMl5OGclVHnJU3p3gSB9SjMRXEL7pB+2jftA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:message-id
+        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+        1665383418; x=1665469818; bh=QgWFXZJMByTxewkr+8LX9hI9UgOQHwYcjRm
+        MNM2oVGQ=; b=JJ96P9dhvYiA2pdEnn192eioiTehMnd6fTvRhH4L330XxjWPhU9
+        4uWXs6JcehIoMLZiCDeQWLbYGhfCPWiUvbBXfBTnAxYpoEQLe+AaBbevOwSke7oi
+        nQvzi9+d1ZTg1AVDDv8stVRuy4VRXw0ci87bnmz7/nAHKknZUwnj26FneyJKrKW9
+        +wrTQJGSsLmIncXRcGPm6tvDeZ9mWmIOq2h7PukHzAr/Fz0GxEiJ/6Acuzt8g7p0
+        Q1le55OI6TyNmpxXmHNLtnKPxOrKsw/Kgol5QfS49Y1w58uTY4ZC1buVPcvJIoaR
+        RTrpFNeEyURuZa9dihT/ERE7EcaH+RZVkMg==
+X-ME-Sender: <xms:-rtDY4EuwxEl4aWAfLax3G5a3rrk9Kw1wbrwS6yWEyo8tXuFr1KpWg>
+    <xme:-rtDYxXPxPAZmBrt3Oy_ISQabW1SSrnm9U0yCY_-5yKrshsiWatr55iDJ8SERLlq3
+    VCWVeco3gpmg4Glv10>
+X-ME-Received: <xmr:-rtDYyJilWqLP-7DPFsbeBtafzxoUTumgdGf6ulJon5PQPMMCakNLtseHplg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejvddguddutdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekre
+    dtredttdenucfhrhhomhepfdfnuhhkvgcuffdrucflohhnvghsfdcuoehluhhkvgeslhhj
+    ohhnvghsrdguvghvqeenucggtffrrghtthgvrhhnpefgudejtdfhuddukefffeekiefftd
+    dtvdfhgeduudeuffeuhfefgfegfeetvedvgeenucevlhhushhtvghrufhiiigvpedtnecu
+    rfgrrhgrmhepmhgrihhlfhhrohhmpehluhhkvgeslhhjohhnvghsrdguvghv
+X-ME-Proxy: <xmx:-rtDY6HAANBszl1vk1IGM3oV8BMRqtRax1pBGRPn6feIicxbhWYypw>
+    <xmx:-rtDY-VuEqwluRlI3O35Aj3a1qBciPSA53fwAeH3vyEn-noU4v_PDg>
+    <xmx:-rtDY9ORfSWFRQdPD0YFfbl60ylStKXV1hiwyV-YtXIFdWOB9JrFcQ>
+    <xmx:-rtDY7iTJKADDtCUiQnx919sdk6RFAD0Ez0sO4y4Wo5pnfg3VVYUYQ>
+Feedback-ID: i5ec1447f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 10 Oct 2022 02:30:15 -0400 (EDT)
+From:   "Luke D. Jones" <luke@ljones.dev>
+To:     linux-kernel@vger.kernel.org
+Cc:     hdegoede@redhat.com, markgross@kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        "Luke D. Jones" <luke@ljones.dev>
+Subject: [PATCH]  platform/x86: asus-wmi: Add support for ROG X16 tablet mode
+Date:   Mon, 10 Oct 2022 19:30:09 +1300
+Message-Id: <20221010063009.32293-1-luke@ljones.dev>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+Add quirk for ASUS ROG X16 Flow 2-in-1 to enable tablet mode with
+lid flip (all screen rotations).
 
-[ Upstream commit 2a2565272a3628e45d61625e36ef17af7af4e3de ]
-
-On a MSI S270 with Fedora 37 x86_64 / systemd-251.4 the module does not
-properly autoload.
-
-This is likely caused by issues with how systemd-udevd handles the single
-quote char (') which is part of the sys_vendor / chassis_vendor strings
-on this laptop. As a workaround remove the single quote char + everything
-behind it from the sys_vendor + chassis_vendor matches. This fixes
-the module not autoloading.
-
-Link: https://github.com/systemd/systemd/issues/24715
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://lore.kernel.org/r/20220917210407.647432-1-hdegoede@redhat.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Luke D. Jones <luke@ljones.dev>
 ---
- drivers/platform/x86/msi-laptop.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/platform/x86/asus-nb-wmi.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/platform/x86/msi-laptop.c b/drivers/platform/x86/msi-laptop.c
-index 42317704629d..d3720c9d622b 100644
---- a/drivers/platform/x86/msi-laptop.c
-+++ b/drivers/platform/x86/msi-laptop.c
-@@ -609,11 +609,10 @@ static struct dmi_system_id __initdata msi_dmi_table[] = {
- 	{
- 		.ident = "MSI S270",
- 		.matches = {
--			DMI_MATCH(DMI_SYS_VENDOR, "MICRO-STAR INT'L CO.,LTD"),
-+			DMI_MATCH(DMI_SYS_VENDOR, "MICRO-STAR INT"),
- 			DMI_MATCH(DMI_PRODUCT_NAME, "MS-1013"),
- 			DMI_MATCH(DMI_PRODUCT_VERSION, "0131"),
--			DMI_MATCH(DMI_CHASSIS_VENDOR,
--				  "MICRO-STAR INT'L CO.,LTD")
-+			DMI_MATCH(DMI_CHASSIS_VENDOR, "MICRO-STAR INT")
+diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
+index 613c45c9fbe3..c685a705b73d 100644
+--- a/drivers/platform/x86/asus-nb-wmi.c
++++ b/drivers/platform/x86/asus-nb-wmi.c
+@@ -464,6 +464,15 @@ static const struct dmi_system_id asus_quirks[] = {
  		},
- 		.driver_data = &quirk_old_ec_model,
- 		.callback = dmi_check_cb
-@@ -646,8 +645,7 @@ static struct dmi_system_id __initdata msi_dmi_table[] = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "NOTEBOOK"),
- 			DMI_MATCH(DMI_PRODUCT_NAME, "SAM2000"),
- 			DMI_MATCH(DMI_PRODUCT_VERSION, "0131"),
--			DMI_MATCH(DMI_CHASSIS_VENDOR,
--				  "MICRO-STAR INT'L CO.,LTD")
-+			DMI_MATCH(DMI_CHASSIS_VENDOR, "MICRO-STAR INT")
- 		},
- 		.driver_data = &quirk_old_ec_model,
- 		.callback = dmi_check_cb
+ 		.driver_data = &quirk_asus_tablet_mode,
+ 	},
++	{
++		.callback = dmi_matched,
++		.ident = "ASUS ROG FLOW X16",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "GV601R"),
++		},
++		.driver_data = &quirk_asus_tablet_mode,
++	},
+ 	{},
+ };
+ 
 -- 
-2.35.1
+2.37.3
 
