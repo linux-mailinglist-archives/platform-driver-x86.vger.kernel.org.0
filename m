@@ -2,70 +2,75 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7FC55FF6D7
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 15 Oct 2022 01:27:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18B565FF7D2
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 15 Oct 2022 03:27:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229608AbiJNX1e (ORCPT
+        id S229651AbiJOB1G (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 14 Oct 2022 19:27:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55728 "EHLO
+        Fri, 14 Oct 2022 21:27:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbiJNX1e (ORCPT
+        with ESMTP id S229576AbiJOB1F (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 14 Oct 2022 19:27:34 -0400
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 052C7A570D
-        for <platform-driver-x86@vger.kernel.org>; Fri, 14 Oct 2022 16:27:33 -0700 (PDT)
-Received: by mail-oi1-x22f.google.com with SMTP id o64so6591090oib.12
-        for <platform-driver-x86@vger.kernel.org>; Fri, 14 Oct 2022 16:27:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sWb+78uC7CHlBFqLRSQ5cpHKpMO04JPVzVBunxPUzws=;
-        b=DfXd6lPJZBSETlOQ0PKxuGA//th/myJvX2ttBYkgplO01qjeGwlI9IUnl4CkLMsWSL
-         zWPBo80ald6BkqyoLa2Ny4S9Ij4G671ZW6I3NOn5tF/JZF7OAv3yLpEaS0xDdNWxQCMN
-         ke4CG0EW3Tfiate5fTEre8Hof7h7z86Ftn+c9h3Y0cp41fJq0bK3GC/ol/x/ub18p896
-         uONqxcpQvn9+nIoD47iaax5+/q5Qib8zVpJ2crLBk4WvX7lxfeIT4RW+fU58dou0fdKD
-         1iaZhMdAsw4iKChP4dh+S6f8SXWWPTH9CtUqM5Nobh2EX329Hj1aS66hf6bAXniL/0i+
-         VoZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sWb+78uC7CHlBFqLRSQ5cpHKpMO04JPVzVBunxPUzws=;
-        b=myJuKXP2pqr5iAf/x1UxNR04KqYUJCaE9yLjzgZNNWCAHZD54z/5qVYWsMwoZL0dnd
-         GZphludpWTGd5+JXB09BKIhIXb59uNQH8hEUTdWgsTtQvBtTSJlFUSZCjYSHLR8OFoWe
-         ndObasErkm5EzvmRdcpRc4ZAT+mdQ0mVAX/pH3KIPsNb1UXb2OmNyQY5m82cBT5dcXw7
-         Ym1Gqkvw+wpoZH4Mf3IP81rdgr1duThkLfIevmoiiga9/jQIZIpjY2/h7sG9i4iRWbQj
-         MU14ok453HynZcrZZIx+jLHczOgUiRIN1lQ4xQe3TX7j0+froKL89ox0LFO3hydOnkug
-         jKxQ==
-X-Gm-Message-State: ACrzQf0vd/mIXml19dyMBk82wCxsnVjnCyugqhwiuhjfSv/qBL0qjA56
-        gVrOsHfD14kGpq9zzhNN2/td01/mIrw=
-X-Google-Smtp-Source: AMsMyM5/zEhqzCLt6h1rdetspEHVhHztqOSkqtEkoh8z1LTyV97iOyCPEZoA4AtESvS8w0zqMETJHg==
-X-Received: by 2002:a05:6808:1184:b0:350:f681:8c9a with SMTP id j4-20020a056808118400b00350f6818c9amr125687oil.282.1665790052210;
-        Fri, 14 Oct 2022 16:27:32 -0700 (PDT)
-Received: from grumpy-VECTOR.hsd1.tx.comcast.net ([2601:2c3:480:7390:d0e8:abee:fc20:2322])
-        by smtp.gmail.com with ESMTPSA id r6-20020a9d7cc6000000b0066192cb6ccfsm1778431otn.77.2022.10.14.16.27.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Oct 2022 16:27:31 -0700 (PDT)
-From:   Jorge Lopez <jorgealtxwork@gmail.com>
-X-Google-Original-From: Jorge Lopez <jorge.lopez2@hp.com>
-To:     hdegoede@redhat.com, platform-driver-x86@vger.kernel.org
-Subject: [PATCH v2 4/4] Improve friendly display name values
-Date:   Fri, 14 Oct 2022 18:27:26 -0500
-Message-Id: <20221014232726.31301-5-jorge.lopez2@hp.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221014232726.31301-1-jorge.lopez2@hp.com>
-References: <20221014232726.31301-1-jorge.lopez2@hp.com>
+        Fri, 14 Oct 2022 21:27:05 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE7A3691A3
+        for <platform-driver-x86@vger.kernel.org>; Fri, 14 Oct 2022 18:26:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1665797211;
+        bh=Dz7flPzBgd85xPEcsLsRGIzphAUxcinDzgS4t2FOSJA=;
+        h=X-UI-Sender-Class:Subject:To:References:From:Date:In-Reply-To;
+        b=U9Us6Df6RnnM5FOswvFo21J06UNb074InyXKkQdBb5jP/Yvv93XebTQNR0I7sU2+g
+         UhIJ/OYvCKJDOHBdwZOfg415se50iSaZZVRDP9RO1ZjQhag8tMDIa0xgSYzGj42Ws2
+         Xp5bpWraK9ggmehk8fx1OFDPPHS9uCDStPCmxH9E=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MCbEf-1os4nw0tU3-009jUL; Sat, 15
+ Oct 2022 03:26:51 +0200
+Subject: Re: Upstreaming Lenovo tablet switch driver
+To:     Lorenz Brun <lorenz@brun.one>,
+        platform-driver-x86 <platform-driver-x86@vger.kernel.org>
+References: <WCKRJR.J6HLBHK1X1TT3@brun.one>
+From:   Armin Wolf <W_Armin@gmx.de>
+Message-ID: <7896b326-22d1-c80b-9fa5-cc0f31d980ef@gmx.de>
+Date:   Sat, 15 Oct 2022 03:26:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+In-Reply-To: <WCKRJR.J6HLBHK1X1TT3@brun.one>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+X-Provags-ID: V03:K1:55BQTYbKt2U2P6R7Mt962+CCcLvLQW8gDOO7JbixvojscXM9vzq
+ rQCUYONhHiBFTxSn+qrRtnS/d7oXGqxeTfvQzMsDBjQDuwgKmhl7NTBp5GczTyC/+VOJYvE
+ 4c7lXusxBiu116rpbQwyM6h+8Si2eZXhyWzpNX392nCyLSO1IPO5o0c+D82mykjI4fcBcct
+ 9Y7wo/O5J6nttg5kqeASQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GQHoMnu83HI=:B0QjM/znsZISLMlidn0xwD
+ oBMGNWEhNeB0Tavtn3+ih3BqAF8TnJPBRi9gOu/Eh4p/bDLPc9VxaBEhtRKWe2q7fK9NHo6LB
+ J24AQt2qhB6bRbsvp1ZG8hGp3SuZz1ypZMMeLT0b9WzsBHFa0dLMvd+mlw6Ryt9f2eXW/gpIE
+ pkTlOeEQ2WuFguK2bAnUqFMQZlcBfOmh/iSecjflFaGO0x8UpR/Rx67t0YaGIAzemmO12E/tD
+ rah5UWAuNbyvJjS1wHUpn3CT06EAzc//AmoP6NcQQYioVHWDLJzzx8gm2gjrzXQo5AOkmpk4j
+ 116svLFiI8xtYvYVN0h4x1LI0/1Mn/Cu9DSWmrCKKrTtljDU1gw4wc9Ai8lQV74hKYWcUkPE+
+ hwMcpzyqzvFcx5+Ofvwl0QX6lN3TeMJTPdLuOY4pr2u6BYg8HSqYFASf8c43GjgJU1vAMMYUW
+ cnlB81fkeFvVRdmYerj2k6VnA3SWUdQiGZnN5yEvrmln607/z+2wgWQFEuEJijinebg/UtpbF
+ X5eHnKe4IuNwtTfnbKSliZhJ8ke89uQmCI1+hqb7NP9olnuDwSn9OevUvqFZlGqBH82rf1acB
+ UiUg3DicHO/N45qjQV7ULtDnem0/LV3oZSibnOX+ppSOMqeCUWtDvLFvlCQiR+rCE8jbrePai
+ 69/1vhuhfq7sCLlCXgeA7v2Qudm4H3iOU7DeRYVMTwAXYhXWLlb27DzPrZ3wsUHGcEkdUdjGh
+ C0aV+ACS2J+lX7w1I5IYl3BvDngcYrdeV/Mb5FVgTabNnUr7lBGiJ+hnaPrCXJ/n4NRO20Nz8
+ QPksOdn0aUDJpcIRZDLlKGMteJMEXDa2mRnLN2cksHTuM9RDA0xWb9671t/MUI/nF9lbt2H6o
+ KXQ5SsZzcvpZLjSr0vNpNo577Is2fQx31oOMJU/RTkF2JVbel1RvSU4wf9x4Kpz4P8XsKvgc5
+ nJ+6ag0mCzTYa/uXo1U4L6K75GNNpKctOWPmBC5DCaEb82GCkUh6uEfeTeHjtCQJzqaktRYdZ
+ WdANf6IDwuaN74L2K65Md58r+zZmiTv6uYI+7za2qLOGE/VSlK40de84+IvrrTL8S8iPXmjGd
+ NnxvJKIByGgHk3zd0zDz1EertR6w3maZvDmQfdVAfTc527mhIq0L11MyQdtuD7xrK/mrz2kr1
+ aw6LmW23lX8GCegJiGj4KpuAs73IAXmY1s9QYWP9WG+SvV38YOMlyM1mx0yq1ddx26KdlV0Ff
+ jUy3kd42Hf1nFDrsMmEt/yUyM+CZZcnyYN7HpZyNaN8FLYb8F2Zkq9D9wRIBbHCMlbRHidbpF
+ QXkMUYvkFvcClQGgYYLoHKNso6afBdT3acglAwi/c0KmDgAlnfgfMo5mrn7kbabvVKze2qxP4
+ Wj+IHTFf/IYZTrrXMn/LDlJrpTZtjBFqbQ9P8uuyIcIZzNvzjnhFTekSUM8UoI1v+KMBkhglw
+ +nelivrB3Jpx0cZj2Wn6ojxnjuHKja3Fv6nglced4NAgyvqMuYWtc6fklwY7I2FwWbRGc/FMI
+ DeRuJAW2irKR/vmUXvNarewCPY1WuqHnMvnCKZVHmL8ZD
+X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,190 +78,55 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The purpose of this patch is to improve the friendly display name for
-few numbers of attributes associated with ‘Schedule Power-ON.’  BIOS
-assign names such ‘Tuesday’ to an attribute. The name is correct, but
-it is not descriptive enough for the user.  It is under those
-conditions a portion of the path data value is append to the attribute
-name to create a user-friendly display name.
+Am 15.10.22 um 00:12 schrieb Lorenz Brun:
 
-For instance, the attribute name is ‘Tuesday,’ and the display name
-value is ‘Schedule Power-ON – Tuesday’
+> Hi x86 platform list,
+>
+> I'm considering contributing support for the usage mode/tablet mode
+> switch for some Lenovo laptops (including the popular IdeaPad Flex
+> series).
+> There is already an out-of-tree driver at
+> https://github.com/lukas-w/yoga-usage-mode which works well,
+> but I'd like to get this support upstream.
+>
+> I have a few questions regarding the best approach:
+> 1. There is the ideapad-laptop module already which deals with a bunch
+> of functionality related to these laptops, but not the mode switch. Do
+> you prefer a separate driver or should the functionality be added to
+> ideapad-laptop?
+> 2. The existing out-of-tree driver uses a WMI interface to access mode
+> information. Should I work on the WMI layer or should I figure out
+> which EC registers to use to get the functionality independently? If
+> yes, how do we want to identify support for this type of mode switch?
+>
+> Regards,
+> Lorenz
+>
+>
+Hi,
 
-Signed-off-by: Jorge Lopez <jorge.lopez2@hp.com>
+1) In my opinion, the ideapad-laptop driver uses a totally different inter=
+face than the out of tree driver, so it would make sense to create a separ=
+ate driver.
+2) You should stick to the WMI interface. The vendor could change the inte=
+rnal EC registers at any time, which would drastically limit the portabili=
+ty and
+reliability of the driver in question. Also, there exists a whole WMI subs=
+ystem inside the linux kernel, which for example supports automatic discov=
+ery of
+WMI devices, etc.
 
----
-Based on the latest platform-drivers-x86.git/for-next
----
- drivers/platform/x86/hp/bioscfg.c            | 18 ++++++++++++++++++
- drivers/platform/x86/hp/bioscfg.h            |  5 ++++-
- drivers/platform/x86/hp/enum-attributes.c    |  9 ++++++++-
- drivers/platform/x86/hp/int-attributes.c     |  8 ++++++++
- drivers/platform/x86/hp/ordered-attributes.c | 10 +++++++++-
- drivers/platform/x86/hp/string-attributes.c  | 10 ++++++++--
- 6 files changed, 55 insertions(+), 5 deletions(-)
+Looking at the out-of-tree driver in question, it seems that it does not f=
+ully utilize the WMI subsystem. If you want to upstream it, i suggest a re=
+write
+to fix this. Since the driver is quite small, it should be relatively easy=
+. Optionally, you could also add support for LENOVO_GSENSOR_DATA, since it=
+ also
+has some interesting methods. However, the scope of the driver is complete=
+ly up to you.
 
-diff --git a/drivers/platform/x86/hp/bioscfg.c b/drivers/platform/x86/hp/bioscfg.c
-index 72dd963f29ae..ce3226d79696 100644
---- a/drivers/platform/x86/hp/bioscfg.c
-+++ b/drivers/platform/x86/hp/bioscfg.c
-@@ -542,6 +542,24 @@ inline int encode_outsize_for_pvsz(int outsize)
- 	return 1;
- }
- 
-+/*
-+ * Update friendly display name for several attributes associated to
-+ * 'Schedule Power-On'
-+ */
-+void friendly_user_name_update(char *path, const char *attr_name,
-+				char *attr_display, int attr_size)
-+{
-+	char *found = NULL;
-+
-+	found = strstr(path, SCHEDULE_POWER_ON);
-+	if (found)
-+		snprintf(attr_display,
-+			 attr_size,
-+			 "%s - %s",
-+			 SCHEDULE_POWER_ON,
-+			 attr_name);
-+}
-+
- /**
-  * update_attribute_permissions() - Update attributes permissions when
-  * isReadOnly value is 1
-diff --git a/drivers/platform/x86/hp/bioscfg.h b/drivers/platform/x86/hp/bioscfg.h
-index ff030399b3a2..4409481f84f2 100644
---- a/drivers/platform/x86/hp/bioscfg.h
-+++ b/drivers/platform/x86/hp/bioscfg.h
-@@ -33,7 +33,8 @@
- #define SETUP_PASSWD	"Setup Password"
- #define POWER_ON_PASSWD	"Power-On Password"
- 
--#define LANG_CODE_STR	"en_US.UTF-8"
-+#define LANG_CODE_STR		"en_US.UTF-8"
-+#define SCHEDULE_POWER_ON	"Scheduled Power-On"
- 
- /* Sure Admin Functions */
- 
-@@ -521,6 +522,8 @@ union acpi_object *get_wmiobj_pointer(int instance_id, const char *guid_string);
- int get_instance_count(const char *guid_string);
- void strlcpy_attr(char *dest, char *src);
- void update_attribute_permissions(u32 isReadOnly, struct kobj_attribute *current_val);
-+void friendly_user_name_update(char *path, const char *attr_name,
-+				char *attr_display, int attr_size);
- 
- /* String attributes */
- int populate_string_buffer_data(union acpi_object *str_obj,
-diff --git a/drivers/platform/x86/hp/enum-attributes.c b/drivers/platform/x86/hp/enum-attributes.c
-index f4fe6a583ca4..e67e7c397c12 100644
---- a/drivers/platform/x86/hp/enum-attributes.c
-+++ b/drivers/platform/x86/hp/enum-attributes.c
-@@ -192,7 +192,10 @@ int populate_enumeration_package_data(union acpi_object *enum_obj, int instance_
- 	populate_enumeration_elements_from_package(enum_obj, instance_id, HPWMI_ENUMERATION_TYPE);
- 	update_attribute_permissions(bioscfg_drv.enumeration_data[instance_id].is_readonly,
- 				    &enumeration_current_val);
--
-+	friendly_user_name_update(bioscfg_drv.enumeration_data[instance_id].path,
-+				  attr_name_kobj->name,
-+				   bioscfg_drv.enumeration_data[instance_id].display_name,
-+				   sizeof(bioscfg_drv.enumeration_data[instance_id].display_name));
- 	return sysfs_create_group(attr_name_kobj, &enumeration_attr_group);
- }
- 
-@@ -366,6 +369,10 @@ int populate_enumeration_buffer_data(union acpi_object *enum_obj, int instance_i
- 	populate_enumeration_elements_from_buffer(enum_obj, instance_id, HPWMI_ENUMERATION_TYPE);
- 	update_attribute_permissions(bioscfg_drv.enumeration_data[instance_id].is_readonly,
- 				    &enumeration_current_val);
-+	friendly_user_name_update(bioscfg_drv.enumeration_data[instance_id].path,
-+				  attr_name_kobj->name,
-+				   bioscfg_drv.enumeration_data[instance_id].display_name,
-+				   sizeof(bioscfg_drv.enumeration_data[instance_id].display_name));
- 
- 	return sysfs_create_group(attr_name_kobj, &enumeration_attr_group);
- }
-diff --git a/drivers/platform/x86/hp/int-attributes.c b/drivers/platform/x86/hp/int-attributes.c
-index eaae4b065098..6564a7266e9e 100644
---- a/drivers/platform/x86/hp/int-attributes.c
-+++ b/drivers/platform/x86/hp/int-attributes.c
-@@ -170,6 +170,10 @@ int populate_integer_package_data(union acpi_object *elements, int instance_id,
- 	populate_integer_elements_from_package(elements, instance_id, HPWMI_INTEGER_TYPE);
- 	update_attribute_permissions(bioscfg_drv.integer_data[instance_id].is_readonly,
- 				    &integer_current_val);
-+	friendly_user_name_update(bioscfg_drv.integer_data[instance_id].path,
-+				  attr_name_kobj->name,
-+				   bioscfg_drv.integer_data[instance_id].display_name,
-+				   sizeof(bioscfg_drv.integer_data[instance_id].display_name));
- 	return sysfs_create_group(attr_name_kobj, &integer_attr_group);
- }
- 
-@@ -333,6 +337,10 @@ int populate_integer_buffer_data(union acpi_object *integer_obj, int instance_id
- 	populate_integer_elements_from_buffer(integer_obj, instance_id, HPWMI_INTEGER_TYPE);
- 	update_attribute_permissions(bioscfg_drv.integer_data[instance_id].is_readonly,
- 				    &integer_current_val);
-+	friendly_user_name_update(bioscfg_drv.integer_data[instance_id].path,
-+				  attr_name_kobj->name,
-+				   bioscfg_drv.integer_data[instance_id].display_name,
-+				   sizeof(bioscfg_drv.integer_data[instance_id].display_name));
- 
- 	return sysfs_create_group(attr_name_kobj, &integer_attr_group);
- }
-diff --git a/drivers/platform/x86/hp/ordered-attributes.c b/drivers/platform/x86/hp/ordered-attributes.c
-index 723db9a0316d..603222c086a7 100644
---- a/drivers/platform/x86/hp/ordered-attributes.c
-+++ b/drivers/platform/x86/hp/ordered-attributes.c
-@@ -241,7 +241,10 @@ int populate_ordered_list_package_data(union acpi_object *order_obj, int instanc
- 	populate_ordered_list_elements_from_package(order_obj, instance_id, HPWMI_ORDERED_LIST_TYPE);
- 	update_attribute_permissions(bioscfg_drv.ordered_list_data[instance_id].is_readonly,
- 				    &ordered_list_current_val);
--
-+	friendly_user_name_update(bioscfg_drv.ordered_list_data[instance_id].path,
-+				  attr_name_kobj->name,
-+				   bioscfg_drv.ordered_list_data[instance_id].display_name,
-+				  sizeof(bioscfg_drv.ordered_list_data[instance_id].display_name));
- 	return sysfs_create_group(attr_name_kobj, &ordered_list_attr_group);
- }
- 
-@@ -431,6 +434,11 @@ int populate_ordered_list_buffer_data(union acpi_object *order_obj, int instance
- 	populate_ordered_list_elements_from_buffer(order_obj, instance_id, HPWMI_ORDERED_LIST_TYPE);
- 	update_attribute_permissions(bioscfg_drv.ordered_list_data[instance_id].is_readonly,
- 				    &ordered_list_current_val);
-+	friendly_user_name_update(bioscfg_drv.ordered_list_data[instance_id].path,
-+				  attr_name_kobj->name,
-+				   bioscfg_drv.ordered_list_data[instance_id].display_name,
-+				  sizeof(bioscfg_drv.ordered_list_data[instance_id].display_name));
-+
- 	return sysfs_create_group(attr_name_kobj, &ordered_list_attr_group);
- }
- 
-diff --git a/drivers/platform/x86/hp/string-attributes.c b/drivers/platform/x86/hp/string-attributes.c
-index a8e4f8b60dff..56ca02b00d1d 100644
---- a/drivers/platform/x86/hp/string-attributes.c
-+++ b/drivers/platform/x86/hp/string-attributes.c
-@@ -166,7 +166,10 @@ int populate_string_package_data(union acpi_object *elements, int instance_id,
- 	populate_string_elements_from_package(elements, instance_id, HPWMI_STRING_TYPE);
- 	update_attribute_permissions(bioscfg_drv.string_data[instance_id].is_readonly,
- 				    &string_current_val);
--
-+	friendly_user_name_update(bioscfg_drv.string_data[instance_id].path,
-+				  attr_name_kobj->name,
-+				   bioscfg_drv.string_data[instance_id].display_name,
-+				   sizeof(bioscfg_drv.string_data[instance_id].display_name));
- 	return sysfs_create_group(attr_name_kobj, &string_attr_group);
- }
- 
-@@ -325,7 +328,10 @@ int populate_string_buffer_data(union acpi_object *string_obj, int instance_id,
- 	populate_string_elements_from_buffer(string_obj, instance_id, HPWMI_STRING_TYPE);
- 	update_attribute_permissions(bioscfg_drv.string_data[instance_id].is_readonly,
- 				    &string_current_val);
--
-+	friendly_user_name_update(bioscfg_drv.string_data[instance_id].path,
-+				  attr_name_kobj->name,
-+				   bioscfg_drv.string_data[instance_id].display_name,
-+				   sizeof(bioscfg_drv.string_data[instance_id].display_name));
- 	return sysfs_create_group(attr_name_kobj, &string_attr_group);
- }
- 
--- 
-2.34.1
+There are already some WMI-based drivers inside the kernel, maybe they can=
+ serve as an inspiration?
+
+Armin Wolf
 
