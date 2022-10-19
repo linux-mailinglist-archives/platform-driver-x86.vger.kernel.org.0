@@ -2,114 +2,240 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E187660340C
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 18 Oct 2022 22:35:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E83496047BE
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Oct 2022 15:45:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230120AbiJRUfn (ORCPT
+        id S232968AbiJSNpW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 18 Oct 2022 16:35:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52574 "EHLO
+        Wed, 19 Oct 2022 09:45:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230127AbiJRUfm (ORCPT
+        with ESMTP id S233510AbiJSNoU (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 18 Oct 2022 16:35:42 -0400
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 133DABC449
-        for <platform-driver-x86@vger.kernel.org>; Tue, 18 Oct 2022 13:35:39 -0700 (PDT)
-Received: by mail-oi1-x234.google.com with SMTP id m81so16956404oia.1
-        for <platform-driver-x86@vger.kernel.org>; Tue, 18 Oct 2022 13:35:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=saYWAicsNK3ifRFxBhPU/PlzIq/i9axiv/RpyDtF/kU=;
-        b=E5aaYR7lC69SH6ThZbM5x68iRqygjIuVMHrCRHh7iB5+2bglwMLZNJ/+rILHh6M0p2
-         rxTo7nA82lg2BZAZkV7txqaGuWJxQeLQ6zXy8/3FIsFPe4mJaHsCjdNP0kn3SG0BrG6k
-         jJ5Vvc58i70gS/IJ0RpduNg0utAhIzTsYtEzkwYsh+PRP7EYaKx5+L02uOeP6N/ng1a5
-         NJCuSOMcGW5SUqonyckgZ6b9l9reW2+W8FWvpqaOn17IRF1WtL8A/HZPJNdGu+rGv/b0
-         phFWszgVppP+TU3lBX08N2bScBMAijuImvxmh5IsjGfF7cGt0IcttiFL5YydFNuDY29l
-         T76w==
+        Wed, 19 Oct 2022 09:44:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDF621D2F73
+        for <platform-driver-x86@vger.kernel.org>; Wed, 19 Oct 2022 06:31:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1666186215;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=T5clWctR2/IjrrSMHt7MK4xFirjxxR+TN/MDtNqMzWU=;
+        b=dp+xuwqI0xuFO/Nsk9flANoU3d0yQEBhKo5NOeWwDaqlwX09vI6vp0/rvPoA55HvuYBNaY
+        OPn7VduDOAYIl7CAfQb4itBzGlLnMV0wlbglKrozKQCbI0lVJe0PY08xbee9B6m3M5HnI2
+        cMd2S+2v/BHTv+altaIo+tk6nlpnz1M=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-480-GYKNi8pIPv-9nlVrQXG3qQ-1; Wed, 19 Oct 2022 05:01:51 -0400
+X-MC-Unique: GYKNi8pIPv-9nlVrQXG3qQ-1
+Received: by mail-ej1-f70.google.com with SMTP id gn34-20020a1709070d2200b0079330e196c8so364745ejc.16
+        for <platform-driver-x86@vger.kernel.org>; Wed, 19 Oct 2022 02:01:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=saYWAicsNK3ifRFxBhPU/PlzIq/i9axiv/RpyDtF/kU=;
-        b=CNsFA3rFqnhdcj39Wvm4CBdFCgIrAYzKoudZSJaAXpaAKUDKDN2UpSi0e/Pc2K78dx
-         +7Iq4qUpDHi8YTy6xtuXlfKX2MtqE2I+WN40nvMH8RyX/RFr/oH+5o+hg01WX58sdajU
-         URebHHZPqEOL6J7d+pfaLf1b6K7rFziV1J8jgz5z65Mj2AHGYxi32trb4sAhRYMyWv62
-         TP9DuZKNJxtYxht959E8GDrGnvGCYVSc6S0rgfABama9padTIXuAhoVuwxxg+0wXx1eH
-         Ng5jiPwyL4Qnltllq0fVHWbvg4tlBZ+Qy7NZr3w8Fshq9uv7+ddkU4kePyoErPvj9RL2
-         umdA==
-X-Gm-Message-State: ACrzQf2hamPjO5LFQwDFmekZ5VRUplenx8f90b+etoNHQS4CEo1OST9c
-        MalJWMB+IuOSo53YFW94PsCpzh8yC2E=
-X-Google-Smtp-Source: AMsMyM5YtF++fXHXrlveRUqEu1tv9e6iUBN3IV0sx6iLedJRB8oY1WwbnriWZOVAdmi0Vdhn5iLT1g==
-X-Received: by 2002:a05:6808:2183:b0:354:b70f:c2e2 with SMTP id be3-20020a056808218300b00354b70fc2e2mr16869246oib.25.1666125337874;
-        Tue, 18 Oct 2022 13:35:37 -0700 (PDT)
-Received: from grumpy-VECTOR.hsd1.tx.comcast.net ([2601:2c3:480:7390:6d8c:32db:7793:d4c0])
-        by smtp.gmail.com with ESMTPSA id s4-20020a056870248400b00136cfb02a94sm6580722oaq.7.2022.10.18.13.35.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Oct 2022 13:35:37 -0700 (PDT)
-From:   Jorge Lopez <jorgealtxwork@gmail.com>
-X-Google-Original-From: Jorge Lopez <jorge.lopez2@hp.com>
-To:     hdegoede@redhat.com, platform-driver-x86@vger.kernel.org
-Subject: [PATCH v3 6/6] Clarify how elements order list impacts priority
-Date:   Tue, 18 Oct 2022 15:35:31 -0500
-Message-Id: <20221018203531.17130-7-jorge.lopez2@hp.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221018203531.17130-1-jorge.lopez2@hp.com>
-References: <20221018203531.17130-1-jorge.lopez2@hp.com>
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=T5clWctR2/IjrrSMHt7MK4xFirjxxR+TN/MDtNqMzWU=;
+        b=JMav90lLFaEKL0nHCXox2G25DkAQIeoH/O1V9hVIOq/W8PWDLfPPoB8aq05qJkDoov
+         C8G4jw+NTicku6LqzsvqmULZso31Aa7f1Pb27YjLmAho0L9xCmjBZSXrRel4WSLvJ9wh
+         mGC2pzvcRH1r4Fc6SE5VgAIFfIxiFzO8oSsNKAkmW9IZvbtbdZ+xJrz6yOCMae5p5lJX
+         K/UqlXpwS8qgZhbCSIWBI3qq/rKB/QPRlm3RDhDBya9fg1DJu1Bpi85qQnupGYqLlSGd
+         XfnBJqMOcuODTT7iZkj1CZq8q/IZgyCy4JU8QklVMU728uqvTJnLn7pyfGs/IXY5Qj5A
+         V6CQ==
+X-Gm-Message-State: ACrzQf329vg08MhpEB9pWa+0UercZx7wFQ+KWa0Gu6WaJBypsrZhtBNP
+        B+vbh1DEq3OxbA4xpBYR02e1EMZy1YcemaS+/bNEj/OmJfAmSRAglVPsDd5omJQ77yfqXZAhEHm
+        zWqPEKEq7fpUrmUX8T+aO5S8Ip2JCuwBDOw==
+X-Received: by 2002:a05:6402:401e:b0:45c:a1ce:94bf with SMTP id d30-20020a056402401e00b0045ca1ce94bfmr6333732eda.177.1666170110422;
+        Wed, 19 Oct 2022 02:01:50 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM66EyH45jONdSbPCHCpgFPLwEhPYydWQgqbC6/b6fJ3yFrJRC4Ai2QcR4cAPSYi1wHxtoZytw==
+X-Received: by 2002:a05:6402:401e:b0:45c:a1ce:94bf with SMTP id d30-20020a056402401e00b0045ca1ce94bfmr6333714eda.177.1666170110165;
+        Wed, 19 Oct 2022 02:01:50 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id d14-20020a170906304e00b0078250005a79sm8667926ejd.163.2022.10.19.02.01.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Oct 2022 02:01:49 -0700 (PDT)
+Message-ID: <9b086aca-916c-c0b7-f60c-327f16f01c8b@redhat.com>
+Date:   Wed, 19 Oct 2022 11:01:48 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v3 0/6] Introduction of HP-BIOSCFG driver
+Content-Language: en-US, nl
+To:     Jorge Lopez <jorgealtxwork@gmail.com>,
+        platform-driver-x86@vger.kernel.org
+References: <20221018203531.17130-1-jorge.lopez2@hp.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20221018203531.17130-1-jorge.lopez2@hp.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-This patch provides additional clarification and describes how
-priority is determined according to the order.  Elements listed first
-are given higher priority to those listed last.
+Hi Jorge,
 
-Signed-off-by: Jorge Lopez <jorge.lopez2@hp.com>
+On 10/18/22 22:35, Jorge Lopez wrote:
+> Version 2 -> Version 3
+> ------------------------------------------------------
+> 
+> Introduction of HP-BIOSCFG driver (1/6)
+> 	- No new changes
+> 	
+> Update pending_reboot state value (2/6)
+> 	- No new changes
+> 
+> Set current_value permissions appropriate to read-only attributes (3/6)
+> 	- No new changes
+> 
+> Improve friendly display name values (4/6)
+> 	- No new changes
+> 
+> Moving existing HP drivers to a central location (5/6)
+>     
+>     The purpose of this patch is to provide a central location where all
+>     HP related drivers are found. HP drivers will recide under hp
+>     directory with exception of hp-bioscfg.  hp-bioscfg is found under
+>     hp/hp-bioscfg/ directory.
+>     
+>     Introduced changes to Kconfig file to list all HP driver under "HP X86
+>     Platform Specific Device Drivers" menu option.
+> 
+>     Changes needed to relocate hp-bioscfg driver 
+>     
+>     Relocation of the driver requires minor changes such updating the path 
+>     for a local include file.  Additional changes include update MAINTAINERS 
+>     file to indicated support status, reviewer, and maintainer of hp-bioscfg 
+>     driver.  Lastly, removal of 'stddef' include file from the source.
+> 
+> Clarify how elements order list impacts priority (6/6)
+>     
+>     This patch provides additional clarification and describes how
+>     priority is determined according to the order.  Elements listed first
+>     are given higher priority to those listed last.
+> 
+> Version 1 -> Version 2
+> ------------------------------------------------------
+> 
+> Introduction of HP-BIOSCFG driver (1/4)
+> 	- No new changes
+> 
+> Update pending_reboot state value (2/4)
+> 
+>     There is not a reliable mechanism to programmatically determine which
+>     BIOS settings require a reboot to be updated.  The latest changes
+>     leverages “RequiredPhysicalPresence” reported value to set
+>     pending_reboot.
+> 
+> Set current_value permissions appropriate to read-only attributes (3/4)
+> 
+>     This patch updates ‘current_value’ permissions to match the value
+>     reported by ‘is_readonly’ value associated with the attribute.
+>     ‘current_value’ permissions are set to read-only if ‘is_readonly’
+>     value is 1.  ‘current_value’ permissions are set to read-write if
+>     ‘is_readonly’ value is zero.   Other read-only and write-only
+>     permissions will remain unchanged.
+>     
+> Improve friendly display name values (4/4)
+> 
+>     The purpose of this patch is to improve the friendly display name for
+>     few numbers of attributes associated with ‘Schedule Power-ON.’  BIOS
+>     assign names such ‘Tuesday’ to an attribute. The name is correct, but
+>     it is not descriptive enough for the user.  It is under those
+>     conditions a portion of the path data value is append to the attribute
+>     name to create a user-friendly name.
+>     
+>     For instance, the attribute name is ‘Tuesday,’ and the display name
+>     value is ‘Schedule Power-ON – Tuesday’
+> 
+>     
+> ------------------------------------------------------
+> Version: 1
+> 
+>   Introduction of HP-BIOSCFG driver (1/4)
+>   
+>     The purpose for this patch is submit HP BIOSCFG driver to be list of
+>     HP Linux kernel drivers.  HP BIOS Configuration driver purpose is to
+>     provide a driver supporting the latest sysfs class firmware attributes
+>     framework allowing the user to change BIOS settings and security
+>     solutions on HP Inc.’s commercial notebooks.
+>     
+>     Many features of HP Commercial PC’s can be managed using Windows
+>     Management Instrumentation (WMI). WMI is an implementation of Web-Based
+>     Enterprise Management (WBEM) that provides a standards-based interface
+>     for changing and monitoring system settings.  HP BISOCFG driver provides
+>     a native Linux solution and the exposed features facilitates the
+>     migration to Linux environments.
+>     
+>     The Linux security features to be provided in hp-bioscfg driver enables
+>     managing the BIOS settings and security solutions via sysfs, a virtual
+>     filesystem that can be used by user-mode applications.   The new
+>     documentation cover features such Secure Platform Management, Sure
+>     Admin, and Sure Start.  Each section provides security feature
+>     description and identifies sysfs directories and files exposed by
+>     the driver.
+>     
+>     Many HP Commercial PC’s include a feature called Secure Platform
+>     Management (SPM), which replaces older password-based BIOS settings
+>     management with public key cryptography. PC secure product management
+>     begins when a target system is provisioned with cryptographic keys
+>     that are used to ensure the integrity of communications between system
+>     management utilities and the BIOS.
+>     
+>     HP Commercial PC’s have several BIOS settings that control its behaviour
+>     and capabilities, many of which are related to security. To prevent
+>     unauthorized changes to these settings, the system can be configured
+>     to use a Sure Admin cryptographic signature-based authorization string
+>     that the BIOS will use to verify authorization to modify the setting.
+> 
+> 
+> Jorge Lopez (6):
+>   Introduction of HP-BIOSCFG driver
+>   Update pending_reboot state value
+>   Set current_value permissions appropriate to read-only attributes
+>   Improve friendly display name values
+>   Moving existing HP drivers to a central location
+>   Clarify how elements order list impacts priority
 
----
-Based on the latest platform-drivers-x86.git/for-next
----
- Documentation/ABI/testing/sysfs-class-firmware-attributes | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Jorge, thank you for your continued work on this.
 
-diff --git a/Documentation/ABI/testing/sysfs-class-firmware-attributes b/Documentation/ABI/testing/sysfs-class-firmware-attributes
-index d3830b8a398f..ed2ff3a74163 100644
---- a/Documentation/ABI/testing/sysfs-class-firmware-attributes
-+++ b/Documentation/ABI/testing/sysfs-class-firmware-attributes
-@@ -143,7 +143,11 @@ Description:
- 		elements:
- 					A file that can be read to obtain the possible
- 					list of values of the <attr>. Values are separated using
--					semi-colon (``;``)
-+					semi-colon (``;``). The order individual elements are listed
-++					according to their priority.  An Element listed first has the
-++					hightest priority. Writing the list in a different order to
-++					current_value alters the priority order for the particular
-++					attribute.
- 
- 		"sure-admin"-type specific properties:
- 
-@@ -384,7 +388,7 @@ Description:
- 			==	=========================================
- 			0	All BIOS attributes setting are current
- 			1	A reboot is necessary to get pending BIOS
--			        attribute changes applied
-+				attribute changes applied
- 			==	=========================================
- 
- 		Note, userspace applications need to follow below steps for efficient
--- 
-2.34.1
+I will try to get a detailed review of this done next week (no time this
+week, sorry).
+
+But before then can you please restructure the patch series to make
+it easier to review ?  ATM the series seems to be the original v1
+patch + patches on top addressing review comments. That is a somewhat
+unusual way to address review comments. Usually new versions include
+improvements from review directly in the patch introducing the change
+which got commented on.
+
+What I would like to see for v4 of the series is a patch series like
+this (with all the hp-bioscfg patches squashed together before doing
+this new split):
+
+[PATCH 1/x] Move the existing HP drivers to the new hp subdir (instead of doing this in 5/6)
+[PATCH 2/x] Introduce the main bioscfg.h file + *-attributes.c files, yes this won't
+            compile, but without a Makefile pointing to it that is fine
+[PATCH 3/x] Add the main bioscfg.c + Makefile + Kconfig changes
+
+Note feel free to split patch 2/x in maybe 2 or 3 patches adding a few
+*-attributes.c files at a time.
+
+The idea here is to make the individual .patch files smaller because
+I personally find that reviewing big patch files does not work well
+(I tend to loose track of everything which is going on if the patch
+is too big / I loose my way because of too much scrolling).
+
+Regards,
+
+Hans
+
 
