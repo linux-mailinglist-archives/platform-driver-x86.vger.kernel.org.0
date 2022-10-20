@@ -2,102 +2,66 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E4469605F11
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 20 Oct 2022 13:38:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79CD2606956
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 20 Oct 2022 22:10:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231389AbiJTLiZ (ORCPT
+        id S229882AbiJTUKn (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 20 Oct 2022 07:38:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41732 "EHLO
+        Thu, 20 Oct 2022 16:10:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231126AbiJTLiX (ORCPT
+        with ESMTP id S229501AbiJTUKm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 20 Oct 2022 07:38:23 -0400
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2053.outbound.protection.outlook.com [40.107.237.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C16451DD886;
-        Thu, 20 Oct 2022 04:38:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WZo6azMXzi6XNVSN11rZvkneqXOGZz+us1eNJ8YhvPULnMrZUwK4a/ndHIUGmIY0c0d03SHRfb8cn4aMGdzpTcA8MgF1nG/MiPoMiUwqvEq2nIRX9Zt/My6+AXYdZU5AfGXa2667yIE9LC6+anrUmFsnOwBQ1fqvbk4ENi9tsx2UivQ7uyWgfDvUm/PdNN2FuUlsM8IacRvERjRYhwPadhKI1RnEDcRxRuFs2KfzbrP1pAsatExR1jtvOTwOa8UqjTR4hAtWajHSKEDrWqHiQ2fycQ4Yfv86iEqXerNhHageA+oPZ0bRX8Gme/FLLanL7UPDr7SfemAWkV06xpm0Mw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uWntC2YRhQIVdEG1NgGpJeQZ6rY8Tjk+0Q+cXb/3DkU=;
- b=PrAC/HoqPeBuaDqeFbqVZnFKS/Mmc38Ah06qzXBlwl0aMENiQ+iveHrjlAJrq2VQw54/VpWYJIcPWOo/5AET+GKPDEeOVzocq97Atx8ADQIQFjqNpXw+/eJF6MzK4rAF3fTcuZNDGn+Kf98X2Fm+09onEYyddJ4fr+TyTxOnyiRlbHVcoMZEjUYBUxV/xses5mhb/1moZ2/lO+yE8Ej4QuN3m4AwKIjEo+FV1bVgSNQ4vJq/wCX/uFar+MhfmgGTNnhoZcYtwPV25XM9yhhI9453z9+qow7oefKCsKSDApZuLzLiKX1XfsIERUHc8kMj56Dvi5J+uXhXnAkr6pttmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uWntC2YRhQIVdEG1NgGpJeQZ6rY8Tjk+0Q+cXb/3DkU=;
- b=SyWBUB8SRmSwePvmILxU/ui389YRf2vlV68JAnwsp6GVPQ9j7fyNbYYSUSm4tENthb5/O4mlWNyb9ITV5v5LFArkDUFMEfFzMyHvymQAcmb3pkkY9YZqGi/WxaxL4ytH9OXf5BNc1K0RuihBdTwK+2tmj6CMG9rSbNWyXcCCLSw=
-Received: from BN9PR03CA0780.namprd03.prod.outlook.com (2603:10b6:408:13a::35)
- by PH7PR12MB6633.namprd12.prod.outlook.com (2603:10b6:510:1ff::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.32; Thu, 20 Oct
- 2022 11:37:58 +0000
-Received: from BN8NAM11FT018.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:13a:cafe::a3) by BN9PR03CA0780.outlook.office365.com
- (2603:10b6:408:13a::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.34 via Frontend
- Transport; Thu, 20 Oct 2022 11:37:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT018.mail.protection.outlook.com (10.13.176.89) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5746.16 via Frontend Transport; Thu, 20 Oct 2022 11:37:58 +0000
-Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 20 Oct
- 2022 06:37:57 -0500
-From:   Mario Limonciello <mario.limonciello@amd.com>
-To:     <mario.limonciello@amd.com>,
-        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-        Hans de Goede <hdegoede@redhat.com>
-CC:     Anson Tsao <anson.tsao@amd.com>,
-        You-Sheng Yang <vicamo.yang@canonical.com>,
-        <stable@vger.kernel.org>, Mark Gross <markgross@kernel.org>,
-        <platform-driver-x86@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH 1/1] platform/x86/amd: pmc: Read SMU version during suspend on Cezanne systems
-Date:   Thu, 20 Oct 2022 06:37:49 -0500
-Message-ID: <20221020113749.6621-2-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221020113749.6621-1-mario.limonciello@amd.com>
-References: <20221020113749.6621-1-mario.limonciello@amd.com>
+        Thu, 20 Oct 2022 16:10:42 -0400
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com [IPv6:2001:4860:4864:20::2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B0D41633A7
+        for <platform-driver-x86@vger.kernel.org>; Thu, 20 Oct 2022 13:10:36 -0700 (PDT)
+Received: by mail-oa1-x2d.google.com with SMTP id 586e51a60fabf-13af2d12469so905645fac.13
+        for <platform-driver-x86@vger.kernel.org>; Thu, 20 Oct 2022 13:10:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rjrepLmnUzZCFcT31EWZrD92lIwZFg6a7ostgsreZlc=;
+        b=EbPpbYOoRAjUzl1xtyB05dJVoBYPT9729sP9gHdah7gvLjvopNyE2uCIKjNbVLEQ4H
+         qf63mjooGV1uPzW28dhGRpav79q7btUs73+R6tawZtteDdCAgoakVOCSLMot2pSUHIX1
+         VOaClT7Y9Eeu8hkMq7GIz/pLKSDlZkrf9xKlZogHbfT6Ux6aJF+H8Cc3fvbdll6HAXIp
+         a94T8e9eSxthRVKl2mqkMyAV/QKw3B4C7ZaGl734Yd4B9NsxOn0Bdps/7zprpP1ZTrmX
+         snJf9slSyXvdJ+QxTzFPlj/+/TAgfB+wVs0DoN5y03BOYb/fB9oyycZCZseZLn849DO2
+         No2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rjrepLmnUzZCFcT31EWZrD92lIwZFg6a7ostgsreZlc=;
+        b=KyLyNvf1hMAmgFFL66OvR8bet/FFu2beDsig52BG+w0nsjuT69/JTICQLJUAQRylos
+         YIsHkRQ2hlI9f7ofTLxmJGXMblSO0fxX/zQLRfZo3BeKM054bwiBXJpvMKYodM6OPRXQ
+         pPfePYPWTBBL5lpL2MdZgdHbUNbexZBpFPl3PFFxDYzLEu9nap09/ihJiCMWMk0yzkIq
+         FjXqAg9A21jJASiIkNcwoFrQU8JBRM6DnyvAV7xAl0qXNG5ks/SLsBN6qmSx53cU1YM2
+         vDAToZL5XigQTWN1Xu9C5LnMxzR5i8FzCMfIVHk4xgJlZId5W2vMOL8YWshtZ5Mm+t8K
+         4I7w==
+X-Gm-Message-State: ACrzQf3TUoXZos7OgOQxPBlhcVI8CUpm2aueAV06jayLGq+91UGvCoGI
+        CBFmgWfEtXn+RfbRJWbzu9WvX2dzAVs=
+X-Google-Smtp-Source: AMsMyM6PXtk73ejN2PnCnYZGRfzFgh5dv40q2ODVgO0dIP283N04znGUjXxFZvqpDlDpOnO535PjJg==
+X-Received: by 2002:a05:6870:2054:b0:132:d1fb:ddf0 with SMTP id l20-20020a056870205400b00132d1fbddf0mr27442389oad.283.1666296635359;
+        Thu, 20 Oct 2022 13:10:35 -0700 (PDT)
+Received: from grumpy-Fury.hsd1.tx.comcast.net ([2601:2c3:480:7390:ece5:3818:e03c:2cb7])
+        by smtp.gmail.com with ESMTPSA id a25-20020a544e19000000b003539686cb7bsm302896oiy.53.2022.10.20.13.10.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Oct 2022 13:10:34 -0700 (PDT)
+From:   Jorge Lopez <jorgealtxwork@gmail.com>
+X-Google-Original-From: Jorge Lopez <jorge.lopez2@hp.com>
+To:     hdegoede@redhat.com, platform-driver-x86@vger.kernel.org
+Subject: [PATCH v4 0/6] Introduction of HP-BIOSCFG driver
+Date:   Thu, 20 Oct 2022 15:10:27 -0500
+Message-Id: <20221020201033.12790-1-jorge.lopez2@hp.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT018:EE_|PH7PR12MB6633:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8dec384d-04e1-4992-cc25-08dab28f89c0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AEq8mnK07nMIiavuleNoOmZ3oQSGFWfPC2FcHNgmJRb3UFn3VrSvPfhZ0oeYfgaFmSdf7Q1K12NMvsnRnN27DbKlT1NOv6btKz3NHsz8QIVB+ym96FiP6K0WEZJRnd3drjlgxSNH5+3gjec34cIV1iy6/7DMt/GAz1ouAoIz5d9dHZXO3L9KJllcVrabs3ygBsIsgguRVBH6CXUg8C7vwbMWbSfWfnYqvWXYBxBtUKb6RwJ2J86mft3rHfZqZ+lh6Rxnbms1R3QuWkZzMN4WxjPB9IvVFULSBph5rH49rYfBFEkihuMOI9iF3OIMn6efgydLKtV7DUTGUVlZw6EtuDGvveqG7ZM8TMke0hMfigVTrynjhzt0LgYxEqdXlCjtVEZ4fs3Q3GTo764SJ1U94+//tCOxJ89mQotU0FEMxljb8sL1LlDPJleKaIPG2XISdsConcJD4I9v5yPEOBdFX0AECs0/4/UYML+YnDb9OKdf8a3NPm5Nu7OdurnCI90AUbu5fdv4f/iee1dNbH00+6iFK3yzdzbddCHuE4vBcBYXXnRA6A1XkM0EHuieRsLlc25a9afr/AUDbZpZGughX7OkPl0Sh4K8gqCjvPwfBcksHfgBAtSBMkJseY8ILeMFEurF9587gq6HEFr3sewgjTPkBnhbwcqtaqaV8CvUbONC/+qj4riihTJKAAVGT5O6lXSVcOowWyU/W2mRhNORdKBWzWyunoidXtoL4e8/s3SwpG4zeiADTDJQ6ioLPpbR/th/JbCjrt8whnstmvy5MfhwKi9TXh7t5wN01RnLGTlV0W2t/sJMAZRgcLjOG05o
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(376002)(136003)(39860400002)(346002)(396003)(451199015)(40470700004)(36840700001)(46966006)(44832011)(8936002)(4326008)(70206006)(8676002)(316002)(70586007)(86362001)(82740400003)(356005)(5660300002)(81166007)(41300700001)(2906002)(40460700003)(15650500001)(478600001)(6666004)(336012)(2616005)(1076003)(426003)(36756003)(26005)(36860700001)(83380400001)(54906003)(110136005)(40480700001)(82310400005)(47076005)(7696005)(16526019)(186003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2022 11:37:58.7058
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8dec384d-04e1-4992-cc25-08dab28f89c0
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT018.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6633
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -105,44 +69,76 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-commit b0c07116c8943 ("platform/x86: amd-pmc: Avoid reading SMU version at
-probe time") adjusted the behavior for amd-pmc to avoid reading the SMU version
-at startup but rather on first use to improve boot time.
+Version 4 restructures the patches submitted in previous versions.
+Earlier hp-bioscfg patches were squashed together before creating
+the new split.
 
-However the SMU version is also used to decide whether to place a timer based
-wakeup in the OS_HINT message.  If the idlemask hasn't been read before this
-message was sent then the SMU version will not have been cached.
+Version 4.0 breaks down the changes as follows:
 
-Ensure the SMU version has been read before deciding whether or not to run this
-codepath.
+1. Moving existing HP drivers to a central location
 
-Cc: stable@vger.kernel.org # 6.0
-Reported-by: You-Sheng Yang <vicamo.yang@canonical.com>
-Tested-by: Anson Tsao <anson.tsao@amd.com>
-Fixes: b0c07116c8943 ("platform/x86: amd-pmc: Avoid reading SMU version at probe time")
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- drivers/platform/x86/amd/pmc.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+The driver files were broken down in 5 patches of 3 files each
+with exception of patch 6/6
 
-diff --git a/drivers/platform/x86/amd/pmc.c b/drivers/platform/x86/amd/pmc.c
-index ce859b300712b..96e790e639a21 100644
---- a/drivers/platform/x86/amd/pmc.c
-+++ b/drivers/platform/x86/amd/pmc.c
-@@ -663,6 +663,13 @@ static int amd_pmc_verify_czn_rtc(struct amd_pmc_dev *pdev, u32 *arg)
- 	struct rtc_time tm;
- 	int rc;
- 
-+	/* we haven't yet read SMU version */
-+	if (!pdev->major) {
-+		rc = amd_pmc_get_smu_version(pdev);
-+		if (rc)
-+			return rc;
-+	}
-+
- 	if (pdev->major < 64 || (pdev->major == 64 && pdev->minor < 53))
- 		return 0;
- 
--- 
+2. Introduction of HP-BIOSCFG driver - Set 1
+3. HP BIOSCFG driver - set 2
+4. HP BIOSCFG driver - set 3
+5. HP BIOSCFG driver - set 4
+6. HP BIOSCFG driver - remaining components
+
+--
+
+
+Jorge Lopez (6):
+  Moving existing HP drivers to a central location
+  Introduction of HP-BIOSCFG driver
+  HP BIOSCFG driver - set 2
+  HP BIOSCFG driver - set 3
+  HP BIOSCFG driver - set 4
+  HP BIOSCFG driver - remaining components
+
+ .../testing/sysfs-class-firmware-attributes   |  181 ++-
+ MAINTAINERS                                   |   15 +-
+ drivers/platform/x86/Kconfig                  |   80 +-
+ drivers/platform/x86/Makefile                 |    4 +-
+ drivers/platform/x86/hp/Kconfig               |   81 ++
+ drivers/platform/x86/hp/Makefile              |   11 +
+ drivers/platform/x86/hp/hp-bioscfg/Makefile   |   19 +
+ .../x86/hp/hp-bioscfg/biosattr-interface.c    |  285 +++++
+ drivers/platform/x86/hp/hp-bioscfg/bioscfg.c  | 1064 +++++++++++++++++
+ drivers/platform/x86/hp/hp-bioscfg/bioscfg.h  |  671 +++++++++++
+ .../x86/hp/hp-bioscfg/enum-attributes.c       |  521 ++++++++
+ .../x86/hp/hp-bioscfg/int-attributes.c        |  478 ++++++++
+ .../x86/hp/hp-bioscfg/ordered-attributes.c    |  586 +++++++++
+ .../x86/hp/hp-bioscfg/passwdattr-interface.c  |   50 +
+ .../x86/hp/hp-bioscfg/passwdobj-attributes.c  |  647 ++++++++++
+ .../x86/hp/hp-bioscfg/spmobj-attributes.c     |  408 +++++++
+ .../x86/hp/hp-bioscfg/string-attributes.c     |  457 +++++++
+ .../x86/hp/hp-bioscfg/sureadmin-attributes.c  | 1014 ++++++++++++++++
+ .../x86/hp/hp-bioscfg/surestart-attributes.c  |  145 +++
+ drivers/platform/x86/{ => hp}/hp-wmi.c        |    0
+ drivers/platform/x86/{ => hp}/hp_accel.c      |    0
+ drivers/platform/x86/{ => hp}/tc1100-wmi.c    |    0
+ 22 files changed, 6647 insertions(+), 70 deletions(-)
+ create mode 100644 drivers/platform/x86/hp/Kconfig
+ create mode 100644 drivers/platform/x86/hp/Makefile
+ create mode 100644 drivers/platform/x86/hp/hp-bioscfg/Makefile
+ create mode 100644 drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c
+ create mode 100644 drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
+ create mode 100644 drivers/platform/x86/hp/hp-bioscfg/bioscfg.h
+ create mode 100644 drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c
+ create mode 100644 drivers/platform/x86/hp/hp-bioscfg/int-attributes.c
+ create mode 100644 drivers/platform/x86/hp/hp-bioscfg/ordered-attributes.c
+ create mode 100644 drivers/platform/x86/hp/hp-bioscfg/passwdattr-interface.c
+ create mode 100644 drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c
+ create mode 100644 drivers/platform/x86/hp/hp-bioscfg/spmobj-attributes.c
+ create mode 100644 drivers/platform/x86/hp/hp-bioscfg/string-attributes.c
+ create mode 100644 drivers/platform/x86/hp/hp-bioscfg/sureadmin-attributes.c
+ create mode 100644 drivers/platform/x86/hp/hp-bioscfg/surestart-attributes.c
+ rename drivers/platform/x86/{ => hp}/hp-wmi.c (100%)
+ rename drivers/platform/x86/{ => hp}/hp_accel.c (100%)
+ rename drivers/platform/x86/{ => hp}/tc1100-wmi.c (100%)
+
+--
 2.34.1
 
