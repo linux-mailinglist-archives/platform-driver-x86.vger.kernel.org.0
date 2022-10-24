@@ -2,230 +2,309 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CDD560B144
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Oct 2022 18:18:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E8AC60B17E
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Oct 2022 18:26:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233619AbiJXQR5 (ORCPT
+        id S232443AbiJXQ0u (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 24 Oct 2022 12:17:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36744 "EHLO
+        Mon, 24 Oct 2022 12:26:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233627AbiJXQPz (ORCPT
+        with ESMTP id S233924AbiJXQ01 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 24 Oct 2022 12:15:55 -0400
-Received: from vorpal.se (vorpal.se [151.236.221.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ADE3491DD
-        for <platform-driver-x86@vger.kernel.org>; Mon, 24 Oct 2022 08:04:01 -0700 (PDT)
-Received: by vorpal.se (Postfix) with ESMTPSA id F207D14016;
-        Mon, 24 Oct 2022 14:36:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=vorpal.se; s=2019;
-        t=1666622195; bh=JqLXTlYXJFFVHmypBCcYmpH9hX/gZqw6s65ABk5AYu4=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=NJz1lZ/DGO0fLPFkhWx79UQrHwMRv3Py0gY/4Kfhw7aWTV7sKNP7k44inRcPzDptK
-         pBeSMelhuTOsmE7XQlrAhOqQL9FKuU36+uYAbnO8NOso1e5ZuJeCaSX90uIKmEz33B
-         mIEeotSp96DdxQOpnBuMEDXLn8Rmz1EshCzHMQN4B/uprGeiJhKtXqHZSfGihaKArX
-         +eFbQslWn+KOqJrqfPt1kj7kAllxMqypbaamzZhs4PV58jcep/bdliquSJo0IYk44g
-         c+cE8IfKHThDUl7LVK8a5EJFlbmEebY8tC2bUPlsHoz2rKXXZNWv4eRaNKLVg9ObRl
-         cbQ01AIPJOBVw==
-Message-ID: <bf1b7f4c-4142-cc31-4271-dbddc1ca0565@vorpal.se>
-Date:   Mon, 24 Oct 2022 16:36:34 +0200
+        Mon, 24 Oct 2022 12:26:27 -0400
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com [IPv6:2001:4860:4864:20::2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D19D124F11
+        for <platform-driver-x86@vger.kernel.org>; Mon, 24 Oct 2022 08:12:59 -0700 (PDT)
+Received: by mail-oa1-x2d.google.com with SMTP id 586e51a60fabf-13b103a3e5dso12212434fac.2
+        for <platform-driver-x86@vger.kernel.org>; Mon, 24 Oct 2022 08:12:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oUQJnoiVcjmiMscuWttpHv+zHGY2MfyL7+ONIPh7x0c=;
+        b=ZOVjhMxzWHLNLunugrJ+SECAAXLWsf7AdLqkh+K7UNjlaUGQ9T2vB5C1CqvSyz5voW
+         bguPwKRzm/d8Nc2tvHEhPSDIQzvuWtsgD76Q/qYilldT8A9N6UkUnxvuSJDxx+vTvE5o
+         2wEHu1Ri6xBOStR4aLMOYkidCez0B+QKB5Gjb1/7yy9AVQO65fUF1zxcv/Y3e5YiV1+W
+         poVwgnoe6oH0RiJlDMLgz9IaGKxX8b/8Q8eYaqr1/wtwkiyiEjjVSRhacLaxo5ldxl3i
+         VwCVp598YWRBTePj+MBn0nF3yxfpV30BK9THLsARcWwXtz5SWeF5ah3JcJvdPHFdxBai
+         s3Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oUQJnoiVcjmiMscuWttpHv+zHGY2MfyL7+ONIPh7x0c=;
+        b=1JpzBsoY2JkHOUA1Xp297KVsCo8c+N8f/pbPKeirP2MfLtIycw5vLhDzfnSi7FO/yd
+         ATC28NYXygCj/pmKuS228Y9cTQ4IyZIinCkNc8nMP9ZyhF3SUubc1NEMyM3xg92lhD13
+         ceMBlJR7IGzxbEC+PC5Sjx+rdsl2wQggEbRpmFrX+vVVYFWK8R0IHDEJ6fBV7ji9oBEy
+         fRQHzuaLgZlUHsKSslhQt6w8nLZXa4QWwg5Fp/qduGiCf2PAo9f3rh2SsUaxFl3bYcxP
+         pZpZewI8rNkcnG8qtSt9AGDlNR5LThks90BNAuu9kBiKjbcHvKom8p49RZcDiDLLkxge
+         BQqw==
+X-Gm-Message-State: ACrzQf0e69+B32pU+5r0gYwNN1U8KEHTQfwkXmKXGZxPiiglxfZd0kt7
+        ZYAGPZk/zrHx0vSLBNWbZbQmRdOY1DpWq046
+X-Google-Smtp-Source: AMsMyM7lilCtHTTMSwA5VWVUapmiwGzvoSOUrpXDvYfOl0lDSGsKoMB/yl+OOPDcRF0udOxMB24knQ==
+X-Received: by 2002:a17:90b:1e46:b0:20a:f9d8:1ff7 with SMTP id pi6-20020a17090b1e4600b0020af9d81ff7mr76442318pjb.34.1666623666090;
+        Mon, 24 Oct 2022 08:01:06 -0700 (PDT)
+Received: from ?IPV6:2400:4050:c360:8200:8ae8:3c4:c0da:7419? ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+        by smtp.gmail.com with ESMTPSA id i19-20020a63e453000000b00434760ee36asm17045962pgk.16.2022.10.24.08.00.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Oct 2022 08:01:05 -0700 (PDT)
+Message-ID: <78ad5d7b-4078-0b8e-f4aa-6c8113631359@daynix.com>
+Date:   Tue, 25 Oct 2022 00:00:56 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: Issue with toshiba fan sensors & missing feedback on patch
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 00/22] Fallback to native backlight
 Content-Language: en-US
 To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>
-References: <5c917c78-610b-96fa-8cf3-81f8d3dc505f@vorpal.se>
- <cbc43ef7-66b6-5b78-581f-d5e63e565f24@redhat.com>
- <65546ad2-4019-5f40-3fbe-81b853e3c180@vorpal.se>
- <97e9cbdf-6b9b-fdce-6c97-aa1c41e604cd@redhat.com>
-From:   Arvid Norlander <lkml@vorpal.se>
-In-Reply-To: <97e9cbdf-6b9b-fdce-6c97-aa1c41e604cd@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        "Lee, Chun-Yi" <jlee@suse.com>, Mark Gross <markgross@kernel.org>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+        Jonathan Woithe <jwoithe@just42.net>,
+        Ike Panhc <ike.pan@canonical.com>,
+        Daniel Dadap <ddadap@nvidia.com>,
+        Kenneth Chan <kenneth.t.chan@gmail.com>,
+        Mattia Dongili <malattia@linux.it>,
+        Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+        Azael Avalos <coproscefalo@gmail.com>,
+        Lee Jones <lee@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Helge Deller <deller@gmx.de>,
+        Robert Moore <robert.moore@intel.com>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org,
+        platform-driver-x86@vger.kernel.org,
+        acpi4asus-user@lists.sourceforge.net,
+        ibm-acpi-devel@lists.sourceforge.net, linux-fbdev@vger.kernel.org,
+        devel@acpica.org
+References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
+ <746e5cc6-516f-8f69-9d4b-8fe237de8fd6@redhat.com>
+ <edec5950-cec8-b647-ccb1-ba48f9b3bbb0@daynix.com>
+ <60672af8-05d2-113c-12b9-d635608be0dd@redhat.com>
+ <ea69242c-0bc8-c7bb-9602-c7489bb69684@daynix.com>
+ <7373e258-f7cc-4416-9b1c-c8c9dab59ada@daynix.com>
+ <ae3497ed-b68d-c36a-6b6f-f7b9771d9238@redhat.com>
+From:   Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <ae3497ed-b68d-c36a-6b6f-f7b9771d9238@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
 
-I have been unable to work on this for the past few weeks, first I got
-sick, then I had lots of other things I was behind on because of the
-sickness, then my main computer that I develop on (not the toshiba) broke,
-and got a motherboard replacement (under warranty), but then the
-refurbished replacement was faulty in a different way, and I'm currently
-waiting for replacement of that one. Plus I now have a lot of deadlines
-that I'm behind on because of that.
 
-In summary: I have no idea when I will have time to look at the Toshiba
-again. I *do* want to get back to it eventually, but don't hold your breath.
-
-I do agree with your letter below though, once I get to that stuff. I have
-added some comments.
-
-On 2022-10-24 13:23, Hans de Goede wrote:
-> Hi Arvid,
+On 2022/10/24 23:37, Hans de Goede wrote:
+> Hi,
 > 
-> On 10/7/22 14:51, Arvid Norlander wrote:
->> On 2022-10-07 13:22, Hans de Goede wrote:
->>> Hi Arvid,
->>>
->>> On 10/6/22 23:12, Arvid Norlander wrote:
->>>> Hi Hans,
+> On 10/24/22 16:31, Akihiko Odaki wrote:
+>> On 2022/10/24 23:06, Akihiko Odaki wrote:
+>>> On 2022/10/24 22:21, Hans de Goede wrote:
+>>>> Hi,
 >>>>
->>>> Two things:
->>>> * I have discovered that reading the fan RPM in toshiba_acpi is slow,
->>>>   around 50 ms. I didn't notice it at first, but after adding some more
->>>>   sensors I found (current and voltage for AC and battery) it started to
->>>>   make running "sensors" visibly slow.
->>>>   
->>>>   I don't know what proper fix to this would be. Feel free to revert the
->>>>   fan RPM for now if it is not acceptable for reading sensors to block for
->>>>   ~50 ms (as opposed to the 100s of micro-seconds that other sensors such
->>>>   as coretemp and acpitz take to read on that laptop).
+>>>> On 10/24/22 14:58, Akihiko Odaki wrote:
+>>>>> On 2022/10/24 20:53, Hans de Goede wrote:
+>>>>>> Hi Akihiko,
+>>>>>>
+>>>>>> On 10/24/22 13:34, Akihiko Odaki wrote:
+>>>>>>> Commit 2600bfa3df99 ("ACPI: video: Add acpi_video_backlight_use_native()
+>>>>>>> helper") and following commits made native backlight unavailable if
+>>>>>>> CONFIG_ACPI_VIDEO is set and the backlight feature of ACPI video is
+>>>>>>> unavailable, which broke the backlight functionality on Lenovo ThinkPad
+>>>>>>> C13 Yoga Chromebook. Allow to fall back to native backlight in such
+>>>>>>> cases.
+>>>>>>
+>>>>>> I appreciate your work on this, but what this in essence does is
+>>>>>> it allows 2 backlight drivers (vendor + native) to get registered
+>>>>>> for the same panel again. While the whole goal of the backlight refactor
+>>>>>> series landing in 6.1 was to make it so that there always is only
+>>>>>> *1* backlight device registered instead of (possibly) registering
+>>>>>> multiple and letting userspace figure it out. It is also important
+>>>>>> to only always have 1 backlight device per panel for further
+>>>>>> upcoming changes.
+>>>>>>
+>>>>>> So nack for this solution, sorry.
+>>>>>>
+>>>>>> I am aware that this breaks backlight control on some Chromebooks,
+>>>>>> this was already reported and I wrote a long reply explaining why
+>>>>>> things are done the way they are done now and also suggesting
+>>>>>> 2 possible (much simpler) fixes, see:
+>>>>>> https://lore.kernel.org/linux-acpi/42a5f2c9-a1dc-8fc0-7334-fe6c390ecfbb@redhat.com/
+>>>>>>
+>>>>>> Unfortunately the reported has not followed-up on this and
+>>>>>> I don't have the hardware to test this myself.
+>>>>>>
+>>>>>> Can you please try implementing 1 of the fixes suggested there
+>>>>>> and then submit that upstream ?
+>>>>>>
+>>>>>> Regards,
+>>>>>>
+>>>>>> Hans
+>>>>>>
+>>>>>
+>>>>> Hi Hans,
+>>>>>
+>>>>> Thanks for reviewing and letting me know the prior attempt.
+>>>>>
+>>>>> In this case, there is only a native backlight device and no vendor backlight device so the duplication of backlight devices does not happen. I think it is better to handle such a case without quirks.
+>>>>
+>>>> Adding a single heuristic for all chromebooks is something completely different
+>>>> then adding per model quirks which indeed ideally should be avoided (but this
+>>>> is not always possible).
+>>>>
+>>>>> I understand it is still questionable to cover the case by allowing duplication when both of a vendor backlight device and native one. To explain my understanding and reasoning for *not* trying to apply the de-duplication rule to the vendor/native combination, let me first describe that the de-duplication which happens in acpi_video_get_backlight_type() is a heuristics and limited.
+>>>>>
+>>>>> As the background of acpi_video_get_backlight_type(), there is an assumption that it should be common that both of the firmware, implementing ACPI, and the kernel have code to drive backlight. In the case, the more reliable one should be picked instead of using both, and that is what the statements in `if (video_caps & ACPI_VIDEO_BACKLIGHT)` does.
+>>>>>
+>>>>> However, the method has two limitations:
+>>>>> 1. It does not cover the case where two backlight devices with the same type exist.
+>>>>
+>>>> This only happens when there are 2 panels; or 2 gpus driving a single panel
+>>>> which are both special cases where we actually want 2 backlight devices.
+>>>>
+>>>>> 2. The underlying assumption does not apply to vendor/native combination.
+>>>>>
+>>>>> Regarding the second limitation, I don't even understand the difference between vendor and native. My guess is that a vendor backlight device uses vendor-specific ACPI interface, and a native one directly uses hardware registers. If my guess is correct, the difference between vendor and native does not imply that both of them are likely to exist at the same time. As the conclusion, there is no more motivation to try to de-duplicate the vendor/native combination than to try to de-duplicate combination of devices with a single type.
+>>>>>
+>>>>> Of course, it is better if we could also avoid registering two devices with one type for one physical device. Possibly we can do so by providing a parameter to indicate that it is for the same "internal" backlight to devm_backlight_device_register(), and let the function check for the duplication. However, this rule may be too restrict, or may have problems I missed.
+>>>>>
+>>>>> Based on the discussion above, we can deduce three possibilities:
+>>>>> a. There is no reason to distinguish vendor and native in this case, and we can stick to my current proposal.
+>>>>> b. There is a valid reason to distinguish vendor and native, and we can adopt the same strategy that already adopted for ACPI video/vendor combination.
+>>>>> c. We can implement de-duplication in devm_backlight_device_register().
+>>>>> d. The other possible options are not worth, and we can just implement quirks specific to Chromebook/coreboot.
+>>>>>
+>>>>> In case b, it should be noted that vendor and native backlight device do not require ACPI video, and CONFIG_ACPI_VIDEO may not be enabled. In the case, the de-duplication needs to be implemented in backlight class device.
+>>>>
+>>>> I have been working on the ACPI/x86 backlight detection code since 2015, please trust
+>>>> me when I say that allowing both vendor + native backlight devices at the same time
+>>>> is a bad idea.
+>>>>
+>>>> I'm currently in direct contact with the ChromeOS team about fixing the Chromebook
+>>>> backlight issue introduced in 6.1-rc1.
+>>>>
+>>>> If you wan to help, please read:
+>>>>
+>>>> https://lore.kernel.org/linux-acpi/42a5f2c9-a1dc-8fc0-7334-fe6c390ecfbb@redhat.com/
+>>>>
+>>>> And try implementing 1 if the 2 solutions suggested there.
+>>>>
+>>>> Regards,
+>>>>
+>>>> Hans
 >>>
->>> Hmm, so apparently the single ACPI call this ends up making takes along time.
+>>> Hi,
 >>>
->>> I wonder what happens with the CPU load if you cat the file from
->>> a "while true; do cat /sys/class/hwmon/...; done" loop in the shell.
+>>> I just wanted to confirm your intention that we should distinguish vendor and native. In the case I think it is better to modify __acpi_video_get_backlight_type() and add "native_available" check in case of no ACPI video as already done for the ACPI video/native combination.
 >>>
->>> With some luck most of that 50 ms is sleeping, so we won't see say
->>> 25% load on a quad core CPU (so 100% load on 1 core) in "top".
+>>> Unfortunately this has one pitfall though: it does not work if CONFIG_ACPI_VIDEO is disabled. If it is, acpi_video_get_backlight_type() always return acpi_backlight_vendor, and acpi_video_backlight_use_native() always returns true. It is not a regression but the current behavior. Fixing it requires also refactoring touching both of ACPI video and backlight class driver so I guess I'm not an appropriate person to do that, and I should just add "native_available" check to __acpi_video_get_backlight_type().
+>>>
+>>> Does that sound good?
 >>
->> After testing, thankfully it seems to be the case that it is mostly
->> sleeping!
+>> Well, it would not be that easy since just adding native_available cannot handle the case where the vendor driver gets registered first. Checking with "native_available" was possible for ACPI video/vendor combination because ACPI video registers its backlight after some delay. I still think it does not overcomplicate things to modify __acpi_video_get_backlight_type() so that it can use both of vendor and native as fallback while preventing duplicate registration.
 > 
-> That is good, still unfortunate that it takes so long though.
+> In the mean time this has already been fixed by a single patch of just a few
+> lines, rather then requiring 22 patches, see:
 > 
->>
->>>
->>> Regardless we also want any desktop-environment sensor applets which
->>> poll more then once/second to block on this all the time. What most hwmon
->>> drivers with slow HW access do is update the readings once per second
->>> and then return cached values for a second see e.g. :
->>>
->>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/hwmon/f71882fg.c
->>>
->>> and then specifically the "bool valid;" and "unsigned long last_updated;	/* In jiffies */"
->>> members of "struct f71882fg_data" and how those are used.
->>>
->>> I believe that keeping the fan rpm reading, which IMHO is the most
->>> useful one is fine when adding the caching; or alternatively you
->>> can submit a revert.
->>
->> I will try to look into this, hopefully this weekend, though I'm currently
->> down with a nasty cold, so I can't promise anything.
->>
->>> As for the AC + bat voltage/current can those be / are those retreived
->>> with the same tci_raw() call or do those require separate calls ?
->>> And if they require separate calls do those calls also all take 50 ms?
->>
->> These are separate: A shared one for AC current and AC voltage, and two
->> separate ones for battery current and battery voltage. There is also
->> more data in the AC reply one that I can't quite decode, but it seems to
->> be thermally related (but I have not managed to decode it as a temperature
->> that matches anything else). Annoyingly the windows software displays
->> almost everything in percentages on dial gauges without any units or even
->> scales, making actually figuring out the interpretations rather difficult
->> at times.
->>
->> For reading the power a call is can be issued to set the time resolution,
->> in powers of two between 1 and 16 (i.e. 1, 2, 4, 8 and 16 are valid values),
->> where 1 is slightly more than one new reading per second, while 16 is about
->> one reading every 20ish seconds.
->>
->> This suggests that the EC would be updating some periodic registers
->> internally and we are just querying them, however, these are still just as
->> slow to read as the fan.
-> 
-> Hmm, I'm not sure what is the best thing to do here, if we end up making
-> 4 calls of each 50 ms here, then that is going to block the caller for
-> 200 ms which I guess might be just acceptable if we do it only once
-> per x seconds, for some value of x...
-> 
-> I guess you could use power_supply_is_system_supplied() to skip
-> the AC readings when not charging, but that ends up calling _PSR
-> on the ACPI AC device, which might also be slow.
-
-Is that what provides the value to /sys/class/power_supply/ADP1/online ?
-Because that appears to be quite fast.
-
-I have since discovered that there seems to be another way to read these
-(and some other) values that the Windows software uses sometimes, which I
-*believe* to be basically a an async request and poll for completion
-approach. However these calls do not appear to be that much faster when I
-try them, so I'm having trouble seeing the point of it (maybe it makes more
-difference on some other model?). Finally it doesn't fit the Linux HWMON
-API, which is a blocking read API.
-
-The traces basically look like:
-1. Please load value -> OK
-2. Is it done yet? -> No
-3. Is it done yet? -> Yes, here is the value.
-
-Though usually it is done by point 2 already.
-
-The API itself for this is rather strange, my best guess is:
-
-{HCI_GET, async_register_id, normal_param1, normal_param2,
- normal_register_id, flag for load/check for completion}
-
-There are several such async register IDs (0xa1, 0xa7, 0xa8, ...), but each
-async register only accepts a (sometimes overlapping) subset of normal
-registers.
-
-In summary it seems quite painful to use, for very little gain given that
-the userspace API is blocking anyway. Thus I did not spend a large amount
-of time on figuring out or documenting the details of this feature. I know
-enough now to figure out how to do the equivilent non-async call when I see
-async calls in the traces.
-
-> 
-> 
->>
->>>
->>> The battery values should already be available in some form under
->>> /sys/class/power_supply/BAT*  although you may only have the
->>> multiplied value of the 2 there in the form of energy_now.
->>
->> I do seem to have voltage_now and power_now. So current could be computed
->> by measuring the delta of energy_now over time and then using the voltage
->> to compute the current.
->>
->> However, the voltage as reported in /sys/class/power_supply/BAT1 does not
->> quite match the voltage I get from the HCI calls. The HCI call consistently
->> reads higher, but how much higher depends on if the AC is connected or not.
->> Also voltage_now seems to update rather more slowly than the HCI calls.
->>
->>>
->>> And the AC values are nice to have but not super interesting,
->>> so if they require another slow tci_raw() call then I'm not sure
->>> if they are worth adding.
->>
->> Yes they are slow, but they might be interesting in order to compute
->> system power usage while on AC (AC power - battery power) as it reports
->> the battery charging current while charging and the discharging current
->> while discharging.
->>
->> At the very least I will be documenting them when I get time.
-> 
-> Yes that sounds like a good idea. I guess you could also add support
-> for them in the driver, but then maybe activated with some "extended_hwmon"
-> kernel-module option. Which then should default to off I guess?
-
-That seems like a good idea.
-
+> https://lore.kernel.org/dri-devel/20221024141210.67784-1-dmitry.osipenko@collabora.com/
 > 
 > Regards,
 > 
 > Hans
-> 
 
-Best regards,
-Arvid Norlander
+It should be the smaller indeed. Modifying 
+__acpi_video_get_backlight_type() so that it can fall back to either of 
+vendor and native requires all of the vendor drivers to use something 
+like acpi_video_backlight_use_native() but for vendor. It certainly 
+requires 22 patches.
+
+That aside, the first patch in this series can be applied without the 
+later patches so you may have a look at it. It's fine if you don't merge 
+it though since it does not fix really a pragmatic bug as its message says.
+
+Regards,
+Akihiko Odaki
+
+> 
+> 
+> 
+> 
+>>>>>>> Akihiko Odaki (22):
+>>>>>>>      drm/i915/opregion: Improve backlight request condition
+>>>>>>>      ACPI: video: Introduce acpi_video_get_backlight_types()
+>>>>>>>      LoongArch: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: acer-wmi: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: asus-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: asus-wmi: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: compal-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: eeepc-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: fujitsu-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: ideapad-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: msi-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: msi-wmi: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: nvidia-wmi-ec-backlight: Use
+>>>>>>>        acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: panasonic-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: samsung-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: sony-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: thinkpad_acpi: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: toshiba_acpi: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: dell-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: intel_oaktrail: Use acpi_video_get_backlight_types()
+>>>>>>>      ACPI: video: Remove acpi_video_get_backlight_type()
+>>>>>>>      ACPI: video: Fallback to native backlight
+>>>>>>>
+>>>>>>>     Documentation/gpu/todo.rst                    |  8 +--
+>>>>>>>     drivers/acpi/acpi_video.c                     |  2 +-
+>>>>>>>     drivers/acpi/video_detect.c                   | 54 ++++++++++---------
+>>>>>>>     drivers/gpu/drm/i915/display/intel_opregion.c |  3 +-
+>>>>>>>     drivers/platform/loongarch/loongson-laptop.c  |  4 +-
+>>>>>>>     drivers/platform/x86/acer-wmi.c               |  2 +-
+>>>>>>>     drivers/platform/x86/asus-laptop.c            |  2 +-
+>>>>>>>     drivers/platform/x86/asus-wmi.c               |  4 +-
+>>>>>>>     drivers/platform/x86/compal-laptop.c          |  2 +-
+>>>>>>>     drivers/platform/x86/dell/dell-laptop.c       |  2 +-
+>>>>>>>     drivers/platform/x86/eeepc-laptop.c           |  2 +-
+>>>>>>>     drivers/platform/x86/fujitsu-laptop.c         |  4 +-
+>>>>>>>     drivers/platform/x86/ideapad-laptop.c         |  2 +-
+>>>>>>>     drivers/platform/x86/intel/oaktrail.c         |  2 +-
+>>>>>>>     drivers/platform/x86/msi-laptop.c             |  2 +-
+>>>>>>>     drivers/platform/x86/msi-wmi.c                |  2 +-
+>>>>>>>     .../platform/x86/nvidia-wmi-ec-backlight.c    |  2 +-
+>>>>>>>     drivers/platform/x86/panasonic-laptop.c       |  2 +-
+>>>>>>>     drivers/platform/x86/samsung-laptop.c         |  2 +-
+>>>>>>>     drivers/platform/x86/sony-laptop.c            |  2 +-
+>>>>>>>     drivers/platform/x86/thinkpad_acpi.c          |  4 +-
+>>>>>>>     drivers/platform/x86/toshiba_acpi.c           |  2 +-
+>>>>>>>     drivers/video/backlight/backlight.c           | 18 +++++++
+>>>>>>>     include/acpi/video.h                          | 21 ++++----
+>>>>>>>     include/linux/backlight.h                     |  1 +
+>>>>>>>     25 files changed, 85 insertions(+), 66 deletions(-)
+>>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>
+> 
