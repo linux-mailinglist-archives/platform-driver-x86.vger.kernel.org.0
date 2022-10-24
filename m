@@ -2,83 +2,124 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D27660BDD2
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Oct 2022 00:50:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D3F860C0A8
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Oct 2022 03:12:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231614AbiJXWuN (ORCPT
+        id S231469AbiJYBMp (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 24 Oct 2022 18:50:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56382 "EHLO
+        Mon, 24 Oct 2022 21:12:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230185AbiJXWtt (ORCPT
+        with ESMTP id S230429AbiJYBMX (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 24 Oct 2022 18:49:49 -0400
-X-Greylist: delayed 1388 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 24 Oct 2022 14:11:38 PDT
-Received: from cavan.codon.org.uk (irc.codon.org.uk [IPv6:2a00:1098:84:22e::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1482F87087;
-        Mon, 24 Oct 2022 14:11:37 -0700 (PDT)
-Received: by cavan.codon.org.uk (Postfix, from userid 1000)
-        id 9492F40A6A; Mon, 24 Oct 2022 21:30:57 +0100 (BST)
-Date:   Mon, 24 Oct 2022 21:30:57 +0100
-From:   Matthew Garrett <mjg59@srcf.ucam.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
-        Daniel Dadap <ddadap@nvidia.com>,
+        Mon, 24 Oct 2022 21:12:23 -0400
+X-Greylist: delayed 1494 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 24 Oct 2022 17:23:32 PDT
+Received: from server.atrad.com.au (server.atrad.com.au [150.101.241.2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 474AEB05
+        for <platform-driver-x86@vger.kernel.org>; Mon, 24 Oct 2022 17:23:31 -0700 (PDT)
+Received: from marvin.atrad.com.au (marvin.atrad.com.au [192.168.0.2])
+        by server.atrad.com.au (8.17.1/8.17.1) with ESMTPS id 29OMOeVe015083
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+        Tue, 25 Oct 2022 08:54:42 +1030
+Date:   Tue, 25 Oct 2022 08:54:40 +1030
+From:   Jonathan Woithe <jwoithe@just42.net>
+To:     Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
         Jani Nikula <jani.nikula@linux.intel.com>,
         Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
         Rodrigo Vivi <rodrigo.vivi@intel.com>,
         Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Pan@freedesktop.org, Xinhui <Xinhui.Pan@amd.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Lukas Wunner <lukas@wunner.de>,
+        "Lee, Chun-Yi" <jlee@suse.com>,
+        Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, linux-acpi@vger.kernel.org,
-        Jani Nikula <jani.nikula@intel.com>,
-        nouveau@lists.freedesktop.org,
-        intel-gfx <intel-gfx@lists.freedesktop.org>,
-        dri-devel@lists.freedesktop.org,
-        platform-driver-x86@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        David Airlie <airlied@redhat.com>, Len Brown <lenb@kernel.org>
-Subject: Re: [PATCH v5 02/31] drm/i915: Don't register backlight when another
- backlight should be used (v2)
-Message-ID: <20221024203057.GA28675@srcf.ucam.org>
-References: <20220825143726.269890-1-hdegoede@redhat.com>
- <20220825143726.269890-3-hdegoede@redhat.com>
- <f914ceb3-94bd-743c-f8b6-0334086e731a@gmail.com>
- <42a5f2c9-a1dc-8fc0-7334-fe6c390ecfbb@redhat.com>
+        Corentin Chary <corentin.chary@gmail.com>,
+        Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+        Ike Panhc <ike.pan@canonical.com>,
+        Daniel Dadap <ddadap@nvidia.com>,
+        Kenneth Chan <kenneth.t.chan@gmail.com>,
+        Mattia Dongili <malattia@linux.it>,
+        Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+        Azael Avalos <coproscefalo@gmail.com>,
+        Lee Jones <lee@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Helge Deller <deller@gmx.de>,
+        Robert Moore <robert.moore@intel.com>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org,
+        platform-driver-x86@vger.kernel.org,
+        acpi4asus-user@lists.sourceforge.net,
+        ibm-acpi-devel@lists.sourceforge.net, linux-fbdev@vger.kernel.org,
+        devel@acpica.org
+Subject: Re: [PATCH 09/22] platform/x86: fujitsu-laptop: Use
+ acpi_video_get_backlight_types()
+Message-ID: <Y1cQqG2eiISdKv0S@marvin.atrad.com.au>
+References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
+ <20221024113513.5205-10-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <42a5f2c9-a1dc-8fc0-7334-fe6c390ecfbb@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-0.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,KHOP_HELO_FCRDNS,SPF_HELO_NEUTRAL,
-        SPF_NEUTRAL autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20221024113513.5205-10-akihiko.odaki@daynix.com>
+X-MIMEDefang-action: accept
+X-Scanned-By: MIMEDefang 2.86 on 192.168.0.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Sep 27, 2022 at 01:04:52PM +0200, Hans de Goede wrote:
+On Mon, Oct 24, 2022 at 08:35:00PM +0900, Akihiko Odaki wrote:
+> acpi_video_get_backlight_type() is now deprecated.
 
-> So to fix this we need to make acpi_video_get_backlight_type()
-> return native on the Acer Chromebook Spin 713.
+The practical impact of this patch series on fujitsu-laptop is obviously
+very minor assuming the new acpi_video_get_backlight_types() function
+functions as advertised.  Accordingly, as maintainer of fujitsu-laptop I
+will defer to the opinions of others who maintain the lower level
+infrastructure which is more substantially affected by the bulk of the
+changes in this series.
 
-Isn't the issue broader than that? Unless the platform is Windows 8 or 
-later, we'll *always* (outside of some corner cases) return 
-acpi_backlight_vendor if there's no ACPI video interface. This is broken 
-for any platform that implements ACPI but relies on native video 
-control, which is going to include a range of Coreboot platforms, not 
-just Chromebooks. I think for this to work correctly you need to have 
-the infrastructure be aware of whether or not a vendor interface exists, 
-which means having to handle cleanup if a vendor-specific module gets 
-loaded later.
+I note that Hans has naked the series and I'm happy to go along with that.
+
+Regards
+  jonathan
+
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> ---
+>  drivers/platform/x86/fujitsu-laptop.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/fujitsu-laptop.c b/drivers/platform/x86/fujitsu-laptop.c
+> index b543d117b12c..e820de39cb68 100644
+> --- a/drivers/platform/x86/fujitsu-laptop.c
+> +++ b/drivers/platform/x86/fujitsu-laptop.c
+> @@ -387,7 +387,7 @@ static int acpi_fujitsu_bl_add(struct acpi_device *device)
+>  	struct fujitsu_bl *priv;
+>  	int ret;
+>  
+> -	if (acpi_video_get_backlight_type() != acpi_backlight_vendor)
+> +	if (!(acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR))
+>  		return -ENODEV;
+>  
+>  	priv = devm_kzalloc(&device->dev, sizeof(*priv), GFP_KERNEL);
+> @@ -819,7 +819,7 @@ static int acpi_fujitsu_laptop_add(struct acpi_device *device)
+>  
+>  	/* Sync backlight power status */
+>  	if (fujitsu_bl && fujitsu_bl->bl_device &&
+> -	    acpi_video_get_backlight_type() == acpi_backlight_vendor) {
+> +	    (acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR)) {
+>  		if (call_fext_func(fext, FUNC_BACKLIGHT, 0x2,
+>  				   BACKLIGHT_PARAM_POWER, 0x0) == BACKLIGHT_OFF)
+>  			fujitsu_bl->bl_device->props.power = FB_BLANK_POWERDOWN;
+> -- 
+> 2.37.3
