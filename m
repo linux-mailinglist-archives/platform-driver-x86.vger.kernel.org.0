@@ -2,55 +2,55 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 076D760A22B
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Oct 2022 13:39:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C44C160A243
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Oct 2022 13:40:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230292AbiJXLjf (ORCPT
+        id S231337AbiJXLkG (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 24 Oct 2022 07:39:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50486 "EHLO
+        Mon, 24 Oct 2022 07:40:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231258AbiJXLi4 (ORCPT
+        with ESMTP id S231450AbiJXLjS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 24 Oct 2022 07:38:56 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 543556D549
-        for <platform-driver-x86@vger.kernel.org>; Mon, 24 Oct 2022 04:38:11 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id m2so3937106pjr.3
-        for <platform-driver-x86@vger.kernel.org>; Mon, 24 Oct 2022 04:38:11 -0700 (PDT)
+        Mon, 24 Oct 2022 07:39:18 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12BDC6AA26
+        for <platform-driver-x86@vger.kernel.org>; Mon, 24 Oct 2022 04:38:41 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id p3so7258592pld.10
+        for <platform-driver-x86@vger.kernel.org>; Mon, 24 Oct 2022 04:38:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=daynix-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YFFtfp5Yc7gM2NHS+gJ21jjQnawzT1tRkxQzo/jBQzs=;
-        b=PgRxRL0VweaBpB4MPzFwmQEoLPmtBSUyoflWHPBA/i2qwPwwuqmuLCa/wFO3m2WOgm
-         CG5asatEvhtKxzWCslE5iuXyE9qykeCF0sAXWDQWCpNnz1SKFD09I/9ECN3oqaq/n/qH
-         8rI5q6sFwwrbf+qrqO6sphSgXh8gDNDUjMeXekyPZD3F/TNfhF9NLgFtp4S/EV7wFVYr
-         HIvJzo/gYypH0KtX5FbvkZtyhStclUobYg5s5+qLL1fUloXqGfaHi5da3VFSy44yWKIj
-         FIzxJZjW4aIDCrHCB+/3DHZ36YkLWnsHC5PSQR+boNXax+UF0elBwxF4lI1dewR5AYRU
-         r3Ew==
+        bh=XAyFJiVGXrC/KZsleNIpi2nk4bcxYAI8Wjviz1KFor4=;
+        b=ZPJNNmG2CfyinfqrhsHlV+g/2spcGsRR6OA3gQWYXOOaD6Gsxx/0ZTZ/2WSEOwyYxr
+         EDCpJh40XMtG2OTdgXJL02/X5omijLCV9JB2NHXHkDrLv9wNx5a9fXGjfKUy3F0lhTEe
+         hmnXBdrKvxVeJ2M5hNGsU2bRRaZU/yeF/d2yhPBZ/vbo5qMU7Pf/Zeu4xzQd/tILMGUf
+         9wVa7xUimRQsMhs8I2ooWhyIiW91jtGl8d73AU5DZCPbAW2aJV7S8knDGzccvSCFIAGK
+         XYYnZNcK+zvSZs4S+oTEJp9GvLNjfNv3+EpEB1BBZw+e91dYFNlfBeXNg4N+ATQRyNH9
+         j2NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YFFtfp5Yc7gM2NHS+gJ21jjQnawzT1tRkxQzo/jBQzs=;
-        b=vT5Y3SH3HWqeO6XLd4A2g/EUwT2Qaylyn4hrB/NhS/YOFnIUjqR4NMwEHNgtgE81su
-         5m0VINJr7GOWFZxdVNbBn/VD1IVvzeprgYHZjzU+Mdd6MY1WZif6lKo9R0bijBF4XUd6
-         M1uE5XKAkt+Ub4NRDsyxGAL/70pY50eiPGZ8Cx4FtsydjjPLRsMJ9JNETVSk0cn1c6mP
-         HXqEzfWB60ZpT2LHrL54St6I31etCLSKRzMdvoDTpZJgdeB4bMWIpfMUXzimJ3iwvWMb
-         2R5DVi7VyATogS94Prs1IVDtFGV3yJoy7Mj1qdFcbYK9KZdXoU/eckbrNgMnTtzN18jK
-         TE/w==
-X-Gm-Message-State: ACrzQf0U65prObHAJmja269uzAlhfeOnB0/kM8Zp+JtUbDYCcyDwJ1YS
-        vBxQzkyKC8YsMzm8YDm9Td6Ikw==
-X-Google-Smtp-Source: AMsMyM4JFQloaFqr1HCGBSMPdlEtI9GhtTJPxV54Rk0x44r+FJsDYcm4mRiVB5esproJCpQDWLufkw==
-X-Received: by 2002:a17:903:11c3:b0:178:aec1:189c with SMTP id q3-20020a17090311c300b00178aec1189cmr32705192plh.136.1666611425291;
-        Mon, 24 Oct 2022 04:37:05 -0700 (PDT)
+        bh=XAyFJiVGXrC/KZsleNIpi2nk4bcxYAI8Wjviz1KFor4=;
+        b=zWJrUzv9C6TpJd0mR24KPNMq4mml9+pM10xwUVUifyt1ZJagakqtqMcKiYh6YDsTO1
+         XyyEviy/QApVZq+v5VUkvFuJ75P3si6kAM4oQjg6kVQrFTqNCWk1L1+FBaPzqsHxeglg
+         /PJf7gvM1DoxCLyiXyw+Njg2Y4z+nQ2yAeELzfcmZ4zzq62ocx6KYRjGm3dl0l5C3W+d
+         dzypTD8LjxadpBdsPSEXnt5SUDIN1nfolTV97sTUkYC0j6EAMQlV5nrKWwGkJsxa6sg0
+         JGoucZEAOmg7hRqByePH6Iuvwds2yATDZFsWm6uqGEcmSSbMfMMHCG6sOIHDH+lc37fe
+         HpEA==
+X-Gm-Message-State: ACrzQf2RKxYe+7HbwRicPSGjZ2PGKh4TzaGfPlQpFBKE3rMWkMxfjpxd
+        e9qpMxoVMwv75XVsSaDCPeUk5KPXjUzPGOzL
+X-Google-Smtp-Source: AMsMyM7j6rudLQ3oDGLiRJvO3ouLKzXkm11wgePZ/bzYxd0/dczcHVPABhvm+nv5ewjBPX37znVsPw==
+X-Received: by 2002:a17:903:1c6:b0:185:47ce:f4f0 with SMTP id e6-20020a17090301c600b0018547cef4f0mr33699248plh.132.1666611442110;
+        Mon, 24 Oct 2022 04:37:22 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
-        by smtp.gmail.com with ESMTPSA id b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.36.57
+        by smtp.gmail.com with ESMTPSA id b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.37.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 04:37:04 -0700 (PDT)
+        Mon, 24 Oct 2022 04:37:21 -0700 (PDT)
 From:   Akihiko Odaki <akihiko.odaki@daynix.com>
 Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -89,9 +89,9 @@ Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         acpi4asus-user@lists.sourceforge.net,
         ibm-acpi-devel@lists.sourceforge.net, linux-fbdev@vger.kernel.org,
         devel@acpica.org, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH 10/22] platform/x86: ideapad-laptop: Use acpi_video_get_backlight_types()
-Date:   Mon, 24 Oct 2022 20:35:01 +0900
-Message-Id: <20221024113513.5205-11-akihiko.odaki@daynix.com>
+Subject: [PATCH 12/22] platform/x86: msi-wmi: Use acpi_video_get_backlight_types()
+Date:   Mon, 24 Oct 2022 20:35:03 +0900
+Message-Id: <20221024113513.5205-13-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221024113513.5205-1-akihiko.odaki@daynix.com>
 References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
@@ -111,22 +111,22 @@ acpi_video_get_backlight_type() is now deprecated.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- drivers/platform/x86/ideapad-laptop.c | 2 +-
+ drivers/platform/x86/msi-wmi.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
-index abd0c81d62c4..befd5dc24ed6 100644
---- a/drivers/platform/x86/ideapad-laptop.c
-+++ b/drivers/platform/x86/ideapad-laptop.c
-@@ -1633,7 +1633,7 @@ static int ideapad_acpi_add(struct platform_device *pdev)
- 			dev_info(&pdev->dev, "DYTC interface is not available\n");
+diff --git a/drivers/platform/x86/msi-wmi.c b/drivers/platform/x86/msi-wmi.c
+index fd318cdfe313..3a74f0135fae 100644
+--- a/drivers/platform/x86/msi-wmi.c
++++ b/drivers/platform/x86/msi-wmi.c
+@@ -309,7 +309,7 @@ static int __init msi_wmi_init(void)
  	}
  
--	if (acpi_video_get_backlight_type() == acpi_backlight_vendor) {
-+	if ((acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR)) {
- 		err = ideapad_backlight_init(priv);
- 		if (err && err != -ENODEV)
- 			goto backlight_failed;
+ 	if (wmi_has_guid(MSIWMI_BIOS_GUID) &&
+-	    acpi_video_get_backlight_type() == acpi_backlight_vendor) {
++	    (acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR)) {
+ 		err = msi_wmi_backlight_setup();
+ 		if (err) {
+ 			pr_err("Unable to setup backlight device\n");
 -- 
 2.37.3
 
