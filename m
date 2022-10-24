@@ -2,114 +2,86 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47F0960B48C
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Oct 2022 19:51:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE52460B137
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Oct 2022 18:17:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232103AbiJXRvU (ORCPT
+        id S232261AbiJXQRR (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 24 Oct 2022 13:51:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54602 "EHLO
+        Mon, 24 Oct 2022 12:17:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232248AbiJXRu6 (ORCPT
+        with ESMTP id S235121AbiJXQPt (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 24 Oct 2022 13:50:58 -0400
+        Mon, 24 Oct 2022 12:15:49 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 475AC3B9A5
-        for <platform-driver-x86@vger.kernel.org>; Mon, 24 Oct 2022 09:28:12 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FB9CA8CDC
+        for <platform-driver-x86@vger.kernel.org>; Mon, 24 Oct 2022 08:03:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1666628718;
+        s=mimecast20190719; t=1666623721;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=oBddTd2aL3cpMShQLUMXQ70zqgPBnwYQKQRFaU3QDlI=;
-        b=UNU5x/mvf43/hYKI2BWrGsjdsPUHsiV7OURF6Cku3KHVQm75vs7Z/SEA+YooxGwLxDbN5W
-        XC9EkqdiHlrQKrSf7E95uPbrc89BCG21137J9upF2SLsatRX4CjBKO/biVbK4jtQQ3eVDv
-        BcCtfYaGp8g1cC9tfe1VvPKVkMtqvuM=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=AVRO3j9qqyjNwzxuSIwp8DYZYKQpY+C+UFUUt3t3mH4=;
+        b=Zdn7byWCo+TKunDT+eybDpe8x+j0L9u/UrTXAi6WdH6XCmA7+QMv8WFYK2bt9quc4aGjjB
+        +eciHm8Ypb0yx6gparGnyV3sIkOA9ppcqb3Y7hDevp+Mds77xwKpJGOVrUpuKmn1PgUdL5
+        z2iti7Mb3cbPcInnif310rmeShLu5VU=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-116-oIuVPW_8MeusNqoHYkF0Kw-1; Mon, 24 Oct 2022 08:00:19 -0400
-X-MC-Unique: oIuVPW_8MeusNqoHYkF0Kw-1
-Received: by mail-lj1-f197.google.com with SMTP id v9-20020a2e9909000000b002770921b281so1240892lji.2
-        for <platform-driver-x86@vger.kernel.org>; Mon, 24 Oct 2022 05:00:19 -0700 (PDT)
+ us-mta-537-8VtlV84qON64U1VjnH8S2A-1; Mon, 24 Oct 2022 09:47:35 -0400
+X-MC-Unique: 8VtlV84qON64U1VjnH8S2A-1
+Received: by mail-ed1-f69.google.com with SMTP id m7-20020a056402430700b0045daff6ee5dso9704808edc.10
+        for <platform-driver-x86@vger.kernel.org>; Mon, 24 Oct 2022 06:47:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oBddTd2aL3cpMShQLUMXQ70zqgPBnwYQKQRFaU3QDlI=;
-        b=YeBhQNR+Qxl5pm6X+1PN4mWtdG5qtxe1QgaG3vRIsXPA0XCeC6Cz95fvn49JhF/F17
-         BrswnhxVeNV447i5hAo0ZkP6gBvn03/rkS7NZRLs8EcDO7m61pVj0LqY0g/glJIxbWQt
-         CWGai2wKaxuIBdj0uROg2j3G8br5lSQV0NOVX6H48EDIWjGUw/AdD+/asgwNjPxeZ9sk
-         8tffsXFOx5aTTrU1G1/x3gya0fua4vvEZWXTrLwNFlILyGLgShfwSaJPsFGHSZ1FxYqS
-         3H+gN24QIQoEPrXff+FeumC2gCIJJoquP5FqS9+gm3yMuERCkpAd/F5OV/oFroEXAute
-         TnTw==
-X-Gm-Message-State: ACrzQf3pIlw8VfBnvflfnCknjWix4TEQxtiqHIsrhXxam1PnaUXqP1v2
-        bN4486h/uC6lJdhMeN0y8itPloe2tFtgEjVdKnK8rMSnL0UJgGoYsNz86Gn121thE8D1pvaSnlL
-        l8wdQouvlSsTBYU/ngOws556xeHuUCrm8jw==
-X-Received: by 2002:a05:651c:1a0b:b0:26f:e07e:4eaa with SMTP id by11-20020a05651c1a0b00b0026fe07e4eaamr11418436ljb.29.1666612817371;
-        Mon, 24 Oct 2022 05:00:17 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4tdZDsl2pNG3Zoy+jU7SoBTHTkz51iCC/iggC9kztg6HWE+mkD8tnuNENa1Jj/GJlMZnu9qg==
-X-Received: by 2002:a17:907:6e24:b0:791:905f:7881 with SMTP id sd36-20020a1709076e2400b00791905f7881mr27267484ejc.120.1666612806299;
-        Mon, 24 Oct 2022 05:00:06 -0700 (PDT)
+        bh=AVRO3j9qqyjNwzxuSIwp8DYZYKQpY+C+UFUUt3t3mH4=;
+        b=N7RiNFT+vK0Zusy/ntuetEmcJS21uupV9dLzYjjRj3hgsHQnlSb0JHq4geOdorPoA4
+         SpZU6R7hTnZnuv0hiScGpYTeXNZQyroSsTHa4txh5lAqDAJBB5rf+5VgqjxmdhQQ9Rhi
+         tWwuYVhZ2u6HHY3EDF+UnYCp2MQs2cephnNYZn2Wlld+QYYlfP/i4f1Ah1QBa7WfgW3K
+         ljDaf5TlkLORlkMDd5SM0kJBCMhUP/KeEYDyAOyKV8rcbDPAkMJ2qyoRkt6DC8jdY9HL
+         MVUvX9a35yDjynoH5eUD83/vC2uNOT9cr+IiuznhtP/YE8cwhTCaA0sOgZiH1kcOhOkE
+         KwKg==
+X-Gm-Message-State: ACrzQf0Wqyaw9rJXW53Ce34/IQC0bBbK296DfFgzhrV4f0LASMDOZCzl
+        PHs5eqt9kxVqHCw2Nf4yz11XKsdyh5UnZEKBfpNretkyD+Ysv5MrgDHYY6B/VXq2ezRy+aaBdSh
+        zG7mU19wfVmEmlXwZZdxqxpysJPklJNE+0w==
+X-Received: by 2002:a05:6402:520f:b0:45f:b7a0:a31 with SMTP id s15-20020a056402520f00b0045fb7a00a31mr23729500edd.379.1666619253425;
+        Mon, 24 Oct 2022 06:47:33 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM77TrWL37aD3oIh8CjP9KR7MTWZ1JhaaHUJ4YmD2AUz0uLtJaRkhwi6YqyRrX3krnc9Ce+4jA==
+X-Received: by 2002:a05:6402:520f:b0:45f:b7a0:a31 with SMTP id s15-20020a056402520f00b0045fb7a00a31mr23729476edd.379.1666619253161;
+        Mon, 24 Oct 2022 06:47:33 -0700 (PDT)
 Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id u20-20020a17090626d400b0078907275a44sm15446126ejc.42.2022.10.24.05.00.04
+        by smtp.gmail.com with ESMTPSA id jy17-20020a170907763100b00781d411a63csm15549696ejc.151.2022.10.24.06.47.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Oct 2022 05:00:05 -0700 (PDT)
-Message-ID: <bec2bb19-392d-0a69-f8f7-66bb1f8d9495@redhat.com>
-Date:   Mon, 24 Oct 2022 14:00:04 +0200
+        Mon, 24 Oct 2022 06:47:32 -0700 (PDT)
+Message-ID: <34114ce8-8809-7791-8d7e-ccad6ff7b1a1@redhat.com>
+Date:   Mon, 24 Oct 2022 15:47:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH 00/22] Fallback to native backlight
+Subject: Re: [PATCH v2 1/2] ACPI: battery: Pass battery hook pointer to hook
+ callbacks
 Content-Language: en-US
-To:     Akihiko Odaki <akihiko.odaki@daynix.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        "Lee, Chun-Yi" <jlee@suse.com>, Mark Gross <markgross@kernel.org>,
-        Corentin Chary <corentin.chary@gmail.com>,
-        Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
-        Jonathan Woithe <jwoithe@just42.net>,
-        Ike Panhc <ike.pan@canonical.com>,
-        Daniel Dadap <ddadap@nvidia.com>,
-        Kenneth Chan <kenneth.t.chan@gmail.com>,
-        Mattia Dongili <malattia@linux.it>,
-        Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-        Azael Avalos <coproscefalo@gmail.com>,
-        Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Helge Deller <deller@gmx.de>,
-        Robert Moore <robert.moore@intel.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org,
-        platform-driver-x86@vger.kernel.org,
-        acpi4asus-user@lists.sourceforge.net,
-        ibm-acpi-devel@lists.sourceforge.net, linux-fbdev@vger.kernel.org,
-        devel@acpica.org
-References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
- <87tu3te92n.fsf@intel.com> <18478739-625b-0c16-cd5a-e05c5372a74a@daynix.com>
+To:     Armin Wolf <W_Armin@gmx.de>, markgross@kernel.org
+Cc:     rafael@kernel.org, lenb@kernel.org, hmh@hmh.eng.br,
+        matan@svgalib.org, corentin.chary@gmail.com, jeremy@system76.com,
+        productdev@system76.com, mario.limonciello@amd.com,
+        pobrn@protonmail.com, coproscefalo@gmail.com,
+        platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220927204521.601887-1-W_Armin@gmx.de>
+ <20220927204521.601887-2-W_Armin@gmx.de>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <18478739-625b-0c16-cd5a-e05c5372a74a@daynix.com>
+In-Reply-To: <20220927204521.601887-2-W_Armin@gmx.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -118,28 +90,29 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 Hi,
 
-On 10/24/22 13:56, Akihiko Odaki wrote:
-> On 2022/10/24 20:48, Jani Nikula wrote:
->> On Mon, 24 Oct 2022, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>> Commit 2600bfa3df99 ("ACPI: video: Add acpi_video_backlight_use_native()
->>> helper") and following commits made native backlight unavailable if
->>> CONFIG_ACPI_VIDEO is set and the backlight feature of ACPI video is
->>> unavailable, which broke the backlight functionality on Lenovo ThinkPad
->>> C13 Yoga Chromebook. Allow to fall back to native backlight in such
->>> cases.
->>
->> Where's the bug report with relevant logs, kconfigs, etc?
+On 9/27/22 22:45, Armin Wolf wrote:
+> Right now, is impossible for battery hook callbacks
+> to access instance-specific data, forcing most drivers
+> to provide some sort of global state. This however is
+> difficult for drivers which can be instantiated multiple
+> times and/or are hotplug-capable.
 > 
-> I haven't filed one. Should I? Please tell me where to report and what information you would need (to bugzilla.kernel.org with things mentioned in Documentation/admin-guide/reporting-issues.rst?)
+> Pass a pointer to the batetry hook to those callbacks
+> for usage with container_of().
+> 
+> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
 
-As mentioned in my other email this is a known issue, and your effort
-to fix this is appreciated very much, but I don't believe your solution
-to be the right one.
+Thank you for your patch-series, I've applied the series to my
+review-hans branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
 
-See: https://lore.kernel.org/linux-acpi/42a5f2c9-a1dc-8fc0-7334-fe6c390ecfbb@redhat.com/
-for more details and possible solutions. Please try implementing one of
-those solutions for your Chromebook. I unfortunately do not have hw to
-test this myself.
+Note it will show up in my review-hans branch once I've pushed my
+local branch there, which might take a while.
+
+Once I've run some tests on this branch the patches there will be
+added to the platform-drivers-x86/for-next branch and eventually
+will be included in the pdx86 pull-request to Linus for the next
+merge-window.
 
 Regards,
 
@@ -147,68 +120,205 @@ Hans
 
 
 
+> ---
+>  drivers/acpi/battery.c               | 8 ++++----
+>  drivers/platform/x86/asus-wmi.c      | 4 ++--
+>  drivers/platform/x86/huawei-wmi.c    | 4 ++--
+>  drivers/platform/x86/lg-laptop.c     | 4 ++--
+>  drivers/platform/x86/system76_acpi.c | 4 ++--
+>  drivers/platform/x86/thinkpad_acpi.c | 4 ++--
+>  drivers/platform/x86/toshiba_acpi.c  | 4 ++--
+>  include/acpi/battery.h               | 4 ++--
+>  8 files changed, 18 insertions(+), 18 deletions(-)
 > 
-> Regards,
-> Akihiko Odaki
+> diff --git a/drivers/acpi/battery.c b/drivers/acpi/battery.c
+> index 306513fec1e1..9482b0b6eadc 100644
+> --- a/drivers/acpi/battery.c
+> +++ b/drivers/acpi/battery.c
+> @@ -696,7 +696,7 @@ static void __battery_hook_unregister(struct acpi_battery_hook *hook, int lock)
+>  	if (lock)
+>  		mutex_lock(&hook_mutex);
+>  	list_for_each_entry(battery, &acpi_battery_list, list) {
+> -		hook->remove_battery(battery->bat);
+> +		hook->remove_battery(battery->bat, hook);
+>  	}
+>  	list_del(&hook->list);
+>  	if (lock)
+> @@ -724,7 +724,7 @@ void battery_hook_register(struct acpi_battery_hook *hook)
+>  	 * its attributes.
+>  	 */
+>  	list_for_each_entry(battery, &acpi_battery_list, list) {
+> -		if (hook->add_battery(battery->bat)) {
+> +		if (hook->add_battery(battery->bat, hook)) {
+>  			/*
+>  			 * If a add-battery returns non-zero,
+>  			 * the registration of the extension has failed,
+> @@ -762,7 +762,7 @@ static void battery_hook_add_battery(struct acpi_battery *battery)
+>  	 * during the battery module initialization.
+>  	 */
+>  	list_for_each_entry_safe(hook_node, tmp, &battery_hook_list, list) {
+> -		if (hook_node->add_battery(battery->bat)) {
+> +		if (hook_node->add_battery(battery->bat, hook_node)) {
+>  			/*
+>  			 * The notification of the extensions has failed, to
+>  			 * prevent further errors we will unload the extension.
+> @@ -785,7 +785,7 @@ static void battery_hook_remove_battery(struct acpi_battery *battery)
+>  	 * custom attributes from the battery.
+>  	 */
+>  	list_for_each_entry(hook, &battery_hook_list, list) {
+> -		hook->remove_battery(battery->bat);
+> +		hook->remove_battery(battery->bat, hook);
+>  	}
+>  	/* Then, just remove the battery from the list */
+>  	list_del(&battery->list);
+> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+> index ae46af731de9..446669d11095 100644
+> --- a/drivers/platform/x86/asus-wmi.c
+> +++ b/drivers/platform/x86/asus-wmi.c
+> @@ -882,7 +882,7 @@ static ssize_t charge_control_end_threshold_show(struct device *device,
 > 
->>
->> BR,
->> Jani.
->>
->>>
->>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
->>>
->>> Akihiko Odaki (22):
->>>    drm/i915/opregion: Improve backlight request condition
->>>    ACPI: video: Introduce acpi_video_get_backlight_types()
->>>    LoongArch: Use acpi_video_get_backlight_types()
->>>    platform/x86: acer-wmi: Use acpi_video_get_backlight_types()
->>>    platform/x86: asus-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: asus-wmi: Use acpi_video_get_backlight_types()
->>>    platform/x86: compal-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: eeepc-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: fujitsu-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: ideapad-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: msi-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: msi-wmi: Use acpi_video_get_backlight_types()
->>>    platform/x86: nvidia-wmi-ec-backlight: Use
->>>      acpi_video_get_backlight_types()
->>>    platform/x86: panasonic-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: samsung-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: sony-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: thinkpad_acpi: Use acpi_video_get_backlight_types()
->>>    platform/x86: toshiba_acpi: Use acpi_video_get_backlight_types()
->>>    platform/x86: dell-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: intel_oaktrail: Use acpi_video_get_backlight_types()
->>>    ACPI: video: Remove acpi_video_get_backlight_type()
->>>    ACPI: video: Fallback to native backlight
->>>
->>>   Documentation/gpu/todo.rst                    |  8 +--
->>>   drivers/acpi/acpi_video.c                     |  2 +-
->>>   drivers/acpi/video_detect.c                   | 54 ++++++++++---------
->>>   drivers/gpu/drm/i915/display/intel_opregion.c |  3 +-
->>>   drivers/platform/loongarch/loongson-laptop.c  |  4 +-
->>>   drivers/platform/x86/acer-wmi.c               |  2 +-
->>>   drivers/platform/x86/asus-laptop.c            |  2 +-
->>>   drivers/platform/x86/asus-wmi.c               |  4 +-
->>>   drivers/platform/x86/compal-laptop.c          |  2 +-
->>>   drivers/platform/x86/dell/dell-laptop.c       |  2 +-
->>>   drivers/platform/x86/eeepc-laptop.c           |  2 +-
->>>   drivers/platform/x86/fujitsu-laptop.c         |  4 +-
->>>   drivers/platform/x86/ideapad-laptop.c         |  2 +-
->>>   drivers/platform/x86/intel/oaktrail.c         |  2 +-
->>>   drivers/platform/x86/msi-laptop.c             |  2 +-
->>>   drivers/platform/x86/msi-wmi.c                |  2 +-
->>>   .../platform/x86/nvidia-wmi-ec-backlight.c    |  2 +-
->>>   drivers/platform/x86/panasonic-laptop.c       |  2 +-
->>>   drivers/platform/x86/samsung-laptop.c         |  2 +-
->>>   drivers/platform/x86/sony-laptop.c            |  2 +-
->>>   drivers/platform/x86/thinkpad_acpi.c          |  4 +-
->>>   drivers/platform/x86/toshiba_acpi.c           |  2 +-
->>>   drivers/video/backlight/backlight.c           | 18 +++++++
->>>   include/acpi/video.h                          | 21 ++++----
->>>   include/linux/backlight.h                     |  1 +
->>>   25 files changed, 85 insertions(+), 66 deletions(-)
->>
+>  static DEVICE_ATTR_RW(charge_control_end_threshold);
+> 
+> -static int asus_wmi_battery_add(struct power_supply *battery)
+> +static int asus_wmi_battery_add(struct power_supply *battery, struct acpi_battery_hook *hook)
+>  {
+>  	/* The WMI method does not provide a way to specific a battery, so we
+>  	 * just assume it is the first battery.
+> @@ -909,7 +909,7 @@ static int asus_wmi_battery_add(struct power_supply *battery)
+>  	return 0;
+>  }
+> 
+> -static int asus_wmi_battery_remove(struct power_supply *battery)
+> +static int asus_wmi_battery_remove(struct power_supply *battery, struct acpi_battery_hook *hook)
+>  {
+>  	device_remove_file(&battery->dev,
+>  			   &dev_attr_charge_control_end_threshold);
+> diff --git a/drivers/platform/x86/huawei-wmi.c b/drivers/platform/x86/huawei-wmi.c
+> index eac3e6b4ea11..1dec4427053a 100644
+> --- a/drivers/platform/x86/huawei-wmi.c
+> +++ b/drivers/platform/x86/huawei-wmi.c
+> @@ -468,7 +468,7 @@ static DEVICE_ATTR_RW(charge_control_start_threshold);
+>  static DEVICE_ATTR_RW(charge_control_end_threshold);
+>  static DEVICE_ATTR_RW(charge_control_thresholds);
+> 
+> -static int huawei_wmi_battery_add(struct power_supply *battery)
+> +static int huawei_wmi_battery_add(struct power_supply *battery, struct acpi_battery_hook *hook)
+>  {
+>  	int err = 0;
+> 
+> @@ -483,7 +483,7 @@ static int huawei_wmi_battery_add(struct power_supply *battery)
+>  	return err;
+>  }
+> 
+> -static int huawei_wmi_battery_remove(struct power_supply *battery)
+> +static int huawei_wmi_battery_remove(struct power_supply *battery, struct acpi_battery_hook *hook)
+>  {
+>  	device_remove_file(&battery->dev, &dev_attr_charge_control_start_threshold);
+>  	device_remove_file(&battery->dev, &dev_attr_charge_control_end_threshold);
+> diff --git a/drivers/platform/x86/lg-laptop.c b/drivers/platform/x86/lg-laptop.c
+> index 332868b140ed..d662b64b0ba9 100644
+> --- a/drivers/platform/x86/lg-laptop.c
+> +++ b/drivers/platform/x86/lg-laptop.c
+> @@ -546,7 +546,7 @@ static DEVICE_ATTR_RW(fn_lock);
+>  static DEVICE_ATTR_RW(charge_control_end_threshold);
+>  static DEVICE_ATTR_RW(battery_care_limit);
+> 
+> -static int lg_battery_add(struct power_supply *battery)
+> +static int lg_battery_add(struct power_supply *battery, struct acpi_battery_hook *hook)
+>  {
+>  	if (device_create_file(&battery->dev,
+>  			       &dev_attr_charge_control_end_threshold))
+> @@ -555,7 +555,7 @@ static int lg_battery_add(struct power_supply *battery)
+>  	return 0;
+>  }
+> 
+> -static int lg_battery_remove(struct power_supply *battery)
+> +static int lg_battery_remove(struct power_supply *battery, struct acpi_battery_hook *hook)
+>  {
+>  	device_remove_file(&battery->dev,
+>  			   &dev_attr_charge_control_end_threshold);
+> diff --git a/drivers/platform/x86/system76_acpi.c b/drivers/platform/x86/system76_acpi.c
+> index 958df41ad509..9031bd53253f 100644
+> --- a/drivers/platform/x86/system76_acpi.c
+> +++ b/drivers/platform/x86/system76_acpi.c
+> @@ -254,7 +254,7 @@ static struct attribute *system76_battery_attrs[] = {
+> 
+>  ATTRIBUTE_GROUPS(system76_battery);
+> 
+> -static int system76_battery_add(struct power_supply *battery)
+> +static int system76_battery_add(struct power_supply *battery, struct acpi_battery_hook *hook)
+>  {
+>  	// System76 EC only supports 1 battery
+>  	if (strcmp(battery->desc->name, "BAT0") != 0)
+> @@ -266,7 +266,7 @@ static int system76_battery_add(struct power_supply *battery)
+>  	return 0;
+>  }
+> 
+> -static int system76_battery_remove(struct power_supply *battery)
+> +static int system76_battery_remove(struct power_supply *battery, struct acpi_battery_hook *hook)
+>  {
+>  	device_remove_groups(&battery->dev, system76_battery_groups);
+>  	return 0;
+> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+> index 8fbe21ebcc52..75ba9e61264e 100644
+> --- a/drivers/platform/x86/thinkpad_acpi.c
+> +++ b/drivers/platform/x86/thinkpad_acpi.c
+> @@ -9897,7 +9897,7 @@ ATTRIBUTE_GROUPS(tpacpi_battery);
+> 
+>  /* ACPI battery hooking */
+> 
+> -static int tpacpi_battery_add(struct power_supply *battery)
+> +static int tpacpi_battery_add(struct power_supply *battery, struct acpi_battery_hook *hook)
+>  {
+>  	int batteryid = tpacpi_battery_get_id(battery->desc->name);
+> 
+> @@ -9908,7 +9908,7 @@ static int tpacpi_battery_add(struct power_supply *battery)
+>  	return 0;
+>  }
+> 
+> -static int tpacpi_battery_remove(struct power_supply *battery)
+> +static int tpacpi_battery_remove(struct power_supply *battery, struct acpi_battery_hook *hook)
+>  {
+>  	device_remove_groups(&battery->dev, tpacpi_battery_groups);
+>  	return 0;
+> diff --git a/drivers/platform/x86/toshiba_acpi.c b/drivers/platform/x86/toshiba_acpi.c
+> index 43cc25351aea..c8f01f8f435d 100644
+> --- a/drivers/platform/x86/toshiba_acpi.c
+> +++ b/drivers/platform/x86/toshiba_acpi.c
+> @@ -3113,7 +3113,7 @@ static struct attribute *toshiba_acpi_battery_attrs[] = {
+> 
+>  ATTRIBUTE_GROUPS(toshiba_acpi_battery);
+> 
+> -static int toshiba_acpi_battery_add(struct power_supply *battery)
+> +static int toshiba_acpi_battery_add(struct power_supply *battery, struct acpi_battery_hook *hook)
+>  {
+>  	if (toshiba_acpi == NULL) {
+>  		pr_err("Init order issue\n");
+> @@ -3126,7 +3126,7 @@ static int toshiba_acpi_battery_add(struct power_supply *battery)
+>  	return 0;
+>  }
+> 
+> -static int toshiba_acpi_battery_remove(struct power_supply *battery)
+> +static int toshiba_acpi_battery_remove(struct power_supply *battery, struct acpi_battery_hook *hook)
+>  {
+>  	device_remove_groups(&battery->dev, toshiba_acpi_battery_groups);
+>  	return 0;
+> diff --git a/include/acpi/battery.h b/include/acpi/battery.h
+> index b8d56b702c7a..611a2561a014 100644
+> --- a/include/acpi/battery.h
+> +++ b/include/acpi/battery.h
+> @@ -12,8 +12,8 @@
+> 
+>  struct acpi_battery_hook {
+>  	const char *name;
+> -	int (*add_battery)(struct power_supply *battery);
+> -	int (*remove_battery)(struct power_supply *battery);
+> +	int (*add_battery)(struct power_supply *battery, struct acpi_battery_hook *hook);
+> +	int (*remove_battery)(struct power_supply *battery, struct acpi_battery_hook *hook);
+>  	struct list_head list;
+>  };
+> 
+> --
+> 2.30.2
 > 
 
