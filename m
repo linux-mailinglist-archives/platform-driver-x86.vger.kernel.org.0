@@ -2,105 +2,69 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED879613F28
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 31 Oct 2022 21:43:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1995613F47
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 31 Oct 2022 21:53:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229987AbiJaUnl (ORCPT
+        id S229915AbiJaUxf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 31 Oct 2022 16:43:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35340 "EHLO
+        Mon, 31 Oct 2022 16:53:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229767AbiJaUnj (ORCPT
+        with ESMTP id S229674AbiJaUxe (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 31 Oct 2022 16:43:39 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2073.outbound.protection.outlook.com [40.107.94.73])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B272213CFA;
-        Mon, 31 Oct 2022 13:43:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TIvat2APr8i17l5KMr/KsLwZqbWoteXztSa19pLkAmqE6g50+1Lf/Hqd47iw1mv13Ig4JTqbSZBBvEmge/mBbpm5eCB8QS3lzWVPxxjtWijcrs5aTBHOEX3N+WMMxm+hd1/tPUV+TdJkRgQkgv1mJOgfpRfhavFWJq8NgyYhnxhbX+NgRXffluLJfTJDvhCh+x/SekDcKixcYI3hQvnXCP9l1nho86SwALYcHB2O9NUsZ/LLsTkookdvEU7+kjnA2AaPBbb9ke1cVW6yAoVBV02nAhvrTw944fDJeSYWGr8u4qW+ufApYCUUU5SKU4zWQh09Mo1tZJciJ9ptpkA0TQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R8/CVtqFX12Xvux/sBSLE+MDq3anM+uG3XD6fHopQIg=;
- b=Z/M5c5x4Jn9++hJraL/wxrKFiJvGE1+1+EFUYmu4KHKs+Yd5agFhYtdlHaX7Ix0Ieg0/LQjHyHiqEf6IER+SvdLoFy4XcgQ7e1AhnErHmZmvFVmjc/TFAK6wY+ZMi9Cw9TMFdjAsf8tAAKszFS5inLbfZss/jOCXe77p61AQwYF/4vz4hk6E0mTufLeXsKnPgRyTzms8SqW6NB/qEJe+7PeS49eju+s+SbtCoJn7dSoyWo9XsHW3vTU0dFiwWTW7N2FGXqy0edjV4srvmfYowujMuME94MIvukJR0F9LmNHOxd5ckMXVs1s1rb65jmonH+t7xUbxixhPh6ZoaaXUSg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=chromium.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R8/CVtqFX12Xvux/sBSLE+MDq3anM+uG3XD6fHopQIg=;
- b=IKfUasDHHQaj3SjPgn0TEtRq7uO0PaUkcxv8Y4uDronrOoSlu2ZqcGtEMkQwxHgmnjuQDN+ivDKLpXm2TBvWlEd4pTsTE9Z2xwK8/fonn9l2puaYlmfLqaVXxmk5LkeqFDyBUp83tzKZYCGvVKiyS03VaMHizLry2bPmXttT4rY=
-Received: from MW4PR04CA0188.namprd04.prod.outlook.com (2603:10b6:303:86::13)
- by PH8PR12MB7350.namprd12.prod.outlook.com (2603:10b6:510:216::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.16; Mon, 31 Oct
- 2022 20:43:36 +0000
-Received: from CO1NAM11FT097.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:86:cafe::c7) by MW4PR04CA0188.outlook.office365.com
- (2603:10b6:303:86::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.19 via Frontend
- Transport; Mon, 31 Oct 2022 20:43:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT097.mail.protection.outlook.com (10.13.175.185) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5769.14 via Frontend Transport; Mon, 31 Oct 2022 20:43:36 +0000
-Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 31 Oct
- 2022 15:43:35 -0500
-From:   Mario Limonciello <mario.limonciello@amd.com>
-To:     Sven van Ashbrook <svenva@chromium.org>,
-        Rafael J Wysocki <rafael@kernel.org>,
-        Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
-        "David E Box" <david.e.box@intel.com>
-CC:     S-k Shyam-sundar <Shyam-sundar.S-k@amd.com>,
-        <rrangel@chromium.org>, <platform-driver-x86@vger.kernel.org>,
-        Rajat Jain <rajatja@google.com>,
-        "Hans de Goede" <hdegoede@redhat.com>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        Mark Gross <markgross@kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [RFC 3/3] platform/x86/intel/pmc: core: Report duration of time in deepest HW state
-Date:   Mon, 31 Oct 2022 15:43:19 -0500
-Message-ID: <20221031204320.22464-4-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221031204320.22464-1-mario.limonciello@amd.com>
-References: <20221031204320.22464-1-mario.limonciello@amd.com>
+        Mon, 31 Oct 2022 16:53:34 -0400
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D075AD10E;
+        Mon, 31 Oct 2022 13:53:32 -0700 (PDT)
+Received: by mail-yb1-xb2c.google.com with SMTP id 185so15137509ybc.3;
+        Mon, 31 Oct 2022 13:53:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0C83wvq8uM9jROcyl91Ezyvu+M8HiDkKvfktuvACneE=;
+        b=SI7rhRNOd58/w2w1RMNIS8ja3rqOR+/9dfx/T/+wxbsUN2rJdE2Jx+NWh4iIk9zfU4
+         irN8CcAPgoUDd2fJZCJ3ZTjLY6YOpQRgJIS1WWW6ZIzqn6NEf6ZhonmODACI6cJr+xH8
+         3kf7LOD0gGeWWTNuOczxxoOe4AZkdON9gubcQfpNDxLYrNH3G5Q2HvY5DTuBRDWO133t
+         5U7jj4UQ9J+XCoZPWngsKZZXuKlkdLKI9BQFBaORToVsCqd7DYkJ5Ggqk4lWqu6/FccC
+         35yNad5tUKwAcDB+efsOvCKK0uuuS+yb7aOMAO9Fm/Zl/4qS8wMbtwvTV7/CtzXggUhU
+         +E7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0C83wvq8uM9jROcyl91Ezyvu+M8HiDkKvfktuvACneE=;
+        b=Z4STlioIxS6Y35lerCvy4dXuWjsvg9jXiryqXpXUjrNO4Ojq/wJEI8hUCMKfi3ZsrT
+         2f9e3W5pmBpG1Pv9Z0LAmz1YePtXDGOgfIJHqqkny9g2d874KPtNDZEIjc/7dLOQE1hr
+         v9c4q+/CivhMQuInTjZw7HYsfZcbTNHQZsNQZl5Qzp2Pew0IEI5WS5IRqfKxwaV4VXj0
+         ynhSOmTg3qHltiSsnAR0+XJvICNmxjy4Xqs+uW5tGz1wYKVQu7gijI/DaI745Boh9qv9
+         vjBHo1rjHYOSmKfylNNAvARn6DQNbzgiZcJgbY/nSUXaJaSe/qXecYyX436bbHz7wxmN
+         bwRA==
+X-Gm-Message-State: ACrzQf1cn2m7BsHehVcRc76h6BULjchzww4jDq1mkZ0RPcdyreNC6HkU
+        FvNZrlaAs7Voj8pllqvlK9pwj74uFMPaEbIUGf0=
+X-Google-Smtp-Source: AMsMyM7op7h3DNhPJXT8uaEh7CJeeq05wumwVpoML4BQyCW4KVZg/aFBtR45JBZ5Z5hyVslmNsepCoikCv8k3IQxstA=
+X-Received: by 2002:a25:84ce:0:b0:6bc:9053:54d9 with SMTP id
+ x14-20020a2584ce000000b006bc905354d9mr5454ybm.196.1667249611908; Mon, 31 Oct
+ 2022 13:53:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT097:EE_|PH8PR12MB7350:EE_
-X-MS-Office365-Filtering-Correlation-Id: 73edcbcd-38a3-4a0c-61a1-08dabb809588
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 58D0co4Mua9/Nh5rhr6k/gYz5FFDGRrHi7mkwsBHbpZCRO7dwbtUJZ+ZF4fZseARM7NOnFIAaaervW2NFiAkFBALND16r+jWKz5qhoF50Yczryb7Pm7Mr+XXaJB8ODpXBB2u0Ss8n8YJ+cRlZAlANu8UNIUfdRgl7rLe/1khz/0yk00M2xlJoiIvwwQ/hMCyju15J6Lud8ZC7AyMHagExFk7oZR8/ojrCwMCPosbApzPoDqnZEhHt4oBYO0bda94cqQsH56x599GN19gSgQ4T1Fz2xaLSuoltHMLQGKcqvQbBGpTCWAeR7mEUS3ri7Ru4ILirq18ExgiaKOesycOxBKgUjB5fOc7fFQ1CrwYo6MLquRHlOJ59ErAVcmH8/mGFJNyGteAw/DBjr6eRsdEcmRiqtpBVp32N/oYta3CS/Afnyc13kGoLNkA8wlfZIHZ+H+FuUPX4yPdtW7ByBY2fl5222tmtgymMepD8Cw+Jq9LyVsrzjTvH1msW2mQrEsiZq/RbrYP8NfJ/urIBkY7cVob/qU/YRG0B4cBqvUBCQiq8tZy45Dgcs/NokJAdVRlglc1aIt6e6VluTQ6Ok9GTryAZvwGg3sof1c9Osiz2y/OpVjrTdb8KwQKObiTJMWW7Uax7hNvtSnktKqhnwD3Q1lVuRjG1itvRSdCE9uyi8sVsLN41fnTloYw0+NVNUHPhDtrsvQoMv+sYslBvajE6eQglKA5lcc74jL31nP7aL+hcKOZ67RbpaJY9+XZ8MGB+DTNDgNS2wVWOop9CXAiqtfikp+tsqcNdvO5m2NN+m9649sm52nrh0e5S6obTx3x
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(346002)(39860400002)(136003)(376002)(396003)(451199015)(36840700001)(46966006)(40470700004)(82310400005)(478600001)(82740400003)(110136005)(86362001)(54906003)(44832011)(5660300002)(7416002)(70586007)(4326008)(8676002)(83380400001)(40460700003)(6666004)(36860700001)(70206006)(186003)(426003)(8936002)(4744005)(1076003)(36756003)(316002)(16526019)(2616005)(47076005)(81166007)(2906002)(40480700001)(356005)(41300700001)(7696005)(26005)(336012)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2022 20:43:36.3891
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 73edcbcd-38a3-4a0c-61a1-08dabb809588
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT097.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7350
+References: <2FNQOCFdvTS7N-ylJhxGWzZjeji-nVCF09tbDr7lt80R8c8_pyp9hbK0iJHTFPevJ4la-YDd3lW5CZK85kYF1_dDZo6h1akO0f8jFTzIScA=@protonmail.com>
+ <20221031145308.341776-1-samsagax@gmail.com> <20221031195609.GA2006109@roeck-us.net>
+In-Reply-To: <20221031195609.GA2006109@roeck-us.net>
+From:   Joaquin Aramendia <samsagax@gmail.com>
+Date:   Mon, 31 Oct 2022 17:53:20 -0300
+Message-ID: <CABgtM3g-qOB2HZXwRhG7kEhsz0934DZuVC3oKH=qKcqLUw_eMg@mail.gmail.com>
+Subject: Re: [PATCH v3] Add OneXPlayer mini AMD sensors driver
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     pobrn@protonmail.com, hdegoede@redhat.com, jdelvare@suse.com,
+        linux-hwmon@vger.kernel.org, markgross@kernel.org,
+        platform-driver-x86@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -108,31 +72,482 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-intel_pmc_core displays a warning when a suspend didn't get to the deepest
-state.
+Thanks for your time and review. I'll follow your advice and
+corrections. Should I send the next patch version in a separate
+thread? Or should I answer to this one?
 
-This information is generally useful to userspace as well which may use
-it to collect further debugging data. Report this to the standard kernel
-reporting infrastructure that can be accessed from sysfs.
+El lun, 31 oct 2022 a la(s) 16:56, Guenter Roeck (linux@roeck-us.net) escri=
+bi=C3=B3:
+>
+> On Mon, Oct 31, 2022 at 11:53:08AM -0300, Joaqu=C3=ADn Ignacio Aramend=C3=
+=ADa wrote:
+> > Sensors driver for OXP Handhelds from One-Netbook that expose fan readi=
+ng
+> > and control via hwmon sysfs.
+> >
+> > As far as I could gather all OXP boards have the same DMI strings and
+> > they are told appart by the boot cpu vendor (Intel/AMD).
+> > Currently only AMD boards are supported.
+> >
+> > Fan control is provided via pwm interface in the range [0-255]. AMD
+> > boards have [0-100] as range in the EC, the written value is scaled to
+> > accommodate for that.
+> >
+> > Signed-off-by: Joaqu=C3=ADn Ignacio Aramend=C3=ADa <samsagax@gmail.com>
+>
+> Please run "checkpatch --strict" on your patch and fix the CHECK
+> messages. Also see Documentation/hwmon/submitting-patches.rst.
 
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- drivers/platform/x86/intel/pmc/core.c | 2 ++
- 1 file changed, 2 insertions(+)
+There is a Warning about MAINTAINERS to be updated. Should I add
+myself to it? If yes, Should it be under a new header?
 
-diff --git a/drivers/platform/x86/intel/pmc/core.c b/drivers/platform/x86/intel/pmc/core.c
-index 17ec5825d13d7..9e58228b01f91 100644
---- a/drivers/platform/x86/intel/pmc/core.c
-+++ b/drivers/platform/x86/intel/pmc/core.c
-@@ -2116,6 +2116,8 @@ static __maybe_unused int pmc_core_resume(struct device *dev)
- 	if (!pmcdev->check_counters)
- 		return 0;
- 
-+	pm_set_hw_deepest_state(pmcdev->s0ix_counter);
-+
- 	if (!pmc_core_is_s0ix_failed(pmcdev))
- 		return 0;
- 
--- 
-2.34.1
+> > ---
+> > Removed fan_control reference in comment.
+> > Bugfix MIX/MIN reporting not available
+> > Bugfix pwm_enable register set wrong
+> > ---
+> >  drivers/hwmon/Kconfig       |  13 +-
+> >  drivers/hwmon/Makefile      |   1 +
+> >  drivers/hwmon/oxp-sensors.c | 277 ++++++++++++++++++++++++++++++++++++
+>
+> Also needs Documentation/hwmon/oxp-sensors.rst
 
+Will add.
+
+> >  3 files changed, 290 insertions(+), 1 deletion(-)
+> >  create mode 100644 drivers/hwmon/oxp-sensors.c
+> >
+> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> > index 7ac3daaf59ce..a1cdb03b4d13 100644
+> > --- a/drivers/hwmon/Kconfig
+> > +++ b/drivers/hwmon/Kconfig
+> > @@ -1607,6 +1607,17 @@ config SENSORS_NZXT_SMART2
+> >
+> >  source "drivers/hwmon/occ/Kconfig"
+> >
+> > +config SENSORS_OXP
+> > +     tristate "OneXPlayer EC fan control"
+> > +     depends on ACPI
+> > +     depends on X86
+> > +     help
+> > +             If you say yes here you get support for fan readings and =
+control over
+> > +             OneXPlayer handheld devices. Only OneXPlayer mini AMD han=
+dheld variant
+> > +             boards are supported.
+> > +
+> > +             Can also be built as a module. In that case it will be ca=
+lled oxp-sensors.
+> > +
+> >  config SENSORS_PCF8591
+> >       tristate "Philips PCF8591 ADC/DAC"
+> >       depends on I2C
+> > @@ -1957,7 +1968,7 @@ config SENSORS_ADS7871
+> >
+> >  config SENSORS_AMC6821
+> >       tristate "Texas Instruments AMC6821"
+> > -     depends on I2C
+> > +     depends on I2C
+>
+> Please refrain from making unrelated changes. If you want to fix the extr=
+a
+> space, submit a separate patch.
+
+Sorry this must have been vim removing trailing spaces. Will remove
+this chunk from the patch.
+
+> >       help
+> >         If you say yes here you get support for the Texas Instruments
+> >         AMC6821 hardware monitoring chips.
+> > diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> > index 11d076cad8a2..35824f8be455 100644
+> > --- a/drivers/hwmon/Makefile
+> > +++ b/drivers/hwmon/Makefile
+> > @@ -167,6 +167,7 @@ obj-$(CONFIG_SENSORS_NSA320)      +=3D nsa320-hwmon=
+.o
+> >  obj-$(CONFIG_SENSORS_NTC_THERMISTOR) +=3D ntc_thermistor.o
+> >  obj-$(CONFIG_SENSORS_NZXT_KRAKEN2) +=3D nzxt-kraken2.o
+> >  obj-$(CONFIG_SENSORS_NZXT_SMART2) +=3D nzxt-smart2.o
+> > +obj-$(CONFIG_SENSORS_OXP) +=3D oxp-sensors.o
+> >  obj-$(CONFIG_SENSORS_PC87360)        +=3D pc87360.o
+> >  obj-$(CONFIG_SENSORS_PC87427)        +=3D pc87427.o
+> >  obj-$(CONFIG_SENSORS_PCF8591)        +=3D pcf8591.o
+> > diff --git a/drivers/hwmon/oxp-sensors.c b/drivers/hwmon/oxp-sensors.c
+> > new file mode 100644
+> > index 000000000000..f5895dc11094
+> > --- /dev/null
+> > +++ b/drivers/hwmon/oxp-sensors.c
+> > @@ -0,0 +1,277 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +/*
+> > + * Platform driver for OXP Handhelds that expose fan reading and contr=
+ol
+> > + * via hwmon sysfs.
+> > + *
+> > + * All boards have the same DMI strings and they are told appart by th=
+e
+> > + * boot cpu vendor (Intel/AMD). Currently only AMD boards are supporte=
+d
+> > + * but the code is made to be simple to add other handheld boards in t=
+he
+> > + * future.
+> > + * Fan control is provided via pwm interface in the range [0-255]. AMD
+> > + * boards use [0-100] as range in the EC, the written value is scaled =
+to
+> > + * accommodate for that.
+> > + *
+> > + * Copyright (C) 2022 Joaqu=C3=ADn I. Aramend=C3=ADa <samsagax@gmail.c=
+om>
+> > + */
+> > +
+> > +#include <linux/acpi.h>
+> > +#include <linux/dev_printk.h>
+> > +#include <linux/dmi.h>
+> > +#include <linux/hwmon.h>
+> > +#include <linux/init.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/module.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/processor.h>
+> > +
+> > +#define ACPI_LOCK_DELAY_MS   500
+> > +
+> > +/* Handle ACPI lock mechanism */
+> > +struct lock_data {
+> > +     u32 mutex;
+> > +     bool (*lock)(struct lock_data *data);
+> > +     bool (*unlock)(struct lock_data *data);
+> > +};
+> > +
+> > +static bool lock_global_acpi_lock(struct lock_data *data)
+> > +{
+> > +     return ACPI_SUCCESS(acpi_acquire_global_lock(ACPI_LOCK_DELAY_MS,
+> > +                                                              &data->m=
+utex));
+> > +}
+> > +
+> > +static bool unlock_global_acpi_lock(struct lock_data *data)
+> > +{
+> > +     return ACPI_SUCCESS(acpi_release_global_lock(data->mutex));
+> > +}
+> > +
+> > +#define OXP_SENSOR_FAN_REG           0x76 /* Fan reading is 2 register=
+s long */
+> > +#define OXP_SENSOR_PWM_ENABLE_REG    0x4A /* PWM enable is 1 register =
+long */
+> > +#define OXP_SENSOR_PWM_REG           0x4B /* PWM reading is 1 register=
+ long */
+> > +
+> > +static const struct dmi_system_id dmi_table[] =3D {
+> > +     {
+> > +             .matches =3D {
+> > +                     DMI_EXACT_MATCH(DMI_BOARD_VENDOR,
+> > +                                     "ONE-NETBOOK TECHNOLOGY CO., LTD.=
+"),
+> > +             },
+> > +     },
+> > +     {
+> > +             .matches =3D {
+> > +                     DMI_EXACT_MATCH(DMI_BOARD_VENDOR,
+> > +                                     "ONE-NETBOOK"),
+>
+> Are there any others devices which start with "ONE-NETBOOK" but are not
+> supported ? If not a single entry with DMI_MATCH() woud be sufficient.
+> Either case I would like to see some additional entry or entries here.
+> Just matching on the vendor name seems risky. At the very least there
+> should also be a match for the "ONE XPLAYER" sku.
+
+I would add a match for the board name instead of the sku if that is
+ok. The rest will be added.
+
+> > +             },
+> > +     },
+> > +     {},
+> > +};
+> > +
+> > +struct oxp_status {
+> > +     struct lock_data lock_data;
+> > +};
+> > +
+> > +/* Helper functions to handle EC read/write */
+> > +static int read_from_ec(u8 reg, int size, long *val)
+> > +{
+> > +     int i;
+> > +     int ret;
+> > +     u8 buffer;
+> > +
+> > +     *val =3D 0;
+> > +     for (i =3D 0; i < size; i++) {
+> > +             ret =3D ec_read(reg + i, &buffer);
+> > +             if (ret)
+> > +                     return ret;
+> > +             (*val) <<=3D i * 8;
+>
+> Unnecessary ( )
+
+Will remove.
+
+> > +             *val +=3D buffer;
+> > +     }
+> > +     return ret;
+> > +}
+> > +
+> > +static int write_to_ec(const struct device *dev, u8 reg, u8 value)
+> > +{
+> > +     struct oxp_status *state =3D dev_get_drvdata(dev);
+> > +     int ret;
+> > +
+> > +     if (!state->lock_data.lock(&state->lock_data)) {
+> > +             dev_warn(dev, "Failed to acquire mutex");
+>
+> Is that message necessary ? If so it should be dev_err().
+> If it is expected, ie if acquiring the lock is observed
+> to fail sometimes, there should be no log message.
+
+The messages are there in case this fails, never failed on me,
+honestly, but I've seen it in other ec-sensors drivers and adopted it
+as a "good practice", I guess? Anyway I'll add a _once error message
+and return error if it fails.
+
+> > +             return -EBUSY;
+> > +     }
+> > +
+> > +     ret =3D ec_write(reg, value);
+> > +
+> > +     if (!state->lock_data.unlock(&state->lock_data))
+> > +             dev_err(dev, "Failed to release mutex");
+>
+> No error return ? Then it is not an error and should not be
+> logged as one.
+>
+> I am a bit concerned about those error messages. If they are seen
+> the errors are either sporadic and there should be no log,
+> or they are persistent and would clog the kernel log. If you think
+> that will indeed happen, is not normal operation, and that the
+> message is essential enough to be logged, please at least consider
+> using _once variants of the message to avoid clogging the kernel
+> log.
+
+Never saw those errors in about a month I used this driver on my own
+device. As said, I saw the practice in other drivers. I think the best
+way is to check for it and return an error while reporting it with the
+_once variant if that is ok.
+
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static int oxp_pwm_enable(const struct device *dev)
+> > +{
+> > +     return write_to_ec(dev, OXP_SENSOR_PWM_ENABLE_REG, 0x01);
+> > +}
+> > +
+> > +static int oxp_pwm_disable(const struct device *dev)
+> > +{
+> > +     return write_to_ec(dev, OXP_SENSOR_PWM_ENABLE_REG, 0x00);
+> > +}
+> > +
+> > +/* Callbacks for hwmon interface */
+> > +static umode_t oxp_ec_hwmon_is_visible(const void *drvdata,
+> > +                                     enum hwmon_sensor_types type, u32=
+ attr, int channel)
+> > +{
+> > +     switch (type) {
+> > +     case hwmon_fan:
+> > +             return 0444;
+> > +     case hwmon_pwm:
+> > +             return 0644;
+> > +     default:
+> > +             return 0;
+> > +     }
+> > +     return 0;
+> > +}
+> > +
+> > +static int oxp_platform_read(struct device *dev, enum hwmon_sensor_typ=
+es type,
+> > +                          u32 attr, int channel, long *val)
+> > +{
+> > +     int ret;
+> > +
+> > +     switch (type) {
+> > +     case hwmon_fan:
+> > +             switch (attr) {
+> > +             case hwmon_fan_input:
+> > +                     return read_from_ec(OXP_SENSOR_FAN_REG,
+> > +                                        2,
+> > +                                        val);
+>
+> Unnecessary continuation lines
+
+Ok. Will correct.
+
+> > +             default:
+> > +                     dev_dbg(dev, "Unknown attribute for type %d: %d\n=
+", type, attr);
+> > +                     return -EOPNOTSUPP;
+> > +             }
+> > +     case hwmon_pwm:
+> > +             switch (attr) {
+> > +             case hwmon_pwm_input:
+> > +                     ret =3D read_from_ec(OXP_SENSOR_PWM_REG,
+> > +                                        2, val);
+>
+> Please, no unnecessary continuation lines, and make sure that continuatio=
+n
+> lines match with '(' in the preceding line.
+
+Ok. Will correct.
+
+> > +                     *val =3D (*val * 255) / 100;
+> > +                     return ret;
+> > +             case hwmon_pwm_enable:
+> > +                     return read_from_ec(OXP_SENSOR_PWM_ENABLE_REG, 1,=
+ val);
+> > +             default:
+> > +                     dev_dbg(dev, "Unknown attribute for type %d: %d\n=
+", type, attr);
+> > +                     return -EOPNOTSUPP;
+> > +             }
+> > +     default:
+> > +             dev_dbg(dev, "Unknown sensor type %d.\n", type);
+> > +             return -EOPNOTSUPP;
+> > +     }
+> > +}
+> > +
+> > +static int oxp_platform_write(struct device *dev, enum hwmon_sensor_ty=
+pes type,
+> > +             u32 attr, int channel, long val)
+> > +{
+> > +     switch (type) {
+> > +     case hwmon_pwm:
+> > +             switch (attr) {
+> > +             case hwmon_pwm_enable:
+> > +                     if (val =3D=3D 1)
+> > +                             return oxp_pwm_enable(dev);
+> > +                     else if (val =3D=3D 0)
+> > +                             return oxp_pwm_disable(dev);
+> > +                     else
+> > +                             return -EINVAL;
+> > +             case hwmon_pwm_input:
+> > +                     if (val < 0 || val > 255)
+> > +                             return -EINVAL;
+> > +                     val =3D (val * 100) / 255;
+> > +                     return write_to_ec(dev, OXP_SENSOR_PWM_REG, val);
+> > +             default:
+> > +                     dev_dbg(dev, "Unknown attribute for type %d: %d",=
+ type, attr);
+> > +                     return -EOPNOTSUPP;
+> > +             }
+> > +     default:
+> > +             dev_dbg(dev, "Unknown sensor type: %d", type);
+> > +             return -EOPNOTSUPP;
+> > +     }
+> > +     return -EINVAL;
+> > +}
+> > +
+> > +/* Known sensors in the OXP EC controllers */
+> > +static const struct hwmon_channel_info *oxp_platform_sensors[] =3D {
+> > +     HWMON_CHANNEL_INFO(fan,
+> > +             HWMON_F_INPUT),
+> > +     HWMON_CHANNEL_INFO(pwm,
+> > +             HWMON_PWM_INPUT | HWMON_PWM_ENABLE),
+> > +     NULL,
+> > +};
+> > +
+> > +static const struct hwmon_ops oxp_ec_hwmon_ops =3D {
+> > +     .is_visible =3D oxp_ec_hwmon_is_visible,
+> > +     .read =3D oxp_platform_read,
+> > +     .write =3D oxp_platform_write,
+> > +};
+> > +
+> > +static const struct hwmon_chip_info oxp_ec_chip_info =3D {
+> > +     .ops =3D &oxp_ec_hwmon_ops,
+> > +     .info =3D oxp_platform_sensors,
+> > +};
+> > +
+> > +/* Initialization logic */
+> > +static int oxp_platform_probe(struct platform_device *pdev)
+> > +{
+> > +     const struct dmi_system_id *dmi_entry;
+> > +     struct device *dev =3D &pdev->dev;
+> > +     struct device *hwdev;
+> > +     struct oxp_status *state;
+> > +
+> > +     /* Have to check for AMD processor here */
+> > +     dmi_entry =3D dmi_first_match(dmi_table);
+> > +     if (!dmi_entry || boot_cpu_data.x86_vendor !=3D X86_VENDOR_AMD)
+> > +             return -ENODEV;
+> > +
+> > +     state =3D devm_kzalloc(dev, sizeof(struct oxp_status), GFP_KERNEL=
+);
+> > +     if (!state)
+> > +             return -ENOMEM;
+> > +
+> > +     state->lock_data.mutex =3D 0;
+>
+> Unnecessary initialization. The data structure is initialized with
+> devm_kzalloc().
+
+Ok. Will remove.
+
+> > +     state->lock_data.lock =3D lock_global_acpi_lock;
+> > +     state->lock_data.unlock =3D unlock_global_acpi_lock;
+>
+> What is the purpose of this callback function ?
+> Why not just call the lock and unlock functions directly ?
+
+Can be called directly and simplify the structure a little. Will change it.
+
+> > +
+> > +     hwdev =3D devm_hwmon_device_register_with_info(dev, "oxpec", stat=
+e,
+> > +                                                     &oxp_ec_chip_info=
+, NULL);
+> > +
+> > +     return PTR_ERR_OR_ZERO(hwdev);
+> > +}
+> > +
+> > +static struct platform_driver oxp_platform_driver =3D {
+> > +     .driver =3D {
+> > +             .name =3D "oxp-platform",
+> > +     },
+> > +     .probe =3D oxp_platform_probe,
+> > +};
+> > +
+> > +static struct platform_device *oxp_platform_device;
+> > +
+> > +static int __init oxp_platform_init(void)
+> > +{
+> > +     oxp_platform_device =3D
+> > +             platform_create_bundle(&oxp_platform_driver,
+> > +                                    oxp_platform_probe, NULL, 0, NULL,=
+ 0);
+> > +
+> > +     if (IS_ERR(oxp_platform_device))
+> > +             return PTR_ERR(oxp_platform_device);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static void __exit oxp_platform_exit(void)
+> > +{
+> > +     platform_device_unregister(oxp_platform_device);
+> > +     platform_driver_unregister(&oxp_platform_driver);
+> > +}
+> > +
+> > +MODULE_DEVICE_TABLE(dmi, dmi_table);
+> > +module_init(oxp_platform_init);
+> > +module_exit(oxp_platform_exit);
+> > +
+> > +MODULE_AUTHOR("Joaqu=C3=ADn Ignacio Aramend=C3=ADa <samsagax@gmail.com=
+>");
+> > +MODULE_DESCRIPTION(
+> > +     "Platform driver that handles ACPI EC of OneXPlayer devices");
+> > +MODULE_LICENSE("GPL");
+> > --
+> > 2.38.1
+> >
+
+Thanks again :)
+--=20
+Joaqu=C3=ADn I. Aramend=C3=ADa
