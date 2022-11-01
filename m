@@ -2,265 +2,165 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF8D56151FA
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Nov 2022 20:11:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D54366152A0
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Nov 2022 20:58:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230340AbiKATLC (ORCPT
+        id S229511AbiKAT6s (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 1 Nov 2022 15:11:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38666 "EHLO
+        Tue, 1 Nov 2022 15:58:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230338AbiKATK7 (ORCPT
+        with ESMTP id S229457AbiKAT6q (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 1 Nov 2022 15:10:59 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96E211C416;
-        Tue,  1 Nov 2022 12:10:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667329858; x=1698865858;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=VmV32OVHi9fb2P0Ej7w8R1hN8TMIjIqdcfI5b5Yocxo=;
-  b=EoxOxxFaImcqZbbqPs4Xzk5aLUMLiSZqFqTFsMMJsfsGELJfYOydusTj
-   eyAUMq+W1+sf+Ltj4lKMRuuQ9gPz5qn81IH1iIvAii1fYp/CSwUTo79yt
-   np0+KlbBA0U+h9juYBjF1fL18RKV7Ibyn87+BJraG2ozn7MWqtLMsBwv1
-   Coip9y5ZYktYvlru2ijBTmZMIXeadV7rnj7n7lwgYC1CVfSSGDNG7bK6y
-   OT+yRV2Mv8N2rqrA1FiazyD3l092HzX0fyQ0hSMq0gC3aRq2XbOBWC4Mx
-   1uwbCcufEUEDV0hIt25SzRM7HF9QKMQFKtjLu7mFj5rPOIuQAoUbuRJYo
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="373440772"
-X-IronPort-AV: E=Sophos;i="5.95,231,1661842800"; 
-   d="scan'208";a="373440772"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 12:10:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="776605740"
-X-IronPort-AV: E=Sophos;i="5.95,231,1661842800"; 
-   d="scan'208";a="776605740"
-Received: from linux.intel.com ([10.54.29.200])
-  by fmsmga001.fm.intel.com with ESMTP; 01 Nov 2022 12:10:28 -0700
-Received: from debox1-desk4.intel.com (unknown [10.212.195.64])
-        by linux.intel.com (Postfix) with ESMTP id 95675580C99;
-        Tue,  1 Nov 2022 12:10:27 -0700 (PDT)
-From:   "David E. Box" <david.e.box@linux.intel.com>
-To:     hdegoede@redhat.com, markgross@kernel.org,
-        andriy.shevchenko@linux.intel.com, srinivas.pandruvada@intel.com
-Cc:     "David E. Box" <david.e.box@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 9/9] tools/arch/x86: intel_sdsi: Add support for reading meter certificates
-Date:   Tue,  1 Nov 2022 12:10:23 -0700
-Message-Id: <20221101191023.4150315-10-david.e.box@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221101191023.4150315-1-david.e.box@linux.intel.com>
-References: <20221101191023.4150315-1-david.e.box@linux.intel.com>
+        Tue, 1 Nov 2022 15:58:46 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2075.outbound.protection.outlook.com [40.107.243.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A017A1BEA0;
+        Tue,  1 Nov 2022 12:58:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OBAuH/mOUMCSsTmJIYu9Dct3keP2DzPI3rHQAFKceuXHf+JLwogx3mdQzNE5N+Zl8ps0nDLMV1pAECaF1a+BLhCYNfwJX/D4+V0Pkr0sngJV26t41nOpA8iNN8MHaRHRhgJSWTMev9NhE40ynUme1nXa4TZ8FJ1sGgWbEkFIFqsVy5ASW3gU8gkGYNYnPbhrpgmFzW9IKw1D7/ZKS52mcb/mv/M/K3hDkRRWtmhrirurLRRmYTcTB9nBKMdwPN+Zk1PjTw0VU/9zXt+oaU31fhPtsIh1Ny1tFA3Ra2s5Pto2ZbMkxtjI7r90nl+LX02UgXdi+NS48ttLnIe3ZDWwQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DdmuB/CkmpbbaoUlOmQqUsc0Nyfs2Y2QnhEqVEAVP+4=;
+ b=aXwReL8kvZVKQXaDzv7OLlADPwEAkZQZfVg+MUlhILXL9Sbl9kPWTty/UZLQO35XgwmfXweDiFROEAc5sD3UpYqN7JLq5kNvXpNrOJFUTfsK5CnUVj+p+6psJVkoj1nuwJAMkCBP+9eXF4wvEcDjeVhTK5KKKeX7No1B/VaR3uRofuSLcsGS11rwrasyolMp1GGwtEDfiLJBT64GwVq+j3nZW91bt6v83JZAltSBAA30INLx31UDqqeaqKTCaaObQlR2yZjPEoyHD+5VbhXvafMphZ55VMYEWUDkbJd8kM6n6TnBbVW9lCcMyLMresBpKQzw9fWzc3eGnmdowdbQ1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DdmuB/CkmpbbaoUlOmQqUsc0Nyfs2Y2QnhEqVEAVP+4=;
+ b=vrro04S1fAbe01Q0DlaMQbKVU4/dLMR4CQmQJX8Sic0wbj/3Airwzl7Laynorg6hwb8fnl3zbci/fwiVzndOui5yFbBKLiBGkVUN2MBFoPKpXfFDkssW0rddzQM5b98CbPbzrORBJNcrS2hwtFf7148OHDA2PJvbPxvPnLZ89o8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by DS7PR12MB5911.namprd12.prod.outlook.com (2603:10b6:8:7c::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.16; Tue, 1 Nov
+ 2022 19:58:43 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::f8c0:db03:2d30:792c]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::f8c0:db03:2d30:792c%3]) with mapi id 15.20.5769.016; Tue, 1 Nov 2022
+ 19:58:43 +0000
+Message-ID: <23c353e0-078f-91e4-26fe-bf552319eaad@amd.com>
+Date:   Tue, 1 Nov 2022 14:58:41 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [RFC 1/3] PM: Add a sysfs file to represent whether hardware
+ reached the deepest state
+Content-Language: en-US
+To:     Sven van Ashbrook <svenva@chromium.org>
+Cc:     Rafael J Wysocki <rafael@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Len Brown <len.brown@intel.com>,
+        Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
+        S-k Shyam-sundar <Shyam-sundar.S-k@amd.com>,
+        rrangel@chromium.org, platform-driver-x86@vger.kernel.org,
+        Rajat Jain <rajatja@google.com>,
+        David E Box <david.e.box@intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+References: <20221031204320.22464-1-mario.limonciello@amd.com>
+ <20221031204320.22464-2-mario.limonciello@amd.com>
+ <CAM7w-FXAGki+k9aP0wV1Qs8dKqpPXgY9ZJR_a83ETrUF6ZRZOw@mail.gmail.com>
+From:   "Limonciello, Mario" <mario.limonciello@amd.com>
+In-Reply-To: <CAM7w-FXAGki+k9aP0wV1Qs8dKqpPXgY9ZJR_a83ETrUF6ZRZOw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DM6PR13CA0025.namprd13.prod.outlook.com
+ (2603:10b6:5:bc::38) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DS7PR12MB5911:EE_
+X-MS-Office365-Filtering-Correlation-Id: ecd0377b-83f7-4047-4ed8-08dabc437aa9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jra/+7tezDP12KzMb3RmrXGbNf+Adeku1nwYI3MHH+4cNKJCDal5RWm9gJtwFEfU7neDZ67vQWnauDW9d+xKyyxFFEuoqID1xyvZA9tSQ6JybjiWWtq8mCHcz8EaUwRsKPCn1kmURyPCyunI1RrCJG/rlU7luLHfry6MH4SHmJkoMM1AOh811ebyYOqcKO+/ns12rus39/xbb4oi9NKfr5ImmrpVp7sZYcbM5JyCPEJwnEpZFXKtrXOIjOdIbHO5H+Ubm4bFPsHg5Dnr51DSYgpIs/4329eJEhR7m4VMPOXqHBVaRmvx8sKS44XDGtvJ72zw/te15g/jY5BUpUgtVKwne67KycFnp8QGliy5QzImsgBs+upqmENjGZhuAvpxDTpTg5GjkOCFjXym3mIxaQY/lqEs7RKu13sE9+7nHDwJ20lq3MmF7ccPnWXHO0TluMGt2K+apdkyGgwp2pZOxg4O9C441Rb4mrV+mbl7wNhqeO8UslWX9OB551C6wtjcyv2iS61M78iHwdSM5K80j1KXcMfVwaWEr8bsy2IrC1OVvY/oZfNPSbAHBcdQCgpMKwKqcS0jINgG7pusgb4G7KMSJ5KQwLzx9K0RwLrTzk5VR2rAftlGhpTg7Zb2sgfWxNfR3npFrf6BLaoxdPjISP+UdfHut8PuOQMIbdALAL9WMTB95zY2onu8PHXqaO3Gben1GqPyKTm/PPRUVYOIpx1nBOxEOpJV9XAr48raT203Rz2IzRC8oP2LqXCJSAQwl9xW5RLHNMWWZ4JFbOdPR03pjWoySHfpvmAijIZUQwE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(346002)(39860400002)(366004)(136003)(376002)(451199015)(6486002)(54906003)(478600001)(31686004)(38100700002)(6916009)(86362001)(5660300002)(36756003)(316002)(53546011)(31696002)(8936002)(2616005)(26005)(41300700001)(66556008)(6512007)(83380400001)(2906002)(186003)(66946007)(8676002)(6506007)(4326008)(66476007)(7416002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QTdGVDhzUXpVUlI1aldDOWtsYTJCVSt5bGtheDE0Y0pZWlh1S3pVNE4rQ3Jy?=
+ =?utf-8?B?bmNRanhUVFVCeE9URFNlVjFsa0dLMXZkcklqbitNbDR1WFlvZUFHYTJsNDJ0?=
+ =?utf-8?B?NVEycGdpM0E2a1lNclMwV2gvaDZwY3hyWEhxUnZBS2YvdlZLS3hIK3VJMFQ5?=
+ =?utf-8?B?bTUzZytNSmMzTytSaEFyNTBjUXdGZUlubjRxSFdmL3NaRm9BcDBVNHN5c2RG?=
+ =?utf-8?B?SkhYWFV0ckhiT0cyeTc4b2cyV0dJNlpmVTdaYk5IMXRVRnBDbFBTS3lpMFRi?=
+ =?utf-8?B?dDBySHJ1c1FmYzIvUmVlbHlvdjZkeDdUbUtBeUIzTnhXR1Q0bzNBWE5jN2FN?=
+ =?utf-8?B?Y2p5Mzg1RmxVcFc3d3ZhZ2NlWEkydDBPZmdKM1B3UWx5R3VKbVVZU2xleFFX?=
+ =?utf-8?B?Z2lybmVZSC9JbVROeTNSbmZGclFCcVZQaWpsS1BwZ3pLQWFvdHhuVnFDSTZJ?=
+ =?utf-8?B?a2lNaUJ0UFJiTGI0aUVvZ0lBWEtsSSsrajNMNWt5ankvLzZlZTNlcEcya3hu?=
+ =?utf-8?B?K045dFpadFVnU2VqQTdXak5CbUVLSEUwcllhYnVyWThjcEROcFYrZGpNQjE2?=
+ =?utf-8?B?N0dONHg4K2Zaa3FqdnBhUzlvOU1RckVtaGkzOVpxdkNJUWtlOEdwR1Q5c0tN?=
+ =?utf-8?B?N2dQNTN2STc0Skd5VFM5N2o2bUtQN3NlM3NKajJJSUR0VVhJdUVzU3NzSjdV?=
+ =?utf-8?B?MVFMVHk4TVNBVXV1VGZ3aEdvck5SUzg2aEFkclYzZk9ERWM4MW9sNVZJYjZo?=
+ =?utf-8?B?U3F1MkdPVzQ3ay9Mbkh1dCtuZUFoK09tckMyK1RmQXJnNVRlTGFmWE1JVGxz?=
+ =?utf-8?B?SVJha2JqUG92VkRjeWJKcTE0OGlMVzZIN0tOMEpGdmtIZ1RsNUpvTUV1TWVp?=
+ =?utf-8?B?enhaWVIyOHlMV0xxNlg3RUtnRElXbHZVb1kybTBqRlNRRVZNN1J1OCtab0VD?=
+ =?utf-8?B?L1phRTgrS0l4dUhXcU5SSzNGYU1rS1Y1NFRKRHpDNDU0bUJNSTd4ZkpwMVBj?=
+ =?utf-8?B?U3NjdnVWaWJvZElwdHQrNG1uRzJ0cnRqRTRyOUhNU0JGZmFIZW9vcmJ5em1l?=
+ =?utf-8?B?QXg5MWtQZFNPWGJaQXBKaFF6MSs3UUQ1QXkxdmJUUG01WlFGenI2T2RkTXJK?=
+ =?utf-8?B?a2RtMDBnT0h3SGRaemJQL2FXQWk4b3FNNU9PMlNyeEU1emhqYjVxbkFxcEJT?=
+ =?utf-8?B?cjJhYWt5WlVHY1Fvck9LaTIzR1dxRi94b1JRZzhZQVk5QzNibGZWeU9WSHBw?=
+ =?utf-8?B?YlowSzZ3L0pqNk9JSnExM2JTaWpMUWFMSjJTTlA4S2psSmIvUC93Q3VpWVpV?=
+ =?utf-8?B?OGZqcllaa3BwMC91eEo1cDRGSER1ZDFzRFZxMW5HRFdmQWZoTGxzcmFPVUhP?=
+ =?utf-8?B?amNuTnJpbHhJcVl6V3dja3ZjQmtERzhIcnNKaXNNWkVvVUhMYkl5T2x1REg2?=
+ =?utf-8?B?N0ViZ1BBVUxkVFpuQmVpUXVKTXJpZ0N4VVBxZXJHc0FZTVZJeENLRUdrNTNB?=
+ =?utf-8?B?TDdzNVdPeWZpV2dYaXhVMkNMblhUc1pBMkV2RDN0M2pmRUdEK1FNK3A5SHlJ?=
+ =?utf-8?B?T0xYNUhqSjJDbURZT3VFRTh1VTFTZlI1azloWlh2c3NNUXkwenA2b010UkRy?=
+ =?utf-8?B?MzhJNDdGMFZ0MlhFb1BCNjZrVnlDWExNYkJkRnZGNXBHUFFrOHZkcDBWTWtK?=
+ =?utf-8?B?N2l6dWFaKzFiRzIxZmFEZDJNVWxwSXFXNGZEMkQ2TTIwNlZMSTdqdDIxaG5L?=
+ =?utf-8?B?MG1DZHkxbmtZMUVTb3RkZzlwampBcDBPelZ3amRYUkQ4N2dEMzJVWDR3TG5K?=
+ =?utf-8?B?MSsvUjdWRjFheEJqOFdHejJqbVJPa1lGckdXT2NoeU40b3d6T3BVbjhrUDdp?=
+ =?utf-8?B?K0RpSzJ2NG1WMmZNN3IxN0hmTy9qbkdTeGlSNDdhRUhWc3F2MWhrSWdQaTRZ?=
+ =?utf-8?B?dFlLdlNvVy9PY3hCdXBTKzFaVTR2SVBvM3Q5SnRmT2dpNEp6SzdBd0NzTGpz?=
+ =?utf-8?B?cXhaU3dONGY0LzZ2SGg1QVp5SFN3YytMeWlLMWgwK0Ruc0FBK0FjUWZnTWxY?=
+ =?utf-8?B?akdIWFFQSFU4aEY1TU0ranFHdUp4MkZJQ0I4RkczclNPYzFUNnk0aW12Qm4r?=
+ =?utf-8?Q?tUix9FgQ2tZAPc+/NWxoKvrM6?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ecd0377b-83f7-4047-4ed8-08dabc437aa9
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2022 19:58:43.4967
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qcBHKL9Km6zG6OwCRZkhYqAC7j6H8yd7IeML3ciaHXLxcmXjhb+d9yFIviTuCKHfkUDXNzkpiI3ah8hX4tpD1Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5911
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add option to read and decode On Demand meter certificates.
+On 11/1/2022 12:37, Sven van Ashbrook wrote:
+> On Mon, Oct 31, 2022 at 4:43 PM Mario Limonciello
+> <mario.limonciello@amd.com> wrote:
+>>
+>> +void pm_set_hw_deepest_state(u64 duration)
+>> +{
+>> +       suspend_stats.last_hw_deepest_state = duration;
+> 
+> I'm wondering if we could add a userspace notification here. Then
+> userspace wouldn't have to synchronize with the suspend/resume state
+> of the system when reading this entry.
+> 
+> What about sysfs_notify() ? Or via udev?
 
-Link: https://github.com/intel/intel-sdsi/blob/master/meter-certificate.rst
+The question I would have is what kobj would you notify?  power_kobj? 
+Lots of other things write to suspend stats, but nothing else sends 
+notifications.  So why is this one going to be special?
 
-Signed-off-by: David E. Box <david.e.box@linux.intel.com>
----
- tools/arch/x86/intel_sdsi/intel_sdsi.c | 110 ++++++++++++++++++++++++-
- 1 file changed, 107 insertions(+), 3 deletions(-)
+To me I don't think it's much different for userspace to "always" read 
+the file after resume vs wait for the notification and then read it.
 
-diff --git a/tools/arch/x86/intel_sdsi/intel_sdsi.c b/tools/arch/x86/intel_sdsi/intel_sdsi.c
-index 0680eda78b1a..ebf076ee6ef8 100644
---- a/tools/arch/x86/intel_sdsi/intel_sdsi.c
-+++ b/tools/arch/x86/intel_sdsi/intel_sdsi.c
-@@ -39,8 +39,10 @@
- #define GUID_V2			0xF210D9EF
- #define REGISTERS_MIN_SIZE	72
- #define STATE_CERT_MAX_SIZE	4096
-+#define METER_CERT_MAX_SIZE	4096
- #define STATE_MAX_NUM_LICENSES	16
- #define STATE_MAX_NUM_IN_BUNDLE	(uint32_t)8
-+#define METER_MAX_NUM_BUNDLES	8
- 
- #define __round_mask(x, y) ((__typeof__(x))((y) - 1))
- #define round_up(x, y) ((((x) - 1) | __round_mask(x, y)) + 1)
-@@ -150,6 +152,21 @@ struct bundle_encoding {
- 	uint32_t encoding_rsvd[7];
- };
- 
-+struct meter_certificate {
-+	uint32_t block_signature;
-+	uint32_t counter_unit;
-+	uint64_t ppin;
-+	uint32_t bundle_length;
-+	uint32_t reserved;
-+	uint32_t mmrc_encoding;
-+	uint32_t mmrc_counter;
-+};
-+
-+struct bundle_encoding_counter {
-+	uint32_t encoding;
-+	uint32_t counter;
-+};
-+
- struct sdsi_dev {
- 	struct sdsi_regs regs;
- 	struct state_certificate sc;
-@@ -160,6 +177,7 @@ struct sdsi_dev {
- 
- enum command {
- 	CMD_SOCKET_INFO,
-+	CMD_METER_CERT,
- 	CMD_STATE_CERT,
- 	CMD_PROV_AKC,
- 	CMD_PROV_CAP,
-@@ -306,6 +324,86 @@ static void get_feature(uint32_t encoding, char *feature)
- 	feature[0] = name[3];
- }
- 
-+static int sdsi_meter_cert_show(struct sdsi_dev *s)
-+{
-+	char buf[METER_CERT_MAX_SIZE] = {0};
-+	struct bundle_encoding_counter *bec;
-+	struct meter_certificate *mc;
-+	uint32_t count = 0;
-+	FILE *cert_ptr;
-+	int ret, size;
-+
-+	ret = sdsi_update_registers(s);
-+	if (ret)
-+		return ret;
-+
-+	if (!s->regs.en_features.sdsi) {
-+		fprintf(stderr, "SDSi feature is present but not enabled.\n");
-+		fprintf(stderr, " Unable to read meter certificate\n");
-+		return -1;
-+	}
-+
-+	if (!s->regs.en_features.metering) {
-+		fprintf(stderr, "Metering not supporting on this socket.\n");
-+		return -1;
-+	}
-+
-+	ret = chdir(s->dev_path);
-+	if (ret == -1) {
-+		perror("chdir");
-+		return ret;
-+	}
-+
-+	cert_ptr = fopen("meter_certificate", "r");
-+	if (!cert_ptr) {
-+		perror("Could not open 'meter_certificate' file");
-+		return -1;
-+	}
-+
-+	size = fread(buf, 1, sizeof(buf), cert_ptr);
-+	if (!size) {
-+		fprintf(stderr, "Could not read 'meter_certificate' file\n");
-+		fclose(cert_ptr);
-+		return -1;
-+	}
-+	fclose(cert_ptr);
-+
-+	mc = (struct meter_certificate *)buf;
-+
-+	printf("\n");
-+	printf("Meter certificate for device %s\n", s->dev_name);
-+	printf("\n");
-+	printf("Block Signature:       0x%x\n", mc->block_signature);
-+	printf("Count Unit:            %dms\n", mc->counter_unit);
-+	printf("PPIN:                  0x%lx\n", mc->ppin);
-+	printf("Feature Bundle Length: %d\n", mc->bundle_length);
-+	printf("MMRC encoding:         %d\n", mc->mmrc_encoding);
-+	printf("MMRC counter:          %d\n", mc->mmrc_counter);
-+	if (mc->bundle_length % 8) {
-+		fprintf(stderr, "Invalid bundle length\n");
-+		return -1;
-+	}
-+
-+	if (mc->bundle_length > METER_MAX_NUM_BUNDLES * 8)  {
-+		fprintf(stderr, "More the %d bundles: %d\n",
-+			METER_MAX_NUM_BUNDLES, mc->bundle_length / 8);
-+		return -1;
-+	}
-+
-+	bec = (void *)(mc) + sizeof(mc);
-+
-+	printf("Number of Feature Counters:          %d\n", mc->bundle_length / 8);
-+	while (count++ < mc->bundle_length / 8) {
-+		char feature[5];
-+
-+		feature[4] = '\0';
-+		get_feature(bec[count].encoding, feature);
-+		printf("    %s:          %d\n", feature, bec[count].counter);
-+	}
-+
-+	return 0;
-+}
-+
- static int sdsi_state_cert_show(struct sdsi_dev *s)
- {
- 	char buf[STATE_CERT_MAX_SIZE] = {0};
-@@ -625,7 +723,7 @@ static void sdsi_free_dev(struct sdsi_dev *s)
- 
- static void usage(char *prog)
- {
--	printf("Usage: %s [-l] [-d DEVNO [-i] [-s] [-a FILE] [-c FILE]]\n", prog);
-+	printf("Usage: %s [-l] [-d DEVNO [-i] [-s] [-m] [-a FILE] [-c FILE]]\n", prog);
- }
- 
- static void show_help(void)
-@@ -635,6 +733,7 @@ static void show_help(void)
- 	printf("  %-18s\t%s\n", "-d, --devno DEVNO",    "On Demand device number");
- 	printf("  %-18s\t%s\n", "-i, --info",           "show socket information");
- 	printf("  %-18s\t%s\n", "-s, --state",          "show state certificate");
-+	printf("  %-18s\t%s\n", "-m, --meter",          "show meter certificate");
- 	printf("  %-18s\t%s\n", "-a, --akc FILE",       "provision socket with AKC FILE");
- 	printf("  %-18s\t%s\n", "-c, --cap FILE>",      "provision socket with CAP FILE");
- }
-@@ -656,6 +755,7 @@ int main(int argc, char *argv[])
- 		{"help",	no_argument,		0, 'h'},
- 		{"info",	no_argument,		0, 'i'},
- 		{"list",	no_argument,		0, 'l'},
-+		{"meter",	no_argument,		0, 'm'},
- 		{"state",	no_argument,		0, 's'},
- 		{0,		0,			0, 0 }
- 	};
-@@ -663,7 +763,7 @@ int main(int argc, char *argv[])
- 
- 	progname = argv[0];
- 
--	while ((opt = getopt_long_only(argc, argv, "+a:c:d:hils", long_options,
-+	while ((opt = getopt_long_only(argc, argv, "+a:c:d:hilms", long_options,
- 			&option_index)) != -1) {
- 		switch (opt) {
- 		case 'd':
-@@ -676,8 +776,9 @@ int main(int argc, char *argv[])
- 		case 'i':
- 			command = CMD_SOCKET_INFO;
- 			break;
-+		case 'm':
- 		case 's':
--			command = CMD_STATE_CERT;
-+			command = (opt == 'm') ? CMD_METER_CERT : CMD_STATE_CERT;
- 			break;
- 		case 'a':
- 		case 'c':
-@@ -713,6 +814,9 @@ int main(int argc, char *argv[])
- 		case CMD_SOCKET_INFO:
- 			ret = sdsi_read_reg(s);
- 			break;
-+		case CMD_METER_CERT:
-+			ret = sdsi_meter_cert_show(s);
-+			break;
- 		case CMD_STATE_CERT:
- 			ret = sdsi_state_cert_show(s);
- 			break;
--- 
-2.25.1
+To make userspace flexible to multiple kernel versions it seems to me 
+that userspace could check if that file exists before suspend and if it 
+does then check the value after suspend.
+
+> 
+>> +}
+>> +EXPORT_SYMBOL_GPL(pm_set_hw_deepest_state);
 
