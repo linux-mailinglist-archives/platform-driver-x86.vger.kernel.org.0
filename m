@@ -2,119 +2,118 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52DD861869A
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  3 Nov 2022 18:50:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F9586187F5
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  3 Nov 2022 19:51:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230410AbiKCRuq (ORCPT
+        id S229445AbiKCSvM (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 3 Nov 2022 13:50:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58514 "EHLO
+        Thu, 3 Nov 2022 14:51:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230294AbiKCRup (ORCPT
+        with ESMTP id S229699AbiKCSvL (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 3 Nov 2022 13:50:45 -0400
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8F081125
-        for <platform-driver-x86@vger.kernel.org>; Thu,  3 Nov 2022 10:50:40 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id h12so3154079ljg.9
-        for <platform-driver-x86@vger.kernel.org>; Thu, 03 Nov 2022 10:50:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KUkGZQq0r0Vv/0R7vtzCYYO/85Jx3j0nE5veD8MLYVE=;
-        b=c9+9oQ9nUE49W9uQXeILzH93R4y0yOvqOEThsicBb0kHQQbG71toqpz6gC8oUo7Pr2
-         jC8iSH19+FbrUucIJhqeb5N8U3fJBZ/cdux9mYixElF3h0w4bXUxvfjNhreq+PrQkwRm
-         86sEAjJhITN1MR58YUnH8PJ9x9nVFJWsnKjuLAZeEsZuYl9SKknk+7n5vCubqBrMGa7L
-         DfzUdIVWrV3oFWxVbA70IAffvR+DWqUtIRPbtJciSKqzbaUkUzhtTfXJEouKKswLcKrq
-         RBxEzMJVOZAz7N0ajtvA8VUJE6gKQxF2BJrRsa8a2EwE93OA46mdnSKutksubStJGme6
-         T37w==
+        Thu, 3 Nov 2022 14:51:11 -0400
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7DAFF7E;
+        Thu,  3 Nov 2022 11:51:10 -0700 (PDT)
+Received: by mail-qv1-f44.google.com with SMTP id j6so1738346qvn.12;
+        Thu, 03 Nov 2022 11:51:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:sender:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KUkGZQq0r0Vv/0R7vtzCYYO/85Jx3j0nE5veD8MLYVE=;
-        b=ToYk6LnzvFsQe+AnAoQxHKg6jnDXcvNAmfvFl8XXDarWag9ev4iG8X27aKNzOrDq8+
-         6Q4hRQpaR+MIZu9ZpX9bW9zxgnYN+hjeARfeHj1Ro0w3xLfA7o2tfhOePDl/FfvX0tVk
-         2ppwGgr+4Jxmy/bY2Bvpnpm6pQU2Nvr4EdKZz3/KmEmNCprB4enbUwdxQ/Bo+ByyBiZJ
-         88g4uG/OIaL1jtZH6fP+8Xcf93FCTi68E0/9Iqe0Q9X4KxSKbyjr2HETxCRVtHFSoDZL
-         tOwpLX8u494JGuP0cyU0e4etzglv4NGKfpfpB4f904p8+1clbrbQg2xG4JkBJanWEKxI
-         UwpQ==
-X-Gm-Message-State: ACrzQf22D5nXkSrzTeTqRou53DkkGOnBFSUKQmXcPwaWab4IIu86tflx
-        AI8Mm5uVGQ2oBC/m5ycRCcjbwuQn3egdtX0WjZI=
-X-Google-Smtp-Source: AMsMyM7WRIDAkgN5WfRRJVAa0Pv5VfXb5g/r2dSv6qo/uK+oA/Mq17fPX+4acaZwCc2CnR1v7UATzT1iTkmA1uNq8Io=
-X-Received: by 2002:a2e:bd0e:0:b0:261:e718:e902 with SMTP id
- n14-20020a2ebd0e000000b00261e718e902mr12825830ljq.435.1667497838761; Thu, 03
- Nov 2022 10:50:38 -0700 (PDT)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zis0owZsMFVBZPGXe9QCidngIGxG+l6l59XKN5cG8j8=;
+        b=csMiiU2AUBdqpr5DTquZRnoIzQ2aNa8Yv9gXLWHEWvhkuMfp7RRLohcxIPGa9uuSHV
+         NS6yYVbmSksyAImklNojOxaB/67fQz+O2R7uQo+uOHDqq9ZnyalnooMNQHH5D40GzCKa
+         sz70L6p/hseKeO3Zzw7lh1nXA4AVtAVHXlrQcdVxl0+a2+MYlZB9bxkSdF9P+jQWQi2V
+         5c4zWFyJfQbCTvke/lyHzu+taxVB15+EmnKkq3LzZIIff/XnG3QHTxZWSiLZp68JsYkQ
+         0G+Db9n0e9xkJo85p2Om7S/4zL1GLZjWivhG0/3TgPuQjq8v/XeOiO/Pw8tOOzXsR+s0
+         9xHg==
+X-Gm-Message-State: ACrzQf1aTe7pYHkBnA6Kz9zWLuE+if43VXHkiR6uPSsFIRnMFnPkEq6p
+        tFpdYHcVKuo+2j64ynhINerBBMghdE8sx/p5wBY=
+X-Google-Smtp-Source: AMsMyM4L7sSHmachWAk++pMl1KlZa5F7H0zd2YHtl1JVodoSNE1tlCQWGPBsQPRpUHocU+XhNhjWkK28bHbIgVo8qY0=
+X-Received: by 2002:a0c:a90d:0:b0:4b3:f322:1280 with SMTP id
+ y13-20020a0ca90d000000b004b3f3221280mr28441369qva.83.1667501470073; Thu, 03
+ Nov 2022 11:51:10 -0700 (PDT)
 MIME-Version: 1.0
-Sender: ojongonwa@gmail.com
-Received: by 2002:a2e:9681:0:0:0:0:0 with HTTP; Thu, 3 Nov 2022 10:50:37 -0700 (PDT)
-From:   "Doris.David" <mrs.doris.david02@gmail.com>
-Date:   Thu, 3 Nov 2022 10:50:37 -0700
-X-Google-Sender-Auth: su5ZWCEGDCurpVnoo8wSA-uGIPw
-Message-ID: <CAA-P_sM+mpGARaeM5RAV7Z+xATYkrfYG2eE7fiMfgvwT=Xw2Vw@mail.gmail.com>
-Subject: Re: Greetings My Dear,
-To:     undisclosed-recipients:;
+References: <20221031105806.370672-1-hdegoede@redhat.com>
+In-Reply-To: <20221031105806.370672-1-hdegoede@redhat.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 3 Nov 2022 19:50:59 +0100
+Message-ID: <CAJZ5v0jQvopYK-N4eXnp_Fif9vQ8Q=sYGiUhoNeY9hDavkOSgw@mail.gmail.com>
+Subject: Re: [PATCH] ACPI: video: Improve Chromebook checks
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        "Mr . Chromebox" <mrchromebox@gmail.com>,
+        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=6.8 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
-        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_FROM,LOTS_OF_MONEY,MONEY_FRAUD_8,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,UNDISC_MONEY autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:22e listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5019]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [mrs.doris.david02[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  0.0 MONEY_FRAUD_8 Lots of money and very many fraud phrases
-        *  3.0 ADVANCE_FEE_5_NEW_MONEY Advance Fee fraud and lots of money
-        *  3.2 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: ******
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Greetings,
+On Mon, Oct 31, 2022 at 11:58 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> 2 improvements for the Chromebook handling in
+> acpi_video_get_backlight_type():
+>
+> 1. Also check for the "GOOG000C" ACPI HID used on some models
+> 2. Move the Chromebook check to above the ACPI-video check normally
+>    Chromebooks don't have ACPI video backlight support, but when
+>    flashed with upstream coreboot builds they may have ACPI video
+>    backlight support, but native should still be used/preferred then.
+>
+> Suggested-by: Mr. Chromebox <mrchromebox@gmail.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/acpi/video_detect.c | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
+> index 9cd8797d12bb..841f6213b4de 100644
+> --- a/drivers/acpi/video_detect.c
+> +++ b/drivers/acpi/video_detect.c
+> @@ -670,7 +670,7 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
+>
+>  static bool google_cros_ec_present(void)
+>  {
+> -       return acpi_dev_found("GOOG0004");
+> +       return acpi_dev_found("GOOG0004") || acpi_dev_found("GOOG000C");
+>  }
+>
+>  /*
+> @@ -718,6 +718,10 @@ static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
+>         if (apple_gmux_present())
+>                 return acpi_backlight_apple_gmux;
+>
+> +       /* Chromebooks should always use native backlight control. */
+> +       if (google_cros_ec_present() && native_available)
+> +               return acpi_backlight_native;
+> +
+>         /* On systems with ACPI video use either native or ACPI video. */
+>         if (video_caps & ACPI_VIDEO_BACKLIGHT) {
+>                 /*
+> @@ -735,13 +739,6 @@ static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
+>                         return acpi_backlight_video;
+>         }
+>
+> -       /*
+> -        * Chromebooks that don't have backlight handle in ACPI table
+> -        * are supposed to use native backlight if it's available.
+> -        */
+> -       if (google_cros_ec_present() && native_available)
+> -               return acpi_backlight_native;
+> -
+>         /* No ACPI video (old hw), use vendor specific fw methods. */
+>         return acpi_backlight_vendor;
+>  }
+> --
 
-I sent this mail praying it will find you in a good condition, since I
-myself am in a very critical health condition in which I sleep every
-night  without knowing if I may be alive to see the next day. I am
-Mrs.david doris, a widow suffering from a long time illness. I have
-some funds I  inherited from my late husband, the sum of
-($11,000,000,00) my Doctor told me recently that I have serious
-sickness which is a cancer problem. What disturbs me most is my stroke
-sickness. Having known my condition, I decided to donate this fund to
-a good person that will utilize it the way I am going to instruct
-herein. I need a very Honest God.
-
-fearing a person who can claim this money and use it for Charity
-works, for orphanages, widows and also build schools for less
-privileges that will be named after my late husband if possible and to
-promote the word of God and the effort that the house of God is
-maintained. I do not want a situation where this money will be used in
-an ungodly manner. That's why I'making this decision. I'm not afraid
-of death so I know where I'm going. I accept this decision because I
-do not have any child who will inherit this money after I die. Please
-I want your sincere and urgent answer to know if you will be able to
-execute this project, and I will give you more information on how
-thunder will be transferred to your bank account. I am waiting for
-your reply.
-
-May God Bless you,
-Mrs.david doris,
+Applied as 6.2 material, thanks!
