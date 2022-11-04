@@ -2,108 +2,78 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F0A7619685
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  4 Nov 2022 13:48:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 593B66196F3
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  4 Nov 2022 14:05:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231393AbiKDMs3 (ORCPT
+        id S231150AbiKDNFO (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 4 Nov 2022 08:48:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33390 "EHLO
+        Fri, 4 Nov 2022 09:05:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231297AbiKDMs1 (ORCPT
+        with ESMTP id S229995AbiKDNFL (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 4 Nov 2022 08:48:27 -0400
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DEA5DF97;
-        Fri,  4 Nov 2022 05:48:26 -0700 (PDT)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-367b8adf788so42555167b3.2;
-        Fri, 04 Nov 2022 05:48:26 -0700 (PDT)
+        Fri, 4 Nov 2022 09:05:11 -0400
+Received: from mail-vk1-xa30.google.com (mail-vk1-xa30.google.com [IPv6:2607:f8b0:4864:20::a30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8003D275C3
+        for <platform-driver-x86@vger.kernel.org>; Fri,  4 Nov 2022 06:05:10 -0700 (PDT)
+Received: by mail-vk1-xa30.google.com with SMTP id h16so2365266vkn.4
+        for <platform-driver-x86@vger.kernel.org>; Fri, 04 Nov 2022 06:05:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RAEPaRwFypxZOPVMvDRHtSG95hS1NYvI8n0PkQ8emd0=;
-        b=ddnsRgJIQDq2Zpk8f2PquKZSyfwjUiOwYWofmdXvxfh6XYo1r9FWRUftcsgNtzOriX
-         FLpU7YEqzcnrM2lfahCdSN7Q6TzBN4WVodkn+R+rg1DLIPbZfe9myxWZ5tJD8uDCMYKE
-         29Q9i6MOyiqd4qYFsmqayOJVzbYEmazPb+NkpJbXh0Zk5CuBDSPDdmwaSs2ALQrw/kSr
-         x7CPxPiiC67JBq1w4M/L1MXc2O8rsboGhPEJm+868lDxeyZ9BOcmtpJzrJE2Il019cS+
-         mzaXX79KM5R/n8IogMGkKjYjKCJ80mf11dlPen/ZBWGYb0wHje9McTDmg6JEJy1RvMAa
-         ydjg==
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5p+2212nSs70KkMMypC1tbex5JQYbFSNyVBImxmcawE=;
+        b=EWe/VEIPgEDuC4ALFRHz8MGvbLey2Ct+jg3a+a9n4u+IOmvbbp8xXz5iB6Fs8z2Xbm
+         b9ilGiiTnbsVoAPVzHY8GPILvliiCuIZ0B2GA6zAyrvwcFjyM16xXFVMFcziEAj5ml5r
+         JLPZNX5wHWffm0WE7q+xmQJMiu190ZpECmkvcQUjYYEdveSl1jKq9FLBB1q8yrBQ31G8
+         XvJjedCFEXimQf2u9xD49ysAD6O6NnScbrjymzjN5RsQw551tGcbmubuOuchZlH7VPbY
+         muEVN03nYo+/R4ReMg8PxDa7BemTA0n6WbIYjZFEoFqGLYqbIVFXa7QZKpYHTmThO+42
+         MS5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RAEPaRwFypxZOPVMvDRHtSG95hS1NYvI8n0PkQ8emd0=;
-        b=v7MVVgbwmCDxicrgJLvItKsy0A9jq7pNs8C1pKZ16J2gM7gxDXT9W6xk0tjjNJsptb
-         DgPUx1dY5ViJIJ5o7IhJKWlKwn0qjetA5u/1sXmC0BQtQuKxQeB+h8sxbNYstSkZN2Nv
-         wbzYshMNtGP3KXbW8AVhWtT9tHd576FX4tLQ6FKy5DKzlhyfJBMT6k14rDZUPLKs7EuA
-         NdqnFNSsi7mK4z6NZ1RXuswlmTsClLYar1OCqs0mP1AO/oo2g9lBtQAMjZPvjUvtrdGq
-         FlI9taDNEldNDc1s2gm3NjLM6gE3l6fmNGBnigtBdS5oKcYRJiLziJI2gDcnQf5l6a/2
-         XYDQ==
-X-Gm-Message-State: ACrzQf0zl1QBzt+Wl3Yiwyva49zAHN1CFEVxwc+hYoWOi/lXUScux8oc
-        /bCKG9TOJVbn9s4Ct8mysO300sMr8QHQRCPXk1WcDQLPIps=
-X-Google-Smtp-Source: AMsMyM7NyqR0Ywas9s0Up7GI0fF8A02EjlDfdy9uOG2w1ZMYcdRQQeK+ZnLvq4wejQ9gZ+yGtNLOjj/y0nbZANUakp4=
-X-Received: by 2002:a81:130a:0:b0:360:9739:82be with SMTP id
- 10-20020a81130a000000b00360973982bemr34324363ywt.69.1667566105779; Fri, 04
- Nov 2022 05:48:25 -0700 (PDT)
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5p+2212nSs70KkMMypC1tbex5JQYbFSNyVBImxmcawE=;
+        b=7MSETpL2/f+5VLwj5EosOflM7t7JSfdiiHqRJ1Ysn+YFvhysmKDN10YSGelmhhpO4O
+         aSeWGnjWtX9A8OaYkfHTaL5Ks6T/sXp6HBO8NQk6o6p3jCNU+MGN1MGOn7huvuHPMxcC
+         qJfycmofmGTPh/edCo38I9GN5HyfV3/AXrshK2nZ32pVX1cGYV3mXL3WOxHok/QRPfvl
+         eKEDNUHt+O6F7jbGty2IL9tLtzJ+H4WwLRNdz+aE+iPiAS0XptnN72AKFdUCe0rJsaH5
+         UFONndny4aiUFJBEuZTMu7bMUSJKdFl/sLIgULH0sbBwVobnL21RgFXqR6vrV8QgSHua
+         ki2Q==
+X-Gm-Message-State: ACrzQf2LTDA3LAuWYruRmrRjwschp1zTuty9IbfEH6ghMiddJ2traY24
+        cjJjdvz2GBZjm8KrZBRBovJ0x9m/zI9cROt4NSw=
+X-Google-Smtp-Source: AMsMyM6oPxXyeO3sUYBtKvpcdqQ+cODYUf3T/akeJLHgfyt896xxdOoQ3b8zvhBZ7+v63AAF4od2miwFNX2NZjYJEWQ=
+X-Received: by 2002:a1f:c1d2:0:b0:3b4:a675:4346 with SMTP id
+ r201-20020a1fc1d2000000b003b4a6754346mr19317083vkf.39.1667567108564; Fri, 04
+ Nov 2022 06:05:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221102150440.208228-1-samsagax@gmail.com> <20221102180430.GC2913353@roeck-us.net>
- <CABgtM3jXVTjxEJXmCXG+z_DGaHAkFFVjZBa2bOCbeqFveesWrA@mail.gmail.com>
- <20221102204407.GA2089083@roeck-us.net> <CABgtM3jaV+jy3PYcCi3o1ij1igk4S7dWTF=QM=rN2acaGLQ_JA@mail.gmail.com>
- <20221103011518.GA2109645@roeck-us.net>
-In-Reply-To: <20221103011518.GA2109645@roeck-us.net>
-From:   Joaquin Aramendia <samsagax@gmail.com>
-Date:   Fri, 4 Nov 2022 09:48:14 -0300
-Message-ID: <CABgtM3gQ3RpnxLL8kC_gZH6=ahH69BbMpQNocvtJVcK8VU2dLw@mail.gmail.com>
-Subject: Re: [PATCH v4] Add OneXPlayer mini AMD sensors driver
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     pobrn@protonmail.com, hdegoede@redhat.com, jdelvare@suse.com,
-        linux-hwmon@vger.kernel.org, markgross@kernel.org,
-        platform-driver-x86@vger.kernel.org
+Received: by 2002:a59:a58d:0:b0:2f2:a342:51c1 with HTTP; Fri, 4 Nov 2022
+ 06:05:07 -0700 (PDT)
+Reply-To: carolynclarke707@gmail.com
+From:   Carolyn Clarke <brad.leagle011101@gmail.com>
+Date:   Fri, 4 Nov 2022 15:05:07 +0200
+Message-ID: <CAF=xrxSh2f3P-3UNO-0ohHTf+s+8cSCQMo+03TEx1qjTNO47og@mail.gmail.com>
+Subject: Please Read
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-El mi=C3=A9, 2 nov 2022 a la(s) 22:15, Guenter Roeck (linux@roeck-us.net) e=
-scribi=C3=B3:
->
-> On Wed, Nov 02, 2022 at 06:10:37PM -0300, Joaquin Aramendia wrote:
-> > > >
-> > > > Oops. Is not really needed but I'll add them.
-> > > >
-> > > Technically you are correct, but we would have static analyzers screa=
-m at
-> > > us, and it is against kernel coding style. There is a practical reaso=
-n
-> > > for that: Missing break statements are often the result of coding err=
-ors.
-> > >
-> > > Guenter
-> >
-> > Great, thanks for the clarification.
-> >
-> > As for my last statement, module_platform_driver() usage broke the
-> > module, don't know why, but seems like the probe function is not run?
-> > If you are ok with it, I'll revert to module_init/module_exit macros.
-> >
-> Go ahead, just add a comment to the driver. Mabe someone manages
-> to sort it out.
->
-> Thanks,
-> Guenter
+Good Day To You
 
-Will add that comment, rebase and submit again the patch.
-Thanks for your time, Guenter. And sorry If I got on your nerves :)
+I've viewed your profile on Linkedin regarding a proposal that has
+something in common with you, kindly reply back for more details on my
+private email: carolynclarke707@gmail.com
 
---=20
-Joaqu=C3=ADn I. Aramend=C3=ADa
+Thanks,
+Carolyn Clarke,
+carolynclarke707@gmail.com
