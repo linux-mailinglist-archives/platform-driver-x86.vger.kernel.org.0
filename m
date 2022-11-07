@@ -2,147 +2,130 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E636561F023
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Nov 2022 11:20:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6E8361F042
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Nov 2022 11:22:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231347AbiKGKUl (ORCPT
+        id S231308AbiKGKV7 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 7 Nov 2022 05:20:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60472 "EHLO
+        Mon, 7 Nov 2022 05:21:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231337AbiKGKUi (ORCPT
+        with ESMTP id S230515AbiKGKVt (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 7 Nov 2022 05:20:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1936014034
-        for <platform-driver-x86@vger.kernel.org>; Mon,  7 Nov 2022 02:19:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667816384;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=lh1sC243mXj1nwA8olLZDbB3dZ9ipyfDquCTdrqXUWQ=;
-        b=EMoJLxZ5lD/tkXo7INsyhVZHVFp3vJXvdoQ6pDCxV3jffVbmUDbk6kqx4ePTuV9t6++g99
-        iGo8jboRxL1Jh4LRjT/J/lONFIvWSt+qeFoote/2kh3yGkBO/V0AFKDiAXtwZVT4ge7Sud
-        +9N5NR76Pl7yDjkBFj02MMUayPVR2DI=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-644-Xeyd37jQOpK75p061e-JQg-1; Mon, 07 Nov 2022 05:19:43 -0500
-X-MC-Unique: Xeyd37jQOpK75p061e-JQg-1
-Received: by mail-ej1-f71.google.com with SMTP id hp16-20020a1709073e1000b007adf5a83df7so6063787ejc.1
-        for <platform-driver-x86@vger.kernel.org>; Mon, 07 Nov 2022 02:19:43 -0800 (PST)
+        Mon, 7 Nov 2022 05:21:49 -0500
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C15F18E2E
+        for <platform-driver-x86@vger.kernel.org>; Mon,  7 Nov 2022 02:21:26 -0800 (PST)
+Received: by mail-oi1-x241.google.com with SMTP id n205so541475oib.1
+        for <platform-driver-x86@vger.kernel.org>; Mon, 07 Nov 2022 02:21:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=AOmtRIzmF5dcnWrT0j3skK83MYTC+QvduwZ6ndeN2Ks=;
+        b=L9okY7Icb0Gf5ctoFsS3m7Ms6FyffuhIG/wumllqb99pGSDM0eKoVdXRomu4k2Vvje
+         vaAAA5b5CG4T9vL3DYzTbt6i7ilTYVRiZHeAf51qWroCKMi/06UV8twkwYbbvcb58b0c
+         O8aiXYIeKLPGKFxD8AeTNjdm9XiiwAwYXXYnxXnBzQtt4ZaPQYbu2mn3d4/wBF5dq0sI
+         fYgKey8dWac3TMQ3pm+aZLL8XgADS0c8wc9DQhJYDoGLimjkDspSigMMA/pe1/be4Mmf
+         FTMTprRtatoAeN10/4e16TIuQYPcJ6zZ7AsqjnUqg8Bde3BWUPkO4V20s/KjpolOjYbD
+         1dVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lh1sC243mXj1nwA8olLZDbB3dZ9ipyfDquCTdrqXUWQ=;
-        b=bX6ZZK4YYbCYSGhq0ehhaA+0iirurHU5fedHqf15TOZXOYTo0qQtdxzozvErFGBiQB
-         98Gv/CEonWetlun9DL3G/418HFz+GSBoXBYKkgXOUcJ3xychK/YJgy8hQI892n9jgLjQ
-         4csIfe8DyzjH+DwGzAOkVKvE4ZxtDS406x5SvIOl//BqbGoF5ekfmqvb7RHV/6SL5R2p
-         Ie7ZlhGYa8g/aVonhoanEAHuPoHTnKrqnuZdVtvhbFS9VbxfL7k2ZiT2SJZVvLJGF1CH
-         peEkuWVWk5iyl/2iYZOo55/U8DDFaxr/3FG9BM3BxWkPnxv2vjCccxfHyVc4VYyvaGvv
-         8oLA==
-X-Gm-Message-State: ACrzQf2dF9SGaHU10wagYB7oQiugSNCJCjAaC7yHeIFrOBnED2CqDvJq
-        dnoFro4Eop/Zat+YLrzF5Y/vAVPaqaedegTQQz/2/oMcv0Tq4g0dXNL2paxKQdxlk2i/rC15yzu
-        PYia7YqOn0fqA65K0F6SaHJBjr6uSXn2dFA==
-X-Received: by 2002:a17:906:9be5:b0:7ad:d0be:3467 with SMTP id de37-20020a1709069be500b007add0be3467mr39931620ejc.208.1667816381832;
-        Mon, 07 Nov 2022 02:19:41 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM4JV8GPN9jWyN1U78o0cZ72nLOAyezoXXndfdnBh7xRUWr7UpSRgRmwA6zyFlSp6DaLuzIaJA==
-X-Received: by 2002:a17:906:9be5:b0:7ad:d0be:3467 with SMTP id de37-20020a1709069be500b007add0be3467mr39931604ejc.208.1667816381570;
-        Mon, 07 Nov 2022 02:19:41 -0800 (PST)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id la20-20020a170907781400b00741a251d9e8sm3238210ejc.171.2022.11.07.02.19.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Nov 2022 02:19:41 -0800 (PST)
-Message-ID: <fc829cf7-09a1-0ef8-f4c9-6eaa43e6be7b@redhat.com>
-Date:   Mon, 7 Nov 2022 11:19:40 +0100
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AOmtRIzmF5dcnWrT0j3skK83MYTC+QvduwZ6ndeN2Ks=;
+        b=m+TRNrhAAmMxn7ekyDLoSZ0nW5zcBQe1VzietsYR54qOfI2J7kb6owPlPFz3ebJdBQ
+         DkPPyLQEkTW3633r8525BHP+JjOMenF2ozoT5V2I3rcP6GwroKYZAHM2bs5wqLa6W9Rk
+         ImaUbcPqaSdZ0wKrfXdSdKfqSiPueZOiHE+J/Mls6mgbtR0StOXD9Qzm3INM60FrWzaj
+         Grm9HxIWpONr/0Uf6Nt7IYqqofLk9U38cvrNQhfpBRbcmRgbR6Tl+ZSUGR9P6PfduQRO
+         AFydKItT9WTV0AnlhslzB5WpGP31GuEL9d8ksLB9gm2lGzUpRYj7UJa+QXbHqWDaTbAb
+         oQ9Q==
+X-Gm-Message-State: ANoB5pmkizSEaWfj/BQZDzKzBIr6xCi6TKjX0ZK/U8G62Rhbv1uPzwCn
+        ECRyk3YKEY44/lJz0zdQLdm3FvlrlY8MnVHSI5+CDjcEHeo=
+X-Google-Smtp-Source: AMsMyM4Z92xjGZXgCyg2wym9Bu3/u65n6EL2ZpWI9kWf7s8xWZden0QG/zdZVfFd3uCVmOfceIs+YigxV7lXSF4Af+Y=
+X-Received: by 2002:a17:90b:2393:b0:213:ecb2:2e04 with SMTP id
+ mr19-20020a17090b239300b00213ecb22e04mr38944517pjb.100.1667816475223; Mon, 07
+ Nov 2022 02:21:15 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH] platform/x86: touchscreen_dmi: Add info for the RCA
- Cambio W101 v2 2-in-1
-Content-Language: en-US
-To:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>
-Cc:     platform-driver-x86@vger.kernel.org
-References: <20221025141131.509211-1-hdegoede@redhat.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20221025141131.509211-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6a06:925:b0:587:19e0:c567 with HTTP; Mon, 7 Nov 2022
+ 02:21:14 -0800 (PST)
+Reply-To: contact@ammico.it
+From:   =?UTF-8?Q?Mrs=2E_Monika_Everenov=C3=A1?= <977638ib@gmail.com>
+Date:   Mon, 7 Nov 2022 11:21:14 +0100
+Message-ID: <CAHAXD+Z_SoFK+TjW_6apBCCLtc_awXEjaqOdf77jdLRxxup3TA@mail.gmail.com>
+Subject: Re:
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=6.6 required=5.0 tests=ADVANCE_FEE_2_NEW_MONEY,
+        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FREEMAIL_FROM,FROM_STARTS_WITH_NUMS,LOTS_OF_MONEY,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:241 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.7 FROM_STARTS_WITH_NUMS From: starts with several numbers
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [977638ib[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  3.3 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+        *  2.0 ADVANCE_FEE_2_NEW_MONEY Advance Fee fraud and lots of money
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
-
-On 10/25/22 16:11, Hans de Goede wrote:
-> Add touchscreen info for the RCA Cambio W101 v2 2-in-1.
-> 
-> Link: https://github.com/onitake/gsl-firmware/discussions/193
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-
-I have added this to my review-hans branch now.
-
-Regards,
-
-Hans
-
-
-> ---
->  drivers/platform/x86/touchscreen_dmi.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-> index bc97bfa8e8a6..baae3120efd0 100644
-> --- a/drivers/platform/x86/touchscreen_dmi.c
-> +++ b/drivers/platform/x86/touchscreen_dmi.c
-> @@ -770,6 +770,22 @@ static const struct ts_dmi_data predia_basic_data = {
->  	.properties	= predia_basic_props,
->  };
->  
-> +static const struct property_entry rca_cambio_w101_v2_props[] = {
-> +	PROPERTY_ENTRY_U32("touchscreen-min-x", 4),
-> +	PROPERTY_ENTRY_U32("touchscreen-min-y", 20),
-> +	PROPERTY_ENTRY_U32("touchscreen-size-x", 1644),
-> +	PROPERTY_ENTRY_U32("touchscreen-size-y", 874),
-> +	PROPERTY_ENTRY_BOOL("touchscreen-swapped-x-y"),
-> +	PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-rca-cambio-w101-v2.fw"),
-> +	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
-> +	{ }
-> +};
-> +
-> +static const struct ts_dmi_data rca_cambio_w101_v2_data = {
-> +	.acpi_name = "MSSL1680:00",
-> +	.properties = rca_cambio_w101_v2_props,
-> +};
-> +
->  static const struct property_entry rwc_nanote_p8_props[] = {
->  	PROPERTY_ENTRY_U32("touchscreen-min-y", 46),
->  	PROPERTY_ENTRY_U32("touchscreen-size-x", 1728),
-> @@ -1409,6 +1425,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
->  			DMI_EXACT_MATCH(DMI_BOARD_NAME, "0E57"),
->  		},
->  	},
-> +	{
-> +		/* RCA Cambio W101 v2 */
-> +		/* https://github.com/onitake/gsl-firmware/discussions/193 */
-> +		.driver_data = (void *)&rca_cambio_w101_v2_data,
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "RCA"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "W101SA23T1"),
-> +		},
-> +	},
->  	{
->  		/* RWC NANOTE P8 */
->  		.driver_data = (void *)&rwc_nanote_p8_data,
-
+Hei ja miten voit?
+Nimeni on rouva Evereen, l=C3=A4het=C3=A4n t=C3=A4m=C3=A4n viestin suurella=
+ toivolla
+v=C3=A4lit=C3=B6n vastaus, koska minun on teht=C3=A4v=C3=A4 uusi syd=C3=A4n=
+leikkaus
+t=C3=A4ll=C3=A4 hetkell=C3=A4 huonokuntoinen ja v=C3=A4h=C3=A4iset mahdolli=
+suudet selviyty=C3=A4.
+Mutta ennen kuin min=C3=A4
+Tee toinen vaarallinen operaatio, annan sen sinulle
+Minulla on 6 550 000 dollaria yhdysvaltalaisella pankkitilill=C3=A4
+sijoittamista, hallinnointia ja k=C3=A4ytt=C3=B6=C3=A4 varten
+voittoa hyv=C3=A4ntekev=C3=A4isyysprojektin toteuttamiseen. Tarkoitan saira=
+iden auttamista
+ja k=C3=B6yh=C3=A4t ovat viimeinen haluni maan p=C3=A4=C3=A4ll=C3=A4, sill=
+=C3=A4 minulla ei ole niit=C3=A4
+kenelt=C3=A4 perii rahaa.
+Vastaa minulle nopeasti
+terveisi=C3=A4
+Rouva Monika Evereen
+Florida, Amerikan Yhdysvallat
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+Hi and how are you?
+My name is Mrs. Evereen, I am sending this message with great hope for
+an immediate response, as I have to undergo heart reoperation in my
+current poor health with little chance of survival. But before I
+undertake the second dangerous operation, I will give you the
+$6,550,000 I have in my US bank account to invest well, manage and use
+the profits to run a charity project for me. I count helping the sick
+and the poor as my last wish on earth, because I have no one to
+inherit money from.
+Please give me a quick reply
+regards
+Mrs. Monika Evereen
+Florida, United States of America
