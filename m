@@ -2,111 +2,107 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F2BA620A27
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  8 Nov 2022 08:26:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6165B620ED2
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  8 Nov 2022 12:24:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229657AbiKHH0q (ORCPT
+        id S233912AbiKHLYJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 8 Nov 2022 02:26:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35118 "EHLO
+        Tue, 8 Nov 2022 06:24:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbiKHH0p (ORCPT
+        with ESMTP id S233683AbiKHLYG (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 8 Nov 2022 02:26:45 -0500
-X-Greylist: delayed 332 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 07 Nov 2022 23:26:43 PST
-Received: from juno.mpi-klsb.mpg.de (juno.mpi-klsb.mpg.de [139.19.86.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EF252BB30
-        for <platform-driver-x86@vger.kernel.org>; Mon,  7 Nov 2022 23:26:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mpi-sws.org
-        ; s=mail201904; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:sender:reply-to:content-id:
-        content-description:resent-date:resent-from:resent-sender:resent-to:resent-cc
-        :resent-message-id:in-reply-to:references:list-id:list-help:list-unsubscribe:
-        list-subscribe:list-post:list-owner:list-archive;
-        bh=FFPYA/ZO2QdgeKxgxdRf///4XmUhuIy/OCYjnNvaGrI=; b=AxZt5ChxufDVaFJ8HX7Aezbn9Z
-        VzCVAQud96iGhovmniGkTQccDxDKQf6o3w9hT4lE3i+uN20smqk9kqBjmlUqRM+jl3P+2jy1mityo
-        nwZTdWyONG6lHk5QEd84n4GrO1+vfX3NhtRJIDxh9hbUp3gNyUNYlOMSZ4Vv9cNMknxY=;
-Received: from max.mpi-klsb.mpg.de ([139.19.86.27]:52464)
-        by juno.mpi-klsb.mpg.de (envelope-from <gaeher@mpi-sws.org>) 
-        with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92) id 1osIun-0002Gi-FZ; Tue, 08 Nov 2022 08:21:03 +0100
-Received: from ip5f5ace35.dynamic.kabel-deutschland.de ([95.90.206.53]:30832 helo=archangel..)
-        by max.mpi-klsb.mpg.de (envelope-from <gaeher@mpi-sws.org>) 
-        with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.94.2) id 1osIum-007LOq-VT; Tue, 08 Nov 2022 08:20:57 +0100
-From:   =?UTF-8?q?Lennard=20G=C3=A4her?= <gaeher@mpi-sws.org>
-Cc:     hmh@hmh.eng.br, ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
-        =?UTF-8?q?Lennard=20G=C3=A4her?= <gaeher@mpi-sws.org>,
-        Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH] x86/thinkpad_acpi: Enable s2idle quirk for 21A1 machine type
-Date:   Tue,  8 Nov 2022 08:20:23 +0100
-Message-Id: <20221108072023.17069-1-gaeher@mpi-sws.org>
-X-Mailer: git-send-email 2.38.1
+        Tue, 8 Nov 2022 06:24:06 -0500
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C4C431DD7
+        for <platform-driver-x86@vger.kernel.org>; Tue,  8 Nov 2022 03:24:00 -0800 (PST)
+Received: by mail-io1-xd2f.google.com with SMTP id r81so11190758iod.2
+        for <platform-driver-x86@vger.kernel.org>; Tue, 08 Nov 2022 03:24:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5B7dfi7xVJ3OslQ0ALi00lhJojz9IHhiYsVHA/RHqOE=;
+        b=Z2xz0F62PYjCBDaPJAMQlwAdSUUQxdVmjdSE1e/TEz5D6nfB7qYhDRauEt75dK7gsB
+         gtVoTdjw0oTaDS+z3idasRk9nIwydmI3O/a8UQatcsDJqkbGbIVyT1SuNX1kSLffYta+
+         MRaPM04Hv5NGx1PX+KL+YO7lfN7BHKCLYUZEhYaO6bT3eGqzCEeqoQdWOoaKJxxIWVcR
+         X5vaz/veLMrOj/9U4MKzAbNWDLkTVcyykPfCiQUtOALLeK724DexTS9gS8OIc8PPRbY4
+         YNmg+MP12x4a8uFh/63hJCJOP6eBt/pwec9yaAniUfCEq02k0DzqkBqfTrX2eYh/P4iT
+         mINw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5B7dfi7xVJ3OslQ0ALi00lhJojz9IHhiYsVHA/RHqOE=;
+        b=V9chItzpBB4et1WvAbGGNiqtj9gh7XImmdKSnG1eC5VKflx+urwgPsf9pi7XSc7GI3
+         mjdQtS83Df0n7zCzhtPo5ANTEXPV2DPBcPXg8nkMzHOUkW47v9vsP7wbe3icjfrl4hIe
+         vyftBP/yhazQcfMciX2RCjxYu1mYrsn4ECSyLKKW/wvXTBK9xLVI/pPZnMatp7D8jHsi
+         FyxYTOGK8DSa41OHBhy1YgwLGUhaSRrHKcBlTSd2UKHOnY7gR2RrzVUegOUbqrZOXaf7
+         tFQa+lFk2g/xmLigs3oFOiOnKloI9T09Rmb0OmgjGnJWjspXwOS/mNKnqAqKXgXobJAf
+         lXKw==
+X-Gm-Message-State: ACrzQf32+CS7jz/4euZV6KMPYz5VXwk6fvzt32y+mlcrDc4SlzT2F6Oi
+        LSnv6CC5lQVzbfFqUaFI52ne0q9/a0PtmjD/c0Q=
+X-Google-Smtp-Source: AMsMyM5kag4nOyXiv058CAI4vKxtxp06JiPON4WELDl5Ot316dAXYP1rZp27aB4pLGdFMhJREf8MTcDs+CaUCGO8K58=
+X-Received: by 2002:a05:6602:2b06:b0:67f:fdf6:ffc2 with SMTP id
+ p6-20020a0566022b0600b0067ffdf6ffc2mr34602043iov.111.1667906639638; Tue, 08
+ Nov 2022 03:23:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-RSPAMD-Score: 0.9 (/)
-X-RSPAMD-Report: Action: no action
- Symbol: RCVD_VIA_SMTP_AUTH(0.00)
- Symbol: ARC_NA(0.00)
- Symbol: FROM_HAS_DN(0.00)
- Symbol: TO_DN_SOME(0.00)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: R_SPF_NEUTRAL(0.00)
- Symbol: MIME_GOOD(-0.10)
- Symbol: DMARC_NA(0.00)
- Symbol: RCPT_COUNT_FIVE(0.00)
- Symbol: MID_CONTAINS_FROM(1.00)
- Symbol: NEURAL_HAM(-0.00)
- Symbol: FROM_EQ_ENVFROM(0.00)
- Symbol: R_DKIM_NA(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: ASN(0.00)
- Symbol: RCVD_COUNT_TWO(0.00)
- Symbol: RCVD_TLS_ALL(0.00)
- Symbol: RECEIVED_SPAMHAUS_PBL(0.00)
- Message-ID: 20221108072023.17069-1-gaeher@mpi-sws.org
-X-RSPAMD-Bar: /
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6638:1921:0:0:0:0 with HTTP; Tue, 8 Nov 2022 03:23:59
+ -0800 (PST)
+Reply-To: mrinvest1010@gmail.com
+From:   "K. A. Mr. Kairi" <ctocik10@gmail.com>
+Date:   Tue, 8 Nov 2022 03:23:59 -0800
+Message-ID: <CAEbPynvH+BZ99HK-COU1=n6MNs96giewbsO80XYSawcxKUtHrA@mail.gmail.com>
+Subject: Re: My Response..
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:d2f listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [mrinvest1010[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [ctocik10[at]gmail.com]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [ctocik10[at]gmail.com]
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Previously, the s2idle quirk was only active for the 21A0 machine type
-of the P14s Gen2a product. This also enables it for the second 21A1 type,
-thus reducing wake-up times from s2idle.
-
-Signed-off-by: Lennard Gäher <gaeher@mpi-sws.org>
-Suggested-by: Mario Limonciello <mario.limonciello@amd.com>
----
- drivers/platform/x86/thinkpad_acpi.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 20e5c043a8e8..8476dfef4e62 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -4497,6 +4497,14 @@ static const struct dmi_system_id fwbug_list[] __initconst = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "21A0"),
- 		}
- 	},
-+	{
-+		.ident = "P14s Gen2 AMD",
-+		.driver_data = &quirk_s2idle_bug,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "21A1"),
-+		}
-+	},
- 	{}
- };
- 
 -- 
-2.38.1
+Dear
 
+How are you, I have a serious client, whom will be interested to
+invest in your country, I got your Details through the Investment
+Network and world Global Business directory.
+
+Let me know if you are interested for more details.....
+
+Sincerely,
+Mr. Kairi Andrew
