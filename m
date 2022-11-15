@@ -2,185 +2,318 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8020B62A33C
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Nov 2022 21:44:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D72962A3A3
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Nov 2022 22:01:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231960AbiKOUob (ORCPT
+        id S238722AbiKOVBB (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 15 Nov 2022 15:44:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50976 "EHLO
+        Tue, 15 Nov 2022 16:01:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231806AbiKOUo1 (ORCPT
+        with ESMTP id S238705AbiKOVAz (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 15 Nov 2022 15:44:27 -0500
-Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5083721817
-        for <platform-driver-x86@vger.kernel.org>; Tue, 15 Nov 2022 12:44:26 -0800 (PST)
-Received: by mail-vs1-xe2d.google.com with SMTP id k67so15945299vsk.2
-        for <platform-driver-x86@vger.kernel.org>; Tue, 15 Nov 2022 12:44:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fki+0TCoTrte3/BJmTglaCbQEGDgk5B9kayNvnzRPWM=;
-        b=Q+lW7U/1515XSKweAMw5eX05XaxUGZTKGcd7QsyfGV2BIVZ4vO6qOo11M9Bddjyytv
-         DDMWMCivk2+y76oMjBHBSQY+HCarazuvA/bDaWBvlCpuPgBu0JOWsyEeHaZhNQHuBJo7
-         Hvvh2Ow2EfGNHbJVM3I0K9wIbuiRYtl+5vKvUEA3VjNprdirOnD5UCchWEm1zfcR4U+6
-         DuB+MotSK2WwN6SB3IjLk3AuQHc1sb7c4FnPUax24E9fyf75hTVceol07USJCGppACm+
-         AjJKpvCwJUjosvIouvjLNOlPczSbirv331O5CJLTyrLn371E5IS1QZKMs9IfyhMR0XGi
-         uNvw==
+        Tue, 15 Nov 2022 16:00:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD85B1C429
+        for <platform-driver-x86@vger.kernel.org>; Tue, 15 Nov 2022 13:00:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1668546003;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EMkJX2eD6IAfYIZWGayQ08o/J/l/XGkcZzm3i4qUAQE=;
+        b=QSg0dSpkrnME9m6SjvgGs7J09Did0c3jlwxRXxOox8s4lQCvKEqkEx+clN8rJb8G6O9BnZ
+        Qup5G72a+3WhxIPHJzoT3TgzWulnjnP66YtsGLJ4u3rZOM1OMto8rgNLFIhEwP0WY3M5Fi
+        FtVAXivFY/OJXMBx2CucCMGVpgOwxaU=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-594-xX-v83U4PsmOBxrQJj5aow-1; Tue, 15 Nov 2022 16:00:01 -0500
+X-MC-Unique: xX-v83U4PsmOBxrQJj5aow-1
+Received: by mail-ed1-f70.google.com with SMTP id b14-20020a056402278e00b004621a2642d7so10765250ede.1
+        for <platform-driver-x86@vger.kernel.org>; Tue, 15 Nov 2022 13:00:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fki+0TCoTrte3/BJmTglaCbQEGDgk5B9kayNvnzRPWM=;
-        b=X2cKeIgw2Z0EyUzQK56NGJXCvU16Ysj4UcYw7aHwVfu4yich66zJbK9/v9FJLprMDK
-         33okgOgSHIjjKVv4GlQ8AXwONFcH+GBIdmY/cg5yuykTtEUFN/eVPMhYvAE5nURO57Mk
-         QFpO0pWAamNDVaPe9fdh6Ts5A8S9YHnYA9+H5FJKKcCLYK3KtVnKKPS5PrdtiE5G7LG8
-         RufRYwn+BG14lngbLkmBtWnNvSv4p15vlzhu0pqrlyzRRFr5q6BxZPqMPLORMk0iD0uF
-         OHiUQLjf+uLXVDWno+ZkEfsmcLHBtvjciTeL94dABXHP6Y727KBC1LlG2gmdVh3EUC6q
-         Mh9w==
-X-Gm-Message-State: ANoB5plsROMNvGB7m1dSQwj6KlWshqGvEjPQeRORkEHM1IW0DF4DjvnS
-        ydafcC4K24p/2btwevY4kZ5MLr8jtx59o0+RZu/t
-X-Google-Smtp-Source: AA0mqf49L62DSbkOhy5QdhSFkosUgoRxnZccam6+NPCc0pWQN1kIdQqfHb6qw+qOMl9/YLMbHuvo2aGXdUCt3JVCiug=
-X-Received: by 2002:a05:6102:3224:b0:3aa:8846:b9a with SMTP id
- x4-20020a056102322400b003aa88460b9amr9477748vsf.58.1668545065335; Tue, 15 Nov
- 2022 12:44:25 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EMkJX2eD6IAfYIZWGayQ08o/J/l/XGkcZzm3i4qUAQE=;
+        b=Zi0dDDj35ldQFFLyF++E+zZqoNgUQptk613VnsVhgDeSQ2MFtu3jc3CIQSbrDj+vc0
+         p5Pcu3TWqPSpwEAjQ0tiDpLjbYdEg7VKN3einyqbFQSD/QRKbyMrSIH33YtK7jikjP/M
+         pHkH8U8eZa+3HFy/vjHCgErd881yQcLKL0VCB7soiZGcOQTScjVohqle7p/tMsZCxAjj
+         /3nNkO/lcO/DvJe3xHLufghR4UUN15QHUENvM91HHcFpk6AQvCZ1bsvYgryuaL/gTpZH
+         oysEQHFCIw3QIEs6T3LWxaer/Wfu+AhGRiItIie5zQY7O58v8ifB6B7IhY8vauxISOrE
+         agZw==
+X-Gm-Message-State: ANoB5pmU+576wsvTrwUgpHoAUA11g2PCyNK4yA+hzpu2eVZ6MBQg4pEm
+        fBQDYZ2HRkKI9R5pyqU+T3bvIBoaqm1qW5xQRWK5kl5Gy8mIcwH2mMg5yaOzFWV4TMVIDf0SplR
+        eaKNoJ2u8S+bzCSHZAyhLbZws3VtjXvgEqQ==
+X-Received: by 2002:a17:906:3e55:b0:7ad:dd43:5d18 with SMTP id t21-20020a1709063e5500b007addd435d18mr14684713eji.389.1668545999416;
+        Tue, 15 Nov 2022 12:59:59 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5Qn1+DPnLZAX5slYxLvAxbKWzXREdHpJcD7wzTQyKpktkl+zpg8+iUqih60ujLky6o5a5+DA==
+X-Received: by 2002:a17:906:3e55:b0:7ad:dd43:5d18 with SMTP id t21-20020a1709063e5500b007addd435d18mr14684700eji.389.1668545999169;
+        Tue, 15 Nov 2022 12:59:59 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id b1-20020a1709063ca100b00730bfe6adc4sm6002999ejh.37.2022.11.15.12.59.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Nov 2022 12:59:58 -0800 (PST)
+Message-ID: <69f78d53-aca5-c866-d436-6b5e7b1589d0@redhat.com>
+Date:   Tue, 15 Nov 2022 21:59:57 +0100
 MIME-Version: 1.0
-References: <20221115200156.12218-1-mario.limonciello@amd.com> <20221115200156.12218-2-mario.limonciello@amd.com>
-In-Reply-To: <20221115200156.12218-2-mario.limonciello@amd.com>
-From:   John Stultz <jstultz@google.com>
-Date:   Tue, 15 Nov 2022 12:44:14 -0800
-Message-ID: <CANDhNCqPWV_dC_wo-CCqBuO0J=5TcRAh5AX335PLft2+w19_tQ@mail.gmail.com>
-Subject: Re: [RFC v3 1/4] PM: Add a sysfs file to represent the total sleep duration
-To:     Mario Limonciello <mario.limonciello@amd.com>
-Cc:     "Rafael J . Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Sven van Ashbrook <svenva@chromium.org>,
-        Raul Rangel <rrangel@chromium.org>, linux-pm@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
-        S-k Shyam-sundar <Shyam-sundar.S-k@amd.com>,
-        Rajat Jain <rajatja@google.com>,
-        David E Box <david.e.box@intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2 6/7] platform/x86: ideapad-laptop: Keyboard backlight
+ support for more IdeaPads
+Content-Language: en-US, nl
+To:     =?UTF-8?Q?Eray_Or=c3=a7unus?= <erayorcunus@gmail.com>,
+        platform-driver-x86@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        ike.pan@canonical.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, dmitry.torokhov@gmail.com,
+        mgross@linux.intel.com, pobrn@protonmail.com
+References: <20221029120311.11152-1-erayorcunus@gmail.com>
+ <20221029120311.11152-7-erayorcunus@gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20221029120311.11152-7-erayorcunus@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Nov 15, 2022 at 12:02 PM Mario Limonciello
-<mario.limonciello@amd.com> wrote:
->
-> For userspace to be able to analyze how much of a suspend cycle was spent
-> in the hardware sleep states userspace software has to use kernel trace
-> points paired with the file `low_power_idle_system_residency_us` on
-> supported systems.
->
-> To make this information more discoverable, introduce a new sysfs file
-> to represent the duration spent in a sleep state.
-> This file will be present and updated during resume for all suspend
-> types.
->
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> ---
-> RFC v2->v3
->  * Drop one of the sysfs files
->  * Use sysfs_emit instead
->  * Fix symbol name (s/type/time/)
->  * Drop is_visible
->  * Use timespec64 type for suspend stats
->  * Update documentation
->  * Update sysfs file name
-> ---
->  Documentation/ABI/testing/sysfs-power |  8 ++++++++
->  include/linux/suspend.h               |  2 ++
->  kernel/power/main.c                   | 15 +++++++++++++++
->  kernel/power/suspend.c                |  2 ++
->  kernel/time/timekeeping.c             |  2 ++
->  5 files changed, 29 insertions(+)
->
-> diff --git a/Documentation/ABI/testing/sysfs-power b/Documentation/ABI/testing/sysfs-power
-> index f99d433ff311..3abe20c47e08 100644
-> --- a/Documentation/ABI/testing/sysfs-power
-> +++ b/Documentation/ABI/testing/sysfs-power
-> @@ -413,6 +413,14 @@ Description:
->                 The /sys/power/suspend_stats/last_failed_step file contains
->                 the last failed step in the suspend/resume path.
->
-> +What:          /sys/power/suspend_stats/last_total
-> +Date:          December 2022
-> +Contact:       Mario Limonciello <mario.limonciello@amd.com>
-> +Description:
-> +               The /sys/power/suspend_stats/last_total file contains
-> +               the total duration of the sleep cycle.
-> +               This is measured in microseconds.
-> +
+Hi Eray,
 
-Nit/bikeshed: "last_total" seems less straightforward then it should
-be? Maybe "total_suspend_time" instead?
-
-> diff --git a/kernel/power/main.c b/kernel/power/main.c
-> index 31ec4a9b9d70..f33012860699 100644
-> --- a/kernel/power/main.c
-> +++ b/kernel/power/main.c
-> @@ -6,6 +6,7 @@
->   * Copyright (c) 2003 Open Source Development Lab
->   */
->
-> +#include <linux/acpi.h>
->  #include <linux/export.h>
->  #include <linux/kobject.h>
->  #include <linux/string.h>
-> @@ -54,6 +55,11 @@ void unlock_system_sleep(unsigned int flags)
->  }
->  EXPORT_SYMBOL_GPL(unlock_system_sleep);
->
-> +void pm_account_suspend_time(const struct timespec64 t)
-> +{
-> +       suspend_stats.last_total = timespec64_add(suspend_stats.last_total, t);
-> +}
-> +
->  void ksys_sync_helper(void)
->  {
->         ktime_t start;
-> @@ -377,6 +383,14 @@ static ssize_t last_failed_step_show(struct kobject *kobj,
->  }
->  static struct kobj_attribute last_failed_step = __ATTR_RO(last_failed_step);
->
-> +static ssize_t last_total_show(struct kobject *kobj,
-> +               struct kobj_attribute *attr, char *buf)
-> +{
-> +       return sysfs_emit(buf, "%llu\n",
-> +                         timespec64_to_ns(&suspend_stats.last_total) / NSEC_PER_USEC);
-> +}
-> +static struct kobj_attribute last_total = __ATTR_RO(last_total);
-> +
->  static struct attribute *suspend_attrs[] = {
->         &success.attr,
->         &fail.attr,
-> @@ -391,6 +405,7 @@ static struct attribute *suspend_attrs[] = {
->         &last_failed_dev.attr,
->         &last_failed_errno.attr,
->         &last_failed_step.attr,
-> +       &last_total.attr,
->         NULL,
+On 10/29/22 14:03, Eray Orçunus wrote:
+> IdeaPads with HALS_KBD_BL_SUPPORT_BIT have full keyboard light support,
+> and they send an event via ACPI on light state change. Whereas some
+> IdeaPads that don't have this bit set, i.e. 520-15ikb, 330-17ich and
+> 5 (15), don't send an event, yet they still support switching keyboard
+> light via KBLO object on DSDT. Detect these IdeaPads with searching for
+> KBLO object, set their kbd_bl_partial to true and register led device
+> for them. Tested on 520-15ikb.
+> 
+> Signed-off-by: Eray Orçunus <erayorcunus@gmail.com>
+> ---
+>  drivers/platform/x86/ideapad-laptop.c | 79 ++++++++++++++++++++++++---
+>  1 file changed, 70 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
+> index e8c088e7a53d..b34fbc4d741c 100644
+> --- a/drivers/platform/x86/ideapad-laptop.c
+> +++ b/drivers/platform/x86/ideapad-laptop.c
+> @@ -149,6 +149,7 @@ struct ideapad_private {
+>  		bool fn_lock              : 1;
+>  		bool hw_rfkill_switch     : 1;
+>  		bool kbd_bl               : 1;
+> +		bool kbd_bl_partial       : 1;
+>  		bool cam_ctrl_via_ec      : 1;
+>  		bool touchpad_ctrl_via_ec : 1;
+>  		bool usb_charging         : 1;
+> @@ -157,6 +158,9 @@ struct ideapad_private {
+>  		bool initialized;
+>  		struct led_classdev led;
+>  		unsigned int last_brightness;
+> +		/* Below are used only if kbd_bl_partial is set */
+> +		acpi_handle lfcm_mutex;
+> +		acpi_handle kblo_obj;
+>  	} kbd_bl;
 >  };
+>  
+> @@ -1300,19 +1304,52 @@ static void ideapad_backlight_notify_brightness(struct ideapad_private *priv)
+>  		backlight_force_update(priv->blightdev, BACKLIGHT_UPDATE_HOTKEY);
+>  }
+>  
+> +#define IDEAPAD_ACPI_MUTEX_TIMEOUT 1500
+> +
+>  /*
+>   * keyboard backlight
+>   */
+>  static int ideapad_kbd_bl_brightness_get(struct ideapad_private *priv)
+>  {
+> -	unsigned long hals;
+> +	unsigned long ret_val;
+>  	int err;
+> +	acpi_status status;
+>  
+> -	err = eval_hals(priv->adev->handle, &hals);
+> +	/*
+> +	 * Some IdeaPads with partially implemented keyboard lights don't give
+> +	 * us the light state on HALS_KBD_BL_STATE_BIT in the return value of HALS,
+> +	 * i.e. 5 (15) and 330-17ich. Fortunately we know how to gather it.
+> +	 * Even if it won't work, we will still give HALS a try, because
+> +	 * some IdeaPads with kbd_bl_partial, i.e. 520-15ikb,
+> +	 * correctly sets HALS_KBD_BL_STATE_BIT in HALS return value.
+> +	 */
+> +
+> +	if (priv->features.kbd_bl_partial &&
+> +	    priv->kbd_bl.lfcm_mutex != NULL && priv->kbd_bl.kblo_obj != NULL) {
 
-While not identical, this has some overlap with the logic in
-kernel/time/timekeeping_debug.c
-I wonder if it would make sense to consolidate some of this accounting?
+IMHO it would be better to only set kbd_bl_partial when both handles
+are not NULL, then you can drop the handle checks here.
 
-thanks
--john
+> +
+> +		status = acpi_acquire_mutex(priv->kbd_bl.lfcm_mutex, NULL,
+> +					    IDEAPAD_ACPI_MUTEX_TIMEOUT);
+> +
+> +		if (ACPI_SUCCESS(status)) {
+
+This code now ends up still going through the normal kbd-bl path
+when it fails to acquire the mutex.
+
+Instead it should do:
+
+		if (ACPI_FAILURE(status))
+			return -EIO;
+
+And then have the rest of the code one indentation level less
+deep.
+
+> +			err = eval_int(priv->kbd_bl.kblo_obj, NULL, &ret_val);
+> +
+> +			status = acpi_release_mutex(priv->kbd_bl.lfcm_mutex, NULL);
+> +			if (ACPI_FAILURE(status))
+> +				dev_err(&priv->platform_device->dev,
+> +					"Failed to release LFCM mutex");
+
+I'm pretty sure that the ACPI core will already log an error if things
+fail, I would change this to just a single line:
+
+		acpi_release_mutex(priv->kbd_bl.lfcm_mutex, NULL);
+
+
+> +
+> +			if (err)
+> +				return err;
+> +
+> +			return !!ret_val;
+
+!!ret_val turns it into a boolean, does that mean it is always either on
+or off with no level in between ?
+
+> +		}
+> +	}
+> +
+> +	err = eval_hals(priv->adev->handle, &ret_val);
+>  	if (err)
+>  		return err;
+>  
+> -	return !!test_bit(HALS_KBD_BL_STATE_BIT, &hals);
+> +	return !!test_bit(HALS_KBD_BL_STATE_BIT, &ret_val);
+>  }
+>  
+>  static enum led_brightness ideapad_kbd_bl_led_cdev_brightness_get(struct led_classdev *led_cdev)
+> @@ -1329,7 +1366,8 @@ static int ideapad_kbd_bl_brightness_set(struct ideapad_private *priv, unsigned
+>  	if (err)
+>  		return err;
+>  
+> -	priv->kbd_bl.last_brightness = brightness;
+> +	if (!priv->features.kbd_bl_partial)
+> +		priv->kbd_bl.last_brightness = brightness;
+>  
+>  	return 0;
+>  }
+
+I don't understand this change, you change ideapad_kbd_bl_brightness_get()
+to do an int eval of KBLO, but here you now still do a
+exec_sals(SALS_KBD_BL_ON / SALS_KBD_BL_OFF) ?
+
+Also there is no reason not to update last_brightness here ...
+
+> @@ -1349,6 +1387,9 @@ static void ideapad_kbd_bl_notify(struct ideapad_private *priv)
+>  	if (!priv->kbd_bl.initialized)
+>  		return;
+>  
+> +	if (priv->features.kbd_bl_partial)
+> +		return;
+> +
+
+Why? If we do happen to get a notify on one of these devices and
+the brightness has changed, then it would be good to let userspace
+know and if never get a notify then this function won't run so
+we don't need the if.
+
+>  	brightness = ideapad_kbd_bl_brightness_get(priv);
+>  	if (brightness < 0)
+>  		return;
+> @@ -1371,17 +1412,20 @@ static int ideapad_kbd_bl_init(struct ideapad_private *priv)
+>  	if (WARN_ON(priv->kbd_bl.initialized))
+>  		return -EEXIST;
+>  
+> -	brightness = ideapad_kbd_bl_brightness_get(priv);
+> -	if (brightness < 0)
+> -		return brightness;
+> +	/* IdeaPads with kbd_bl_partial don't have keyboard backlight event */
+> +	if (!priv->features.kbd_bl_partial) {
+> +		brightness = ideapad_kbd_bl_brightness_get(priv);
+> +		if (brightness < 0)
+> +			return brightness;
+>  
+> -	priv->kbd_bl.last_brightness = brightness;
+> +		priv->kbd_bl.last_brightness         = brightness;
+> +		priv->kbd_bl.led.flags               = LED_BRIGHT_HW_CHANGED;
+> +	}
+
+Again no need to for the if here. Setting last_brightness and advertising
+LED_BRIGHT_HW_CHANGED unconditionally won't hurt and not making this difference
+keeps the code simpler.
+
+>  
+>  	priv->kbd_bl.led.name                    = "platform::" LED_FUNCTION_KBD_BACKLIGHT;
+>  	priv->kbd_bl.led.max_brightness          = 1;
+>  	priv->kbd_bl.led.brightness_get          = ideapad_kbd_bl_led_cdev_brightness_get;
+>  	priv->kbd_bl.led.brightness_set_blocking = ideapad_kbd_bl_led_cdev_brightness_set;
+> -	priv->kbd_bl.led.flags                   = LED_BRIGHT_HW_CHANGED;
+>  
+>  	err = led_classdev_register(&priv->platform_device->dev, &priv->kbd_bl.led);
+>  	if (err)
+> @@ -1594,8 +1638,25 @@ static void ideapad_check_features(struct ideapad_private *priv)
+>  			if (test_bit(HALS_FNLOCK_SUPPORT_BIT, &val))
+>  				priv->features.fn_lock = true;
+>  
+> +			/*
+> +			 * IdeaPads with HALS_KBD_BL_SUPPORT_BIT have full keyboard
+> +			 * light support, and they send an event via ACPI on light
+> +			 * state change. Whereas some IdeaPads, at least 520-15ikb
+> +			 * and 5 (15), don't send an event, yet they still have
+> +			 * KBLO object. In this case, set kbd_bl_partial to true
+> +			 * and cache the LFCM mutex, it might be useful while
+> +			 * getting the brightness.
+> +			 */
+> +
+>  			if (test_bit(HALS_KBD_BL_SUPPORT_BIT, &val))
+>  				priv->features.kbd_bl = true;
+> +			else if (ACPI_SUCCESS(acpi_get_handle(handle, "^KBLO",
+> +							      &priv->kbd_bl.kblo_obj))) {
+
+As mentioned above I would change this to:
+
+			else if (ACPI_SUCCESS(acpi_get_handle(handle, "^KBLO",
+							      &priv->kbd_bl.kblo_obj)) &&
+				 ACPI_SUCCESS(acpi_get_handle(handle, "^LFCM",
+							      &priv->kbd_bl.lfcm_mutex))) {
+
+> +				priv->features.kbd_bl = true;
+> +				priv->features.kbd_bl_partial = true;
+> +				(void)acpi_get_handle(handle, "^LFCM",
+> +						      &priv->kbd_bl.lfcm_mutex);
+
+And then drop the acpi_get_handle() here.
+
+
+> +			}
+>  
+>  			if (test_bit(HALS_USB_CHARGING_SUPPORT_BIT, &val))
+>  				priv->features.usb_charging = true;
+
+
+Regards,
+
+Hans
+
+
