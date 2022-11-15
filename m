@@ -2,147 +2,162 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F4FD62A25E
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Nov 2022 21:02:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BF4F62A2C9
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Nov 2022 21:26:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231465AbiKOUCg (ORCPT
+        id S231527AbiKOU0K (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 15 Nov 2022 15:02:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50952 "EHLO
+        Tue, 15 Nov 2022 15:26:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231666AbiKOUCO (ORCPT
+        with ESMTP id S229593AbiKOU0J (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 15 Nov 2022 15:02:14 -0500
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2087.outbound.protection.outlook.com [40.107.237.87])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0393028E1D;
-        Tue, 15 Nov 2022 12:02:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MnFdqihg1xunfjLgUxznC4rlQINbYOuauyTT/dkp3qI5JjSfnAqcunQEeKM6ndpnWjY2YGLDFQANuK9RpVCcToO5UgQlJBAg/aRzxyBdcjAMDu4bhH3SYo5Oz9pVNk2wQDQZ2LjuPy1W7TFnXfkHsFOOvi/EwBUPEXMbh+n/kldz+U8Dg9ONM9EptGFWKr6ar/3doAaVyUVYM2ZGkA2tOlgXhlRmd54kKMaA0FTiDr4jBkZSzvuDXN95a6x5ppIcdqGPKfDVPmgnJ7BemFkF7svkkA4y+elDg8393oGQsznKS/NCAh7fxah6XRzzvSQzYYJMTz6U6PVfblteALH/uA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g/LlIZAzwS1vA6Wr+INKY6X3OCIIC7ZpX7j9iNkdunM=;
- b=gJcdIovSRO7MbPK0WWIRRKIpSpaimcGMtkwD0vJvydW0ZWRmyNDF7gNyYi/DC3GTmmuD2EEtTIA8PE8OgJj9fzCRzGvyJWFAcc2kuTNimvl+WmVZCxbirWU0F0Df9ZlZAneEw6qSbmxIk7dk0llm5c+cO8MDRm/BGfkW3NBSLMWXBb/w6Jnge2lo2WXcJTFAgbn//Itn+VyI/R4pyZW3SkDrDIKTB/wJmvehYUbj2fv4s2hbUObCaRiBwC4bWb03jUId3PCUEPUeWExRznUgM0tgSo0Ezn5SAA3hiqLknjbT8ZdPeK84XMVhldCT/MYmJ0ffCGO5JWV+QUOitnabtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g/LlIZAzwS1vA6Wr+INKY6X3OCIIC7ZpX7j9iNkdunM=;
- b=Nb4lnqevNkS2q+SHndCnMjlUvI1f2X861CQr1GfNW7pcx541PnxY9dFi/fiSip7NLxZHWSzlEQlkHQKDiWWNXIcIAxBN1U8jJmb9D0EifWH2cqDK/cvNrv1yAXc6mAE4SkH5qe1T5oHeFqmgu97h7omoocTTxfYenX/JewbOgBs=
-Received: from BN9PR03CA0262.namprd03.prod.outlook.com (2603:10b6:408:ff::27)
- by IA1PR12MB6092.namprd12.prod.outlook.com (2603:10b6:208:3ec::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.18; Tue, 15 Nov
- 2022 20:02:11 +0000
-Received: from BN8NAM11FT114.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:ff:cafe::8b) by BN9PR03CA0262.outlook.office365.com
- (2603:10b6:408:ff::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.17 via Frontend
- Transport; Tue, 15 Nov 2022 20:02:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT114.mail.protection.outlook.com (10.13.177.46) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5834.8 via Frontend Transport; Tue, 15 Nov 2022 20:02:11 +0000
-Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 15 Nov
- 2022 14:02:10 -0600
-From:   Mario Limonciello <mario.limonciello@amd.com>
-To:     "Rafael J . Wysocki" <rafael@kernel.org>,
-        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-CC:     Sven van Ashbrook <svenva@chromium.org>,
-        Raul Rangel <rrangel@chromium.org>, <linux-pm@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Len Brown <len.brown@intel.com>,
-        John Stultz <jstultz@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
-        Rajat Jain <rajatja@google.com>,
-        David E Box <david.e.box@intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        <linux-kernel@vger.kernel.org>
-Subject: [RFC v3 4/4] platform/x86/amd: pmc: Populate cpuidle sysfs file with hw sleep data
-Date:   Tue, 15 Nov 2022 14:01:56 -0600
-Message-ID: <20221115200156.12218-5-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221115200156.12218-1-mario.limonciello@amd.com>
-References: <20221115200156.12218-1-mario.limonciello@amd.com>
+        Tue, 15 Nov 2022 15:26:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7D75101F1
+        for <platform-driver-x86@vger.kernel.org>; Tue, 15 Nov 2022 12:25:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1668543905;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=w+jTwO2YUQPdNXbClE8d8DPM1GRLBF6qiVx04CuY2M0=;
+        b=UjPza62ruXGAJOVAtorm/aoD/BscWuG6ALTRFU4tiRFtT2GlQdK6sMNXCXjKrFoKAF9cVM
+        uA1icyEHKSMS/ssJ3RHLIjy2k66UZAZn6ENaMfKgNdQOqyuXiefcP7hoNOmSMBSeDQCRUc
+        yJeeyzuNyg0gKoO8svtw7P+Cdb2Z94k=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-290-DP6nHjuwMb2Jr44dhIO2dA-1; Tue, 15 Nov 2022 15:25:03 -0500
+X-MC-Unique: DP6nHjuwMb2Jr44dhIO2dA-1
+Received: by mail-ej1-f70.google.com with SMTP id gt15-20020a1709072d8f00b007aaac7973fbso8115541ejc.23
+        for <platform-driver-x86@vger.kernel.org>; Tue, 15 Nov 2022 12:25:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=w+jTwO2YUQPdNXbClE8d8DPM1GRLBF6qiVx04CuY2M0=;
+        b=bALAVv0xKM7FPuZBzeaVemXjM5uvtqMbJhJErqhaFkyC1Y+BLjkfzdW1+FX3b38tIV
+         6qwp2Tn0eNHMYDEqgGeFF6cLwgGRAK/IWOpALRZqO1/d2KSGcJqxGa037rs8Lvbb18t5
+         /89vCKQ8mfuPps4OnNPGcNO9BreagHXfq4T45ceWbCKXpf4TzcuUo9iFqUTnrCKa/Amo
+         wRTdqGwguuoHgDg0xSn+XlUob6P0P7RtxPfHfGpGuDvUQ9Pvj1ccPyCKdzKbhAzWSatI
+         DE0yIOlEiCZHmOSReRPUeO/13n5hlH5r6axikhMEupAVtf+JpF7Qr7pmB4FYTzl9+Dcr
+         1RUQ==
+X-Gm-Message-State: ANoB5plZ73ohNAQSam2y3skuWn7iawMdczdJKr1ogsmfcFBNQGUj3Tjc
+        H7bVGQvG3D2yQBCruSUlzlcvH7I4aG+DJqpEgmIrHhhp2ZtICRrdavKx1Y3s/7hfM5yd7CU7GkG
+        Gzjq0TH2bC4OazkUJooJw7aR6ki+sAb3bpg==
+X-Received: by 2002:a17:906:3582:b0:7af:206:9327 with SMTP id o2-20020a170906358200b007af02069327mr8219104ejb.154.1668543902443;
+        Tue, 15 Nov 2022 12:25:02 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4gp4N3e2dFr2+urUWGuCnhw7jccoeBirXDd/e1OZzKpGM1yYuqTTyfiq2uvTQ//OOTdRSDOw==
+X-Received: by 2002:a17:906:3582:b0:7af:206:9327 with SMTP id o2-20020a170906358200b007af02069327mr8219089ejb.154.1668543902163;
+        Tue, 15 Nov 2022 12:25:02 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id b19-20020a056402139300b004637489cf08sm6573124edv.88.2022.11.15.12.25.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Nov 2022 12:25:01 -0800 (PST)
+Message-ID: <98fdf126-7cfd-7c9b-2edc-d49f5143c75c@redhat.com>
+Date:   Tue, 15 Nov 2022 21:25:00 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2 1/7] Revert "platform/x86: ideapad-laptop: check for
+ touchpad support in _CFG"
+Content-Language: en-US, nl
+To:     =?UTF-8?Q?Eray_Or=c3=a7unus?= <erayorcunus@gmail.com>,
+        platform-driver-x86@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        ike.pan@canonical.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, dmitry.torokhov@gmail.com,
+        mgross@linux.intel.com, pobrn@protonmail.com
+References: <20221029120311.11152-1-erayorcunus@gmail.com>
+ <20221029120311.11152-2-erayorcunus@gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20221029120311.11152-2-erayorcunus@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT114:EE_|IA1PR12MB6092:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5336b950-424a-4f88-982a-08dac74448b5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lE00Ir5w9+rmw6DMY4EYEVnKk2UcNIdcYXu0E6tyQlNfpIJOXzXC+wROnDcTyuBjqY8OsiqNW79GEN7N71sJTNehfn5Vo444j2v7/SdA6RI5aNdrB7kBFR5vUaQH/oornYk88Ok7KAgHX7tlTSV0ABYpEZGeYZycQh4pXloQvGPjyGtJDhfvXi4BNltiy/sUwOp+S/vzrl0mZAEuUgU2pBFoaXlRDhKJGwtrvYtyVyQbZHZD26QIS3MBUBLnFZqT10pG1iapXNginG7JWocbp3jgXTZaibTiXXZqjL7UhZCohaXejKGrtJWdfbgCBu1D/Xd5w9aB5PuVd2aAz9Vxe7gBuov+Ak7vM9/vJWnVR8vngBDJjDvdkBdRQRzsRYJqOiq0DqPTbfKbwqspnoe3wudDAmpZ9rS+3R0nrffdiLA53WfTfRDa0YmZMmmqFK1Z251VNvWOn3e9bYZo7jB4zaf4Vef8Is9KiQaYPlIxLn+DYTLjxuh0Pdn72UjuiQ5qDAei7uXyPXqwnxx10ZL8da3a3s+Ci1Xzm7ThHbFE75gr6kN5J9zporq9QhCH8P/8NPY3PEYI8Cqu/HFzLOHc6Fo1aPE/j/4l+rleU5OcNlGb3u9vcLnfgk+/izZorzuLeKFq+9mepob55fD+whL+X3crZTTzBx7/PY2FBggRDqE1RVT8nbqbJJ+Cr0+icFsje9cJpt/89zGRonzelvEFks8sr3NQopbgKUdVyR30jvrnZsWrE5xRThiG+yy19Az2ufRimWiGgh3mQllYWywJn27UNbquFBRIL1aBhYu4c73tbj44oVSE3r4Go+QFqY8a
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(136003)(346002)(376002)(39860400002)(396003)(451199015)(36840700001)(40470700004)(46966006)(36756003)(82740400003)(40480700001)(478600001)(82310400005)(83380400001)(86362001)(36860700001)(81166007)(2906002)(40460700003)(2616005)(426003)(47076005)(44832011)(26005)(6666004)(8936002)(16526019)(5660300002)(356005)(7696005)(186003)(7416002)(1076003)(110136005)(54906003)(8676002)(336012)(316002)(6636002)(70586007)(4326008)(41300700001)(70206006)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2022 20:02:11.7441
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5336b950-424a-4f88-982a-08dac74448b5
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT114.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6092
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-AMD platforms don't provide an ACPI LPIT table, but the data about
-duration of time in a hardware sleep state is part of the SMU metrics
-table.
+Hi,
 
-To allow userspace to query this from a standard location, export this
-information to the standard
-`/sys/devices/system/cpu/cpuidle/low_power_idle_system_residency_us`.
+On 10/29/22 14:03, Eray Orçunus wrote:
+> Last 8 bit of _CFG started being used in later IdeaPads, thus 30th bit
+> doesn't always show whether device supports touchpad or touchpad switch.
+> Remove checking bit 30 of _CFG, so older IdeaPads like S10-3 can switch
+> touchpad again via touchpad attribute.
+> 
+> This reverts commit b3ed1b7fe3786c8fe795c16ca07cf3bda67b652f.
+> 
+> Signed-off-by: Eray Orçunus <erayorcunus@gmail.com>
 
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
-RFC v2->v3:
- * New patch
----
- drivers/platform/x86/amd/pmc.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Thank you for your patch, I've applied this patch to my review-hans 
+branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
 
-diff --git a/drivers/platform/x86/amd/pmc.c b/drivers/platform/x86/amd/pmc.c
-index 2550ba6d28f5..ef5c23df1a5b 100644
---- a/drivers/platform/x86/amd/pmc.c
-+++ b/drivers/platform/x86/amd/pmc.c
-@@ -787,6 +787,11 @@ static void amd_pmc_s2idle_restore(void)
- 
- 	/* Notify on failed entry */
- 	amd_pmc_validate_deepest(pdev);
-+
-+	/* Silently fail, if cpuidle attribute group is not present */
-+	sysfs_add_file_to_group(&cpu_subsys.dev_root->kobj,
-+				&dev_attr_low_power_idle_system_residency_us.attr,
-+				"cpuidle");
- }
- 
- static struct acpi_s2idle_dev_ops amd_pmc_s2idle_dev_ops = {
--- 
-2.34.1
+Note it will show up in my review-hans branch once I've pushed my
+local branch there, which might take a while.
+
+Once I've run some tests on this branch the patches there will be
+added to the platform-drivers-x86/for-next branch and eventually
+will be included in the pdx86 pull-request to Linus for the next
+merge-window.
+
+Regards,
+
+Hans
+
+
+
+> ---
+>  drivers/platform/x86/ideapad-laptop.c | 14 +++++---------
+>  1 file changed, 5 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
+> index e7a1299e3776..b67bac457a7a 100644
+> --- a/drivers/platform/x86/ideapad-laptop.c
+> +++ b/drivers/platform/x86/ideapad-laptop.c
+> @@ -46,11 +46,10 @@ static const char *const ideapad_wmi_fnesc_events[] = {
+>  #endif
+>  
+>  enum {
+> -	CFG_CAP_BT_BIT       = 16,
+> -	CFG_CAP_3G_BIT       = 17,
+> -	CFG_CAP_WIFI_BIT     = 18,
+> -	CFG_CAP_CAM_BIT      = 19,
+> -	CFG_CAP_TOUCHPAD_BIT = 30,
+> +	CFG_CAP_BT_BIT   = 16,
+> +	CFG_CAP_3G_BIT   = 17,
+> +	CFG_CAP_WIFI_BIT = 18,
+> +	CFG_CAP_CAM_BIT  = 19,
+>  };
+>  
+>  enum {
+> @@ -367,8 +366,6 @@ static int debugfs_cfg_show(struct seq_file *s, void *data)
+>  		seq_puts(s, " wifi");
+>  	if (test_bit(CFG_CAP_CAM_BIT, &priv->cfg))
+>  		seq_puts(s, " camera");
+> -	if (test_bit(CFG_CAP_TOUCHPAD_BIT, &priv->cfg))
+> -		seq_puts(s, " touchpad");
+>  	seq_puts(s, "\n");
+>  
+>  	seq_puts(s, "Graphics: ");
+> @@ -661,8 +658,7 @@ static umode_t ideapad_is_visible(struct kobject *kobj,
+>  	else if (attr == &dev_attr_fn_lock.attr)
+>  		supported = priv->features.fn_lock;
+>  	else if (attr == &dev_attr_touchpad.attr)
+> -		supported = priv->features.touchpad_ctrl_via_ec &&
+> -			    test_bit(CFG_CAP_TOUCHPAD_BIT, &priv->cfg);
+> +		supported = priv->features.touchpad_ctrl_via_ec;
+>  	else if (attr == &dev_attr_usb_charging.attr)
+>  		supported = priv->features.usb_charging;
+>  
 
