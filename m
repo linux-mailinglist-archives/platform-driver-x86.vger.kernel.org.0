@@ -2,43 +2,43 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E54C62C271
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 16 Nov 2022 16:26:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBA5B62C273
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 16 Nov 2022 16:26:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234549AbiKPP0C (ORCPT
+        id S234367AbiKPP0T (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 16 Nov 2022 10:26:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43834 "EHLO
+        Wed, 16 Nov 2022 10:26:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233489AbiKPPZ7 (ORCPT
+        with ESMTP id S233489AbiKPP0K (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 16 Nov 2022 10:25:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 874D5E7C
-        for <platform-driver-x86@vger.kernel.org>; Wed, 16 Nov 2022 07:25:08 -0800 (PST)
+        Wed, 16 Nov 2022 10:26:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98D3BC15
+        for <platform-driver-x86@vger.kernel.org>; Wed, 16 Nov 2022 07:25:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1668612307;
+        s=mimecast20190719; t=1668612312;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=pWMinRwgZ4895lXofqzv4ZFcPbMe46qqkscFBTnOW3s=;
-        b=bEMeqFYhowCfvAF6worzo17kt74hRYe/sTI+EH9Yt5rH7m/evo8J3Tf9jDz1e2K8xNb2e0
-        DdrlkBzQ+j+N3embno3w9AcSIg5ibTg7bwXGHh8isUjxV8Zmx5i4nnT9VLPIxmDJerSLbY
-        mmWL1wSbWD6igaRv/uNKLUxIrvOAG4E=
+        bh=JNWk5ErpnHfassHKJwUWcI+cotxFKTYyCdMYilzgRkQ=;
+        b=Is5zbywzabRlwGCSbpmHhwyg4DvdrLpKWMT+72tcn0zE0AMBZdpwsEF3JHdDLCHmIKwazc
+        x+AjVMfERIWrJ+yoQMKRv4ZSBYjNTTmeo3prLPiJ0ZVhWJa2LkAx+O5+KgvDbYsEYg9dPl
+        LXx6GwTEGZSDxfSrBzpxLl35EIvLQrw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-672-KwP7V2TwPc6_Dgf2u1h-HQ-1; Wed, 16 Nov 2022 10:25:04 -0500
-X-MC-Unique: KwP7V2TwPc6_Dgf2u1h-HQ-1
+ us-mta-331-WhawvuzkMk-WaJTtqrMOTQ-1; Wed, 16 Nov 2022 10:25:07 -0500
+X-MC-Unique: WhawvuzkMk-WaJTtqrMOTQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F5A0185A792;
-        Wed, 16 Nov 2022 15:25:03 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E8A66811E7A;
+        Wed, 16 Nov 2022 15:25:05 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.193.78])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 63951492B04;
-        Wed, 16 Nov 2022 15:25:01 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C375D492B05;
+        Wed, 16 Nov 2022 15:25:03 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@kernel.org>
@@ -56,9 +56,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Felix Eckhofer <felix@eckhofer.com>,
         Ike Panhc <ike.pan@canonical.com>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH 1/3] platform/x86: ideapad-laptop: Refactor ideapad_sync_touchpad_state()
-Date:   Wed, 16 Nov 2022 16:24:46 +0100
-Message-Id: <20221116152448.698707-2-hdegoede@redhat.com>
+Subject: [PATCH 2/3] platform/x86: ideapad-laptop: Do not send KEY_TOUCHPAD* events on probe / resume
+Date:   Wed, 16 Nov 2022 16:24:47 +0100
+Message-Id: <20221116152448.698707-3-hdegoede@redhat.com>
 In-Reply-To: <20221116152448.698707-1-hdegoede@redhat.com>
 References: <20221116152448.698707-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -74,57 +74,70 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add an error exit for read_ec_data() failing instead of putting the main
-body in an if (success) block.
+The sending of KEY_TOUCHPAD* events is causing spurious touchpad OSD
+showing on resume.
+
+Disable the sending of events on probe / resume to fix this.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/ideapad-laptop.c | 27 +++++++++++++++------------
- 1 file changed, 15 insertions(+), 12 deletions(-)
+ drivers/platform/x86/ideapad-laptop.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
-index 13e3ae731fd8..dcb3a82024da 100644
+index dcb3a82024da..eb0b1ec32c13 100644
 --- a/drivers/platform/x86/ideapad-laptop.c
 +++ b/drivers/platform/x86/ideapad-laptop.c
-@@ -1490,23 +1490,26 @@ static void ideapad_kbd_bl_exit(struct ideapad_private *priv)
- static void ideapad_sync_touchpad_state(struct ideapad_private *priv)
+@@ -1487,7 +1487,7 @@ static void ideapad_kbd_bl_exit(struct ideapad_private *priv)
+ /*
+  * module init/exit
+  */
+-static void ideapad_sync_touchpad_state(struct ideapad_private *priv)
++static void ideapad_sync_touchpad_state(struct ideapad_private *priv, bool send_events)
  {
  	unsigned long value;
-+	unsigned char param;
-+	int ret;
- 
- 	if (!priv->features.touchpad_ctrl_via_ec)
- 		return;
- 
- 	/* Without reading from EC touchpad LED doesn't switch state */
--	if (!read_ec_data(priv->adev->handle, VPCCMD_R_TOUCHPAD, &value)) {
--		unsigned char param;
--		/*
--		 * Some IdeaPads don't really turn off touchpad - they only
--		 * switch the LED state. We (de)activate KBC AUX port to turn
--		 * touchpad off and on. We send KEY_TOUCHPAD_OFF and
--		 * KEY_TOUCHPAD_ON to not to get out of sync with LED
--		 */
--		i8042_command(&param, value ? I8042_CMD_AUX_ENABLE : I8042_CMD_AUX_DISABLE);
--		ideapad_input_report(priv, value ? 67 : 66);
--		sysfs_notify(&priv->platform_device->dev.kobj, NULL, "touchpad");
--	}
-+	ret = read_ec_data(priv->adev->handle, VPCCMD_R_TOUCHPAD, &value);
-+	if (ret)
-+		return;
+ 	unsigned char param;
+@@ -1508,8 +1508,11 @@ static void ideapad_sync_touchpad_state(struct ideapad_private *priv)
+ 	 * KEY_TOUCHPAD_ON to not to get out of sync with LED
+ 	 */
+ 	i8042_command(&param, value ? I8042_CMD_AUX_ENABLE : I8042_CMD_AUX_DISABLE);
+-	ideapad_input_report(priv, value ? 67 : 66);
+-	sysfs_notify(&priv->platform_device->dev.kobj, NULL, "touchpad");
 +
-+	/*
-+	 * Some IdeaPads don't really turn off touchpad - they only
-+	 * switch the LED state. We (de)activate KBC AUX port to turn
-+	 * touchpad off and on. We send KEY_TOUCHPAD_OFF and
-+	 * KEY_TOUCHPAD_ON to not to get out of sync with LED
-+	 */
-+	i8042_command(&param, value ? I8042_CMD_AUX_ENABLE : I8042_CMD_AUX_DISABLE);
-+	ideapad_input_report(priv, value ? 67 : 66);
-+	sysfs_notify(&priv->platform_device->dev.kobj, NULL, "touchpad");
++	if (send_events) {
++		ideapad_input_report(priv, value ? 67 : 66);
++		sysfs_notify(&priv->platform_device->dev.kobj, NULL, "touchpad");
++	}
  }
  
  static void ideapad_acpi_notify(acpi_handle handle, u32 event, void *data)
+@@ -1550,7 +1553,7 @@ static void ideapad_acpi_notify(acpi_handle handle, u32 event, void *data)
+ 			ideapad_sync_rfk_state(priv);
+ 			break;
+ 		case 5:
+-			ideapad_sync_touchpad_state(priv);
++			ideapad_sync_touchpad_state(priv, true);
+ 			break;
+ 		case 4:
+ 			ideapad_backlight_notify_brightness(priv);
+@@ -1840,7 +1843,7 @@ static int ideapad_acpi_add(struct platform_device *pdev)
+ 			ideapad_register_rfkill(priv, i);
+ 
+ 	ideapad_sync_rfk_state(priv);
+-	ideapad_sync_touchpad_state(priv);
++	ideapad_sync_touchpad_state(priv, false);
+ 
+ 	err = ideapad_dytc_profile_init(priv);
+ 	if (err) {
+@@ -1925,7 +1928,7 @@ static int ideapad_acpi_resume(struct device *dev)
+ 	struct ideapad_private *priv = dev_get_drvdata(dev);
+ 
+ 	ideapad_sync_rfk_state(priv);
+-	ideapad_sync_touchpad_state(priv);
++	ideapad_sync_touchpad_state(priv, false);
+ 
+ 	if (priv->dytc)
+ 		dytc_profile_refresh(priv);
 -- 
 2.38.1
 
