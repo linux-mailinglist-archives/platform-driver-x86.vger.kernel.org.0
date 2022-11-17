@@ -2,166 +2,223 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5445362D8DA
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Nov 2022 12:06:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 26C7762DC7B
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Nov 2022 14:18:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239546AbiKQLGG (ORCPT
+        id S239864AbiKQNSn (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 17 Nov 2022 06:06:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51314 "EHLO
+        Thu, 17 Nov 2022 08:18:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239597AbiKQLF4 (ORCPT
+        with ESMTP id S239861AbiKQNSl (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 17 Nov 2022 06:05:56 -0500
+        Thu, 17 Nov 2022 08:18:41 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 208AB5D683
-        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Nov 2022 03:03:11 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3607E558D
+        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Nov 2022 05:17:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1668682990;
+        s=mimecast20190719; t=1668691064;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=LIfJxYNayf8A1p37RaYfq49FFiw1yFq2ADje3ueerQ0=;
-        b=AxzJ8bidChrf5VF/sRl4HtVgRAhyxRtWCVdPu3r37eM4GhFOkNRrPiIMGrBUTCIq4X04e7
-        An2vJU7ytuIPsL99q+Hrp29v/BIO9EKyEscStVu+ioXyUiTcagzYKUiO9ZOy7XeRfRNk1R
-        pUrWGsshtim+eIZgXChVlGkpVnzs5eU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-454-kg5IcgB0PNyPn3xWa93mvQ-1; Thu, 17 Nov 2022 06:03:05 -0500
-X-MC-Unique: kg5IcgB0PNyPn3xWa93mvQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 62EE1101A595;
-        Thu, 17 Nov 2022 11:03:04 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.194.248])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 33C68492B04;
-        Thu, 17 Nov 2022 11:03:02 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>,
-        Kai Heng Feng <kai.heng.feng@canonical.com>,
-        Maxim Mikityanskiy <maxtram95@gmail.com>,
-        GOESSEL Guillaume <g_goessel@outlook.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Manyi Li <limanyi@uniontech.com>,
-        =?UTF-8?q?Eray=20Or=C3=A7unus?= <erayorcunus@gmail.com>,
-        Philipp Jungkamp <p.jungkamp@gmx.net>,
-        Arnav Rawat <arnavr3@illinois.edu>,
-        Kelly Anderson <kelly@xilka.com>, Meng Dong <whenov@gmail.com>,
-        Felix Eckhofer <felix@eckhofer.com>,
-        Ike Panhc <ike.pan@canonical.com>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH v2 6/6] platform/x86: ideapad-laptop: Make touchpad_ctrl_via_ec a module option
-Date:   Thu, 17 Nov 2022 12:02:44 +0100
-Message-Id: <20221117110244.67811-7-hdegoede@redhat.com>
-In-Reply-To: <20221117110244.67811-1-hdegoede@redhat.com>
-References: <20221117110244.67811-1-hdegoede@redhat.com>
+        bh=C9MvW9IGfYbs61wyWaxjLg53zmskvKkolKu8014WW3k=;
+        b=c4VMVsTdmg+szOVsuNXogZtEitXr179gYgaY2YUVAdUMEYTtxU9WuZkG1tRziARdq7A1Yd
+        ctUxzt7UFIV4pJcuFJoAgodw7gQrsAIreoVdTLyqJLLXYP0/h6/Cpn5ZqEmupxi26lLq8s
+        Ou2JLxTklfHiNMrON/M6PpM3wEMF9sA=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-386-Sb8k1OQIMu-Br9ViUSMq0g-1; Thu, 17 Nov 2022 08:17:42 -0500
+X-MC-Unique: Sb8k1OQIMu-Br9ViUSMq0g-1
+Received: by mail-ed1-f71.google.com with SMTP id dz9-20020a0564021d4900b0045d9a3aded4so1214702edb.22
+        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Nov 2022 05:17:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=C9MvW9IGfYbs61wyWaxjLg53zmskvKkolKu8014WW3k=;
+        b=S8SbLwaiLU1zlOgLpE/fqKZ8YC+Vbei9qGluqgSXDlRWyuFZFmSNy58Npe5jAOo2vB
+         7LPKjFO7gt+lX7Q3nRCcVPR7ZPER6E4rPHWCMatRTXQEkV8yIuSkCr2hBzQa3uJbD0vF
+         TJSg2M7TyUHpvR0q9eZDZEFB3aiMUpMOAmiMCf112WPiQTjCU7VaVaJOew39EPBZFyPZ
+         yzS3NNopf5tGBwYXBaJzC3akrP40wPqgFKn3pcqnt6htbTNcLH+zoJUM9MvlXWNzr3Vw
+         PlLNU9INjcxbDbnBv/u4GOhWhtkgfEh9lpWNqWzU+biebU78iJohPAONvieGQ06tqlip
+         eUBg==
+X-Gm-Message-State: ANoB5pkUXv+/QFQMkXJR9aazkC//VoAP2NZES54/WjNdDJplEc134XoW
+        kv+lxvZcmafIHjatkDks8HHw1mlCn/6xLfebAMXBXIyNH7MPcloSlpdKd1KO8gLgTK129EieuKy
+        YOjMdIn9Yr2G4qpOcQBvT/AmXn5EQJF/ifQ==
+X-Received: by 2002:aa7:cb96:0:b0:461:bacd:c85d with SMTP id r22-20020aa7cb96000000b00461bacdc85dmr2026217edt.278.1668691061722;
+        Thu, 17 Nov 2022 05:17:41 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf63HMSdY1OqKsZjJRGMm+zpx4520anGQNeIGYiBwoiOPQJTTTfEM21hWOQo2T1vprwYviK5Bg==
+X-Received: by 2002:aa7:cb96:0:b0:461:bacd:c85d with SMTP id r22-20020aa7cb96000000b00461bacdc85dmr2026196edt.278.1668691061537;
+        Thu, 17 Nov 2022 05:17:41 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id f26-20020a17090631da00b007b27aefc578sm353430ejf.126.2022.11.17.05.17.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Nov 2022 05:17:40 -0800 (PST)
+Message-ID: <05c77221-7457-7829-e5ab-f6115a0dd452@redhat.com>
+Date:   Thu, 17 Nov 2022 14:17:40 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH 1/9] platform/x86/intel/sdsi: Add Intel On Demand text
+To:     "David E. Box" <david.e.box@linux.intel.com>, markgross@kernel.org,
+        andriy.shevchenko@linux.intel.com, srinivas.pandruvada@intel.com
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20221101191023.4150315-1-david.e.box@linux.intel.com>
+ <20221101191023.4150315-2-david.e.box@linux.intel.com>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20221101191023.4150315-2-david.e.box@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Remove the ACPI-HID + DMI-id deny-lists for touchpad_ctrl_via_ec and
-instead make it a module option which defaults to false.
+Hi,
 
-The touchpad sysfs attribute allowing directly writing VPCCMD_W_TOUCHPAD
-from userspace has been leading to a lot of bug-reports / patches adding
-both ACPI HID + dmi-id based deny-lists for it which then need to be
-expanded all the time going forward leading to a high maintenance load.
+On 11/1/22 20:10, David E. Box wrote:
+> Intel Software Defined Silicon (SDSi) is now officially known as Intel
+> On Demand. Add On Demand to the description in the kconfig, documentation,
+> and driver source.
+> 
+> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
 
-At the same time the touchpad sysfs attribute is not a standard Linux
-userspace API. So it is not used in standard desktop-enviroments, instead
-it is only used in the following 2 rare circumstances:
+Thanks, patch looks good to me:
 
-1. Ideapad specific control-panel like applets
-2. Custom scripts written by users
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-For 1. these applets need to already deal with the touchpad sysfs attr
-sometimes not being there because of the existing deny lists so hiding
-it be default should not cause an issue; and most desktop environments
-already have a touchpad-disable option in their native control-panel,
-so having an ideapad specific toggle for this is not necessary.
+Regards,
 
-For 2. since these users are already customizing their systems they
-can add the module option if they want to keep using the touchpad
-sysfs attribute.
+Hans
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/ideapad-laptop.c | 33 ++++++---------------------
- 1 file changed, 7 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
-index fc3d47a75944..435d2d3d903b 100644
---- a/drivers/platform/x86/ideapad-laptop.c
-+++ b/drivers/platform/x86/ideapad-laptop.c
-@@ -182,6 +182,12 @@ MODULE_PARM_DESC(ctrl_ps2_aux_port,
- 	"Enable driver based PS/2 aux port en-/dis-abling on touchpad on/off toggle. "
- 	"If you need this please report this to: platform-driver-x86@vger.kernel.org");
- 
-+static bool touchpad_ctrl_via_ec;
-+module_param(touchpad_ctrl_via_ec, bool, 0444);
-+MODULE_PARM_DESC(touchpad_ctrl_via_ec,
-+	"Enable registering a 'touchpad' sysfs-attribute which can be used to manually "
-+	"tell the EC to enable/disable the touchpad. This may not work on all models.");
-+
- /*
-  * shared data
-  */
-@@ -1654,24 +1660,6 @@ static const struct dmi_system_id ctrl_ps2_aux_port_list[] = {
- 	{}
- };
- 
--static const struct dmi_system_id no_touchpad_switch_list[] = {
--	{
--	.ident = "Lenovo Yoga 3 Pro 1370",
--	.matches = {
--		DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
--		DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo YOGA 3"),
--		},
--	},
--	{
--	.ident = "ZhaoYang K4e-IML",
--	.matches = {
--		DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
--		DMI_MATCH(DMI_PRODUCT_VERSION, "ZhaoYang K4e-IML"),
--		},
--	},
--	{}
--};
--
- static void ideapad_check_features(struct ideapad_private *priv)
- {
- 	acpi_handle handle = priv->adev->handle;
-@@ -1683,14 +1671,7 @@ static void ideapad_check_features(struct ideapad_private *priv)
- 		hw_rfkill_switch || dmi_check_system(hw_rfkill_list);
- 	priv->features.ctrl_ps2_aux_port =
- 		ctrl_ps2_aux_port || dmi_check_system(ctrl_ps2_aux_port_list);
--
--	/* Most ideapads with ELAN0634 touchpad don't use EC touchpad switch */
--	if (acpi_dev_present("ELAN0634", NULL, -1))
--		priv->features.touchpad_ctrl_via_ec = 0;
--	else if (dmi_check_system(no_touchpad_switch_list))
--		priv->features.touchpad_ctrl_via_ec = 0;
--	else
--		priv->features.touchpad_ctrl_via_ec = 1;
-+	priv->features.touchpad_ctrl_via_ec = touchpad_ctrl_via_ec;
- 
- 	if (!read_ec_data(handle, VPCCMD_R_FAN, &val))
- 		priv->features.fan_mode = true;
--- 
-2.38.1
+
+> ---
+>  .../ABI/testing/sysfs-driver-intel_sdsi       | 37 ++++++++++---------
+>  drivers/platform/x86/intel/Kconfig            |  8 ++--
+>  drivers/platform/x86/intel/sdsi.c             |  4 +-
+>  3 files changed, 25 insertions(+), 24 deletions(-)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-driver-intel_sdsi b/Documentation/ABI/testing/sysfs-driver-intel_sdsi
+> index 96b92c105ec4..9d77f30d9b9a 100644
+> --- a/Documentation/ABI/testing/sysfs-driver-intel_sdsi
+> +++ b/Documentation/ABI/testing/sysfs-driver-intel_sdsi
+> @@ -4,21 +4,21 @@ KernelVersion:	5.18
+>  Contact:	"David E. Box" <david.e.box@linux.intel.com>
+>  Description:
+>  		This directory contains interface files for accessing Intel
+> -		Software Defined Silicon (SDSi) features on a CPU. X
+> -		represents the socket instance (though not the socket ID).
+> -		The socket ID is determined by reading the registers file
+> -		and decoding it per the specification.
+> +		On Demand (formerly Software Defined Silicon or SDSi) features
+> +		on a CPU. X represents the socket instance (though not the
+> +		socket ID). The socket ID is determined by reading the
+> +		registers file and decoding it per the specification.
+>  
+> -		Some files communicate with SDSi hardware through a mailbox.
+> -		Should the operation fail, one of the following error codes
+> -		may be returned:
+> +		Some files communicate with On Demand hardware through a
+> +		mailbox. Should the operation fail, one of the following error
+> +		codes may be returned:
+>  
+>  		==========	=====
+>  		Error Code	Cause
+>  		==========	=====
+>  		EIO		General mailbox failure. Log may indicate cause.
+>  		EBUSY		Mailbox is owned by another agent.
+> -		EPERM		SDSI capability is not enabled in hardware.
+> +		EPERM		On Demand capability is not enabled in hardware.
+>  		EPROTO		Failure in mailbox protocol detected by driver.
+>  				See log for details.
+>  		EOVERFLOW	For provision commands, the size of the data
+> @@ -54,8 +54,8 @@ KernelVersion:	5.18
+>  Contact:	"David E. Box" <david.e.box@linux.intel.com>
+>  Description:
+>  		(WO) Used to write an Authentication Key Certificate (AKC) to
+> -		the SDSi NVRAM for the CPU. The AKC is used to authenticate a
+> -		Capability Activation Payload. Mailbox command.
+> +		the On Demand NVRAM for the CPU. The AKC is used to authenticate
+> +		a Capability Activation Payload. Mailbox command.
+>  
+>  What:		/sys/bus/auxiliary/devices/intel_vsec.sdsi.X/provision_cap
+>  Date:		Feb 2022
+> @@ -63,17 +63,18 @@ KernelVersion:	5.18
+>  Contact:	"David E. Box" <david.e.box@linux.intel.com>
+>  Description:
+>  		(WO) Used to write a Capability Activation Payload (CAP) to the
+> -		SDSi NVRAM for the CPU. CAPs are used to activate a given CPU
+> -		feature. A CAP is validated by SDSi hardware using a previously
+> -		provisioned AKC file. Upon successful authentication, the CPU
+> -		configuration is updated. A cold reboot is required to fully
+> -		activate the feature. Mailbox command.
+> +		On Demand NVRAM for the CPU. CAPs are used to activate a given
+> +		CPU feature. A CAP is validated by On Demand hardware using a
+> +		previously provisioned AKC file. Upon successful authentication,
+> +		the CPU configuration is updated. A cold reboot is required to
+> +		fully activate the feature. Mailbox command.
+>  
+>  What:		/sys/bus/auxiliary/devices/intel_vsec.sdsi.X/state_certificate
+>  Date:		Feb 2022
+>  KernelVersion:	5.18
+>  Contact:	"David E. Box" <david.e.box@linux.intel.com>
+>  Description:
+> -		(RO) Used to read back the current State Certificate for the CPU
+> -		from SDSi hardware. The State Certificate contains information
+> -		about the current licenses on the CPU. Mailbox command.
+> +		(RO) Used to read back the current state certificate for the CPU
+> +		from On Demand hardware. The state certificate contains
+> +		information about the current licenses on the CPU. Mailbox
+> +		command.
+> diff --git a/drivers/platform/x86/intel/Kconfig b/drivers/platform/x86/intel/Kconfig
+> index 794968bda115..d5a33473e838 100644
+> --- a/drivers/platform/x86/intel/Kconfig
+> +++ b/drivers/platform/x86/intel/Kconfig
+> @@ -157,13 +157,13 @@ config INTEL_RST
+>  	  as usual.
+>  
+>  config INTEL_SDSI
+> -	tristate "Intel Software Defined Silicon Driver"
+> +	tristate "Intel On Demand (Software Defined Silicon) Driver"
+>  	depends on INTEL_VSEC
+>  	depends on X86_64
+>  	help
+> -	  This driver enables access to the Intel Software Defined Silicon
+> -	  interface used to provision silicon features with an authentication
+> -	  certificate and capability license.
+> +	  This driver enables access to the Intel On Demand (formerly Software
+> +	  Defined Silicon) interface used to provision silicon features with an
+> +	  authentication certificate and capability license.
+>  
+>  	  To compile this driver as a module, choose M here: the module will
+>  	  be called intel_sdsi.
+> diff --git a/drivers/platform/x86/intel/sdsi.c b/drivers/platform/x86/intel/sdsi.c
+> index c830e98dfa38..32793919473d 100644
+> --- a/drivers/platform/x86/intel/sdsi.c
+> +++ b/drivers/platform/x86/intel/sdsi.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /*
+> - * Intel Software Defined Silicon driver
+> + * Intel On Demand (Software Defined Silicon) driver
+>   *
+>   * Copyright (c) 2022, Intel Corporation.
+>   * All Rights Reserved.
+> @@ -586,5 +586,5 @@ static struct auxiliary_driver sdsi_aux_driver = {
+>  module_auxiliary_driver(sdsi_aux_driver);
+>  
+>  MODULE_AUTHOR("David E. Box <david.e.box@linux.intel.com>");
+> -MODULE_DESCRIPTION("Intel Software Defined Silicon driver");
+> +MODULE_DESCRIPTION("Intel On Demand (SDSi) driver");
+>  MODULE_LICENSE("GPL");
 
