@@ -2,43 +2,43 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A852E62D8D7
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Nov 2022 12:06:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5445362D8DA
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Nov 2022 12:06:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234693AbiKQLGI (ORCPT
+        id S239546AbiKQLGG (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 17 Nov 2022 06:06:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51316 "EHLO
+        Thu, 17 Nov 2022 06:06:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239632AbiKQLF6 (ORCPT
+        with ESMTP id S239597AbiKQLF4 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 17 Nov 2022 06:05:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 122805CD3D
-        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Nov 2022 03:03:08 -0800 (PST)
+        Thu, 17 Nov 2022 06:05:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 208AB5D683
+        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Nov 2022 03:03:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1668682988;
+        s=mimecast20190719; t=1668682990;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=2wK21gJAG/4mKvBEXMwV8j1V4YzDlCEtJh5SlTGAUsc=;
-        b=d+4L/HX1Qs4gzflHdi9AN4jXgaRrwA8Ys80DXtwQMTDwUm+9iwuQ9ucj36sCmrjdk/J3jB
-        y/tvOTWwvsqHPaQZFYqlaXV4Ll2H0yWrgPsksrfS17Reh3HhrstrCBYKA27AMsbCX9/0JF
-        MNJii9/eSiAoNskZPl1dKR0cfub+TKM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=LIfJxYNayf8A1p37RaYfq49FFiw1yFq2ADje3ueerQ0=;
+        b=AxzJ8bidChrf5VF/sRl4HtVgRAhyxRtWCVdPu3r37eM4GhFOkNRrPiIMGrBUTCIq4X04e7
+        An2vJU7ytuIPsL99q+Hrp29v/BIO9EKyEscStVu+ioXyUiTcagzYKUiO9ZOy7XeRfRNk1R
+        pUrWGsshtim+eIZgXChVlGkpVnzs5eU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-587-kHvVQS9LPqutqG7lM3beaw-1; Thu, 17 Nov 2022 06:03:03 -0500
-X-MC-Unique: kHvVQS9LPqutqG7lM3beaw-1
+ us-mta-454-kg5IcgB0PNyPn3xWa93mvQ-1; Thu, 17 Nov 2022 06:03:05 -0500
+X-MC-Unique: kg5IcgB0PNyPn3xWa93mvQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F393F381A733;
-        Thu, 17 Nov 2022 11:03:01 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 62EE1101A595;
+        Thu, 17 Nov 2022 11:03:04 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.194.248])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C8E78492B04;
-        Thu, 17 Nov 2022 11:02:59 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 33C68492B04;
+        Thu, 17 Nov 2022 11:03:02 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@kernel.org>
@@ -56,9 +56,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Felix Eckhofer <felix@eckhofer.com>,
         Ike Panhc <ike.pan@canonical.com>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH v2 5/6] platform/x86: ideapad-laptop: Stop writing VPCCMD_W_TOUCHPAD at probe time
-Date:   Thu, 17 Nov 2022 12:02:43 +0100
-Message-Id: <20221117110244.67811-6-hdegoede@redhat.com>
+Subject: [PATCH v2 6/6] platform/x86: ideapad-laptop: Make touchpad_ctrl_via_ec a module option
+Date:   Thu, 17 Nov 2022 12:02:44 +0100
+Message-Id: <20221117110244.67811-7-hdegoede@redhat.com>
 In-Reply-To: <20221117110244.67811-1-hdegoede@redhat.com>
 References: <20221117110244.67811-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -74,42 +74,94 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Commit d69cd7eea93e ("platform/x86: ideapad-laptop: Disable touchpad_switch
-for ELAN0634") from Janary 2021 added a flag hiding the touchpad sysfs-attr
-and disabling ideapad_sync_touchpad_state() because some devices
-"do not use EC to switch touchpad".
+Remove the ACPI-HID + DMI-id deny-lists for touchpad_ctrl_via_ec and
+instead make it a module option which defaults to false.
 
-At the same time this added a write(VPCCMD_W_TOUCHPAD, 1) call at probe
-time on these same devices. This seems to be copied from the rfkill code
-which does something similar when hw rfkill support is disabled.
+The touchpad sysfs attribute allowing directly writing VPCCMD_W_TOUCHPAD
+from userspace has been leading to a lot of bug-reports / patches adding
+both ACPI HID + dmi-id based deny-lists for it which then need to be
+expanded all the time going forward leading to a high maintenance load.
 
-But for the rfkill code this is known to be necessary on some models,
-where as for the touchpad control no motiviation is given for doing this
-and prior to this patch there were no reports of needing to do this.
+At the same time the touchpad sysfs attribute is not a standard Linux
+userspace API. So it is not used in standard desktop-enviroments, instead
+it is only used in the following 2 rare circumstances:
 
-So this seems unnecessary; and it is best to avoid poking the hardware
-unnecessary to avoid unwanted side effects, so remove this.
+1. Ideapad specific control-panel like applets
+2. Custom scripts written by users
+
+For 1. these applets need to already deal with the touchpad sysfs attr
+sometimes not being there because of the existing deny lists so hiding
+it be default should not cause an issue; and most desktop environments
+already have a touchpad-disable option in their native control-panel,
+so having an ideapad specific toggle for this is not necessary.
+
+For 2. since these users are already customizing their systems they
+can add the module option if they want to keep using the touchpad
+sysfs attribute.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/ideapad-laptop.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/platform/x86/ideapad-laptop.c | 33 ++++++---------------------
+ 1 file changed, 7 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
-index 9b36cfddd36f..fc3d47a75944 100644
+index fc3d47a75944..435d2d3d903b 100644
 --- a/drivers/platform/x86/ideapad-laptop.c
 +++ b/drivers/platform/x86/ideapad-laptop.c
-@@ -1875,10 +1875,6 @@ static int ideapad_acpi_add(struct platform_device *pdev)
- 	if (!priv->features.hw_rfkill_switch)
- 		write_ec_cmd(priv->adev->handle, VPCCMD_W_RF, 1);
+@@ -182,6 +182,12 @@ MODULE_PARM_DESC(ctrl_ps2_aux_port,
+ 	"Enable driver based PS/2 aux port en-/dis-abling on touchpad on/off toggle. "
+ 	"If you need this please report this to: platform-driver-x86@vger.kernel.org");
  
--	/* The same for Touchpad */
--	if (!priv->features.touchpad_ctrl_via_ec)
--		write_ec_cmd(priv->adev->handle, VPCCMD_W_TOUCHPAD, 1);
++static bool touchpad_ctrl_via_ec;
++module_param(touchpad_ctrl_via_ec, bool, 0444);
++MODULE_PARM_DESC(touchpad_ctrl_via_ec,
++	"Enable registering a 'touchpad' sysfs-attribute which can be used to manually "
++	"tell the EC to enable/disable the touchpad. This may not work on all models.");
++
+ /*
+  * shared data
+  */
+@@ -1654,24 +1660,6 @@ static const struct dmi_system_id ctrl_ps2_aux_port_list[] = {
+ 	{}
+ };
+ 
+-static const struct dmi_system_id no_touchpad_switch_list[] = {
+-	{
+-	.ident = "Lenovo Yoga 3 Pro 1370",
+-	.matches = {
+-		DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+-		DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo YOGA 3"),
+-		},
+-	},
+-	{
+-	.ident = "ZhaoYang K4e-IML",
+-	.matches = {
+-		DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+-		DMI_MATCH(DMI_PRODUCT_VERSION, "ZhaoYang K4e-IML"),
+-		},
+-	},
+-	{}
+-};
 -
- 	for (i = 0; i < IDEAPAD_RFKILL_DEV_NUM; i++)
- 		if (test_bit(ideapad_rfk_data[i].cfgbit, &priv->cfg))
- 			ideapad_register_rfkill(priv, i);
+ static void ideapad_check_features(struct ideapad_private *priv)
+ {
+ 	acpi_handle handle = priv->adev->handle;
+@@ -1683,14 +1671,7 @@ static void ideapad_check_features(struct ideapad_private *priv)
+ 		hw_rfkill_switch || dmi_check_system(hw_rfkill_list);
+ 	priv->features.ctrl_ps2_aux_port =
+ 		ctrl_ps2_aux_port || dmi_check_system(ctrl_ps2_aux_port_list);
+-
+-	/* Most ideapads with ELAN0634 touchpad don't use EC touchpad switch */
+-	if (acpi_dev_present("ELAN0634", NULL, -1))
+-		priv->features.touchpad_ctrl_via_ec = 0;
+-	else if (dmi_check_system(no_touchpad_switch_list))
+-		priv->features.touchpad_ctrl_via_ec = 0;
+-	else
+-		priv->features.touchpad_ctrl_via_ec = 1;
++	priv->features.touchpad_ctrl_via_ec = touchpad_ctrl_via_ec;
+ 
+ 	if (!read_ec_data(handle, VPCCMD_R_FAN, &val))
+ 		priv->features.fan_mode = true;
 -- 
 2.38.1
 
