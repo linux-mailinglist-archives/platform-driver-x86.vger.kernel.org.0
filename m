@@ -2,100 +2,101 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1360B630517
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 19 Nov 2022 00:51:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 158DD630866
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 19 Nov 2022 02:23:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236957AbiKRXvn (ORCPT
+        id S230058AbiKSBXh (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 18 Nov 2022 18:51:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45062 "EHLO
+        Fri, 18 Nov 2022 20:23:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236890AbiKRXun (ORCPT
+        with ESMTP id S232804AbiKSBWw (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 18 Nov 2022 18:50:43 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D728C6630
-        for <platform-driver-x86@vger.kernel.org>; Fri, 18 Nov 2022 15:26:51 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1owA8a-0002M5-Ia; Fri, 18 Nov 2022 23:47:08 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1owA8X-0058S5-OZ; Fri, 18 Nov 2022 23:47:06 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1owA8X-00008K-RJ; Fri, 18 Nov 2022 23:47:05 +0100
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
-To:     Angel Iglesias <ang.iglesiasg@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Grant Likely <grant.likely@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-i2c@vger.kernel.org, kernel@pengutronix.de,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-input@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 257/606] Input: silead - Convert to i2c's .probe_new()
-Date:   Fri, 18 Nov 2022 23:39:51 +0100
-Message-Id: <20221118224540.619276-258-uwe@kleine-koenig.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+        Fri, 18 Nov 2022 20:22:52 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F8B427B0C;
+        Fri, 18 Nov 2022 16:23:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668817431; x=1700353431;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=0bmYOnuCSTXVBe9yuKReGBo1+E+J2YeGU85B2raXA/E=;
+  b=YQkwviDPDZ5AI9eL2xn8VlmbZrk0/loeQSusosx04UJuyHVtVp0rc3if
+   5R6EhgVZKiaFrfo0BAL31coR/r81qfrBlnbcUtyu2Mot9DNLDyOtgZJDQ
+   0QhmtJyDATafsFnggLvbnmp+hyazOGfMCf4PPQUHJIX0rdqbPSbKN/gqO
+   llE71M8C8NY+dtuZm+vM6Hy0mD17UsneMNFV6hwSgegHUFxMUlLYnZyUZ
+   SmnSi3UKTngrHW1J0vv31eaOQth6Zn3TbK1JTRCwIZWhe/6faxh7jXG8u
+   jxF2GlHI8nDYHhGt8YWC1Zl6i2WAzAlniMn4DsRj79/d+nzXS9oJKwOgY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="292979931"
+X-IronPort-AV: E=Sophos;i="5.96,175,1665471600"; 
+   d="scan'208";a="292979931"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2022 16:23:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="885495010"
+X-IronPort-AV: E=Sophos;i="5.96,175,1665471600"; 
+   d="scan'208";a="885495010"
+Received: from linux.intel.com ([10.54.29.200])
+  by fmsmga006.fm.intel.com with ESMTP; 18 Nov 2022 16:23:45 -0800
+Received: from debox1-desk4.lan (unknown [10.252.138.169])
+        by linux.intel.com (Postfix) with ESMTP id 50549580DDF;
+        Fri, 18 Nov 2022 16:23:45 -0800 (PST)
+From:   "David E. Box" <david.e.box@linux.intel.com>
+To:     david.e.box@linux.intel.com, hdegoede@redhat.com,
+        markgross@kernel.org, andriy.shevchenko@linux.intel.com
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH V2 0/9] Extend Intel On Demand (SDSi) support
+Date:   Fri, 18 Nov 2022 16:23:34 -0800
+Message-Id: <20221119002343.1281885-1-david.e.box@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: platform-driver-x86@vger.kernel.org
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Intel Software Defined Silicon (SDSi) is now known as Intel On Demand. The
+following patches do the following:
 
-.probe_new() doesn't get the i2c_device_id * parameter, so determine
-that explicitly in the probe function.
+1. Identify the driver/tools as Intel On Demand. Only text descriptions are
+changed. Kconfig and filenames remain the same.
+2. Perform some attribute cleanup by preventing the showing of files when
+features are not supported.
+3. Adds support for a new GUID. GUIDs are used to identify the layout of
+the On Demand registers in sysfs. Layouts are described in the
+documentation on github [1].
+4. Add support for reading On Demand meter certificates in sysfs.
+5. The rest of the patches modify the existing tool to support discovery
+and reading of On Demand registers and the meter certificate.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/input/touchscreen/silead.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Link: https://github.com/intel/intel-sdsi/blob/master/os-interface.rst [1]
 
-diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
-index 3eef8c01090f..8a7351c4414c 100644
---- a/drivers/input/touchscreen/silead.c
-+++ b/drivers/input/touchscreen/silead.c
-@@ -652,9 +652,9 @@ static void silead_disable_regulator(void *arg)
- 	regulator_bulk_disable(ARRAY_SIZE(data->regulators), data->regulators);
- }
- 
--static int silead_ts_probe(struct i2c_client *client,
--			   const struct i2c_device_id *id)
-+static int silead_ts_probe(struct i2c_client *client)
- {
-+	const struct i2c_device_id *id = i2c_client_get_device_id(client);
- 	struct silead_ts_data *data;
- 	struct device *dev = &client->dev;
- 	int error;
-@@ -826,7 +826,7 @@ MODULE_DEVICE_TABLE(of, silead_ts_of_match);
- #endif
- 
- static struct i2c_driver silead_ts_driver = {
--	.probe = silead_ts_probe,
-+	.probe_new = silead_ts_probe,
- 	.id_table = silead_ts_id,
- 	.driver = {
- 		.name = SILEAD_TS_NAME,
+David E. Box (9):
+  platform/x86/intel/sdsi: Add Intel On Demand text
+  platform/x86/intel/sdsi: Hide attributes if hardware doesn't support
+  platform/x86/intel/sdsi: Support different GUIDs
+  platform/x86/intel/sdsi: Add meter certificate support
+  tools/arch/x86: intel_sdsi: Add support for reading state certificates
+  tools/arch/x86: intel_sdsi: Add Intel On Demand text
+  tools/arch/x86: intel_sdsi: Read more On Demand registers
+  tools/arch/x86: intel_sdsi: Add support for new GUID
+  tools/arch/x86: intel_sdsi: Add support for reading meter certificates
+
+ .../ABI/testing/sysfs-driver-intel_sdsi       |  47 +-
+ drivers/platform/x86/intel/Kconfig            |   8 +-
+ drivers/platform/x86/intel/sdsi.c             | 136 +++++-
+ tools/arch/x86/intel_sdsi/intel_sdsi.c        | 462 ++++++++++++++----
+ 4 files changed, 516 insertions(+), 137 deletions(-)
+
+
+base-commit: 260ad3de718301ed8c22e28558e3a31c99f54cf6
 -- 
-2.38.1
+2.34.1
 
