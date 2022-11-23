@@ -2,49 +2,50 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1D1E635EB9
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Nov 2022 13:58:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6655635EAF
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Nov 2022 13:58:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238415AbiKWM6O (ORCPT
+        id S238395AbiKWM55 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 23 Nov 2022 07:58:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48626 "EHLO
+        Wed, 23 Nov 2022 07:57:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238637AbiKWMzk (ORCPT
+        with ESMTP id S238400AbiKWM4O (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 23 Nov 2022 07:55:40 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C507690592;
-        Wed, 23 Nov 2022 04:45:40 -0800 (PST)
+        Wed, 23 Nov 2022 07:56:14 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDB49922E4;
+        Wed, 23 Nov 2022 04:45:45 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 59439B81F6E;
-        Wed, 23 Nov 2022 12:45:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CFD0C433D7;
-        Wed, 23 Nov 2022 12:45:10 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 233E461CB5;
+        Wed, 23 Nov 2022 12:45:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE0C6C433C1;
+        Wed, 23 Nov 2022 12:45:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669207511;
-        bh=3MviyrC2njBscUAbTJZ9qmoodCR9Uz6Jufyhkr1+Q0c=;
+        s=k20201202; t=1669207529;
+        bh=lGQ9ln1wKdpywa3Ov9pWof6VapfVprGgcKObvgGnT4o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tNWGuOz6XM9WpO/v/cS4qWyF+TyUghbpe3dMwckZF583syXykIdeROShNP6QGQ6gf
-         ri1VTD1N/wQe4lnSfi8W8Bp8A3voLAvV4tWeFCZ+uduzh1beC0ZLgAtOWgK2ylorL7
-         Tt2nu9rp/iFduvi2sX65/CWEEXlOTfNNwU2s9M2jMoO/nBZFrgFxBAOBicJ1S5bNGq
-         sqyGD54RZ3sCGeunb6PRkwndsvuzAxy932r4dm7WRpmFgqhepoQpyTi0MXrWR9M22Q
-         a8NtwouFi70X2CWBWK9RoxSUN4DHHcM5tFMzlnw9B+j+DlbIlZfQiXNvFDAEFNOkIp
-         FxNTouZo/7QAA==
+        b=tRROcIG8DYrmmxr7uS1SYu61QtfabGBRUnEW1zX3BPD2TEmoAW8eeT4ZzTSZ6UsaS
+         8R/mVkv5yvHehE0YD0lm9QetzUrW/invThh/UPYCSIJ2sFKZVnW1AsGvGoC8TwU2pQ
+         FEBAo5rpHiAPb5cYIWsH1Edud4Qd/pQu0saASA+ZRfFDFCYsOnxJa/uojsdHEcxQsk
+         hiIA2C/k9P1LsgBTiyX+xv2u0liHzbAEfGZY/75ikDyTMs2YY5Ou38qzfl4dwaOhzg
+         whqDWGOxKV8XZ4RnNXG15TijV6EQZW/Qk0cLWCDvtyR/G3UIxSEPSSY9hGw1v4voxf
+         y8KDzK3yjXBRw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kai-Heng Feng <kai.heng.feng@canonical.com>,
+Cc:     Xiongfeng Wang <wangxiongfeng2@huawei.com>,
         Hans de Goede <hdegoede@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, markgross@kernel.org,
+        Sasha Levin <sashal@kernel.org>, corentin.chary@gmail.com,
+        markgross@kernel.org, acpi4asus-user@lists.sourceforge.net,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 06/11] platform/x86: hp-wmi: Ignore Smart Experience App event
-Date:   Wed, 23 Nov 2022 07:44:51 -0500
-Message-Id: <20221123124458.266492-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 04/10] platform/x86: asus-wmi: add missing pci_dev_put() in asus_wmi_set_xusb2pr()
+Date:   Wed, 23 Nov 2022 07:45:12 -0500
+Message-Id: <20221123124520.266643-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221123124458.266492-1-sashal@kernel.org>
-References: <20221123124458.266492-1-sashal@kernel.org>
+In-Reply-To: <20221123124520.266643-1-sashal@kernel.org>
+References: <20221123124520.266643-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -58,46 +59,36 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+From: Xiongfeng Wang <wangxiongfeng2@huawei.com>
 
-[ Upstream commit 8b9b6a044b408283b086702b1d9e3cf4ba45b426 ]
+[ Upstream commit d0cdd85046b15089df71a50548617ac1025300d0 ]
 
-Sometimes hp-wmi driver complains on system resume:
-[ 483.116451] hp_wmi: Unknown event_id - 33 - 0x0
+pci_get_device() will increase the reference count for the returned
+pci_dev. We need to use pci_dev_put() to decrease the reference count
+before asus_wmi_set_xusb2pr() returns.
 
-According to HP it's a feature called "HP Smart Experience App" and it's
-safe to be ignored.
-
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Link: https://lore.kernel.org/r/20221114073842.205392-1-kai.heng.feng@canonical.com
+Signed-off-by: Xiongfeng Wang <wangxiongfeng2@huawei.com>
+Link: https://lore.kernel.org/r/20221111100752.134311-1-wangxiongfeng2@huawei.com
 Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/platform/x86/hp-wmi.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/platform/x86/asus-wmi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/platform/x86/hp-wmi.c b/drivers/platform/x86/hp-wmi.c
-index f911410bb4c7..6f35becaa743 100644
---- a/drivers/platform/x86/hp-wmi.c
-+++ b/drivers/platform/x86/hp-wmi.c
-@@ -76,6 +76,7 @@ enum hp_wmi_event_ids {
- 	HPWMI_PEAKSHIFT_PERIOD		= 0x0F,
- 	HPWMI_BATTERY_CHARGE_PERIOD	= 0x10,
- 	HPWMI_SANITIZATION_MODE		= 0x17,
-+	HPWMI_SMART_EXPERIENCE_APP	= 0x21,
- };
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index af26ca49996d..ca17ab9873e2 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -1107,6 +1107,8 @@ static void asus_wmi_set_xusb2pr(struct asus_wmi *asus)
+ 	pci_write_config_dword(xhci_pdev, USB_INTEL_XUSB2PR,
+ 				cpu_to_le32(ports_available));
  
- struct bios_args {
-@@ -634,6 +635,8 @@ static void hp_wmi_notify(u32 value, void *context)
- 		break;
- 	case HPWMI_SANITIZATION_MODE:
- 		break;
-+	case HPWMI_SMART_EXPERIENCE_APP:
-+		break;
- 	default:
- 		pr_info("Unknown event_id - %d - 0x%x\n", event_id, event_data);
- 		break;
++	pci_dev_put(xhci_pdev);
++
+ 	pr_info("set USB_INTEL_XUSB2PR old: 0x%04x, new: 0x%04x\n",
+ 			orig_ports_available, ports_available);
+ }
 -- 
 2.35.1
 
