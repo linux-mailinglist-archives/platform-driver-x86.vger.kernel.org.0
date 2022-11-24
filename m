@@ -2,99 +2,94 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4494C6372C1
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 24 Nov 2022 08:22:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D54F663772C
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 24 Nov 2022 12:08:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229436AbiKXHMc (ORCPT
+        id S229479AbiKXLIW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 24 Nov 2022 02:12:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44428 "EHLO
+        Thu, 24 Nov 2022 06:08:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229716AbiKXHMR (ORCPT
+        with ESMTP id S229883AbiKXLIU (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 24 Nov 2022 02:12:17 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67CE6CFEAD;
-        Wed, 23 Nov 2022 23:17:05 -0800 (PST)
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="315383055"
-X-IronPort-AV: E=Sophos;i="5.96,189,1665471600"; 
-   d="scan'208";a="315383055"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2022 23:04:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="674991824"
-X-IronPort-AV: E=Sophos;i="5.96,189,1665471600"; 
-   d="scan'208";a="674991824"
-Received: from linux.intel.com ([10.54.29.200])
-  by orsmga001.jf.intel.com with ESMTP; 23 Nov 2022 23:04:30 -0800
-Received: from abityuts-desk1.fi.intel.com (abityuts-desk1.fi.intel.com [10.237.72.79])
-        by linux.intel.com (Postfix) with ESMTP id 03D7B580B9E;
-        Wed, 23 Nov 2022 23:04:28 -0800 (PST)
-Message-ID: <3fc564b6ad31ec8026102dda1a8bd4fbb27161c1.camel@gmail.com>
-Subject: Re: [PATCH resend] platform/x86: intel-uncore-freq: add Emerald
- Rapids support
-From:   Artem Bityutskiy <dedekind1@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Gross <markgross@kernel.org>,
-        platform-driver-x86@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Linux PM Mailing List <linux-pm@vger.kernel.org>
-Date:   Thu, 24 Nov 2022 09:04:27 +0200
-In-Reply-To: <01c732b1-7211-8298-61da-0a6892988743@redhat.com>
-References: <20221122070014.3639277-1-dedekind1@gmail.com>
-         <0b867f52-5fe8-f0e8-3f05-746b1db0059e@redhat.com>
-         <635d481206b8945db751ea036cf789fe13b9698e.camel@gmail.com>
-         <01c732b1-7211-8298-61da-0a6892988743@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        Thu, 24 Nov 2022 06:08:20 -0500
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77BCD5FB86;
+        Thu, 24 Nov 2022 03:08:18 -0800 (PST)
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+        by mx0a-001ae601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AO7sBmh004512;
+        Thu, 24 Nov 2022 05:07:24 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PODMain02222019;
+ bh=HBrqoakNDPs3AB2EWn6R+jG1ozJq4nshKcy70uojhuc=;
+ b=bgeqD+L5GhyLZ8VKJyOE6bD3tqBBKAVh64rH+jw3MukhmXnWpZVccafR6ACs4Bc1Mc66
+ 9hStJsdtgI7jjyaTgt8WgMH2j7uZOJf54hJozmIFN2girYSecLBZUOWmQqlL41nVpRVV
+ qdEAe37+TR9/gQpfaTPV2xQvcU9X8xDLUagbrwAMl4MQR6J/616kMc0Hsydp+4p70526
+ z67MfQnV/eHV5tLwtCVZlN2heJ/2AI5n9xgVFJ1aEUE2JFTz+e3yiLOytNbHJo0BVqBW
+ qiL4VTsNOvw9H0Jr/vnEzUluJRCanaOsQshSV+YeDCaVS5BFU4LdNFKaNfym3TNpkuxp Hg== 
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3kxwe6x2dt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 24 Nov 2022 05:07:24 -0600
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.20; Thu, 24 Nov
+ 2022 05:07:22 -0600
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.20 via Frontend
+ Transport; Thu, 24 Nov 2022 05:07:22 -0600
+Received: from sbinding-cirrus-dsktp2.ad.cirrus.com (unknown [198.90.202.160])
+        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 496182BA;
+        Thu, 24 Nov 2022 11:07:22 +0000 (UTC)
+From:   Stefan Binding <sbinding@opensource.cirrus.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+CC:     <alsa-devel@alsa-project.org>, <linux-kernel@vger.kernel.org>,
+        <platform-driver-x86@vger.kernel.org>,
+        <patches@opensource.cirrus.com>,
+        Stefan Binding <sbinding@opensource.cirrus.com>
+Subject: [PATCH v1 0/2] Use ACPI_COMPANION macro to obtain acpi_device in cs35l41_hda
+Date:   Thu, 24 Nov 2022 11:07:16 +0000
+Message-ID: <20221124110718.3925934-1-sbinding@opensource.cirrus.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-        FORGED_GMAIL_RCVD,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-        NML_ADSP_CUSTOM_MED,RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: icymHGFSQCP9vNta4tdh6ta5bAP9P2DX
+X-Proofpoint-GUID: icymHGFSQCP9vNta4tdh6ta5bAP9P2DX
+X-Proofpoint-Spam-Reason: safe
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Hans,
+Currently, in cs35l41_hda driver, we use acpi_dev_get_first_match_dev to obtain
+the acpi_device used to obtain the properties and gpios.
 
-On Wed, 2022-11-23 at 15:37 +0100, Hans de Goede wrote:
-> Ugh, no, *NO*! I really expect Intel to do better here!
-...
-> patch I cannot just go and cherry-pick random patches merged through other trees
-> because that may cause conflicts and will cause the merge to look really
-> funky.
+It is better to use the ACPI_COMPANION macro to do this, since it guarentees
+that we get the correct acpi_device for the device.
 
-I did not suggest or imply to cherry-pick.
+However, the cs35l41_hda driver uses the serial-multi-instantiate driver to
+enumerate, and whilst the ACPI_CONPANION macro works with spi, it does not work
+with i2c. This is fixed by setting the fwnode for i2c.
 
-Back when I was a kernel subsystem maintainer, I did merge Linus' master
-sometimes, when there was a good reason. And this is what I implied by asking if
-you'd consider updating: the referenced patch is in Linus' tree.
+Stefan Binding (2):
+  platform/x86: serial-multi-instantiate: Set fwnode for i2c
+  ALSA: hda: cs35l41: Use ACPI_COMPANION to read acpi properties
 
-Also, just to be clear. I did accept the criticism in your first reply. This e-
-mail seems to partially repeat the criticism, so let me do better job explicitly
-addressing it.
+ .../platform/x86/serial-multi-instantiate.c   |  1 +
+ sound/pci/hda/cs35l41_hda.c                   | 50 ++++++++-----------
+ 2 files changed, 22 insertions(+), 29 deletions(-)
 
-1. I apologize for sending this patch against a wrong tree. It was my mistake.
-This caused confusion. Sorry for this, and I do mean it. I do realize this
-caused troubles and you wasted your time because of this.
-2. I apologize for the commit message with more than 75 characters per line. I
-acknowledge that I should have followed checkpatch.pl suggestion. Personally, I
-do not think it is a big deal, but I do understand that it is not that difficult
-to just follow checkpatch.pl suggestions.
-
-I did not participate in kernel community much for the last 7 or so years, and
-some of my knowledge/skills are rust/out-of-date. I acknowledge that too. But
-basics like "won't cherry pick random patches" I do understand.
-
-> Acked-by: Hans de Goede <hdegoede@redhat.com>
-
-Thank you, this is appreciated.
-
-Artem.
+-- 
+2.34.1
 
