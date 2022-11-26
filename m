@@ -2,77 +2,79 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 81DAA6395AB
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 26 Nov 2022 12:15:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 929D763966B
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 26 Nov 2022 15:28:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229453AbiKZLPJ (ORCPT
+        id S229621AbiKZO2k (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 26 Nov 2022 06:15:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51644 "EHLO
+        Sat, 26 Nov 2022 09:28:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbiKZLPJ (ORCPT
+        with ESMTP id S229587AbiKZO2i (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 26 Nov 2022 06:15:09 -0500
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C97491B1DA
-        for <platform-driver-x86@vger.kernel.org>; Sat, 26 Nov 2022 03:15:08 -0800 (PST)
-Received: by mail-io1-xd2b.google.com with SMTP id d123so4548753iof.7
-        for <platform-driver-x86@vger.kernel.org>; Sat, 26 Nov 2022 03:15:08 -0800 (PST)
+        Sat, 26 Nov 2022 09:28:38 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0B261B9DB
+        for <platform-driver-x86@vger.kernel.org>; Sat, 26 Nov 2022 06:28:37 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id w79so6505680pfc.2
+        for <platform-driver-x86@vger.kernel.org>; Sat, 26 Nov 2022 06:28:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MqOZv15Yf4gVOmWzHI0J1v/xb5Kltp8OETWX+cvk8Ps=;
-        b=S0z0Tin6dSoU8ewdjuYLZeo4SRoHx9I/9M24ao2fXU/sMb8S+Xg/lGdHixDm+QMowL
-         XKF0kF2JldKd/nBA8pna4ODHSCx8Zg8y8YkXybP+sOW4lqBbCbSqkVYXqkgcMoEu+VCz
-         kS5BX4+sjBUvWryVhN0n7P2D9WuI/S3b6q3DkMx/c9NUXs4um1pWB6EIiR3aTQn2GZq8
-         3N3yf5i4chy9diT3bdBoJcLUS+SMKM4T5Cav5GR3HD3DLlHBxG7dMf4++TQvl54plVju
-         jZFhTBDK8CzrKY2Zy/GgBr4GuyaDJClZhukB/RxOes4L/T6I4CBWDzntIeEQxT4tjrJd
-         lAHg==
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=CYQnkZLU5iUF1wjk+/uD1OxI0fAg5dQVxpqvo7Cg/8Y=;
+        b=Jeftu0PEa8p0U4L8PL/PcQB5zbFttnCogc6bYq6j1De/2sfQ6fVJXZrxcBpvEvW9ve
+         AarXIj9EVdouL3QdX3plIam6UNnoAs8pVJ65PS/u5Z2wdPMm5BMeS3e+PlAZO9Tgjk+A
+         06c1wPTfAlXvIDepFKPYhRsU/jycQZtDHNnLHjZKBlLFteJGY9hwkJqUsjZApYCxdltt
+         CxL51zLx2yOGb9OZc07qoztlIHubtEtt09sSTGNHOBY7H3+aNoql3/nYFSyYOfmOnUZV
+         ZSa9yc9jwmNqv2n7ngKLz4/bawgOzlT+fCQsb1KP1tvlRAPd37NNIQIPTVtK9T+W88mA
+         rmGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MqOZv15Yf4gVOmWzHI0J1v/xb5Kltp8OETWX+cvk8Ps=;
-        b=mOK2dEU/3OWnKaYp9EmoiOaD6SX9V8aReQWQGXor68bi+B/C3MGMVN63oXLLdez856
-         NzEGzF1aV8J4b9/VhdJsOVVAXPxQTYA0oMBK029qtvTuSErVXIFH6mTWtWlhTISLLP8u
-         ABsjIqZVMLTjoy4LOo3r0o15G/tbyuaWLWMn92uryflyeePeck41eW44TgPw/EX8u5yK
-         +Ia7wxGfDtKxqstjKHgP01napiUh3xryXXbazWzbAQWxHa80WviVqc66xE/wtYQ/kdMH
-         tLh9os4vuYg04zHYfelPrh9IGp/Dg4WBXSxDfF7JTg44QoY4S8e4V16eL+4eM1yOPmVg
-         wr+A==
-X-Gm-Message-State: ANoB5plckaQRmU5lTC0psFXcD731rYJS3i5kFcdaXxJpMjpppf/r26aU
-        /CItNtEfKgAN/aO2YHdZWw2QXs2S4fCFPSnlAWw=
-X-Google-Smtp-Source: AA0mqf5wacHfyt1HK4LdZXAvGcNuxbfjROUzek6hWx+Lb/ZMENNOUb1f1R/zL/OAfwkRMjbiu/mcT2B3HIsiZpumxIM=
-X-Received: by 2002:a02:c918:0:b0:376:2324:bfe1 with SMTP id
- t24-20020a02c918000000b003762324bfe1mr19980989jao.189.1669461308225; Sat, 26
- Nov 2022 03:15:08 -0800 (PST)
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CYQnkZLU5iUF1wjk+/uD1OxI0fAg5dQVxpqvo7Cg/8Y=;
+        b=xbzx7uKbtY8gseA+Rx5OW1jrssZswjH6YrEqm99tYf/5EFm50lh38DDOGbxtyIyW3k
+         Ha+2x0Uy5ti0ds1s38mz3I5wR+lR6bEi4Oa5mxILJbrODiDTyy89N0RPiPCXn0Bwa8mn
+         dNBUYz6jRZXJfzuPqUuY5l5x+8JNttBmBvIrPWWsUcXfA8pw2J3rlF/PzQkrxCCQ8ESp
+         5Yl4vElQprVJEXv7+gvOm+IIDyFAp2YX9BLePYNVlZZMv4Klm6kkxjpsPbtROBa8AcoC
+         vIGNSgnXWgCq4pNWbm8P517rexWUVR9gLKvqVct9iDvGCMDdBdeK/kdIwCqqNrJrdZdT
+         3oYA==
+X-Gm-Message-State: ANoB5ply6rB7qSZgv7nb7qeSAT2B/bapT+aTYUvaxSXbPN2JlZXrDw51
+        MF2bwum+RAsn3GvH3voXMX6gKFo4fZyOiBlo9e8=
+X-Google-Smtp-Source: AA0mqf50m86u8SMQoKWX9v/Zd92zdcBmpoAKvMGGSCKiuIb27ktE+pegbn2uZf9Hv+huccKxBV9w/34U9XY0I2CZUUc=
+X-Received: by 2002:a63:4b0f:0:b0:439:3b80:615d with SMTP id
+ y15-20020a634b0f000000b004393b80615dmr20654364pga.255.1669472917233; Sat, 26
+ Nov 2022 06:28:37 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a02:ce83:0:b0:375:f2e:e025 with HTTP; Sat, 26 Nov 2022
- 03:15:07 -0800 (PST)
-Reply-To: ninacoulibaly03@myself.com
-From:   nina coulibaly <regionalmanager.nina02@gmail.com>
-Date:   Sat, 26 Nov 2022 11:15:07 +0000
-Message-ID: <CAE4etd6=T1U1caiLkYLgEbenZyQ6QUfCbk6qA_Gjj_R6MnmQMQ@mail.gmail.com>
-Subject: from nina coulibaly
+Sender: dr.alitrouni@gmail.com
+Received: by 2002:a05:6a10:674e:b0:35b:aa43:3ec9 with HTTP; Sat, 26 Nov 2022
+ 06:28:36 -0800 (PST)
+From:   AISHA GADDAFI <madamisha00@gmail.com>
+Date:   Sat, 26 Nov 2022 15:28:36 +0100
+X-Google-Sender-Auth: AIaGqoWhV_6CAvRHF9HtzpwHkzU
+Message-ID: <CAE+xecAhLMsDDf7PEE9PR98H=rN2JwO0OL6kbDnNTdJHKSf8Ww@mail.gmail.com>
+Subject: My name is Mrs. Aisha gaddafi
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,LOTS_OF_MONEY,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_MONEY autolearn=no
         autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
--- 
-Dear,
-
-Please grant me permission to share a very crucial discussion with
-you.I am looking forward to hearing from you at your earliest
-convenience.
-
-Mrs.Nina coulibaly
+esta es la Dra. Aisha al-Gaddafi, me comunico con usted porque necesito un
+Socio o inversionista Que me ayudara a invertir la suma de $27.5
+MillionUSD en su o
+su pa=C3=ADs? Los fondos est=C3=A1n depositados en Burkina Faso, pero estoy=
+ viviendo
+en Om=C3=A1n para
+el momento con mis hijos, intenta responderme lo antes posible, as=C3=AD
+que dar=C3=A9 m=C3=A1s detalles, Dra. Aisha al-gaddafi.
