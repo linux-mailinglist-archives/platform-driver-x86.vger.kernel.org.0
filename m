@@ -2,73 +2,62 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5D0563B1A7
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 28 Nov 2022 19:52:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C686F63B457
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 28 Nov 2022 22:45:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232767AbiK1SwT (ORCPT
+        id S231950AbiK1VpO (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 28 Nov 2022 13:52:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55770 "EHLO
+        Mon, 28 Nov 2022 16:45:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232334AbiK1SwT (ORCPT
+        with ESMTP id S232919AbiK1VpM (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 28 Nov 2022 13:52:19 -0500
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 420BC18B07;
-        Mon, 28 Nov 2022 10:52:18 -0800 (PST)
-Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-13bd2aea61bso14203189fac.0;
-        Mon, 28 Nov 2022 10:52:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4d6e/poia8EJLhp/tI1ugk9yl6fSii07DeeYRHBuBKM=;
-        b=AkSl7pbbC7gxPQsyfK9IRFQjP0ZsGb38KcqF+RcguOtxCaztlv8szuQDErf1ewCn7d
-         XJheoDTh4rCqVjm8/PcNJm5ZEvyAZn+mqVzrPG7rbJ20o+qDmKWBqCM8LxXN2VFlkbR9
-         TUpX7BSxQtxP9niHx5g/ACN6su8dyfzJ8/g3NE8lXkoSvJqaOPQkqzgB7zHsAp9GlO+w
-         2X3h3mV/Yhiy1PJyryP3snm7EqKEQWUgb6F5Q3i4Lggcd90o4cw7ujpb+abq47ieqhCl
-         x0N7QFg0CtnIzdMROYkSMRLLZgZxV/sEGCO32cSGCUf3NFufxW9KH9/5dphiRqeVay/K
-         bAbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4d6e/poia8EJLhp/tI1ugk9yl6fSii07DeeYRHBuBKM=;
-        b=0jCf7MzVYnvw5UZ9TH1oi1AlkyT6nLey2OJS+zVp2uUqRQ81Gq6qbWL4erNWX7Q9Df
-         Jyy1Jfi6U2ZQOI7Cqg135qK0SBkbH2Dj13UsGhuoTfwvuWOryea0KK49eDwyl/CO8pMH
-         pJhqWt7aY9AO3W0LrlYM1LkCrk7Wi8EMeK0GyWngzYcoR66kmzhWD4SYQlQkzZ+uY0um
-         CK6CXsCRbEk1JCkwk7cR5kxA+cmuRFq3Wst/n1Zpn4+YmP9CdiqkohvV93X5fTlFgQIL
-         nSk9eknIw1VhgTF5RZM/AKJFOZOMowF0ELblaKr8iKvJYOTm01YDkfUj2PcaONL/vDCW
-         yQwQ==
-X-Gm-Message-State: ANoB5pmNv/BiMliYjnOkudy57HJ/qvLXlbByFjfJLSRQufxAx13DoFDm
-        ZMy5xr3NK4XD1G3hZbVrs2QXgMYmvmI=
-X-Google-Smtp-Source: AA0mqf6+uMeW5QMdcGRKxwjPKFFYoUZ9wxLKFY1AqBoi5c64KnitblUO2RHgpGoy0AjxQqSPb6ha/Q==
-X-Received: by 2002:a05:6870:e88:b0:142:9422:84e4 with SMTP id mm8-20020a0568700e8800b00142942284e4mr21032215oab.57.1669661537513;
-        Mon, 28 Nov 2022 10:52:17 -0800 (PST)
-Received: from smeagol.fibertel.com.ar ([201.235.4.68])
-        by smtp.gmail.com with ESMTPSA id s191-20020acaa9c8000000b003546fada8f6sm4615340oie.12.2022.11.28.10.52.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Nov 2022 10:52:16 -0800 (PST)
-From:   =?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= 
-        <samsagax@gmail.com>
-To:     w_armin@gmx.de
-Cc:     hdegoede@redhat.com, jdelvare@suse.com,
-        linux-hwmon@vger.kernel.org, linux@roeck-us.net,
-        markgross@kernel.org, platform-driver-x86@vger.kernel.org,
-        pobrn@protonmail.com,
-        =?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= 
-        <samsagax@gmail.com>
-Subject: [PATCH] hwmon: (oxp-sensors) Bugfix pwm reading
-Date:   Mon, 28 Nov 2022 15:52:06 -0300
-Message-Id: <20221128185206.212022-1-samsagax@gmail.com>
-X-Mailer: git-send-email 2.38.1
+        Mon, 28 Nov 2022 16:45:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A665E1CFD3
+        for <platform-driver-x86@vger.kernel.org>; Mon, 28 Nov 2022 13:44:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669671857;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=jjeIa9pagPqNk41fRJdTkVrz+H7PIkcsjSzIe9Ct0qI=;
+        b=Mo8cL5hKaFX+pWiy6wtsMeNJA4sdFictngyhoDdjvBnHQFHYkT4D6/aBe0KoeD/eTKk1XR
+        5XZo1TQvMp/9PeXLmnbT1T1DxJ2t3T14eIlX0DEz+y8pM8aFYr9/pGqwq4a5wpVqVwmyK4
+        2SiU50xi/ApKYcxPnqbwFlWNKs8h3Ks=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-79-WGq9Iw5XNrS9CZv8JPvVEg-1; Mon, 28 Nov 2022 16:44:13 -0500
+X-MC-Unique: WGq9Iw5XNrS9CZv8JPvVEg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E3702811E7A;
+        Mon, 28 Nov 2022 21:44:12 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.115])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2291940C6EC2;
+        Mon, 28 Nov 2022 21:44:11 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
+Subject: [PATCH 0/5] gpio/media/int3472: Add support for tps68470 privacy-LED output
+Date:   Mon, 28 Nov 2022 22:44:03 +0100
+Message-Id: <20221128214408.165726-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,28 +65,59 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-PWM reading is only 1 register long.
+Hi All,
 
-Signed-off-by: Joaquín Ignacio Aramendía <samsagax@gmail.com>
----
- drivers/hwmon/oxp-sensors.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+While working on the earlier discussed changes for dealing with
+the privacy LED for "discrete" INT3472 ACPI devices I was wondering
+"how are we dealing with the privacy LED when the INT3472 ACPI device
+is a tps68470?".
 
-diff --git a/drivers/hwmon/oxp-sensors.c b/drivers/hwmon/oxp-sensors.c
-index c04277676b72..f84ec8f8eda9 100644
---- a/drivers/hwmon/oxp-sensors.c
-+++ b/drivers/hwmon/oxp-sensors.c
-@@ -158,7 +158,7 @@ static int oxp_platform_read(struct device *dev, enum hwmon_sensor_types type,
- 	case hwmon_pwm:
- 		switch (attr) {
- 		case hwmon_pwm_input:
--			ret = read_from_ec(OXP_SENSOR_PWM_REG, 2, val);
-+			ret = read_from_ec(OXP_SENSOR_PWM_REG, 1, val);
- 			if (ret)
- 				return ret;
- 			if (board == oxp_mini_amd)
+Well it turns out we were not dealing with this at all, leading to
+the privacy LED on the back of the Surface Go series not lighting up
+when the back camera is on.
 
-base-commit: 9494c53e1389b120ba461899207ac8a3aab2632c
+This series fixes this, it consists of:
+
+Patches 1-2: 2 small bugfixes to the gpio-tps68470 code
+Patch3:      Add support for the indicator LED outputs on the tps68470 as GPIOs
+Patch4:      Add support for a privacy LED to the ov8865 sensor driver
+Patch5:      Add gpio-lookup table entry for the privacy LED.
+
+There is one small issue here, I believe that patches 1-3 need to land before
+4 + 5 do. Once 4 + 5 have landed the ov8865 driver will try to get a
+GPIO with pin number 10 from the gpio-tps68470 provider and without patch 3,
+that will fail because only pins 0-9 exist until patch 3 lands.
+
+The easiest way to avoid this issue would be for me to merge patches 1-3 +
+5 through the pdx86 tree. GPIO subsystem maintainers, may I have your ack
+for this ?
+
+Note patch 4 is not a problem without patch 5, it uses gpiod_get_optional,
+so as long as there is no lookup entry for a "privacy-led" GPIO it is
+a no-op.
+
+Regards,
+
+Hans
+
+
+
+Hans de Goede (5):
+  gpio: tps68470: Fix tps68470_gpio_get() reading from the wrong
+    register
+  gpio: tps68470: Make tps68470_gpio_output() always set the initial
+    value
+  gpio: tps68470: Add support for the indicator LED outputs
+  media: ov8865: Add support for a privacy-led GPIO
+  platform/x86: int3472: Add support for the back privacy LED on Surface
+    Go models
+
+ drivers/gpio/gpio-tps68470.c                  | 52 +++++++++++++------
+ drivers/media/i2c/ov8865.c                    |  9 ++++
+ .../x86/intel/int3472/tps68470_board_data.c   |  1 +
+ include/linux/mfd/tps68470.h                  |  4 ++
+ 4 files changed, 49 insertions(+), 17 deletions(-)
+
 -- 
 2.38.1
 
