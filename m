@@ -2,100 +2,80 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A8DE6469D4
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  8 Dec 2022 08:45:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07EFE646CA5
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  8 Dec 2022 11:23:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229731AbiLHHpk (ORCPT
+        id S229907AbiLHKXJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 8 Dec 2022 02:45:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41300 "EHLO
+        Thu, 8 Dec 2022 05:23:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbiLHHpk (ORCPT
+        with ESMTP id S229813AbiLHKW7 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 8 Dec 2022 02:45:40 -0500
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B23EF08;
-        Wed,  7 Dec 2022 23:45:39 -0800 (PST)
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mxhk.zte.com.cn (FangMail) with ESMTPS id 4NSR5d2CGCz8R039;
-        Thu,  8 Dec 2022 15:45:25 +0800 (CST)
-Received: from xaxapp03.zte.com.cn ([10.88.40.52])
-        by mse-fl1.zte.com.cn with SMTP id 2B87jFIJ078346;
-        Thu, 8 Dec 2022 15:45:15 +0800 (+08)
-        (envelope-from ye.xingchen@zte.com.cn)
-Received: from mapi (xaxapp01[null])
-        by mapi (Zmail) with MAPI id mid31;
-        Thu, 8 Dec 2022 15:45:17 +0800 (CST)
-Date:   Thu, 8 Dec 2022 15:45:17 +0800 (CST)
-X-Zmail-TransId: 2af96391960dffffffffc6c081d8
-X-Mailer: Zmail v1.0
-Message-ID: <202212081545178689771@zte.com.cn>
-Mime-Version: 1.0
-From:   <ye.xingchen@zte.com.cn>
-To:     <hdegoede@redhat.com>
-Cc:     <malattia@linux.it>, <markgross@kernel.org>,
-        <platform-driver-x86@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIXSBwbGF0Zm9ybS94ODY6IHNvbnktbGFwdG9wOiBDb252ZXJ0IHRvIHVzZSBzeXNmc19lbWl0X2F0KCkgQVBJ?=
-Content-Type: text/plain;
-        charset="UTF-8"
-X-MAIL: mse-fl1.zte.com.cn 2B87jFIJ078346
-X-Fangmail-Gw-Spam-Type: 0
-X-FangMail-Miltered: at cgslv5.04-192.168.250.137.novalocal with ID 63919615.000 by FangMail milter!
-X-FangMail-Envelope: 1670485525/4NSR5d2CGCz8R039/63919615.000/10.5.228.132/[10.5.228.132]/mse-fl1.zte.com.cn/<ye.xingchen@zte.com.cn>
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 63919615.000/4NSR5d2CGCz8R039
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham
+        Thu, 8 Dec 2022 05:22:59 -0500
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82A3754769
+        for <platform-driver-x86@vger.kernel.org>; Thu,  8 Dec 2022 02:22:57 -0800 (PST)
+Received: by mail-qv1-xf43.google.com with SMTP id o12so663291qvn.3
+        for <platform-driver-x86@vger.kernel.org>; Thu, 08 Dec 2022 02:22:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=O4WPtqOs6pYDke8VCfpzwsIX+8zN33o8tLS2XMy/lFU=;
+        b=BSDkslC/jbwW0F/p7HUhNsoaw+AorqjuGrORPHHcLxl0G1Mqy6O070AxVxk02H1T1x
+         /ahxfpJSw8mjEseQxNQRB2cr/utCSQHcq2AvGEv0AeydQXcuUGuV3Wcivm6rtJfEYs8F
+         Zc05NpgZCKbLvNclE7a46qfJFDd1Iaejsvq4MJtm6lAlHBPJi65iFSTLvO7wsUAQslo7
+         Ofrr0iic5QfZ02frr3tByqVe1o+Goo+chSlqRv0RV4rUxbX6b6sQmLSPMUZVImel+QO2
+         HaGP8ADyx3pIvTTfZejg5VMPC2LfUBQQT54VMWE+4oA6wDuVRlM5dz5XUA2GRUZChky3
+         vohw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=O4WPtqOs6pYDke8VCfpzwsIX+8zN33o8tLS2XMy/lFU=;
+        b=XS+aNMgaERzzP0UyyvVKeWMHbOVT62Y3g6sd4QGSwXSVvWkobr0ekJVyvkp9e5ffGA
+         d2tIwQWevvap96nbHgkBL/UEZJo90MXLI678t9hRzUY5BygnbvzjEqJp+O+c3YCiJTAZ
+         BDm8iQV2QmtJkjLCmnHLpWNtU9gc4Xdhc7NcnLZxJ0+Hzb1uK3sYoK7PGReIyPTIDNnI
+         m8U22EVaQxChQgk4TbAdMFVDGTZgS+wXdhF8ZdK2ZDcnXX/FMltET8aeoQfLRdP8iQAk
+         ZAApwgLH6/TeS6dny/tRMIqLMO0rxceDqN/18DdVM2RJ7t/GzMsf+r8/1xANgshga766
+         /pVw==
+X-Gm-Message-State: ANoB5pn2ArVpt/ev9pXAXfcJVSbbr/I2L7uJUtnY2CFOQy4oxN0xJOdL
+        VjxFgQ8MLSjxIvdFk+ZQ1LqeGrJ+TfFIBViWFeE=
+X-Google-Smtp-Source: AA0mqf5yUfTHBuhJ48b7WyuMqvJxtVvD5ZcFTkwazS3yVSGF54evcLEoLuQnxPNgkS4D7Kh/Plh/Zcyr/FYlLDODaVM=
+X-Received: by 2002:ad4:48d3:0:b0:4c7:7770:e8e1 with SMTP id
+ v19-20020ad448d3000000b004c77770e8e1mr11068310qvx.95.1670494976709; Thu, 08
+ Dec 2022 02:22:56 -0800 (PST)
+MIME-Version: 1.0
+Received: by 2002:a05:620a:45a0:0:0:0:0 with HTTP; Thu, 8 Dec 2022 02:22:56
+ -0800 (PST)
+Reply-To: plml47@hotmail.com
+From:   Philip Manul <barrgabgom113@gmail.com>
+Date:   Thu, 8 Dec 2022 02:22:56 -0800
+Message-ID: <CAMVQsDT0DKBV6=qDCZTUCRi44jUBwP7T7c2qzxMkmcCCF5L7HA@mail.gmail.com>
+Subject: RV:
+To:     in <in@proposal.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=2.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: ye xingchen <ye.xingchen@zte.com.cn>
-
-Follow the advice of the Documentation/filesystems/sysfs.rst and show()
-should only use sysfs_emit() or sysfs_emit_at() when formatting the
-value to be returned to user space.
-
-Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
----
- drivers/platform/x86/sony-laptop.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/platform/x86/sony-laptop.c b/drivers/platform/x86/sony-laptop.c
-index a19aac70252f..7156ae2ad196 100644
---- a/drivers/platform/x86/sony-laptop.c
-+++ b/drivers/platform/x86/sony-laptop.c
-@@ -820,10 +820,9 @@ static ssize_t sony_nc_handles_show(struct device *dev,
- 	int i;
-
- 	for (i = 0; i < ARRAY_SIZE(handles->cap); i++) {
--		len += scnprintf(buffer + len, PAGE_SIZE - len, "0x%.4x ",
--				handles->cap[i]);
-+		len += sysfs_emit_at(buffer, len, "0x%.4x ", handles->cap[i]);
- 	}
--	len += scnprintf(buffer + len, PAGE_SIZE - len, "\n");
-+	len += sysfs_emit_at(buffer, len, "\n");
-
- 	return len;
- }
-@@ -2173,10 +2172,9 @@ static ssize_t sony_nc_thermal_profiles_show(struct device *dev,
-
- 	for (cnt = 0; cnt < THM_PROFILE_MAX; cnt++) {
- 		if (!cnt || (th_handle->profiles & cnt))
--			idx += scnprintf(buffer + idx, PAGE_SIZE - idx, "%s ",
--					snc_thermal_profiles[cnt]);
-+			idx += sysfs_emit_at(buffer, idx, "%s ", snc_thermal_profiles[cnt]);
- 	}
--	idx += scnprintf(buffer + idx, PAGE_SIZE - idx, "\n");
-+	idx += sysfs_emit_at(buffer, idx, "\n");
-
- 	return idx;
- }
--- 
-2.25.1
+--=20
+Guten tag,
+Mein Name ist Philip Manul. Ich bin von Beruf Rechtsanwalt. Ich habe
+einen verstorbenen Kunden, der zuf=C3=A4llig denselben Namen mit Ihnen
+teilt. Ich habe alle Papierdokumente in meinem Besitz. Ihr Verwandter,
+mein verstorbener Kunde, hat hier in meinem Land einen nicht
+beanspruchten Fonds zur=C3=BCckgelassen. Ich warte auf Ihre Antwort zum
+Verfahren.
+Philip Manul.
