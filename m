@@ -2,54 +2,65 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 997FB64B98E
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 13 Dec 2022 17:24:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21A7364B9CF
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 13 Dec 2022 17:32:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235679AbiLMQYQ (ORCPT
+        id S236080AbiLMQcg (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 13 Dec 2022 11:24:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36482 "EHLO
+        Tue, 13 Dec 2022 11:32:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235640AbiLMQYP (ORCPT
+        with ESMTP id S236067AbiLMQc3 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 13 Dec 2022 11:24:15 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F73EBF7
-        for <platform-driver-x86@vger.kernel.org>; Tue, 13 Dec 2022 08:24:14 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1p584c-00013T-K3; Tue, 13 Dec 2022 17:24:06 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1p584a-004Hp0-Cr; Tue, 13 Dec 2022 17:24:05 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1p584a-004orJ-8o; Tue, 13 Dec 2022 17:24:04 +0100
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Zha Qipeng <qipeng.zha@intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>
-Cc:     platform-driver-x86@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 3/3] platform/x86: intel: punit_ipc: Drop empty platform remove function
-Date:   Tue, 13 Dec 2022 17:23:59 +0100
-Message-Id: <20221213162359.651529-4-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221213162359.651529-1-u.kleine-koenig@pengutronix.de>
-References: <20221213162359.651529-1-u.kleine-koenig@pengutronix.de>
+        Tue, 13 Dec 2022 11:32:29 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 399A2218A6;
+        Tue, 13 Dec 2022 08:32:29 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id ADDDA61607;
+        Tue, 13 Dec 2022 16:32:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA72DC433EF;
+        Tue, 13 Dec 2022 16:32:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670949147;
+        bh=IkaIecCAO4eWrY0lpI239OFx++zQFEtlQWKnkI52BQo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ad3nvFzjWW8V+RkbV2vX6p7dW9Y40SogM91DFQFjWZJjgpbQCNfqr7ssS8TBQ21am
+         +RBV7gbzaxDjfE8YMR1grBhqMIV36HAHMwigSYkFqFR4i+Z8bVvSYErIwvgQerjQyM
+         FT+hDkMzz52uYXbIKZadXEwZ5UEz/INrpImUKPy/2YTQ7aFVSf+ROXVbE8eYur8MZX
+         qWuT6L+tBqHJxYcr8tQMUPW8smU80pjf5PGzENpsngKBDjBUILJ0pq1cSjXgaf9OLN
+         wboA/08Os81J282u40Vl73Hbe5eMn7f4J9oNaOgTbMyLXJbN8lqDQsCtp5c0pcir1m
+         0s7/c8AtsB+Cw==
+Date:   Tue, 13 Dec 2022 16:32:21 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     ChiYuan Huang <u0084500@gmail.com>, djrscally@gmail.com,
+        hdegoede@redhat.com, markgross@kernel.org, lgirdwood@gmail.com,
+        mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+        yangyingliang@huawei.com, gene_chen@richtek.com,
+        chiaen_wu@richtek.com, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        ChiYuan Huang <cy_huang@richtek.com>
+Subject: Re: [PATCH v2] regulator: core: Use different devices for resource
+ allocation and DT lookup
+Message-ID: <Y5ipFd8BfU361QzN@sirena.org.uk>
+References: <CGME20221213113259eucas1p1c224898772bc5e59de90c1aa65a34de0@eucas1p1.samsung.com>
+ <1670311341-32664-1-git-send-email-u0084500@gmail.com>
+ <dd329b51-f11a-2af6-9549-c8a014fd5a71@samsung.com>
+ <CADiBU39-FUD787RmV9Z+jsSrb2Se66A6FrLWGxf78q2Ud-SrjA@mail.gmail.com>
+ <dc6c80f1-f34d-eaab-d561-32caa7fa140c@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1089; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=Oqtr1ShuGnn0s4quLFzsA5XYsSbLKXxBI8mDvtbvgZ0=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjmKcZ3w9nUslOGAJ23cy0cCiTiOKfM04ZwVBt/y8A epdJofaJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY5inGQAKCRDB/BR4rcrsCc34B/ 4sufiBYrxqlGcBrK72Sc+BXe7zmIKkG3cGG0MwosU1kzP2GtqlpfBqemCfkRnwO9eRxt6OHaoKf6ty yFYYhEfseZ4dyYyEM1lA+1uXR8Pxi9quzRjoKjnYJdpSPtBhHcdEF8pYjC6wFrx1JtvWkcc+1WwQuE V2ANBg1llQX75OPDpbCBnUlkBnkaSvF6N3Ffupz1AzHu38zlyR+oYP7TV6vSWPSKrdkMIGGsylG7Fs P0OrB1uWXi4IRoOpNwoMeAueS17XUd9eTJDIVcaV8kmIJVFTbhUGxVHK8rVGmnLx79SbfXyhpQaUkr WvCYdWIWiySllRy93l9bU4oZc9JF9T
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: platform-driver-x86@vger.kernel.org
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="tNXG5geVxhetNs9+"
+Content-Disposition: inline
+In-Reply-To: <dc6c80f1-f34d-eaab-d561-32caa7fa140c@samsung.com>
+X-Cookie: Edwin Meese made me wear CORDOVANS!!
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,38 +68,42 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-A remove callback just returning 0 is equivalent to no remove callback
-at all. So drop the useless function.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/platform/x86/intel/punit_ipc.c | 6 ------
- 1 file changed, 6 deletions(-)
+--tNXG5geVxhetNs9+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/platform/x86/intel/punit_ipc.c b/drivers/platform/x86/intel/punit_ipc.c
-index 66bb39fd0ef9..cd0ba84cc8e4 100644
---- a/drivers/platform/x86/intel/punit_ipc.c
-+++ b/drivers/platform/x86/intel/punit_ipc.c
-@@ -302,11 +302,6 @@ static int intel_punit_ipc_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--static int intel_punit_ipc_remove(struct platform_device *pdev)
--{
--	return 0;
--}
--
- static const struct acpi_device_id punit_ipc_acpi_ids[] = {
- 	{ "INT34D4", 0 },
- 	{ }
-@@ -315,7 +310,6 @@ MODULE_DEVICE_TABLE(acpi, punit_ipc_acpi_ids);
- 
- static struct platform_driver intel_punit_ipc_driver = {
- 	.probe = intel_punit_ipc_probe,
--	.remove = intel_punit_ipc_remove,
- 	.driver = {
- 		.name = "intel_punit_ipc",
- 		.acpi_match_table = punit_ipc_acpi_ids,
--- 
-2.38.1
+On Tue, Dec 13, 2022 at 03:29:00PM +0100, Marek Szyprowski wrote:
+> On 13.12.2022 15:19, ChiYuan Huang wrote:
 
+> > I don't have the board. Could you help to test this change to see
+> > whether it's been fixed or not?
+
+> The above change fixes the issue. Thanks! Feel free to add following=20
+> tags to the final patch:
+
+> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+
+Thanks for jumping on this so quickly!  Marek, are these boards (or
+similar ones) generally available?  They seem great at showing up issues
+so it'd be good if I could get them into my CI and spot problems earlier
+(or something like kernelci.org would be about as good)?
+
+--tNXG5geVxhetNs9+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmOYqRQACgkQJNaLcl1U
+h9CjpQf9HoF9DFw7bEWszh/MB3OIFpb1JyFER+6n/VemFWJBfYZIlHKuVrPxw9L8
+s9zZla1T6wKL7t7Jx1zl1xMJtw7xBRT0+Q+l7RSq6BNGvMFh09cbDS/7QGt5itq7
+sk/NFwoySnTqUodi3u0IWsQjVGSevueyIWnI98MR5vSSHMPmAzoNiozIEZ7rKoOh
+VvgM+oHfuaM2AXcXMTIyGBGbHL6N3BMvpCetgXAWakdPpQTrWO/uvtGMK6GEJELV
+mJIbNHV6SQvs6tcWPbAcRprYDjVW0vbdssTy9qkkqq+fVWBIPsCMlPM8tiBmz8SN
+bwTppiTf5msM1evKcwvvzGwsNxaKtQ==
+=DYDS
+-----END PGP SIGNATURE-----
+
+--tNXG5geVxhetNs9+--
