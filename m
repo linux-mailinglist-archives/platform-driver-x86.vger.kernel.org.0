@@ -2,47 +2,47 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5A7864B98F
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 13 Dec 2022 17:24:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 050D864B98C
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 13 Dec 2022 17:24:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235691AbiLMQYR (ORCPT
+        id S229999AbiLMQYL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 13 Dec 2022 11:24:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36490 "EHLO
+        Tue, 13 Dec 2022 11:24:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235640AbiLMQYQ (ORCPT
+        with ESMTP id S234940AbiLMQYK (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 13 Dec 2022 11:24:16 -0500
+        Tue, 13 Dec 2022 11:24:10 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE79FD84
-        for <platform-driver-x86@vger.kernel.org>; Tue, 13 Dec 2022 08:24:15 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96E88BF7
+        for <platform-driver-x86@vger.kernel.org>; Tue, 13 Dec 2022 08:24:09 -0800 (PST)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1p584c-00013Q-Jr; Tue, 13 Dec 2022 17:24:06 +0100
+        id 1p584b-00013R-Jl; Tue, 13 Dec 2022 17:24:05 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1p584Z-004Hor-Oh; Tue, 13 Dec 2022 17:24:04 +0100
+        id 1p584Z-004Hou-Sz; Tue, 13 Dec 2022 17:24:04 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1p584Z-004orA-N9; Tue, 13 Dec 2022 17:24:03 +0100
+        id 1p584Z-004orD-Ss; Tue, 13 Dec 2022 17:24:03 +0100
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Peter Kaestle <peter@piie.net>,
         Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        =?utf-8?q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
-        Zha Qipeng <qipeng.zha@intel.com>
+        Mark Gross <markgross@kernel.org>
 Cc:     platform-driver-x86@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 0/3] platform/x86: Drop empty platform remove functions
-Date:   Tue, 13 Dec 2022 17:23:56 +0100
-Message-Id: <20221213162359.651529-1-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 1/3] platform/x86: acerhdf: Drop empty platform remove function
+Date:   Tue, 13 Dec 2022 17:23:57 +0100
+Message-Id: <20221213162359.651529-2-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221213162359.651529-1-u.kleine-koenig@pengutronix.de>
+References: <20221213162359.651529-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=936; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=UsNvErgBYK04Nq/boe5sO6DagxTNewLWwoIFjONwfCM=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjmKcPAQvbqoGRHgxgTp34NCh/X9vmIdDmO3ZI5T96 Igfgh32JATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY5inDwAKCRDB/BR4rcrsCRzzB/ 9xJp2zdlQZxquhYA2U28eyp89VT17DVYGvt95F7rwYTCRVF2Azd6lToNC9okHK4kPemeRm7Sh/QELX vF6gywJu+/l8IZRzg2Wp39G2hEQhiJbO/xrklw3/r6Ko9IjVsARRbE3rWVYWe26KB4mfnmjtcZ81ro Ra/IDgll6HcjaPBrU57fAa2WXOs09DhYbj4Xfg53NTAZ4BXzVducs1B6eXruI7KvL3ewdUgLir598R DGTeO+7jCkJiWcgfAY81cwfV9rHsm1UiP29gtAj8558ZQWFfJSTcU01sYAFcyrOXkbMwjANa/knAfK PzC8SQd/0D210JEtwszoBWChNXDbjO
+X-Developer-Signature: v=1; a=openpgp-sha256; l=962; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=uhsJ/1HGiBY9gbicwgCY68oXdBwmVW/9PxYPdzIU59U=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjmKcTz3OOX/xadDCb0FL9ziUiEHUMiDz2wcz64lgg EwS0DIyJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY5inEwAKCRDB/BR4rcrsCfmxB/ 9Nh0A4fO+U9pPaZHaWW1wS8yLd7utVTvQS3S6k9qhJbB3VWpIyH0Kks95S8GTSesOennUFoj/4CMXB p2BhoKCuQcsYPPmTPM7H9yF8a2rLuswQ2cCZvBdenB9E5rcQjwOuKhmQ72VsQ4mDFZ4+hxToLAYG8z 5Ge9FwnulAJqPtFujfEglUcwzdSjj8v4ADL8V/iHF4AF9xIN0ShhXb+A8oaEBkAm+3bmUxUDc3WqUD vpY4uvDbdmlo+5LkaV/1BVONT9SFmEUau+yhl7k9XY0gDHalab+4iwcd85uynWTUqt8xXsAQp5LOlM AwFj6kBXVfhy2oWdwh1rtQ8qwheg85
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -57,35 +57,38 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello,
+A remove callback just returning 0 is equivalent to no remove callback
+at all. So drop the useless function.
 
-this series removes all platform remove functions that only return zero
-below drivers/platform/x86. There is no reason to have these, as the only
-caller is platform core code doing:
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/platform/x86/acerhdf.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-        if (drv->remove) {
-                int ret = drv->remove(dev);
-
-                if (ret)
-                        dev_warn(...)
-        }
-
-(in platform_remove()) and so having no remove function is both
-equivalent and simpler.
-
-
-Uwe Kleine-König (3):
-  platform/x86: acerhdf: Drop empty platform remove function
-  platform/x86: intel: oaktrail: Drop empty platform remove function
-  platform/x86: intel: punit_ipc: Drop empty platform remove function
-
- drivers/platform/x86/acerhdf.c         | 6 ------
- drivers/platform/x86/intel/oaktrail.c  | 6 ------
- drivers/platform/x86/intel/punit_ipc.c | 6 ------
- 3 files changed, 18 deletions(-)
-
-
-base-commit: 830b3c68c1fb1e9176028d02ef86f3cf76aa2476
+diff --git a/drivers/platform/x86/acerhdf.c b/drivers/platform/x86/acerhdf.c
+index d2c0fc38c201..ed49393d22ed 100644
+--- a/drivers/platform/x86/acerhdf.c
++++ b/drivers/platform/x86/acerhdf.c
+@@ -565,11 +565,6 @@ static int acerhdf_probe(struct platform_device *device)
+ 	return 0;
+ }
+ 
+-static int acerhdf_remove(struct platform_device *device)
+-{
+-	return 0;
+-}
+-
+ static const struct dev_pm_ops acerhdf_pm_ops = {
+ 	.suspend = acerhdf_suspend,
+ 	.freeze  = acerhdf_suspend,
+@@ -581,7 +576,6 @@ static struct platform_driver acerhdf_driver = {
+ 		.pm    = &acerhdf_pm_ops,
+ 	},
+ 	.probe = acerhdf_probe,
+-	.remove = acerhdf_remove,
+ };
+ 
+ /* check hardware */
 -- 
 2.38.1
 
