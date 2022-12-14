@@ -2,141 +2,73 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A487E64C647
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 14 Dec 2022 10:50:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C9B464C865
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 14 Dec 2022 12:50:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237896AbiLNJtj (ORCPT
+        id S238018AbiLNLuN (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 14 Dec 2022 04:49:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53480 "EHLO
+        Wed, 14 Dec 2022 06:50:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237925AbiLNJth (ORCPT
+        with ESMTP id S238006AbiLNLuM (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 14 Dec 2022 04:49:37 -0500
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B609912AC1
-        for <platform-driver-x86@vger.kernel.org>; Wed, 14 Dec 2022 01:49:34 -0800 (PST)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-14455716674so15939593fac.7
-        for <platform-driver-x86@vger.kernel.org>; Wed, 14 Dec 2022 01:49:34 -0800 (PST)
+        Wed, 14 Dec 2022 06:50:12 -0500
+Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com [IPv6:2607:f8b0:4864:20::e31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83AF2F4
+        for <platform-driver-x86@vger.kernel.org>; Wed, 14 Dec 2022 03:50:11 -0800 (PST)
+Received: by mail-vs1-xe31.google.com with SMTP id i2so17593749vsc.1
+        for <platform-driver-x86@vger.kernel.org>; Wed, 14 Dec 2022 03:50:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ngJ6kQtmZQvtx47n4DBmEi5drYo1sfiuiMC0behxSp0=;
+        b=mT2j6FZVs9cTC9nWnexQtF7KLyGlUlJgnzva7YnYqFaQ/dbf4+Nk0JV9JzARasfAw2
+         AxywHf5mtGFbiGv8A6ZI8uCkH5Uhk3IGHQ0vvMdfem39FnJoHs6Qdkins3PBs0Ic5Ms8
+         6bAtsUsRr50mKRS7jSngEwN0MWyyfxCbirJPBhbgEPBes/6Dya/+yTX6yy6NbVweXUNx
+         E0sLEKWYUihIf4QeG3ALXXZivWFrI4l2rHwMmvkIFq9PO7zJ/1LFqxjXtvgd0YZUBI7H
+         o012zC3U0l7d30JxRGeRnDWzekdxd20El2VBBAN3XQnrsfd5DMPCxZ7z7M9HnKG1Ahbm
+         qJtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yH6RoPx9LOXfbrkQ1OmroRT7KPGqJmsMcWvJFewb/oY=;
-        b=R8wZ54jygSdwKyfPouSY1lrSyST5hHHJxi+A5CY3IpmCWwl38dgawm0IJrnKHs11G7
-         Rz2rAzlSXAc0g4h/20gxevF1L35H8F9KeT8SbvoJXpDh9ZU8CkrNEJfpGAdYyuEDqQa6
-         jw3ajiM3m2o5HwS/l6/q78duA+29Y/8/LcSlMSZL5jbePV1NEBhf1KikFphMKg9UfM3a
-         sHcT8c42Yvo8cHT743oOqwkPqeG5nSuzKJwFONZ+VDx5bbc3HiC5R1KhmbFCfy/+DRUi
-         TEgCh/8Y9rE609h21WgU2/1T1sG0x0W9pr96M8FhPhySi1tdVyQQDTNXTia+8pHEZSyx
-         o86g==
-X-Gm-Message-State: AFqh2ko1JxgqnbdYJHN/jPoA6y5TpH9hRWTvnaNpbQGzvdHQUu31b5NS
-        ObdNjHoXl1J5gIrfWmjuS69zOJEP7BwQqWYSW2E=
-X-Google-Smtp-Source: AMrXdXuGcaxEdLpxMmt0g+NoRG7kQwUbOJ9e7JcFm6L+cesR3/+vGh+/CAruZBBYNSGtnI1IaRTVC6GrqDp4Z4r7dcA=
-X-Received: by 2002:a05:6870:d68a:b0:148:119:3a77 with SMTP id
- z10-20020a056870d68a00b0014801193a77mr184612oap.217.1671011373883; Wed, 14
- Dec 2022 01:49:33 -0800 (PST)
+        bh=ngJ6kQtmZQvtx47n4DBmEi5drYo1sfiuiMC0behxSp0=;
+        b=DwfwQER1IwYkhi9vSgvV9VZozV9JojJxgLD/iHdDvC+ejQNTPN3GcqrzzA1RO7TVBH
+         3RKzaM5YKgs+uViHWNmIWGD1BY/B1DrVdTB8BR+wAKxW4F8unwEB+YVfArOtYpabyocg
+         MbkmyECG8uYoz+e+0y57kbKktVFQuT/Bze//WpfL1OA2Z3P6DtB7xQ4ehFveEn3xo6vu
+         647w9tEtZFqWL2/cl6yorjznwFPeGEQ7OOHeQZgTCPd1ZEB48cg+qDyNkdw7V6i0LSAm
+         jouwPB7dDaqe+xsI2j6sCfwrdl9wScN4LpvBT4zJ7/BX0nnuwbPxC0XxlBxzQcTF4hdj
+         bFUA==
+X-Gm-Message-State: ANoB5pkf+hcjjjxZMlvasGwTl8Ntgo0wRV0UNjgqSBlGIE1ycmaCL45X
+        oOUWTztKo5coCKFXq7WAkr9xnBQpccLGYqaZHR0=
+X-Google-Smtp-Source: AA0mqf4TFEtS9fXmNJzwANzbIXyfKSpJC91a1bU5blu2pLNv/FT6KoiHRpYxP10ymLa76wHefvjpofxJadf+Dc/qHkA=
+X-Received: by 2002:a67:c40e:0:b0:3b1:4b76:5b44 with SMTP id
+ c14-20020a67c40e000000b003b14b765b44mr10662895vsk.53.1671018610583; Wed, 14
+ Dec 2022 03:50:10 -0800 (PST)
 MIME-Version: 1.0
-References: <20221213122943.11123-1-hdegoede@redhat.com> <CANER=bYHYNSi3fTwqAt89n-6uS5dSV+o+6H4oD6doeSzgtoZoQ@mail.gmail.com>
- <f2cc7aaf-3a2d-f3f0-9a65-1a67ac780131@redhat.com>
-In-Reply-To: <f2cc7aaf-3a2d-f3f0-9a65-1a67ac780131@redhat.com>
-From:   Mattia Dongili <malattia@linux.it>
-Date:   Wed, 14 Dec 2022 18:49:22 +0900
-Message-ID: <CANER=bb5wxxvUJfGDZHquExeC1Q=k8HdUmPmb2HxmUwrsNMbRg@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: sony-laptop: Don't turn off 0x153 keyboard
- backlight during probe
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>,
-        platform-driver-x86@vger.kernel.org
+Received: by 2002:a59:d7d0:0:b0:32b:a6dc:5605 with HTTP; Wed, 14 Dec 2022
+ 03:50:10 -0800 (PST)
+Reply-To: michellegoodman035@gmail.com
+From:   michelle goodman <goodmanmichelle700@gmail.com>
+Date:   Wed, 14 Dec 2022 11:50:10 +0000
+Message-ID: <CAL=4yxdGG-=DGkPCb75Lke+hNX9Y2EOkoq8Nincs=HNFubQgEQ@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, 14 Dec 2022 at 18:13, Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi Mattia,
->
-> On 12/14/22 09:55, Mattia Dongili wrote:
-> > On Tue, 13 Dec 2022 at 21:29, Hans de Goede <hdegoede@redhat.com <mailto:hdegoede@redhat.com>> wrote:
-> >
-> >     The 0x153 version of the kbd backlight control SNC handle has no separate
-> >     address to probe if the backlight is there.
-> >
-> >     This turns the probe call into a set keyboard backlight call with a value
-> >     of 0 turning off the keyboard backlight.
-> >
-> >     Skip probing when there is no separate probe address to avoid this.
-> >
-> >     Link: https://bugzilla.redhat.com/show_bug.cgi?id=1583752 <https://bugzilla.redhat.com/show_bug.cgi?id=1583752>
-> >     Fixes: 800f20170dcf ("Keyboard backlight control for some Vaio Fit models")
-> >     Signed-off-by: Hans de Goede <hdegoede@redhat.com <mailto:hdegoede@redhat.com>>
-> >
-> >
-> > Signed-off-by: Mattia Dongili <malattia@linux.it <mailto:malattia@linux.it>>
-> >
-> >
-> >     ---
-> >      drivers/platform/x86/sony-laptop.c | 21 ++++++++++++++-------
-> >      1 file changed, 14 insertions(+), 7 deletions(-)
-> >
-> >     diff --git a/drivers/platform/x86/sony-laptop.c b/drivers/platform/x86/sony-laptop.c
-> >     index 765fcaba4d12..5ff5aaf92b56 100644
-> >     --- a/drivers/platform/x86/sony-laptop.c
-> >     +++ b/drivers/platform/x86/sony-laptop.c
-> >     @@ -1888,14 +1888,21 @@ static int sony_nc_kbd_backlight_setup(struct platform_device *pd,
-> >                     break;
-> >             }
-> >
-> >     -       ret = sony_call_snc_handle(handle, probe_base, &result);
-> >     -       if (ret)
-> >     -               return ret;
-> >     +       /*
-> >     +        * Only probe if there is a separate probe_base, otherwise the probe call
-> >     +        * is equivalent to __sony_nc_kbd_backlight_mode_set(0), resulting in
-> >     +        * the keyboard backlight being turned off.
-> >     +        */
-> >     +       if (probe_base) {
-> >     +               ret = sony_call_snc_handle(handle, probe_base, &result);
-> >     +               if (ret)
-> >     +                       return ret;
-> >
-> >     -       if ((handle == 0x0137 && !(result & 0x02)) ||
-> >     -                       !(result & 0x01)) {
-> >     -               dprintk("no backlight keyboard found\n");
-> >     -               return 0;
-> >     +               if ((handle == 0x0137 && !(result & 0x02)) ||
-> >     +                               !(result & 0x01)) {
-> >     +                       dprintk("no backlight keyboard found\n");
-> >     +                       return 0;
-> >     +               }
-> >             }
-> >
-> >             kbdbl_ctl = kzalloc(sizeof(*kbdbl_ctl), GFP_KERNEL);
-> >     --
-> >     2.38.1
-> >
-> > ---
-> >
-> > Aha, looking at the bug report and the commit that caused it I think this fix makes sense.
-> > You can add my sign-off too.
->
-> I think you mean Reviewed-by? Singed-off-by: is only for patches passing
-> through you. E.g. it was send to you personally and you then submit it
-> to the list.
-
-Sigh yeah... It's been too long.
-
-Reviewed-by: Mattia Dongili <malattia@linux.it>
-
-Thanks for pointing this out and most importantly for the fix!
--- 
-mattia
-:wq!
+TWVyaGFiYSwgdW1hcsSxbSBtZXNhasSxbcSxIGFsbcSxxZ9zxLFuZMSxci4NCkjEsXpsxLEgeWFu
+xLF0bGFyYSBpaHRpeWFjxLFtIHZhcg0KDQpUZcWfZWtrw7xybGVyLg0KTWljaGVsbGUNCg==
