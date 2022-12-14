@@ -2,73 +2,127 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C9B464C865
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 14 Dec 2022 12:50:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A973F64CB5F
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 14 Dec 2022 14:33:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238018AbiLNLuN (ORCPT
+        id S238154AbiLNNcc (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 14 Dec 2022 06:50:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56992 "EHLO
+        Wed, 14 Dec 2022 08:32:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238006AbiLNLuM (ORCPT
+        with ESMTP id S237841AbiLNNc1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 14 Dec 2022 06:50:12 -0500
-Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com [IPv6:2607:f8b0:4864:20::e31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83AF2F4
-        for <platform-driver-x86@vger.kernel.org>; Wed, 14 Dec 2022 03:50:11 -0800 (PST)
-Received: by mail-vs1-xe31.google.com with SMTP id i2so17593749vsc.1
-        for <platform-driver-x86@vger.kernel.org>; Wed, 14 Dec 2022 03:50:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ngJ6kQtmZQvtx47n4DBmEi5drYo1sfiuiMC0behxSp0=;
-        b=mT2j6FZVs9cTC9nWnexQtF7KLyGlUlJgnzva7YnYqFaQ/dbf4+Nk0JV9JzARasfAw2
-         AxywHf5mtGFbiGv8A6ZI8uCkH5Uhk3IGHQ0vvMdfem39FnJoHs6Qdkins3PBs0Ic5Ms8
-         6bAtsUsRr50mKRS7jSngEwN0MWyyfxCbirJPBhbgEPBes/6Dya/+yTX6yy6NbVweXUNx
-         E0sLEKWYUihIf4QeG3ALXXZivWFrI4l2rHwMmvkIFq9PO7zJ/1LFqxjXtvgd0YZUBI7H
-         o012zC3U0l7d30JxRGeRnDWzekdxd20El2VBBAN3XQnrsfd5DMPCxZ7z7M9HnKG1Ahbm
-         qJtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ngJ6kQtmZQvtx47n4DBmEi5drYo1sfiuiMC0behxSp0=;
-        b=DwfwQER1IwYkhi9vSgvV9VZozV9JojJxgLD/iHdDvC+ejQNTPN3GcqrzzA1RO7TVBH
-         3RKzaM5YKgs+uViHWNmIWGD1BY/B1DrVdTB8BR+wAKxW4F8unwEB+YVfArOtYpabyocg
-         MbkmyECG8uYoz+e+0y57kbKktVFQuT/Bze//WpfL1OA2Z3P6DtB7xQ4ehFveEn3xo6vu
-         647w9tEtZFqWL2/cl6yorjznwFPeGEQ7OOHeQZgTCPd1ZEB48cg+qDyNkdw7V6i0LSAm
-         jouwPB7dDaqe+xsI2j6sCfwrdl9wScN4LpvBT4zJ7/BX0nnuwbPxC0XxlBxzQcTF4hdj
-         bFUA==
-X-Gm-Message-State: ANoB5pkf+hcjjjxZMlvasGwTl8Ntgo0wRV0UNjgqSBlGIE1ycmaCL45X
-        oOUWTztKo5coCKFXq7WAkr9xnBQpccLGYqaZHR0=
-X-Google-Smtp-Source: AA0mqf4TFEtS9fXmNJzwANzbIXyfKSpJC91a1bU5blu2pLNv/FT6KoiHRpYxP10ymLa76wHefvjpofxJadf+Dc/qHkA=
-X-Received: by 2002:a67:c40e:0:b0:3b1:4b76:5b44 with SMTP id
- c14-20020a67c40e000000b003b14b765b44mr10662895vsk.53.1671018610583; Wed, 14
- Dec 2022 03:50:10 -0800 (PST)
+        Wed, 14 Dec 2022 08:32:27 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDE226435;
+        Wed, 14 Dec 2022 05:32:25 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8874961A69;
+        Wed, 14 Dec 2022 13:32:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B222AC433D2;
+        Wed, 14 Dec 2022 13:32:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1671024745;
+        bh=MH89dE30fHEW9T6Oa4Zq7WWD3qJmqKbN+HrFHeVqGa0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gROYi2pCcBfsJRz2vgYRVSxAT+uujou8Kho151TO608zjks/78vyDHlhU2VoBjzWC
+         gQt72/0A09av4cHS6mk+M+f8VaQp+4R7jcyzBJsL5+uf7kfOrJGIqgLjES90X+up6G
+         V6Ddw+JMvaeb25fsUw+hYyVJIFyHHceWw+5TvPSA0b8O3SQttbgoGctdiEz/uteXqB
+         7vpzZZ0hIaK+fWpMC2ah5vyDJi61/QcdxeH7Wg3se5XZIgQ8hTqwUbjjTW5z7pRX88
+         DUWFn91dHTaHaoBa3FXZ7qA+jJozFrSXc7KDoSqGJhzuLqnLd/Jvpu/ta78HTxrJwZ
+         Zinj7u0uXaIeQ==
+Date:   Wed, 14 Dec 2022 13:32:18 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     ChiYuan Huang <u0084500@gmail.com>, djrscally@gmail.com,
+        hdegoede@redhat.com, markgross@kernel.org, lgirdwood@gmail.com,
+        mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+        yangyingliang@huawei.com, gene_chen@richtek.com,
+        chiaen_wu@richtek.com, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        ChiYuan Huang <cy_huang@richtek.com>
+Subject: Re: [PATCH v2] regulator: core: Use different devices for resource
+ allocation and DT lookup
+Message-ID: <Y5nQYom7SsbFnir+@sirena.org.uk>
+References: <CGME20221213113259eucas1p1c224898772bc5e59de90c1aa65a34de0@eucas1p1.samsung.com>
+ <1670311341-32664-1-git-send-email-u0084500@gmail.com>
+ <dd329b51-f11a-2af6-9549-c8a014fd5a71@samsung.com>
+ <CADiBU39-FUD787RmV9Z+jsSrb2Se66A6FrLWGxf78q2Ud-SrjA@mail.gmail.com>
+ <dc6c80f1-f34d-eaab-d561-32caa7fa140c@samsung.com>
+ <Y5ipFd8BfU361QzN@sirena.org.uk>
+ <be56fd97-08b5-8a7a-2630-371c83dcab18@samsung.com>
 MIME-Version: 1.0
-Received: by 2002:a59:d7d0:0:b0:32b:a6dc:5605 with HTTP; Wed, 14 Dec 2022
- 03:50:10 -0800 (PST)
-Reply-To: michellegoodman035@gmail.com
-From:   michelle goodman <goodmanmichelle700@gmail.com>
-Date:   Wed, 14 Dec 2022 11:50:10 +0000
-Message-ID: <CAL=4yxdGG-=DGkPCb75Lke+hNX9Y2EOkoq8Nincs=HNFubQgEQ@mail.gmail.com>
-Subject: Hello
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="FQkxBF8HaAaafbeu"
+Content-Disposition: inline
+In-Reply-To: <be56fd97-08b5-8a7a-2630-371c83dcab18@samsung.com>
+X-Cookie: I disagree with unanimity.
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-TWVyaGFiYSwgdW1hcsSxbSBtZXNhasSxbcSxIGFsbcSxxZ9zxLFuZMSxci4NCkjEsXpsxLEgeWFu
-xLF0bGFyYSBpaHRpeWFjxLFtIHZhcg0KDQpUZcWfZWtrw7xybGVyLg0KTWljaGVsbGUNCg==
+
+--FQkxBF8HaAaafbeu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Dec 13, 2022 at 11:23:01PM +0100, Marek Szyprowski wrote:
+> On 13.12.2022 17:32, Mark Brown wrote:
+
+> > Thanks for jumping on this so quickly!  Marek, are these boards (or
+> > similar ones) generally available?  They seem great at showing up issues
+> > so it'd be good if I could get them into my CI and spot problems earlier
+> > (or something like kernelci.org would be about as good)?
+
+> Well, they are quite old, but I've seen some used ones on eBay. Just=20
+> look for "Samsung Chomebook XE503C12" (Peach-Pit) or XE503C32 (Peach-Pi,=
+=20
+> very rare).
+
+> Getting it integrated into the CI requires a bit of manual work. You=20
+> have to solder UART lines to the test points on the motherboard. The=20
+> board can be fully controlled via so called Embedded Controller, what in=
+=20
+> practice means that you can turn power on/off by sending commands to the=
+=20
+> dedicated EC UART. The kernel console UART uses 1.8V, while the EC UART=
+=20
+> - 3.3V. Let me know if you need more details.
+
+Ah, oh dear - I'm afraid my soldering ability isn't up to that sort of
+modification.
+
+> Peach-Pi was used on kernelci.org some time ago, but I have no idea what=
+=20
+> has happened to it.
+
+I suspect it might've fallen off the end of the ChromeOS support window=20
+and got pulled, I'll see if I can find out.  Perhaps there's some
+modified boards kicking about that didn't get thrown out.
+
+--FQkxBF8HaAaafbeu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmOZ0GEACgkQJNaLcl1U
+h9CWxQf/en9YwkNqoWhy3SMuNx5UdiC3UE/SUjy+OweHxP1Vg4uYfkWwo+DyZ1F6
+x2U+wVmZDsAG4Sajt8r1xn3sMc4Mzm4By0pL2+k8dKlxtEEyvnJ1F3VimgNgACKk
+NekHDfvbcxJgaDzP19XcLzHQNFJ3PvHTxr63S3zvr+b3cfPqx5NXcvhsG4YzNJrR
+rjsOXYYPrulhvt5jpWdM+tTzpW5+xBuzCKDnoTg0yeQT/xnI+M9KBgCk1L4Os7kZ
+FsHWf5yiut7mtfORGoH4E7YUvNgqXCfsL0shqwIHjuXPaPLRih1yu4p3ZYFU7rdf
+oyshvv1XBLeguFobrvGxUxXwZE/yYg==
+=3Ppm
+-----END PGP SIGNATURE-----
+
+--FQkxBF8HaAaafbeu--
