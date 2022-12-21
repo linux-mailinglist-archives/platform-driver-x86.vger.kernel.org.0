@@ -2,110 +2,86 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6913A6533A3
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 21 Dec 2022 16:51:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D3B36535B6
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 21 Dec 2022 19:00:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230057AbiLUPvK (ORCPT
+        id S229728AbiLUSAG (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 21 Dec 2022 10:51:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45992 "EHLO
+        Wed, 21 Dec 2022 13:00:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbiLUPvJ (ORCPT
+        with ESMTP id S232468AbiLUSAC (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 21 Dec 2022 10:51:09 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFC31192AC
-        for <platform-driver-x86@vger.kernel.org>; Wed, 21 Dec 2022 07:51:07 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 574D1617D0
-        for <platform-driver-x86@vger.kernel.org>; Wed, 21 Dec 2022 15:51:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B12C8C433F0
-        for <platform-driver-x86@vger.kernel.org>; Wed, 21 Dec 2022 15:51:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671637866;
-        bh=fJ21D/fzCHm2cy0/4zl7eiTMMcRohOIjbP7Xmm+RrMA=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=Eq9o94RP10Yq2Jg8J7/5zlytkNK1YgyiPQtvW8afcl7M2pG3vRJEQK1IdSO7R4oQ2
-         gunw2Ks4Nq7Szx4a2VqY4nRgNpKof2EaXxjnCPR8+X27BWO6GQOjhMwrByASe9/wOJ
-         eAMSgT9Jj+iSThWYrwL2it2VcDUy8WuK9PI8vDhWVMB0SR2qbaK94+lBBXAjyu98XB
-         gA9ogV3kSiEg6Y7GBXF7T8iIgrZ5Izy8tb+7UWTrt8m5A02eVxF2JfDGw4/7eQ0W+I
-         97uThBAFJ8YltLt1vUd0EPGq5HuOU6DPFbDbbYFKvHvez2ZzLnvMs6QW4k7sfpUiht
-         N7ZGmAvNUBT2A==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 93172C43142; Wed, 21 Dec 2022 15:51:06 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     platform-driver-x86@vger.kernel.org
-Subject: [Bug 216824] Some laptop hotkeys don't work
-Date:   Wed, 21 Dec 2022 15:51:06 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: andretiagob@protonmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216824-215701-rtdb4LHV9a@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216824-215701@https.bugzilla.kernel.org/>
-References: <bug-216824-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        Wed, 21 Dec 2022 13:00:02 -0500
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 548C224BCB;
+        Wed, 21 Dec 2022 10:00:01 -0800 (PST)
+From:   Thomas =?utf-8?q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+        s=mail; t=1671645598;
+        bh=SdgSWth07klhr4Skhg4H8tcWIzAhkIpCxA9sSKEowlA=;
+        h=From:Subject:Date:To:Cc:From;
+        b=bm7kMjkect4hXM7VFoVj9ePOv4DYaHMEt+FPQvOTNd6Q6OGww+4hpWi3bQcdpCyLc
+         KeFSRa8vL4en7JrXnqXUTarb3Eu9eDKnshX57Mn2unwdt9mJrGDC7+A/WP0LausvoO
+         PIeHjo5ljC+I1s9frvMdP1iWScTOPbrYvKpyGej0=
+Subject: [PATCH 0/3] platform/x86: asus-wmi: Fix issues on fanless device
+Date:   Wed, 21 Dec 2022 17:59:49 +0000
+Message-Id: <20221221-asus-fan-v1-0-e07f3949725b@weissschuh.net>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAJZJo2MC/x2MwQqDQAxEf0VyNlAXarG/UnqIMVsDEmWDIiz+e
+ 4Mwlze8mQouRcXh3VQocqjragFd2wDPZD9BnYIhPVLqIki+O2YyHEiIX9Nz4J4h9JFccCxkPMfA
+ 9mWJciuS9bz/P9/r+gOFtIjTbwAAAA==
+To:     Corentin Chary <corentin.chary@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        "Luke D. Jones" <luke@ljones.dev>
+Cc:     acpi4asus-user@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thomas =?utf-8?q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.11.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1671645591; l=989;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=SdgSWth07klhr4Skhg4H8tcWIzAhkIpCxA9sSKEowlA=;
+ b=Jxb19dQToMI7qIU0WOvGr4omd+zQDpc2gGwq+NGABvp32ptIn8y6qdcSB8taH3/nT4BJFlIus9L1
+ vRuZQQH2Al4rLVDQOwNngc4C+0iguE23HHlRjmo8Pf9WkPvXJK8e
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216824
+This series fixes issues experienced on a fanless ASUS VivoBook E410MA.
 
---- Comment #14 from Andr=C3=A9 Barata (andretiagob@protonmail.com) ---
-(In reply to Hans de Goede from comment #13)
-> Good to hear that the hotkeys work now.
->=20
-> As for the mic/speaker mute LEDs, those are tricky. They can be either
-> attached to the embedded-controller and then we would need support to
-> register them under /sys/class/leds with their default triggers setup
-> correctly, after which the kernel's HDA code shoould control them for us.
->=20
-> Or they may be directly connected to some GPIOs on the HDA part of the ma=
-in
-> SoC or on the codec.
->=20
-> And the Fn-lock LED typically just works automatically (controller by the
-> EC) if you toggle the Fn-lock by pressing Fn + escape?  Although sometimes
-> it too needs to be controller in software.
->=20
-> Figuring out the LEDs really requires someone with significant hw-enablem=
-ent
-> experience to actually have the laptop in their hands and then they will
-> hopefully be able to figure things out.
->=20
-> I have submitted the fixes for the hotkeys upstream here:
-> https://github.com/systemd/systemd/pull/25824
+To: Corentin Chary <corentin.chary@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>
+To: Mark Gross <markgross@kernel.org>
+To: "Luke D. Jones" <luke@ljones.dev>
+Cc: acpi4asus-user@lists.sourceforge.net
+Cc: platform-driver-x86@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 
-Yeah if i FN + Escape tu led turns on :)
+---
+Thomas Weißschuh (3):
+      platform/x86: asus-wmi: Add quirk wmi_ignore_fan
+      platform/x86: asus-wmi: Ignore fan on E410MA
+      platform/x86: asus-wmi: Don't load fan curves without fan
 
-Well, what mattered was the hotkeys themselves and they are working now!
+ drivers/platform/x86/asus-nb-wmi.c | 13 +++++++++++++
+ drivers/platform/x86/asus-wmi.c    |  7 ++++++-
+ drivers/platform/x86/asus-wmi.h    |  1 +
+ 3 files changed, 20 insertions(+), 1 deletion(-)
+---
+base-commit: b6bb9676f2165d518b35ba3bea5f1fcfc0d969bf
+change-id: 20221221-asus-fan-9aeac7d59c6c
 
-Thank you Hans!
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Best regards,
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
