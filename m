@@ -2,86 +2,134 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DAD0B6535B8
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 21 Dec 2022 19:00:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E20565385F
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 21 Dec 2022 23:08:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229968AbiLUSAH (ORCPT
+        id S230395AbiLUWI1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 21 Dec 2022 13:00:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56396 "EHLO
+        Wed, 21 Dec 2022 17:08:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230057AbiLUSAC (ORCPT
+        with ESMTP id S230319AbiLUWI0 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 21 Dec 2022 13:00:02 -0500
-Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5412724BC3;
-        Wed, 21 Dec 2022 10:00:00 -0800 (PST)
-From:   Thomas =?utf-8?q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
-        s=mail; t=1671645598;
-        bh=DHzQpmWJLFTqwBAVXLFg5D5O5N+Kl9i3nR9nIThPLww=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=dYAO+UHzW5wXut+nOIQHrC2wo6lmHyElQIRI3ngQoD1uu7CGf8qlsuU11Z4T3bNDU
-         alABiGCHrlwhXIGV24XZjLqysz9C7LwQ0mB2zJzSZ9lEzaw/IiNkJ/QGMg8Om7bF5u
-         MzYWEsN+/qotALjcBkMA/v+TsnGD9T4r8+LQ2AtM=
-Date:   Wed, 21 Dec 2022 17:59:51 +0000
-Subject: [PATCH 3/3] platform/x86: asus-wmi: Don't load fan curves without fan
+        Wed, 21 Dec 2022 17:08:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 548331A822
+        for <platform-driver-x86@vger.kernel.org>; Wed, 21 Dec 2022 14:07:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1671660459;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=WghiOn+UacOkRZNSD+p+30/KlcKlQpDG2IXMwILxPoU=;
+        b=RNdgdE45E6jsvM84faiOIQ6vnTOt9oBXZ6r4wKx9rN2YL3O2aU/uKii5sVvaqrMIeFb69t
+        mbbliyj8hHulbosfq89Jn6xcg1GFsNzwrFRDpl7e8Rz4scihh1QB46Bl4lpTnoPb1/mx/r
+        KwAGmZEeExgn7Xz6g3m/Uzo64kv6xtk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-583-lKqFJ2jhOoCKgZsUYJdf2w-1; Wed, 21 Dec 2022 17:07:33 -0500
+X-MC-Unique: lKqFJ2jhOoCKgZsUYJdf2w-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 734B129AA3BA;
+        Wed, 21 Dec 2022 22:07:33 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.84])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9998C492C14;
+        Wed, 21 Dec 2022 22:07:32 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Dell.Client.Kernel@dell.com
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH 1/2] platform/x86: dell-privacy: Fix SW_CAMERA_LENS_COVER reporting
+Date:   Wed, 21 Dec 2022 23:07:23 +0100
+Message-Id: <20221221220724.119594-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Message-Id: <20221221-asus-fan-v1-3-e07f3949725b@weissschuh.net>
-References: <20221221-asus-fan-v1-0-e07f3949725b@weissschuh.net>
-In-Reply-To: <20221221-asus-fan-v1-0-e07f3949725b@weissschuh.net>
-To:     Corentin Chary <corentin.chary@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        "Luke D. Jones" <luke@ljones.dev>
-Cc:     acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Thomas =?utf-8?q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.11.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1671645591; l=968;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=DHzQpmWJLFTqwBAVXLFg5D5O5N+Kl9i3nR9nIThPLww=;
- b=0lNvk6oQrIRPYyinJtYvmunAkwZDHlhbE8W8EwaIJNnKGwRrg5brZHoLaHbTFN06zZU2Gr/kS68z
- hJdfJkugBqlv/GytiG5L3tHo39rJBGxTFp0+6Zwuxe3AG5+AOJog
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-If we do not have a fan it does not make sense to load curves for it.
-This removes the following warnings from the kernel log:
+Use KE_VSW instead of KE_SW for the SW_CAMERA_LENS_COVER key_entry
+and get the value of the switch from the status field when handling
+SW_CAMERA_LENS_COVER events, instead of always reporting 0.
 
-asus_wmi: fan_curve_get_factory_default (0x00110024) failed: -19
-asus_wmi: fan_curve_get_factory_default (0x00110025) failed: -19
+Also correctly set the initial SW_CAMERA_LENS_COVER value.
 
-Fixes: a2bdf10ce96e ("platform/x86: asus-wmi: Increase FAN_CURVE_BUF_LEN to 32")
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+Fixes: 8af9fa37b8a3 ("platform/x86: dell-privacy: Add support for Dell hardware privacy")
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/asus-wmi.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/platform/x86/dell/dell-wmi-privacy.c | 22 ++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 4a289ca7e76c..104188d70988 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -2438,6 +2438,9 @@ static int fan_curve_check_present(struct asus_wmi *asus, bool *available,
+diff --git a/drivers/platform/x86/dell/dell-wmi-privacy.c b/drivers/platform/x86/dell/dell-wmi-privacy.c
+index c82b3d6867c5..915d5deeb971 100644
+--- a/drivers/platform/x86/dell/dell-wmi-privacy.c
++++ b/drivers/platform/x86/dell/dell-wmi-privacy.c
+@@ -61,7 +61,7 @@ static const struct key_entry dell_wmi_keymap_type_0012[] = {
+ 	/* privacy mic mute */
+ 	{ KE_KEY, 0x0001, { KEY_MICMUTE } },
+ 	/* privacy camera mute */
+-	{ KE_SW,  0x0002, { SW_CAMERA_LENS_COVER } },
++	{ KE_VSW, 0x0002, { SW_CAMERA_LENS_COVER } },
+ 	{ KE_END, 0},
+ };
  
- 	*available = false;
+@@ -115,11 +115,15 @@ bool dell_privacy_process_event(int type, int code, int status)
  
-+	if (asus->fan_type == FAN_TYPE_NONE)
-+		return 0;
+ 	switch (code) {
+ 	case DELL_PRIVACY_AUDIO_EVENT: /* Mic mute */
+-	case DELL_PRIVACY_CAMERA_EVENT: /* Camera mute */
+ 		priv->last_status = status;
+ 		sparse_keymap_report_entry(priv->input_dev, key, 1, true);
+ 		ret = true;
+ 		break;
++	case DELL_PRIVACY_CAMERA_EVENT: /* Camera mute */
++		priv->last_status = status;
++		sparse_keymap_report_entry(priv->input_dev, key, !(status & CAMERA_STATUS), false);
++		ret = true;
++		break;
+ 	default:
+ 		dev_dbg(&priv->wdev->dev, "unknown event type 0x%04x 0x%04x\n", type, code);
+ 	}
+@@ -304,6 +308,11 @@ static int dell_privacy_wmi_probe(struct wmi_device *wdev, const void *context)
+ 
+ 	dev_set_drvdata(&wdev->dev, priv);
+ 	priv->wdev = wdev;
 +
- 	err = fan_curve_get_factory_default(asus, fan_dev);
- 	if (err) {
- 		return 0;
-
++	ret = get_current_status(priv->wdev);
++	if (ret)
++		return ret;
++
+ 	/* create evdev passing interface */
+ 	priv->input_dev = devm_input_allocate_device(&wdev->dev);
+ 	if (!priv->input_dev)
+@@ -331,11 +340,12 @@ static int dell_privacy_wmi_probe(struct wmi_device *wdev, const void *context)
+ 	priv->input_dev->name = "Dell Privacy Driver";
+ 	priv->input_dev->id.bustype = BUS_HOST;
+ 
+-	ret = input_register_device(priv->input_dev);
+-	if (ret)
+-		return ret;
++	/* Report initial camera-cover status */
++	if (priv->features_present & BIT(DELL_PRIVACY_TYPE_CAMERA))
++		input_report_switch(priv->input_dev, SW_CAMERA_LENS_COVER,
++				    !(priv->last_status & CAMERA_STATUS));
+ 
+-	ret = get_current_status(priv->wdev);
++	ret = input_register_device(priv->input_dev);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
-2.39.0
+2.38.1
+
