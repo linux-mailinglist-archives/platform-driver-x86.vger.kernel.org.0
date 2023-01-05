@@ -2,127 +2,82 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C23C765E943
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Jan 2023 11:48:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B23165EFE4
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Jan 2023 16:23:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232294AbjAEKsi (ORCPT
+        id S229713AbjAEPXW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 5 Jan 2023 05:48:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38756 "EHLO
+        Thu, 5 Jan 2023 10:23:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233263AbjAEKsY (ORCPT
+        with ESMTP id S234222AbjAEPW6 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 5 Jan 2023 05:48:24 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EC4A4FD69;
-        Thu,  5 Jan 2023 02:48:18 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id c17so52240394edj.13;
-        Thu, 05 Jan 2023 02:48:17 -0800 (PST)
+        Thu, 5 Jan 2023 10:22:58 -0500
+Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com [IPv6:2607:f8b0:4864:20::a35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E5BA5D416
+        for <platform-driver-x86@vger.kernel.org>; Thu,  5 Jan 2023 07:22:38 -0800 (PST)
+Received: by mail-vk1-xa35.google.com with SMTP id w72so532760vkw.7
+        for <platform-driver-x86@vger.kernel.org>; Thu, 05 Jan 2023 07:22:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6qLrWDP8UxJVLXXHnMyGiQx4P9YZKALZZuu63FSiH6E=;
-        b=E9K3NJxE30vOeMc0DOcQs6pSTojhjB7VLiWumrWgtVBlynfouL2iOIIZjBQlA011se
-         3PvotfAYQx0uvyVsV3uk2OY3h3brtmDIxPl0L48Xy8zFsV6malBcnPUYTgNZrdVinMNX
-         F6nb6b7Kjjw6m4lsrqnpiUNq4ILqGBfJvKObH6L0rUNZm18rkzP4w2xGkHzp1FHa9Rvm
-         BLtL0upydoAO/nkIVsz/9wUmDjnhGBIRLg1YpwRWuJ5aGyCVTrjf2bD6lUHK6fvkyEB+
-         S2B3dOJ/J6rg9ekk6KoVGdA+Qi0yaOxNng0aL9zuTM2bJBEByO6xvhdLSifOUP6wEZKk
-         klYw==
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=FJYPIPbgrLqbUEgstYOfOz1W7/cTonzcVLLdfFZxjek=;
+        b=JKNJhvFidsnh8BRdGh0+npXSnSFpoq9VCEcAj5q7euFwKspnKfFogoYpxfE+dbS48O
+         Onl0yACtA4+szMguUT73nnD/lxQX5F1LwfK8aEdp/WgCDMb1laRaDEDqJwTcEvIu5c5A
+         HO6D6gEXYhB4eJEGEp0AiY14GtcSObHMvvjTmaP8qp35IYaZGeLKC0rm9Itrf/x/dkVz
+         JM3k/Ew+OD0fJHYpMqE5UHHT/oLLpvV5Kby30VTq7g187MJ0R6UQnBCn8q0lOmr/TBBQ
+         I7FpNkoqMKKaHPzWfa8JCejcRxTb+SxpGYwEan7x2uCr97rTuQydGz3rqITvrAeq5rwr
+         nCRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6qLrWDP8UxJVLXXHnMyGiQx4P9YZKALZZuu63FSiH6E=;
-        b=EHCTtM3BcMG3gt34KEZ8rUD8DMMBgtgohm1NjoYp3tYX3sG0qBfh6d19jdEi4gdSbr
-         Y+1XpesdR+Nr7dW94vji0NjMjpXV85VMNtZUXbbxhDUdX4w0Mq5bjHsmpqAa8IR67jrh
-         RafNEZy6lv3baO0jnQJbu14iRuORLJyotjbh6Kf3pQuZEj1SHOXS9NRk/X0XnkPbqBBo
-         4dz+kI7l7SnnjBLAvr5CXivuVcmVW4Zhl61UU5/9hDL+FmHRUtrvwhn+sZCcjXP4m0uv
-         LbyFSpu3uNXarNn1ku+oKsLYz6j348f1zNsi906SdHOr0Xr4wb4yZ9fjHE9juofhAqgc
-         Eyng==
-X-Gm-Message-State: AFqh2kqCiEdBm8+hvPu8IGQCDTK1UcopyszB0Pb+QaQbsjyvxAnccbNc
-        95nYCsbmw7xaVJEYdULTZSI=
-X-Google-Smtp-Source: AMrXdXuJWhyrmy1YZjk6sB1ll1kMT60CGgwsH2fEDRfVrLmdIwzKXMnsgcamI+al2donwj3dOaq/aw==
-X-Received: by 2002:a05:6402:3784:b0:46d:cead:4eab with SMTP id et4-20020a056402378400b0046dcead4eabmr46314439edb.6.1672915696661;
-        Thu, 05 Jan 2023 02:48:16 -0800 (PST)
-Received: from gmail.com (1F2EF380.nat.pool.telekom.hu. [31.46.243.128])
-        by smtp.gmail.com with ESMTPSA id x11-20020a170906b08b00b007806c1474e1sm16297503ejy.127.2023.01.05.02.48.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jan 2023 02:48:15 -0800 (PST)
-Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
-Date:   Thu, 5 Jan 2023 11:48:13 +0100
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Aaron Thompson <dev@aaront.org>
-Cc:     Mike Rapoport <rppt@kernel.org>, linux-mm@kvack.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Darren Hart <dvhart@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ingo Molnar <mingo@redhat.com>, Marco Elver <elver@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        kasan-dev@googlegroups.com, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        x86@kernel.org
-Subject: Re: [PATCH v2 1/1] mm: Always release pages to the buddy allocator
- in memblock_free_late().
-Message-ID: <Y7aq7fzKZ/EdLVp3@gmail.com>
-References: <010101857bbc3a41-173240b3-9064-42ef-93f3-482081126ec2-000000@us-west-2.amazonses.com>
- <20230105041650.1485-1-dev@aaront.org>
- <010001858025fc22-e619988e-c0a5-4545-bd93-783890b9ad14-000000@email.amazonses.com>
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FJYPIPbgrLqbUEgstYOfOz1W7/cTonzcVLLdfFZxjek=;
+        b=hmLFD+nYodbFmzjqe4jeNmPVbLgYu5hVyIytcQ0kn56GGgF2RgalcHcElxZt32NEYF
+         tmm0eGQq58MwlmJfI2295FrHunXCKm7xVbLdpwUp4sPl183GKUlletT95DVOp0fAyAlk
+         F1iwWVHPapR7WsX7BgCIdnYZZUwdlasa2ITTP5i7a4Z+nU14EjGU0jlp5+keGcFZvbLQ
+         hHQ+3EFXcnX266HxCscblsJkwc44nYw55y8VaGMdUbg5PyNDzSS0z4v55JX8SoWGHJYv
+         lirMPPwkD+5ulZ2kwUkNpkUeccL5WhudCkuvEeSwyj+PqAY8MqUWkoDQ9yVeWPSUmLaa
+         Z47Q==
+X-Gm-Message-State: AFqh2krxIiASSTC96iBCQYy+KmX8xrqEfNKtG7IeS2b+II0WXFRYjwY5
+        HHd4KpMD7zAL5zvk1lVggw9hRjrY6JiK7ANV4qg=
+X-Google-Smtp-Source: AMrXdXtRXQa8CWkpyAMQrByYuVWK8kR48Mn7wsLsiY4FWyUe0v+dZ3qGUtemynpHh3wQC7Pi8YHTNvF//XmbsimfWwM=
+X-Received: by 2002:a1f:2016:0:b0:3d5:53d8:aa10 with SMTP id
+ g22-20020a1f2016000000b003d553d8aa10mr4295778vkg.21.1672932157562; Thu, 05
+ Jan 2023 07:22:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <010001858025fc22-e619988e-c0a5-4545-bd93-783890b9ad14-000000@email.amazonses.com>
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Received: by 2002:a59:b3cb:0:b0:382:a722:ce36 with HTTP; Thu, 5 Jan 2023
+ 07:22:37 -0800 (PST)
+Reply-To: wongshiule@gmail.com
+From:   Wong Shiu <sabinemary54@gmail.com>
+Date:   Thu, 5 Jan 2023 17:22:37 +0200
+Message-ID: <CAKnThVtQho_ooveY2su+i5U5B_fs6eumfu3XqaDTcie-9OW3wA@mail.gmail.com>
+Subject: Guten Tag
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=4.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+--=20
+Guten Tag
 
-* Aaron Thompson <dev@aaront.org> wrote:
+Ich habe Ihre E-Mail-Adresse in der Google-Datenbank gefunden,
 
-> For example, on an Amazon EC2 t3.micro VM (1 GB) booting via EFI:
-> 
-> v6.2-rc2:
->   # grep -E 'Node|spanned|present|managed' /proc/zoneinfo
->   Node 0, zone      DMA
->           spanned  4095
->           present  3999
->           managed  3840
->   Node 0, zone    DMA32
->           spanned  246652
->           present  245868
->           managed  178867
-> 
-> v6.2-rc2 + patch:
->   # grep -E 'Node|spanned|present|managed' /proc/zoneinfo
->   Node 0, zone      DMA
->           spanned  4095
->           present  3999
->           managed  3840
->   Node 0, zone    DMA32
->           spanned  246652
->           present  245868
->           managed  222816   # +43,949 pages
+Ist Ihre E-Mail-Adresse noch g=C3=BCltig? Ich habe einen guten
+Gesch=C3=A4ftsvorschlag f=C3=BCr Sie,
 
-[ Note the annotation I added to the output - might be useful in the changelog too. ]
+Bei Interesse kontaktieren Sie mich bitte f=C3=BCr weitere Informationen
+unter: wongshiule@gmail.com
 
-So this patch adds around +17% of RAM to this 1 GB virtual system? That 
-looks rather significant ...
-
-Thanks,
-
-	Ingo
+Wong Shiu
