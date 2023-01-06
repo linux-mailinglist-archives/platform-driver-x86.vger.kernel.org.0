@@ -2,82 +2,129 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B23165EFE4
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Jan 2023 16:23:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96FE465F968
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  6 Jan 2023 03:06:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229713AbjAEPXW (ORCPT
+        id S229694AbjAFCGw (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 5 Jan 2023 10:23:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41788 "EHLO
+        Thu, 5 Jan 2023 21:06:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234222AbjAEPW6 (ORCPT
+        with ESMTP id S229462AbjAFCGv (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 5 Jan 2023 10:22:58 -0500
-Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com [IPv6:2607:f8b0:4864:20::a35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E5BA5D416
-        for <platform-driver-x86@vger.kernel.org>; Thu,  5 Jan 2023 07:22:38 -0800 (PST)
-Received: by mail-vk1-xa35.google.com with SMTP id w72so532760vkw.7
-        for <platform-driver-x86@vger.kernel.org>; Thu, 05 Jan 2023 07:22:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FJYPIPbgrLqbUEgstYOfOz1W7/cTonzcVLLdfFZxjek=;
-        b=JKNJhvFidsnh8BRdGh0+npXSnSFpoq9VCEcAj5q7euFwKspnKfFogoYpxfE+dbS48O
-         Onl0yACtA4+szMguUT73nnD/lxQX5F1LwfK8aEdp/WgCDMb1laRaDEDqJwTcEvIu5c5A
-         HO6D6gEXYhB4eJEGEp0AiY14GtcSObHMvvjTmaP8qp35IYaZGeLKC0rm9Itrf/x/dkVz
-         JM3k/Ew+OD0fJHYpMqE5UHHT/oLLpvV5Kby30VTq7g187MJ0R6UQnBCn8q0lOmr/TBBQ
-         I7FpNkoqMKKaHPzWfa8JCejcRxTb+SxpGYwEan7x2uCr97rTuQydGz3rqITvrAeq5rwr
-         nCRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FJYPIPbgrLqbUEgstYOfOz1W7/cTonzcVLLdfFZxjek=;
-        b=hmLFD+nYodbFmzjqe4jeNmPVbLgYu5hVyIytcQ0kn56GGgF2RgalcHcElxZt32NEYF
-         tmm0eGQq58MwlmJfI2295FrHunXCKm7xVbLdpwUp4sPl183GKUlletT95DVOp0fAyAlk
-         F1iwWVHPapR7WsX7BgCIdnYZZUwdlasa2ITTP5i7a4Z+nU14EjGU0jlp5+keGcFZvbLQ
-         hHQ+3EFXcnX266HxCscblsJkwc44nYw55y8VaGMdUbg5PyNDzSS0z4v55JX8SoWGHJYv
-         lirMPPwkD+5ulZ2kwUkNpkUeccL5WhudCkuvEeSwyj+PqAY8MqUWkoDQ9yVeWPSUmLaa
-         Z47Q==
-X-Gm-Message-State: AFqh2krxIiASSTC96iBCQYy+KmX8xrqEfNKtG7IeS2b+II0WXFRYjwY5
-        HHd4KpMD7zAL5zvk1lVggw9hRjrY6JiK7ANV4qg=
-X-Google-Smtp-Source: AMrXdXtRXQa8CWkpyAMQrByYuVWK8kR48Mn7wsLsiY4FWyUe0v+dZ3qGUtemynpHh3wQC7Pi8YHTNvF//XmbsimfWwM=
-X-Received: by 2002:a1f:2016:0:b0:3d5:53d8:aa10 with SMTP id
- g22-20020a1f2016000000b003d553d8aa10mr4295778vkg.21.1672932157562; Thu, 05
- Jan 2023 07:22:37 -0800 (PST)
+        Thu, 5 Jan 2023 21:06:51 -0500
+X-Greylist: delayed 260 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 05 Jan 2023 18:06:49 PST
+Received: from a27-19.smtp-out.us-west-2.amazonses.com (a27-19.smtp-out.us-west-2.amazonses.com [54.240.27.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1F0C3C0FD;
+        Thu,  5 Jan 2023 18:06:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+        s=ude52klaz7ukvnrchdbsicqdl2lnui6h; d=aaront.org; t=1672970549;
+        h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID:Content-Type:Content-Transfer-Encoding;
+        bh=Cmz24rg2v6sSkGwNw58tGKSlPXAtf7goihufSQSgRQU=;
+        b=OTSv+DlU2mrxugOLjgqSj9NaHzlzF78TX1RzcACgtYB7/UWRCeIuAk/4LRW+/8u2
+        yX/hekQVtyXKsgabL3qmmCRWr8THpEy0R1uJ6WYTnu0HUsf4rx0iCzy7iAftNyDr6lq
+        D8M+2+Q5pQoI5jMkDNAwg+YFeqO1lnJ3mGcHowPs=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+        s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1672970549;
+        h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID:Content-Type:Content-Transfer-Encoding:Feedback-ID;
+        bh=Cmz24rg2v6sSkGwNw58tGKSlPXAtf7goihufSQSgRQU=;
+        b=Qh0aaAYSWQyh97c8Ybx7gKS/oDcIXWJnAFQgrL/ojIIOEculrzvQcpAm5v0VEURn
+        uEwmxT0YqZjp+/KRWtJC2wwMOII11gX+RMMo+MuO3X7dRtTY2WdbX+y88NioN7hYxFt
+        EI6pa2GS6TiQpp5SCkO2l1Ob833jY8Xb1CPHkdiM=
 MIME-Version: 1.0
-Received: by 2002:a59:b3cb:0:b0:382:a722:ce36 with HTTP; Thu, 5 Jan 2023
- 07:22:37 -0800 (PST)
-Reply-To: wongshiule@gmail.com
-From:   Wong Shiu <sabinemary54@gmail.com>
-Date:   Thu, 5 Jan 2023 17:22:37 +0200
-Message-ID: <CAKnThVtQho_ooveY2su+i5U5B_fs6eumfu3XqaDTcie-9OW3wA@mail.gmail.com>
-Subject: Guten Tag
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=4.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Date:   Fri, 6 Jan 2023 02:02:28 +0000
+From:   Aaron Thompson <dev@aaront.org>
+To:     Ingo Molnar <mingo@kernel.org>
+Cc:     Mike Rapoport <rppt@kernel.org>, linux-mm@kvack.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Darren Hart <dvhart@infradead.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ingo Molnar <mingo@redhat.com>, Marco Elver <elver@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        kasan-dev@googlegroups.com, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        x86@kernel.org
+Subject: Re: [PATCH v2 1/1] mm: Always release pages to the buddy allocator in
+ memblock_free_late().
+In-Reply-To: <Y7aq7fzKZ/EdLVp3@gmail.com>
+References: <010101857bbc3a41-173240b3-9064-42ef-93f3-482081126ec2-000000@us-west-2.amazonses.com>
+ <20230105041650.1485-1-dev@aaront.org>
+ <010001858025fc22-e619988e-c0a5-4545-bd93-783890b9ad14-000000@email.amazonses.com>
+ <Y7aq7fzKZ/EdLVp3@gmail.com>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <0101018584d0b5a3-ea0e4d67-b00f-4254-8e1c-767fcafbec31-000000@us-west-2.amazonses.com>
+X-Sender: dev@aaront.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Feedback-ID: 1.us-west-2.OwdjDcIoZWY+bZWuVZYzryiuW455iyNkDEZFeL97Dng=:AmazonSES
+X-SES-Outgoing: 2023.01.06-54.240.27.19
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
---=20
-Guten Tag
 
-Ich habe Ihre E-Mail-Adresse in der Google-Datenbank gefunden,
+On 2023-01-05 02:48, Ingo Molnar wrote:
+> * Aaron Thompson <dev@aaront.org> wrote:
+> 
+>> For example, on an Amazon EC2 t3.micro VM (1 GB) booting via EFI:
+>> 
+>> v6.2-rc2:
+>>   # grep -E 'Node|spanned|present|managed' /proc/zoneinfo
+>>   Node 0, zone      DMA
+>>           spanned  4095
+>>           present  3999
+>>           managed  3840
+>>   Node 0, zone    DMA32
+>>           spanned  246652
+>>           present  245868
+>>           managed  178867
+>> 
+>> v6.2-rc2 + patch:
+>>   # grep -E 'Node|spanned|present|managed' /proc/zoneinfo
+>>   Node 0, zone      DMA
+>>           spanned  4095
+>>           present  3999
+>>           managed  3840
+>>   Node 0, zone    DMA32
+>>           spanned  246652
+>>           present  245868
+>>           managed  222816   # +43,949 pages
+> 
+> [ Note the annotation I added to the output - might be useful in the
+> changelog too. ]
+> 
+> So this patch adds around +17% of RAM to this 1 GB virtual system? That
+> looks rather significant ...
+> 
+> Thanks,
+> 
+> 	Ingo
 
-Ist Ihre E-Mail-Adresse noch g=C3=BCltig? Ich habe einen guten
-Gesch=C3=A4ftsvorschlag f=C3=BCr Sie,
+It is significant, but I wouldn't describe it as being added. I would 
+say that the system is currently losing 17% of RAM due to a bug, and 
+this patch fixes that bug.
 
-Bei Interesse kontaktieren Sie mich bitte f=C3=BCr weitere Informationen
-unter: wongshiule@gmail.com
+The actual numbers depend on the mappings given by the EFI, so they're 
+largely out of our control. As an example, similar VMs that I run with 
+the OVMF EFI lose about 3%. I couldn't say for sure which is the 
+outlier, but my point is that the specific values are not really the 
+focus, this is just an example that shows that the issue can be 
+encountered in the wild with real impact. I know I'll be happy to get 
+that memory back, whether it is 3% or 17% :)
 
-Wong Shiu
+Thanks,
+-- Aaron
