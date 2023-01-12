@@ -2,32 +2,33 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 785606686FE
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Jan 2023 23:32:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D7526686E0
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Jan 2023 23:24:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232665AbjALWcP convert rfc822-to-8bit (ORCPT
+        id S240157AbjALWYR convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 12 Jan 2023 17:32:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44990 "EHLO
+        Thu, 12 Jan 2023 17:24:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240568AbjALWbn (ORCPT
+        with ESMTP id S240582AbjALWX0 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 12 Jan 2023 17:31:43 -0500
-Received: from smtprelay03.ispgateway.de (smtprelay03.ispgateway.de [80.67.18.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 515F5272B
-        for <platform-driver-x86@vger.kernel.org>; Thu, 12 Jan 2023 14:31:21 -0800 (PST)
+        Thu, 12 Jan 2023 17:23:26 -0500
+X-Greylist: delayed 180 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 12 Jan 2023 14:19:32 PST
+Received: from smtprelay06.ispgateway.de (smtprelay06.ispgateway.de [80.67.18.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DAA225E2
+        for <platform-driver-x86@vger.kernel.org>; Thu, 12 Jan 2023 14:19:31 -0800 (PST)
 Received: from [80.82.223.85] (helo=mail.piie.net)
-        by smtprelay03.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        by smtprelay06.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
         (Exim 4.94.2)
         (envelope-from <peter@piie.net>)
-        id 1pG5tK-0005YO-35; Thu, 12 Jan 2023 23:17:46 +0100
+        id 1pG5v2-0003T5-PK; Thu, 12 Jan 2023 23:19:32 +0100
 MIME-Version: 1.0
-Date:   Thu, 12 Jan 2023 22:16:29 +0000
+Date:   Thu, 12 Jan 2023 22:19:29 +0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8BIT
 X-Mailer: RainLoop/1.16.0
 From:   "=?utf-8?B?UGV0ZXIgS8Okc3RsZQ==?=" <peter@piie.net>
-Message-ID: <d56b68898db555c9226d2862d7e75242@piie.net>
+Message-ID: <9c7d29f132c800b03147361a254aa887@piie.net>
 Subject: Re: [PATCH 1/3] platform/x86: acerhdf: Drop empty platform remove
  function
 To:     "=?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?=" 
@@ -48,21 +49,19 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Uwe,
+Hi again,
 
-thanks for the reminder and sorry for not answering in first place. Somehow this mail slipped through.
+found the code, please ignore my previous mail.
 
 13. Dezember 2022 17:24, "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de> schrieb:
 
 > A remove callback just returning 0 is equivalent to no remove callback
 > at all. So drop the useless function.
-
-Makes sense to me, could you please point me to the code, which is actually calling the remove function. I'd like to understand how it's handling drivers without registered remove callback.
-
-Thanks.
-
 > 
 > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+
+Acked-by: Peter Kaestle <peter@piie.net>
+
 > ---
 > drivers/platform/x86/acerhdf.c | 6 ------
 > 1 file changed, 6 deletions(-)
@@ -93,6 +92,3 @@ Thanks.
 > /* check hardware */
 > -- 
 > 2.38.1
-
--- 
---peter;
