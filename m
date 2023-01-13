@@ -2,169 +2,93 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6727B66996E
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 13 Jan 2023 15:04:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78F7366A234
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 13 Jan 2023 19:38:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234620AbjAMOEr (ORCPT
+        id S229525AbjAMSih (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 13 Jan 2023 09:04:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58216 "EHLO
+        Fri, 13 Jan 2023 13:38:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241532AbjAMOD1 (ORCPT
+        with ESMTP id S231297AbjAMSiO (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 13 Jan 2023 09:03:27 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47AA410FDF;
-        Fri, 13 Jan 2023 06:02:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673618533; x=1705154533;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=X8yP8ue7Mjwmum3hdTB2a0jxS4tJ1ITCtpEQuehUOg8=;
-  b=YeoyMKE/sWguMTH9nDKeSlXsCU0HA9HMWEnsgmcmHBFbWjQ2aKG/nMUe
-   lVw+9E5q353OLCJBhWCTK+iQdN0gt2kmPP2nUvBTvgUsSh8LVo/sK3XVB
-   qaSKYvAE3oAXonq9XgWVFeZxTLcdE61dxNqLd5EFPqwot73f+ne8mCs8/
-   jYrtgLAV9yA6uaGWmcJxMpiyTkjHyYWSaR8Jcr+MUEETgY8M8ZhSvWXek
-   zxEfRwaQplOv8HPU0EsZBhHlF04+aSPEYIC6x/fOIwhZUqyVUcZShwL3R
-   Q3J7bst04VWNmOgkQK5Gs4kefqKBhMkZEZ6VSdnypHrmTyVY67q9RSl/1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="388492989"
-X-IronPort-AV: E=Sophos;i="5.97,214,1669104000"; 
-   d="scan'208";a="388492989"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2023 06:02:12 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="987008075"
-X-IronPort-AV: E=Sophos;i="5.97,214,1669104000"; 
-   d="scan'208";a="987008075"
-Received: from unknown (HELO rajath-NUC10i7FNH..) ([10.223.165.88])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2023 06:02:09 -0800
-From:   Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
-To:     irenic.rajneesh@gmail.com, david.e.box@intel.com,
-        hdegoede@redhat.com, markgross@kernel.org
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rajat.khandelwal@intel.com,
-        Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
-Subject: [PATCH] platform/x86/intel/pmc: core: Add support to show LTR-ignored components
-Date:   Fri, 13 Jan 2023 19:32:12 +0530
-Message-Id: <20230113140212.3905361-1-rajat.khandelwal@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
+        Fri, 13 Jan 2023 13:38:14 -0500
+X-Greylist: delayed 554 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 13 Jan 2023 10:37:45 PST
+Received: from mail.dmbarone.com (mail.dmbarone.com [5.181.144.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FFEB20D
+        for <platform-driver-x86@vger.kernel.org>; Fri, 13 Jan 2023 10:37:45 -0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.dmbarone.com (Postfix) with ESMTP id D49442A6A6E;
+        Fri, 13 Jan 2023 18:28:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dmbarone.com; s=mail;
+        t=1673634505; bh=QIjTgWBPcZMVeqZovj8WAOWgI9bu1lFe9hdim3iQkyQ=;
+        h=Subject:To:From:Date:Reply-To:From;
+        b=zVLJt6HibLIxnOw8lMZqLXPsBOCsCbHIRMKBU1LXlwBByYxg0Bd9djtdAnVwvj4jc
+         SlyQpeFd7Z4C4wVyxY5J1teYgJvN42lQVAcEicboKZd9Z+3okiwrie+E7wT8FH+CRj
+         3UL5jqsVRYY29ytYCq1RK4Va6bYVx/QviIRzPyEg=
+X-Virus-Scanned: Debian amavisd-new at ispdmbarone.kubeitalia.it
+Received: from mail.dmbarone.com ([127.0.0.1])
+        by localhost (ispdmbarone.kubeitalia.it [127.0.0.1]) (amavisd-new, port 10026)
+        with LMTP id OqOVGF96pc-D; Fri, 13 Jan 2023 18:28:25 +0000 (UTC)
+Received: from [172.20.10.6] (unknown [129.205.124.225])
+        (Authenticated sender: admin@dmbarone.com)
+        by mail.dmbarone.com (Postfix) with ESMTPSA id 8873A2A6A35;
+        Fri, 13 Jan 2023 18:28:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dmbarone.com; s=mail;
+        t=1673634505; bh=QIjTgWBPcZMVeqZovj8WAOWgI9bu1lFe9hdim3iQkyQ=;
+        h=Subject:To:From:Date:Reply-To:From;
+        b=zVLJt6HibLIxnOw8lMZqLXPsBOCsCbHIRMKBU1LXlwBByYxg0Bd9djtdAnVwvj4jc
+         SlyQpeFd7Z4C4wVyxY5J1teYgJvN42lQVAcEicboKZd9Z+3okiwrie+E7wT8FH+CRj
+         3UL5jqsVRYY29ytYCq1RK4Va6bYVx/QviIRzPyEg=
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: =?utf-8?q?Wohlt=C3=A4tigkeit!!?=
+To:     Recipients <admi@dmbarone.com>
+From:   <admi@dmbarone.com>
+Date:   Fri, 13 Jan 2023 19:28:10 +0100
+Reply-To: theresasteven225@gmail.com
+X-Antivirus: Avast (VPS 230113-2, 1/13/2023), Outbound message
+X-Antivirus-Status: Clean
+Message-Id: <20230113182825.D49442A6A6E@mail.dmbarone.com>
+X-Spam-Status: Yes, score=5.6 required=5.0 tests=BAYES_80,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_SBL,RCVD_IN_VALIDITY_RPBL,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.1 RCVD_IN_SBL RBL: Received via a relay in Spamhaus SBL
+        *      [129.205.124.225 listed in zen.spamhaus.org]
+        *  2.0 BAYES_80 BODY: Bayes spam probability is 80 to 95%
+        *      [score: 0.8034]
+        *  1.3 RCVD_IN_VALIDITY_RPBL RBL: Relay in Validity RPBL,
+        *      https://senderscore.org/blocklistlookup/
+        *      [5.181.144.66 listed in bl.score.senderscore.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [theresasteven225[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Currently, 'ltr_ignore' sysfs attribute, when read, returns nothing, even
-if there are components whose LTR values have been ignored.
+Eine Spende wurde an Sie get=E4tigt, antworten Sie f=FCr weitere Einzelheit=
+en.
 
-This patch adds the feature to print out such components, if they exist.
+Gr=FC=DFe
+Theresia Steven
 
-Signed-off-by: Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
----
- drivers/platform/x86/intel/pmc/core.c | 47 ++++++++++++++++++++-------
- 1 file changed, 35 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/platform/x86/intel/pmc/core.c b/drivers/platform/x86/intel/pmc/core.c
-index a1fe1e0dcf4a..30fff4461807 100644
---- a/drivers/platform/x86/intel/pmc/core.c
-+++ b/drivers/platform/x86/intel/pmc/core.c
-@@ -129,6 +129,14 @@ static const struct pmc_bit_map *ext_spt_pfear_map[] = {
- 	NULL
- };
- 
-+struct ltr_entry {
-+	u32 comp_index;
-+	const char *comp_name;
-+	struct list_head node;
-+};
-+
-+static LIST_HEAD(ltr_ignore_list);
-+
- static const struct pmc_bit_map spt_ltr_show_map[] = {
- 	{"SOUTHPORT_A",		SPT_PMC_LTR_SPA},
- 	{"SOUTHPORT_B",		SPT_PMC_LTR_SPB},
-@@ -1327,27 +1335,18 @@ static int pmc_core_pll_show(struct seq_file *s, void *unused)
- }
- DEFINE_SHOW_ATTRIBUTE(pmc_core_pll);
- 
--static int pmc_core_send_ltr_ignore(struct pmc_dev *pmcdev, u32 value)
-+static void pmc_core_send_ltr_ignore(struct pmc_dev *pmcdev, u32 value)
- {
- 	const struct pmc_reg_map *map = pmcdev->map;
- 	u32 reg;
--	int err = 0;
- 
- 	mutex_lock(&pmcdev->lock);
- 
--	if (value > map->ltr_ignore_max) {
--		err = -EINVAL;
--		goto out_unlock;
--	}
--
- 	reg = pmc_core_reg_read(pmcdev, map->ltr_ignore_offset);
- 	reg |= BIT(value);
- 	pmc_core_reg_write(pmcdev, map->ltr_ignore_offset, reg);
- 
--out_unlock:
- 	mutex_unlock(&pmcdev->lock);
--
--	return err;
- }
- 
- static ssize_t pmc_core_ltr_ignore_write(struct file *file,
-@@ -1356,6 +1355,8 @@ static ssize_t pmc_core_ltr_ignore_write(struct file *file,
- {
- 	struct seq_file *s = file->private_data;
- 	struct pmc_dev *pmcdev = s->private;
-+	const struct pmc_reg_map *map = pmcdev->map;
-+	struct ltr_entry *entry;
- 	u32 buf_size, value;
- 	int err;
- 
-@@ -1365,13 +1366,35 @@ static ssize_t pmc_core_ltr_ignore_write(struct file *file,
- 	if (err)
- 		return err;
- 
--	err = pmc_core_send_ltr_ignore(pmcdev, value);
-+	if (value > map->ltr_ignore_max)
-+		return -EINVAL;
- 
--	return err == 0 ? count : err;
-+	list_for_each_entry(entry, &ltr_ignore_list, node) {
-+		if (entry->comp_index == value)
-+			return -EEXIST;
-+	}
-+
-+	entry = kmalloc(sizeof(*entry), GFP_KERNEL);
-+	if (!entry)
-+		return -ENOMEM;
-+
-+	entry->comp_name = map->ltr_show_sts[value].name;
-+	entry->comp_index = value;
-+	list_add_tail(&entry->node, &ltr_ignore_list);
-+
-+	pmc_core_send_ltr_ignore(pmcdev, value);
-+
-+	return count;
- }
- 
- static int pmc_core_ltr_ignore_show(struct seq_file *s, void *unused)
- {
-+	struct ltr_entry *entry;
-+
-+	list_for_each_entry(entry, &ltr_ignore_list, node) {
-+		seq_printf(s, "%s\n", entry->comp_name);
-+	}
-+
- 	return 0;
- }
- 
 -- 
-2.34.1
-
+This email has been checked for viruses by Avast antivirus software.
+www.avast.com
