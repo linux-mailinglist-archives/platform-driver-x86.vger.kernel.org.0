@@ -2,93 +2,365 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78F7366A234
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 13 Jan 2023 19:38:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04EA766A6A5
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 14 Jan 2023 00:06:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229525AbjAMSih (ORCPT
+        id S229854AbjAMXGV convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 13 Jan 2023 13:38:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44954 "EHLO
+        Fri, 13 Jan 2023 18:06:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231297AbjAMSiO (ORCPT
+        with ESMTP id S231316AbjAMXGS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 13 Jan 2023 13:38:14 -0500
-X-Greylist: delayed 554 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 13 Jan 2023 10:37:45 PST
-Received: from mail.dmbarone.com (mail.dmbarone.com [5.181.144.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FFEB20D
-        for <platform-driver-x86@vger.kernel.org>; Fri, 13 Jan 2023 10:37:45 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.dmbarone.com (Postfix) with ESMTP id D49442A6A6E;
-        Fri, 13 Jan 2023 18:28:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dmbarone.com; s=mail;
-        t=1673634505; bh=QIjTgWBPcZMVeqZovj8WAOWgI9bu1lFe9hdim3iQkyQ=;
-        h=Subject:To:From:Date:Reply-To:From;
-        b=zVLJt6HibLIxnOw8lMZqLXPsBOCsCbHIRMKBU1LXlwBByYxg0Bd9djtdAnVwvj4jc
-         SlyQpeFd7Z4C4wVyxY5J1teYgJvN42lQVAcEicboKZd9Z+3okiwrie+E7wT8FH+CRj
-         3UL5jqsVRYY29ytYCq1RK4Va6bYVx/QviIRzPyEg=
-X-Virus-Scanned: Debian amavisd-new at ispdmbarone.kubeitalia.it
-Received: from mail.dmbarone.com ([127.0.0.1])
-        by localhost (ispdmbarone.kubeitalia.it [127.0.0.1]) (amavisd-new, port 10026)
-        with LMTP id OqOVGF96pc-D; Fri, 13 Jan 2023 18:28:25 +0000 (UTC)
-Received: from [172.20.10.6] (unknown [129.205.124.225])
-        (Authenticated sender: admin@dmbarone.com)
-        by mail.dmbarone.com (Postfix) with ESMTPSA id 8873A2A6A35;
-        Fri, 13 Jan 2023 18:28:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dmbarone.com; s=mail;
-        t=1673634505; bh=QIjTgWBPcZMVeqZovj8WAOWgI9bu1lFe9hdim3iQkyQ=;
-        h=Subject:To:From:Date:Reply-To:From;
-        b=zVLJt6HibLIxnOw8lMZqLXPsBOCsCbHIRMKBU1LXlwBByYxg0Bd9djtdAnVwvj4jc
-         SlyQpeFd7Z4C4wVyxY5J1teYgJvN42lQVAcEicboKZd9Z+3okiwrie+E7wT8FH+CRj
-         3UL5jqsVRYY29ytYCq1RK4Va6bYVx/QviIRzPyEg=
-Content-Type: text/plain; charset="iso-8859-1"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?q?Wohlt=C3=A4tigkeit!!?=
-To:     Recipients <admi@dmbarone.com>
-From:   <admi@dmbarone.com>
-Date:   Fri, 13 Jan 2023 19:28:10 +0100
-Reply-To: theresasteven225@gmail.com
-X-Antivirus: Avast (VPS 230113-2, 1/13/2023), Outbound message
-X-Antivirus-Status: Clean
-Message-Id: <20230113182825.D49442A6A6E@mail.dmbarone.com>
-X-Spam-Status: Yes, score=5.6 required=5.0 tests=BAYES_80,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_SBL,RCVD_IN_VALIDITY_RPBL,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.1 RCVD_IN_SBL RBL: Received via a relay in Spamhaus SBL
-        *      [129.205.124.225 listed in zen.spamhaus.org]
-        *  2.0 BAYES_80 BODY: Bayes spam probability is 80 to 95%
-        *      [score: 0.8034]
-        *  1.3 RCVD_IN_VALIDITY_RPBL RBL: Relay in Validity RPBL,
-        *      https://senderscore.org/blocklistlookup/
-        *      [5.181.144.66 listed in bl.score.senderscore.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [theresasteven225[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-X-Spam-Level: *****
+        Fri, 13 Jan 2023 18:06:18 -0500
+Received: from mail.redfish-solutions.com (mail.redfish-solutions.com [24.116.100.90])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEAF3A1;
+        Fri, 13 Jan 2023 15:05:54 -0800 (PST)
+Received: from smtpclient.apple (macbook3-2.redfish-solutions.com [192.168.8.12])
+        (authenticated bits=0)
+        by mail.redfish-solutions.com (8.17.1/8.16.1) with ESMTPSA id 30DN559s669406
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 13 Jan 2023 16:05:05 -0700
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.300.101.1.3\))
+Subject: Re: [PATCH v3 1/1] x86: Support APU5 in PCEngines platform driver
+From:   Philip Prindeville <philipp@redfish-solutions.com>
+In-Reply-To: <01dbd065-693b-e5fe-5aaf-d74971d6fe7d@redhat.com>
+Date:   Fri, 13 Jan 2023 16:04:46 -0700
+Cc:     platform-driver-x86@vger.kernel.org, linux-x86_64@vger.kernel.org,
+        Enrico Weigelt <info@metux.net>,
+        Ed Wildgoose <lists@wildgooses.com>,
+        Andres Salomon <dilinger@queued.net>,
+        Andreas Eberlein <foodeas@aeberlein.de>,
+        Paul Spooren <paul@spooren.de>
+Content-Transfer-Encoding: 8BIT
+Message-Id: <AA8BB3C5-8101-4DE2-8FE2-87EBF5329BA3@redfish-solutions.com>
+References: <20230102065447.3447284-1-philipp@redfish-solutions.com>
+ <01dbd065-693b-e5fe-5aaf-d74971d6fe7d@redhat.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+X-Mailer: Apple Mail (2.3731.300.101.1.3)
+X-Scanned-By: MIMEDefang 3.2 on 192.168.8.3
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Eine Spende wurde an Sie get=E4tigt, antworten Sie f=FCr weitere Einzelheit=
-en.
 
-Gr=FC=DFe
-Theresia Steven
 
--- 
-This email has been checked for viruses by Avast antivirus software.
-www.avast.com
+> On Jan 12, 2023, at 11:57 AM, Hans de Goede <hdegoede@redhat.com> wrote:
+> 
+> Hi,
+> 
+> On 1/2/23 07:54, Philip Prindeville wrote:
+>> From: Philip Prindeville <philipp@redfish-solutions.com>
+>> 
+>> PCEngines make a number of SBC. APU5 has 5 mpcie slots + MSATA.
+>> It also has support for 3x LTE modems with 6x SIM slots (pairs with a
+>> SIM switch device). Each mpcie slot for modems has a reset GPIO
+>> 
+>> To ensure that the naming is sane between APU2-6 the GPIOS are
+>> renamed to be modem1-reset, modem2-reset, etc. This is significant
+>> because the slots that can be reset change between APU2 and APU3/4
+>> 
+>> GPIO for simswap is moved to the end of the list as it could be dropped
+>> for APU2 boards (but causes no harm to leave it in, hardware could be
+>> added to a future rev of the board).
+>> 
+>> Structure of the GPIOs for APU5 is extremely similar to APU2-4, but
+>> many lines are moved around and there are simply more
+>> modems/resets/sim-swap lines to breakout.
+>> 
+>> Also added APU6, which is essentially APU4 with a different ethernet
+>> interface and SFP cage on eth0.
+>> 
+>> Revision history:
+>> 
+>> v1: originally titled, "apu6: add apu6 variation to apu2 driver family"
+>> this dealt only with detecting the APUv6, which is otherwise identical
+>> to the v4 excepting the SFP cage on eth0.
+>> 
+>> v2: at Ed's request, merged with his previous pull-request titled
+>> "x86: Support APU5 in PCEngines platform driver", and some cleanup
+>> to that changeset (including dropping the table "apu5_driver_data"
+>> which did not have a defined type "struct apu_driver_data"), but got
+>> mistitled when the Subject of that commit got accidentally dropped.
+>> 
+>> v3: retitled to match Ed's previous pull-request.
+>> 
+>> Cc: platform-driver-x86@vger.kernel.org
+>> Cc: linux-x86_64@vger.kernel.org
+>> Reviewed-by: Andreas Eberlein <foodeas@aeberlein.de>
+>> Reviewed-by: Paul Spooren <paul@spooren.de>
+>> Signed-off-by: Ed Wildgoose <lists@wildgooses.com>
+>> Sighed-off-by: Philip Prindeville <philipp@redfish-solutions.com>
+> 
+> Hmm, squashing the 2 patches for APU5 and APU6 support together
+> really is not helpful. this really should be
+> a series with 2 separate patches.
+> 
+> Also I would really like to have Enrico's input about this,
+> IIRC last time this was looked at there were some none trivial
+> compatibility issues...
+> 
+> Regards,
+> 
+> Hans
+
+
+My read of Enrico's comments were that using ACPI information to map
+the GPIO lines would break backward compatibility.  This part of the
+effort was dropped.
+
+Are there other concerns?
+
+-Philip
+
+
+> 
+> 
+>> ---
+>> drivers/leds/leds-apu.c                |   2 +-
+>> drivers/platform/x86/Kconfig           |   4 +-
+>> drivers/platform/x86/pcengines-apuv2.c | 118 ++++++++++++++++++++++---
+>> 3 files changed, 107 insertions(+), 17 deletions(-)
+>> 
+>> diff --git a/drivers/leds/leds-apu.c b/drivers/leds/leds-apu.c
+>> index c409b80c236d7182c79944225dd4b9e5d32f0a9f..fb3332863c36241e4b7f75f89213171ec0c0dd04 100644
+>> --- a/drivers/leds/leds-apu.c
+>> +++ b/drivers/leds/leds-apu.c
+>> @@ -183,7 +183,7 @@ static int __init apu_led_init(void)
+>> 
+>> if (!(dmi_match(DMI_SYS_VENDOR, "PC Engines") &&
+>>       (dmi_match(DMI_PRODUCT_NAME, "APU") || dmi_match(DMI_PRODUCT_NAME, "apu1")))) {
+>> - pr_err("No PC Engines APUv1 board detected. For APUv2,3 support, enable CONFIG_PCENGINES_APU2\n");
+>> + pr_err("No PC Engines APUv1 board detected. For APUv2,3,4,5,6 support, enable CONFIG_PCENGINES_APU2\n");
+>> return -ENODEV;
+>> }
+>> 
+>> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+>> index 5692385e2d26fed92785488ce1c6e88449c54c78..f930d5dd3efee11fbad4ad9508eb288bb4181bab 100644
+>> --- a/drivers/platform/x86/Kconfig
+>> +++ b/drivers/platform/x86/Kconfig
+>> @@ -698,7 +698,7 @@ config XO1_RFKILL
+>>   laptop.
+>> 
+>> config PCENGINES_APU2
+>> - tristate "PC Engines APUv2/3 front button and LEDs driver"
+>> + tristate "PC Engines APUv2/3/4/5/6 front button and LEDs driver"
+>> depends on INPUT && INPUT_KEYBOARD && GPIOLIB
+>> depends on LEDS_CLASS
+>> select GPIO_AMD_FCH
+>> @@ -706,7 +706,7 @@ config PCENGINES_APU2
+>> select LEDS_GPIO
+>> help
+>>   This driver provides support for the front button and LEDs on
+>> -   PC Engines APUv2/APUv3 board.
+>> +   PC Engines APUv2/APUv3/APUv4/APUv5/APUv6 board.
+>> 
+>>   To compile this driver as a module, choose M here: the module
+>>   will be called pcengines-apuv2.
+>> diff --git a/drivers/platform/x86/pcengines-apuv2.c b/drivers/platform/x86/pcengines-apuv2.c
+>> index d063d91db9bcbe5ceb2ac641d3105df37651ac4d..bd58d5294f0146088d435f1c9df83eb218b67b0c 100644
+>> --- a/drivers/platform/x86/pcengines-apuv2.c
+>> +++ b/drivers/platform/x86/pcengines-apuv2.c
+>> @@ -1,10 +1,12 @@
+>> // SPDX-License-Identifier: GPL-2.0+
+>> 
+>> /*
+>> - * PC-Engines APUv2/APUv3 board platform driver
+>> + * PC-Engines APUv2-6 board platform driver
+>>  * for GPIO buttons and LEDs
+>>  *
+>>  * Copyright (C) 2018 metux IT consult
+>> + * Copyright (C) 2022 Ed Wildgoose <lists@wildgooses.com>
+>> + * Copyright (C) 2022 Philip Prindeville <philipp@redfish-solutions.com>
+>>  * Author: Enrico Weigelt <info@metux.net>
+>>  */
+>> 
+>> @@ -22,38 +24,70 @@
+>> #include <linux/platform_data/gpio/gpio-amd-fch.h>
+>> 
+>> /*
+>> - * NOTE: this driver only supports APUv2/3 - not APUv1, as this one
+>> + * NOTE: this driver only supports APUv2-6 - not APUv1, as this one
+>>  * has completely different register layouts.
+>>  */
+>> 
+>> +/*
+>> + * There are a number of APU variants, with differing features
+>> + * APU2 has SIM slots 1/2 mapping to mPCIe sockets 1/2
+>> + * APU3/4 moved SIM slot 1 to mPCIe socket 3, ie logically reversed
+>> + * However, most APU3/4 have a SIM switch which we default on to reverse
+>> + * the order and keep physical SIM order matching physical modem order
+>> + * APU6 is approximately the same as APU4 with different ethernet layout
+>> + *
+>> + * APU5 has 3x SIM sockets, all with a SIM switch
+>> + * several GPIOs are shuffled (see schematic), including MODESW
+>> + */
+>> +
+>> /* Register mappings */
+>> #define APU2_GPIO_REG_LED1 AMD_FCH_GPIO_REG_GPIO57
+>> #define APU2_GPIO_REG_LED2 AMD_FCH_GPIO_REG_GPIO58
+>> #define APU2_GPIO_REG_LED3 AMD_FCH_GPIO_REG_GPIO59_DEVSLP1
+>> #define APU2_GPIO_REG_MODESW AMD_FCH_GPIO_REG_GPIO32_GE1
+>> #define APU2_GPIO_REG_SIMSWAP AMD_FCH_GPIO_REG_GPIO33_GE2
+>> -#define APU2_GPIO_REG_MPCIE2 AMD_FCH_GPIO_REG_GPIO55_DEVSLP0
+>> -#define APU2_GPIO_REG_MPCIE3 AMD_FCH_GPIO_REG_GPIO51
+>> +#define APU2_GPIO_REG_RESETM1 AMD_FCH_GPIO_REG_GPIO51
+>> +#define APU2_GPIO_REG_RESETM2 AMD_FCH_GPIO_REG_GPIO55_DEVSLP0
+>> +
+>> +#define APU5_GPIO_REG_MODESW AMT_FCH_GPIO_REG_GEVT22
+>> +#define APU5_GPIO_REG_SIMSWAP1 AMD_FCH_GPIO_REG_GPIO68
+>> +#define APU5_GPIO_REG_SIMSWAP2 AMD_FCH_GPIO_REG_GPIO32_GE1
+>> +#define APU5_GPIO_REG_SIMSWAP3 AMD_FCH_GPIO_REG_GPIO33_GE2
+>> +#define APU5_GPIO_REG_RESETM1 AMD_FCH_GPIO_REG_GPIO51
+>> +#define APU5_GPIO_REG_RESETM2 AMD_FCH_GPIO_REG_GPIO55_DEVSLP0
+>> +#define APU5_GPIO_REG_RESETM3 AMD_FCH_GPIO_REG_GPIO64
+>> 
+>> /* Order in which the GPIO lines are defined in the register list */
+>> #define APU2_GPIO_LINE_LED1 0
+>> #define APU2_GPIO_LINE_LED2 1
+>> #define APU2_GPIO_LINE_LED3 2
+>> #define APU2_GPIO_LINE_MODESW 3
+>> -#define APU2_GPIO_LINE_SIMSWAP 4
+>> -#define APU2_GPIO_LINE_MPCIE2 5
+>> -#define APU2_GPIO_LINE_MPCIE3 6
+>> +#define APU2_GPIO_LINE_RESETM1 4
+>> +#define APU2_GPIO_LINE_RESETM2 5
+>> +#define APU2_GPIO_LINE_SIMSWAP 6
+>> +
+>> +#define APU5_GPIO_LINE_LED1 0
+>> +#define APU5_GPIO_LINE_LED2 1
+>> +#define APU5_GPIO_LINE_LED3 2
+>> +#define APU5_GPIO_LINE_MODESW 3
+>> +#define APU5_GPIO_LINE_RESETM1 4
+>> +#define APU5_GPIO_LINE_RESETM2 5
+>> +#define APU5_GPIO_LINE_RESETM3 6
+>> +#define APU5_GPIO_LINE_SIMSWAP1 7
+>> +#define APU5_GPIO_LINE_SIMSWAP2 8
+>> +#define APU5_GPIO_LINE_SIMSWAP3 9
+>> 
+>> -/* GPIO device */
+>> +
+>> +/* GPIO device - APU2/3/4/6 */
+>> 
+>> static int apu2_gpio_regs[] = {
+>> [APU2_GPIO_LINE_LED1] = APU2_GPIO_REG_LED1,
+>> [APU2_GPIO_LINE_LED2] = APU2_GPIO_REG_LED2,
+>> [APU2_GPIO_LINE_LED3] = APU2_GPIO_REG_LED3,
+>> [APU2_GPIO_LINE_MODESW] = APU2_GPIO_REG_MODESW,
+>> + [APU2_GPIO_LINE_RESETM1] = APU2_GPIO_REG_RESETM1,
+>> + [APU2_GPIO_LINE_RESETM2] = APU2_GPIO_REG_RESETM2,
+>> [APU2_GPIO_LINE_SIMSWAP] = APU2_GPIO_REG_SIMSWAP,
+>> - [APU2_GPIO_LINE_MPCIE2] = APU2_GPIO_REG_MPCIE2,
+>> - [APU2_GPIO_LINE_MPCIE3] = APU2_GPIO_REG_MPCIE3,
+>> };
+>> 
+>> static const char * const apu2_gpio_names[] = {
+>> @@ -61,9 +95,9 @@ static const char * const apu2_gpio_names[] = {
+>> [APU2_GPIO_LINE_LED2] = "front-led2",
+>> [APU2_GPIO_LINE_LED3] = "front-led3",
+>> [APU2_GPIO_LINE_MODESW] = "front-button",
+>> + [APU2_GPIO_LINE_RESETM1] = "modem1-reset",
+>> + [APU2_GPIO_LINE_RESETM2] = "modem2-reset",
+>> [APU2_GPIO_LINE_SIMSWAP] = "simswap",
+>> - [APU2_GPIO_LINE_MPCIE2] = "mpcie2_reset",
+>> - [APU2_GPIO_LINE_MPCIE3] = "mpcie3_reset",
+>> };
+>> 
+>> static const struct amd_fch_gpio_pdata board_apu2 = {
+>> @@ -72,6 +106,40 @@ static const struct amd_fch_gpio_pdata board_apu2 = {
+>> .gpio_names = apu2_gpio_names,
+>> };
+>> 
+>> +/* GPIO device - APU5 */
+>> +
+>> +static int apu5_gpio_regs[] = {
+>> + [APU5_GPIO_LINE_LED1] = APU2_GPIO_REG_LED1,
+>> + [APU5_GPIO_LINE_LED2] = APU2_GPIO_REG_LED2,
+>> + [APU5_GPIO_LINE_LED3] = APU2_GPIO_REG_LED3,
+>> + [APU5_GPIO_LINE_MODESW] = APU5_GPIO_REG_MODESW,
+>> + [APU5_GPIO_LINE_RESETM1] = APU5_GPIO_REG_RESETM1,
+>> + [APU5_GPIO_LINE_RESETM2] = APU5_GPIO_REG_RESETM2,
+>> + [APU5_GPIO_LINE_RESETM3] = APU5_GPIO_REG_RESETM3,
+>> + [APU5_GPIO_LINE_SIMSWAP1] = APU5_GPIO_REG_SIMSWAP1,
+>> + [APU5_GPIO_LINE_SIMSWAP2] = APU5_GPIO_REG_SIMSWAP2,
+>> + [APU5_GPIO_LINE_SIMSWAP3] = APU5_GPIO_REG_SIMSWAP3,
+>> +};
+>> +
+>> +static const char * const apu5_gpio_names[] = {
+>> + [APU5_GPIO_LINE_LED1] = "front-led1",
+>> + [APU5_GPIO_LINE_LED2] = "front-led2",
+>> + [APU5_GPIO_LINE_LED3] = "front-led3",
+>> + [APU5_GPIO_LINE_MODESW] = "front-button",
+>> + [APU5_GPIO_LINE_RESETM1] = "modem1-reset",
+>> + [APU5_GPIO_LINE_RESETM2] = "modem2-reset",
+>> + [APU5_GPIO_LINE_RESETM3] = "modem3-reset",
+>> + [APU5_GPIO_LINE_SIMSWAP1] = "simswap1",
+>> + [APU5_GPIO_LINE_SIMSWAP2] = "simswap2",
+>> + [APU5_GPIO_LINE_SIMSWAP3] = "simswap3",
+>> +};
+>> +
+>> +static const struct amd_fch_gpio_pdata board_apu5 = {
+>> + .gpio_num = ARRAY_SIZE(apu5_gpio_regs),
+>> + .gpio_reg = apu5_gpio_regs,
+>> + .gpio_names = apu5_gpio_names,
+>> +};
+>> +
+>> /* GPIO LEDs device */
+>> 
+>> static const struct gpio_led apu2_leds[] = {
+>> @@ -215,6 +283,24 @@ static const struct dmi_system_id apu_gpio_dmi_table[] __initconst = {
+>> },
+>> .driver_data = (void *)&board_apu2,
+>> },
+>> + /* APU5 w/ mainline BIOS */
+>> + {
+>> + .ident = "apu5",
+>> + .matches = {
+>> + DMI_MATCH(DMI_SYS_VENDOR, "PC Engines"),
+>> + DMI_MATCH(DMI_BOARD_NAME, "apu5")
+>> + },
+>> + .driver_data = (void *)&board_apu5,
+>> + },
+>> + /* APU6 w/ mainline BIOS */
+>> + {
+>> + .ident = "apu6",
+>> + .matches = {
+>> + DMI_MATCH(DMI_SYS_VENDOR, "PC Engines"),
+>> + DMI_MATCH(DMI_BOARD_NAME, "apu6")
+>> + },
+>> + .driver_data = (void *)&board_apu2,
+>> + },
+>> {}
+>> };
+>> 
+>> @@ -249,7 +335,7 @@ static int __init apu_board_init(void)
+>> 
+>> id = dmi_first_match(apu_gpio_dmi_table);
+>> if (!id) {
+>> - pr_err("failed to detect APU board via DMI\n");
+>> + pr_err("No APU board detected via DMI\n");
+>> return -ENODEV;
+>> }
+>> 
+>> @@ -288,8 +374,12 @@ module_init(apu_board_init);
+>> module_exit(apu_board_exit);
+>> 
+>> MODULE_AUTHOR("Enrico Weigelt, metux IT consult <info@metux.net>");
+>> -MODULE_DESCRIPTION("PC Engines APUv2/APUv3 board GPIO/LEDs/keys driver");
+>> +MODULE_DESCRIPTION("PC Engines APUv2-6 board GPIO/LEDs/keys driver");
+>> MODULE_LICENSE("GPL");
+>> MODULE_DEVICE_TABLE(dmi, apu_gpio_dmi_table);
+>> MODULE_ALIAS("platform:pcengines-apuv2");
+>> +MODULE_ALIAS("platform:pcengines-apuv3");
+>> +MODULE_ALIAS("platform:pcengines-apuv4");
+>> +MODULE_ALIAS("platform:pcengines-apuv5");
+>> +MODULE_ALIAS("platform:pcengines-apuv6");
+>> MODULE_SOFTDEP("pre: platform:" AMD_FCH_GPIO_DRIVER_NAME " platform:leds-gpio platform:gpio_keys_polled");
+
+
