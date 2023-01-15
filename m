@@ -2,119 +2,94 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F84066A6B5
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 14 Jan 2023 00:12:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B91A866B3E8
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 15 Jan 2023 21:45:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229968AbjAMXME (ORCPT
+        id S231356AbjAOUpY (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 13 Jan 2023 18:12:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56992 "EHLO
+        Sun, 15 Jan 2023 15:45:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231386AbjAMXL5 (ORCPT
+        with ESMTP id S231346AbjAOUpX (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 13 Jan 2023 18:11:57 -0500
-Received: from mail.redfish-solutions.com (mail.redfish-solutions.com [24.116.100.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05A8E140B7;
-        Fri, 13 Jan 2023 15:11:52 -0800 (PST)
-Received: from ubuntu22.redfish-solutions.com (ubuntu22.redfish-solutions.com [192.168.8.33])
-        (authenticated bits=0)
-        by mail.redfish-solutions.com (8.17.1/8.16.1) with ESMTPSA id 30DNBeFD669450
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-        Fri, 13 Jan 2023 16:11:40 -0700
-From:   "Philip Prindeville" <philipp@redfish-solutions.com>
-To:     platform-driver-x86@vger.kernel.org, linux-x86_64@vger.kernel.org
-Cc:     Ed Wildgoose <lists@wildgooses.com>,
-        Andres Salomon <dilinger@queued.net>,
-        Andreas Eberlein <foodeas@aeberlein.de>,
-        Paul Spooren <paul@spooren.de>,
-        Philip Prindeville <philipp@redfish-solutions.com>
-Subject: [PATCH v4 2/2] x86: Further PCEngines APU4/5/6 cleanup
-Date:   Fri, 13 Jan 2023 16:11:40 -0700
-Message-Id: <20230113231140.437040-1-philipp@redfish-solutions.com>
-X-Mailer: git-send-email 2.34.1
+        Sun, 15 Jan 2023 15:45:23 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6BE212F3C
+        for <platform-driver-x86@vger.kernel.org>; Sun, 15 Jan 2023 12:45:22 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1E33EB80C80
+        for <platform-driver-x86@vger.kernel.org>; Sun, 15 Jan 2023 20:45:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A39C8C4339C
+        for <platform-driver-x86@vger.kernel.org>; Sun, 15 Jan 2023 20:45:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673815519;
+        bh=UFSF1zlv8tN8HvWL40F7FEgZFAiAV2cCueteDGMo0tE=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=NMBVkGOKFbr0uJsYakjD6bW5maDX/VX6+jlRZ+44mu11HZsZXTrMA4B4kHhRELP9o
+         2c5oef7XnFubDbtYjRnYiyKJPLP+8IzFC1o8+AKT7S9k3o7S3FTqCXuzoubdtWU4d4
+         aINvx8ZGCk4dBsLlkl5++rMgDtzBzhCjGdU4pWR4OAny4EwkCxCBg1E+qncPYfpOzH
+         R1Ch15pp8WdgYVsmxyrDRTg2uP78bI+/nzfd3yXF6nOQzOA0FJcFIU2QfIIzqWnbTD
+         WMV+AuNwdMeIXyFd9C6wJUOeJCCB+iqfOV4W6bAOHexgfhdP5psucq8UkR5MXQG3Tv
+         CiGgUIpxwDPDw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 94611C43142; Sun, 15 Jan 2023 20:45:19 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     platform-driver-x86@vger.kernel.org
+Subject: [Bug 204807] Hardware monitoring sensor nct6798d doesn't work unless
+ acpi_enforce_resources=lax is enabled
+Date:   Sun, 15 Jan 2023 20:45:16 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Platform_x86
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: pauk.denis@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
+Message-ID: <bug-204807-215701-ujmaxuo0OV@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204807-215701@https.bugzilla.kernel.org/>
+References: <bug-204807-215701@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.2 on 192.168.8.3
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Philip Prindeville <philipp@redfish-solutions.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D204807
 
-Updated exclusionary warning in leds-apu.c about unsupported models.
+Denis Pauk (pauk.denis@gmail.com) changed:
 
-Updated list of supported modules in Kconfig.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #303548|0                           |1
+        is obsolete|                            |
 
-Updated copyright and module aliases to cover more models.
+--- Comment #283 from Denis Pauk (pauk.denis@gmail.com) ---
+Created attachment 303610
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D303610&action=3Dedit
+Asus WMI for nct6775 v6.1 base (2023.01.15)
 
-Signed-off-by: Philip Prindeville <philipp@redfish-solutions.com>
-Reviewed-by: Paul Spooren <paul@spooren.de>
----
- drivers/leds/leds-apu.c                | 2 +-
- drivers/platform/x86/Kconfig           | 4 ++--
- drivers/platform/x86/pcengines-apuv2.c | 5 +++++
- 3 files changed, 8 insertions(+), 3 deletions(-)
+Rebased patch to new commits from hwmon-next
 
-diff --git a/drivers/leds/leds-apu.c b/drivers/leds/leds-apu.c
-index c409b80c236d7182c79944225dd4b9e5d32f0a9f..fb3332863c36241e4b7f75f89213171ec0c0dd04 100644
---- a/drivers/leds/leds-apu.c
-+++ b/drivers/leds/leds-apu.c
-@@ -183,7 +183,7 @@ static int __init apu_led_init(void)
- 
- 	if (!(dmi_match(DMI_SYS_VENDOR, "PC Engines") &&
- 	      (dmi_match(DMI_PRODUCT_NAME, "APU") || dmi_match(DMI_PRODUCT_NAME, "apu1")))) {
--		pr_err("No PC Engines APUv1 board detected. For APUv2,3 support, enable CONFIG_PCENGINES_APU2\n");
-+		pr_err("No PC Engines APUv1 board detected. For APUv2,3,4,5,6 support, enable CONFIG_PCENGINES_APU2\n");
- 		return -ENODEV;
- 	}
- 
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 5692385e2d26fed92785488ce1c6e88449c54c78..f930d5dd3efee11fbad4ad9508eb288bb4181bab 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -698,7 +698,7 @@ config XO1_RFKILL
- 	  laptop.
- 
- config PCENGINES_APU2
--	tristate "PC Engines APUv2/3 front button and LEDs driver"
-+	tristate "PC Engines APUv2/3/4/5/6 front button and LEDs driver"
- 	depends on INPUT && INPUT_KEYBOARD && GPIOLIB
- 	depends on LEDS_CLASS
- 	select GPIO_AMD_FCH
-@@ -706,7 +706,7 @@ config PCENGINES_APU2
- 	select LEDS_GPIO
- 	help
- 	  This driver provides support for the front button and LEDs on
--	  PC Engines APUv2/APUv3 board.
-+	  PC Engines APUv2/APUv3/APUv4/APUv5/APUv6 board.
- 
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called pcengines-apuv2.
-diff --git a/drivers/platform/x86/pcengines-apuv2.c b/drivers/platform/x86/pcengines-apuv2.c
-index 8731564bab62c1e47e99adb6ec23b3de81b09069..bd58d5294f0146088d435f1c9df83eb218b67b0c 100644
---- a/drivers/platform/x86/pcengines-apuv2.c
-+++ b/drivers/platform/x86/pcengines-apuv2.c
-@@ -6,6 +6,7 @@
-  *
-  * Copyright (C) 2018 metux IT consult
-  * Copyright (C) 2022 Ed Wildgoose <lists@wildgooses.com>
-+ * Copyright (C) 2022 Philip Prindeville <philipp@redfish-solutions.com>
-  * Author: Enrico Weigelt <info@metux.net>
-  */
- 
-@@ -377,4 +378,8 @@ MODULE_DESCRIPTION("PC Engines APUv2-6 board GPIO/LEDs/keys driver");
- MODULE_LICENSE("GPL");
- MODULE_DEVICE_TABLE(dmi, apu_gpio_dmi_table);
- MODULE_ALIAS("platform:pcengines-apuv2");
-+MODULE_ALIAS("platform:pcengines-apuv3");
-+MODULE_ALIAS("platform:pcengines-apuv4");
-+MODULE_ALIAS("platform:pcengines-apuv5");
-+MODULE_ALIAS("platform:pcengines-apuv6");
- MODULE_SOFTDEP("pre: platform:" AMD_FCH_GPIO_DRIVER_NAME " platform:leds-gpio platform:gpio_keys_polled");
--- 
-2.34.1
+--=20
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
