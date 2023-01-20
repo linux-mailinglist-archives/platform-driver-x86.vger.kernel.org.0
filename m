@@ -2,43 +2,43 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3192367539B
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Jan 2023 12:47:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B37D6753A2
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Jan 2023 12:47:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229928AbjATLrC (ORCPT
+        id S229897AbjATLrT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 20 Jan 2023 06:47:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55300 "EHLO
+        Fri, 20 Jan 2023 06:47:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229515AbjATLq7 (ORCPT
+        with ESMTP id S229479AbjATLrR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 20 Jan 2023 06:46:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04BB4A7327
-        for <platform-driver-x86@vger.kernel.org>; Fri, 20 Jan 2023 03:45:49 -0800 (PST)
+        Fri, 20 Jan 2023 06:47:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 033FCAA7C2
+        for <platform-driver-x86@vger.kernel.org>; Fri, 20 Jan 2023 03:45:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674215149;
+        s=mimecast20190719; t=1674215155;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=UmIMvoQlXZvHXwWvSWbWxN/3qEORHkeS34lHWE31K1M=;
-        b=ZFJz05wOo5kzC7ZqV7Vo7ofrJDG3HK2DPA3nvq+eojzUH5GMlsXbtMQCfQ5HEl5cEDibcp
-        CdpfixAOfzGNsdheDzczHAEBGiSaHKI8F30Z5C4JcYRwhwwr8arnA67AUpw3olBCtNE2Ff
-        Dk7Z9FzZXsPMs6L6TwAe7m6w0WHbgug=
+        bh=sTLhjxEJPJWY28ZRUjS8Iwvs8m+iveoiY2xNSYePPB8=;
+        b=XQUDgcVXPRzOM2tgmW27je2REc2z5rfhjhckFke6+biC9FXMuNHtGLYJstjCk1iDhMj/8K
+        c2Z7fWrH9DALTPWYwFTP+mTfrl+wPwcZqKGL5bmxAghZyNGW4opfEo5jD9ghbWHxR2qX3D
+        gIEu8plt+VGByPUV7b7I+xBTcAf3BOg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-50-14SpSOnEM0iETPeQnElUuQ-1; Fri, 20 Jan 2023 06:45:45 -0500
-X-MC-Unique: 14SpSOnEM0iETPeQnElUuQ-1
+ us-mta-663-CEFJphzmNX2-2meUaJgl7g-1; Fri, 20 Jan 2023 06:45:48 -0500
+X-MC-Unique: CEFJphzmNX2-2meUaJgl7g-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5B3F585A588;
-        Fri, 20 Jan 2023 11:45:44 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E5AF4185A794;
+        Fri, 20 Jan 2023 11:45:47 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.195.101])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 566BE140EBF6;
-        Fri, 20 Jan 2023 11:45:40 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9DCCF140EBF6;
+        Fri, 20 Jan 2023 11:45:44 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
@@ -55,9 +55,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
         linux-media@vger.kernel.org,
         Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v5 02/11] leds: led-class: Add led_module_get() helper
-Date:   Fri, 20 Jan 2023 12:45:15 +0100
-Message-Id: <20230120114524.408368-3-hdegoede@redhat.com>
+Subject: [PATCH v5 03/11] leds: led-class: Add __devm_led_get() helper
+Date:   Fri, 20 Jan 2023 12:45:16 +0100
+Message-Id: <20230120114524.408368-4-hdegoede@redhat.com>
 In-Reply-To: <20230120114524.408368-1-hdegoede@redhat.com>
 References: <20230120114524.408368-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -73,76 +73,72 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Split out part of of_led_get() into a generic led_module_get() helper
-function.
+Add a __devm_led_get() helper which registers a passed in led_classdev
+with devm for unregistration.
 
 This is a preparation patch for adding a generic (non devicetree specific)
-led_get() function.
+devm_led_get() function.
 
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
-Changes in v4:
-- Rename helper from __led_get() to led_module_get()
----
- drivers/leds/led-class.c | 30 ++++++++++++++++++------------
- 1 file changed, 18 insertions(+), 12 deletions(-)
+ drivers/leds/led-class.c | 29 +++++++++++++++++------------
+ 1 file changed, 17 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-index 7391d2cf1370..743d97b082dc 100644
+index 743d97b082dc..4904d140a560 100644
 --- a/drivers/leds/led-class.c
 +++ b/drivers/leds/led-class.c
-@@ -215,6 +215,23 @@ static int led_resume(struct device *dev)
+@@ -274,6 +274,22 @@ static void devm_led_release(struct device *dev, void *res)
+ 	led_put(*p);
+ }
  
- static SIMPLE_DEV_PM_OPS(leds_class_dev_pm_ops, led_suspend, led_resume);
- 
-+static struct led_classdev *led_module_get(struct device *led_dev)
++static struct led_classdev *__devm_led_get(struct device *dev, struct led_classdev *led)
 +{
-+	struct led_classdev *led_cdev;
++	struct led_classdev **dr;
 +
-+	if (!led_dev)
-+		return ERR_PTR(-EPROBE_DEFER);
-+
-+	led_cdev = dev_get_drvdata(led_dev);
-+
-+	if (!try_module_get(led_cdev->dev->parent->driver->owner)) {
-+		put_device(led_cdev->dev);
-+		return ERR_PTR(-ENODEV);
++	dr = devres_alloc(devm_led_release, sizeof(struct led_classdev *), GFP_KERNEL);
++	if (!dr) {
++		led_put(led);
++		return ERR_PTR(-ENOMEM);
 +	}
 +
-+	return led_cdev;
++	*dr = led;
++	devres_add(dev, dr);
++
++	return led;
 +}
 +
  /**
-  * of_led_get() - request a LED device via the LED framework
-  * @np: device node to get the LED device from
-@@ -226,7 +243,6 @@ static SIMPLE_DEV_PM_OPS(leds_class_dev_pm_ops, led_suspend, led_resume);
- struct led_classdev *of_led_get(struct device_node *np, int index)
+  * devm_of_led_get - Resource-managed request of a LED device
+  * @dev:	LED consumer
+@@ -289,7 +305,6 @@ struct led_classdev *__must_check devm_of_led_get(struct device *dev,
+ 						  int index)
  {
- 	struct device *led_dev;
--	struct led_classdev *led_cdev;
- 	struct device_node *led_node;
+ 	struct led_classdev *led;
+-	struct led_classdev **dr;
  
- 	led_node = of_parse_phandle(np, "leds", index);
-@@ -236,17 +252,7 @@ struct led_classdev *of_led_get(struct device_node *np, int index)
- 	led_dev = class_find_device_by_of_node(leds_class, led_node);
- 	of_node_put(led_node);
+ 	if (!dev)
+ 		return ERR_PTR(-EINVAL);
+@@ -298,17 +313,7 @@ struct led_classdev *__must_check devm_of_led_get(struct device *dev,
+ 	if (IS_ERR(led))
+ 		return led;
  
--	if (!led_dev)
--		return ERR_PTR(-EPROBE_DEFER);
--
--	led_cdev = dev_get_drvdata(led_dev);
--
--	if (!try_module_get(led_cdev->dev->parent->driver->owner)) {
--		put_device(led_cdev->dev);
--		return ERR_PTR(-ENODEV);
+-	dr = devres_alloc(devm_led_release, sizeof(struct led_classdev *),
+-			  GFP_KERNEL);
+-	if (!dr) {
+-		led_put(led);
+-		return ERR_PTR(-ENOMEM);
 -	}
 -
--	return led_cdev;
-+	return led_module_get(led_dev);
+-	*dr = led;
+-	devres_add(dev, dr);
+-
+-	return led;
++	return __devm_led_get(dev, led);
  }
- EXPORT_SYMBOL_GPL(of_led_get);
+ EXPORT_SYMBOL_GPL(devm_of_led_get);
  
 -- 
 2.39.0
