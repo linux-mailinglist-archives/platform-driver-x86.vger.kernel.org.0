@@ -2,105 +2,101 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1BAF674F26
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Jan 2023 09:09:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09DCE674FF7
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Jan 2023 09:56:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230379AbjATIJZ (ORCPT
+        id S229447AbjATI4p (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 20 Jan 2023 03:09:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39102 "EHLO
+        Fri, 20 Jan 2023 03:56:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230373AbjATIJW (ORCPT
+        with ESMTP id S229492AbjATI4o (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 20 Jan 2023 03:09:22 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4191A8534B;
-        Fri, 20 Jan 2023 00:09:21 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id F1432B82079;
-        Fri, 20 Jan 2023 08:09:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E1FCC4339C;
-        Fri, 20 Jan 2023 08:09:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674202158;
-        bh=KH0OHgFWAlMLEWamKLwkcAUS3Cf3miV/YcqK/yvTjt0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TGC3seA27YcuIqW7l7QdWoRSC4YaMRFpcDPOJ0rcjTLGHU2iugFpiRiF3cL4brEhf
-         DGHxbmWdhDikvRvIIjRCjMZ7UiJYPuPHHtKVCD+HaLhhNJAw30tVZSnqtYvSW2rcMg
-         MwcsZMvihl/0whuinRk9DqdHXpdGT4w1cmP+Dq3FV/1ibuqVgSx5Fgu7JIzPYhL/cO
-         eG/KljOSBWVIjGixI2gV68V8sCMsluDvmbvPzlQMu4X/ruZ1RBNdOIEqIxZzEUK5Hb
-         SJczFH90f2TKkOh8Eyq/R0ciISYUiTz504OSZAIJZPF3o/ytXD1H02r5j/Ki5dNebq
-         Kb6S7tm63BK0w==
-Date:   Fri, 20 Jan 2023 08:09:11 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 04/11] leds: led-class: Add generic [devm_]led_get()
-Message-ID: <Y8pMJ1XRprFABBFs@google.com>
-References: <20230119130053.111344-1-hdegoede@redhat.com>
- <20230119130053.111344-5-hdegoede@redhat.com>
- <CACRpkdYuHmAwYR24xEz01ub1_mMhqYN65WuoLHCS=094b6AM2w@mail.gmail.com>
+        Fri, 20 Jan 2023 03:56:44 -0500
+Received: from mail.bostmarktrun.com (mail.bostmarktrun.com [135.125.238.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB08A3D903
+        for <platform-driver-x86@vger.kernel.org>; Fri, 20 Jan 2023 00:56:29 -0800 (PST)
+Received: by mail.bostmarktrun.com (Postfix, from userid 1002)
+        id 49FCAA308B; Fri, 20 Jan 2023 08:56:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=bostmarktrun.com;
+        s=mail; t=1674204988;
+        bh=gfWmJwOZk+B/IN1TMPg7emKhIvoExrJdUiyEL8yd2Jk=;
+        h=Date:From:To:Subject:From;
+        b=TSEJ2Bp3elEH5SlMmQsHJndAbCrjrIgjTkusplQyvrQFGWYopjAtFf9K2wkTMEFN1
+         TqtfFbK2w+eDYPyJxdIlzeqbu75NynWPLC2BuwWvw6pssgBGXEVa8GDNOKEbZxsB1V
+         XD+EatRzlj7psAZwPHqZEjDEinyUNMAUzi/V43+qhSB3SpkYW/+bi7J2MijM7hO7iy
+         EkfGX9EKD3Bo9LNQo/pSEz/OJ0mqMWKyKazVRmVYFUSqlNx0rfIVzLrbaj5ORJbkwI
+         yaKmomwUqXW5+KgjUTkoYWuUuKCaLNFVbrX22pRKyeeLYQ6CGGMxMue/DFgXTNfUvF
+         D12KqEcA3MZcg==
+Received: by mail.bostmarktrun.com for <platform-driver-x86@vger.kernel.org>; Fri, 20 Jan 2023 08:56:12 GMT
+Message-ID: <20230120074500-0.1.4r.x4xf.0.snrbn03679@bostmarktrun.com>
+Date:   Fri, 20 Jan 2023 08:56:12 GMT
+From:   "Corey Webb" <corey.webb@bostmarktrun.com>
+To:     <platform-driver-x86@vger.kernel.org>
+Subject: Custom Software Development
+X-Mailer: mail.bostmarktrun.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdYuHmAwYR24xEz01ub1_mMhqYN65WuoLHCS=094b6AM2w@mail.gmail.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
+        SPF_PASS,URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
+        *      blocklist
+        *      [URIs: bostmarktrun.com]
+        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        *      [135.125.238.46 listed in zen.spamhaus.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
+        *      blocklist
+        *      [URIs: bostmarktrun.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, 20 Jan 2023, Linus Walleij wrote:
+Hi,=20
 
-> On Thu, Jan 19, 2023 at 2:01 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> 
-> > Add a generic [devm_]led_get() method which can be used on both devicetree
-> > and non devicetree platforms to get a LED classdev associated with
-> > a specific function on a specific device, e.g. the privacy LED associated
-> > with a specific camera sensor.
-> >
-> > Note unlike of_led_get() this takes a string describing the function
-> > rather then an index. This is done because e.g. camera sensors might
-> > have a privacy LED, or a flash LED, or both and using an index
-> > approach leaves it unclear what the function of index 0 is if there is
-> > only 1 LED.
-> >
-> > This uses a lookup-table mechanism for non devicetree platforms.
-> > This allows the platform code to map specific LED class_dev-s to a specific
-> > device,function combinations this way.
-> >
-> > For devicetree platforms getting the LED by function-name could be made
-> > to work using the standard devicetree pattern of adding a -names string
-> > array to map names to the indexes.
-> >
-> > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > ---
-> > Changes in v4:
-> > - Split out support for led_get() devicetree name-based lookup support
-> >   into a separate RFC patch as there currently are no user for this
-> > - Use kstrdup_const() / kfree_const() for the led_name
-> 
-> This is how I would implement it so:
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+I would like to reach the person responsible for the implementation of yo=
+ur company's goals, vision and mission or the decision-maker in the devel=
+opment of your technology strategy.
 
-Thanks Linus, this is all really helpful.
+I represent provider of lucrative IT solutions that remove the barriers t=
+o process development resulting from limited access to appropriate IT res=
+ources.
 
--- 
-Lee Jones [李琼斯]
+We guarantee you access to the knowledge and experience of outstanding 3,=
+000 software developers from Poland and 500 professional consultants and =
+senior developers in the United States and other Western countries. =20
+
+We respond to a variety of needs, ranging from expanding your project tea=
+m with specialists with specific skills to supporting project managers, e=
+xperienced innovation teams to creating a Minimum Viable Project (MVP).
+
+The comprehensiveness of our services guarantees you dynamic software dev=
+elopment including creation, testing and implementation systems that are =
+the backbone of effective management of the entire organization.
+
+A partnership that lasts for years is the best proof that our clients mee=
+t their unique requirements within a specific timeframe, introduce new op=
+portunities and grow their business while we solve their problems.
+
+Are you available for a brief call? I will be looking forward to hearing =
+from you.
+
+
+Best regards
+Corey Webb
