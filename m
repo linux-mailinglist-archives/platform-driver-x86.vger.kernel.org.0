@@ -2,291 +2,109 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A5FC67603F
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Jan 2023 23:40:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1AF9676425
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 21 Jan 2023 07:21:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229484AbjATWkT (ORCPT
+        id S229523AbjAUGVW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 20 Jan 2023 17:40:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47408 "EHLO
+        Sat, 21 Jan 2023 01:21:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjATWkS (ORCPT
+        with ESMTP id S229450AbjAUGVV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 20 Jan 2023 17:40:18 -0500
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88BEB22A25;
-        Fri, 20 Jan 2023 14:40:17 -0800 (PST)
-Received: by mail-pl1-x62a.google.com with SMTP id z20so4584999plc.2;
-        Fri, 20 Jan 2023 14:40:17 -0800 (PST)
+        Sat, 21 Jan 2023 01:21:21 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7FC67134D
+        for <platform-driver-x86@vger.kernel.org>; Fri, 20 Jan 2023 22:21:20 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id e3so6509126wru.13
+        for <platform-driver-x86@vger.kernel.org>; Fri, 20 Jan 2023 22:21:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TD4+D55doYrSZRUONO0jFQcQqjgGxOTX6KlK/7naN+0=;
-        b=TonjkksGdo9veTWYHSw4ATzqQHkxY88mSsON8Mcq+OQ5+2LcTsLwBZD2vGYZnrLBTQ
-         iXZNF4+JbYxA7Jru20WvvYkF38dyIHKspLAEnxOCDMpNG357Xq3XndAZ+d+G8rb47g47
-         zwYSDK8RA2lE3CIYJmVMvduSmVL+HNorPwRieu38N8S7I58SpXHRs87cRYZ4SCvfi/Bn
-         mrWuUrwJqcFEcZCP+oF1GWrUdf6YQKdNLoDfJfj1sByW9h1jQVmcT5Gsl+gZmOMkNZ28
-         j7f3d4OBPlIvu6hXgLRGgqmDXqyX/FMrEq8lShj8Bs9iL40czDPksnkY7WX8aYHTKe+b
-         0ANQ==
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NK4DjyGQpMqw10x+mS5KkcoMyzskXFHKTg9WGMfZ5sk=;
+        b=SlIXJPrQdsl8ftL0XvWTaeptlMLDvdkp5+x8rRtWgiY/OiMXFsoCugN6GWnjRIrHKm
+         VSqVx6x8PVlJXZii196GS5LSHqycbTbu29R4Y7Kh7KH+UTBtLOV4cITYcOmFEF7o3pkD
+         zbAmnHiEbpNxjuvxavu8KczhL0/1pMVIKrMqWpta/CqfJ9BZIi3yxqfV+ERif3eKd2xn
+         FbK33yhd3W43JDzQ2oN6Ebn8SNUC/mhLTgZdi8EYPp7Li45t0LsMHzRuQ5oFkQARySq8
+         pp6YC24au2wYcIiK1xL2s5Ri9/hS5Ih5I6mnkwxPsW3Fpp8CasR41lgiscCdGUC/4/1t
+         gwFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TD4+D55doYrSZRUONO0jFQcQqjgGxOTX6KlK/7naN+0=;
-        b=MRz4PGqawLC1F/TLcKh8YnyO6uQauNAESUCnnU/Xc9gXKVybQ0Qg5OmakidzVfAI1i
-         yOgtKzLI+BNLtrlYtkyHQ4DgwdLOMkpPGF7mpuh+xBrWrZrMYNDSLuQL4awboqyQ3wOh
-         96oYF2D5eLBYLjEcrVAU9t6e2o/PnVVjdcBWAyv13zSGjU2JHa54ohC2L5q7EBMR0JXo
-         YrPiuF7l42EzQjKVzxIA18+hy4cR42ynm7zm0OzhP2tL2DRVPXDtR262Eu3CPEzrtBoA
-         i447XaOR9NKCrTdyyl/oIjA8XXH6eLW3PI6OSTe5Q0FawHjPT/5ETSOcPqlAhqzqHDk9
-         10zQ==
-X-Gm-Message-State: AFqh2kqUFDJYn8/9Tp93diFr76Y56JRlScfi+/hM5TCf10d7Ir9JSPt/
-        u9B3oNnqGL2AcOke6GuxlA4LACWl5xHaeKqO
-X-Google-Smtp-Source: AMrXdXtX36sJYvZ0zSHGwR0IgUSUJ05qd5MRgH3L1AlMKqBofQuAcQRDHRrDa2AKdsCS53/Owtk8uw==
-X-Received: by 2002:a17:90a:1a0a:b0:22b:b346:4d86 with SMTP id 10-20020a17090a1a0a00b0022bb3464d86mr3414527pjk.43.1674254416834;
-        Fri, 20 Jan 2023 14:40:16 -0800 (PST)
-Received: from rishit-OMEN-Laptop-15-en0xxx ([171.76.81.196])
-        by smtp.gmail.com with ESMTPSA id x13-20020a17090abc8d00b00219eefe47c7sm1483271pjr.47.2023.01.20.14.40.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 14:40:15 -0800 (PST)
-From:   Rishit Bansal <rishitbansal0@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Rishit Bansal <rishitbansal0@gmail.com>
-Subject: [PATCH v2] platform/x86: hp-wmi: Support omen backlight control wmi-acpi methods
-Date:   Sat, 21 Jan 2023 04:09:08 +0530
-Message-Id: <20230120223908.28678-1-rishitbansal0@gmail.com>
-X-Mailer: git-send-email 2.37.2
+        bh=NK4DjyGQpMqw10x+mS5KkcoMyzskXFHKTg9WGMfZ5sk=;
+        b=h12ygNWXm3Fg3dyf/9TPBnoFrpOl49h1Fi/v+3KobkHIeVJyq7vpUeDgU9W96f0T4a
+         8ZWYbq1qo/E1iaOY5gn0GvuxgTlVpRElcNjeh/HERxdxR8GhGUnGv+syopweyzWc1Qow
+         rwGYyZvQl7zp0t/FSqdFwbmvpxQktV+ajNMJjRsDG3XYf3KRnwyVyraO1rSJIjy1jAjL
+         RPC0B0i0eY1FXOutvf5gok67yBVxIpa+jeSe50EblQIxBjVC165/RfI/JkiWVwOyEYnr
+         3qPUwQzK8w9Okhm9/9QYzx7LWnEAY/5BYY5QlOhuI8U/ZgkeZPCkrNTiyZdBaec43E87
+         9sWA==
+X-Gm-Message-State: AFqh2kqDf51uck6VV+ydZJ29F43Wbcw3WitfqeSbJD0cAyVm5yrsLjan
+        /O9cMV3Rd6KSKfEosti6NgWFxH07r+l7DQc/2ak=
+X-Google-Smtp-Source: AMrXdXsEbbWBHbLnQJdDqyRKyQE+MPkGSljCT+OiQeRbKTd6uL8/osz8jgSuSQmM6N+CJqsAFylMQbzq+l60phj1tNs=
+X-Received: by 2002:a5d:4b06:0:b0:2be:858:5d4c with SMTP id
+ v6-20020a5d4b06000000b002be08585d4cmr444771wrq.88.1674282079273; Fri, 20 Jan
+ 2023 22:21:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+Received: by 2002:a5d:5948:0:0:0:0:0 with HTTP; Fri, 20 Jan 2023 22:21:18
+ -0800 (PST)
+Reply-To: charleswjacksonjr32@gmail.com
+From:   Charles W Jackson Jr <umarharuna1050@gmail.com>
+Date:   Fri, 20 Jan 2023 22:21:18 -0800
+Message-ID: <CALc5pju1+Gtnpi_G_dN1W7dxVOVQPSjBvOwcVv1a5kHWC1ofYA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=7.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,UNDISC_FREEM,UNDISC_MONEY autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:42a listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [umarharuna1050[at]gmail.com]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [umarharuna1050[at]gmail.com]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [charleswjacksonjr32[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  2.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  0.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  2.9 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The HP Omen Command Studio application includes a Light Studio feature
-which can be used to control various features related to the keyboard
-backlight via the 0x20009 command.
-
-The command supports the following queries:
-
-- 0x1: Checks if keyboard lighting is supported
-- 0x2: Get the zone colors of each of the 4 zones on the keyboard
-- 0x3: Set the zone colors of each of the 4 zones on the keyboard
-- 0x4: Gets the state (on/off) of the backlight
-- 0x5: Sets the state (on/off) of the backlight
-
-This patch introduces a new sysfs led class called
-"hp_omen::kbd_backlight" which can be used to control the state of the
-backlight. It also includes a sysfs RW attribute called "kbd_rgb"
-which can be used to get/set the current color of each zone.
-
-Additionally, it also maps the backlight event to the KEY_KBDILLUMTOGGLE
-key so it shows the correct notification on userspace.
-
-The patch has been tested on an HP Omen 15-en0037AX (AMD) laptop.
-
-Signed-off-by: Rishit Bansal <rishitbansal0@gmail.com>
----
-Changes since v1:
- - Map backlight key to KEY_KBDILLUMTOGGLE
----
- drivers/platform/x86/hp/hp-wmi.c | 113 +++++++++++++++++++++++++++++++
- 1 file changed, 113 insertions(+)
-
-diff --git a/drivers/platform/x86/hp/hp-wmi.c b/drivers/platform/x86/hp/hp-wmi.c
-index 0a99058be813..a9e2634a9d46 100644
---- a/drivers/platform/x86/hp/hp-wmi.c
-+++ b/drivers/platform/x86/hp/hp-wmi.c
-@@ -27,6 +27,7 @@
- #include <linux/rfkill.h>
- #include <linux/string.h>
- #include <linux/dmi.h>
-+#include <linux/leds.h>
- 
- MODULE_AUTHOR("Matthew Garrett <mjg59@srcf.ucam.org>");
- MODULE_DESCRIPTION("HP laptop WMI hotkeys driver");
-@@ -136,6 +137,7 @@ enum hp_wmi_command {
- 	HPWMI_WRITE	= 0x02,
- 	HPWMI_ODM	= 0x03,
- 	HPWMI_GM	= 0x20008,
-+	HPWMI_KB    = 0x20009,
- };
- 
- enum hp_wmi_hardware_mask {
-@@ -219,6 +221,7 @@ static const struct key_entry hp_wmi_keymap[] = {
- 	{ KE_KEY, 0x21a9,  { KEY_TOUCHPAD_OFF } },
- 	{ KE_KEY, 0x121a9, { KEY_TOUCHPAD_ON } },
- 	{ KE_KEY, 0x231b,  { KEY_HELP } },
-+	{ KE_KEY, KEY_KBDILLUMTOGGLE, { KEY_KBDILLUMTOGGLE }},
- 	{ KE_END, 0 }
- };
- 
-@@ -734,12 +737,56 @@ static ssize_t postcode_store(struct device *dev, struct device_attribute *attr,
- 	return count;
- }
- 
-+static ssize_t kbd_rgb_show(struct device *dev,
-+				    struct device_attribute *attr, char *buf)
-+{
-+	u8 val[128];
-+
-+	int ret = hp_wmi_perform_query(HPWMI_HDDTEMP_QUERY, HPWMI_KB, &val,
-+				       zero_if_sup(val), sizeof(val));
-+
-+	if (ret)
-+		return ret;
-+
-+	strncat(buf, &val[25], 12);
-+
-+	return strlen(buf);
-+}
-+
-+static ssize_t kbd_rgb_store(struct device *dev,
-+				     struct device_attribute *attr,
-+				     const char *buf, size_t count)
-+{
-+	u8 val[128];
-+	int ret;
-+
-+	ret = hp_wmi_perform_query(HPWMI_HDDTEMP_QUERY, HPWMI_KB, &val,
-+				   zero_if_sup(val), sizeof(val));
-+
-+	if (ret)
-+		return ret;
-+
-+	if (count != 12)
-+		return -1;
-+
-+	strncpy(&val[25], buf, count);
-+
-+	ret = hp_wmi_perform_query(HPWMI_ALS_QUERY, HPWMI_KB, &val, sizeof(val),
-+				   0);
-+
-+	if (ret)
-+		return ret;
-+
-+	return count;
-+}
-+
- static DEVICE_ATTR_RO(display);
- static DEVICE_ATTR_RO(hddtemp);
- static DEVICE_ATTR_RW(als);
- static DEVICE_ATTR_RO(dock);
- static DEVICE_ATTR_RO(tablet);
- static DEVICE_ATTR_RW(postcode);
-+static DEVICE_ATTR_RW(kbd_rgb);
- 
- static struct attribute *hp_wmi_attrs[] = {
- 	&dev_attr_display.attr,
-@@ -748,6 +795,7 @@ static struct attribute *hp_wmi_attrs[] = {
- 	&dev_attr_dock.attr,
- 	&dev_attr_tablet.attr,
- 	&dev_attr_postcode.attr,
-+	&dev_attr_kbd_rgb.attr,
- 	NULL,
- };
- ATTRIBUTE_GROUPS(hp_wmi);
-@@ -853,6 +901,8 @@ static void hp_wmi_notify(u32 value, void *context)
- 	case HPWMI_PROXIMITY_SENSOR:
- 		break;
- 	case HPWMI_BACKLIT_KB_BRIGHTNESS:
-+		sparse_keymap_report_event(hp_wmi_input_dev,
-+						KEY_KBDILLUMTOGGLE, 1, true);
- 		break;
- 	case HPWMI_PEAKSHIFT_PERIOD:
- 		break;
-@@ -1294,6 +1344,63 @@ static int thermal_profile_setup(void)
- 
- static int hp_wmi_hwmon_init(void);
- 
-+static struct led_classdev omen_kbd_led;
-+
-+static enum led_brightness get_omen_backlight_brightness(struct led_classdev *cdev)
-+{
-+	u8 val;
-+
-+	int ret = hp_wmi_perform_query(HPWMI_HARDWARE_QUERY, HPWMI_KB, &val, zero_if_sup(val), sizeof(val));
-+
-+	if (ret)
-+		return ret;
-+
-+	return (val & 0x80) ? LED_ON : LED_OFF;
-+}
-+
-+static void set_omen_backlight_brightness(struct led_classdev *cdev, enum led_brightness value)
-+{
-+	char buffer[4] = { (value == LED_OFF) ? 0x64 : 0xe4, 0, 0, 0 };
-+
-+	hp_wmi_perform_query(HPWMI_WIRELESS_QUERY, HPWMI_KB, &buffer,
-+				       sizeof(buffer), 0);
-+}
-+
-+
-+static bool is_omen_lighting_supported(void)
-+{
-+	u8 val;
-+
-+	int ret = hp_wmi_perform_query(HPWMI_DISPLAY_QUERY, HPWMI_KB, &val, zero_if_sup(val), sizeof(val));
-+
-+	if (ret)
-+		return false;
-+
-+	return (val & 1) == 1;
-+}
-+
-+static int omen_backlight_init(struct device *dev)
-+{
-+	int ret;
-+
-+	omen_kbd_led.name = "hp_omen::kbd_backlight";
-+	omen_kbd_led.brightness_set = set_omen_backlight_brightness;
-+	omen_kbd_led.brightness_get = get_omen_backlight_brightness;
-+	omen_kbd_led.max_brightness = 1;
-+
-+	ret = devm_led_classdev_register(dev, &omen_kbd_led);
-+
-+	if (ret < 0)
-+		return -1;
-+
-+	return 0;
-+}
-+
-+static void omen_backlight_exit(struct device *dev)
-+{
-+	devm_led_classdev_unregister(dev, &omen_kbd_led);
-+}
-+
- static int __init hp_wmi_bios_setup(struct platform_device *device)
- {
- 	int err;
-@@ -1321,6 +1428,9 @@ static int __init hp_wmi_bios_setup(struct platform_device *device)
- 
- 	thermal_profile_setup();
- 
-+	if (is_omen_lighting_supported())
-+		omen_backlight_init(&device->dev);
-+
- 	return 0;
- }
- 
-@@ -1349,6 +1459,9 @@ static int __exit hp_wmi_bios_remove(struct platform_device *device)
- 	if (platform_profile_support)
- 		platform_profile_remove();
- 
-+	if (is_omen_lighting_supported())
-+		omen_backlight_exit(&device->dev);
-+
- 	return 0;
- }
- 
--- 
-2.37.2
-
+--=20
+IHR E-MAIL-KONTO WURDE F=C3=9CR EINE SPENDE IN H=C3=96HE VON 3.500.000,00 U=
+SD
+F=C3=9CR CHARITY AUSGEW=C3=84HLT. BITTE KONTAKTIEREN SIE UNS F=C3=9CR WEITE=
+RE
+INFORMATIONEN.
