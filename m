@@ -2,51 +2,82 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B5E5677DA1
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 23 Jan 2023 15:08:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D158677D22
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 23 Jan 2023 14:56:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232176AbjAWOI2 (ORCPT
+        id S229514AbjAWN4B (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 23 Jan 2023 09:08:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57282 "EHLO
+        Mon, 23 Jan 2023 08:56:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232183AbjAWOI1 (ORCPT
+        with ESMTP id S229777AbjAWN4A (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 23 Jan 2023 09:08:27 -0500
-X-Greylist: delayed 599 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 23 Jan 2023 06:07:52 PST
-Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net [176.9.242.62])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D29E24114;
-        Mon, 23 Jan 2023 06:07:51 -0800 (PST)
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-         client-signature RSA-PSS (4096 bits) client-digest SHA256)
-        (Client CN "*.hostsharing.net", Issuer "RapidSSL Global TLS RSA4096 SHA256 2022 CA1" (verified OK))
-        by bmailout3.hostsharing.net (Postfix) with ESMTPS id 67420100DA1BD;
-        Mon, 23 Jan 2023 14:49:07 +0100 (CET)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-        id 352D22E5C2B; Mon, 23 Jan 2023 14:49:07 +0100 (CET)
-Date:   Mon, 23 Jan 2023 14:49:07 +0100
-From:   Lukas Wunner <lukas@wunner.de>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Aditya Garg <gargaditya08@live.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        linux-acpi@vger.kernel.org, Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 2/3] platform/x86: apple-gmux: Add apple_gmux_detect()
- helper
-Message-ID: <20230123134907.GA2649@wunner.de>
-References: <20230123113750.462144-1-hdegoede@redhat.com>
- <20230123113750.462144-3-hdegoede@redhat.com>
+        Mon, 23 Jan 2023 08:56:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F6C214221
+        for <platform-driver-x86@vger.kernel.org>; Mon, 23 Jan 2023 05:55:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674482118;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=hAfU51i6h1AKqDjTc93qMy/AcUh5PR71ti/ig/qkQVo=;
+        b=W09PP4mNIZTpCzzxmzPapLIm1p6P1M1em4wP6RGbLkHlGUFiFPjEPS+D4yft7SDCOM3xWY
+        TtOGXlvz/TgFp3YViwSSQ8hyrwY7Z4DLjRq0bBWKzlUukmHcApflx2gk2u9Rikw9RkopFT
+        oIwoQp7/YEk+ar0UKFnnoavgPuhJXeA=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-460-YU1k4naqMBSlyZep1J-YdA-1; Mon, 23 Jan 2023 08:55:17 -0500
+X-MC-Unique: YU1k4naqMBSlyZep1J-YdA-1
+Received: by mail-ej1-f72.google.com with SMTP id sa32-20020a1709076d2000b0084d4593797eso7772704ejc.16
+        for <platform-driver-x86@vger.kernel.org>; Mon, 23 Jan 2023 05:55:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hAfU51i6h1AKqDjTc93qMy/AcUh5PR71ti/ig/qkQVo=;
+        b=qSORkwXJls9SVErrVPEFnc/2kFleKZb5IzdkRJtyBdDUYuu+jhZ4OUmykvz6ST5+1n
+         c46r9CNSySKYNiKe7Czw24AxfeK/yXNao2r/Jg4d7Iaxb5AkADz5/eghKQlz81ePE8tL
+         yQFThDiPR2gZoa8BWMWo/oMy8Eidgx0/kFpJ6jxHti4aRWdi8iU/OQw7vXANGNQF8gdm
+         149jMAPbf9hWdgvRTBz9/WwrCwz/BfeEG5AY0bATZPnwxqtgZEpVXG64RB9c4AqnmcD/
+         5CZ2GM0W2eZtnY0MFVwQ5tZJJjnespx0DlYLZZtJIv9lUQw28/fikbZf5b9ywgH1GdQF
+         4LZQ==
+X-Gm-Message-State: AFqh2koFG4+0ngxwyB/7E5JrRgRi4oHEHaNOu4o4yGIDPWkCJEGlyM8o
+        i7Y2nFH0vF92khEASrXXF8bcHwnxadHQy6v7oQVMC9WAkkKrMeN8eNORHGrRkybR80UdThgAuRu
+        OZmV9VfhRepM4U1zP/gH/oGA3Cut+h6Ru5w==
+X-Received: by 2002:a05:6402:138c:b0:499:b53f:1c56 with SMTP id b12-20020a056402138c00b00499b53f1c56mr24771246edv.38.1674482116437;
+        Mon, 23 Jan 2023 05:55:16 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXv6Cs76d400bpnW0BaVuJZ3pPDbiiXsD8B9T6K1dY/QrG2pbjBeP06fatkrTTY9bw+L9N0OOg==
+X-Received: by 2002:a05:6402:138c:b0:499:b53f:1c56 with SMTP id b12-20020a056402138c00b00499b53f1c56mr24771230edv.38.1674482116206;
+        Mon, 23 Jan 2023 05:55:16 -0800 (PST)
+Received: from [10.40.98.142] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id ed6-20020a056402294600b00499e5659988sm16090939edb.68.2023.01.23.05.55.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Jan 2023 05:55:15 -0800 (PST)
+Message-ID: <3e00de1c-4dc8-3032-b085-824056529b73@redhat.com>
+Date:   Mon, 23 Jan 2023 14:55:14 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230123113750.462144-3-hdegoede@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] platform/x86: asus-wmi: Fix kbd_dock_devid tablet-switch
+ reporting
+Content-Language: en-US
+To:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>,
+        Corentin Chary <corentin.chary@gmail.com>
+Cc:     acpi4asus-user@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+References: <20230120143441.527334-1-hdegoede@redhat.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230120143441.527334-1-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,119 +85,89 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Jan 23, 2023 at 12:37:49PM +0100, Hans de Goede wrote:
-> --- a/include/linux/apple-gmux.h
-> +++ b/include/linux/apple-gmux.h
-[...]
-> +static inline bool apple_gmux_is_indexed(unsigned long iostart)
-> +{
-> +	u16 val;
-> +
-> +	outb(0xaa, iostart + 0xcc);
-> +	outb(0x55, iostart + 0xcd);
-> +	outb(0x00, iostart + 0xce);
-> +
-> +	val = inb(iostart + 0xcc) | (inb(iostart + 0xcd) << 8);
-> +	if (val == 0x55aa)
-> +		return true;
-> +
-> +	return false;
-> +}
+Hi,
 
-Something like this, and especially the large apple_gmux_detect() below,
-should not live in a header file.
+On 1/20/23 15:34, Hans de Goede wrote:
+> Commit 1ea0d3b46798 ("platform/x86: asus-wmi: Simplify tablet-mode-switch
+> handling") unified the asus-wmi tablet-switch handling, but it did not take
+> into account that the value returned for the kbd_dock_devid WMI method is
+> inverted where as the other ones are not inverted.
+> 
+> This causes asus-wmi to report an inverted tablet-switch state for devices
+> which use the kbd_dock_devid, which causes libinput to ignore touchpad
+> events while the affected T10x model 2-in-1s are docked.
+> 
+> Add inverting of the return value in the kbd_dock_devid case to fix this.
+> 
+> Fixes: 1ea0d3b46798 ("platform/x86: asus-wmi: Simplify tablet-mode-switch handling")
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Why can't apple_gmux.ko just export a detection function which is used
-both internally and as a helper by the backlight detection?
+I have added this to my review-hans branch now.
 
-Thanks,
+Regards,
 
-Lukas
+Hans
 
+
+
+> ---
+>  drivers/platform/x86/asus-wmi.c | 17 ++++++++++++-----
+>  1 file changed, 12 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+> index 104188d70988..1038dfdcdd32 100644
+> --- a/drivers/platform/x86/asus-wmi.c
+> +++ b/drivers/platform/x86/asus-wmi.c
+> @@ -225,6 +225,7 @@ struct asus_wmi {
 >  
->  /**
-> - * apple_gmux_present() - detect if gmux is built into the machine
-> + * apple_gmux_detect() - detect if gmux is built into the machine
-> + *
-> + * @pnp_dev:     Device to probe or NULL to use the first matching device
-> + * @indexed_ret: Returns (by reference) if the gmux is indexed or not
-> + *
-> + * Detect if a supported gmux device is present by actually probing it.
-> + * This avoids the false positives returned on some models by
-> + * apple_gmux_present().
-> + *
-> + * Return: %true if a supported gmux ACPI device is detected and the kernel
-> + * was configured with CONFIG_APPLE_GMUX, %false otherwise.
-> + */
-> +static inline bool apple_gmux_detect(struct pnp_dev *pnp_dev, bool *indexed_ret)
-> +{
-> +	u8 ver_major, ver_minor, ver_release;
-> +	struct resource *res;
-> +	bool indexed = false;
-> +
-> +	if (!pnp_dev) {
-> +		struct acpi_device *adev;
-> +		struct device *dev;
-> +
-> +		adev = acpi_dev_get_first_match_dev(GMUX_ACPI_HID, NULL, -1);
-> +		if (!adev)
-> +			return false;
-> +
-> +		dev = acpi_get_first_physical_node(adev);
-> +		if (!dev)
-> +			return false;
-> +
-> +		pnp_dev = to_pnp_dev(dev);
-> +	}
-> +
-> +	res = pnp_get_resource(pnp_dev, IORESOURCE_IO, 0);
-> +	if (!res)
-> +		return false;
-> +
-> +	if (resource_size(res) < GMUX_MIN_IO_LEN)
-> +		return false;
-> +
-> +	/*
-> +	 * Invalid version information may indicate either that the gmux
-> +	 * device isn't present or that it's a new one that uses indexed io.
-> +	 */
-> +	ver_major = inb(res->start + GMUX_PORT_VERSION_MAJOR);
-> +	ver_minor = inb(res->start + GMUX_PORT_VERSION_MINOR);
-> +	ver_release = inb(res->start + GMUX_PORT_VERSION_RELEASE);
-> +	if (ver_major == 0xff && ver_minor == 0xff && ver_release == 0xff) {
-> +		indexed = apple_gmux_is_indexed(res->start);
-> +		if (!indexed)
-> +			return false;
-> +	}
-> +
-> +	if (indexed_ret)
-> +		*indexed_ret = indexed;
-> +
-> +	return true;
-> +}
-> +
-> +/**
-> + * apple_gmux_present() - check if gmux ACPI device is present
->   *
->   * Drivers may use this to activate quirks specific to dual GPU MacBook Pros
->   * and Mac Pros, e.g. for deferred probing, runtime pm and backlight.
->   *
-> - * Return: %true if gmux is present and the kernel was configured
-> + * Return: %true if gmux ACPI device is present and the kernel was configured
->   * with CONFIG_APPLE_GMUX, %false otherwise.
->   */
->  static inline bool apple_gmux_present(void)
-> @@ -57,6 +133,11 @@ static inline bool apple_gmux_present(void)
->  	return false;
+>  	int tablet_switch_event_code;
+>  	u32 tablet_switch_dev_id;
+> +	bool tablet_switch_inverted;
+>  
+>  	enum fan_type fan_type;
+>  	enum fan_type gpu_fan_type;
+> @@ -493,6 +494,13 @@ static bool asus_wmi_dev_is_present(struct asus_wmi *asus, u32 dev_id)
 >  }
 >  
-> +static inline bool apple_gmux_detect(struct pnp_dev *pnp_dev, bool *indexed_ret)
+>  /* Input **********************************************************************/
+> +static void asus_wmi_tablet_sw_report(struct asus_wmi *asus, bool value)
 > +{
-> +	return false;
+> +	input_report_switch(asus->inputdev, SW_TABLET_MODE,
+> +			    asus->tablet_switch_inverted ? !value : value);
+> +	input_sync(asus->inputdev);
 > +}
 > +
->  #endif /* !CONFIG_APPLE_GMUX */
+>  static void asus_wmi_tablet_sw_init(struct asus_wmi *asus, u32 dev_id, int event_code)
+>  {
+>  	struct device *dev = &asus->platform_device->dev;
+> @@ -501,7 +509,7 @@ static void asus_wmi_tablet_sw_init(struct asus_wmi *asus, u32 dev_id, int event
+>  	result = asus_wmi_get_devstate_simple(asus, dev_id);
+>  	if (result >= 0) {
+>  		input_set_capability(asus->inputdev, EV_SW, SW_TABLET_MODE);
+> -		input_report_switch(asus->inputdev, SW_TABLET_MODE, result);
+> +		asus_wmi_tablet_sw_report(asus, result);
+>  		asus->tablet_switch_dev_id = dev_id;
+>  		asus->tablet_switch_event_code = event_code;
+>  	} else if (result == -ENODEV) {
+> @@ -534,6 +542,7 @@ static int asus_wmi_input_init(struct asus_wmi *asus)
+>  	case asus_wmi_no_tablet_switch:
+>  		break;
+>  	case asus_wmi_kbd_dock_devid:
+> +		asus->tablet_switch_inverted = true;
+>  		asus_wmi_tablet_sw_init(asus, ASUS_WMI_DEVID_KBD_DOCK, NOTIFY_KBD_DOCK_CHANGE);
+>  		break;
+>  	case asus_wmi_lid_flip_devid:
+> @@ -573,10 +582,8 @@ static void asus_wmi_tablet_mode_get_state(struct asus_wmi *asus)
+>  		return;
 >  
->  #endif /* LINUX_APPLE_GMUX_H */
-> -- 
-> 2.39.0
+>  	result = asus_wmi_get_devstate_simple(asus, asus->tablet_switch_dev_id);
+> -	if (result >= 0) {
+> -		input_report_switch(asus->inputdev, SW_TABLET_MODE, result);
+> -		input_sync(asus->inputdev);
+> -	}
+> +	if (result >= 0)
+> +		asus_wmi_tablet_sw_report(asus, result);
+>  }
+>  
+>  /* dGPU ********************************************************************/
+
