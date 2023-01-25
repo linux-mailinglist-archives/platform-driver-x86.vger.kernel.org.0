@@ -2,123 +2,165 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DF9667B152
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 25 Jan 2023 12:32:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AC6B67B1FD
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 25 Jan 2023 12:50:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235462AbjAYLcL (ORCPT
+        id S234965AbjAYLu2 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 25 Jan 2023 06:32:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51074 "EHLO
+        Wed, 25 Jan 2023 06:50:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235400AbjAYLcB (ORCPT
+        with ESMTP id S234913AbjAYLu2 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 25 Jan 2023 06:32:01 -0500
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B962422A33
-        for <platform-driver-x86@vger.kernel.org>; Wed, 25 Jan 2023 03:32:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DqVbQR79RVk1ysy4x2RIVPfZAwEnBLK/mgaPiQZx6yBr+rRdow7rCrPuWapxi1Z7OQE8iMEqRTHWQzc0zg4p3vlCiaOMDdxGMRrLUjazlKzF+rdUPnphKrUCmUtYnVe1GP73WS4r8rJ4pNMgYYND/vEXdlpX1yAYHmxIA9E3OivRToPmFI+7fg5OeZJna5LzYDGVzkpwNAVlL8h1JVRv4/gkCS4rxCfuiCZTkxxFj6QX+aNrm2h4m8oTg/mvCfmYdq081OROpSw+U0riURTuZ4oKHwn8NDLjiCwDaRDSkloIfgKuS22d0ofsLprz15zyBYq5czCRYbt6UiyotNQGXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=U9dIJQRI9wLy07EbEGrpzo2rckW3L2riCQucurRWLqA=;
- b=Wca+9X0+VubGS7kSVqZCe2n7d1T+OBmXm4s198B3CGs6dYMiefXWnElY1b48DQ9KklrdrjS5es+hR2Xqoy+bXqA3SLN8K6p6nH9xGMKPohkbeN927R3wYv1nBOOyz0zdlZl3g58dstjBVrZpaKaFabWXa4CL1EOY4MXN+WOX1iguDaXNeADXIKdPLyOTkROcUPDbGqnTqSsUctjF9ODOps8uzFW0miyrITuyy+IFXwowvBAsnVeSJmVi/Ez3GFRv8vl3MddlWAw4Im1yPh46IY8qV4/kKV8PUpgVsERsyTl63RyP3vbyWTD744cfsMmcIVJV8MQhB295j4QAyHsuBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U9dIJQRI9wLy07EbEGrpzo2rckW3L2riCQucurRWLqA=;
- b=WU4XuGYb/6ndSg7kolY3AOgGbm40mYY8eWG1j/21eO1h+Lk6pbKuUN96WVOBSgHkMo2+2vlak9hDub92NLtc8voU8h/Y8Bek+bnrhH5dlt6GeiqJEZjrKTQV6bzxMCyFX6SdgiqGuX+dBnIb/HVKytdzJ0wVsFzHPUszJHoLtpk=
-Received: from DS7PR05CA0088.namprd05.prod.outlook.com (2603:10b6:8:56::14) by
- SJ1PR12MB6100.namprd12.prod.outlook.com (2603:10b6:a03:45d::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.21; Wed, 25 Jan
- 2023 11:31:58 +0000
-Received: from DS1PEPF0000E632.namprd02.prod.outlook.com
- (2603:10b6:8:56:cafe::b3) by DS7PR05CA0088.outlook.office365.com
- (2603:10b6:8:56::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.21 via Frontend
- Transport; Wed, 25 Jan 2023 11:31:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS1PEPF0000E632.mail.protection.outlook.com (10.167.17.136) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6043.10 via Frontend Transport; Wed, 25 Jan 2023 11:31:58 +0000
-Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 25 Jan
- 2023 05:31:56 -0600
-From:   Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-To:     <hdegoede@redhat.com>, <markgross@kernel.org>
-CC:     <Sanket.Goswami@amd.com>, <platform-driver-x86@vger.kernel.org>,
-        "Shyam Sundar S K" <Shyam-sundar.S-k@amd.com>
-Subject: [PATCH 4/4] platform/x86/amd: pmc: Add line break for readability
-Date:   Wed, 25 Jan 2023 17:01:27 +0530
-Message-ID: <20230125113127.3862898-5-Shyam-sundar.S-k@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230125113127.3862898-1-Shyam-sundar.S-k@amd.com>
-References: <20230125113127.3862898-1-Shyam-sundar.S-k@amd.com>
+        Wed, 25 Jan 2023 06:50:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C81FA5EE
+        for <platform-driver-x86@vger.kernel.org>; Wed, 25 Jan 2023 03:49:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674647384;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=pcTEf/slHmnxXRwT1bpALpIrymGDCm67DwtPw757+9g=;
+        b=Vrp+aozsk8b8IG5d0vN9cdNCqllqY6OMXpW8dnGpArsAs5EYvD4FZcnILxjiC6njEyTYbz
+        +SXX5qyEYOAb3utI5crw8uXGFFoH18ueMLnHLAaTHAYRZ+xRAGWiPxefjj7OH5gKmXHoMl
+        NUBkVTTQZyB12z9007i1QbG7dk/u6Xg=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-589-jMiTDcDwO1qiEzFOLiFh0w-1; Wed, 25 Jan 2023 06:49:42 -0500
+X-MC-Unique: jMiTDcDwO1qiEzFOLiFh0w-1
+Received: by mail-ed1-f69.google.com with SMTP id c12-20020a05640227cc00b0049e2c079aabso12621930ede.1
+        for <platform-driver-x86@vger.kernel.org>; Wed, 25 Jan 2023 03:49:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pcTEf/slHmnxXRwT1bpALpIrymGDCm67DwtPw757+9g=;
+        b=4OZP6eD1mO2p4JYpmt9niNozW0lazADwtzpkSQUtdm6bQ49edlkaFkGMetiMGglBl9
+         PA2C9K5a4WNiecK5NSlQ7bKiCssUYz0swtIWUks/0OIrt4c5F2ufp/gn2gtRlf/qzARF
+         sgjj228lWt6UAqsmcMnRAn/OLfUFC8nh+FPSTaIJd1qbD5I0ZUaZLs759bdZH1y2qSIy
+         KQYXz+C070G7rWww17Cu4StdxH+edMS3wHkVZBBRM7Bkset9BUuVLSKsPik9wXn1KySF
+         YSqq2SA/SavrZ1tHaMOV4Ux249yuCd8keopqM06caW9i6NwNnQONMA84zORfRMRBHrX4
+         MmbA==
+X-Gm-Message-State: AFqh2krYeKb9XLemUpQPx95csPQifkkE5tI6Px33X9GhzI8RGyJOPM27
+        uWN/2oTOwoOcGWACn5BZSUkVKpa4a3HQ2NjTexRmkyKsxvpAuCeIO70s9W6AH7DwcvlMVjiXZnQ
+        ERRuBV5ArL+NFi3m+oTIVBNnI/6OIEsiDIw==
+X-Received: by 2002:a05:6402:3894:b0:49e:45a8:1ac9 with SMTP id fd20-20020a056402389400b0049e45a81ac9mr32239049edb.24.1674647381364;
+        Wed, 25 Jan 2023 03:49:41 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXst9iD7OxXP8xF07is68/0ZAr2fenB51u9OhV3j+QIOCaQM7dHvAWySjEXvFQ9rLeDy1l7x1w==
+X-Received: by 2002:a05:6402:3894:b0:49e:45a8:1ac9 with SMTP id fd20-20020a056402389400b0049e45a81ac9mr32239037edb.24.1674647381192;
+        Wed, 25 Jan 2023 03:49:41 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id r25-20020aa7da19000000b004a0afea4c9csm410737eds.18.2023.01.25.03.49.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Jan 2023 03:49:40 -0800 (PST)
+Message-ID: <6a4ea30e-679d-2c14-83aa-3dbe9617e1c1@redhat.com>
+Date:   Wed, 25 Jan 2023 12:49:40 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF0000E632:EE_|SJ1PR12MB6100:EE_
-X-MS-Office365-Filtering-Correlation-Id: ee52af19-1db2-4ddf-82bb-08dafec7c50d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: B0m00cAsGX84hCUsskXsc2nI9hUe16CZu3xGLP8jqJqfVV2jcnRsynPxBOXoGVu2Dkp+9TqBIgOQYXrithf8l/n6TbkB9VgZ+H6r0Pn7w36eF+m2qa24jnl4fOqe8P8RV/OcyQ6qfXwrM3JnGF6YPeIIA6njrYul3ueKJm0AajvuMRgELV5cbr1fZMmJOBevSLu0jKFNiKB1wq1sFWqgCHROWQzLQUG842UVDIGr/KJJ6T49/bjezfm5bjbv3pbONCNo+wtHnQjPw2jYLU0eCd4OxiUDfPwhcuNWaAS3gVr5ON0T/K73dgzMaEiP8UgHC0hHQY0o4W3RGb4Oh0lsOdkda3R4K1OgQtqIQ+hkiINOTZB9tUDkPofD2J5NBEP/2n/rDq6W07KfE74HuQ2fpXxdJ/qaZzTrK227nxiKO17E/qbmr1W1WFbe+2M+wmMeXo+qNo5d7J/e6SCNT2SA6eWUk0dXFzXbGPo52KBZp76QnNJDFmM4d59iskBdy/pNM7lGSV4gqLZReODy0ERrM3VjKtyPMlypLGeVvusxXiuoflfQtN7qmD2llpNTaCCBflMBLMRyYiNeQkYQjnFaylSuPp8XfSg8/2a+azTMcrkZGVHVQCxFK+HXYu82igtQtGWsuMt1Ul2H+GrBAdZ4QixKTNu91E23oPD/OD0FQrCsSCEJN4d3rR21L2a0PI5y69ApQGsJHtZEdhrKgsm2QV8P0XPQp6OAGAzVMxzlXa0=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(376002)(136003)(346002)(39860400002)(396003)(451199018)(40470700004)(36840700001)(46966006)(36756003)(2616005)(426003)(41300700001)(8936002)(47076005)(336012)(81166007)(356005)(82740400003)(2906002)(4744005)(5660300002)(1076003)(86362001)(82310400005)(186003)(26005)(478600001)(6666004)(7696005)(70206006)(70586007)(8676002)(4326008)(316002)(16526019)(36860700001)(54906003)(110136005)(40480700001)(40460700003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2023 11:31:58.3509
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee52af19-1db2-4ddf-82bb-08dafec7c50d
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E632.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6100
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] platform/x86: thinkpad_acpi: Fix profile modes on Intel
+ platforms
+Content-Language: en-US, nl
+To:     Mark Pearson <mpearson-lenovo@squebb.ca>
+Cc:     markgross@kernel.org, mario.limonciello@amd.com,
+        platform-driver-x86@vger.kernel.org, stable@vger.kernel.org
+References: <mpearson-lenovo@squebb.ca>
+ <20230124153623.145188-1-mpearson-lenovo@squebb.ca>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230124153623.145188-1-mpearson-lenovo@squebb.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add a line break for the code readability.
+Hi,
 
-Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
----
- drivers/platform/x86/amd/pmc.c | 1 +
- 1 file changed, 1 insertion(+)
+On 1/24/23 16:36, Mark Pearson wrote:
+> My last commit to fix profile mode displays on AMD platforms caused
+> an issue on Intel platforms - sorry!
+> 
+> In it I was reading the current functional mode (MMC, PSC, AMT) from
+> the BIOS but didn't account for the fact that on some of our Intel
+> platforms I use a different API which returns just the profile and not
+> the functional mode.
+> 
+> This commit fixes it so that on Intel platforms it knows the functional
+> mode is always MMC.
+> 
+> I also fixed a potential problem that a platform may try to set the mode
+> for both MMC and PSC - which was incorrect.
+> 
+> Tested on X1 Carbon 9 (Intel) and Z13 (AMD).
+> 
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=216963
+> Fixes: fde5f74ccfc7 ("platform/x86: thinkpad_acpi: Fix profile mode display in AMT mode")
+> 
+> Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 
-diff --git a/drivers/platform/x86/amd/pmc.c b/drivers/platform/x86/amd/pmc.c
-index 467b80ad01a1..8afe77e443cb 100644
---- a/drivers/platform/x86/amd/pmc.c
-+++ b/drivers/platform/x86/amd/pmc.c
-@@ -105,6 +105,7 @@
- #define DELAY_MIN_US		2000
- #define DELAY_MAX_US		3000
- #define FIFO_SIZE		4096
-+
- enum amd_pmc_def {
- 	MSG_TEST = 0x01,
- 	MSG_OS_HINT_PCO,
--- 
-2.25.1
+Thank you for your patch, I've applied this patch to my fixes
+branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=fixes
+
+Note it will show up in my fixes branch once I've pushed my
+local branch there, which might take a while.
+
+I will include this patch in my next fixes pull-req to Linus
+for the current kernel development cycle.
+
+Regards,
+
+Hans
+
+
+
+
+> ---
+>  drivers/platform/x86/thinkpad_acpi.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+> index a95946800ae9..6668d472df39 100644
+> --- a/drivers/platform/x86/thinkpad_acpi.c
+> +++ b/drivers/platform/x86/thinkpad_acpi.c
+> @@ -10496,8 +10496,7 @@ static int dytc_profile_set(struct platform_profile_handler *pprof,
+>  			if (err)
+>  				goto unlock;
+>  		}
+> -	}
+> -	if (dytc_capabilities & BIT(DYTC_FC_PSC)) {
+> +	} else if (dytc_capabilities & BIT(DYTC_FC_PSC)) {
+>  		err = dytc_command(DYTC_SET_COMMAND(DYTC_FUNCTION_PSC, perfmode, 1), &output);
+>  		if (err)
+>  			goto unlock;
+> @@ -10525,14 +10524,16 @@ static void dytc_profile_refresh(void)
+>  			err = dytc_command(DYTC_CMD_MMC_GET, &output);
+>  		else
+>  			err = dytc_cql_command(DYTC_CMD_GET, &output);
+> -	} else if (dytc_capabilities & BIT(DYTC_FC_PSC))
+> +		funcmode = DYTC_FUNCTION_MMC;
+> +	} else if (dytc_capabilities & BIT(DYTC_FC_PSC)) {
+>  		err = dytc_command(DYTC_CMD_GET, &output);
+> -
+> +		/*Check if we are PSC mode, or have AMT enabled */
+> +		funcmode = (output >> DYTC_GET_FUNCTION_BIT) & 0xF;
+> +	}
+>  	mutex_unlock(&dytc_mutex);
+>  	if (err)
+>  		return;
+>  
+> -	funcmode = (output >> DYTC_GET_FUNCTION_BIT) & 0xF;
+>  	perfmode = (output >> DYTC_GET_MODE_BIT) & 0xF;
+>  	convert_dytc_to_profile(funcmode, perfmode, &profile);
+>  	if (profile != dytc_current_profile) {
 
