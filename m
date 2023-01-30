@@ -2,47 +2,79 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B3B536804A1
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 30 Jan 2023 05:00:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 39E0E680786
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 30 Jan 2023 09:37:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235649AbjA3EAk (ORCPT
+        id S229694AbjA3IhY (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 29 Jan 2023 23:00:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51540 "EHLO
+        Mon, 30 Jan 2023 03:37:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235585AbjA3EAZ (ORCPT
+        with ESMTP id S235278AbjA3IhX (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 29 Jan 2023 23:00:25 -0500
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED5E02D7E;
-        Sun, 29 Jan 2023 20:00:03 -0800 (PST)
-From:   =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
-        s=mail; t=1675051189;
-        bh=CeE4LFDYquttLQyjdPuIA0yJAhL1uKGNNm1YrWRTAXo=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=jaobbKlMg6u5gdaxw5uGqJWbiCgvqun6lx1rEZYJufIvUp4ZXEzHQqAgvpGGP4pwn
-         46ZVIbbDyqQA3y8hpqFOef7CA3jKP5XPh37d7rJIeRAwBGQkBQdrgSPvUe8ORs9dwG
-         NkHNbSWmwq3hcZDtaM0+4RBZ6uO7IsMoYtIkskKI=
-Date:   Mon, 30 Jan 2023 03:59:45 +0000
-Subject: [PATCH 9/9] staging: greybus: hid: Constify lowlevel HID driver
+        Mon, 30 Jan 2023 03:37:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B63B924137
+        for <platform-driver-x86@vger.kernel.org>; Mon, 30 Jan 2023 00:36:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1675067796;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=4d/SMT2oPu4pWDgGmvW3ooby0A6gn9g87bNk00NILRw=;
+        b=TfdTnAlyUueo5ZKYZ/XZbyfsXu4mhbBSmIaPx731l+EeVVg5B+VzErIlPdvp4ydySRV7z9
+        aobGKFlNEOVPioC8xw+Hd4JhOKj8QcWmvQwhqtGa5fkT8do5PRgXC6Kgrp+tilxeKVo6wK
+        KrzSzOXSIOE7V8ySEwBbOHTNA6jXTDA=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-377-X7WE59fwPLaIKxP-eaQa_w-1; Mon, 30 Jan 2023 03:36:35 -0500
+X-MC-Unique: X7WE59fwPLaIKxP-eaQa_w-1
+Received: by mail-ed1-f70.google.com with SMTP id o21-20020aa7dd55000000b004a245f58006so1454771edw.12
+        for <platform-driver-x86@vger.kernel.org>; Mon, 30 Jan 2023 00:36:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4d/SMT2oPu4pWDgGmvW3ooby0A6gn9g87bNk00NILRw=;
+        b=6cAA3kzs6nW5q7M+XE5c3ZfXArXRdihdiS6kGConf1eEV4Mh91WY+W2oiBZCXcmPAC
+         qBkNqVsfGhwDyyRNWlwOGZTA0Z06iaBVUIUTCadew9az7NHjMnD/c6Y4BDUhuKi/T6mO
+         y9MUgjVVE14GprM163uh0iyY0GQ2zIiVJPVn068BwB0Fob7dL/hsZeC4nQrQrFWHFEcJ
+         Fkc/OqtbqNo0reGO3CWLv5+9k432K11QFlOmmF6kzNLSWNbz/VFyP1YCzjihCCpLXBNM
+         ygIr2GBVZv4ocuujh6od/wtw12a4ouoGIeIemx6oFIfpJ0CrCIUV5r4JLEdCxeCVhm04
+         QZ8g==
+X-Gm-Message-State: AO0yUKWJ07mHEP7EFpnHsPvzHJIjS3tgwj1MPHxZnhWCyqQ79flty7N9
+        KDc6esoqwTpVf7S6VtWmxQKMzfdYf3mDL56vMRJrAhCFq2DO+RW8Wb/3sjpqZqbSWMsAMmEvGtN
+        hpnUY74AuohD41op8EJuiqty/xf7oYTl8rQ==
+X-Received: by 2002:a17:906:475a:b0:887:981:5f7c with SMTP id j26-20020a170906475a00b0088709815f7cmr5019122ejs.11.1675067794095;
+        Mon, 30 Jan 2023 00:36:34 -0800 (PST)
+X-Google-Smtp-Source: AK7set/0R+gvMcJBFdYRnrzzxOkxWBZLXr5z/Tqk0BP+fIcTMCHK94EHX6VpDr3nSMq6rTGD5CNmOQ==
+X-Received: by 2002:a17:906:475a:b0:887:981:5f7c with SMTP id j26-20020a170906475a00b0088709815f7cmr5019103ejs.11.1675067793927;
+        Mon, 30 Jan 2023 00:36:33 -0800 (PST)
+Received: from [10.40.98.142] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id z2-20020a170906714200b00888161349desm1582823ejj.182.2023.01.30.00.36.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Jan 2023 00:36:33 -0800 (PST)
+Message-ID: <0937b9a5-0caa-2a73-33c4-82e6cab02ef0@redhat.com>
+Date:   Mon, 30 Jan 2023 09:36:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20230130-hid-const-ll-driver-v1-9-3fc282b3b1d0@weissschuh.net>
-References: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
-In-Reply-To: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
-To:     Basavaraj Natikar <basavaraj.natikar@amd.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 0/9] HID: Constify lowlevel HID drivers
+Content-Language: en-US
+To:     =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <linux@weissschuh.net>,
+        Basavaraj Natikar <basavaraj.natikar@amd.com>,
         Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        =?utf-8?q?Filipe_La=C3=ADns?= <lains@riseup.net>,
+        =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
         Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
         Maximilian Luz <luzmaximilian@gmail.com>,
         Corentin Chary <corentin.chary@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <markgross@kernel.org>,
         Viresh Kumar <vireshk@kernel.org>,
         Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
@@ -50,49 +82,69 @@ To:     Basavaraj Natikar <basavaraj.natikar@amd.com>,
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-hyperv@vger.kernel.org, platform-driver-x86@vger.kernel.org,
         acpi4asus-user@lists.sourceforge.net, greybus-dev@lists.linaro.org,
-        linux-staging@lists.linux.dev,
-        =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1675051185; l=861;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=CeE4LFDYquttLQyjdPuIA0yJAhL1uKGNNm1YrWRTAXo=;
- b=SQUZOk9LKgSTETWY2YqlC8x+hEL9fvydNvVkE6petc6xt8Y5mvKz320j0CJb8DILZGDzcF9A74aC
- /T98d7JHADiph9vBYy0ilCKP+bmJauMaefm3e9xlClK6LSByfdHS
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        linux-staging@lists.linux.dev
+References: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Since commit 52d225346904 ("HID: Make lowlevel driver structs const")
-the lowlevel HID drivers are only exposed as const.
+Hi,
 
-Take advantage of this to constify the underlying structure, too.
+On 1/30/23 04:59, Thomas Weißschuh wrote:
+> Since 52d225346904 ("HID: Make lowlevel driver structs const") the
+> lowlevel HID drivers are only exposed as const.
+> 
+> Take advantage of this to constify the underlying structures, too.
+> 
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/staging/greybus/hid.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks, series looks good to me:
 
-diff --git a/drivers/staging/greybus/hid.c b/drivers/staging/greybus/hid.c
-index adb91286803a..15335c38cb26 100644
---- a/drivers/staging/greybus/hid.c
-+++ b/drivers/staging/greybus/hid.c
-@@ -381,7 +381,7 @@ static int gb_hid_power(struct hid_device *hid, int lvl)
- }
- 
- /* HID structure to pass callbacks */
--static struct hid_ll_driver gb_hid_ll_driver = {
-+static const struct hid_ll_driver gb_hid_ll_driver = {
- 	.parse = gb_hid_parse,
- 	.start = gb_hid_start,
- 	.stop = gb_hid_stop,
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
--- 
-2.39.1
+I'll also pick up / merge patches 7 + 8 into pdx86/for-next
+sometime this week.
+
+Regards,
+
+Hans
+
+
+
+> ---
+> Thomas Weißschuh (9):
+>       HID: amd_sfh: Constify lowlevel HID driver
+>       HID: hyperv: Constify lowlevel HID driver
+>       HID: logitech-dj: Constify lowlevel HID driver
+>       HID: steam: Constify lowlevel HID driver
+>       HID: intel-ish-hid: Constify lowlevel HID driver
+>       HID: surface-hid: Constify lowlevel HID driver
+>       platform/x86: asus-tf103c-dock: Constify lowlevel HID driver
+>       platform/x86: asus-tf103c-dock: Constify toprow keymap
+>       staging: greybus: hid: Constify lowlevel HID driver
+> 
+>  drivers/hid/amd-sfh-hid/amd_sfh_hid.c      | 2 +-
+>  drivers/hid/hid-hyperv.c                   | 2 +-
+>  drivers/hid/hid-logitech-dj.c              | 4 ++--
+>  drivers/hid/hid-steam.c                    | 2 +-
+>  drivers/hid/intel-ish-hid/ishtp-hid.c      | 2 +-
+>  drivers/hid/surface-hid/surface_hid_core.c | 2 +-
+>  drivers/platform/x86/asus-tf103c-dock.c    | 4 ++--
+>  drivers/staging/greybus/hid.c              | 2 +-
+>  8 files changed, 10 insertions(+), 10 deletions(-)
+> ---
+> base-commit: e04955db6a7c3fc4a1e6978649b61a6f5f8028e3
+> change-id: 20230130-hid-const-ll-driver-fcfdd3af11b8
+> 
+> Best regards,
 
