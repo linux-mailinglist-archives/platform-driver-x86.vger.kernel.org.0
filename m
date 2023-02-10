@@ -2,68 +2,67 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E49369275D
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 10 Feb 2023 20:46:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 477A96927B6
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 10 Feb 2023 21:16:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233224AbjBJTql (ORCPT
+        id S233592AbjBJUQn (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 10 Feb 2023 14:46:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56312 "EHLO
+        Fri, 10 Feb 2023 15:16:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233409AbjBJTqc (ORCPT
+        with ESMTP id S233580AbjBJUQm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 10 Feb 2023 14:46:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB6A325E0C
-        for <platform-driver-x86@vger.kernel.org>; Fri, 10 Feb 2023 11:45:03 -0800 (PST)
+        Fri, 10 Feb 2023 15:16:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F8D828874
+        for <platform-driver-x86@vger.kernel.org>; Fri, 10 Feb 2023 12:15:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676058241;
+        s=mimecast20190719; t=1676060154;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=LqEMVOprqbRcgnb26iJyeC9PYlAfqxHL1qiXDXu+U9A=;
-        b=WvyboorNPmfSNA+sSXJwW1hyISSR1UP90gdqcQi1FrdZ/0gjaMCeoYzscGRz7n+dGvymgp
-        kWySgGiZ7tpRsTUqIUhe+yH2rDJKCpcVRttGqNcPE1ICwzpGKzF5swgDy0kqUyrW7kSrEB
-        yyc256bpaQMMMSWE5//HHdMDqdr+SqA=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=ZNFnqY613h9bvaBLnYI52rKBZZmmgHMm3e/efaUU+qs=;
+        b=NTPvqipsjgFUBFuXLcsQ0SoHzmudeBBuIpUdzg8qeiyH3Z3KFUQZaHHO+OfwOkTID4NRm0
+        SNiuYpPR5JIUyBvXGATGJPTLCdOXmMZ3YUo8OepZhOrsgo+IN4bYlYCbmcL8CmH6ozAQ2s
+        g0LvWwpl9XAnP3SD2NCShUVzp+SbCbo=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-628-R4UsJkf7Pj2DZ6Uq4JE0XQ-1; Fri, 10 Feb 2023 14:44:00 -0500
-X-MC-Unique: R4UsJkf7Pj2DZ6Uq4JE0XQ-1
-Received: by mail-ed1-f69.google.com with SMTP id o21-20020aa7dd55000000b004a245f58006so4226342edw.12
-        for <platform-driver-x86@vger.kernel.org>; Fri, 10 Feb 2023 11:44:00 -0800 (PST)
+ us-mta-457-USs5itXFOx2EB6oILdueXA-1; Fri, 10 Feb 2023 15:15:53 -0500
+X-MC-Unique: USs5itXFOx2EB6oILdueXA-1
+Received: by mail-ej1-f69.google.com with SMTP id wz4-20020a170906fe4400b0084c7e7eb6d0so4182956ejb.19
+        for <platform-driver-x86@vger.kernel.org>; Fri, 10 Feb 2023 12:15:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LqEMVOprqbRcgnb26iJyeC9PYlAfqxHL1qiXDXu+U9A=;
-        b=yzgOc+rpHZ0nIsqAuHCYee2F/HDj7hJWD6MAriQwmaECCagEZ/Vw28U4voFdrRNGRy
-         7b2Cz+Zj5AJodE1ZnmxxISd5YqCQG+dUvVyLnhxxBXggs8tV1tOujZ+i/D7/c8nlmu/Q
-         zZqxYRk/o2/AYqYaj3Nm4N1dKGG2fTE8GJ/FofRl95YNcZxTTOG4i3ONhTunavyQpYjW
-         RfcBs2vA5bOSG4d3xbwC9m4G9Iy94bRwkZx2rROx36cLAuJQ9JvMs13dJQLswLDaqFWx
-         oSWEo4vhAKLQRjC4AzFrMp0RrTHqpCXhsTn7x3Aa76kge1KZXt2gfmjB8KpaccltkjW1
-         RCxw==
-X-Gm-Message-State: AO0yUKU9hSx2nU5KIGAHvXNMJElE22rTzIFIRE7OtOHEz/9/Z9DKbqJQ
-        e52pR7FSHsBY8sxTik22ut+ep0FLTGHObnvUKHNzD/EBBGHyzcS+7mQqLs4PQ1WSfHTItMW6L3o
-        Gsb0MNgVPgUhsZNMUcS0xjl6LPf2M+f9YNw==
-X-Received: by 2002:a17:906:a1d3:b0:878:7cf3:a9e7 with SMTP id bx19-20020a170906a1d300b008787cf3a9e7mr14861820ejb.65.1676058239626;
-        Fri, 10 Feb 2023 11:43:59 -0800 (PST)
-X-Google-Smtp-Source: AK7set9tc5ya+xq3T9ohLhPWkzaq1RTuRLg/Wi00GiP7Oc96aPjNzatgLBaKs4/WUVNxcjQaldtHxA==
-X-Received: by 2002:a17:906:a1d3:b0:878:7cf3:a9e7 with SMTP id bx19-20020a170906a1d300b008787cf3a9e7mr14861809ejb.65.1676058239467;
-        Fri, 10 Feb 2023 11:43:59 -0800 (PST)
+        bh=ZNFnqY613h9bvaBLnYI52rKBZZmmgHMm3e/efaUU+qs=;
+        b=6zIHpzZ3gOifMFEfdlFHd/rX89nORpmvO7FhDSsUnz7CFcZ35t/Q793lfF2Ur7hOq6
+         K6dgqSr8aLHflmcyrBkSn6TAInHbIT5mzqZbeAJFfXp6UH7eh4i78CaXRUq8tu3rZSbM
+         aoHvQj2V1GgIWCJgs0j16QUpNJwrPZwmMeZvaITtdvCav4eZUAmPc+lNry2fFZw7YIIO
+         WbyXs3RxQdxjfsNH3PakSp4aLW80Xvrw3lq6lITQVxp4CT+YFQucWeiTes6blgYu+bIU
+         uSmEDCAj5pEPULMR0RsUvmDBLAqDtpjk35Vqa28A8sDsPlGoqhouN4RJATruGbSC2T1S
+         lqxQ==
+X-Gm-Message-State: AO0yUKWLgeK3IlTkT97FA1DayVPSDCnzz5PXAzNEjiAOJ3y+qz2tbEAC
+        WTIXXwqEnWv6wGiYT0IJ5AhyQbu1VQ2JEcC3EwzsftW6RPbW3J4Pi5imobWL3txJyYsKES6KCqV
+        G4PBcfE60VAVaFU7U+FvO40TZmD7+WwWIOw==
+X-Received: by 2002:a17:906:a102:b0:878:5e84:e1da with SMTP id t2-20020a170906a10200b008785e84e1damr19986651ejy.27.1676060152361;
+        Fri, 10 Feb 2023 12:15:52 -0800 (PST)
+X-Google-Smtp-Source: AK7set83CY0lAZ6vzuP/e62ituWkImwtPZspb5CjMytMYB/Xmhp1TOSi84e/LdQpynGJdXlN84G9Aw==
+X-Received: by 2002:a17:906:a102:b0:878:5e84:e1da with SMTP id t2-20020a170906a10200b008785e84e1damr19986636ejy.27.1676060152166;
+        Fri, 10 Feb 2023 12:15:52 -0800 (PST)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id f20-20020a170906c09400b00872c0bccab2sm2786828ejz.35.2023.02.10.11.43.58
+        by smtp.gmail.com with ESMTPSA id m10-20020a170906580a00b0086f4b8f9e42sm2813890ejq.65.2023.02.10.12.15.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Feb 2023 11:43:58 -0800 (PST)
-Message-ID: <ee952253-9ee4-aa81-fefa-609cbf6e1e2b@redhat.com>
-Date:   Fri, 10 Feb 2023 20:43:58 +0100
+        Fri, 10 Feb 2023 12:15:51 -0800 (PST)
+Message-ID: <3e6c6cba-ad53-d380-a028-840fb19dbfcb@redhat.com>
+Date:   Fri, 10 Feb 2023 21:15:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [RFC PATCH 5/9] apple-gmux: Use GMSP acpi method for interrupt
- clear
+Subject: Re: [RFC PATCH 7/9] apple-gmux: add sysfs interface
 Content-Language: en-US, nl
 To:     Orlando Chamberlain <orlandoch.dev@gmail.com>,
         platform-driver-x86@vger.kernel.org, amd-gfx@lists.freedesktop.org,
@@ -95,9 +94,9 @@ Cc:     Alex Deucher <alexander.deucher@amd.com>,
         Aditya Garg <gargaditya08@live.com>,
         Aun-Ali Zaidi <admin@kodeit.net>
 References: <20230210044826.9834-1-orlandoch.dev@gmail.com>
- <20230210044826.9834-6-orlandoch.dev@gmail.com>
+ <20230210044826.9834-8-orlandoch.dev@gmail.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230210044826.9834-6-orlandoch.dev@gmail.com>
+In-Reply-To: <20230210044826.9834-8-orlandoch.dev@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -113,73 +112,28 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 Hi,
 
 On 2/10/23 05:48, Orlando Chamberlain wrote:
-> This is needed for interrupts to be cleared correctly on MMIO based
-> gmux's. It is untested if this helps/hinders other gmux types, but I
-> have seen the GMSP method in the acpi tables of a MacBook with an
-> indexed gmux.
+> Allow reading gmux ports from userspace. When the unsafe module
+> parameter allow_user_writes is true, writing 1 byte
+> values is also allowed.
 > 
-> If this turns out to break support for older gmux's, this can instead
-> be only done on MMIO gmux's.
+> For example:
 > 
-> There is also a "GMLV" acpi method, and the "GMSP" method can be called
-> with 1 as its argument, but the purposes of these aren't known and they
-> don't seem to be needed.
+> cd /sys/bus/acpi/devices/APP000B:00/physical_node/
+> echo 4 > gmux_selected_port
+> cat gmux_selected_port_data | xxd -p
 > 
-> Signed-off-by: Orlando Chamberlain <orlandoch.dev@gmail.com>
-> ---
->  drivers/platform/x86/apple-gmux.c | 26 +++++++++++++++++++++++++-
->  1 file changed, 25 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/x86/apple-gmux.c b/drivers/platform/x86/apple-gmux.c
-> index 760434a527c1..c605f036ea0b 100644
-> --- a/drivers/platform/x86/apple-gmux.c
-> +++ b/drivers/platform/x86/apple-gmux.c
-> @@ -494,8 +494,29 @@ static const struct apple_gmux_config apple_gmux_index = {
->   * MCP79, on all following generations it's GPIO pin 6 of the Intel PCH.
->   * The GPE merely signals that an interrupt occurred, the actual type of event
->   * is identified by reading a gmux register.
-> + *
-> + * On MMIO gmux's, we also need to call the acpi method GMSP to properly clear
-> + * interrupts. TODO: Do other types need this? Does this break other types?
->   */
->  
-> +static int gmux_call_acpi_gmsp(struct apple_gmux_data *gmux_data, int arg)
-> +{
-> +	acpi_status status = AE_OK;
-> +	union acpi_object arg0 = { ACPI_TYPE_INTEGER };
-> +	struct acpi_object_list arg_list = { 1, &arg0 };
-> +
-> +	arg0.integer.value = arg;
-> +
-> +	status = acpi_evaluate_object(gmux_data->dhandle, "GMSP", &arg_list, NULL);
-> +	if (ACPI_FAILURE(status)) {
-> +		pr_err("GMSP call failed: %s\n",
-> +		       acpi_format_exception(status));
-> +		return -ENODEV;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static inline void gmux_disable_interrupts(struct apple_gmux_data *gmux_data)
->  {
->  	gmux_write8(gmux_data, GMUX_PORT_INTERRUPT_ENABLE,
-> @@ -519,7 +540,10 @@ static void gmux_clear_interrupts(struct apple_gmux_data *gmux_data)
->  
->  	/* to clear interrupts write back current status */
->  	status = gmux_interrupt_get_status(gmux_data);
-> -	gmux_write8(gmux_data, GMUX_PORT_INTERRUPT_STATUS, status);
-> +	if (status) {
-> +		gmux_write8(gmux_data, GMUX_PORT_INTERRUPT_STATUS, status);
-> +		gmux_call_acpi_gmsp(gmux_data, 0);
+> Will show the gmux version information (00000005 in this case)
 
-Ugh no, please don't go around calling random ACPI methods from untested
-firmware revisions / device models.
+Please use debugfs for this and as part of the conversion
+drop the #ifdef-s (debugfs has stubs for when not enabled)
+and drop all the error checking of creating the files, debugfs
+is deliberately designed to not have any error checking in
+the setup / teardown code.
 
-ACPI code (even Apple's I have learned) tends to be full of bugs. If we
-did not need to call GMSP before then please lets keep not calling it
-on the older models. Just because it is there does not mean that calling
-it is useful, it might even be harmful.
+This also removes the need for the allow_user_writes parameter
+replacing it with the new kernel lockdown mechanism. debugfs
+will automatically block access to writable files when
+the kernel is in lockdown mode.
 
 Regards,
 
@@ -188,10 +142,172 @@ Hans
 
 
 
-
-
-> +	}
+> Signed-off-by: Orlando Chamberlain <orlandoch.dev@gmail.com>
+> ---
+>  drivers/platform/x86/apple-gmux.c | 129 ++++++++++++++++++++++++++++++
+>  1 file changed, 129 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/apple-gmux.c b/drivers/platform/x86/apple-gmux.c
+> index c38d6ef0c15a..756059d48393 100644
+> --- a/drivers/platform/x86/apple-gmux.c
+> +++ b/drivers/platform/x86/apple-gmux.c
+> @@ -66,6 +66,11 @@ struct apple_gmux_data {
+>  	enum vga_switcheroo_client_id switch_state_external;
+>  	enum vga_switcheroo_state power_state;
+>  	struct completion powerchange_done;
+> +
+> +#ifdef CONFIG_SYSFS
+> +	/* sysfs data */
+> +	int selected_port;
+> +#endif /* CONFIG_SYSFS */
+>  };
+>  
+>  static struct apple_gmux_data *apple_gmux_data;
+> @@ -651,6 +656,121 @@ static void gmux_notify_handler(acpi_handle device, u32 value, void *context)
+>  		complete(&gmux_data->powerchange_done);
 >  }
 >  
->  static void gmux_notify_handler(acpi_handle device, u32 value, void *context)
+> +/**
+> + * DOC: Sysfs Interface
+> + *
+> + * gmux ports can be read from userspace as a sysfs interface. For example:
+> + *
+> + * # echo 4 > /sys/bus/acpi/devices/APP000B:00/physical_node/gmux_selected_port
+> + * # cat /sys/bus/acpi/devices/APP000B:00/physical_node/gmux_selected_port_data | xxd -p
+> + * 00000005
+> + *
+> + * Reads 4 bytes from port 4 (GMUX_PORT_VERSION_MAJOR).
+> + *
+> + * Single byte writes are also supported, however this must be enabled with the
+> + * unsafe allow_user_writes module parameter.
+> + *
+> + */
+> +
+> +#ifdef CONFIG_SYSFS
+> +
+> +static bool allow_user_writes;
+> +module_param_unsafe(allow_user_writes, bool, 0);
+> +MODULE_PARM_DESC(allow_user_writes, "Allow userspace to write to gmux ports (default: false) (bool)");
+> +
+> +static ssize_t gmux_selected_port_store(struct device *dev,
+> +		struct device_attribute *attr, const char *sysfsbuf, size_t count)
+> +{
+> +	struct apple_gmux_data *gmux_data = dev_get_drvdata(dev);
+> +	u8 port;
+> +
+> +	if (kstrtou8(sysfsbuf, 10, &port) < 0)
+> +		return -EINVAL;
+> +
+> +	/* On pio gmux's, make sure the user doesn't access too high of a port. */
+> +	if ((gmux_data->config == &apple_gmux_pio) &&
+> +		port > (gmux_data->iolen - 4))
+> +		return -EINVAL;
+> +
+> +	gmux_data->selected_port = port;
+> +	return count;
+> +}
+> +
+> +static ssize_t gmux_selected_port_show(struct device *dev,
+> +		struct device_attribute *attr, char *sysfsbuf)
+> +{
+> +	struct apple_gmux_data *gmux_data = dev_get_drvdata(dev);
+> +
+> +	return sysfs_emit(sysfsbuf, "%d\n", gmux_data->selected_port);
+> +}
+> +
+> +DEVICE_ATTR_RW(gmux_selected_port);
+> +
+> +static ssize_t gmux_selected_port_data_store(struct device *dev,
+> +		struct device_attribute *attr, const char *sysfsbuf, size_t count)
+> +{
+> +	struct apple_gmux_data *gmux_data = dev_get_drvdata(dev);
+> +
+> +	if (count == 1)
+> +		gmux_write8(gmux_data, gmux_data->selected_port, *sysfsbuf);
+> +	else
+> +		return -EINVAL;
+> +
+> +	return count;
+> +}
+> +
+> +static ssize_t gmux_selected_port_data_show(struct device *dev,
+> +		struct device_attribute *attr, char *sysfsbuf)
+> +{
+> +	struct apple_gmux_data *gmux_data = dev_get_drvdata(dev);
+> +	u32 data;
+> +
+> +	data = gmux_read32(gmux_data, gmux_data->selected_port);
+> +	memcpy(sysfsbuf, &data, sizeof(data));
+> +
+> +	return sizeof(data);
+> +}
+> +
+> +struct device_attribute dev_attr_gmux_selected_port_data_rw = __ATTR_RW(gmux_selected_port_data);
+> +struct device_attribute dev_attr_gmux_selected_port_data_ro = __ATTR_RO(gmux_selected_port_data);
+> +
+> +static int gmux_init_sysfs(struct pnp_dev *pnp)
+> +{
+> +	int ret;
+> +
+> +	ret = device_create_file(&pnp->dev, &dev_attr_gmux_selected_port);
+> +	if (ret)
+> +		return ret;
+> +	if (allow_user_writes)
+> +		ret = device_create_file(&pnp->dev, &dev_attr_gmux_selected_port_data_rw);
+> +	else
+> +		ret = device_create_file(&pnp->dev, &dev_attr_gmux_selected_port_data_ro);
+> +	if (ret)
+> +		device_remove_file(&pnp->dev, &dev_attr_gmux_selected_port);
+> +	return ret;
+> +}
+> +
+> +static void gmux_fini_sysfs(struct pnp_dev *pnp)
+> +{
+> +	device_remove_file(&pnp->dev, &dev_attr_gmux_selected_port);
+> +	if (allow_user_writes)
+> +		device_remove_file(&pnp->dev, &dev_attr_gmux_selected_port_data_rw);
+> +	else
+> +		device_remove_file(&pnp->dev, &dev_attr_gmux_selected_port_data_ro);
+> +}
+> +
+> +#else
+> +
+> +static int gmux_init_sysfs(struct pnp_dev *pnp)
+> +{
+> +	return 0;
+> +}
+> +static void gmux_fini_sysfs(struct pnp_dev *pnp)
+> +{
+> +}
+> +
+> +#endif /* CONFIG_SYSFS */
+> +
+>  static int gmux_suspend(struct device *dev)
+>  {
+>  	struct pnp_dev *pnp = to_pnp_dev(dev);
+> @@ -846,8 +966,16 @@ static int gmux_probe(struct pnp_dev *pnp, const struct pnp_device_id *id)
+>  		goto err_register_handler;
+>  	}
+>  
+> +	ret = gmux_init_sysfs(pnp);
+> +	if (ret) {
+> +		pr_err("Failed to register gmux sysfs entries\n");
+> +		goto err_sysfs;
+> +	}
+> +
+>  	return 0;
+>  
+> +err_sysfs:
+> +	vga_switcheroo_unregister_handler();
+>  err_register_handler:
+>  	gmux_disable_interrupts(gmux_data);
+>  	apple_gmux_data = NULL;
+> @@ -877,6 +1005,7 @@ static void gmux_remove(struct pnp_dev *pnp)
+>  {
+>  	struct apple_gmux_data *gmux_data = pnp_get_drvdata(pnp);
+>  
+> +	gmux_fini_sysfs(pnp);
+>  	vga_switcheroo_unregister_handler();
+>  	gmux_disable_interrupts(gmux_data);
+>  	if (gmux_data->gpe >= 0) {
 
