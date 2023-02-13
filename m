@@ -2,314 +2,105 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82511694334
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Feb 2023 11:43:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 28324694359
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Feb 2023 11:45:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229700AbjBMKne (ORCPT
+        id S231130AbjBMKpT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 13 Feb 2023 05:43:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49280 "EHLO
+        Mon, 13 Feb 2023 05:45:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230052AbjBMKnX (ORCPT
+        with ESMTP id S230271AbjBMKpB (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 13 Feb 2023 05:43:23 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58FCF16AC7;
-        Mon, 13 Feb 2023 02:43:20 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 292B560F9F;
-        Mon, 13 Feb 2023 10:43:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E151C4323B;
-        Mon, 13 Feb 2023 10:43:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676284997;
-        bh=SMNKWR1xw4kKX0WCWGnKegPn3mimaO2YyT2LNW1Y/fY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PWrpM7fHMUvIv+/WI7Dhe+li+yuJRJ4Yu6knDS3W6jCZn34dRpXg9IxLyC0U0SAUl
-         r/HxAkqr/floqgb/l5kt2a4nvw5tcUQ588sjJj2SWJIQvdlQE3DmuHXCFtR9fyb6gr
-         9Eb9ti9trEwFk3D46vOImc4wGTI4tswahs+2Y/KSIe+NHhapLbazj85UK/R6CWtUcW
-         E1MErfpQZcTlVAdZ6wF5Oyn2HeWdmPuKVycAvPHmPPv1pre+c8WkfYVAeZ5GpxE+2f
-         xQcIykRNA1BuSeWUyhgheQSG6GST/4cnGZoUhjux4j4zIlDRnn7hKDx2HYb0JDGIZX
-         yu41UlUvdK4CQ==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan+linaro@kernel.org>)
-        id 1pRWJc-0004XE-Mk; Mon, 13 Feb 2023 11:44:08 +0100
-From:   Johan Hovold <johan+linaro@kernel.org>
-To:     Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@linutronix.de>
-Cc:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Johan Hovold <johan+linaro@kernel.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Mark-PK Tsai <mark-pk.tsai@mediatek.com>
-Subject: [PATCH v6 20/20] irqdomain: Switch to per-domain locking
-Date:   Mon, 13 Feb 2023 11:43:02 +0100
-Message-Id: <20230213104302.17307-21-johan+linaro@kernel.org>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230213104302.17307-1-johan+linaro@kernel.org>
-References: <20230213104302.17307-1-johan+linaro@kernel.org>
+        Mon, 13 Feb 2023 05:45:01 -0500
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 589D41026B;
+        Mon, 13 Feb 2023 02:44:06 -0800 (PST)
+Received: by mail-yb1-xb2c.google.com with SMTP id o66so7924852ybc.0;
+        Mon, 13 Feb 2023 02:44:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=It2YJ0yINpc6a/dHkqF30FII/gMWp9sdCsyV4n7KWtc=;
+        b=SpPVZ3M2CpscTYE+9oAxmsVo3pW3fYwLwKm6WdbVb/+7yJjdapk4Q1q5lI7T0FzSYl
+         PRRJ0bnzLQ5cxN7XOpFAe3qUicnGHoTcCE5NmVqcZ52iDL2e6OwheTVBTPBk2HlO/s2/
+         zoBk41RmCQbTQdIF+psUf7XwwVrWTcy9rST19ICAJV11wiUdw3tEAedfViSBzMIgslmq
+         NQTGODcX5CunR0J0gAcOVc8AIcSk9uTj1RMuAb3E0859aVeURIXWba3vjIObcDkllhUr
+         exRcrqEW9xynUcXSk2OMmoW9IXczT2z1qK7XpvtPrRUZu2SOsSzUvTJvy1sZ+hjk8LuP
+         nqdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=It2YJ0yINpc6a/dHkqF30FII/gMWp9sdCsyV4n7KWtc=;
+        b=kahAU1bsz1O8U3RYnvs4fpfKitudTk4TPh9TGB0OR4ixmsyUsT5K2f6nx8wvlRs0yE
+         HsjdZ+3eXrW8YRfLWGGaA1UO6vZnZGTmyrRXXFUjYysYcaTFaJo7UxLaMtPpKpC5vQ3R
+         0NuiIStKrYz+ekoEyzRNGqcEw22OskRt/aufHMH831PDhOBk6W/5dUzQUofuuQabFm+z
+         ztT/6AHEgXLIMEG9c5bWLw+XQlXIYKGEJFvgVBH6TIEuzuYgHNKNZcX1PBapCMadjX85
+         Jc7m+Vz4kRvux3lA/v1ORDb6sc28kr+cAwlpg/runYjn2CJuRrLsdUaPT3duZ3bLIcTu
+         R66A==
+X-Gm-Message-State: AO0yUKWsY2t/l/atc6ZBCaK0VenZKB/8duicGVFoPVvO823yPp5X6Xo6
+        OJyLm5Pl7NgCUpUE+5urR9g8lTN+Uh6sLwGlYtROJwoYlMWmnw==
+X-Google-Smtp-Source: AK7set+dqgxglvqteU7oT+niFnqkk+BFacOtvdkeY+hJXXDI3ddIhwjlC3/5GLKgi3wEj7G9LZQ+qjeXBPz2Lx2rPks=
+X-Received: by 2002:a25:8a83:0:b0:92d:7c28:5d06 with SMTP id
+ h3-20020a258a83000000b0092d7c285d06mr163303ybl.372.1676285042350; Mon, 13 Feb
+ 2023 02:44:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+From:   Carsten Hatger <xmb8dsv4@gmail.com>
+Date:   Mon, 13 Feb 2023 11:43:51 +0100
+Message-ID: <CACp=KFQN79Rz0CHP-5kwP9Y5Y9bEAoN0eJzoOpSejg6aF9qnpw@mail.gmail.com>
+Subject: RFI: Tablet mode support on HP Pro x360 435 G9 w/ AMD Ryzen 7 5825U
+To:     linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Cc:     mario.limonciello@amd.com, Shyam-sundar.S-k@amd.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-0.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URI_TRY_3LD
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The IRQ domain structures are currently protected by the global
-irq_domain_mutex. Switch to using more fine-grained per-domain locking,
-which can speed up parallel probing by reducing lock contention.
+Dear all,
 
-On a recent arm64 laptop, the total time spent waiting for the locks
-during boot drops from 160 to 40 ms on average, while the maximum
-aggregate wait time drops from 550 to 90 ms over ten runs for example.
+I'd like to have tablet mode support on my system, probably by means
+an linux input device such as implemented in the intel platform
+specific driver drivers/platform/x86/intel/vbtn.c [0]
 
-Note that the domain lock of the root domain (innermost domain) must be
-used for hierarchical domains. For non-hierarchical domains (as for root
-domains), the new root pointer is set to the domain itself so that
-&domain->root->mutex always points to the right lock.
+In the end I hope GNOME eventually to rotate the systems display and
+to show some virtual keyboard (upon users request), cf. for [3]
 
-Also note that hierarchical domains should be constructed using
-irq_domain_create_hierarchy() (or irq_domain_add_hierarchy()) to avoid
-having racing allocations access a not fully initialised domain. As a
-safeguard, the lockdep assertion in irq_domain_set_mapping() will catch
-any offenders that also fail to set the root domain pointer.
+It appears there has already been a patch proposed  by the chromium
+team to support device PNP0C60 [1] but not merged to [5].
 
-Tested-by: Hsin-Yi Wang <hsinyi@chromium.org>
-Tested-by: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
-Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
----
- include/linux/irqdomain.h |  4 +++
- kernel/irq/irqdomain.c    | 59 ++++++++++++++++++++++++++-------------
- 2 files changed, 43 insertions(+), 20 deletions(-)
+Since the system of interest is a HP Probook, there is already a
+driver providing virtual buttons,namely hp-wmi [6]. However, the
+driver loads probes and loads successfully but doesn't provide any
+additional functionality plus some non critical errors on incorrect
+ACPI method calls.
 
-diff --git a/include/linux/irqdomain.h b/include/linux/irqdomain.h
-index 16399de00b48..d320d15d4fba 100644
---- a/include/linux/irqdomain.h
-+++ b/include/linux/irqdomain.h
-@@ -125,6 +125,8 @@ struct irq_domain_chip_generic;
-  *		core code.
-  * @flags:	Per irq_domain flags
-  * @mapcount:	The number of mapped interrupts
-+ * @mutex:	Domain lock, hierarchical domains use root domain's lock
-+ * @root:	Pointer to root domain, or containing structure if non-hierarchical
-  *
-  * Optional elements:
-  * @fwnode:	Pointer to firmware node associated with the irq_domain. Pretty easy
-@@ -152,6 +154,8 @@ struct irq_domain {
- 	void				*host_data;
- 	unsigned int			flags;
- 	unsigned int			mapcount;
-+	struct mutex			mutex;
-+	struct irq_domain		*root;
- 
- 	/* Optional data */
- 	struct fwnode_handle		*fwnode;
-diff --git a/kernel/irq/irqdomain.c b/kernel/irq/irqdomain.c
-index 2213d972f083..aa5b7eeeceb8 100644
---- a/kernel/irq/irqdomain.c
-+++ b/kernel/irq/irqdomain.c
-@@ -215,6 +215,17 @@ static struct irq_domain *__irq_domain_create(struct fwnode_handle *fwnode,
- 
- 	domain->revmap_size = size;
- 
-+	/*
-+	 * Hierarchical domains use the domain lock of the root domain
-+	 * (innermost domain).
-+	 *
-+	 * For non-hierarchical domains (as for root domains), the root
-+	 * pointer is set to the domain itself so that &domain->root->mutex
-+	 * always points to the right lock.
-+	 */
-+	mutex_init(&domain->mutex);
-+	domain->root = domain;
-+
- 	irq_domain_check_hierarchy(domain);
- 
- 	return domain;
-@@ -524,7 +535,7 @@ static bool irq_domain_is_nomap(struct irq_domain *domain)
- static void irq_domain_clear_mapping(struct irq_domain *domain,
- 				     irq_hw_number_t hwirq)
- {
--	lockdep_assert_held(&irq_domain_mutex);
-+	lockdep_assert_held(&domain->root->mutex);
- 
- 	if (irq_domain_is_nomap(domain))
- 		return;
-@@ -539,7 +550,11 @@ static void irq_domain_set_mapping(struct irq_domain *domain,
- 				   irq_hw_number_t hwirq,
- 				   struct irq_data *irq_data)
- {
--	lockdep_assert_held(&irq_domain_mutex);
-+	/*
-+	 * This also makes sure that all domains point to the same root when
-+	 * called from irq_domain_insert_irq() for each domain in a hierarchy.
-+	 */
-+	lockdep_assert_held(&domain->root->mutex);
- 
- 	if (irq_domain_is_nomap(domain))
- 		return;
-@@ -561,7 +576,7 @@ static void irq_domain_disassociate(struct irq_domain *domain, unsigned int irq)
- 
- 	hwirq = irq_data->hwirq;
- 
--	mutex_lock(&irq_domain_mutex);
-+	mutex_lock(&domain->root->mutex);
- 
- 	irq_set_status_flags(irq, IRQ_NOREQUEST);
- 
-@@ -583,7 +598,7 @@ static void irq_domain_disassociate(struct irq_domain *domain, unsigned int irq)
- 	/* Clear reverse map for this hwirq */
- 	irq_domain_clear_mapping(domain, hwirq);
- 
--	mutex_unlock(&irq_domain_mutex);
-+	mutex_unlock(&domain->root->mutex);
- }
- 
- static int irq_domain_associate_locked(struct irq_domain *domain, unsigned int virq,
-@@ -633,9 +648,9 @@ int irq_domain_associate(struct irq_domain *domain, unsigned int virq,
- {
- 	int ret;
- 
--	mutex_lock(&irq_domain_mutex);
-+	mutex_lock(&domain->root->mutex);
- 	ret = irq_domain_associate_locked(domain, virq, hwirq);
--	mutex_unlock(&irq_domain_mutex);
-+	mutex_unlock(&domain->root->mutex);
- 
- 	return ret;
- }
-@@ -752,7 +767,7 @@ unsigned int irq_create_mapping_affinity(struct irq_domain *domain,
- 		return 0;
- 	}
- 
--	mutex_lock(&irq_domain_mutex);
-+	mutex_lock(&domain->root->mutex);
- 
- 	/* Check if mapping already exists */
- 	virq = irq_find_mapping(domain, hwirq);
-@@ -763,7 +778,7 @@ unsigned int irq_create_mapping_affinity(struct irq_domain *domain,
- 
- 	virq = irq_create_mapping_affinity_locked(domain, hwirq, affinity);
- out:
--	mutex_unlock(&irq_domain_mutex);
-+	mutex_unlock(&domain->root->mutex);
- 
- 	return virq;
- }
-@@ -832,7 +847,7 @@ unsigned int irq_create_fwspec_mapping(struct irq_fwspec *fwspec)
- 	if (WARN_ON(type & ~IRQ_TYPE_SENSE_MASK))
- 		type &= IRQ_TYPE_SENSE_MASK;
- 
--	mutex_lock(&irq_domain_mutex);
-+	mutex_lock(&domain->root->mutex);
- 
- 	/*
- 	 * If we've already configured this interrupt,
-@@ -892,7 +907,7 @@ unsigned int irq_create_fwspec_mapping(struct irq_fwspec *fwspec)
- 	/* Store trigger type */
- 	irqd_set_trigger_type(irq_data, type);
- out:
--	mutex_unlock(&irq_domain_mutex);
-+	mutex_unlock(&domain->root->mutex);
- 
- 	return virq;
- }
-@@ -1157,6 +1172,7 @@ struct irq_domain *irq_domain_create_hierarchy(struct irq_domain *parent,
- 		domain = __irq_domain_create(fwnode, 0, ~0, 0, ops, host_data);
- 
- 	if (domain) {
-+		domain->root = parent->root;
- 		domain->parent = parent;
- 		domain->flags |= flags;
- 
-@@ -1555,10 +1571,10 @@ int __irq_domain_alloc_irqs(struct irq_domain *domain, int irq_base,
- 			return -EINVAL;
- 	}
- 
--	mutex_lock(&irq_domain_mutex);
-+	mutex_lock(&domain->root->mutex);
- 	ret = irq_domain_alloc_irqs_locked(domain, irq_base, nr_irqs, node, arg,
- 					   realloc, affinity);
--	mutex_unlock(&irq_domain_mutex);
-+	mutex_unlock(&domain->root->mutex);
- 
- 	return ret;
- }
-@@ -1569,7 +1585,7 @@ static void irq_domain_fix_revmap(struct irq_data *d)
- {
- 	void __rcu **slot;
- 
--	lockdep_assert_held(&irq_domain_mutex);
-+	lockdep_assert_held(&d->domain->root->mutex);
- 
- 	if (irq_domain_is_nomap(d->domain))
- 		return;
-@@ -1635,7 +1651,7 @@ int irq_domain_push_irq(struct irq_domain *domain, int virq, void *arg)
- 	if (!parent_irq_data)
- 		return -ENOMEM;
- 
--	mutex_lock(&irq_domain_mutex);
-+	mutex_lock(&domain->root->mutex);
- 
- 	/* Copy the original irq_data. */
- 	*parent_irq_data = *irq_data;
-@@ -1663,7 +1679,7 @@ int irq_domain_push_irq(struct irq_domain *domain, int virq, void *arg)
- 	irq_domain_fix_revmap(parent_irq_data);
- 	irq_domain_set_mapping(domain, irq_data->hwirq, irq_data);
- error:
--	mutex_unlock(&irq_domain_mutex);
-+	mutex_unlock(&domain->root->mutex);
- 
- 	return rv;
- }
-@@ -1718,7 +1734,7 @@ int irq_domain_pop_irq(struct irq_domain *domain, int virq)
- 	if (WARN_ON(!parent_irq_data))
- 		return -EINVAL;
- 
--	mutex_lock(&irq_domain_mutex);
-+	mutex_lock(&domain->root->mutex);
- 
- 	irq_data->parent_data = NULL;
- 
-@@ -1730,7 +1746,7 @@ int irq_domain_pop_irq(struct irq_domain *domain, int virq)
- 
- 	irq_domain_fix_revmap(irq_data);
- 
--	mutex_unlock(&irq_domain_mutex);
-+	mutex_unlock(&domain->root->mutex);
- 
- 	kfree(parent_irq_data);
- 
-@@ -1746,17 +1762,20 @@ EXPORT_SYMBOL_GPL(irq_domain_pop_irq);
- void irq_domain_free_irqs(unsigned int virq, unsigned int nr_irqs)
- {
- 	struct irq_data *data = irq_get_irq_data(virq);
-+	struct irq_domain *domain;
- 	int i;
- 
- 	if (WARN(!data || !data->domain || !data->domain->ops->free,
- 		 "NULL pointer, cannot free irq\n"))
- 		return;
- 
--	mutex_lock(&irq_domain_mutex);
-+	domain = data->domain;
-+
-+	mutex_lock(&domain->root->mutex);
- 	for (i = 0; i < nr_irqs; i++)
- 		irq_domain_remove_irq(virq + i);
--	irq_domain_free_irqs_hierarchy(data->domain, virq, nr_irqs);
--	mutex_unlock(&irq_domain_mutex);
-+	irq_domain_free_irqs_hierarchy(domain, virq, nr_irqs);
-+	mutex_unlock(&domain->root->mutex);
- 
- 	irq_domain_free_irq_data(virq, nr_irqs);
- 	irq_free_descs(virq, nr_irqs);
--- 
-2.39.1
+I've noticed AMD has started to provide platform specific driver(s)
+such as pmf [2]. To my knowledge there is no support for CEZANNE/green
+sardine based systems (yet).
 
+What would be recommended practice and subsystem/folder to provide
+such capability by means of a (platform specific) driver? At least the
+CID PNP0C60 seems to be held by Microsoft [4] and thus be common to
+both amd and intel platforms [4]. However, HID INT33D6 is held by
+Intel and HID AMDI0081 by AMD. Yet I'm not quite sure if
+iio-sensor-proxy [7] needs to be involved, too.
+
+Best regards,
+Carsten Hatger
+
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/platform/x86/intel/vbtn.c?h=v6.2-rc8
+[1] https://lore.kernel.org/lkml/1472628817-3145-1-git-send-email-wnhuang@google.com/
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/platform/x86/amd/pmf?h=v6.2-rc8
+[3] https://gitlab.gnome.org/GNOME/mutter/-/issues/1760
+[4] https://learn.microsoft.com/en-us/windows-hardware/drivers/gpiobtn/button-implementation
+[5] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/acpi/button.c?h=v6.2-rc8
+[6] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/platform/x86/hp/hp-wmi.c?h=v6.2-rc8
+[7] https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/
