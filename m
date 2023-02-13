@@ -2,122 +2,148 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27CEB6942D6
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Feb 2023 11:28:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDDE1694327
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Feb 2023 11:43:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229484AbjBMK2N (ORCPT
+        id S230168AbjBMKn0 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 13 Feb 2023 05:28:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35106 "EHLO
+        Mon, 13 Feb 2023 05:43:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230038AbjBMK2M (ORCPT
+        with ESMTP id S229539AbjBMKnW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 13 Feb 2023 05:28:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1EA99ED0
-        for <platform-driver-x86@vger.kernel.org>; Mon, 13 Feb 2023 02:27:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676284039;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=3CE4eMa3FyiLCFaW2IEzgSX8SFgyrVdO0vnWlAIO6nA=;
-        b=KtLqC/T6lblPbvys/TJAD2zGYAVz33AeFShPXhkFThIZgH6fUbcuwG42DDEQocxJYfk/cZ
-        bvD+ESaAXhjXn3+fG8dn+8ga23VAoR/+QHXXUkrpQxEjLQd5O/O7B2jCRQ4rMjphgm90EF
-        MFLLOZSMUWNXBaNvF0P7XBIDswOCbb0=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-128-Bkq00NQBNuaJSrj7ez9-Ew-1; Mon, 13 Feb 2023 05:27:17 -0500
-X-MC-Unique: Bkq00NQBNuaJSrj7ez9-Ew-1
-Received: by mail-ej1-f71.google.com with SMTP id fy3-20020a1709069f0300b008a69400909fso7288757ejc.7
-        for <platform-driver-x86@vger.kernel.org>; Mon, 13 Feb 2023 02:27:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=3CE4eMa3FyiLCFaW2IEzgSX8SFgyrVdO0vnWlAIO6nA=;
-        b=PhabTSOwclMcRHfEqsI/Bbkl+sWzZ7OBJ4F88fVrXYcBnSpMGUo9JgwzFVhzUjMc6t
-         gSirsLdoJoMPF07QcEt5ehblMmyGg5jr17iErNRLEW0FR053NNtweXKFiBFUfah+ySQC
-         hzuc6Fl7292U45Tyep/a6fULH8+jIsLPvj6lKmTWRFPgJn48reO33IAJJpp6wBkiO2nm
-         U1crlclNZyFrJqUV951yntOYkAiyeojJYw6nTezXqWR5YWq/9DVrcgdrkfKYRQl5b7I4
-         xzwRhA03i65cFb17ILthKbLWwSdUMS6dC7w4Hv7ff4QU4eooPrmoRf28PP75jpmu+Qy2
-         D+EQ==
-X-Gm-Message-State: AO0yUKXUo60kqVfDmDf7rEcVujJkmrzY1bK1NJiB0/nCa2swoMXp3QoZ
-        3ndT9luUIN/ZpH0Sx1vQHxGSuobqRJyzihUat4Zi2q1YdMhDVqHrguboPs/9ehLdR1hVeGTiDak
-        PDW+9VoS32IC3Yin5Qg77cLSiKH7awxuekK4me2k=
-X-Received: by 2002:a50:f68f:0:b0:4ac:bd71:c595 with SMTP id d15-20020a50f68f000000b004acbd71c595mr6052589edn.23.1676284036690;
-        Mon, 13 Feb 2023 02:27:16 -0800 (PST)
-X-Google-Smtp-Source: AK7set9QGHi+YsmDnD9yqlqMdgEAeBYm8x6qQMbITvCHZ+TrYaMAuKZ6VJkCEQkGSU7621PEz/lV3Q==
-X-Received: by 2002:a50:f68f:0:b0:4ac:bd71:c595 with SMTP id d15-20020a50f68f000000b004acbd71c595mr6052581edn.23.1676284036572;
-        Mon, 13 Feb 2023 02:27:16 -0800 (PST)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id t18-20020a50c252000000b0049148f6461dsm6340025edf.65.2023.02.13.02.27.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Feb 2023 02:27:16 -0800 (PST)
-Message-ID: <06020103-8bbb-c02f-f59a-b4cad88d9184@redhat.com>
-Date:   Mon, 13 Feb 2023 11:27:15 +0100
+        Mon, 13 Feb 2023 05:43:22 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0631C166FE;
+        Mon, 13 Feb 2023 02:43:19 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 95F68B810A1;
+        Mon, 13 Feb 2023 10:43:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B89FC433A1;
+        Mon, 13 Feb 2023 10:43:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1676284996;
+        bh=AIFFvMOlcdsA/E6sRshF70eAgmoIe63jSj35tjGCv9k=;
+        h=From:To:Cc:Subject:Date:From;
+        b=eD7p4UJwQPJh9BvldPsrctsrFPnALwdirXaSusln/9byZ/enNSFZZ13X4i0lC28hV
+         L9BNBaWZ/JId+39vvWDG/hqr8C21ZVo6mwZ1DWbSoYgtYJPf0lBTj7ZnNDkAiFQ9H0
+         LGCQF1zaY+fO6TgJ3cvPJOjwA5/WRplM2MgzvpIuE21chHgB1gUvfo7pGiOMI8Ic3p
+         1fNOVoenGJq88pl0s8SlYyUEIf/rX0YQsHqCnHdWbUU07FSvlBfFUzSQT7o6MxAAww
+         uKDnRIzWjWUFgrWnsD5U8jeoi/8da5Y2hEI4LcXlDXc/CKk96MhGjIFad8TjcjU78Q
+         1GGbbvzhOa82w==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan+linaro@kernel.org>)
+        id 1pRWJa-0004WH-RV; Mon, 13 Feb 2023 11:44:06 +0100
+From:   Johan Hovold <johan+linaro@kernel.org>
+To:     Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@linutronix.de>
+Cc:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Johan Hovold <johan+linaro@kernel.org>
+Subject: [PATCH v6 00/20] irqdomain: fix mapping race and rework locking
+Date:   Mon, 13 Feb 2023 11:42:42 +0100
+Message-Id: <20230213104302.17307-1-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-From:   Hans de Goede <hdegoede@redhat.com>
-Subject: [GIT PULL] platform-drivers-x86 for 6.2-5
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Mark Gross <mgross@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Linus,
+Parallel probing (e.g. due to asynchronous probing) of devices that
+share interrupts can currently result in two mappings for the same
+hardware interrupt to be created.
 
-Here is the (hopefully) final platform-drivers-x86 fixes pull-req for 6.2.
+This series fixes this mapping race and reworks the irqdomain locking so
+that in the end the global irq_domain_mutex is only used for managing
+the likewise global irq_domain_list, while domain operations (e.g. IRQ
+allocations) use per-domain (hierarchy) locking.
 
-This pull-req contains just 1 trivial change, a set of Intel vsec driver
-Meteor Lake PCI id additions.
-
-Regards,
-
-Hans
+Johan
 
 
-The following changes since commit eecf2acd4a580e9364e5087daf0effca60a240b7:
+Changes in v6
+ - use common exit path in irq_create_fwspec_mapping() (6/20)
+ - fix domain registration race (7/20, new)
+ - fix x86/uv commit prefix (13/20)
+ - use &domain->root->mutex also for non-hierarchichal domains (20/20)
+ - fix kernel doc typo (20/20)
 
-  platform/x86: touchscreen_dmi: Add Chuwi Vi8 (CWI501) DMI match (2023-02-02 11:34:38 +0100)
+Changes in v5
+ - reorder patches (since we do care about stable after all)
+ - tweak commit messages and add stable tags
+ - use '__locked' suffix for new helper functions
+ - drop a line break from an argument list (11/19)
 
-are available in the Git repository at:
+Changes in v4
+ - add a comment to __irq_domain_add() as further documentation of the
+   domain lock and root pointer (19/19)
+ - add a comment documenting that the lockdep assertion in
+   irq_domain_set_mapping() also verifies that the domains in a
+   hierarchy point to the same root (19/19)
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-v6.2-5
+Changes in v3
+ - drop dead and bogus code (1--3/19, new)
+ - fix racy mapcount accesses (5/19, new)
+ - drop revmap mutex (6/19, new)
+ - use irq_domain_mutex to address mapping race (9/19)
+ - clean up irq_domain_push/pop_irq() (10/19, new)
+ - use irq_domain_create_hierarchy() to construct hierarchies
+   (11--18/19, new)
+ - switch to per-domain locking (19/19, new)
 
-for you to fetch changes up to eb4b55f2f26fc8a7b7dc6f06f1de91480d53485b:
+Changes in v2
+ - split out redundant-lookup cleanup (1/4)
+ - use a per-domain mutex to address mapping race (2/4)
+ - move kernel-doc to exported function (2/4)
+ - fix association race (3/4, new)
+ - use per-domain mutex for associations (4/4, new)
 
-  platform/x86/intel/vsec: Add support for Meteor Lake (2023-02-06 14:40:47 +0100)
 
-----------------------------------------------------------------
-platform-drivers-x86 for v6.2-5
+Johan Hovold (19):
+  irqdomain: Fix association race
+  irqdomain: Fix disassociation race
+  irqdomain: Drop bogus fwspec-mapping error handling
+  irqdomain: Look for existing mapping only once
+  irqdomain: Refactor __irq_domain_alloc_irqs()
+  irqdomain: Fix mapping-creation race
+  irqdomain: Drop revmap mutex
+  irqdomain: Drop dead domain-name assignment
+  irqdomain: Drop leftover brackets
+  irqdomain: Clean up irq_domain_push/pop_irq()
+  x86/ioapic: Use irq_domain_create_hierarchy()
+  x86/uv: Use irq_domain_create_hierarchy()
+  irqchip/alpine-msi: Use irq_domain_add_hierarchy()
+  irqchip/gic-v2m: Use irq_domain_create_hierarchy()
+  irqchip/gic-v3-its: Use irq_domain_create_hierarchy()
+  irqchip/gic-v3-mbi: Use irq_domain_create_hierarchy()
+  irqchip/loongson-pch-msi: Use irq_domain_create_hierarchy()
+  irqchip/mvebu-odmi: Use irq_domain_create_hierarchy()
+  irqdomain: Switch to per-domain locking
 
-Intel vsec driver Meteor Lake PCI ids addition.
+Marc Zyngier (1):
+  irqdomain: Fix domain registration race
 
-The following is an automated git shortlog grouped by driver:
+ arch/x86/kernel/apic/io_apic.c         |   7 +-
+ arch/x86/platform/uv/uv_irq.c          |   7 +-
+ drivers/irqchip/irq-alpine-msi.c       |   8 +-
+ drivers/irqchip/irq-gic-v2m.c          |   5 +-
+ drivers/irqchip/irq-gic-v3-its.c       |  13 +-
+ drivers/irqchip/irq-gic-v3-mbi.c       |   5 +-
+ drivers/irqchip/irq-loongson-pch-msi.c |   9 +-
+ drivers/irqchip/irq-mvebu-odmi.c       |  13 +-
+ include/linux/irqdomain.h              |   6 +-
+ kernel/irq/irqdomain.c                 | 408 +++++++++++++++----------
+ 10 files changed, 279 insertions(+), 202 deletions(-)
 
-platform/x86/intel/vsec:
- -  Add support for Meteor Lake
-
-----------------------------------------------------------------
-Gayatri Kammela (1):
-      platform/x86/intel/vsec: Add support for Meteor Lake
-
- drivers/platform/x86/intel/vsec.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+-- 
+2.39.1
 
