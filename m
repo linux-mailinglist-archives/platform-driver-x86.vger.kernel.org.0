@@ -2,61 +2,55 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A58069B340
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 17 Feb 2023 20:43:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4368669B3C2
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 17 Feb 2023 21:22:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229822AbjBQTnT (ORCPT
+        id S229602AbjBQUWH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 17 Feb 2023 14:43:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59664 "EHLO
+        Fri, 17 Feb 2023 15:22:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229775AbjBQTnS (ORCPT
+        with ESMTP id S229585AbjBQUWG (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 17 Feb 2023 14:43:18 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 309265BD9D
-        for <platform-driver-x86@vger.kernel.org>; Fri, 17 Feb 2023 11:43:16 -0800 (PST)
+        Fri, 17 Feb 2023 15:22:06 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22ABD5FC57
+        for <platform-driver-x86@vger.kernel.org>; Fri, 17 Feb 2023 12:22:02 -0800 (PST)
 Received: from [192.168.1.155] ([95.114.119.171]) by mrelayeu.kundenserver.de
- (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MQ67s-1pFoxv1Lrk-00M5Ux; Fri, 17 Feb 2023 20:42:43 +0100
-Message-ID: <a71e5878-905b-db3e-53d7-c6680098a76a@metux.net>
-Date:   Fri, 17 Feb 2023 20:42:42 +0100
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MREqy-1pElkq17gK-00N8C1; Fri, 17 Feb 2023 21:21:52 +0100
+Message-ID: <8ef6e7b7-c813-eaff-f1f2-19b25174c180@metux.net>
+Date:   Fri, 17 Feb 2023 21:21:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v4 1/2] x86: Support APU5 & APU6 in PCEngines platform
- driver
+Subject: Re: [PATCH V3 1/1] platform/x86: Add BIOS Dynamic SAR driver for
+ Intel M.2 Modem
 Content-Language: tl
-To:     Hans de Goede <hdegoede@redhat.com>, Ed W <lists@wildgooses.com>,
-        Philip Prindeville <philipp@redfish-solutions.com>,
-        platform-driver-x86@vger.kernel.org,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     Andres Salomon <dilinger@queued.net>,
-        Andreas Eberlein <foodeas@aeberlein.de>,
-        Paul Spooren <paul@spooren.de>
-References: <20230113231139.436956-1-philipp@redfish-solutions.com>
- <00b4cd69-14ce-ce1f-2bec-83ecbb928cbc@redhat.com>
- <cb93fd68-5195-0d5e-cd40-5eba61df4c38@wildgooses.com>
- <3fffc76d-4e1b-4eef-3d9f-6d61cecacb46@redhat.com>
+To:     Shravan S <s.shravan@intel.com>, hdegoede@redhat.com,
+        mgross@linux.intel.com, platform-driver-x86@vger.kernel.org
+Cc:     sudhakar.an@intel.com
+References: <20210602050149.6230-1-s.shravan@intel.com>
+ <20210602050149.6230-2-s.shravan@intel.com>
 From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-In-Reply-To: <3fffc76d-4e1b-4eef-3d9f-6d61cecacb46@redhat.com>
+In-Reply-To: <20210602050149.6230-2-s.shravan@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Yq8KznrPmr5R6JJ5fTlnUWybZx7r0kggiZnpoOJ4T7D+QZyU2W4
- mJTlYoWtQ7NGichh5ZxPN3HXTmjBMkZgCiYRgruQJuDGoOK0NnB50TfXqzcI3tbisRZzofJ
- BiC3Yei1GbpDiAKYPYPt6o7ogVqWKaVixMIeA1VrU74pYwlgId0d04XKpZNwMrWS8gzxb9f
- egxTyI71UtpBeCKK6Vs5w==
-UI-OutboundReport: notjunk:1;M01:P0:ls7gMlVjil0=;MYHDpy1gwAKi0GRnbt6QrMNw3xa
- S2EmfbwYBapqt+bdEj1beaO14RW7vbeZetShIWsIfcHbJ6R5Csuu1WPv5s+iQszFJlSLWA/2v
- xSKtFAzcpffjKfBryaKCmFslSUT3aO0uMqzYgd/fsNmC9e8d3fjJfmuXzq1RdLwI5DJPB4BNh
- u0LGvyib+qCr/79VsegkFFsCqtzQC1WUKStBPSrzaMN3eyGrczuMVHs+C1SAQ4rZ9z3cKZVhD
- rcba5uyidsYQrNrYXELnysQHqp5l3UoRprCM1p9LZjbM9xVfYGsORtbzRPqDvpTMVl52CB5ZH
- pSDd8tobGR6BDHc94i1aKd3UgloWM3nvl4ekSQEyTP4DSMhU/Ch50xhnYJe5QgL+hhxEaZWoj
- fQnkCWzh+pMw3ypQ+uuaSP+/oD6QgH53cxgWQB+6AiM+9IHlI2E0T7h4MxC6IP/is4w1SlS/w
- 1qNIB4lrMtKdHHyCylFpDitN2c6LkJlbCaik43qaWPIMP8E8Fv+YO8BrW1mgxF7zEJuEZZyeR
- 09xyX6Sc5+36nydmoGcGV/fERD+xtq77Sw6yn5joXh3cb3F5XcAHXzP0p98GSER4d8sfD6i+0
- QV6Vwg7EkpZPTRSoJ9tSVzAfjvt6L7zphsNeVMgIZ5RU6T7mYKoLHjX/fBzmwnh3sXK+9tNv5
- gPnqTfa7rbDA/HyE+j1yfXrnmXMnzLdbD6uRQspmTw==
+X-Provags-ID: V03:K1:iplRxLc6TAL0ZbRnytN3MawotXdXw/WNMFtEyCq4A1Zp6Dfxd5I
+ CnR70yPxaIUoS+CACaN6yc7C0+1QJ/rB6Ez/1drqFisaQAwW33AAnx0KWZQJJ3absXPHNMs
+ Q3ICUHuIbFSFZ/RNUaM/WWDpTB8eyX3ZkGX8Q+IF8E1ifnCDPP2Pz3KVV/XlghIe14qNgjD
+ DyHQ6i/dhRb5tlVTV9Jhg==
+UI-OutboundReport: notjunk:1;M01:P0:uZIcUIOwQ80=;4mulOX9tjcSeHANv1j2s6lFoHZg
+ d0OCUmygWdbXnsf4Npg3pqAEGuem9NcIe3by/cySbutodAD7zOLK6I65ll/sCCi9vjJM4wqYh
+ hVecKxK/3rYU/WH+xxttqUe2bcgeHeIEKfy6QCD6uhRH+Sl1j2ADiEhajsK9Hp5dkm9azmbMH
+ Mh9Dc5mT8JstgpYWWfNGH8I76bbRnEjMsqW7/EuElZwgi2+eeKttmw9599ZYXde2hGTZaVfIc
+ PzN0TDKFBeIywOiuBZ7/+XTqjHy4rEGRazkAVaCVY6eRkr3Tjxa+v92EnB1PcT3DbSQD0PHky
+ Px6YA8PpSIQL/X6RPN5IiciZ8UZF9BOv3LNlIyhgGUQQCwOX97NkjKAc7buuGWOtbpCQjgQJT
+ yTASFgBfQSPy5mUyZm92Fxzpn6qK8gx+7g8Bdny1g+wJls+LFjNQTCRBxrNNUeoQmy50v00fi
+ sGSG4y4yzII3oSe9qVSCWBHXkWEccYFuJkZpkpGjpbbdy0OpzbAcXH/F6R0cEhdUUvIYREews
+ wNP8u4+RSDQcAHc0HXxdaSzn9uZc58mrbFREL30qpf8P+V9t17/ExKcZAMgAk7+dbvuPWSFeu
+ JYYwhDS4fNHSOB3lgfRLomYYwsWCAWdivekWMFt3IYbijZTfHfTCjTvDCWjtZF585aoJpsaKd
+ SBNAHCJqL/LCdaEh+3yLKabS3tSi5T3lJ/qoKqFrBQ==
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
@@ -66,120 +60,542 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 02.02.23 12:14, Hans de Goede wrote:
+On 02.06.21 07:01, Shravan S wrote:
 
-Hi,
+.. digging out an old leftover from my queue ...
 
->> Overall, if one could start again, the unifying feature would be label slots logically, ie modem1,
->> modem2, wifi1, wifi2, rather than numbering them based on how they are wired on a specific board rev.
+What happened to this ? Did I some following versions or had it just
+faded away ? ;-)
 
-The naming should tell what they actually are, not what somebody might
-use them for. there're dozens of ways to populate these slots.
+> BIOS SAR (Specific Absorption Rate) driver for RF power regulation on Intel M.2 Modem.
+> Limits the exposure of human body to RF frequencies.
+> Uses ACPI to communicate to BIOS to retrieve SAR information data.
 
-As mentioned earlier, if we wan't some more high level view, eg. this
-one is RST for baseband1, we should wire that into the corresponding
-subsys, depending on how the slots are actually populated. For wifi
-this would mean netdev (does that even have some interface for that ?),
-for basebands ... no idea :(
+What data actually is that ? Sensor measurements ? Then it looks like it
+fits IIO.
 
->> Additionally, users who didn't load the APU driver, likely had ACPI named devices and these all have
->> different (and to my eye, more logical names). So whatever we decide to do here will cause some
->> breakage and inconsistency...
-> 
-> Hmm, can you elaborate a bit on this?  Does ACPI somehow expose the LEDs / GPIO to userspace
-> already and will adding APU5 / APU6 support make those ACPI exposed devices go away ?
+> Uses Sysfs to communicate this data to userspace via read and notify.
 
-For older APUs, users who didn't load the driver are those using either 
-a self-baked kernel or using a pretty or distro, or some that chose to
-disable this driver completely. For the new boards, this can only be
-those new enough to get the very recent firmware (one of the latest
-releases) that added the (incomplete) ACPI stuff.
+How's the actual protocol working ? What exactly is read and what is 
+notified, and how ?
 
-Oh, and those really should not try to play with arbitrary gpios, w/o
-carefully looking at schematics and the pinctrl-amd.c driver - otherwise
-something unpleasant might happen. No idea whether accidentially
-overclocking dram or overpowering something might brick the board.
+<snip>
 
-> Sorry for being a bit pedantic about this patch, but as a maintainer it is my responsibility
-> to ensure that we don't break existing userspace, e.g. existing use-cases using the exposed
-> ACPI devices.
+> +Basic usage
+> +===========
+> +ACPI interface exposes this data from the BIOS to SAR driver. The front end
+> +application in userspace ( eg: Modem Manager) will interact with SAR driver
+> +to obtain information like the device mode (Example: tablets, laptops, etx),
+> +Antenna index, baseband index, SAR table index and use available communication
+> +like MBIM interface to enable data communication to modem for power regulation.
+> +
+> +Applications to carry out below required actions for establishing connection
+> +with driver for data communication with the SAR driver:
+> +- open the sysfs file for communication
+> +- read the data to get the information
+> +- get notification from sysfs if data is changed
 
-And the compatibility with existing mainlined drivers. And not risking
-hw damage.
+Does that need root privileges ?
 
->> Note that I submitted this previous patch "years ago", and I've somewhat given up on ever getting
->> the APU driver up to date.. I think in 2020, Enrico shot me down because he was working on some
->> grand unification for modem GPIO handling? (Enrico, please correct me on the details?) Hans, I think
->> if you search back to 2020 on "APU", you will see that you arbitrated in that thread?
-> 
-> Yes I vaguely remember back then I was hoping / expecting you and Enrico to sort things
-> out, but that seems to have not happened. 
+> +- write into sysfs to change regulatory mode.
 
-Well, IIRC we didn't come to an satisfying solution yet, and it didn't
-seem to be important enough for mainlining back then, so the issue 
-somehow faded away. One of the problems, IIRC, was yet more 
-inconsistencies on various HW charges, but I don't recall exactly.
+Change it where exactly ? In the baseband ? Why isn't that done through
+the corresponding baseband interface (MBIM ?) ?
 
-> I agree that we need to find a way forward here. I would like to get this resolved
-> and to get something merged into the mainline kernel for this.
+> +Management application development
+> +==================================
+> +The driver and userspace interfaces are described below.
+> +
+> +sysfs channel for communication to userspace
+> +--------------------------------------------
+> +
+> +/sys/bus/platform/devices/INTC1092:00/intc_reg
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +The driver exposes an sysfs entry in the kernel which is used for sending and
+> +receiving regulatory information. The regulatory modes are depending on network.
+> +FCC(0), CE(1), ISED(2)
 
-Since we already know that OpenWRT (and similar projects) has no trouble
-w/ having kernel+userland in lockstep, thus doesn't need much concern 
-here. Leaves just the mainline distro users.
+Looks like an very low level and hardware specific userland abi.
+Do we have to expect arbitrary changes based on bios version or hw
+models ?
 
-Leaves two major parties of concern:
+> +/sys/bus/platform/devices/INTC1092:00/intc_reg write()
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +The regulatory modes should not exceed the allowed reguulatory worldwide.
+> +
+> +/sys/bus/platform/devices/INTC1092:00/intc_reg read()
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +The application can read the current regulatory mode that is set in the
+> +driver.
+> +
+> +/sys/bus/platform/devices/INTC1092:00/intc_data
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +The driver exposes an sysfs entry in the kernel which is used for receiving
+> +information sent by BIOS.
 
-a) long term users that have existing applications on standard distros,
-    and want to replace existing products with newer ones (eg. hw
-    availability, more cpu power, ...)
-b) New users that just happen to get a new machine with recent enough
-    firmware to have ever seen the new ACPI stuff and actually uses it.
+Which information exactly ? How is that encoded ?
 
-The party a) clearly doesn't want any breaking changes, also not when
-switching to new model, which doesn't cause much other disrupting 
-changes. (those tiny changes can easily become very expensive here)
+> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+> index 7ee369aab10d..3610ab7a12df 100644
+> --- a/drivers/platform/x86/Makefile
+> +++ b/drivers/platform/x86/Makefile
+> @@ -123,6 +123,7 @@ obj-$(CONFIG_INTEL_SMARTCONNECT)		+= intel-smartconnect.o
+>   obj-$(CONFIG_INTEL_SPEED_SELECT_INTERFACE)	+= intel_speed_select_if/
+>   obj-$(CONFIG_INTEL_TURBO_MAX_3)			+= intel_turbo_max_3.o
+>   obj-$(CONFIG_INTEL_UNCORE_FREQ_CONTROL)		+= intel-uncore-frequency.o
+> +obj-$(CONFIG_INTEL_SAR)				+= intel-sar.o
+>   
+>   # Intel PMIC / PMC / P-Unit devices
+>   obj-$(CONFIG_INTEL_BXTWC_PMIC_TMU)	+= intel_bxtwc_tmu.o
+> diff --git a/drivers/platform/x86/intel-sar.c b/drivers/platform/x86/intel-sar.c
+> new file mode 100644
+> index 000000000000..9906eb4d79a7
+> --- /dev/null
+> +++ b/drivers/platform/x86/intel-sar.c
+> @@ -0,0 +1,326 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Intel Corporation - ACPI for Specific Absorption Rate
+> + * Copyright (c) 2021, Intel Corporation.
+> + */
+> +
+> +#include <asm/errno.h>
+> +#include <linux/acpi.h>
+> +#include <linux/kobject.h>
+> +#include <linux/platform_data/x86/intel-sar.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/sysfs.h>
+> +
+> +/**
+> + * get_int_value - Retrieve Integer values from ACPI Object
+> + * Value of the integer from the object of ACPI is obtained.
+> + * @obj: acpi_object pointer which has the integer value
+> + * @out: output pointer will get integer value
+> + * returns 0 on success
+> + */
+> +static int get_int_value(union acpi_object *obj, int *out)
+> +{
+> +	if (obj && obj->type == ACPI_TYPE_INTEGER) {
+> +		*out = (int)obj->integer.value;
+> +		return 0;
+> +	} else {
+> +		return -EFAULT;
+> +	}
+> +}
+> +
+> +/**
+> + * update_sar_data - sar data is updated based on reg_value
+> + * sar_data is updated based on regulatory value
+> + * context->reg_value will never exceed MAX_REGULATORY
+> + * @context: context pointer used for data
+> + */
+> +static void update_sar_data(struct wwan_sar_context *context)
+> +{
+> +	struct wwan_device_mode_configuration *config =
+> +	&context->config_data[context->reg_value];
+> +
+> +	if (config->device_mode_info &&
+> +	    context->sar_data.device_mode <= config->total_dev_mode) {
+> +		struct wwan_device_mode_info *dev_mode =
+> +		&config->device_mode_info[context->sar_data.device_mode];
+> +		context->sar_data.antennatable_index = dev_mode->antennatable_index;
+> +		context->sar_data.bandtable_index = dev_mode->bandtable_index;
+> +		context->sar_data.sartable_index = dev_mode->sartable_index;
+> +	}
+> +}
+> +
+> +/**
+> + * parse_package - parse package for SAR
+> + * @context: context pointer used for data
+> + * @item : acpi_object ptr
+> + * returns if success or error
+> + */
+> +static acpi_status parse_package(struct wwan_sar_context *context, union acpi_object *item)
+> +{
+> +	int value = 0, itr = 0, reg = 0;
+> +	union acpi_object *num;
+> +	struct wwan_device_mode_configuration *data;
+> +
+> +	num = &item->package.elements[0];
+> +	if (get_int_value(num, &value) == 0) {
+> +		if (value >= 0 && value < MAX_REGULATORY)
+> +			reg = value;
+> +		else
+> +			return AE_ERROR;
+> +	}
+> +	data = &context->config_data[reg];
+> +	if (data->total_dev_mode > MAX_DEV_MODES)
+> +		return AE_ERROR;
+> +	data->device_mode_info =
+> +	kmalloc_array(data->total_dev_mode, sizeof(struct wwan_device_mode_info), GFP_KERNEL);
+> +	if (!data->device_mode_info) {
+> +		pr_err("Cannot allocate memory in kernel\n");
+> +		return AE_ERROR;
+> +	}
+> +	for (itr = 0; itr < data->total_dev_mode; itr++) {
+> +		if (itr + 1 == item->package.count)
+> +			break;
+> +		num = &item->package.elements[itr + 1];
+> +		if (num->type != ACPI_TYPE_PACKAGE)
+> +			continue;
+> +		if (num->package.count < TOTAL_DATA)
+> +			break;
+> +		if (get_int_value(&num->package.elements[0], &value) == 0)
+> +			data->device_mode_info[itr].device_mode = value;
+> +		if (get_int_value(&num->package.elements[1], &value) == 0)
+> +			data->device_mode_info[itr].bandtable_index = value;
+> +		if (get_int_value(&num->package.elements[2], &value) == 0)
+> +			data->device_mode_info[itr].antennatable_index = value;
+> +		if (get_int_value(&num->package.elements[3], &value) == 0)
+> +			data->device_mode_info[itr].sartable_index = value;
+> +	}
+> +	return AE_OK;
+> +}
+> +
+> +/**
+> + * sar_module_probe - Extraction of information from BIOS via DSM calls
 
-OTOH, the party b) doesn't seem so huge, and most of them (at least what
-I could find in the net) either don't realy on these features or are
-hobbyists building their stuff with them - likely capable of fixing
-their boxes on their own.
+DSM calls ? Seriously ? Who invented that weird stuff ?
+Why not just telling us how this silicon really works, so we can
+implement some sane driver ?
 
-Another aspect: relying on the existence of one naming scheme doesn't
-necessarily mean relying on the absence of the other one. (can we
-somehow create aliases for leds ?)
+> + * Retrieve all values related to device mode, SAR Table index,
+> + * Antenna Table index, Band Table index
+> + * @device: ACPI device for which to retrieve the data
+> + * Returns AE_OK on success
+> + */
 
-> I also agree that if there is breakage it would be best to just break things only once.
+Description incorrect. This function obviously probes the device,
+but doesn't retrieve any measurements.
 
-Problem: the firmware vendor already showed being unreliable here.
-And they're even changing the names with each board model w/o any
-practical reason.
+> +static acpi_status sar_module_probe(struct platform_device *device)
+> +{
+> +	acpi_status status = AE_OK;
+> +	union acpi_object *out;
+> +	u32 rev = 0;
+> +	int value = 0;
+> +	struct wwan_sar_context *context = dev_get_drvdata(&device->dev);
+> +
+> +	pr_alert("%s Triggered\n", __func__);
+> +	out = acpi_evaluate_dsm(context->handle, &context->guid, rev,
+> +				COMMAND_ID_DEV_MODE, NULL);
+> +	if (get_int_value(out, &value) == 0) {
+> +		context->sar_data.device_mode = value;
+> +	} else {
+> +		pr_err("%s: Cmd:%d Failed\n", __func__, COMMAND_ID_DEV_MODE);
+> +		ACPI_FREE(out);
+> +		return AE_ERROR;
+> +	}
+> +	ACPI_FREE(out);
+> +	dev_set_drvdata(&device->dev, context);
+> +	sysfs_notify(context->sar_kobject, NULL, SYSFS_DATANAME);
+> +	return status;
+> +}
+> +
+> +static const struct acpi_device_id sar_device_ids[] = {
+> +	{ "INTC1092", 0},
+> +	{ "", 0},
+> +};
+> +
+> +MODULE_DEVICE_TABLE(acpi, sar_device_ids);
+> +
+> +static const struct platform_device_id sar_device_table[] = {
+> +	{"intc1092", 0},
+> +	{},
+> +};
+> +
+> +static ssize_t intc_data_show(struct device *dev, struct device_attribute *attr, char *buf)
+> +{
+> +	unsigned long ret = 0;
+> +	struct wwan_sar_context *context = dev_get_drvdata(dev);
+> +
+> +	ret = sprintf(buf, "%d %d %d %d\n", context->sar_data.device_mode,
+> +		      context->sar_data.bandtable_index,
+> +		      context->sar_data.antennatable_index,
+> +		      context->sar_data.sartable_index);
+> +	return ret;
+> +}
 
-Does anybody really want to put his eggs in that basket ?
+What's the actual meaning of these values ?
 
-> Keeping the simswap signal as GPIO/pin number 4 instead of moving it
-> to the end.
+> +static ssize_t intc_reg_show(struct device *dev, struct device_attribute *attr, char *buf)
+> +{
+> +	unsigned long ret = 0;
+> +	struct wwan_sar_context *context = dev_get_drvdata(dev);
+> +
+> +	ret = sprintf(buf, "%d\n", context->reg_value);
+> +	return ret;
+> +}
 
-Note that the driver's pin numbers have nothing to do with the
-registers. In contrast to 3mbdeb's hack, it doesn't expose the whole
-largely undocumented register space as hypothetical gpios, but only
-those known to be actual gpios. Their numbering is based on the order
-of their introduction in the driver, and existing ones should never
-change, in order not to break userland.
+Does it really have to be user-unfriendly and secretive int values
+instead of some names with actual meanings ?
 
-> And also instead of making changes to apu2_gpio_names[] (1)
-> introduce a new apu5_gpio_names[] / apu6_gpio_names[] so that
-> the labels don't change on the existing supported models.
+> +static ssize_t intc_reg_store(struct device *dev, struct device_attribute *attr,
+> +			      const char *buf, size_t count)
+> +{
+> +	int value = 0, read = 0;
+> +	struct wwan_sar_context *context = dev_get_drvdata(dev);
+> +
+> +	if (!count) {
+> +		pr_err("%s count = %d", __func__, (int)count);
+> +		return -EFAULT;
+> +	}
+> +	read = sscanf(buf, "%u", &value);
+> +	if (read <= 0) {
+> +		pr_alert("%s Not a integer", __func__);
+> +		return -EFAULT;
+> +	}
+> +	if (value >= 0 && value < MAX_REGULATORY) {
+> +		context->reg_value = value;
+> +		update_sar_data(context);
+> +		dev_set_drvdata(dev, context);
+> +		sysfs_notify(context->sar_kobject, NULL, SYSFS_DATANAME);
+> +	}
+> +	return count;
+> +}
+> +
+> +static DEVICE_ATTR_RO(intc_data);
+> +static DEVICE_ATTR_RW(intc_reg);
+> +
+> +static struct attribute *intcsar_attrs[] = {
+> +	&dev_attr_intc_data.attr,
+> +	&dev_attr_intc_reg.attr,
+> +	NULL
+> +};
+> +
+> +static struct attribute_group intcsar_group = {
+> +	.attrs = intcsar_attrs,
+> +};
+> +
+> +static void sar_notify(acpi_handle handle, u32 event, void *data)
+> +{
+> +	struct platform_device *device = data;
+> +
+> +	if (event == SAR_EVENT) {
+> +		if (sar_module_probe(device) != AE_OK)
+> +			pr_err("sar_module_probe error");
+> +	}
+> +}
+> +
+> +static int sar_probe(struct platform_device *device)
+> +{
+> +	int result = 0;
+> +	struct wwan_sar_context *context;
+> +	union acpi_object *out, *item, req;
+> +	acpi_status status = AE_OK;
+> +	u32 rev = 0, reg = 0;
+> +	int value = 0;
+> +
+> +	context = kmalloc(sizeof(*context), GFP_KERNEL);
+> +	if (!context)
+> +		return -ENOMEM;
+> +	memset(context, 0, sizeof(struct wwan_sar_context));
+> +	result = sysfs_create_group(&device->dev.kobj, &intcsar_group);
+> +	if (result) {
+> +		pr_err("sysfs creation failed\n");
+> +		goto r_free;
+> +	}
+> +	context->sar_kobject = &device->dev.kobj;
+> +	context->sar_device = device;
+> +	dev_set_drvdata(&device->dev, context);
+> +	if (guid_parse(SAR_DSM_UUID, &context->guid)) {
+> +		pr_err("%s: UUID error\n", __func__);
+> +		goto r_sys;
+> +	}
+> +	context->handle = ACPI_HANDLE(&device->dev);
+> +	for (reg = 0; reg < MAX_REGULATORY; reg++) {
+> +		req.type = ACPI_TYPE_INTEGER;
+> +		req.integer.value = reg;
+> +		out = acpi_evaluate_dsm(context->handle, &context->guid, rev,
+> +					COMMAND_ID_CONFIG_TABLE, &req);
+> +		if (!out) {
+> +			pr_err("%s: Cmd:%d Failed\n", __func__, COMMAND_ID_CONFIG_TABLE);
+> +			continue;
+> +		}
+> +		if (out->type == ACPI_TYPE_PACKAGE && out->package.count >= 3) {
+> +			item = &out->package.elements[0];
+> +			if (get_int_value(item, &value) == 0)
+> +				context->config_data[reg].version = value;
+> +			item = &out->package.elements[1];
+> +			if (get_int_value(item, &value) == 0)
+> +				context->config_data[reg].total_dev_mode = value;
+> +			if (context->config_data[reg].total_dev_mode <= 0 &&
+> +			    context->config_data[reg].total_dev_mode >
+> +				MAX_DEV_MODES) {
+> +				pr_err("total_dev_mode is not within range : %d\n",
+> +				       context->config_data[reg].total_dev_mode);
+> +				ACPI_FREE(out);
+> +				continue;
+> +			}
+> +			item = &out->package.elements[2];
+> +			if (item->type == ACPI_TYPE_PACKAGE && item->package.count > 0)
+> +				status = parse_package(context, item);
+> +			else
+> +				status = AE_ERROR;
+> +			if (status != AE_OK) {
+> +				ACPI_FREE(out);
+> +				continue;
+> +			}
+> +		}
+> +		ACPI_FREE(out);
 
-Unfortunately only solving part of the problem: still breaks backwards
-compatibility with existing applications.
+How does the corresponding ASL code look like ?
 
-> I'm less worried about the label change then about the index
-> change, because typical GPIO use from userspace will use
-> indexes not labels. So if having different labels on
-> different APU versions is a big problem you might be able to
-> convince me to change the labels on the old models too.
+> +	}
+> +	update_sar_data(context);
+> +	if (sar_module_probe(device) != AE_OK) {
+> +		pr_err("Failed sar_module_probe\n");
+> +		goto r_sys;
+> +	}
+> +	if (acpi_install_notify_handler(ACPI_HANDLE(&device->dev), ACPI_DEVICE_NOTIFY,
+> +					sar_notify, (void *)device) != AE_OK) {
+> +		pr_err("Failed acpi_install_notify_handler\n");
+> +		goto r_sys;
+> +	}
+> +	return 0;
+> +
+> +r_sys:
+> +	sysfs_remove_group(&device->dev.kobj, &intcsar_group);
+> +r_free:
+> +	kfree(context);
+> +	return -1;
+> +}
+> +
+> +static int sar_remove(struct platform_device *device)
+> +{
+> +	struct wwan_sar_context *context = dev_get_drvdata(&device->dev);
+> +	int reg = 0;
+> +
+> +	acpi_remove_notify_handler(ACPI_HANDLE(&device->dev),
+> +				   ACPI_DEVICE_NOTIFY, sar_notify);
+> +	sysfs_remove_group(&device->dev.kobj, &intcsar_group);
+> +	for (reg = 0; reg < MAX_REGULATORY; reg++) {
+> +		kfree(context->config_data[reg].device_mode_info);
+> +		context->config_data[reg].device_mode_info = NULL;
+> +	}
+> +	kfree(context);
+> +	return 0;
+> +}
+> +
+> +MODULE_DEVICE_TABLE(platform, sar_device_table);
+> +
+> +static struct platform_driver sar_driver = {
+> +	.probe = sar_probe,
+> +	.remove = sar_remove,
+> +	.driver = {
+> +			.name = DRVNAME,
+> +			.owner = THIS_MODULE,
+> +			/* FOR ACPI HANDLING */
+> +			.acpi_match_table = ACPI_PTR(sar_device_ids),
+> +			},
+> +	.id_table = sar_device_table,
+> +};
+> +
+> +module_platform_driver(sar_driver);
+> +
+> +MODULE_LICENSE("GPL v2");
+> +MODULE_DESCRIPTION("Platform device driver for INTEL MODEM BIOS SAR");
+> +MODULE_AUTHOR("Shravan S <s.shravan@intel.com>");
+> diff --git a/include/linux/platform_data/x86/intel-sar.h b/include/linux/platform_data/x86/intel-sar.h
+> new file mode 100644
+> index 000000000000..6e2ac93a3ebc
+> --- /dev/null
+> +++ b/include/linux/platform_data/x86/intel-sar.h
+> @@ -0,0 +1,89 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Intel Corporation Header File for Specific Absorption Rate
+> + * Copyright (c) 2021, Intel Corporation.
+> + */
+> +#ifndef INTEL_SAR_H
+> +#define INTEL_SAR_H
+> +
+> +#define DRVNAME "intc_sar"
+> +#define SYSFS_DATANAME "intc_data"
+> +#define SAR_DSM_UUID "82737E72-3A33-4C45-A9C7-57C0411A5F13"
+> +#define COMMAND_ID_DEV_MODE 1
+> +#define COMMAND_ID_CONFIG_TABLE 2
+> +#define COMMAND_TEST_SET 31
+> +#define MAX_REGULATORY 3
+> +#define SAR_EVENT 0x80
+> +#define MAX_DEV_MODES 50
+> +#define TOTAL_DATA 4
+> +
+> +/**
+> + * Structure wwan_device_mode_info - device mode information
+> + * Holds the data that needs to be passed to userspace.
+> + * The data is updated from the BIOS sensor information.
+> + * @device_mode: Specific mode of the device
+> + * @bandtable_index: Index of RF band
+> + * @antennatable_index: Index of antenna
+> + * @sartable_index: Index of SAR
+> + */
+> +struct wwan_device_mode_info {
+> +		int device_mode;
+> +		int bandtable_index;
+> +		int antennatable_index;
+> +		int sartable_index;
+> +};
+> +
+> +/**
+> + * Structure wwan_device_mode_configuration - device configuration
+> + * Holds the data that is configured and obtained on probe event.
+> + * The data is updated from the BIOS sensor information.
+> + * @version: Mode configuration version
+> + * @total_dev_mode: Total number of device modes
+> + * @device_mode_info: pointer to structure wwan_device_mode_info
+> + */
+> +struct wwan_device_mode_configuration {
+> +		int version;
+> +		int total_dev_mode;
+> +		struct wwan_device_mode_info *device_mode_info;
+> +};
+> +
+> +/**
+> + * Structure wwan_supported_info - userspace datastore
+> + * Holds the data that is obtained from userspace
+> + * The data is updated from the userspace and send value back in the
+> + * structure format that is mentioned here.
+> + * @reg_mode_needed: regulatory mode set by user for tests
+> + * @bios_table_revision: Version of SAR table
+> + * @num_supported_modes: Total supported modes based on reg_mode
+> + */
+> +struct wwan_supported_info {
+> +		int reg_mode_needed;
+> +		int bios_table_revision;
+> +		int num_supported_modes;
+> +};
+> +
+> +/**
+> + * Structure wwan_sar_context - context of SAR
+> + * Holds the complete context as long as the driver is in existence
+> + * The context holds instance of the data used for different cases.
+> + * @guid: Group id
+> + * @handle: store acpi handle
+> + * @reg_value: regulatory value
+> + * Regulatory 0: FCC, 1: CE, 2: ISED
+> + * @sar_device: platform_device type
+> + * @sar_kobject: kobject for sysfs
+> + * @supported_data: wwan_supported_info struct
+> + * @sar_data: wwan_device_mode_info struct
+> + * @config_data: wwan_device_mode_configuration array struct
+> + */
+> +struct wwan_sar_context {
+> +		guid_t guid;
+> +		acpi_handle handle;
+> +		int reg_value;
+> +		struct platform_device *sar_device;
+> +		struct kobject *sar_kobject;
+> +		struct wwan_supported_info supported_data;
+> +		struct wwan_device_mode_info sar_data;
+> +		struct wwan_device_mode_configuration config_data[MAX_REGULATORY];
+> +};
+> +#endif /* INTEL_SAR_H */
 
-Yes it is. There are applications in the field looking for the labels.
+
+Smells like the whole things fits best in rfkill subsys ...
+
+Hardware specific userspace abi in general is a really bad idea.
 
 
 --mtx
