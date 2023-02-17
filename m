@@ -2,33 +2,33 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0B3669AC0F
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 17 Feb 2023 14:04:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BEC869AC4B
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 17 Feb 2023 14:20:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229640AbjBQNEA (ORCPT
+        id S229684AbjBQNUl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 17 Feb 2023 08:04:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33692 "EHLO
+        Fri, 17 Feb 2023 08:20:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229588AbjBQND7 (ORCPT
+        with ESMTP id S229477AbjBQNUl (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 17 Feb 2023 08:03:59 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A0164AFF3
-        for <platform-driver-x86@vger.kernel.org>; Fri, 17 Feb 2023 05:03:56 -0800 (PST)
+        Fri, 17 Feb 2023 08:20:41 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD3776240F
+        for <platform-driver-x86@vger.kernel.org>; Fri, 17 Feb 2023 05:20:26 -0800 (PST)
 Received: from [192.168.1.155] ([95.114.119.171]) by mrelayeu.kundenserver.de
- (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1Mo7Bb-1omSRU1Cu3-00pcXA; Fri, 17 Feb 2023 14:03:31 +0100
-Message-ID: <8a96d0bb-4d35-b7b8-f6dc-73e9b86c29b9@metux.net>
-Date:   Fri, 17 Feb 2023 14:03:30 +0100
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1M2gt5-1pOs3L2UuN-004C7g; Fri, 17 Feb 2023 14:19:52 +0100
+Message-ID: <4ee1329a-3da1-d46f-69ee-3a32e9279327@metux.net>
+Date:   Fri, 17 Feb 2023 14:19:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
 Subject: Re: [PATCH v4 1/2] x86: Support APU5 & APU6 in PCEngines platform
  driver
 Content-Language: tl
-To:     Philip Prindeville <philipp@redfish-solutions.com>,
-        Hans de Goede <hdegoede@redhat.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Philip Prindeville <philipp@redfish-solutions.com>
 Cc:     platform-driver-x86@vger.kernel.org,
         "Enrico Weigelt, metux IT consult" <info@metux.net>,
         Ed Wildgoose <lists@wildgooses.com>,
@@ -38,25 +38,26 @@ Cc:     platform-driver-x86@vger.kernel.org,
 References: <20230113231139.436956-1-philipp@redfish-solutions.com>
  <00b4cd69-14ce-ce1f-2bec-83ecbb928cbc@redhat.com>
  <D31F4C6E-EB3E-43CB-8446-1CC36E9629B3@redfish-solutions.com>
+ <f5bc50fb-c3ca-bcd3-2ce0-640002e4a2e7@redhat.com>
 From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-In-Reply-To: <D31F4C6E-EB3E-43CB-8446-1CC36E9629B3@redfish-solutions.com>
+In-Reply-To: <f5bc50fb-c3ca-bcd3-2ce0-640002e4a2e7@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:4VsjaKt4Mz2URa3rpyRcyUgTPz1ZPnO7Z6Zend9jK5y4w+ev4P9
- JfdZ5G5geWwI6cofbeiZKKaz7WFJKM+BcFtjGw1KXPjamLr4oCHZ3/YMwfxOE9TFluhdxDk
- Gcs8N/6V7GHqGdsYYYH6j6C+58CXUq+5D3w+sxsoiu6LUYjqjI58ACFpMgzcqGEh87qYPh/
- V4K1clw0gluQiozqmLXxg==
-UI-OutboundReport: notjunk:1;M01:P0:Jm/aNH301cE=;Y4JHVo1wRY7clROYd0oqjj8HpZ8
- 6jCKKBeYPr+Z7raiVEWO1Mu6D1zhHQpjutjeVKG6kMYAC40yu1AyKabeXdl87DTq7NIaLkmzX
- /diBIMFNDwGS37MwKzz6SusEa2EazTSkeyFdzFdeY99CzP/aSlaTcdCXpW5rnpBj11p4XtbjZ
- /09And4sXfsTeYVEG6hpcC+QVco80HnHYRSJW2Mw1WQyOL9r46JN3aW3wau0aCCsNtfIy1au6
- Lo6pDySCF32tGaykYrn9opQHD816WTsbvUzwI00fKPSVle7/Xl8YaxCnUeWFlXAiDoWA6uq4w
- /SoemNI7kKTcqmd243enUifaQG9LJ01lNGz5zdGKrmJyotb6yK3ADywMNdIA5CBGe3QLpBrlV
- uoTvFv1LyHPFm2j30IJRmzfLUb/EMJFBQymL6+JRdMLKLYB9DqUEbiU5519sLleSEydTbgy11
- ZMqTYW0SwNeoW5dvprHYad5LdnzV7Htztfm1LKeBJjW5uHGKyYolAr3nUbNh7ynh5o4E5kGIZ
- 2f+OoHNkTZnXKb3/+pyhdX1svcR4LFYsIDXx8ywqSG1YheufQemr/qQSbyS6cFkcNeowfnTva
- mHV8jNS3ATWv4I+0fAg++okr3X6plj/8TB010nvNlD3lpxpda6OAWzyfDHUT4C26ww2JZkgdI
- nzn33eS9rz0awE1iK/oxPnqfIs/JU2uLMXllM/Gwpw==
+X-Provags-ID: V03:K1:gWguZxfcXqILIFsGcN6FEfHEjcB9sHy+lZIvrBYnSxxdlzFZJIh
+ xCNYc4dGm33NeHgZHzXj1OrfnLSYKK36z/X6RGF64HLDLR6ZlRxwQk+Oj+ZB+IqX7fvlFos
+ BuwF6RxhGJQ1ODWD8e2fMWb+P717u7TsHwVZL/uVeGV0u2PlHucYMCMgTYbBB2zOyLT+og1
+ KDmoJZXu6K0GhfZRZDv0g==
+UI-OutboundReport: notjunk:1;M01:P0:EttEN8w326M=;c7enxWrNSKX3U7ep1FbGEbAVLH+
+ 06ypTXAYBKad2t0peLLAlXJYUsFnrrcA4ugiIBcA/MxibpKlFrGNNVY6u0FFqglWxmxEaWgYE
+ yYrWDiLvUv0MQdNQhMZoEVkaIyMIO0+4MYlHfDXDvOAjTDuKx41NoBXVCIzXOZF8Tg6+KpWSs
+ H8piWV5VRnYGK8ety44VwTvSpqXrTUkhmdvu66KqVlNykRauU9yicviRcdnd6bDRvasOkLh/0
+ KdwRJMMM46QR3Xnu0d0JPF6ikKa3Q6Ob8IftAdIueNsATlbeyalPN2w4dWkmz4MMM07JdSI9v
+ nFdIAeAyDN6EUDjg9Ea1mIMULraoBIQbqqk8zAakNUBtEL+5gZijv/sypP6fZIq/n7hKCcg5f
+ BLveTujJLPIS2ckICAp7ojccko2rS7iThqTPKmrpbT8mKPmmH6Sq7zC7mi89pRA4bdXXJjcub
+ bi0lR9noeKYmt5T+2dVdrFukNOt7JfdGCxriOPGTu57rPUapcE8Wuzh9ETEASS7TkecTNa1JG
+ oWtuCvOAFhtz2rb48GV4NP/M+Okz2hpBWLaoSz5+HPwEiPG+/6ZW+jidoMgxkTzfmM13DSLjS
+ BwzMJokGa29zOWhqGZc8nlun2DEnIxMdGncLcchIAb+Lr5TQcwk6AWzoPY3rwSXT/RkzC77s1
+ VK7lYBjpQF8fVb6sRK1knhcc760WZmAhNn0TuC9oaw==
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
@@ -66,13 +67,15 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 20.01.23 06:34, Philip Prindeville wrote:
+On 20.01.23 10:51, Hans de Goede wrote:
 
-Hi,
+> But in this case AFAICT the only API userspace has for the
+> simswap and modem-reset signals is "raw" GPIO access in
+> which case the ordering very much matters.
 
-> I can't speak for Ed, but I've gotten pre-production boards in the past where the pin assignments have changed between the rev 0.1 board that I got to write drivers for and do BSP, and what went to production.
+Yes, that's actually the biggest part where I'm still unhappy with.
 
-Do we have to care at all for those pre-production boards ?
+Does anyone have an idea what subsys could be used for that ?
 
 
 --mtx
