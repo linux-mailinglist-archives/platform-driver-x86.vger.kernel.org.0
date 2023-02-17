@@ -2,91 +2,111 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 76A2169B3EA
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 17 Feb 2023 21:28:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CC8E69B5C8
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 17 Feb 2023 23:57:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229530AbjBQU2D (ORCPT
+        id S229776AbjBQW5o (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 17 Feb 2023 15:28:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56358 "EHLO
+        Fri, 17 Feb 2023 17:57:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbjBQU2C (ORCPT
+        with ESMTP id S229886AbjBQW5l (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 17 Feb 2023 15:28:02 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85DA325951
-        for <platform-driver-x86@vger.kernel.org>; Fri, 17 Feb 2023 12:28:00 -0800 (PST)
-Received: from [192.168.1.155] ([95.114.119.171]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MVrXh-1p1FBp311x-00RoqG; Fri, 17 Feb 2023 21:27:48 +0100
-Message-ID: <0126d03d-893d-3df4-67d8-586c73426f36@metux.net>
-Date:   Fri, 17 Feb 2023 21:27:47 +0100
+        Fri, 17 Feb 2023 17:57:41 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D6C65FBEB
+        for <platform-driver-x86@vger.kernel.org>; Fri, 17 Feb 2023 14:57:01 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id DAFCCB82E8F
+        for <platform-driver-x86@vger.kernel.org>; Fri, 17 Feb 2023 22:56:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9F1D1C43334
+        for <platform-driver-x86@vger.kernel.org>; Fri, 17 Feb 2023 22:56:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1676674618;
+        bh=rwI+5WMZrtCHsClDqX1cQ8gmZ1r02WkKUVUgKiu/VsI=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=pkbTrKO+ikVQN07Uq65ddvqf51uuh0rI5A2g4i2+MDvaqg0iUh5upaFVPk4b20TAo
+         aUE4DAjHC3E9h3igQ1JvYtcGK4jRXffzEXDQRt7reqlSGptzTcua6UsqcyfAOFJnke
+         tmMC86fVpgawGILjVLaBPYWxOZ0Q8ZUR+Zgg/44aEj4t7/orPdCM9n7KzlS8SIliod
+         uR6oI5/hsZpOTJZGV77lu1a/4p68VhHmLyl9nZW5qLcxubx+Dvsf6TPps9+J9RlmgM
+         9NIGo7fvJKLBwfOl0cfasF2YnMGh/Ap4lroKTzO26Qz/0xrnm/jZudG5H/kgLYg0T+
+         J1Ues6VITe6zQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 9024FC43144; Fri, 17 Feb 2023 22:56:58 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     platform-driver-x86@vger.kernel.org
+Subject: [Bug 204807] Hardware monitoring sensor nct6798d doesn't work unless
+ acpi_enforce_resources=lax is enabled
+Date:   Fri, 17 Feb 2023 22:56:56 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Platform_x86
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: pauk.denis@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-204807-215701-Huvvb164fj@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204807-215701@https.bugzilla.kernel.org/>
+References: <bug-204807-215701@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH V3 1/1] platform/x86: Add BIOS Dynamic SAR driver for
- Intel M.2 Modem
-Content-Language: tl
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Shravan S <s.shravan@intel.com>, mgross@linux.intel.com,
-        platform-driver-x86@vger.kernel.org
-Cc:     sudhakar.an@intel.com
-References: <20210602050149.6230-1-s.shravan@intel.com>
- <20210602050149.6230-2-s.shravan@intel.com>
- <76868eb4-02c4-93dc-8cb7-2257be8ade8d@redhat.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-In-Reply-To: <76868eb4-02c4-93dc-8cb7-2257be8ade8d@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:bLffOk+OoSnHU5o3Zx8fmNb/FFbZjjXuriOA5W8cv3+YJFLqZdc
- CAM5FfC53Xcp77Z7k8FL0e5Gzf86ZP74hDyNI/S8Buy/XA4kHu/VCGeGIS1FKijeRiAfWGj
- e3qo/fMzbmblcf/8elTQChb/AbTCOCrHyp/NdQs/IpUfn8wCTyIoNzT9MQLoTewtIOAZCOt
- kqJeQ1zx25hmVQZTctQ2A==
-UI-OutboundReport: notjunk:1;M01:P0:nYzgqtMIRFY=;TptMlNmtbOBWxHM7qsD6xUnXm+S
- 3mZULzVRavfQO2L2nuTAdUDFigpNsCVRdg/yZcA7z5lHfrZnCaawSii4K/y1OlmqljuzJHNFq
- ikN5GSohtYULout4y32W4i9UC1qmJK26bLXbezJ3O5Uasphlt+n54Z5g1Acj5JSh8NacgLu3U
- dsi2bc98KYwFjhw0+qdH94koW0cbHJQQ1/y7hSi//BKQsGk8OlVV5IedOFy24bAe7moWWaJ5h
- fzuxiArsBdPDWI2Fgirdlr9U7GujGRug+roer/lAsJVQbu+aGEtOt0uyN15b+3XTJoKoEEDmm
- 4LPWt3OGtUn84WojM0dL80h7e/Zfbn2ff6XMxR+xEFhq5fxF+Rw/Add5JMnyx1BWdpt/M6jmu
- gNzCyUsMBDrcZQbrfpedNgXR429d2E80PrcdA4on1mupV7hxXr65cAwhaXaUeqGk/wLobP5eW
- bvN519M55HdHsk1NbfzLrBjxDjO0pWTsBNoDledDYkzzN8YSYB7grewgsqN2aQGVPehJJnxyz
- Px15x9/42ZuSudQdTN8ezy7BCVug2kednaWY6R2GiVVe7CKI3HSGHSX7KpQytNv78grm15u0L
- qW93XnOSAEsU5ynyq3FGC7yT24TqycryyMkh+NyriW3Heqhbw95M1bNU8HHVlfDo60+rwal+U
- SCTSPfAR1PLdKvvfgCYpVzDV7r8GfF4hYO57DlfJ9g==
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 02.08.21 10:59, Hans de Goede wrote:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D204807
 
-<snip>
+--- Comment #298 from Denis Pauk (pauk.denis@gmail.com) ---
+(In reply to P=C3=A4r Ekholm from comment #293)
+> Is this stable on a 5.19 kernel? Having a TUF GAMING X570-PLUS board and
+> hasn't tried the patch before. Now I was getting the Ubuntu HWE kernel 5.=
+19
+> for Jammy. Can I run lm-sensors and having the sensors running without
+> trouble?
 
-> The driver itself does not limit the tx strength, it only provides information
-> which is used by other software to determine the max safe tx strength, please
-> update the description to reflect this.
+You board is supported by 5.19 kernel, and does not have any know issues. A=
+pply
+additional patch is not required for your board.
 
-Also missing specification of the actual meaning of this data, and how
-to calculate max safe tx from that.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/dri=
+vers/hwmon/nct6775-platform.c?h=3Dv5.19#n1090
 
-I hightly doubt we want proprietary / largely undocumented userland
-abi's in the kernel. The general rule for userland abi is that once
-introduced, shouldn't get any breaking changes, and should be applicable
-to all devices of the same class (independent from hw vendor/model)
+After initial merge code does not have any significant changes related to a=
+sus
+bioses support, just add new board to list of supported boards.
 
+New kernel 6.3+ could have additional support of x670 boards. Merge window =
+will
+be in one or two weeks after that will be more information about exact list=
+ of
+supported boards by upstream kernel.
 
---mtx
+Look to
+https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git/tr=
+ee/drivers/hwmon/nct6775-platform.c?h=3Dhwmon-next#n1115=20
 
--- 
----
-Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-GPG/PGP-Schlüssel zu.
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+Thank you.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
