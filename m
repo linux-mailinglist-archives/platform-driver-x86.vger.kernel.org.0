@@ -2,176 +2,339 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F356569AF9F
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 17 Feb 2023 16:37:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BA4C69B209
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 17 Feb 2023 18:49:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229603AbjBQPh1 (ORCPT
+        id S229674AbjBQRth (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 17 Feb 2023 10:37:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35916 "EHLO
+        Fri, 17 Feb 2023 12:49:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbjBQPh0 (ORCPT
+        with ESMTP id S229659AbjBQRtg (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 17 Feb 2023 10:37:26 -0500
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2056.outbound.protection.outlook.com [40.107.92.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32DD36F7FD
-        for <platform-driver-x86@vger.kernel.org>; Fri, 17 Feb 2023 07:37:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mbiVe5k2YgfqJUEYCpg8Vr3dzuScJQJypvXI33UebMTaeq4pZfRUmNMu7fu7pDIpoce7zrNoy+XADASvyqZx3zs5yGG4EJYhSl4FCTm5eGFZcoPwVUf4b5stJFSLoiK8ynbbbfNn/BZgkgdCaV1xWA8NnXvnwvd83DrGROkc7HO2yrEVWkb5VPJW5Nx+z2JIYsuwhZW6hGiRjSvFvM24U5L97W7die7SwFeRSRNhkHh19UqGAuaEHR1NIHmm1JZtVWPrEIlIW1l5ZwnN0QVLlLEx3XBna8fNPPTOhWS4Hg/aC83Dj93/F6oQScocbvq6QbSbddcuEPf5rVOblRHN3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SoZox6uELnY3L9tKnKXtsUKm5srM2pSydR7BEg35A14=;
- b=QUEsPMNon4GJ3ny6Wf5aSZiI1qiDgJ7ODxlMwOGP/Dpk8NiXjpRZJUuc8edkoT5IqEQPL4VJ4TnrqLHyrMQAhw/IWhqTWFhbDIBjIygaXQrumtzmgfVmiTafPvyPKAq+I4RDMeJtx9M1Eo0bpKSXmIThLTYSAZODjUIMZ1O1r/i35Oqvu7FeiEUWdtbxFar1XTLC+lXTWLhLNL+ybtvTGk+h2WFpb1EVfAxbmz2OL/NiNfuj5uDhybzD3hZkqZObu73DSjwKuOCovQWLM1D3DQDFKBMzUMupSMhFPH9qLA1tZkESz1aZqsQSbJU8dZ3b1T8cRQTqdXSea6yU/Up4fA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SoZox6uELnY3L9tKnKXtsUKm5srM2pSydR7BEg35A14=;
- b=upE/4ngoEYLsb032P1eFQb6GfIa198hXbnN7+gdHnkjxo4xKR4HZL2kMeAVO+ArrFzUuT2bqHFxxk9CcsNlwY2EZ404msLop33nFt2j9G2vXqgsE+jWO3943KWjWfnpXApwtyNWgqjPBXtFxmGpBsNsc1aW4YvGaPfeTAijy+aWYvKtTRPpYYC81RAS1RVgIVGAa5hBRAftYlmKLi/v5XpRQ3T1Q1kmByNVHUZ9CpwaNIB+BgQTO9LEXZeYm1Un2da2JS3Aerc3VtDVkxOWQTnmsKzi4uIbHbM8UMQO+smAtQesa43NE0ApOdb5LrFGO+z0QxNGrUy3eKLr2AlLeFQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB2763.namprd12.prod.outlook.com (2603:10b6:5:48::16) by
- PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.26; Fri, 17 Feb
- 2023 15:37:21 +0000
-Received: from DM6PR12MB2763.namprd12.prod.outlook.com
- ([fe80::6e75:2e:a53d:a7a]) by DM6PR12MB2763.namprd12.prod.outlook.com
- ([fe80::6e75:2e:a53d:a7a%6]) with mapi id 15.20.6086.026; Fri, 17 Feb 2023
- 15:37:21 +0000
-Date:   Fri, 17 Feb 2023 09:37:19 -0600
-From:   Daniel Dadap <ddadap@nvidia.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>,
-        Luke McCarthy <mail@lukehmcc.com>,
-        platform-driver-x86@vger.kernel.org, regressions@lists.linux.dev
-Subject: Re: [PATCH v2] platform/x86: nvidia-wmi-ec-backlight: Add force
- module parameter
-Message-ID: <Y++fL1Wzy+6CYBYj@ddadap-lakeline.nvidia.com>
-References: <20230217144208.5721-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230217144208.5721-1-hdegoede@redhat.com>
-X-ClientProxiedBy: DS7PR05CA0095.namprd05.prod.outlook.com
- (2603:10b6:8:56::29) To DM6PR12MB2763.namprd12.prod.outlook.com
- (2603:10b6:5:48::16)
+        Fri, 17 Feb 2023 12:49:36 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E9B66A06C
+        for <platform-driver-x86@vger.kernel.org>; Fri, 17 Feb 2023 09:49:18 -0800 (PST)
+Received: from [192.168.1.155] ([95.114.119.171]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MMXYN-1p9cKD0Erv-00JWYH; Fri, 17 Feb 2023 18:48:50 +0100
+Message-ID: <840c270f-2164-7d02-694f-5f2ba57a8fee@metux.net>
+Date:   Fri, 17 Feb 2023 18:48:48 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB2763:EE_|PH8PR12MB7277:EE_
-X-MS-Office365-Filtering-Correlation-Id: cd1f4b11-c4c0-4773-a415-08db10fcdc3e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Omni9r08TIiYmFaI70wnOZVswV3pEXccldyfEWTswZMZkDA/ZTkUgRgJDu2S93XWm5ScugQ/whKq1QcuEWM/yVC/H9wkvwpqoAccKGsuUuVHdwWYAsulltho8N+eGiOnWUHB8Twftp83mqoA3o3163FR3ODFm1EwMoy1llt7AiABVw977xeseMvJZn3GkIoOGK78iNwUlOAChl6yL1iRleL9MbTOclMz0rRWlCYgiryIbvReHTjTlLYH/jLgXQlqHX7/3igzdqkxGRLi6V6YK4mU8VudutyhUpKwZJNs0Abg4+q81gShOS+vRW8VEW41yPt8VhRO/BRo6NjnPuM5Vb53ppiLMo8Bpre6Ea20IklBx8kP64QNSnm/jvqsUdl1Atmn5fprNDJU5TjdpmdS2ZVVTG/i7noCO+8ZAObW96MCNQ4ps3LZAH4OC+TlK5wL+hWsqt1K+V5dTKpEA+4yJ27qPo0qv55JPCem9uUT4rbYaQkBY2150qRuBFjl9rZSqg7V2vWeC6h0Q3i0PsdGbn4RK3g5T9dfxUDwQw0j1OhCIFHSkeW/Rjinw03Mu8N+Voqnq3cILEfiiV3QtaoEnufmPtjs9hLZFed+i2xGJ+bNyiAYC879eqgA3aI7DjuDS6TrD+qFdSPwsFU4bDILjPlPw8SkP+1rlU6C3PwtnmBXio+YKmdjz9kyEiO88IAGALIurlvKzbKNtr9GMTekeEfRsk10n3UFVwEKWnMu5uk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB2763.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(396003)(39860400002)(376002)(136003)(346002)(451199018)(966005)(6486002)(83380400001)(86362001)(38100700002)(6512007)(26005)(186003)(6506007)(4326008)(6916009)(8676002)(66946007)(66476007)(66556008)(41300700001)(8936002)(478600001)(2906002)(5660300002)(316002)(54906003)(21314003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?V/BCYYAuZyrc97VqYBfoEGC8RIt8rlQOkZDgf1XyaTUhkk3DhUC+ngbrC6IA?=
- =?us-ascii?Q?hKE9VDf51NeKtWhYZxiNTCmeWv9ydDncEWhj8PERutUAWXGZ78BSwv+GnKOY?=
- =?us-ascii?Q?Q4aAK/RXIN//eUETWRKFXjsK6WSeaeKge2/bLMbssM/7kOkqtoXsj/8eCjE8?=
- =?us-ascii?Q?neY6ZaV8lghrDKU6roAxRy4MI0JffkCofIY6hpRjz9yKNMRTKolS+Sn0XeCJ?=
- =?us-ascii?Q?0SsEmh6h9XWNjIQbwp2MSsGwVtgRdbCp62E5Q/r6Sl/1JwydqqM5PAnRXpGF?=
- =?us-ascii?Q?6yIEDLC9de/0TPgCFuuQTL+7VqCROUH8qjFsCkljZD5XyqYl32WGbj84Vmrp?=
- =?us-ascii?Q?9txeDb8aRs6IiZS6qyilaSv3IzYdqwdFW132ou+H3EUFsgSC0qeyL3Ih9IHE?=
- =?us-ascii?Q?BGSO3rrrbxJMbJJx23wNUxMoTgfX8norcXeRYObdvPQnGb5+Z7YzkYwSYes0?=
- =?us-ascii?Q?SK61n3Stxu4CXOzArI9T0CkX/1JJf91+DFg3vYPfRGwpDF/Hn9Jekx5hENCG?=
- =?us-ascii?Q?ZmbHCNgAnydOpU6UNQD1IKct046vl1/NxL7naMkU6g9ZSjI+Ixwgtd1WJNkU?=
- =?us-ascii?Q?bSHyQWHqQOxCfHxAsSiuWQcNZJNI9lNNdeIaorYGH0AJPZ5iTZhOfvAEgClE?=
- =?us-ascii?Q?MkDo4OyV+UvpqYXiyhSZG3sBc/OhC09fwMhLlOVU3QbLCrVL0d/7wRSgXwUQ?=
- =?us-ascii?Q?2UAPjqadtNHUg5PHp+OIPiiTO48x8AsyoNWup4DZzG4Zad0Zpz6hU2bgg7AI?=
- =?us-ascii?Q?WYNbcgpeSkGicBt0SW5ehED+vSMoslQAfmCMuJLI2K58W3jcmJ/eez8+N/Mr?=
- =?us-ascii?Q?O7/oOf9gtKyluTEvj0XgWT5rGOtHz0w/RJMsAifM1kTApebGiwgsoSAOhPjB?=
- =?us-ascii?Q?fBapNPFmsv66VM4W2+/IMLEIJwYuVl0EE+Y1yHAV9dykVImaMrrTJ3XfUmr1?=
- =?us-ascii?Q?H0IkpPGMqJ+GF+BsKi9FG000Kr6gbwIuKpzozjOWKkZK7u9n3DYwu0kANnGx?=
- =?us-ascii?Q?4FFAf74z/jGZFjb3Ob0xK4CbkSWxiCGZGbPhGuZeQ4jK0fC83+F/h2pJEUEf?=
- =?us-ascii?Q?H2YUcsJb8Ii2loXqDs/utZiIKKuej2RRFEnyr1F9mIkvfDcGakhmsvrq4H4A?=
- =?us-ascii?Q?05bpQwXj2XXHguUHIvnA7kAVYtv8rkFyHb9Uh9K7tfv0gQzxta3RKhVTVy/5?=
- =?us-ascii?Q?ABT/r8U3QLcTnW+uOPDvHr0Aoxoux6mejR3ll8dZovENqdr6akbF4W0ZYzi3?=
- =?us-ascii?Q?/RHmVSmEAhAObYTPSBDjIM850YsizsysOqXQf3FxxbHpJolJ3q3TpsIq2xLO?=
- =?us-ascii?Q?JJ76qqJEjTtAEGdOpBHYKaMEsyUysxro9bdqSY0ljhPrGQWIR5IACPIQ3gch?=
- =?us-ascii?Q?JW3kATeLtC7npUc/ZTaBJJSwntNwT5r2iR5GFYzlde8aSM9wBYjcJwQoXmOv?=
- =?us-ascii?Q?pbP4+P3EQierrYcfkqkqYur+SAu8+EU39cTrW8wxyoQJggeXA5smG0oRnfO4?=
- =?us-ascii?Q?7tzR/3tgG/5UuNNnQOM427dEoQXeyu/oxaCWI0sHWzQw4KnieeUInaHkwbJh?=
- =?us-ascii?Q?LsdjPlWA5KDQZOIHehKz8nwrxr7iUrsb87yqRbdw?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd1f4b11-c4c0-4773-a415-08db10fcdc3e
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB2763.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2023 15:37:21.7515
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VL7zlVZMT67JIWniGIfXaU0AR8ul/kmeXq5XFbeL4qOkEA2Cj1m94Oz/2dtPaCdQ2/iBE/oC3znL+CyDkYQDbQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7277
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v4 1/2] x86: Support APU5 & APU6 in PCEngines platform
+ driver
+Content-Language: tl
+To:     Ed W <lists@wildgooses.com>, Hans de Goede <hdegoede@redhat.com>,
+        Philip Prindeville <philipp@redfish-solutions.com>
+Cc:     platform-driver-x86@vger.kernel.org,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        Andres Salomon <dilinger@queued.net>,
+        Andreas Eberlein <foodeas@aeberlein.de>,
+        Paul Spooren <paul@spooren.de>
+References: <20230113231139.436956-1-philipp@redfish-solutions.com>
+ <00b4cd69-14ce-ce1f-2bec-83ecbb928cbc@redhat.com>
+ <cb93fd68-5195-0d5e-cd40-5eba61df4c38@wildgooses.com>
+ <3fffc76d-4e1b-4eef-3d9f-6d61cecacb46@redhat.com>
+ <5F93DF5F-BEC4-4B2A-A057-A895282A66B2@redfish-solutions.com>
+ <3a36b460-9108-5c83-b4f6-42b4718afcf0@redhat.com>
+ <59ded4b9-04e9-d5d3-98eb-af0d4340a2fa@wildgooses.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+In-Reply-To: <59ded4b9-04e9-d5d3-98eb-af0d4340a2fa@wildgooses.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:F9y7VT2zjBo+eMrvze8MVCta9sUW40wDafFNXFSO0iVmJ+vge97
+ 5t+hobx2shEDyXEO9aJ7+VUrl/mezQqx5RRH/2Pki1Xv15FQD1f/SIed96q5U9dl410QIZ6
+ q5Ej48tq1Sy5GLtna7twkUngk6yhoHQdFkvMZAD24crnlaQ2VfnAEZR+sO9nEfi7TnOt8k2
+ gEW3Ybrhr2GDTWvUih0BQ==
+UI-OutboundReport: notjunk:1;M01:P0:BT18fvyYqfM=;GweeObN9kRq9/ymMmoMbI7pVkMc
+ 0Y2FX1o/QQxsAdSTHU9DqAegjZZD7EwvU06ANTE9NonF5iThYpxELmyCEKNP1QD0+VB2mRBeS
+ 4sZRJx3TIaw4ET5vjJb9d/DloCwiW/Avm2NiNGTuQgu/To/W9DmgLrGT/urh9Nk2Xo/cwHIt1
+ 96353RLb6uXiLvjWXQgGYaMt9OtuPYG/JBBD8aIbJqrQlhqiW7RfxCSHmXfBQW2TZadfavbe2
+ XzBxjMLLurcPK5KKzDrt0gCf+HxS6xuztYEylKdDZtv1ycBVf3bSMy3naJZAgHXcLGWV/ixz0
+ Dy/Llc35lWkG5CKEzBfiyP0W68A3BifjLQLdcN2WOxcsSMxPNvdTzJZu7AaRAX3RPlufOOayM
+ hRAwdvWDjTR5o9S3KriOjhXtlRV5pLsTSKMJsns5oxCLlkT8vRZlFCKwGk9opvTX4shAK/lgi
+ ++5i+tMmntvZm0iVSNB+evJqy5gkqQPenPvgRZsfvHaGq9P9YjUIM213ocfKqvUTuRctilHfd
+ 3z/3ZudU+6mwpWiVDVk5BeWFtk6MX2eWpe/vFwt5m5iXA9xcSrmYzBkXDXz/Z2e9JhOt4siNk
+ Vq7Axic2deX3CVgvUhv/WBJahw69xzRTJJriiatnhpuKm3nJqmuToZzizGBvhJrrycSiQGg/N
+ rarj4wi3xISErmnggExdlDslTXLDrTDon2qmaY0dzg==
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Thanks, Hans. The new commit message sounds more appropriate.
+On 13.02.23 15:05, Ed W wrote:
 
-Reviewed-by: Daniel Dadap <ddadap@nvidia.com>
+> Minor nitpick.  The APU2 has i210 on the original boards. However, recently the shortage of intel
+> chipsets has led to various compromise options and some boards are coming with i211 on. I'm not sure
+> if Pascal will standardise on these for the future though?
 
-On Fri, Feb 17, 2023 at 03:42:08PM +0100, Hans de Goede wrote:
-> On some Lenovo Legion models, the backlight might be driven by either
-> one of nvidia_wmi_ec_backlight or amdgpu_bl0 at different times.
+OMGs, not again ...
+
+No idea whats the actual difference between i210 and i211 from OS pov.
+But if they need a different or newer driver, this can cause a hell of
+trouble in the industrial field ... very unprofessional.
+
+> So at least with the few firmware's I have tried, the ACPI works ok on APU.
+
+The problem is: we can't rely on frequent firmware updates in the field,
+those things require a full field roll.
+
+> The history (without full details) is something like:
 > 
-> When the Nvidia WMI EC backlight interface reports the backlight is
-> controlled by the EC, the current backlight handling only registers
-> nvidia_wmi_ec_backlight (and registers no other backlight interfaces).
+> - A long way back in time, we had either a different driver in the kernel, or the ACPI used a
+> different name for the LEDs and button. I forget the details without looking back at some notes
+
+Well, we used to have some (very limited) support for APUv2 in the APUv1
+driver (v1 and v2 have completely different SoCs). No ACPI support back 
+then. This driver used a weird model specific naming, that didn't make
+much sense at all (see my other mail). Since it blocked gpio access
+(eg. no access to the front key), nobody really uses it (didn't find any
+distro that actually enabled it).
+
+People out there did ugly hacks by directly writing to raw registeres 
+from userland. Even worse: pcengines advised guileless users to do so.
+
+When implementing the full apuv2/3 support, I specifically chose a 
+consistent and future proof naming scheme that does use semantically
+matching and not model specific naming.
+
+Some years ago, long after the new driver was mainlined and distro
+shipped, pcengines suddenly began adding ACPI LED entries to their
+firmware - using yet another, also model specific, naming scheme.
+Haven't tried this myself, but got reports various reports, some
+couldn't use my drivers anymore while others had dupliated LEDs.
+But no support or other gpio lines, eg. the front key. Some releases
+later, this been removed again.
+
+> - However, I believe Enrico built the original APU kernel driver and that happened to use the old
+> names, and then once the ACPI change happened, he feels/felt strongly that we should maintain the
+> current driver, disable the ACPI and ignore the updated naming convention from the ACPI.
+
+Well, we're actually talking about several different naming schemes:
+
+a) the ancient apuv1 driver
+b) my driver
+c) several firmware versions
+
+Just checked their recent coreboot branch:
+
+They actually reinintroced their weird model specific naming again and 
+also breaking other stuff like front key, rst lines, etc.
+
+Now spent some to time to write them an detailed mail (yet again) and
+also informed them how they damaged their own business in the industrial
+field this way.
+
+> - In any case, using only ACPI doesn't setup the GPIOs for things like the SIM swap chip and reset
+> lines, etc. So I think a platform driver of some sort is the correct way forward
+
+ACK. And they even highjacked the HID of a totally different device that
+just happen to be similar enough that these few things happen to work
+somehow by mere accident.
+
+This is deeply embedded stuff, some of the lines are used internally in
+SoC-specific ways. Playing around with the undocumented lines can lead
+to very weird effects ... I have no idea whether some could even lead to
+electronical defects (maybe internal LDOs or CLKs), broken microcode,
+PSP lockout, ... IOW: bricking the Soc. We'd have to reverse engineer
+aegesa blob to get a better understanding. (AMD as usual is very
+secretive about this).
+
+That's the reason why I didn't dare to give direct access to the whole
+register bank - some regs seem to be totally different things, not
+actual gpios.
+
+historical note: the far ancestor of this, from the dark ages, was some
+IP with several things like gpio, i2c, clk, which AMD bought in and
+integrated into various SoC families. Since then these evolved in
+separate ways, just happen to still share some similarities. It seems
+even recent Ryzen still have some pieces of it.
+
+> - I think my patch from a year or so back attempted to swap the kernel names to match ACPI (need to
+> double check that?). This was not unreasonably resisted because it would break userspace relying on
+> the names used by the LED driver.
+
+I recall something like that. And even more: this would make userland
+API model specific. Exactly the kind of things we don't like in the
+kernel.
+
+> - All boards, except APU5 have the same basic shape and 3x mpcie connectors.
+> - However, although the connectors are the same, they don;t all have the same things wired to them
+> - You actually have 2x USB (with up to 2x SIM), 2x pcie, 1x msata
+
+I also recall something about missing wire'ings on certain charges.
+
+> - So based on studying APU1 and APU2, which had a separate msata and the other 2 ports wired up
+> consistently for wifi/LTE, people named the GPIOs to match the mPCIe port numbers, ie LTE Modem 1
+> was on mPCIe port 1, so name the gpio something like mpcie1_reset
+
+Yes, these lines were originally meant as a generic slot reset. Actually
+the naming isn't 100% correct, since it's not a pcie channel reset, but
+a per-slot line, not per pcie-link.
+
+> - Then came APU3-7... These boards flipped around where modem2 was. So you now have a situation
+> where userspace needs to know that they should toggle pmcie2_reset on APU3 and mpcie3_reset on APU4,
+> or whatever it really is.
+
+Unfortunately yes. To get rid of this problem, we'd need some "baseband
+subsystem" capable of resetting those devices - here we could link the
+baseband's RST signal with the corresponding board specific pcie rst.
+
+> - So my previous attempt to sneak in a change was to rename the GPIOs to be something more like
+> "modem1_reset" and "modem2_reset" etc. This way the GPIO names stay identical across ALL boards,
+> even though the slots might jump around board to board. 
+
+But that mixes up semantics and only makes sense when these slots are
+really populated this way. This now goes out of scope of this platform
+driver, since it doesn't really know what's inside the invidual slots - 
+would need another layer of probing.
+
+Since the gpio driver doesn't provide anything on its own, but wants to
+be configured by a platform driver, we - technically - could assign
+multiple gpio lines to the same hw register. This would give us some
+kind of aliasing. But before doing so we really have to check back w/
+gpio subsys maintainers whether this could lead to some ugly side
+effects.
+
+ > Technically, we could assign
+> This is clearly a better solution if we were
+> starting fresh, but it has consequences for a (very?) small number of users 
+
+Define "users". In some twisted ways, power supply of whole cities could
+depend on it (sorry for being so mythical, but I'm still under NDA :().
+
+If we do some change here, it should be clear that this may only affect
+newer devices, that - at least to my knowledge - aren't used for any
+critical applications.
+
+Note that the "never break userland" philosophy is one of the main
+success factors of the Linux kernel :p
+
+> Well, also you don't fix the problem long term. There is this jump in naming if you pick one over
+> the other. 
+
+And the pcengine/3mdeb's ACPI naming is again model specific :(
+
+Is there anybody out here who really enjoys keeping model specific
+quirks, that won't be necessary if we (kernel folks) just take care
+of some consistent naming ?
+
+> Plus ACPI doesn't setup the sim swap line (and it may not setup the switch as people want
+> it? Can't recall if this is a problem?)
+
+Or the pci RST lines (which turned out to be critical in the field).
+
+<snip>
+>      However, note that the APU5 has 3x SIM swaps, one for each modem (each modem has 2x SIMs). APU4
+> on the other hand only has a single one, it just inverts how the 2x SIMs connect to the 2x modems
+
+Canonicalizing this stuff really needs another layer of abstraction
+that's capable of understanding the actual semantics (basedband subsys)
+
+Anybody here willing to get his hands dirty on that project ? ;-)
+
+> Important Note: Realise that at this point this discussion is heavily theoretical because many
+> boards don't have the reset wires setup correctly, 
+
+Yes, we had the same problem. Returned them as broken, didn't match the 
+spec. (not sure whether I still have one of those lying around)
+
+> or their functionality might vary board release
+> to board release. eg I paid PCEngines to have mine re-enabled, because they ship them disabled by
+> default. 
+
+Any idea what they actually did there ? Actual soldering or just some
+configuration issue ?
+
+> Also in my testing they don't operate as expected. So it's highly unlikely there is a
+> single user in the world actually using functionality other than "Leds", "mode switch", and "sim
+> swap" (and even sim swap GPIO is likely to be restricted number of users).
+
+One of my clients (who also sponsored me for the driver) actually uses 
+the RST lines when modem is bitchy for too long. Haven't heared back
+from them for quite some time, so they probably didn't have major
+trouble (yet).
+
+> So we don't lose sight of the big picture, I think the remaining detail we are debating is something
+> like:
 > 
-> This hides (never registers) the amdgpu_bl0 interface, where as prior
-> to 6.1.4 users would have both nvidia_wmi_ec_backlight and amdgpu_bl0
-> and could work around things in userspace.
+> - kernel driver names the LEDs something like:
 > 
-> Add a force module parameter which can be used with acpi_backlight=native
-> to restore the old behavior as a workound (for now) by passing:
+> /sys/class/leds/apu4:green:led1
+> /sys/class/leds/apu4:green:led2
+> /sys/class/leds/apu4:green:led3
 > 
-> "acpi_backlight=native nvidia-wmi-ec-backlight.force=1"
+> - However, ACPI gives different names (I forget the details)
+
+Latest firmware uses apu[2-7]:led[1-2], depending on which model the was
+compiled for (assuming the corresponding define is set correctly - I'm
+not entirely sure about that, considering their hackish ways of working
+;-)).
+
+> - Additionally, we already broke this in the (distant) past because there was a previous APU driver
+> which used different names still...
+
+Very different situation: we really broke a small handful of people. I
+couldn't find a single one. The people I talked with, who did use these
+gpios followed the dangerous suggestion from pcengines website, directly
+writing to registers from userspace.
+
+> So I think my rejected change tried to simplify the LED names and drop the apuN bit. However, I'm
+> really not passionate about any changes here. I have a simple wrapper script for the old Alix and
+> newer APUs which just lets me set any LEDs by number. OpenWRT is welcome to use this?
 > 
-> Fixes: 8d0ca287fd8c ("platform/x86: nvidia-wmi-ec-backlight: Use acpi_video_get_backlight_type()")
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217026
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
-> Changes in v2:
-> - Reword commit message
-> ---
->  drivers/platform/x86/nvidia-wmi-ec-backlight.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/x86/nvidia-wmi-ec-backlight.c b/drivers/platform/x86/nvidia-wmi-ec-backlight.c
-> index baccdf658538..1b572c90c76e 100644
-> --- a/drivers/platform/x86/nvidia-wmi-ec-backlight.c
-> +++ b/drivers/platform/x86/nvidia-wmi-ec-backlight.c
-> @@ -12,6 +12,10 @@
->  #include <linux/wmi.h>
->  #include <acpi/video.h>
->  
-> +static bool force;
-> +module_param(force, bool, 0444);
-> +MODULE_PARM_DESC(force, "Force loading (disable acpi_backlight=xxx checks");
-> +
->  /**
->   * wmi_brightness_notify() - helper function for calling WMI-wrapped ACPI method
->   * @w:    Pointer to the struct wmi_device identified by %WMI_BRIGHTNESS_GUID
-> @@ -91,7 +95,7 @@ static int nvidia_wmi_ec_backlight_probe(struct wmi_device *wdev, const void *ct
->  	int ret;
->  
->  	/* drivers/acpi/video_detect.c also checks that SOURCE == EC */
-> -	if (acpi_video_get_backlight_type() != acpi_backlight_nvidia_wmi_ec)
-> +	if (!force && acpi_video_get_backlight_type() != acpi_backlight_nvidia_wmi_ec)
->  		return -ENODEV;
->  
->  	/*
-> -- 
-> 2.39.1
-> 
+>      https://github.com/nippynetworks/gpio-utils
+
+Well, that might be okay for you. But I really don't want all people
+out there - especially industrial applications - to puzzle around, with
+each new board model. That's not my standard of quality.
+
+We all know that firmware developers tend to have much lower quality
+(oh, I really don't wanna start talking about what I had to see in
+even more rigid fields like medical industry - a case where unthoughtful
+overregulation leads to very poor quality), but we can - and should -
+do better. The Linux kernel's success largely comes from its high
+quality standards.
+
+> 1) Have we all agreed and signed off on the GPIO changes to naming, caveat we maintain the current
+> numbering? If so then lets tick that off
+
+I don't recall signing-off that. And still NAK on any userland api
+changes.
+
+> 2) There is a debate about whether to change the LED userspace naming. I don't really want to push
+> this up the hill though? Proposal is to either sync with ACPI and offer a back compatible flag, or
+> we could just keep the naming as is and allow it to continue to deviate from the ACPI naming? I'm
+> cool with either? (although I don't like the current naming...)
+
+Option b) unregister the brokenly designed acpi stuff and keep things as
+they are. Pcengines/3mdeb broke the kernel, and they we're aware of the
+problem for years now. Maybe their actual problem is not writing useful
+commit messages ... but the guy who dropped the original code back then
+was the same who reverted his own commit recently - seems he's got a bad
+memory :p
+
+Frankly, I'm beginning to become really upset about these firmware
+folks, especially in the acpi area. Rarely seen so much poor work like
+there. We're used to that from big corps in the consumer field, but for
+a company like pcengines, this is very very disappointing.
+
+
+--mtx
+
+-- 
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
