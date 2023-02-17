@@ -2,141 +2,115 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C457E69AD47
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 17 Feb 2023 15:03:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0290569AE3F
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 17 Feb 2023 15:43:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229663AbjBQODg (ORCPT
+        id S229734AbjBQOnC (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 17 Feb 2023 09:03:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58850 "EHLO
+        Fri, 17 Feb 2023 09:43:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229673AbjBQODf (ORCPT
+        with ESMTP id S229580AbjBQOnB (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 17 Feb 2023 09:03:35 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32CEA65698
-        for <platform-driver-x86@vger.kernel.org>; Fri, 17 Feb 2023 06:03:33 -0800 (PST)
-Received: from [192.168.1.155] ([95.114.119.171]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MMGAg-1p9pa41UzG-00JIKG; Fri, 17 Feb 2023 14:50:14 +0100
-Message-ID: <60af6134-3b0b-f8ec-1375-a9819a181911@metux.net>
-Date:   Fri, 17 Feb 2023 14:50:13 +0100
+        Fri, 17 Feb 2023 09:43:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C36F6D271
+        for <platform-driver-x86@vger.kernel.org>; Fri, 17 Feb 2023 06:42:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1676644934;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=+to4UHiUaaWlmqhp9/u5LSsHFJ9FxRfzJ2CJA+u2D2g=;
+        b=hkh/o14UhNFu4nwKbCyXb3VHz8sFUl8qU+cRQFXhp4Lns/QYreq0Q5X63xj9B9eTkRNdu7
+        ++xcrEHwgzllBu5chZ0uI0fuVodMiylIKHjg0ierMhQ8pkSgQQwup8dznuq81lMPKGliVI
+        pauGzyabCvaVHxCOZ1A+pqpCKQKI0G0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-474-t72OOqcFOTG-bJR1AhkMIQ-1; Fri, 17 Feb 2023 09:42:10 -0500
+X-MC-Unique: t72OOqcFOTG-bJR1AhkMIQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3D8E2185A794;
+        Fri, 17 Feb 2023 14:42:10 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.193.199])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 32D232026D4B;
+        Fri, 17 Feb 2023 14:42:09 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>,
+        Daniel Dadap <ddadap@nvidia.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Luke McCarthy <mail@lukehmcc.com>,
+        platform-driver-x86@vger.kernel.org, regressions@lists.linux.dev
+Subject: [PATCH v2] platform/x86: nvidia-wmi-ec-backlight: Add force module parameter
+Date:   Fri, 17 Feb 2023 15:42:08 +0100
+Message-Id: <20230217144208.5721-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v4 1/2] x86: Support APU5 & APU6 in PCEngines platform
- driver
-Content-Language: tl
-To:     Hans de Goede <hdegoede@redhat.com>, Ed W <lists@wildgooses.com>,
-        Philip Prindeville <philipp@redfish-solutions.com>
-Cc:     platform-driver-x86@vger.kernel.org,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Andres Salomon <dilinger@queued.net>,
-        Andreas Eberlein <foodeas@aeberlein.de>,
-        Paul Spooren <paul@spooren.de>
-References: <20230113231139.436956-1-philipp@redfish-solutions.com>
- <00b4cd69-14ce-ce1f-2bec-83ecbb928cbc@redhat.com>
- <cb93fd68-5195-0d5e-cd40-5eba61df4c38@wildgooses.com>
- <3fffc76d-4e1b-4eef-3d9f-6d61cecacb46@redhat.com>
- <5F93DF5F-BEC4-4B2A-A057-A895282A66B2@redfish-solutions.com>
- <3a36b460-9108-5c83-b4f6-42b4718afcf0@redhat.com>
- <59ded4b9-04e9-d5d3-98eb-af0d4340a2fa@wildgooses.com>
- <b402d146-5110-970a-3f5b-8c4c4859ede1@redhat.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-In-Reply-To: <b402d146-5110-970a-3f5b-8c4c4859ede1@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:7EytO4h5xooRzFcD6bFqNZIK7hZKPCzOlhWRG5/syu3WyHxujdF
- nQ9YIHgakSZF8xk0oZRnbpx18KxUnHSqTkCRGkttW72m9ge0GSIy3STFNI+e//q7l3Q9PrP
- +yePHzm7Y5i/uCExlB5t6tWCtsS0E5Wpic+GueBoQb+JXVCJewMJvVD2iGe3GzFfBpRNO3f
- sLDVXtjjcf9QYhzXFAcXQ==
-UI-OutboundReport: notjunk:1;M01:P0:C6CfPDH45DE=;oCBwvb+N9THfKqQ3M23VhMPzjRW
- CU+rO0tO1nqrY1z7jtog8GJk+331MRc+kXR7VsIVTcbmO9KU0OMu6I/Of9kjugiDQm+efmFsX
- YAUbxF0dOfLs0JaEy9GW16t/eEElI2vn8Xal2qOhIpD6SJNnhnZkcPuDbX3lzWGsuZQ+ECXmX
- /DLdR8HflWTftk88IAXiI81deym0L5AoPKuLL04uT97Rq2tHhsa8Q1BTCXZWg4iSNV1S773MR
- +eKuAgttz+mu82zs0rwP7+dGihHKX4LbBByswA9dxQt+GmR/ISIR7y8U4Eb3VdnQ1sz8FIaAx
- z6ijUzrnAYxYycUCnw5bfLtyE0qO6zS2DdKZ/ehZjuROxGWnxZtBZNuF9aXgEQCA3v9vm7/Gj
- IYrqUO9bAXgjztlO2PN/ZQRf72nCVEIVf5J9ePHqUI+lk5KoaVkMQylhKR+ZxXJTnXxq+jAsC
- tivGRb2VOEqiCKmusvjfGEGIwx56g7PNwGPRKBoTfo2mhowtrSzkdyQ1e7ZmEbo/ETmjigN3v
- Du3vUMjOzAUzExQhqXckVn7o8SWC1WtTL9xfmLIMUPbRLavYr0Udj+kAWjJbhYD7AEc2tIU3T
- PSjOHJ1CG/fzEWPFWNjxk8B+kKDZ1SqTG7Ar7nYbXyqh/exdTH4yhlJdoOJ8YUHBCu6o6bLp/
- SOl6vS4G/7p+Hh4LKPFDLMhb1GbVp2FKgQrPEYgxYQ==
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 13.02.23 15:25, Hans de Goede wrote:
+On some Lenovo Legion models, the backlight might be driven by either
+one of nvidia_wmi_ec_backlight or amdgpu_bl0 at different times.
 
-> It would be good to know the ACPI names. Also what happens with the ACPI
-> registered LED devices when the pcengines-apu driver loads, does it
-> somehow unregister those ?
+When the Nvidia WMI EC backlight interface reports the backlight is
+controlled by the EC, the current backlight handling only registers
+nvidia_wmi_ec_backlight (and registers no other backlight interfaces).
 
-It doesn't (hasn't any code for that). But the even more interesting
-question is: does the acpi driver lock the IO space so my gpio driver,
-and so the apu driver itself, can't initialize at all ? Or are we in a
-situation where two different drivers meddle with the same chip ?
+This hides (never registers) the amdgpu_bl0 interface, where as prior
+to 6.1.4 users would have both nvidia_wmi_ec_backlight and amdgpu_bl0
+and could work around things in userspace.
 
-> If the ACPI LEDs are not unregistered and keep working, then I guess there is no userspace
-> API breakage when using pcengines-apu on newer APU models, "just" duplicate LED devices ?
+Add a force module parameter which can be used with acpi_backlight=native
+to restore the old behavior as a workound (for now) by passing:
 
-Supporting both LED name schemes on the newer boards is an interesting
-thought. Do we have some way for aliasing LED names ?
+"acpi_backlight=native nvidia-wmi-ec-backlight.force=1"
 
-OTOH, I wonder whether we need the model specific LED naming at all.
-In the old apuv1 driver, there used to be some (unsupported) LED-only
-support for apuv2, which used model-specific naming. When adding full
-apuv2/v3 support, I specifically chose not to do this, since I don't 
-want userland having to care about the specific model version. And the
-naming is a bit more clear on the actual meaning of these LEDs.
+Fixes: 8d0ca287fd8c ("platform/x86: nvidia-wmi-ec-backlight: Use acpi_video_get_backlight_type()")
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=217026
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+Changes in v2:
+- Reword commit message
+---
+ drivers/platform/x86/nvidia-wmi-ec-backlight.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
->> - Additionally, we already broke this in the (distant) past because there was a previous APU driver
->> which used different names still...
-> 
-> Just because we have gotten away with it once, does not mean we should do it again :)
-
-Back then the situation was different. Haven't even found anybody who's
-was actually using this in the field. This ancient driver (actually made
-for acpuv1, which is totally different HW) was only serving the three
-front LEDs, nothing else, and blocked using the other GPIOs (eg. button)
-Some people out there did weird hacks by directly writing registers from
-userland (obviously w/o loading the ancient driver) - and even worse:
-pcengines publically adviced to so.
-
-> For the new models I'm fine with whatever LED naming is preferred.
-
-NAK. The problem here is: userland now has to differenciate between
-various models again. Applications suddenly need to be rewritten in
-order to work with the next higher model, or it fails. That might be not
-a problem for home users, but in the industrial field it is a huge
-problem: you suddenly end up with two product configurations or need
-extra SW complexity to cope with several models at runtime - and this
-even grows with the next one.
-
-Exactly what I wanted to prevent once and for all.
-
-Since the meaning of these LEDs doesn't change, there's just no need to
-change their naming.
-
-> For the new models my main worry is what happens to users of the ACPI exposed LED devices
-> (under /sys/class/leds/)  once the pcengines-apu driver starts binding/loading on the new models ?
-
-The more interesting question is whether the gpio driver can get the
-iospace of the gpio devices. Haven't got one of the new boards, so
-couldn't yet check what actually happens there.
-
---mtx
-
+diff --git a/drivers/platform/x86/nvidia-wmi-ec-backlight.c b/drivers/platform/x86/nvidia-wmi-ec-backlight.c
+index baccdf658538..1b572c90c76e 100644
+--- a/drivers/platform/x86/nvidia-wmi-ec-backlight.c
++++ b/drivers/platform/x86/nvidia-wmi-ec-backlight.c
+@@ -12,6 +12,10 @@
+ #include <linux/wmi.h>
+ #include <acpi/video.h>
+ 
++static bool force;
++module_param(force, bool, 0444);
++MODULE_PARM_DESC(force, "Force loading (disable acpi_backlight=xxx checks");
++
+ /**
+  * wmi_brightness_notify() - helper function for calling WMI-wrapped ACPI method
+  * @w:    Pointer to the struct wmi_device identified by %WMI_BRIGHTNESS_GUID
+@@ -91,7 +95,7 @@ static int nvidia_wmi_ec_backlight_probe(struct wmi_device *wdev, const void *ct
+ 	int ret;
+ 
+ 	/* drivers/acpi/video_detect.c also checks that SOURCE == EC */
+-	if (acpi_video_get_backlight_type() != acpi_backlight_nvidia_wmi_ec)
++	if (!force && acpi_video_get_backlight_type() != acpi_backlight_nvidia_wmi_ec)
+ 		return -ENODEV;
+ 
+ 	/*
 -- 
----
-Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-GPG/PGP-Schlüssel zu.
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+2.39.1
+
