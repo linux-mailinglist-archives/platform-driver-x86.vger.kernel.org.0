@@ -2,97 +2,121 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D91969CF8B
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Feb 2023 15:38:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AE9A69D638
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Feb 2023 23:13:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232107AbjBTOiv (ORCPT
+        id S232615AbjBTWNP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 Feb 2023 09:38:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60184 "EHLO
+        Mon, 20 Feb 2023 17:13:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231782AbjBTOiu (ORCPT
+        with ESMTP id S232640AbjBTWNN (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 Feb 2023 09:38:50 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DB93AD00
-        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Feb 2023 06:38:50 -0800 (PST)
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="359881442"
-X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
-   d="scan'208";a="359881442"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 06:38:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="671323192"
-X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
-   d="scan'208";a="671323192"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga002.jf.intel.com with ESMTP; 20 Feb 2023 06:38:46 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andy@kernel.org>)
-        id 1pU7JU-009XzI-1h;
-        Mon, 20 Feb 2023 16:38:44 +0200
-Date:   Mon, 20 Feb 2023 16:38:44 +0200
-From:   Andy Shevchenko <andy@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Daniel Scally <djrscally@gmail.com>,
-        Mark Gross <markgross@kernel.org>,
+        Mon, 20 Feb 2023 17:13:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D95B1E1D0
+        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Feb 2023 14:12:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1676931143;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=BeUn6FKw9DMlGJZ2kL7lmfEUgCJapUnXQB0U5h8X45s=;
+        b=FMkbgEUNr/ocoHMPPdZvnsBp/LvP1W3lldPMGLu+EsG09F1TjlTHCU13EFvtr06id4qvkm
+        MXCd/JIu0oDWBrzmzNukJzzW9cBvfzbO7FwVMlnXT8R7Mdb9TTFQ28Esu+lvQ9WlONEoe1
+        pTJuila/Iz5178RPbP76ujXk8saPxWw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-358-SEmpdskTPgC4IHye2nD4uA-1; Mon, 20 Feb 2023 17:12:21 -0500
+X-MC-Unique: SEmpdskTPgC4IHye2nD4uA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 72B581C05198;
+        Mon, 20 Feb 2023 22:12:21 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.43])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id CC49A140EBF6;
+        Mon, 20 Feb 2023 22:12:20 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH] platform/x86: int3472/discrete: Drop unnecessary
- obj->type == string check
-Message-ID: <Y/OF9DOO8yRIh2S3@smile.fi.intel.com>
-References: <20230204110223.54625-1-hdegoede@redhat.com>
+Subject: [PATCH 0/9] platform/x86: x86-android-tablets: Split into multiple files + gpio_keys rework
+Date:   Mon, 20 Feb 2023 23:12:03 +0100
+Message-Id: <20230220221212.196009-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230204110223.54625-1-hdegoede@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_SOFTFAIL
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sat, Feb 04, 2023 at 12:02:23PM +0100, Hans de Goede wrote:
-> acpi_evaluate_dsm_typed() already verifies the type is the requested type,
-> so this error check is a no-op, drop it.
+Hi All,
 
-Not sure if it's not late...
+The single x86-android-tablets.c file was becoming a bit unyieldly,
+so this series splits it into multiple files. Besides the split this
+also reworks the gpio_keys a bit and uses the new gpio_keys code
+to replace the (ugly, buggy) peaq-wmi code for the special button
+on the Peaq C1010.
 
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
+Regards,
 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/platform/x86/intel/int3472/discrete.c | 8 --------
->  1 file changed, 8 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
-> index 96963e30ab6c..f064da74f50a 100644
-> --- a/drivers/platform/x86/intel/int3472/discrete.c
-> +++ b/drivers/platform/x86/intel/int3472/discrete.c
-> @@ -78,14 +78,6 @@ skl_int3472_get_sensor_module_config(struct int3472_discrete_device *int3472)
->  		return ERR_PTR(-ENODEV);
->  	}
->  
-> -	if (obj->string.type != ACPI_TYPE_STRING) {
-> -		dev_err(int3472->dev,
-> -			"Sensor _DSM returned a non-string value\n");
-> -
-> -		ACPI_FREE(obj);
-> -		return ERR_PTR(-EINVAL);
-> -	}
-> -
->  	for (i = 0; i < ARRAY_SIZE(int3472_sensor_configs); i++) {
->  		if (!strcmp(int3472_sensor_configs[i].sensor_module_name,
->  			    obj->string.pointer))
-> -- 
-> 2.39.1
-> 
+Hans
+
+
+Hans de Goede (9):
+  platform/x86: x86-android-tablets: Move into its own subdir
+  platform/x86: x86-android-tablets: Move core code into new core.c file
+  platform/x86: x86-android-tablets: Move DMI match table into its own
+    dmi.c file
+  platform/x86: x86-android-tablets: Move shared power-supply fw-nodes
+    to a separate file
+  platform/x86: x86-android-tablets: Move Asus tablets to their own file
+  platform/x86: x86-android-tablets: Move Lenovo tablets to their own
+    file
+  platform/x86: x86-android-tablets: Move remaining tablets to other.c
+  platform/x86: x86-android-tablets: Add gpio_keys support to
+    x86_android_tablet_init()
+  platform/x86: x86-android-tablets: Add support for the Dolby button on
+    Peaq C1010
+
+ MAINTAINERS                                   |    2 +-
+ drivers/platform/x86/Kconfig                  |   24 +-
+ drivers/platform/x86/Makefile                 |    3 +-
+ drivers/platform/x86/peaq-wmi.c               |  128 --
+ drivers/platform/x86/x86-android-tablets.c    | 1884 -----------------
+ .../platform/x86/x86-android-tablets/Kconfig  |   21 +
+ .../platform/x86/x86-android-tablets/Makefile |    9 +
+ .../platform/x86/x86-android-tablets/asus.c   |  324 +++
+ .../platform/x86/x86-android-tablets/core.c   |  391 ++++
+ .../platform/x86/x86-android-tablets/dmi.c    |  175 ++
+ .../platform/x86/x86-android-tablets/lenovo.c |  417 ++++
+ .../platform/x86/x86-android-tablets/other.c  |  518 +++++
+ .../x86/x86-android-tablets/shared-psy-info.c |  100 +
+ .../x86/x86-android-tablets/shared-psy-info.h |   32 +
+ .../x86-android-tablets/x86-android-tablets.h |   81 +
+ 15 files changed, 2071 insertions(+), 2038 deletions(-)
+ delete mode 100644 drivers/platform/x86/peaq-wmi.c
+ delete mode 100644 drivers/platform/x86/x86-android-tablets.c
+ create mode 100644 drivers/platform/x86/x86-android-tablets/Kconfig
+ create mode 100644 drivers/platform/x86/x86-android-tablets/Makefile
+ create mode 100644 drivers/platform/x86/x86-android-tablets/asus.c
+ create mode 100644 drivers/platform/x86/x86-android-tablets/core.c
+ create mode 100644 drivers/platform/x86/x86-android-tablets/dmi.c
+ create mode 100644 drivers/platform/x86/x86-android-tablets/lenovo.c
+ create mode 100644 drivers/platform/x86/x86-android-tablets/other.c
+ create mode 100644 drivers/platform/x86/x86-android-tablets/shared-psy-info.c
+ create mode 100644 drivers/platform/x86/x86-android-tablets/shared-psy-info.h
+ create mode 100644 drivers/platform/x86/x86-android-tablets/x86-android-tablets.h
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.39.1
 
