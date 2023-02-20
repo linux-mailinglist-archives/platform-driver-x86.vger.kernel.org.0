@@ -2,63 +2,52 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 211CB69CBA5
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Feb 2023 14:10:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D91969CF8B
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Feb 2023 15:38:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230402AbjBTNKt (ORCPT
+        id S232107AbjBTOiv (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 Feb 2023 08:10:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55568 "EHLO
+        Mon, 20 Feb 2023 09:38:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231548AbjBTNKs (ORCPT
+        with ESMTP id S231782AbjBTOiu (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 Feb 2023 08:10:48 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66CC0EFA7;
-        Mon, 20 Feb 2023 05:10:46 -0800 (PST)
-Received: from [192.168.1.155] ([77.2.78.131]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MCbR7-1pKR9D3BKt-009jMS; Mon, 20 Feb 2023 14:10:12 +0100
-Message-ID: <76b88f76-9b55-bdea-7cd3-139c9345df8c@metux.net>
-Date:   Mon, 20 Feb 2023 14:10:11 +0100
+        Mon, 20 Feb 2023 09:38:50 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DB93AD00
+        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Feb 2023 06:38:50 -0800 (PST)
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="359881442"
+X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
+   d="scan'208";a="359881442"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 06:38:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="671323192"
+X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
+   d="scan'208";a="671323192"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga002.jf.intel.com with ESMTP; 20 Feb 2023 06:38:46 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andy@kernel.org>)
+        id 1pU7JU-009XzI-1h;
+        Mon, 20 Feb 2023 16:38:44 +0200
+Date:   Mon, 20 Feb 2023 16:38:44 +0200
+From:   Andy Shevchenko <andy@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Daniel Scally <djrscally@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH] platform/x86: int3472/discrete: Drop unnecessary
+ obj->type == string check
+Message-ID: <Y/OF9DOO8yRIh2S3@smile.fi.intel.com>
+References: <20230204110223.54625-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v4 0/2] Expand APU2 driver to 3/4/5/6 models
-Content-Language: tl
-To:     Ed W <lists@wildgooses.com>, Hans de Goede <hdegoede@redhat.com>,
-        Philip Prindeville <philipp@redfish-solutions.com>,
-        platform-driver-x86@vger.kernel.org, linux-x86_64@vger.kernel.org,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     Andres Salomon <dilinger@queued.net>,
-        Andreas Eberlein <foodeas@aeberlein.de>,
-        Paul Spooren <paul@spooren.de>
-References: <20230113231139.436943-1-philipp@redfish-solutions.com>
- <44e0ef20-d6d3-4c87-1828-f88dbc08e942@redhat.com>
- <7f5644a8-2e6f-b4c6-4db8-2419d1a7f005@metux.net>
- <48beb1c5-5136-a287-1a74-bdc558bffe3e@wildgooses.com>
- <e472eb76-03fe-237f-f73e-6e997c9f9200@metux.net>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-In-Reply-To: <e472eb76-03fe-237f-f73e-6e997c9f9200@metux.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+DqSGOWVazhckeGTd2soPkFg44ZznR7E8iBXAXHCa8JGTsV6dnA
- C+zrqbJuXdypv922d2y28hHA4d+ZS9JFcQselcn951pI0dylrRx1ZChoRnJ0uLjQvs/QBd6
- NNM2htdjHWSiuboxIioU6qOv6aBiFZShpEXmGjZnqUR8bjVyUD/+htieOdvy6LLFRhtyxoV
- +GqQZ5+TqyczF0nxWbmPA==
-UI-OutboundReport: notjunk:1;M01:P0:OOBHbL9xJNw=;abxD05czF3bgufgXU+sF2guMMEL
- iCRQSaaUAhbj4dheLmjZGijmg8jP0yNKhMMVCjoHunVXG1VBMLDkq4fU8u28Wb0wstpxhiWGY
- JdPFIjHpyKBYMog8R76Ur453XsFMPgBODII+zihZLIIhxjVPtR2NPS+YQcy66CuQiMyulJqpD
- VSQwDIWKizhhTygXJdeUSBDtQhXLVytLHIIjpupDdcGBxaQl8GL8rk03v4JK2xXDbm76eXl/I
- OwmKMyW48Gt8ViV8eSV19Eokok03shswrnV68bbiqT6Lh/itjqblcCCmEVDZo0ZUeoukrodi9
- e0my2CHGUgKTGrphXI+roCtrYIfkquDppS+iR1Ao64bBpkD0CfQhwelDd46uPAIdDX3jioHkp
- gnP3RwBwOH8GCgJgKSTTb2jzabM5G0RexbJEMnerKVZ2bnsIsTlFxur/g9hlu5FHBHt8ir/Kh
- f+9yLsUJwzWl8oocGH5eXKavtlIcG6j+qXgHURqpN/i34FldQ4G1+jcVyhHuBxSBeaj53J3u7
- +6PwDaaQh/o+4JIP794b97zRw1LL7R/DG6o2NHuTUSYPQKJrYR/sB8QsYM5BnynAhZ/7Yc/4Y
- bxx24/jmCZ7PcplnwVd8HQ75kw1tR1Ts/p0w3s+PA0h/7M1yMhq2z03Ud/qvKnVqeIvxGDR+1
- i2106iz/DX24iJO79XcrRI03xbiTpZxJRKTW6nSgYw==
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230204110223.54625-1-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_SOFTFAIL
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,56 +55,44 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Sat, Feb 04, 2023 at 12:02:23PM +0100, Hans de Goede wrote:
+> acpi_evaluate_dsm_typed() already verifies the type is the requested type,
+> so this error check is a no-op, drop it.
 
+Not sure if it's not late...
 
-On 20.02.23 13:04, Enrico Weigelt, metux IT consult wrote:
-> Hi Ed,
-> 
->> Sure - but the *wiring* of the RST lines *follows* the modems.
-> 
-> I think that's entirely correct, or we're talking of different things:
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
 
-Fixing typo: *not* entirely correct.
-
-
-by the way, just posted an separate rfc mail about baseband subsys,
-please let's continue there - i believe that's what we actually like
-to have, and using these raw gpio lines is just a workaround for not
-having a baseband subsys.
-
-> The lines belong to the slots - no matter how one actually populates
-> them. (and the slots aren't restricted to modems).
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/platform/x86/intel/int3472/discrete.c | 8 --------
+>  1 file changed, 8 deletions(-)
 > 
-> An interesting question is how to count the slots. The most intuitive
-> seems their geometric position on the board, so users/operators can
-> deduce them from just looking at the board.
-> 
-> OTOH, if you just wanna reset some specific *modem* (and don't wanna
-> find out which slot it's currently in, each time), we should have some
-> baseband subsys taking care of that.
-> 
-> Actually, we have real use cases for that, eg.:
-> 
-> * power supply of onboard basebands
-> * direct audio links between baseband and mic/dsp
-> * non standard (not tty-like) interfaces (mailboxes, etc)
-> * RF exposure measurement for TX strength regulation
-> * controlling external components (antenna switches, boosters, ...)
-> ...
-> 
-> Let's defer this discussion for a while and think about some baseband
-> subsys where we can later put this RST lines into, too.
-> 
-> 
-> --mtx
+> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+> index 96963e30ab6c..f064da74f50a 100644
+> --- a/drivers/platform/x86/intel/int3472/discrete.c
+> +++ b/drivers/platform/x86/intel/int3472/discrete.c
+> @@ -78,14 +78,6 @@ skl_int3472_get_sensor_module_config(struct int3472_discrete_device *int3472)
+>  		return ERR_PTR(-ENODEV);
+>  	}
+>  
+> -	if (obj->string.type != ACPI_TYPE_STRING) {
+> -		dev_err(int3472->dev,
+> -			"Sensor _DSM returned a non-string value\n");
+> -
+> -		ACPI_FREE(obj);
+> -		return ERR_PTR(-EINVAL);
+> -	}
+> -
+>  	for (i = 0; i < ARRAY_SIZE(int3472_sensor_configs); i++) {
+>  		if (!strcmp(int3472_sensor_configs[i].sensor_module_name,
+>  			    obj->string.pointer))
+> -- 
+> 2.39.1
 > 
 
 -- 
----
-Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-GPG/PGP-Schlüssel zu.
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+With Best Regards,
+Andy Shevchenko
+
+
