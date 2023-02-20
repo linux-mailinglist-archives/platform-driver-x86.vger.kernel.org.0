@@ -2,195 +2,106 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA39069CA73
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Feb 2023 13:02:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA63369CA75
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Feb 2023 13:05:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231714AbjBTMC3 (ORCPT
+        id S229881AbjBTMFN (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 Feb 2023 07:02:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53256 "EHLO
+        Mon, 20 Feb 2023 07:05:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231975AbjBTMC1 (ORCPT
+        with ESMTP id S229671AbjBTMFN (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 Feb 2023 07:02:27 -0500
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAE8E1B552;
-        Mon, 20 Feb 2023 04:02:24 -0800 (PST)
-Received: by mail-pf1-x42d.google.com with SMTP id n5so605123pfv.11;
-        Mon, 20 Feb 2023 04:02:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P5iTKuc9ZIC8mfFFhdSEI0ZAf2KXUFXWVVjhvYosUIM=;
-        b=VROnHFREqd0Ltlg2g61dgYOzAojH4Mxf1RuLQvJAFmKW2iYt3juFREwpMZipmt66nd
-         wg7ntQePS/wGq2kFfxiiU+yhzDxIbv5ZXftPrHvpyrTITOPji9yXg9tu2HWIqFV5kR1/
-         wLuB7rMCTWTNX4KuGiGPVH5+SkpPrdZBmok3GA6FhvKXWGSthZRX6D1bKStNT/pCJXeY
-         E99rHLgw08pmPRoxFzgnbocdeNDIHe/m1DMA6O4ME2tyfSBl2ezZ574rZguMgu5FhM1T
-         lLB5tGVJyiXU4v3B6i5ytPOnHnzVcJqRlOSsppmtv51XO4sAFHyBXDJmnIZ4l1guVv1n
-         cOnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=P5iTKuc9ZIC8mfFFhdSEI0ZAf2KXUFXWVVjhvYosUIM=;
-        b=HNGm25ZqNs8OVk3LzpwNNHRF4IoT0bOeNQhOBS1DN4K9qXVKEcXB4LDSed8ppT3xUC
-         q8DIc+hIWtsXlM2mUaiyreJBZFE7SSAhPp3Mpq22lj9O5b8hCKLbN/aOo7Q3esM8VPhB
-         HcZIfGZS8h7mQOmeQgHUWWgeEBytfyZe5I6sBATl8QJnYl86rVl7s2uB55jN8ez0Xm32
-         oDqGnuxK37JbVknPtgxCvQX24DfCaOD/GQYUbuds2f43iTKdrc1nFZT7ifFBmMVptx/g
-         TSLOUVxM0DfVbS/woisDIk4bOpwVJV0zb6rPszEqg57mAf/h4RSdWC4y1pKnjUdXE4gl
-         oFMg==
-X-Gm-Message-State: AO0yUKXx3ArQf1/a/SZ9QWfJm4omKvetANf7SQIq3dbRlKuj3GnC7VoW
-        DtH8lj+c+8XsT/ALHQDg3yM=
-X-Google-Smtp-Source: AK7set8kTF4hiTtmXprSPQHMYdRdUzgTAJko9Ruc6cBzxpZuc8E3a/TnKnY/qKANfN8ynIoa3gc4Eg==
-X-Received: by 2002:aa7:955c:0:b0:593:91e4:99e2 with SMTP id w28-20020aa7955c000000b0059391e499e2mr2670957pfq.34.1676894544401;
-        Mon, 20 Feb 2023 04:02:24 -0800 (PST)
-Received: from redecorated-mbp ([202.53.32.211])
-        by smtp.gmail.com with ESMTPSA id i16-20020aa78b50000000b0058b9c9def36sm1276361pfd.139.2023.02.20.04.02.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 04:02:24 -0800 (PST)
-Date:   Mon, 20 Feb 2023 23:02:15 +1100
-From:   Orlando Chamberlain <orlandoch.dev@gmail.com>
-To:     Lukas Wunner <lukas@wunner.de>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Seth Forshee <sforshee@kernel.org>,
-        Aditya Garg <gargaditya08@live.com>,
-        Aun-Ali Zaidi <admin@kodeit.net>,
-        Kerem Karabay <kekrby@gmail.com>
-Subject: Re: [PATCH v3 3/5] apple-gmux: Use GMSP acpi method for interrupt
- clear
-Message-ID: <20230220230215.6e7e09cf@redecorated-mbp>
-In-Reply-To: <20230219221737.GA17355@wunner.de>
-References: <20230218132007.3350-1-orlandoch.dev@gmail.com>
-        <20230218132007.3350-4-orlandoch.dev@gmail.com>
-        <20230219221737.GA17355@wunner.de>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.35; x86_64-pc-linux-gnu)
+        Mon, 20 Feb 2023 07:05:13 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F107DBE8;
+        Mon, 20 Feb 2023 04:05:11 -0800 (PST)
+Received: from [192.168.1.155] ([77.4.6.61]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1N8G6I-1oQ8K10FVo-014A0E; Mon, 20 Feb 2023 13:04:41 +0100
+Message-ID: <e472eb76-03fe-237f-f73e-6e997c9f9200@metux.net>
+Date:   Mon, 20 Feb 2023 13:04:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v4 0/2] Expand APU2 driver to 3/4/5/6 models
+Content-Language: tl
+To:     Ed W <lists@wildgooses.com>, Hans de Goede <hdegoede@redhat.com>,
+        Philip Prindeville <philipp@redfish-solutions.com>,
+        platform-driver-x86@vger.kernel.org, linux-x86_64@vger.kernel.org,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     Andres Salomon <dilinger@queued.net>,
+        Andreas Eberlein <foodeas@aeberlein.de>,
+        Paul Spooren <paul@spooren.de>
+References: <20230113231139.436943-1-philipp@redfish-solutions.com>
+ <44e0ef20-d6d3-4c87-1828-f88dbc08e942@redhat.com>
+ <7f5644a8-2e6f-b4c6-4db8-2419d1a7f005@metux.net>
+ <48beb1c5-5136-a287-1a74-bdc558bffe3e@wildgooses.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+In-Reply-To: <48beb1c5-5136-a287-1a74-bdc558bffe3e@wildgooses.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:mLuXI9mYW+KSEP24xQKX460V19r2mxc8CdzAYpbF0f54dN03PjZ
+ NSKnBW/LnPgDaMQFsET0nQ7K3ufyujMcxPOogb0PO8kEf0cIjW5vucWp7tTBU7PmzD1syOg
+ D4G5eaNL/LCCvZEF40ly4MljfjD11zAymTVsa8onipdgKTep1XBhwd1QDJU+GlxWAmaqmrI
+ s+0xBZeVm1SF6opyaGNZw==
+UI-OutboundReport: notjunk:1;M01:P0:kLVq1f13wDk=;r5w1CPT7Opa+hUB1g0ORzCF2G/O
+ CFe+QN/fD7FP1XOEalysm0/Obn3esKfpQjOIlM1eINyPjTleQIyWLYGaD8hlqJnHicoEb0CGv
+ KfdKNkGQdMYbl5Rd2YqRadXC6MER4uulfDgxxoSKrw1hBg0cz7D/Lg7xB9PpUbfAFcdBZXB6E
+ 5sf/P6diJQWXTuLXc6f5tDMmbgiNtqL2CCTXnBga2ljpXVF4Knj88t3/z4Q2F44D1NzvlmeP0
+ Yojg/PTntBKRgtWEaZ0ZpdnVq6bBpCvCWNAIGINPs0W75/Jpctqb5A5TISdZ4dGTZhDH3oI1o
+ x51o+jf4JNBzFjCfXRpQRTp59K3zP38A1x9rG7o0TW8X7GgKUn50HPyy8rJw3jkpG8x8TBeNW
+ kP6FwzZMX+HwIeMnH2GkadFR8dA4rrXaZJG+WEdc4HDx47/2pkpVVO6d7CKC9EsP6MJBZZykr
+ iJb5deMiy5e3qZS+5lZ7PyjJezemRu6QsDN/gjz3RTEw38fBf1ek8HxxauUx14eAEH9TqlMs6
+ NHKjFecAKIQhmzI4ZwEVLYyQB0LiUpwuDxge0kFTQpZu6PpzkiHa4MCluighVpmK93fwAVdMr
+ tNsbRHI9v+50ci9RGZFoWj6k2DNz5ponEFw2qfNN9hil5vGkjK6cvIEmiHdVBrdxmDuWgD95X
+ shPWB3dEEubhmhKQN3uED8waR0j7kzONXnHM3CSR+g==
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sun, 19 Feb 2023 23:17:37 +0100
-Lukas Wunner <lukas@wunner.de> wrote:
+Hi Ed,
 
-> On Sun, Feb 19, 2023 at 12:20:05AM +1100, Orlando Chamberlain wrote:
-> > This is needed for interrupts to be cleared correctly on MMIO based
-> > gmux's. It is untested if this helps/hinders other gmux types, so
-> > currently this is only enabled for the MMIO gmux's.
-> > 
-> > There is also a "GMLV" acpi method, and the "GMSP" method can be
-> > called with 1 as its argument, but the purposes of these aren't
-> > known and they don't seem to be needed.  
-> 
-> GMLV and GMSP access a GPIO on the PCH which is connected to the
-> GMUX_INT pin of the gmux microcontroller.  I've just verified that
-> in the schematics of my MBP9,1.
-> 
-> GMLV reads the value of the GPIO ("level").
-> GMSP likely sets the value ("set polarity").
-> 
-> On my MBP9,1 (indexed gmux), if the gmux controller signals an
-> interrupt, the platform signals a notification:
-> 
->   Scope (\_GPE)
->   {
->       Method (_L16, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
->       {
->           Notify (\_SB.PCI0.LPCB.GMUX, 0x80) // Status Change
->       }
->   }
-> 
-> Comparing this to the MBP13,3 and MBP16,1, the GPE method
-> differentiates between the OS type:  On Darwin, only a notification
-> is signaled, whereas on other OSes, the GPIO's value is read and then
-> inverted:
-> 
->   Scope (\_GPE)
->   {
->       Method (_L15, 0, NotSerialized)  // _Lxx: Level-Triggered GPE,
-> xx=0x00-0xFF {
->           If (OSDW ())
->           {
->               Notify (\_SB.PCI0.LPCB.GPUC, 0x80) // Status Change
->           }
->           ElseIf ((\_SB.GGII (0x03000015) == One))
->           {
->               \_SB.SGII (0x03000015, Zero)
->           }
->           Else
->           {
->               \_SB.SGII (0x03000015, One)
->           }
->       }
->   }
-> 
-> Linux masquerades as Darwin, so ends up in the notification-only
-> code path.
-> 
-> Does macOS execute the GMSP method as well?  Have you disassembled
-> the gmux driver?  All vital information that belongs in the commit
-> message and/or a code comment.
+> Sure - but the *wiring* of the RST lines *follows* the modems.
 
-I think it does, if certain based bits in "HWFeatureMask" (which shows
-up in `ioreg -l`) are set, but I'm not very good at RE so I don't know
-exactly how macOS uses it. The kext is AppleMuxControl2.kext.
+I think that's entirely correct, or we're talking of different things:
+The lines belong to the slots - no matter how one actually populates
+them. (and the slots aren't restricted to modems).
 
-> 
-> 
-> > +static int gmux_call_acpi_gmsp(struct apple_gmux_data *gmux_data,
-> > int arg) +{
-> > +	acpi_status status = AE_OK;
-> > +	union acpi_object arg0 = { ACPI_TYPE_INTEGER };
-> > +	struct acpi_object_list arg_list = { 1, &arg0 };
-> > +
-> > +	arg0.integer.value = arg;
-> > +
-> > +	status = acpi_evaluate_object(gmux_data->dhandle, "GMSP",
-> > &arg_list, NULL);  
-> 
-> Can this be simplified by using acpi_execute_simple_method() or
-> one of the other helpers provided by drivers/acpi/utils.c?
-> 
+An interesting question is how to count the slots. The most intuitive
+seems their geometric position on the board, so users/operators can
+deduce them from just looking at the board.
 
-Yes it can thanks!
+OTOH, if you just wanna reset some specific *modem* (and don't wanna
+find out which slot it's currently in, each time), we should have some
+baseband subsys taking care of that.
 
-> 
-> > @@ -537,6 +561,8 @@ static void gmux_clear_interrupts(struct
-> > apple_gmux_data *gmux_data) /* to clear interrupts write back
-> > current status */ status = gmux_interrupt_get_status(gmux_data);
-> >  	gmux_write8(gmux_data, GMUX_PORT_INTERRUPT_STATUS, status);
-> > +	if (gmux_data->config->use_acpi_gmsp)
-> > +		gmux_call_acpi_gmsp(gmux_data, 0);
-> >  }  
-> 
-> I think it would be clearer to check the gmux type directly here,
-> so that a casual reader understands that invoking the method is
-> necessary on MMIO-accessed GMUXes, but not any of the other types.
-> By contrast, with the use_acpi_gmsp one has to look up first which
-> of the gmux types sets this to true.
+Actually, we have real use cases for that, eg.:
 
-I can do it like that next version.
+* power supply of onboard basebands
+* direct audio links between baseband and mic/dsp
+* non standard (not tty-like) interfaces (mailboxes, etc)
+* RF exposure measurement for TX strength regulation
+* controlling external components (antenna switches, boosters, ...)
+...
 
-> 
-> What happens if GMSP is not executed?  Needs to be documented in the
-> commit message and/or a code comment!
-> 
+Let's defer this discussion for a while and think about some baseband
+subsys where we can later put this RST lines into, too.
 
-It gets a flood of status=0 interrupts, I'll add that as a comment.
 
-> Thanks,
-> 
-> Lukas
+--mtx
 
+-- 
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
