@@ -2,106 +2,118 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA63369CA75
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Feb 2023 13:05:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8827D69CA9B
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Feb 2023 13:17:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229881AbjBTMFN (ORCPT
+        id S229768AbjBTMRL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 Feb 2023 07:05:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55450 "EHLO
+        Mon, 20 Feb 2023 07:17:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229671AbjBTMFN (ORCPT
+        with ESMTP id S231997AbjBTMQ4 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 Feb 2023 07:05:13 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F107DBE8;
-        Mon, 20 Feb 2023 04:05:11 -0800 (PST)
-Received: from [192.168.1.155] ([77.4.6.61]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1N8G6I-1oQ8K10FVo-014A0E; Mon, 20 Feb 2023 13:04:41 +0100
-Message-ID: <e472eb76-03fe-237f-f73e-6e997c9f9200@metux.net>
-Date:   Mon, 20 Feb 2023 13:04:39 +0100
+        Mon, 20 Feb 2023 07:16:56 -0500
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C29741B578;
+        Mon, 20 Feb 2023 04:16:51 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id q5so1154632plh.9;
+        Mon, 20 Feb 2023 04:16:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tcEmxazxbqplmTcmN17Wwm+l41xqAQ1PKqf3h1uJiP4=;
+        b=I4VVRfVXk1FNApIzDwUzdb0Y9aU/DgzdfRm7sekaAXTMVKlb+Qno9/aXncvwq+hEOa
+         Vi2GEBCcSXIUm0geHa96o0yEqWM337hbp8bI/98czZVFchHezkzgcz/VqagN6Zy56oYt
+         H36jUMrQpk5LlZewJPmZP1lYevM7GDnDtuLho6NDox5ZiK3uEgGstGLN4O09Kl+Gj02S
+         Sed4VbMM+hxV8m/Y1FCAfI6RikvOoLgwPHZEvjrm37yrO7PZFif1IemetOSduoRluP5K
+         QVlR+jQLWxAqrA+TE5ZqlFDpUZFKbje/idgBJteLM1qZWToSMN/KS79Nu3/fJgMxzuPM
+         h6xA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tcEmxazxbqplmTcmN17Wwm+l41xqAQ1PKqf3h1uJiP4=;
+        b=R5N2kS9ie1y7yc6Rf4hFBRqP1R9cYL1PqBzXIeWiBVqRFbdCR/En4YC7JfS5KXRogX
+         cz7P49av1V01o73OjxE0876w/l2sduSpFpDVL2SPqx6J8Z7gdsxxiFw4ybjreGxEgCLB
+         Sf2cu9LdqBdT4LQ6To3dIb8zjY2/8Bwk71rtjfmXCmnEb3tfi/yPsVQTtQwp0tVNUZet
+         KmmI3kiu5C8DB23v6qy8XLmtRfP4ahVndncMl4hjjSIRIqutEx12AGWNJNWrqFNdsbFr
+         VYX02CbNLTQn2paoVACPujWnNQmeRvFuTz4VxDpHK/GWHN1aQdGtmGd/M3LPiP/2wrpA
+         5D+g==
+X-Gm-Message-State: AO0yUKWmgOVFyJCxY7jBYfzSZH/MdZDqQDIcco5f6h51yEseM3/p+Xwn
+        QNWUT6ymwAitB867wohw6UY=
+X-Google-Smtp-Source: AK7set/wLHmIl0qQEAoUiCiaL7tnmOU1vhxtFoFEIAJBnDwSEjooohnU6f0VacWTqeAvsT5fnTk2Zw==
+X-Received: by 2002:a05:6a20:1587:b0:be:9478:55ba with SMTP id h7-20020a056a20158700b000be947855bamr1879748pzj.60.1676895411306;
+        Mon, 20 Feb 2023 04:16:51 -0800 (PST)
+Received: from redecorated-mbp ([202.53.32.211])
+        by smtp.gmail.com with ESMTPSA id l64-20020a638843000000b004784cdc196dsm1157637pgd.24.2023.02.20.04.16.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Feb 2023 04:16:51 -0800 (PST)
+Date:   Mon, 20 Feb 2023 23:16:42 +1100
+From:   Orlando Chamberlain <orlandoch.dev@gmail.com>
+To:     Lukas Wunner <lukas@wunner.de>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Seth Forshee <sforshee@kernel.org>,
+        Aditya Garg <gargaditya08@live.com>,
+        Aun-Ali Zaidi <admin@kodeit.net>,
+        Kerem Karabay <kekrby@gmail.com>
+Subject: Re: [PATCH v3 4/5] apple-gmux: support MMIO gmux on T2 Macs
+Message-ID: <20230220231642.1e0064db@redecorated-mbp>
+In-Reply-To: <20230220092048.GA25532@wunner.de>
+References: <20230218132007.3350-1-orlandoch.dev@gmail.com>
+        <20230218132007.3350-5-orlandoch.dev@gmail.com>
+        <20230220092048.GA25532@wunner.de>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.35; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v4 0/2] Expand APU2 driver to 3/4/5/6 models
-Content-Language: tl
-To:     Ed W <lists@wildgooses.com>, Hans de Goede <hdegoede@redhat.com>,
-        Philip Prindeville <philipp@redfish-solutions.com>,
-        platform-driver-x86@vger.kernel.org, linux-x86_64@vger.kernel.org,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     Andres Salomon <dilinger@queued.net>,
-        Andreas Eberlein <foodeas@aeberlein.de>,
-        Paul Spooren <paul@spooren.de>
-References: <20230113231139.436943-1-philipp@redfish-solutions.com>
- <44e0ef20-d6d3-4c87-1828-f88dbc08e942@redhat.com>
- <7f5644a8-2e6f-b4c6-4db8-2419d1a7f005@metux.net>
- <48beb1c5-5136-a287-1a74-bdc558bffe3e@wildgooses.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-In-Reply-To: <48beb1c5-5136-a287-1a74-bdc558bffe3e@wildgooses.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:mLuXI9mYW+KSEP24xQKX460V19r2mxc8CdzAYpbF0f54dN03PjZ
- NSKnBW/LnPgDaMQFsET0nQ7K3ufyujMcxPOogb0PO8kEf0cIjW5vucWp7tTBU7PmzD1syOg
- D4G5eaNL/LCCvZEF40ly4MljfjD11zAymTVsa8onipdgKTep1XBhwd1QDJU+GlxWAmaqmrI
- s+0xBZeVm1SF6opyaGNZw==
-UI-OutboundReport: notjunk:1;M01:P0:kLVq1f13wDk=;r5w1CPT7Opa+hUB1g0ORzCF2G/O
- CFe+QN/fD7FP1XOEalysm0/Obn3esKfpQjOIlM1eINyPjTleQIyWLYGaD8hlqJnHicoEb0CGv
- KfdKNkGQdMYbl5Rd2YqRadXC6MER4uulfDgxxoSKrw1hBg0cz7D/Lg7xB9PpUbfAFcdBZXB6E
- 5sf/P6diJQWXTuLXc6f5tDMmbgiNtqL2CCTXnBga2ljpXVF4Knj88t3/z4Q2F44D1NzvlmeP0
- Yojg/PTntBKRgtWEaZ0ZpdnVq6bBpCvCWNAIGINPs0W75/Jpctqb5A5TISdZ4dGTZhDH3oI1o
- x51o+jf4JNBzFjCfXRpQRTp59K3zP38A1x9rG7o0TW8X7GgKUn50HPyy8rJw3jkpG8x8TBeNW
- kP6FwzZMX+HwIeMnH2GkadFR8dA4rrXaZJG+WEdc4HDx47/2pkpVVO6d7CKC9EsP6MJBZZykr
- iJb5deMiy5e3qZS+5lZ7PyjJezemRu6QsDN/gjz3RTEw38fBf1ek8HxxauUx14eAEH9TqlMs6
- NHKjFecAKIQhmzI4ZwEVLYyQB0LiUpwuDxge0kFTQpZu6PpzkiHa4MCluighVpmK93fwAVdMr
- tNsbRHI9v+50ci9RGZFoWj6k2DNz5ponEFw2qfNN9hil5vGkjK6cvIEmiHdVBrdxmDuWgD95X
- shPWB3dEEubhmhKQN3uED8waR0j7kzONXnHM3CSR+g==
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Ed,
+On Mon, 20 Feb 2023 10:20:48 +0100
+Lukas Wunner <lukas@wunner.de> wrote:
 
-> Sure - but the *wiring* of the RST lines *follows* the modems.
+> On Sun, Feb 19, 2023 at 12:20:06AM +1100, Orlando Chamberlain wrote:
+> > --- a/drivers/platform/x86/apple-gmux.c
+> > +++ b/drivers/platform/x86/apple-gmux.c
+> > @@ -28,15 +28,17 @@
+> >   * DOC: Overview
+> >   *
+> >   * gmux is a microcontroller built into the MacBook Pro to support
+> > dual GPUs:
+> > - * A `Lattice XP2`_ on pre-retinas, a `Renesas R4F2113`_ on
+> > retinas.
+> > + * A `Lattice XP2`_ on pre-retinas, a `Renesas R4F2113`_ on pre-T2
+> > retinas.
+> > + * The chip used on T2 Macs is not known.  
+> 
+> I've just taken a look at the schematics of the MBP16,1 and it turns
+> out that T2 *is* the gmux.  The chip is called H9M.  The interaction
+> with the OS is through that MMIO area.
+> 
+> There's a GPIO expander attached to T2 via I2C (NXP PCAL6524),
+> probably because they didn't have enough GPIO pins available on T2
+> itself. The GPIO expander enables/disables the voltage regulators of
+> the discrete GPU, hence can cut power to it.  It also drives panel
+> power and has a GPIO to switch the mux.
+> 
+> The mux is an NXP CBTL06142 as on previous models.
 
-I think that's entirely correct, or we're talking of different things:
-The lines belong to the slots - no matter how one actually populates
-them. (and the slots aren't restricted to modems).
+Thanks for figuring that all out, I can add that to the documentation.
 
-An interesting question is how to count the slots. The most intuitive
-seems their geometric position on the board, so users/operators can
-deduce them from just looking at the board.
+> 
+> Thanks,
+> 
+> Lukas
 
-OTOH, if you just wanna reset some specific *modem* (and don't wanna
-find out which slot it's currently in, each time), we should have some
-baseband subsys taking care of that.
-
-Actually, we have real use cases for that, eg.:
-
-* power supply of onboard basebands
-* direct audio links between baseband and mic/dsp
-* non standard (not tty-like) interfaces (mailboxes, etc)
-* RF exposure measurement for TX strength regulation
-* controlling external components (antenna switches, boosters, ...)
-...
-
-Let's defer this discussion for a while and think about some baseband
-subsys where we can later put this RST lines into, too.
-
-
---mtx
-
--- 
----
-Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-GPG/PGP-Schlüssel zu.
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
