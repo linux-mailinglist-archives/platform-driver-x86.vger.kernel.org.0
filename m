@@ -2,51 +2,51 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F1D869D635
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Feb 2023 23:13:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FBEB69D632
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Feb 2023 23:13:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232613AbjBTWNO (ORCPT
+        id S232637AbjBTWNJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 Feb 2023 17:13:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33256 "EHLO
+        Mon, 20 Feb 2023 17:13:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232630AbjBTWNN (ORCPT
+        with ESMTP id S232507AbjBTWNI (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 Feb 2023 17:13:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F854BDE7
-        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Feb 2023 14:12:29 -0800 (PST)
+        Mon, 20 Feb 2023 17:13:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B350CC01
+        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Feb 2023 14:12:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676931148;
+        s=mimecast20190719; t=1676931149;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=IcF78M6iyssoLqi9p/oufhgm/m06FrucinefHodPjbg=;
-        b=J8FlHGu4pPb29R7HpmAwi2GGNXdBGe55bxZ102PjxjiVq3NH/w81sCwrHW2B/Ywti54ttg
-        Ycio8sK1moGQek7plSUL6BcZJH+QnpWdFFi9lRxbJIe7sS1oXZl91K//mZpotkHyECyl5l
-        bGjqMGUh/ENExoO+VewLyZx+peNSJH4=
+        bh=glzpkaHz/PdkPHM5pKSV7nhEe/mVpRFAaScWWQKx2dE=;
+        b=I42PAgs9s43zcFnvKRMpbBRePVnuztWNeaoBD/XPGEFlp+D/zJpvVnzyu3NyqRgY+4TlUg
+        Q2NS6QH4qVppTS5j1p7sfZ5+l5kt+zz0kH3paWJ+DrGcD3R5WsbUS8nPNujb3+br9azel8
+        pBbY1vD/A9vdiE2Y7mzAGZwZ7ss5MIg=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-275-jVQz51OHPMikUbGWpTl1oA-1; Mon, 20 Feb 2023 17:12:25 -0500
-X-MC-Unique: jVQz51OHPMikUbGWpTl1oA-1
+ us-mta-192-HGiLMPsQPI-wqBlRzCMKkw-1; Mon, 20 Feb 2023 17:12:26 -0500
+X-MC-Unique: HGiLMPsQPI-wqBlRzCMKkw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D7958380662E;
-        Mon, 20 Feb 2023 22:12:24 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C54A529AA2D3;
+        Mon, 20 Feb 2023 22:12:25 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.43])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3CDAA140EBF6;
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 12A1A140EBF6;
         Mon, 20 Feb 2023 22:12:24 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@kernel.org>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH 4/9] platform/x86: x86-android-tablets: Move shared power-supply fw-nodes to a separate file
-Date:   Mon, 20 Feb 2023 23:12:07 +0100
-Message-Id: <20230220221212.196009-5-hdegoede@redhat.com>
+Subject: [PATCH 5/9] platform/x86: x86-android-tablets: Move Asus tablets to their own file
+Date:   Mon, 20 Feb 2023 23:12:08 +0100
+Message-Id: <20230220221212.196009-6-hdegoede@redhat.com>
 In-Reply-To: <20230220221212.196009-1-hdegoede@redhat.com>
 References: <20230220221212.196009-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -62,38 +62,35 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Move the shared power-supply fw-nodes and related files to
-a new separate shared-psy-info.c file.
+Move the info for the Asus tablets to their own asus.c file.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
  .../platform/x86/x86-android-tablets/Makefile |   2 +-
- .../x86/x86-android-tablets/shared-psy-info.c | 100 +++++++++++++++++
- .../x86/x86-android-tablets/shared-psy-info.h |  32 ++++++
- .../x86-android-tablets-main.c                | 101 ++----------------
- 4 files changed, 142 insertions(+), 93 deletions(-)
- create mode 100644 drivers/platform/x86/x86-android-tablets/shared-psy-info.c
- create mode 100644 drivers/platform/x86/x86-android-tablets/shared-psy-info.h
+ .../platform/x86/x86-android-tablets/asus.c   | 355 ++++++++++++++++++
+ .../x86-android-tablets-main.c                | 340 -----------------
+ 3 files changed, 356 insertions(+), 341 deletions(-)
+ create mode 100644 drivers/platform/x86/x86-android-tablets/asus.c
 
 diff --git a/drivers/platform/x86/x86-android-tablets/Makefile b/drivers/platform/x86/x86-android-tablets/Makefile
-index ba16dc014e03..6383a1b26481 100644
+index 6383a1b26481..a527f0a94034 100644
 --- a/drivers/platform/x86/x86-android-tablets/Makefile
 +++ b/drivers/platform/x86/x86-android-tablets/Makefile
 @@ -5,4 +5,4 @@
  
  obj-$(CONFIG_X86_ANDROID_TABLETS) += x86-android-tablets.o
  
--x86-android-tablets-y := core.o dmi.o x86-android-tablets-main.o
-+x86-android-tablets-y := core.o dmi.o shared-psy-info.o x86-android-tablets-main.o
-diff --git a/drivers/platform/x86/x86-android-tablets/shared-psy-info.c b/drivers/platform/x86/x86-android-tablets/shared-psy-info.c
+-x86-android-tablets-y := core.o dmi.o shared-psy-info.o x86-android-tablets-main.o
++x86-android-tablets-y := core.o dmi.o shared-psy-info.o asus.o x86-android-tablets-main.o
+diff --git a/drivers/platform/x86/x86-android-tablets/asus.c b/drivers/platform/x86/x86-android-tablets/asus.c
 new file mode 100644
-index 000000000000..5af601f6bee4
+index 000000000000..c7d3ca73ebd3
 --- /dev/null
-+++ b/drivers/platform/x86/x86-android-tablets/shared-psy-info.c
-@@ -0,0 +1,100 @@
++++ b/drivers/platform/x86/x86-android-tablets/asus.c
+@@ -0,0 +1,355 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +/*
-+ * Shared psy info for X86 tablets which ship with Android as the factory image
++ * Board info for Asus X86 tablets which ship with Android as the factory image
 + * and which have broken DSDT tables. The factory kernels shipped on these
 + * devices typically have a bunch of things hardcoded, rather than specified
 + * in their DSDT.
@@ -101,80 +98,44 @@ index 000000000000..5af601f6bee4
 + * Copyright (C) 2021-2023 Hans de Goede <hdegoede@redhat.com>
 + */
 +
-+#include <linux/gpio/machine.h>
-+#include <linux/kernel.h>
-+#include <linux/platform_device.h>
-+#include <linux/property.h>
-+#include <linux/regulator/machine.h>
++#include <linux/gpio_keys.h>
++#include <linux/input.h>
 +
 +#include "shared-psy-info.h"
++#include "x86-android-tablets.h"
 +
-+/* Generic / shared charger / battery settings */
-+const char * const tusb1211_chg_det_psy[] = { "tusb1211-charger-detect" };
-+const char * const bq24190_psy[] = { "bq24190-charger" };
-+const char * const bq25890_psy[] = { "bq25890-charger-0" };
-+
-+static const struct property_entry fg_bq24190_supply_props[] = {
-+	PROPERTY_ENTRY_STRING_ARRAY("supplied-from", bq24190_psy),
-+	{ }
-+};
-+
-+const struct software_node fg_bq24190_supply_node = {
-+	.properties = fg_bq24190_supply_props,
-+};
-+
-+static const struct property_entry fg_bq25890_supply_props[] = {
-+	PROPERTY_ENTRY_STRING_ARRAY("supplied-from", bq25890_psy),
-+	{ }
-+};
-+
-+const struct software_node fg_bq25890_supply_node = {
-+	.properties = fg_bq25890_supply_props,
-+};
-+
-+/* LiPo HighVoltage (max 4.35V) settings used by most devs with a HV bat. */
-+static const struct property_entry generic_lipo_hv_4v35_battery_props[] = {
-+	PROPERTY_ENTRY_STRING("compatible", "simple-battery"),
-+	PROPERTY_ENTRY_STRING("device-chemistry", "lithium-ion"),
-+	PROPERTY_ENTRY_U32("precharge-current-microamp", 256000),
-+	PROPERTY_ENTRY_U32("charge-term-current-microamp", 128000),
-+	PROPERTY_ENTRY_U32("constant-charge-current-max-microamp", 1856000),
-+	PROPERTY_ENTRY_U32("constant-charge-voltage-max-microvolt", 4352000),
-+	PROPERTY_ENTRY_U32("factory-internal-resistance-micro-ohms", 150000),
-+	{ }
-+};
-+
-+const struct software_node generic_lipo_hv_4v35_battery_node = {
-+	.properties = generic_lipo_hv_4v35_battery_props,
-+};
-+
-+/* For enabling the bq24190 5V boost based on id-pin */
-+static struct regulator_consumer_supply intel_int3496_consumer = {
-+	.supply = "vbus",
-+	.dev_name = "intel-int3496",
-+};
-+
-+static const struct regulator_init_data bq24190_vbus_init_data = {
-+	.constraints = {
-+		.name = "bq24190_vbus",
-+		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
++/* Asus ME176C and TF103C tablets shared data */
++static struct gpiod_lookup_table int3496_gpo2_pin22_gpios = {
++	.dev_id = "intel-int3496",
++	.table = {
++		GPIO_LOOKUP("INT33FC:02", 22, "id", GPIO_ACTIVE_HIGH),
++		{ }
 +	},
-+	.consumer_supplies = &intel_int3496_consumer,
-+	.num_consumer_supplies = 1,
 +};
 +
-+struct bq24190_platform_data bq24190_pdata = {
-+	.regulator_init_data = &bq24190_vbus_init_data,
++static struct gpio_keys_button asus_me176c_tf103c_lid = {
++	.code = SW_LID,
++	/* .gpio gets filled in by asus_me176c_tf103c_init() */
++	.active_low = true,
++	.desc = "lid_sw",
++	.type = EV_SW,
++	.wakeup = true,
++	.debounce_interval = 50,
 +};
 +
-+const char * const bq24190_modules[] __initconst = {
-+	"intel_crystal_cove_charger", /* For the bq24190 IRQ */
-+	"bq24190_charger",            /* For the Vbus regulator for intel-int3496 */
-+	NULL
++static const struct gpio_keys_platform_data asus_me176c_tf103c_lid_pdata __initconst = {
++	.buttons = &asus_me176c_tf103c_lid,
++	.nbuttons = 1,
++	.name = "lid_sw",
 +};
 +
-+/* Generic pdevs array and gpio-lookups for micro USB ID pin handling */
-+const struct platform_device_info int3496_pdevs[] __initconst = {
++static const struct platform_device_info asus_me176c_tf103c_pdevs[] __initconst = {
++	{
++		.name = "gpio-keys",
++		.id = PLATFORM_DEVID_AUTO,
++		.data = &asus_me176c_tf103c_lid_pdata,
++		.size_data = sizeof(asus_me176c_tf103c_lid_pdata),
++	},
 +	{
 +		/* For micro USB ID pin handling */
 +		.name = "intel-int3496",
@@ -182,155 +143,318 @@ index 000000000000..5af601f6bee4
 +	},
 +};
 +
-+struct gpiod_lookup_table int3496_reference_gpios = {
-+	.dev_id = "intel-int3496",
++static int __init asus_me176c_tf103c_init(void)
++{
++	struct gpio_desc *gpiod;
++	int ret;
++
++	ret = x86_android_tablet_get_gpiod("INT33FC:02", 12, &gpiod);
++	if (ret < 0)
++		return ret;
++	asus_me176c_tf103c_lid.gpio = desc_to_gpio(gpiod);
++
++	return 0;
++}
++
++
++/* Asus ME176C tablets have an Android factory img with everything hardcoded */
++static const char * const asus_me176c_accel_mount_matrix[] = {
++	"-1", "0", "0",
++	"0", "1", "0",
++	"0", "0", "1"
++};
++
++static const struct property_entry asus_me176c_accel_props[] = {
++	PROPERTY_ENTRY_STRING_ARRAY("mount-matrix", asus_me176c_accel_mount_matrix),
++	{ }
++};
++
++static const struct software_node asus_me176c_accel_node = {
++	.properties = asus_me176c_accel_props,
++};
++
++static const struct property_entry asus_me176c_bq24190_props[] = {
++	PROPERTY_ENTRY_STRING_ARRAY_LEN("supplied-from", tusb1211_chg_det_psy, 1),
++	PROPERTY_ENTRY_REF("monitored-battery", &generic_lipo_hv_4v35_battery_node),
++	PROPERTY_ENTRY_U32("ti,system-minimum-microvolt", 3600000),
++	PROPERTY_ENTRY_BOOL("omit-battery-class"),
++	PROPERTY_ENTRY_BOOL("disable-reset"),
++	{ }
++};
++
++static const struct software_node asus_me176c_bq24190_node = {
++	.properties = asus_me176c_bq24190_props,
++};
++
++static const struct property_entry asus_me176c_ug3105_props[] = {
++	PROPERTY_ENTRY_STRING_ARRAY_LEN("supplied-from", bq24190_psy, 1),
++	PROPERTY_ENTRY_REF("monitored-battery", &generic_lipo_hv_4v35_battery_node),
++	PROPERTY_ENTRY_U32("upisemi,rsns-microohm", 10000),
++	{ }
++};
++
++static const struct software_node asus_me176c_ug3105_node = {
++	.properties = asus_me176c_ug3105_props,
++};
++
++static const struct x86_i2c_client_info asus_me176c_i2c_clients[] __initconst = {
++	{
++		/* bq24297 battery charger */
++		.board_info = {
++			.type = "bq24190",
++			.addr = 0x6b,
++			.dev_name = "bq24297",
++			.swnode = &asus_me176c_bq24190_node,
++			.platform_data = &bq24190_pdata,
++		},
++		.adapter_path = "\\_SB_.I2C1",
++		.irq_data = {
++			.type = X86_ACPI_IRQ_TYPE_PMIC,
++			.chip = "\\_SB_.I2C7.PMIC",
++			.domain = DOMAIN_BUS_WAKEUP,
++			.index = 0,
++		},
++	}, {
++		/* ug3105 battery monitor */
++		.board_info = {
++			.type = "ug3105",
++			.addr = 0x70,
++			.dev_name = "ug3105",
++			.swnode = &asus_me176c_ug3105_node,
++		},
++		.adapter_path = "\\_SB_.I2C1",
++	}, {
++		/* ak09911 compass */
++		.board_info = {
++			.type = "ak09911",
++			.addr = 0x0c,
++			.dev_name = "ak09911",
++		},
++		.adapter_path = "\\_SB_.I2C5",
++	}, {
++		/* kxtj21009 accel */
++		.board_info = {
++			.type = "kxtj21009",
++			.addr = 0x0f,
++			.dev_name = "kxtj21009",
++			.swnode = &asus_me176c_accel_node,
++		},
++		.adapter_path = "\\_SB_.I2C5",
++		.irq_data = {
++			.type = X86_ACPI_IRQ_TYPE_APIC,
++			.index = 0x44,
++			.trigger = ACPI_EDGE_SENSITIVE,
++			.polarity = ACPI_ACTIVE_LOW,
++		},
++	}, {
++		/* goodix touchscreen */
++		.board_info = {
++			.type = "GDIX1001:00",
++			.addr = 0x14,
++			.dev_name = "goodix_ts",
++		},
++		.adapter_path = "\\_SB_.I2C6",
++		.irq_data = {
++			.type = X86_ACPI_IRQ_TYPE_APIC,
++			.index = 0x45,
++			.trigger = ACPI_EDGE_SENSITIVE,
++			.polarity = ACPI_ACTIVE_LOW,
++		},
++	},
++};
++
++static const struct x86_serdev_info asus_me176c_serdevs[] __initconst = {
++	{
++		.ctrl_hid = "80860F0A",
++		.ctrl_uid = "2",
++		.ctrl_devname = "serial0",
++		.serdev_hid = "BCM2E3A",
++	},
++};
++
++static struct gpiod_lookup_table asus_me176c_goodix_gpios = {
++	.dev_id = "i2c-goodix_ts",
 +	.table = {
-+		GPIO_LOOKUP("INT33FC:01", 15, "vbus", GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP("INT33FC:02", 1, "mux", GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP("INT33FC:02", 18, "id", GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP("INT33FC:00", 60, "reset", GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP("INT33FC:02", 28, "irq", GPIO_ACTIVE_HIGH),
 +		{ }
 +	},
 +};
-diff --git a/drivers/platform/x86/x86-android-tablets/shared-psy-info.h b/drivers/platform/x86/x86-android-tablets/shared-psy-info.h
-new file mode 100644
-index 000000000000..bff3c82a16fb
---- /dev/null
-+++ b/drivers/platform/x86/x86-android-tablets/shared-psy-info.h
-@@ -0,0 +1,32 @@
-+/* SPDX-License-Identifier: GPL-2.0+
-+ *
-+ * Shared psy info for X86 tablets which ship with Android as the factory image
-+ * and which have broken DSDT tables. The factory kernels shipped on these
-+ * devices typically have a bunch of things hardcoded, rather than specified
-+ * in their DSDT.
-+ *
-+ * Copyright (C) 2021-2023 Hans de Goede <hdegoede@redhat.com>
-+ */
-+#ifndef __SHARED_PSY_INFO_H
-+#define __SHARED_PSY_INFO_H
 +
-+#include <linux/power/bq24190_charger.h>
-+#include <linux/gpio/machine.h>
-+#include <linux/platform_device.h>
-+#include <linux/property.h>
++static struct gpiod_lookup_table * const asus_me176c_gpios[] = {
++	&int3496_gpo2_pin22_gpios,
++	&asus_me176c_goodix_gpios,
++	NULL
++};
 +
-+extern const char * const tusb1211_chg_det_psy[];
-+extern const char * const bq24190_psy[];
-+extern const char * const bq25890_psy[];
++const struct x86_dev_info asus_me176c_info __initconst = {
++	.i2c_client_info = asus_me176c_i2c_clients,
++	.i2c_client_count = ARRAY_SIZE(asus_me176c_i2c_clients),
++	.pdev_info = asus_me176c_tf103c_pdevs,
++	.pdev_count = ARRAY_SIZE(asus_me176c_tf103c_pdevs),
++	.serdev_info = asus_me176c_serdevs,
++	.serdev_count = ARRAY_SIZE(asus_me176c_serdevs),
++	.gpiod_lookup_tables = asus_me176c_gpios,
++	.bat_swnode = &generic_lipo_hv_4v35_battery_node,
++	.modules = bq24190_modules,
++	.invalid_aei_gpiochip = "INT33FC:02",
++	.init = asus_me176c_tf103c_init,
++};
 +
-+extern const struct software_node fg_bq24190_supply_node;
-+extern const struct software_node fg_bq25890_supply_node;
-+extern const struct software_node generic_lipo_hv_4v35_battery_node;
++/* Asus TF103C tablets have an Android factory img with everything hardcoded */
++static const char * const asus_tf103c_accel_mount_matrix[] = {
++	"0", "-1", "0",
++	"-1", "0", "0",
++	"0", "0", "1"
++};
 +
-+extern struct bq24190_platform_data bq24190_pdata;
-+extern const char * const bq24190_modules[];
++static const struct property_entry asus_tf103c_accel_props[] = {
++	PROPERTY_ENTRY_STRING_ARRAY("mount-matrix", asus_tf103c_accel_mount_matrix),
++	{ }
++};
 +
-+extern const struct platform_device_info int3496_pdevs[];
-+extern struct gpiod_lookup_table int3496_reference_gpios;
++static const struct software_node asus_tf103c_accel_node = {
++	.properties = asus_tf103c_accel_props,
++};
 +
-+#endif
++static const struct property_entry asus_tf103c_touchscreen_props[] = {
++	PROPERTY_ENTRY_STRING("compatible", "atmel,atmel_mxt_ts"),
++	{ }
++};
++
++static const struct software_node asus_tf103c_touchscreen_node = {
++	.properties = asus_tf103c_touchscreen_props,
++};
++
++static const struct property_entry asus_tf103c_battery_props[] = {
++	PROPERTY_ENTRY_STRING("compatible", "simple-battery"),
++	PROPERTY_ENTRY_STRING("device-chemistry", "lithium-ion-polymer"),
++	PROPERTY_ENTRY_U32("precharge-current-microamp", 256000),
++	PROPERTY_ENTRY_U32("charge-term-current-microamp", 128000),
++	PROPERTY_ENTRY_U32("constant-charge-current-max-microamp", 2048000),
++	PROPERTY_ENTRY_U32("constant-charge-voltage-max-microvolt", 4208000),
++	PROPERTY_ENTRY_U32("factory-internal-resistance-micro-ohms", 150000),
++	{ }
++};
++
++static const struct software_node asus_tf103c_battery_node = {
++	.properties = asus_tf103c_battery_props,
++};
++
++static const struct property_entry asus_tf103c_bq24190_props[] = {
++	PROPERTY_ENTRY_STRING_ARRAY_LEN("supplied-from", tusb1211_chg_det_psy, 1),
++	PROPERTY_ENTRY_REF("monitored-battery", &asus_tf103c_battery_node),
++	PROPERTY_ENTRY_U32("ti,system-minimum-microvolt", 3600000),
++	PROPERTY_ENTRY_BOOL("omit-battery-class"),
++	PROPERTY_ENTRY_BOOL("disable-reset"),
++	{ }
++};
++
++static const struct software_node asus_tf103c_bq24190_node = {
++	.properties = asus_tf103c_bq24190_props,
++};
++
++static const struct property_entry asus_tf103c_ug3105_props[] = {
++	PROPERTY_ENTRY_STRING_ARRAY_LEN("supplied-from", bq24190_psy, 1),
++	PROPERTY_ENTRY_REF("monitored-battery", &asus_tf103c_battery_node),
++	PROPERTY_ENTRY_U32("upisemi,rsns-microohm", 5000),
++	{ }
++};
++
++static const struct software_node asus_tf103c_ug3105_node = {
++	.properties = asus_tf103c_ug3105_props,
++};
++
++static const struct x86_i2c_client_info asus_tf103c_i2c_clients[] __initconst = {
++	{
++		/* bq24297 battery charger */
++		.board_info = {
++			.type = "bq24190",
++			.addr = 0x6b,
++			.dev_name = "bq24297",
++			.swnode = &asus_tf103c_bq24190_node,
++			.platform_data = &bq24190_pdata,
++		},
++		.adapter_path = "\\_SB_.I2C1",
++		.irq_data = {
++			.type = X86_ACPI_IRQ_TYPE_PMIC,
++			.chip = "\\_SB_.I2C7.PMIC",
++			.domain = DOMAIN_BUS_WAKEUP,
++			.index = 0,
++		},
++	}, {
++		/* ug3105 battery monitor */
++		.board_info = {
++			.type = "ug3105",
++			.addr = 0x70,
++			.dev_name = "ug3105",
++			.swnode = &asus_tf103c_ug3105_node,
++		},
++		.adapter_path = "\\_SB_.I2C1",
++	}, {
++		/* ak09911 compass */
++		.board_info = {
++			.type = "ak09911",
++			.addr = 0x0c,
++			.dev_name = "ak09911",
++		},
++		.adapter_path = "\\_SB_.I2C5",
++	}, {
++		/* kxtj21009 accel */
++		.board_info = {
++			.type = "kxtj21009",
++			.addr = 0x0f,
++			.dev_name = "kxtj21009",
++			.swnode = &asus_tf103c_accel_node,
++		},
++		.adapter_path = "\\_SB_.I2C5",
++	}, {
++		/* atmel touchscreen */
++		.board_info = {
++			.type = "atmel_mxt_ts",
++			.addr = 0x4a,
++			.dev_name = "atmel_mxt_ts",
++			.swnode = &asus_tf103c_touchscreen_node,
++		},
++		.adapter_path = "\\_SB_.I2C6",
++		.irq_data = {
++			.type = X86_ACPI_IRQ_TYPE_GPIOINT,
++			.chip = "INT33FC:02",
++			.index = 28,
++			.trigger = ACPI_EDGE_SENSITIVE,
++			.polarity = ACPI_ACTIVE_LOW,
++		},
++	},
++};
++
++static struct gpiod_lookup_table * const asus_tf103c_gpios[] = {
++	&int3496_gpo2_pin22_gpios,
++	NULL
++};
++
++const struct x86_dev_info asus_tf103c_info __initconst = {
++	.i2c_client_info = asus_tf103c_i2c_clients,
++	.i2c_client_count = ARRAY_SIZE(asus_tf103c_i2c_clients),
++	.pdev_info = asus_me176c_tf103c_pdevs,
++	.pdev_count = ARRAY_SIZE(asus_me176c_tf103c_pdevs),
++	.gpiod_lookup_tables = asus_tf103c_gpios,
++	.bat_swnode = &asus_tf103c_battery_node,
++	.modules = bq24190_modules,
++	.invalid_aei_gpiochip = "INT33FC:02",
++	.init = asus_me176c_tf103c_init,
++};
 diff --git a/drivers/platform/x86/x86-android-tablets/x86-android-tablets-main.c b/drivers/platform/x86/x86-android-tablets/x86-android-tablets-main.c
-index 4914b43eb4cd..ebe3cdeeb33a 100644
+index ebe3cdeeb33a..27b4fe94250f 100644
 --- a/drivers/platform/x86/x86-android-tablets/x86-android-tablets-main.c
 +++ b/drivers/platform/x86/x86-android-tablets/x86-android-tablets-main.c
-@@ -17,86 +17,13 @@
- #include <linux/pinctrl/consumer.h>
- #include <linux/pinctrl/machine.h>
- #include <linux/platform_data/lp855x.h>
--#include <linux/power/bq24190_charger.h>
- #include <linux/reboot.h>
- #include <linux/rmi.h>
- #include <linux/spi/spi.h>
- 
-+#include "shared-psy-info.h"
+@@ -24,14 +24,6 @@
+ #include "shared-psy-info.h"
  #include "x86-android-tablets.h"
  
--/* Generic / shared charger / battery settings */
--static const char * const tusb1211_chg_det_psy[] = { "tusb1211-charger-detect" };
--static const char * const bq24190_psy[] = { "bq24190-charger" };
--static const char * const bq25890_psy[] = { "bq25890-charger-0" };
--
--static const struct property_entry fg_bq24190_supply_props[] = {
--	PROPERTY_ENTRY_STRING_ARRAY("supplied-from", bq24190_psy),
--	{ }
--};
--
--static const struct software_node fg_bq24190_supply_node = {
--	.properties = fg_bq24190_supply_props,
--};
--
--static const struct property_entry fg_bq25890_supply_props[] = {
--	PROPERTY_ENTRY_STRING_ARRAY("supplied-from", bq25890_psy),
--	{ }
--};
--
--static const struct software_node fg_bq25890_supply_node = {
--	.properties = fg_bq25890_supply_props,
--};
--
--/* LiPo HighVoltage (max 4.35V) settings used by most devs with a HV bat. */
--static const struct property_entry generic_lipo_hv_4v35_battery_props[] = {
--	PROPERTY_ENTRY_STRING("compatible", "simple-battery"),
--	PROPERTY_ENTRY_STRING("device-chemistry", "lithium-ion"),
--	PROPERTY_ENTRY_U32("precharge-current-microamp", 256000),
--	PROPERTY_ENTRY_U32("charge-term-current-microamp", 128000),
--	PROPERTY_ENTRY_U32("constant-charge-current-max-microamp", 1856000),
--	PROPERTY_ENTRY_U32("constant-charge-voltage-max-microvolt", 4352000),
--	PROPERTY_ENTRY_U32("factory-internal-resistance-micro-ohms", 150000),
--	{ }
--};
--
--static const struct software_node generic_lipo_hv_4v35_battery_node = {
--	.properties = generic_lipo_hv_4v35_battery_props,
--};
--
--/* For enabling the bq24190 5V boost based on id-pin */
--static struct regulator_consumer_supply intel_int3496_consumer = {
--	.supply = "vbus",
--	.dev_name = "intel-int3496",
--};
--
--static const struct regulator_init_data bq24190_vbus_init_data = {
--	.constraints = {
--		.name = "bq24190_vbus",
--		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
--	},
--	.consumer_supplies = &intel_int3496_consumer,
--	.num_consumer_supplies = 1,
--};
--
--static struct bq24190_platform_data bq24190_pdata = {
--	.regulator_init_data = &bq24190_vbus_init_data,
--};
--
--static const char * const bq24190_modules[] __initconst = {
--	"intel_crystal_cove_charger", /* For the bq24190 IRQ */
--	"bq24190_charger",            /* For the Vbus regulator for intel-int3496 */
--	NULL
--};
--
--/* Generic pdevs array and gpio-lookups for micro USB ID pin handling */
--static const struct platform_device_info int3496_pdevs[] __initconst = {
--	{
--		/* For micro USB ID pin handling */
--		.name = "intel-int3496",
--		.id = PLATFORM_DEVID_NONE,
--	},
--};
--
- static struct gpiod_lookup_table int3496_gpo2_pin22_gpios = {
- 	.dev_id = "intel-int3496",
- 	.table = {
-@@ -105,16 +32,6 @@ static struct gpiod_lookup_table int3496_gpo2_pin22_gpios = {
- 	},
- };
- 
--static struct gpiod_lookup_table int3496_reference_gpios = {
+-static struct gpiod_lookup_table int3496_gpo2_pin22_gpios = {
 -	.dev_id = "intel-int3496",
 -	.table = {
--		GPIO_LOOKUP("INT33FC:01", 15, "vbus", GPIO_ACTIVE_HIGH),
--		GPIO_LOOKUP("INT33FC:02", 1, "mux", GPIO_ACTIVE_HIGH),
--		GPIO_LOOKUP("INT33FC:02", 18, "id", GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP("INT33FC:02", 22, "id", GPIO_ACTIVE_HIGH),
 -		{ }
 -	},
 -};
@@ -338,78 +462,345 @@ index 4914b43eb4cd..ebe3cdeeb33a 100644
  /* Acer Iconia One 7 B1-750 has an Android factory img with everything hardcoded */
  static const char * const acer_b1_750_mount_matrix[] = {
  	"-1", "0", "0",
-@@ -183,7 +100,7 @@ const struct x86_dev_info acer_b1_750_info __initconst = {
- 	.i2c_client_info = acer_b1_750_i2c_clients,
- 	.i2c_client_count = ARRAY_SIZE(acer_b1_750_i2c_clients),
- 	.pdev_info = int3496_pdevs,
--	.pdev_count = ARRAY_SIZE(int3496_pdevs),
-+	.pdev_count = 1,
- 	.gpiod_lookup_tables = acer_b1_750_gpios,
+@@ -154,338 +146,6 @@ const struct x86_dev_info advantech_mica_071_info __initconst = {
+ 	.init = advantech_mica_071_init,
  };
  
-@@ -299,7 +216,7 @@ static const struct software_node asus_me176c_accel_node = {
- };
- 
- static const struct property_entry asus_me176c_bq24190_props[] = {
--	PROPERTY_ENTRY_STRING_ARRAY("supplied-from", tusb1211_chg_det_psy),
-+	PROPERTY_ENTRY_STRING_ARRAY_LEN("supplied-from", tusb1211_chg_det_psy, 1),
- 	PROPERTY_ENTRY_REF("monitored-battery", &generic_lipo_hv_4v35_battery_node),
- 	PROPERTY_ENTRY_U32("ti,system-minimum-microvolt", 3600000),
- 	PROPERTY_ENTRY_BOOL("omit-battery-class"),
-@@ -312,7 +229,7 @@ static const struct software_node asus_me176c_bq24190_node = {
- };
- 
- static const struct property_entry asus_me176c_ug3105_props[] = {
--	PROPERTY_ENTRY_STRING_ARRAY("supplied-from", bq24190_psy),
-+	PROPERTY_ENTRY_STRING_ARRAY_LEN("supplied-from", bq24190_psy, 1),
- 	PROPERTY_ENTRY_REF("monitored-battery", &generic_lipo_hv_4v35_battery_node),
- 	PROPERTY_ENTRY_U32("upisemi,rsns-microohm", 10000),
- 	{ }
-@@ -467,7 +384,7 @@ static const struct software_node asus_tf103c_battery_node = {
- };
- 
- static const struct property_entry asus_tf103c_bq24190_props[] = {
--	PROPERTY_ENTRY_STRING_ARRAY("supplied-from", tusb1211_chg_det_psy),
-+	PROPERTY_ENTRY_STRING_ARRAY_LEN("supplied-from", tusb1211_chg_det_psy, 1),
- 	PROPERTY_ENTRY_REF("monitored-battery", &asus_tf103c_battery_node),
- 	PROPERTY_ENTRY_U32("ti,system-minimum-microvolt", 3600000),
- 	PROPERTY_ENTRY_BOOL("omit-battery-class"),
-@@ -480,7 +397,7 @@ static const struct software_node asus_tf103c_bq24190_node = {
- };
- 
- static const struct property_entry asus_tf103c_ug3105_props[] = {
--	PROPERTY_ENTRY_STRING_ARRAY("supplied-from", bq24190_psy),
-+	PROPERTY_ENTRY_STRING_ARRAY_LEN("supplied-from", bq24190_psy, 1),
- 	PROPERTY_ENTRY_REF("monitored-battery", &asus_tf103c_battery_node),
- 	PROPERTY_ENTRY_U32("upisemi,rsns-microohm", 5000),
- 	{ }
-@@ -708,7 +625,7 @@ const struct x86_dev_info lenovo_yogabook_x9x_info __initconst = {
- 
- /* Lenovo Yoga Tablet 2 1050F/L's Android factory img has everything hardcoded */
- static const struct property_entry lenovo_yoga_tab2_830_1050_bq24190_props[] = {
--	PROPERTY_ENTRY_STRING_ARRAY("supplied-from", tusb1211_chg_det_psy),
-+	PROPERTY_ENTRY_STRING_ARRAY_LEN("supplied-from", tusb1211_chg_det_psy, 1),
- 	PROPERTY_ENTRY_REF("monitored-battery", &generic_lipo_hv_4v35_battery_node),
- 	PROPERTY_ENTRY_BOOL("omit-battery-class"),
- 	PROPERTY_ENTRY_BOOL("disable-reset"),
-@@ -816,7 +733,7 @@ struct x86_dev_info lenovo_yoga_tab2_830_1050_info __initdata = {
- 	.i2c_client_info = lenovo_yoga_tab2_830_1050_i2c_clients,
- 	/* i2c_client_count gets set by lenovo_yoga_tab2_830_1050_init() */
- 	.pdev_info = int3496_pdevs,
--	.pdev_count = ARRAY_SIZE(int3496_pdevs),
-+	.pdev_count = 1,
- 	.gpiod_lookup_tables = lenovo_yoga_tab2_830_1050_gpios,
- 	.bat_swnode = &generic_lipo_hv_4v35_battery_node,
- 	.modules = bq24190_modules,
-@@ -1229,7 +1146,7 @@ const struct x86_dev_info nextbook_ares8_info __initconst = {
- 	.i2c_client_info = nextbook_ares8_i2c_clients,
- 	.i2c_client_count = ARRAY_SIZE(nextbook_ares8_i2c_clients),
- 	.pdev_info = int3496_pdevs,
--	.pdev_count = ARRAY_SIZE(int3496_pdevs),
-+	.pdev_count = 1,
- 	.gpiod_lookup_tables = nextbook_ares8_gpios,
- 	.invalid_aei_gpiochip = "INT33FC:02",
- };
+-/* Asus ME176C and TF103C tablets shared data */
+-static struct gpio_keys_button asus_me176c_tf103c_lid = {
+-	.code = SW_LID,
+-	/* .gpio gets filled in by asus_me176c_tf103c_init() */
+-	.active_low = true,
+-	.desc = "lid_sw",
+-	.type = EV_SW,
+-	.wakeup = true,
+-	.debounce_interval = 50,
+-};
+-
+-static const struct gpio_keys_platform_data asus_me176c_tf103c_lid_pdata __initconst = {
+-	.buttons = &asus_me176c_tf103c_lid,
+-	.nbuttons = 1,
+-	.name = "lid_sw",
+-};
+-
+-static const struct platform_device_info asus_me176c_tf103c_pdevs[] __initconst = {
+-	{
+-		.name = "gpio-keys",
+-		.id = PLATFORM_DEVID_AUTO,
+-		.data = &asus_me176c_tf103c_lid_pdata,
+-		.size_data = sizeof(asus_me176c_tf103c_lid_pdata),
+-	},
+-	{
+-		/* For micro USB ID pin handling */
+-		.name = "intel-int3496",
+-		.id = PLATFORM_DEVID_NONE,
+-	},
+-};
+-
+-static int __init asus_me176c_tf103c_init(void)
+-{
+-	struct gpio_desc *gpiod;
+-	int ret;
+-
+-	ret = x86_android_tablet_get_gpiod("INT33FC:02", 12, &gpiod);
+-	if (ret < 0)
+-		return ret;
+-	asus_me176c_tf103c_lid.gpio = desc_to_gpio(gpiod);
+-
+-	return 0;
+-}
+-
+-
+-/* Asus ME176C tablets have an Android factory img with everything hardcoded */
+-static const char * const asus_me176c_accel_mount_matrix[] = {
+-	"-1", "0", "0",
+-	"0", "1", "0",
+-	"0", "0", "1"
+-};
+-
+-static const struct property_entry asus_me176c_accel_props[] = {
+-	PROPERTY_ENTRY_STRING_ARRAY("mount-matrix", asus_me176c_accel_mount_matrix),
+-	{ }
+-};
+-
+-static const struct software_node asus_me176c_accel_node = {
+-	.properties = asus_me176c_accel_props,
+-};
+-
+-static const struct property_entry asus_me176c_bq24190_props[] = {
+-	PROPERTY_ENTRY_STRING_ARRAY_LEN("supplied-from", tusb1211_chg_det_psy, 1),
+-	PROPERTY_ENTRY_REF("monitored-battery", &generic_lipo_hv_4v35_battery_node),
+-	PROPERTY_ENTRY_U32("ti,system-minimum-microvolt", 3600000),
+-	PROPERTY_ENTRY_BOOL("omit-battery-class"),
+-	PROPERTY_ENTRY_BOOL("disable-reset"),
+-	{ }
+-};
+-
+-static const struct software_node asus_me176c_bq24190_node = {
+-	.properties = asus_me176c_bq24190_props,
+-};
+-
+-static const struct property_entry asus_me176c_ug3105_props[] = {
+-	PROPERTY_ENTRY_STRING_ARRAY_LEN("supplied-from", bq24190_psy, 1),
+-	PROPERTY_ENTRY_REF("monitored-battery", &generic_lipo_hv_4v35_battery_node),
+-	PROPERTY_ENTRY_U32("upisemi,rsns-microohm", 10000),
+-	{ }
+-};
+-
+-static const struct software_node asus_me176c_ug3105_node = {
+-	.properties = asus_me176c_ug3105_props,
+-};
+-
+-static const struct x86_i2c_client_info asus_me176c_i2c_clients[] __initconst = {
+-	{
+-		/* bq24297 battery charger */
+-		.board_info = {
+-			.type = "bq24190",
+-			.addr = 0x6b,
+-			.dev_name = "bq24297",
+-			.swnode = &asus_me176c_bq24190_node,
+-			.platform_data = &bq24190_pdata,
+-		},
+-		.adapter_path = "\\_SB_.I2C1",
+-		.irq_data = {
+-			.type = X86_ACPI_IRQ_TYPE_PMIC,
+-			.chip = "\\_SB_.I2C7.PMIC",
+-			.domain = DOMAIN_BUS_WAKEUP,
+-			.index = 0,
+-		},
+-	}, {
+-		/* ug3105 battery monitor */
+-		.board_info = {
+-			.type = "ug3105",
+-			.addr = 0x70,
+-			.dev_name = "ug3105",
+-			.swnode = &asus_me176c_ug3105_node,
+-		},
+-		.adapter_path = "\\_SB_.I2C1",
+-	}, {
+-		/* ak09911 compass */
+-		.board_info = {
+-			.type = "ak09911",
+-			.addr = 0x0c,
+-			.dev_name = "ak09911",
+-		},
+-		.adapter_path = "\\_SB_.I2C5",
+-	}, {
+-		/* kxtj21009 accel */
+-		.board_info = {
+-			.type = "kxtj21009",
+-			.addr = 0x0f,
+-			.dev_name = "kxtj21009",
+-			.swnode = &asus_me176c_accel_node,
+-		},
+-		.adapter_path = "\\_SB_.I2C5",
+-		.irq_data = {
+-			.type = X86_ACPI_IRQ_TYPE_APIC,
+-			.index = 0x44,
+-			.trigger = ACPI_EDGE_SENSITIVE,
+-			.polarity = ACPI_ACTIVE_LOW,
+-		},
+-	}, {
+-		/* goodix touchscreen */
+-		.board_info = {
+-			.type = "GDIX1001:00",
+-			.addr = 0x14,
+-			.dev_name = "goodix_ts",
+-		},
+-		.adapter_path = "\\_SB_.I2C6",
+-		.irq_data = {
+-			.type = X86_ACPI_IRQ_TYPE_APIC,
+-			.index = 0x45,
+-			.trigger = ACPI_EDGE_SENSITIVE,
+-			.polarity = ACPI_ACTIVE_LOW,
+-		},
+-	},
+-};
+-
+-static const struct x86_serdev_info asus_me176c_serdevs[] __initconst = {
+-	{
+-		.ctrl_hid = "80860F0A",
+-		.ctrl_uid = "2",
+-		.ctrl_devname = "serial0",
+-		.serdev_hid = "BCM2E3A",
+-	},
+-};
+-
+-static struct gpiod_lookup_table asus_me176c_goodix_gpios = {
+-	.dev_id = "i2c-goodix_ts",
+-	.table = {
+-		GPIO_LOOKUP("INT33FC:00", 60, "reset", GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP("INT33FC:02", 28, "irq", GPIO_ACTIVE_HIGH),
+-		{ }
+-	},
+-};
+-
+-static struct gpiod_lookup_table * const asus_me176c_gpios[] = {
+-	&int3496_gpo2_pin22_gpios,
+-	&asus_me176c_goodix_gpios,
+-	NULL
+-};
+-
+-const struct x86_dev_info asus_me176c_info __initconst = {
+-	.i2c_client_info = asus_me176c_i2c_clients,
+-	.i2c_client_count = ARRAY_SIZE(asus_me176c_i2c_clients),
+-	.pdev_info = asus_me176c_tf103c_pdevs,
+-	.pdev_count = ARRAY_SIZE(asus_me176c_tf103c_pdevs),
+-	.serdev_info = asus_me176c_serdevs,
+-	.serdev_count = ARRAY_SIZE(asus_me176c_serdevs),
+-	.gpiod_lookup_tables = asus_me176c_gpios,
+-	.bat_swnode = &generic_lipo_hv_4v35_battery_node,
+-	.modules = bq24190_modules,
+-	.invalid_aei_gpiochip = "INT33FC:02",
+-	.init = asus_me176c_tf103c_init,
+-};
+-
+-/* Asus TF103C tablets have an Android factory img with everything hardcoded */
+-static const char * const asus_tf103c_accel_mount_matrix[] = {
+-	"0", "-1", "0",
+-	"-1", "0", "0",
+-	"0", "0", "1"
+-};
+-
+-static const struct property_entry asus_tf103c_accel_props[] = {
+-	PROPERTY_ENTRY_STRING_ARRAY("mount-matrix", asus_tf103c_accel_mount_matrix),
+-	{ }
+-};
+-
+-static const struct software_node asus_tf103c_accel_node = {
+-	.properties = asus_tf103c_accel_props,
+-};
+-
+-static const struct property_entry asus_tf103c_touchscreen_props[] = {
+-	PROPERTY_ENTRY_STRING("compatible", "atmel,atmel_mxt_ts"),
+-	{ }
+-};
+-
+-static const struct software_node asus_tf103c_touchscreen_node = {
+-	.properties = asus_tf103c_touchscreen_props,
+-};
+-
+-static const struct property_entry asus_tf103c_battery_props[] = {
+-	PROPERTY_ENTRY_STRING("compatible", "simple-battery"),
+-	PROPERTY_ENTRY_STRING("device-chemistry", "lithium-ion-polymer"),
+-	PROPERTY_ENTRY_U32("precharge-current-microamp", 256000),
+-	PROPERTY_ENTRY_U32("charge-term-current-microamp", 128000),
+-	PROPERTY_ENTRY_U32("constant-charge-current-max-microamp", 2048000),
+-	PROPERTY_ENTRY_U32("constant-charge-voltage-max-microvolt", 4208000),
+-	PROPERTY_ENTRY_U32("factory-internal-resistance-micro-ohms", 150000),
+-	{ }
+-};
+-
+-static const struct software_node asus_tf103c_battery_node = {
+-	.properties = asus_tf103c_battery_props,
+-};
+-
+-static const struct property_entry asus_tf103c_bq24190_props[] = {
+-	PROPERTY_ENTRY_STRING_ARRAY_LEN("supplied-from", tusb1211_chg_det_psy, 1),
+-	PROPERTY_ENTRY_REF("monitored-battery", &asus_tf103c_battery_node),
+-	PROPERTY_ENTRY_U32("ti,system-minimum-microvolt", 3600000),
+-	PROPERTY_ENTRY_BOOL("omit-battery-class"),
+-	PROPERTY_ENTRY_BOOL("disable-reset"),
+-	{ }
+-};
+-
+-static const struct software_node asus_tf103c_bq24190_node = {
+-	.properties = asus_tf103c_bq24190_props,
+-};
+-
+-static const struct property_entry asus_tf103c_ug3105_props[] = {
+-	PROPERTY_ENTRY_STRING_ARRAY_LEN("supplied-from", bq24190_psy, 1),
+-	PROPERTY_ENTRY_REF("monitored-battery", &asus_tf103c_battery_node),
+-	PROPERTY_ENTRY_U32("upisemi,rsns-microohm", 5000),
+-	{ }
+-};
+-
+-static const struct software_node asus_tf103c_ug3105_node = {
+-	.properties = asus_tf103c_ug3105_props,
+-};
+-
+-static const struct x86_i2c_client_info asus_tf103c_i2c_clients[] __initconst = {
+-	{
+-		/* bq24297 battery charger */
+-		.board_info = {
+-			.type = "bq24190",
+-			.addr = 0x6b,
+-			.dev_name = "bq24297",
+-			.swnode = &asus_tf103c_bq24190_node,
+-			.platform_data = &bq24190_pdata,
+-		},
+-		.adapter_path = "\\_SB_.I2C1",
+-		.irq_data = {
+-			.type = X86_ACPI_IRQ_TYPE_PMIC,
+-			.chip = "\\_SB_.I2C7.PMIC",
+-			.domain = DOMAIN_BUS_WAKEUP,
+-			.index = 0,
+-		},
+-	}, {
+-		/* ug3105 battery monitor */
+-		.board_info = {
+-			.type = "ug3105",
+-			.addr = 0x70,
+-			.dev_name = "ug3105",
+-			.swnode = &asus_tf103c_ug3105_node,
+-		},
+-		.adapter_path = "\\_SB_.I2C1",
+-	}, {
+-		/* ak09911 compass */
+-		.board_info = {
+-			.type = "ak09911",
+-			.addr = 0x0c,
+-			.dev_name = "ak09911",
+-		},
+-		.adapter_path = "\\_SB_.I2C5",
+-	}, {
+-		/* kxtj21009 accel */
+-		.board_info = {
+-			.type = "kxtj21009",
+-			.addr = 0x0f,
+-			.dev_name = "kxtj21009",
+-			.swnode = &asus_tf103c_accel_node,
+-		},
+-		.adapter_path = "\\_SB_.I2C5",
+-	}, {
+-		/* atmel touchscreen */
+-		.board_info = {
+-			.type = "atmel_mxt_ts",
+-			.addr = 0x4a,
+-			.dev_name = "atmel_mxt_ts",
+-			.swnode = &asus_tf103c_touchscreen_node,
+-		},
+-		.adapter_path = "\\_SB_.I2C6",
+-		.irq_data = {
+-			.type = X86_ACPI_IRQ_TYPE_GPIOINT,
+-			.chip = "INT33FC:02",
+-			.index = 28,
+-			.trigger = ACPI_EDGE_SENSITIVE,
+-			.polarity = ACPI_ACTIVE_LOW,
+-		},
+-	},
+-};
+-
+-static struct gpiod_lookup_table * const asus_tf103c_gpios[] = {
+-	&int3496_gpo2_pin22_gpios,
+-	NULL
+-};
+-
+-const struct x86_dev_info asus_tf103c_info __initconst = {
+-	.i2c_client_info = asus_tf103c_i2c_clients,
+-	.i2c_client_count = ARRAY_SIZE(asus_tf103c_i2c_clients),
+-	.pdev_info = asus_me176c_tf103c_pdevs,
+-	.pdev_count = ARRAY_SIZE(asus_me176c_tf103c_pdevs),
+-	.gpiod_lookup_tables = asus_tf103c_gpios,
+-	.bat_swnode = &asus_tf103c_battery_node,
+-	.modules = bq24190_modules,
+-	.invalid_aei_gpiochip = "INT33FC:02",
+-	.init = asus_me176c_tf103c_init,
+-};
+-
+ /*
+  * When booted with the BIOS set to Android mode the Chuwi Hi8 (CWI509) DSDT
+  * contains a whole bunch of bogus ACPI I2C devices and is missing entries
 -- 
 2.39.1
 
