@@ -2,51 +2,51 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB76569D633
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Feb 2023 23:13:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1158C69D636
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Feb 2023 23:13:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232507AbjBTWNJ (ORCPT
+        id S232630AbjBTWNO (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 Feb 2023 17:13:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33266 "EHLO
+        Mon, 20 Feb 2023 17:13:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232613AbjBTWNI (ORCPT
+        with ESMTP id S232615AbjBTWNN (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 Feb 2023 17:13:08 -0500
+        Mon, 20 Feb 2023 17:13:13 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F6EBC64F
-        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Feb 2023 14:12:27 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5480F1E280
+        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Feb 2023 14:12:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676931146;
+        s=mimecast20190719; t=1676931148;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=iAvXZZvhc94ue4hVltlfU0CLna0TdDqs4RnbChDojrU=;
-        b=Zbn81aeg9xHwM089aJueTYCDI+ymyG6Z2RHxA82AcSOh2fXV8tW+ursdZkxr924A1oklRr
-        Wb79rfZmmZQrvEnaZut6WNXUjDelnU2CDBe6MEm+RL109uLCIFyKRElJtNnx4hNmy0snOl
-        6nJ+0EL8dQ0bVstX9eP2VnLsz5etKcw=
+        bh=c6Usd3s6Lao8WuFKMO+XOf44ZFSAu8HX6pOWf1ftPx8=;
+        b=hWig0mIIVw+wJ/jMJj3JZJLfSu3C017a4Wa8x5l6b82JAQECLc/y9XQmAd6+hrsMNcFhCK
+        ypMXex+dZDrOp4NnF77TQoYgoM/YvpUjfulDjH0mg38tApbG5/QsCIGu7kBQ6yDFRHZKpK
+        CDu0owwtgxBdpWla1IXJfgPT1ofd8dM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-454-YZh5VSCvPw-jyJS6aLRL3w-1; Mon, 20 Feb 2023 17:12:23 -0500
-X-MC-Unique: YZh5VSCvPw-jyJS6aLRL3w-1
+ us-mta-100-FtXai-nYOGqwKbtulAdyxg-1; Mon, 20 Feb 2023 17:12:24 -0500
+X-MC-Unique: FtXai-nYOGqwKbtulAdyxg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 380B1101A52E;
-        Mon, 20 Feb 2023 22:12:23 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0D06285A5A3;
+        Mon, 20 Feb 2023 22:12:24 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.43])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7760D140EBF6;
-        Mon, 20 Feb 2023 22:12:22 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6831A140EBF6;
+        Mon, 20 Feb 2023 22:12:23 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@kernel.org>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH 2/9] platform/x86: x86-android-tablets: Move core code into new core.c file
-Date:   Mon, 20 Feb 2023 23:12:05 +0100
-Message-Id: <20230220221212.196009-3-hdegoede@redhat.com>
+Subject: [PATCH 3/9] platform/x86: x86-android-tablets: Move DMI match table into its own dmi.c file
+Date:   Mon, 20 Feb 2023 23:12:06 +0100
+Message-Id: <20230220221212.196009-4-hdegoede@redhat.com>
 In-Reply-To: <20230220221212.196009-1-hdegoede@redhat.com>
 References: <20230220221212.196009-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -62,35 +62,34 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Move the helpers to get irqs + gpios as well as the core code for
-instantiating all the devices missing from ACPI into a new core.c file.
+In order to have a single MODULE_DEVICE_TABLE(dmi, ...), while allowing
+splitting the board descriptions into multiple files, add a new separate
+file for the DMI match table.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
  .../platform/x86/x86-android-tablets/Makefile |   2 +-
- .../platform/x86/x86-android-tablets/core.c   | 363 ++++++++++++++++
- .../x86-android-tablets-main.c                | 406 +-----------------
- .../x86-android-tablets/x86-android-tablets.h |  77 ++++
- 4 files changed, 443 insertions(+), 405 deletions(-)
- create mode 100644 drivers/platform/x86/x86-android-tablets/core.c
- create mode 100644 drivers/platform/x86/x86-android-tablets/x86-android-tablets.h
+ .../platform/x86/x86-android-tablets/dmi.c    | 166 ++++++++++++++++++
+ .../x86-android-tablets-main.c                | 160 ++---------------
+ 3 files changed, 180 insertions(+), 148 deletions(-)
+ create mode 100644 drivers/platform/x86/x86-android-tablets/dmi.c
 
 diff --git a/drivers/platform/x86/x86-android-tablets/Makefile b/drivers/platform/x86/x86-android-tablets/Makefile
-index b4d789ff6e70..49c6bda1f817 100644
+index 49c6bda1f817..ba16dc014e03 100644
 --- a/drivers/platform/x86/x86-android-tablets/Makefile
 +++ b/drivers/platform/x86/x86-android-tablets/Makefile
 @@ -5,4 +5,4 @@
  
  obj-$(CONFIG_X86_ANDROID_TABLETS) += x86-android-tablets.o
  
--x86-android-tablets-y := x86-android-tablets-main.o
-+x86-android-tablets-y := core.o x86-android-tablets-main.o
-diff --git a/drivers/platform/x86/x86-android-tablets/core.c b/drivers/platform/x86/x86-android-tablets/core.c
+-x86-android-tablets-y := core.o x86-android-tablets-main.o
++x86-android-tablets-y := core.o dmi.o x86-android-tablets-main.o
+diff --git a/drivers/platform/x86/x86-android-tablets/dmi.c b/drivers/platform/x86/x86-android-tablets/dmi.c
 new file mode 100644
-index 000000000000..5d04e63e1ebc
+index 000000000000..ec7c0af8d73d
 --- /dev/null
-+++ b/drivers/platform/x86/x86-android-tablets/core.c
-@@ -0,0 +1,363 @@
++++ b/drivers/platform/x86/x86-android-tablets/dmi.c
+@@ -0,0 +1,166 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +/*
 + * DMI based code to deal with broken DSDTs on X86 tablets which ship with
@@ -101,880 +100,427 @@ index 000000000000..5d04e63e1ebc
 + * Copyright (C) 2021-2023 Hans de Goede <hdegoede@redhat.com>
 + */
 +
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/acpi.h>
 +#include <linux/dmi.h>
-+#include <linux/gpio/driver.h>
-+#include <linux/irq.h>
-+#include <linux/module.h>
-+#include <linux/serdev.h>
-+#include <linux/string.h>
++#include <linux/mod_devicetable.h>
 +
 +#include "x86-android-tablets.h"
-+/* For gpiochip_get_desc() which is EXPORT_SYMBOL_GPL() */
-+#include "../../../gpio/gpiolib.h"
-+#include "../../../gpio/gpiolib-acpi.h"
 +
-+static int gpiochip_find_match_label(struct gpio_chip *gc, void *data)
-+{
-+	return gc->label && !strcmp(gc->label, data);
-+}
++/*
++ * In order to have a single MODULE_DEVICE_TABLE(dmi, ...), while allowing
++ * splitting the board descriptions into multiple files, add extern declarations
++ * of the x86_dev_info structs here.
++ */
++extern const struct x86_dev_info acer_b1_750_info;
++extern const struct x86_dev_info advantech_mica_071_info;
++extern const struct x86_dev_info asus_me176c_info;
++extern const struct x86_dev_info asus_tf103c_info;
++extern const struct x86_dev_info chuwi_hi8_info;
++extern const struct x86_dev_info czc_p10t;
++extern const struct x86_dev_info lenovo_yogabook_x9x_info;
++/* Not const as this gets modified by its init callback */
++extern struct x86_dev_info lenovo_yoga_tab2_830_1050_info;
++extern const struct x86_dev_info lenovo_yt3_info;
++extern const struct x86_dev_info medion_lifetab_s10346_info;
++extern const struct x86_dev_info nextbook_ares8_info;
++extern const struct x86_dev_info whitelabel_tm800a550l_info;
++extern const struct x86_dev_info xiaomi_mipad2_info;
 +
-+int x86_android_tablet_get_gpiod(const char *label, int pin, struct gpio_desc **desc)
-+{
-+	struct gpio_desc *gpiod;
-+	struct gpio_chip *chip;
-+
-+	chip = gpiochip_find((void *)label, gpiochip_find_match_label);
-+	if (!chip) {
-+		pr_err("error cannot find GPIO chip %s\n", label);
-+		return -ENODEV;
-+	}
-+
-+	gpiod = gpiochip_get_desc(chip, pin);
-+	if (IS_ERR(gpiod)) {
-+		pr_err("error %ld getting GPIO %s %d\n", PTR_ERR(gpiod), label, pin);
-+		return PTR_ERR(gpiod);
-+	}
-+
-+	*desc = gpiod;
-+	return 0;
-+}
-+
-+int x86_acpi_irq_helper_get(const struct x86_acpi_irq_data *data)
-+{
-+	struct irq_fwspec fwspec = { };
-+	struct irq_domain *domain;
-+	struct acpi_device *adev;
-+	struct gpio_desc *gpiod;
-+	unsigned int irq_type;
-+	acpi_handle handle;
-+	acpi_status status;
-+	int irq, ret;
-+
-+	switch (data->type) {
-+	case X86_ACPI_IRQ_TYPE_APIC:
++const struct dmi_system_id x86_android_tablet_ids[] __initconst = {
++	{
++		/* Acer Iconia One 7 B1-750 */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Insyde"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "VESPA2"),
++		},
++		.driver_data = (void *)&acer_b1_750_info,
++	},
++	{
++		/* Advantech MICA-071 */
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Advantech"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "MICA-071"),
++		},
++		.driver_data = (void *)&advantech_mica_071_info,
++	},
++	{
++		/* Asus MeMO Pad 7 ME176C */
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ME176C"),
++		},
++		.driver_data = (void *)&asus_me176c_info,
++	},
++	{
++		/* Asus TF103C */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "TF103C"),
++		},
++		.driver_data = (void *)&asus_tf103c_info,
++	},
++	{
++		/* Chuwi Hi8 (CWI509) */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
++			DMI_MATCH(DMI_BOARD_NAME, "BYT-PA03C"),
++			DMI_MATCH(DMI_SYS_VENDOR, "ilife"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "S806"),
++		},
++		.driver_data = (void *)&chuwi_hi8_info,
++	},
++	{
++		/* CZC P10T */
++		.ident = "CZC ODEON TPC-10 (\"P10T\")",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "CZC"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "ODEON*TPC-10"),
++		},
++		.driver_data = (void *)&czc_p10t,
++	},
++	{
++		/* CZC P10T variant */
++		.ident = "ViewSonic ViewPad 10",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ViewSonic"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "VPAD10"),
++		},
++		.driver_data = (void *)&czc_p10t,
++	},
++	{
++		/* Lenovo Yoga Book X90F / X91F / X91L */
++		.matches = {
++			/* Non exact match to match all versions */
++			DMI_MATCH(DMI_PRODUCT_NAME, "Lenovo YB1-X9"),
++		},
++		.driver_data = (void *)&lenovo_yogabook_x9x_info,
++	},
++	{
 +		/*
-+		 * The DSDT may already reference the GSI in a device skipped by
-+		 * acpi_quirk_skip_i2c_client_enumeration(). Unregister the GSI
-+		 * to avoid EBUSY errors in this case.
++		 * Lenovo Yoga Tablet 2 830F/L or 1050F/L (The 8" and 10"
++		 * Lenovo Yoga Tablet 2 use the same mainboard)
 +		 */
-+		acpi_unregister_gsi(data->index);
-+		irq = acpi_register_gsi(NULL, data->index, data->trigger, data->polarity);
-+		if (irq < 0)
-+			pr_err("error %d getting APIC IRQ %d\n", irq, data->index);
-+
-+		return irq;
-+	case X86_ACPI_IRQ_TYPE_GPIOINT:
-+		/* Like acpi_dev_gpio_irq_get(), but without parsing ACPI resources */
-+		ret = x86_android_tablet_get_gpiod(data->chip, data->index, &gpiod);
-+		if (ret)
-+			return ret;
-+
-+		irq = gpiod_to_irq(gpiod);
-+		if (irq < 0) {
-+			pr_err("error %d getting IRQ %s %d\n", irq, data->chip, data->index);
-+			return irq;
-+		}
-+
-+		irq_type = acpi_dev_get_irq_type(data->trigger, data->polarity);
-+		if (irq_type != IRQ_TYPE_NONE && irq_type != irq_get_trigger_type(irq))
-+			irq_set_irq_type(irq, irq_type);
-+
-+		return irq;
-+	case X86_ACPI_IRQ_TYPE_PMIC:
-+		status = acpi_get_handle(NULL, data->chip, &handle);
-+		if (ACPI_FAILURE(status)) {
-+			pr_err("error could not get %s handle\n", data->chip);
-+			return -ENODEV;
-+		}
-+
-+		adev = acpi_fetch_acpi_dev(handle);
-+		if (!adev) {
-+			pr_err("error could not get %s adev\n", data->chip);
-+			return -ENODEV;
-+		}
-+
-+		fwspec.fwnode = acpi_fwnode_handle(adev);
-+		domain = irq_find_matching_fwspec(&fwspec, data->domain);
-+		if (!domain) {
-+			pr_err("error could not find IRQ domain for %s\n", data->chip);
-+			return -ENODEV;
-+		}
-+
-+		return irq_create_mapping(domain, data->index);
-+	default:
-+		return 0;
-+	}
-+}
-+
-+static int i2c_client_count;
-+static int pdev_count;
-+static int serdev_count;
-+static struct i2c_client **i2c_clients;
-+static struct platform_device **pdevs;
-+static struct serdev_device **serdevs;
-+static struct gpiod_lookup_table * const *gpiod_lookup_tables;
-+static const struct software_node *bat_swnode;
-+static void (*exit_handler)(void);
-+
-+static __init int x86_instantiate_i2c_client(const struct x86_dev_info *dev_info,
-+					     int idx)
-+{
-+	const struct x86_i2c_client_info *client_info = &dev_info->i2c_client_info[idx];
-+	struct i2c_board_info board_info = client_info->board_info;
-+	struct i2c_adapter *adap;
-+	acpi_handle handle;
-+	acpi_status status;
-+
-+	board_info.irq = x86_acpi_irq_helper_get(&client_info->irq_data);
-+	if (board_info.irq < 0)
-+		return board_info.irq;
-+
-+	status = acpi_get_handle(NULL, client_info->adapter_path, &handle);
-+	if (ACPI_FAILURE(status)) {
-+		pr_err("Error could not get %s handle\n", client_info->adapter_path);
-+		return -ENODEV;
-+	}
-+
-+	adap = i2c_acpi_find_adapter_by_handle(handle);
-+	if (!adap) {
-+		pr_err("error could not get %s adapter\n", client_info->adapter_path);
-+		return -ENODEV;
-+	}
-+
-+	i2c_clients[idx] = i2c_new_client_device(adap, &board_info);
-+	put_device(&adap->dev);
-+	if (IS_ERR(i2c_clients[idx]))
-+		return dev_err_probe(&adap->dev, PTR_ERR(i2c_clients[idx]),
-+				      "creating I2C-client %d\n", idx);
-+
-+	return 0;
-+}
-+
-+static __init int x86_instantiate_serdev(const struct x86_serdev_info *info, int idx)
-+{
-+	struct acpi_device *ctrl_adev, *serdev_adev;
-+	struct serdev_device *serdev;
-+	struct device *ctrl_dev;
-+	int ret = -ENODEV;
-+
-+	ctrl_adev = acpi_dev_get_first_match_dev(info->ctrl_hid, info->ctrl_uid, -1);
-+	if (!ctrl_adev) {
-+		pr_err("error could not get %s/%s ctrl adev\n",
-+		       info->ctrl_hid, info->ctrl_uid);
-+		return -ENODEV;
-+	}
-+
-+	serdev_adev = acpi_dev_get_first_match_dev(info->serdev_hid, NULL, -1);
-+	if (!serdev_adev) {
-+		pr_err("error could not get %s serdev adev\n", info->serdev_hid);
-+		goto put_ctrl_adev;
-+	}
-+
-+	/* get_first_physical_node() returns a weak ref, no need to put() it */
-+	ctrl_dev = acpi_get_first_physical_node(ctrl_adev);
-+	if (!ctrl_dev)	{
-+		pr_err("error could not get %s/%s ctrl physical dev\n",
-+		       info->ctrl_hid, info->ctrl_uid);
-+		goto put_serdev_adev;
-+	}
-+
-+	/* ctrl_dev now points to the controller's parent, get the controller */
-+	ctrl_dev = device_find_child_by_name(ctrl_dev, info->ctrl_devname);
-+	if (!ctrl_dev) {
-+		pr_err("error could not get %s/%s %s ctrl dev\n",
-+		       info->ctrl_hid, info->ctrl_uid, info->ctrl_devname);
-+		goto put_serdev_adev;
-+	}
-+
-+	serdev = serdev_device_alloc(to_serdev_controller(ctrl_dev));
-+	if (!serdev) {
-+		ret = -ENOMEM;
-+		goto put_serdev_adev;
-+	}
-+
-+	ACPI_COMPANION_SET(&serdev->dev, serdev_adev);
-+	acpi_device_set_enumerated(serdev_adev);
-+
-+	ret = serdev_device_add(serdev);
-+	if (ret) {
-+		dev_err(&serdev->dev, "error %d adding serdev\n", ret);
-+		serdev_device_put(serdev);
-+		goto put_serdev_adev;
-+	}
-+
-+	serdevs[idx] = serdev;
-+
-+put_serdev_adev:
-+	acpi_dev_put(serdev_adev);
-+put_ctrl_adev:
-+	acpi_dev_put(ctrl_adev);
-+	return ret;
-+}
-+
-+static void x86_android_tablet_cleanup(void)
-+{
-+	int i;
-+
-+	for (i = 0; i < serdev_count; i++) {
-+		if (serdevs[i])
-+			serdev_device_remove(serdevs[i]);
-+	}
-+
-+	kfree(serdevs);
-+
-+	for (i = 0; i < pdev_count; i++)
-+		platform_device_unregister(pdevs[i]);
-+
-+	kfree(pdevs);
-+
-+	for (i = 0; i < i2c_client_count; i++)
-+		i2c_unregister_device(i2c_clients[i]);
-+
-+	kfree(i2c_clients);
-+
-+	if (exit_handler)
-+		exit_handler();
-+
-+	for (i = 0; gpiod_lookup_tables && gpiod_lookup_tables[i]; i++)
-+		gpiod_remove_lookup_table(gpiod_lookup_tables[i]);
-+
-+	software_node_unregister(bat_swnode);
-+}
-+
-+extern const struct dmi_system_id x86_android_tablet_ids[];
-+
-+static __init int x86_android_tablet_init(void)
-+{
-+	const struct x86_dev_info *dev_info;
-+	const struct dmi_system_id *id;
-+	struct gpio_chip *chip;
-+	int i, ret = 0;
-+
-+	id = dmi_first_match(x86_android_tablet_ids);
-+	if (!id)
-+		return -ENODEV;
-+
-+	dev_info = id->driver_data;
-+
-+	/*
-+	 * The broken DSDTs on these devices often also include broken
-+	 * _AEI (ACPI Event Interrupt) handlers, disable these.
-+	 */
-+	if (dev_info->invalid_aei_gpiochip) {
-+		chip = gpiochip_find(dev_info->invalid_aei_gpiochip,
-+				     gpiochip_find_match_label);
-+		if (!chip) {
-+			pr_err("error cannot find GPIO chip %s\n", dev_info->invalid_aei_gpiochip);
-+			return -ENODEV;
-+		}
-+		acpi_gpiochip_free_interrupts(chip);
-+	}
-+
-+	/*
-+	 * Since this runs from module_init() it cannot use -EPROBE_DEFER,
-+	 * instead pre-load any modules which are listed as requirements.
-+	 */
-+	for (i = 0; dev_info->modules && dev_info->modules[i]; i++)
-+		request_module(dev_info->modules[i]);
-+
-+	bat_swnode = dev_info->bat_swnode;
-+	if (bat_swnode) {
-+		ret = software_node_register(bat_swnode);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	gpiod_lookup_tables = dev_info->gpiod_lookup_tables;
-+	for (i = 0; gpiod_lookup_tables && gpiod_lookup_tables[i]; i++)
-+		gpiod_add_lookup_table(gpiod_lookup_tables[i]);
-+
-+	if (dev_info->init) {
-+		ret = dev_info->init();
-+		if (ret < 0) {
-+			x86_android_tablet_cleanup();
-+			return ret;
-+		}
-+		exit_handler = dev_info->exit;
-+	}
-+
-+	i2c_clients = kcalloc(dev_info->i2c_client_count, sizeof(*i2c_clients), GFP_KERNEL);
-+	if (!i2c_clients) {
-+		x86_android_tablet_cleanup();
-+		return -ENOMEM;
-+	}
-+
-+	i2c_client_count = dev_info->i2c_client_count;
-+	for (i = 0; i < i2c_client_count; i++) {
-+		ret = x86_instantiate_i2c_client(dev_info, i);
-+		if (ret < 0) {
-+			x86_android_tablet_cleanup();
-+			return ret;
-+		}
-+	}
-+
-+	pdevs = kcalloc(dev_info->pdev_count, sizeof(*pdevs), GFP_KERNEL);
-+	if (!pdevs) {
-+		x86_android_tablet_cleanup();
-+		return -ENOMEM;
-+	}
-+
-+	pdev_count = dev_info->pdev_count;
-+	for (i = 0; i < pdev_count; i++) {
-+		pdevs[i] = platform_device_register_full(&dev_info->pdev_info[i]);
-+		if (IS_ERR(pdevs[i])) {
-+			x86_android_tablet_cleanup();
-+			return PTR_ERR(pdevs[i]);
-+		}
-+	}
-+
-+	serdevs = kcalloc(dev_info->serdev_count, sizeof(*serdevs), GFP_KERNEL);
-+	if (!serdevs) {
-+		x86_android_tablet_cleanup();
-+		return -ENOMEM;
-+	}
-+
-+	serdev_count = dev_info->serdev_count;
-+	for (i = 0; i < serdev_count; i++) {
-+		ret = x86_instantiate_serdev(&dev_info->serdev_info[i], i);
-+		if (ret < 0) {
-+			x86_android_tablet_cleanup();
-+			return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+module_init(x86_android_tablet_init);
-+module_exit(x86_android_tablet_cleanup);
-+
-+MODULE_AUTHOR("Hans de Goede <hdegoede@redhat.com>");
-+MODULE_DESCRIPTION("X86 Android tablets DSDT fixups driver");
-+MODULE_LICENSE("GPL");
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Intel Corp."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "VALLEYVIEW C0 PLATFORM"),
++			DMI_MATCH(DMI_BOARD_NAME, "BYT-T FFD8"),
++			/* Partial match on beginning of BIOS version */
++			DMI_MATCH(DMI_BIOS_VERSION, "BLADE_21"),
++		},
++		.driver_data = (void *)&lenovo_yoga_tab2_830_1050_info,
++	},
++	{
++		/* Lenovo Yoga Tab 3 Pro YT3-X90F */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "CHERRYVIEW D1 PLATFORM"),
++			DMI_MATCH(DMI_PRODUCT_VERSION, "Blade3-10A-001"),
++		},
++		.driver_data = (void *)&lenovo_yt3_info,
++	},
++	{
++		/* Medion Lifetab S10346 */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
++			DMI_MATCH(DMI_BOARD_NAME, "Aptio CRB"),
++			/* Above strings are much too generic, also match on BIOS date */
++			DMI_MATCH(DMI_BIOS_DATE, "10/22/2015"),
++		},
++		.driver_data = (void *)&medion_lifetab_s10346_info,
++	},
++	{
++		/* Nextbook Ares 8 */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Insyde"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "M890BAP"),
++		},
++		.driver_data = (void *)&nextbook_ares8_info,
++	},
++	{
++		/* Whitelabel (sold as various brands) TM800A550L */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
++			DMI_MATCH(DMI_BOARD_NAME, "Aptio CRB"),
++			/* Above strings are too generic, also match on BIOS version */
++			DMI_MATCH(DMI_BIOS_VERSION, "ZY-8-BI-PX4S70VTR400-X423B-005-D"),
++		},
++		.driver_data = (void *)&whitelabel_tm800a550l_info,
++	},
++	{
++		/* Xiaomi Mi Pad 2 */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Xiaomi Inc"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Mipad2"),
++		},
++		.driver_data = (void *)&xiaomi_mipad2_info,
++	},
++	{ }
++};
++MODULE_DEVICE_TABLE(dmi, x86_android_tablet_ids);
 diff --git a/drivers/platform/x86/x86-android-tablets/x86-android-tablets-main.c b/drivers/platform/x86/x86-android-tablets/x86-android-tablets-main.c
-index 08cc5e158460..05e862756953 100644
+index 05e862756953..4914b43eb4cd 100644
 --- a/drivers/platform/x86/x86-android-tablets/x86-android-tablets-main.c
 +++ b/drivers/platform/x86/x86-android-tablets/x86-android-tablets-main.c
-@@ -14,175 +14,17 @@
- #include <linux/dmi.h>
+@@ -11,11 +11,9 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
+ #include <linux/acpi.h>
+-#include <linux/dmi.h>
  #include <linux/efi.h>
  #include <linux/gpio_keys.h>
--#include <linux/gpio/consumer.h>
--#include <linux/gpio/driver.h>
--#include <linux/gpio/machine.h>
--#include <linux/i2c.h>
  #include <linux/input.h>
--#include <linux/irq.h>
--#include <linux/irqdomain.h>
--#include <linux/module.h>
- #include <linux/mod_devicetable.h>
+-#include <linux/mod_devicetable.h>
  #include <linux/pinctrl/consumer.h>
  #include <linux/pinctrl/machine.h>
  #include <linux/platform_data/lp855x.h>
--#include <linux/platform_device.h>
- #include <linux/power/bq24190_charger.h>
- #include <linux/reboot.h>
- #include <linux/rmi.h>
--#include <linux/serdev.h>
- #include <linux/spi/spi.h>
--#include <linux/string.h>
--/* For gpio_get_desc() which is EXPORT_SYMBOL_GPL() */
--#include "../../../gpio/gpiolib.h"
--#include "../../../gpio/gpiolib-acpi.h"
+@@ -181,7 +179,7 @@ static struct gpiod_lookup_table * const acer_b1_750_gpios[] = {
+ 	NULL
+ };
  
--/*
-- * Helper code to get Linux IRQ numbers given a description of the IRQ source
-- * (either IOAPIC index, or GPIO chip name + pin-number).
-- */
--enum x86_acpi_irq_type {
--	X86_ACPI_IRQ_TYPE_NONE,
--	X86_ACPI_IRQ_TYPE_APIC,
--	X86_ACPI_IRQ_TYPE_GPIOINT,
--	X86_ACPI_IRQ_TYPE_PMIC,
--};
--
--struct x86_acpi_irq_data {
--	char *chip;   /* GPIO chip label (GPIOINT) or PMIC ACPI path (PMIC) */
--	enum x86_acpi_irq_type type;
--	enum irq_domain_bus_token domain;
--	int index;
--	int trigger;  /* ACPI_EDGE_SENSITIVE / ACPI_LEVEL_SENSITIVE */
--	int polarity; /* ACPI_ACTIVE_HIGH / ACPI_ACTIVE_LOW / ACPI_ACTIVE_BOTH */
--};
--
--static int gpiochip_find_match_label(struct gpio_chip *gc, void *data)
--{
--	return gc->label && !strcmp(gc->label, data);
--}
--
--static int x86_android_tablet_get_gpiod(char *label, int pin, struct gpio_desc **desc)
--{
--	struct gpio_desc *gpiod;
--	struct gpio_chip *chip;
--
--	chip = gpiochip_find(label, gpiochip_find_match_label);
--	if (!chip) {
--		pr_err("error cannot find GPIO chip %s\n", label);
--		return -ENODEV;
--	}
--
--	gpiod = gpiochip_get_desc(chip, pin);
--	if (IS_ERR(gpiod)) {
--		pr_err("error %ld getting GPIO %s %d\n", PTR_ERR(gpiod), label, pin);
--		return PTR_ERR(gpiod);
--	}
--
--	*desc = gpiod;
--	return 0;
--}
--
--static int x86_acpi_irq_helper_get(const struct x86_acpi_irq_data *data)
--{
--	struct irq_fwspec fwspec = { };
--	struct irq_domain *domain;
--	struct acpi_device *adev;
--	struct gpio_desc *gpiod;
--	unsigned int irq_type;
--	acpi_handle handle;
--	acpi_status status;
--	int irq, ret;
--
--	switch (data->type) {
--	case X86_ACPI_IRQ_TYPE_APIC:
--		/*
--		 * The DSDT may already reference the GSI in a device skipped by
--		 * acpi_quirk_skip_i2c_client_enumeration(). Unregister the GSI
--		 * to avoid EBUSY errors in this case.
--		 */
--		acpi_unregister_gsi(data->index);
--		irq = acpi_register_gsi(NULL, data->index, data->trigger, data->polarity);
--		if (irq < 0)
--			pr_err("error %d getting APIC IRQ %d\n", irq, data->index);
--
--		return irq;
--	case X86_ACPI_IRQ_TYPE_GPIOINT:
--		/* Like acpi_dev_gpio_irq_get(), but without parsing ACPI resources */
--		ret = x86_android_tablet_get_gpiod(data->chip, data->index, &gpiod);
--		if (ret)
--			return ret;
--
--		irq = gpiod_to_irq(gpiod);
--		if (irq < 0) {
--			pr_err("error %d getting IRQ %s %d\n", irq, data->chip, data->index);
--			return irq;
--		}
--
--		irq_type = acpi_dev_get_irq_type(data->trigger, data->polarity);
--		if (irq_type != IRQ_TYPE_NONE && irq_type != irq_get_trigger_type(irq))
--			irq_set_irq_type(irq, irq_type);
--
--		return irq;
--	case X86_ACPI_IRQ_TYPE_PMIC:
--		status = acpi_get_handle(NULL, data->chip, &handle);
--		if (ACPI_FAILURE(status)) {
--			pr_err("error could not get %s handle\n", data->chip);
--			return -ENODEV;
--		}
--
--		adev = acpi_fetch_acpi_dev(handle);
--		if (!adev) {
--			pr_err("error could not get %s adev\n", data->chip);
--			return -ENODEV;
--		}
--
--		fwspec.fwnode = acpi_fwnode_handle(adev);
--		domain = irq_find_matching_fwspec(&fwspec, data->domain);
--		if (!domain) {
--			pr_err("error could not find IRQ domain for %s\n", data->chip);
--			return -ENODEV;
--		}
--
--		return irq_create_mapping(domain, data->index);
--	default:
--		return 0;
--	}
--}
--
--struct x86_i2c_client_info {
--	struct i2c_board_info board_info;
--	char *adapter_path;
--	struct x86_acpi_irq_data irq_data;
--};
--
--struct x86_serdev_info {
--	const char *ctrl_hid;
--	const char *ctrl_uid;
--	const char *ctrl_devname;
--	/*
--	 * ATM the serdev core only supports of or ACPI matching; and sofar all
--	 * Android x86 tablets DSDTs have usable serdev nodes, but sometimes
--	 * under the wrong controller. So we just tie the existing serdev ACPI
--	 * node to the right controller.
--	 */
--	const char *serdev_hid;
--};
--
--struct x86_dev_info {
--	char *invalid_aei_gpiochip;
--	const char * const *modules;
--	const struct software_node *bat_swnode;
--	struct gpiod_lookup_table * const *gpiod_lookup_tables;
--	const struct x86_i2c_client_info *i2c_client_info;
--	const struct platform_device_info *pdev_info;
--	const struct x86_serdev_info *serdev_info;
--	int i2c_client_count;
--	int pdev_count;
--	int serdev_count;
--	int (*init)(void);
--	void (*exit)(void);
--};
-+#include "x86-android-tablets.h"
+-static const struct x86_dev_info acer_b1_750_info __initconst = {
++const struct x86_dev_info acer_b1_750_info __initconst = {
+ 	.i2c_client_info = acer_b1_750_i2c_clients,
+ 	.i2c_client_count = ARRAY_SIZE(acer_b1_750_i2c_clients),
+ 	.pdev_info = int3496_pdevs,
+@@ -233,7 +231,7 @@ static int __init advantech_mica_071_init(void)
+ 	return 0;
+ }
  
- /* Generic / shared charger / battery settings */
- static const char * const tusb1211_chg_det_psy[] = { "tusb1211-charger-detect" };
-@@ -1507,7 +1349,7 @@ static const struct x86_dev_info xiaomi_mipad2_info __initconst = {
+-static const struct x86_dev_info advantech_mica_071_info __initconst = {
++const struct x86_dev_info advantech_mica_071_info __initconst = {
+ 	.pdev_info = advantech_mica_071_pdevs,
+ 	.pdev_count = ARRAY_SIZE(advantech_mica_071_pdevs),
+ 	.init = advantech_mica_071_init,
+@@ -414,7 +412,7 @@ static struct gpiod_lookup_table * const asus_me176c_gpios[] = {
+ 	NULL
+ };
+ 
+-static const struct x86_dev_info asus_me176c_info __initconst = {
++const struct x86_dev_info asus_me176c_info __initconst = {
+ 	.i2c_client_info = asus_me176c_i2c_clients,
+ 	.i2c_client_count = ARRAY_SIZE(asus_me176c_i2c_clients),
+ 	.pdev_info = asus_me176c_tf103c_pdevs,
+@@ -559,7 +557,7 @@ static struct gpiod_lookup_table * const asus_tf103c_gpios[] = {
+ 	NULL
+ };
+ 
+-static const struct x86_dev_info asus_tf103c_info __initconst = {
++const struct x86_dev_info asus_tf103c_info __initconst = {
+ 	.i2c_client_info = asus_tf103c_i2c_clients,
+ 	.i2c_client_count = ARRAY_SIZE(asus_tf103c_i2c_clients),
+ 	.pdev_info = asus_me176c_tf103c_pdevs,
+@@ -650,7 +648,7 @@ static int __init chuwi_hi8_init(void)
+ 	return 0;
+ }
+ 
+-static const struct x86_dev_info chuwi_hi8_info __initconst = {
++const struct x86_dev_info chuwi_hi8_info __initconst = {
+ 	.i2c_client_info = chuwi_hi8_i2c_clients,
+ 	.i2c_client_count = ARRAY_SIZE(chuwi_hi8_i2c_clients),
+ 	.init = chuwi_hi8_init,
+@@ -685,7 +683,7 @@ static int __init czc_p10t_init(void)
+ 	return 0;
+ }
+ 
+-static const struct x86_dev_info czc_p10t __initconst = {
++const struct x86_dev_info czc_p10t __initconst = {
+ 	.init = czc_p10t_init,
+ };
+ 
+@@ -703,7 +701,7 @@ static const struct x86_i2c_client_info lenovo_yogabook_x9x_i2c_clients[] __init
+ 	},
+ };
+ 
+-static const struct x86_dev_info lenovo_yogabook_x9x_info __initconst = {
++const struct x86_dev_info lenovo_yogabook_x9x_info __initconst = {
+ 	.i2c_client_info = lenovo_yogabook_x9x_i2c_clients,
+ 	.i2c_client_count = ARRAY_SIZE(lenovo_yogabook_x9x_i2c_clients),
+ };
+@@ -814,7 +812,7 @@ static struct gpiod_lookup_table * const lenovo_yoga_tab2_830_1050_gpios[] = {
+ static int __init lenovo_yoga_tab2_830_1050_init(void);
+ static void lenovo_yoga_tab2_830_1050_exit(void);
+ 
+-static struct x86_dev_info lenovo_yoga_tab2_830_1050_info __initdata = {
++struct x86_dev_info lenovo_yoga_tab2_830_1050_info __initdata = {
+ 	.i2c_client_info = lenovo_yoga_tab2_830_1050_i2c_clients,
+ 	/* i2c_client_count gets set by lenovo_yoga_tab2_830_1050_init() */
+ 	.pdev_info = int3496_pdevs,
+@@ -1079,7 +1077,7 @@ static int __init lenovo_yt3_init(void)
+ 	return 0;
+ }
+ 
+-static const struct x86_dev_info lenovo_yt3_info __initconst = {
++const struct x86_dev_info lenovo_yt3_info __initconst = {
+ 	.i2c_client_info = lenovo_yt3_i2c_clients,
+ 	.i2c_client_count = ARRAY_SIZE(lenovo_yt3_i2c_clients),
+ 	.init = lenovo_yt3_init,
+@@ -1161,7 +1159,7 @@ static struct gpiod_lookup_table * const medion_lifetab_s10346_gpios[] = {
+ 	NULL
+ };
+ 
+-static const struct x86_dev_info medion_lifetab_s10346_info __initconst = {
++const struct x86_dev_info medion_lifetab_s10346_info __initconst = {
+ 	.i2c_client_info = medion_lifetab_s10346_i2c_clients,
+ 	.i2c_client_count = ARRAY_SIZE(medion_lifetab_s10346_i2c_clients),
+ 	.gpiod_lookup_tables = medion_lifetab_s10346_gpios,
+@@ -1227,7 +1225,7 @@ static struct gpiod_lookup_table * const nextbook_ares8_gpios[] = {
+ 	NULL
+ };
+ 
+-static const struct x86_dev_info nextbook_ares8_info __initconst = {
++const struct x86_dev_info nextbook_ares8_info __initconst = {
+ 	.i2c_client_info = nextbook_ares8_i2c_clients,
+ 	.i2c_client_count = ARRAY_SIZE(nextbook_ares8_i2c_clients),
+ 	.pdev_info = int3496_pdevs,
+@@ -1310,7 +1308,7 @@ static struct gpiod_lookup_table * const whitelabel_tm800a550l_gpios[] = {
+ 	NULL
+ };
+ 
+-static const struct x86_dev_info whitelabel_tm800a550l_info __initconst = {
++const struct x86_dev_info whitelabel_tm800a550l_info __initconst = {
+ 	.i2c_client_info = whitelabel_tm800a550l_i2c_clients,
+ 	.i2c_client_count = ARRAY_SIZE(whitelabel_tm800a550l_i2c_clients),
+ 	.gpiod_lookup_tables = whitelabel_tm800a550l_gpios,
+@@ -1344,139 +1342,7 @@ static const struct x86_i2c_client_info xiaomi_mipad2_i2c_clients[] __initconst
+ 	},
+ };
+ 
+-static const struct x86_dev_info xiaomi_mipad2_info __initconst = {
++const struct x86_dev_info xiaomi_mipad2_info __initconst = {
+ 	.i2c_client_info = xiaomi_mipad2_i2c_clients,
  	.i2c_client_count = ARRAY_SIZE(xiaomi_mipad2_i2c_clients),
  };
- 
--static const struct dmi_system_id x86_android_tablet_ids[] __initconst = {
-+const struct dmi_system_id x86_android_tablet_ids[] __initconst = {
- 	{
- 		/* Acer Iconia One 7 B1-750 */
- 		.matches = {
-@@ -1638,247 +1480,3 @@ static const struct dmi_system_id x86_android_tablet_ids[] __initconst = {
- 	{ }
- };
- MODULE_DEVICE_TABLE(dmi, x86_android_tablet_ids);
 -
--static int i2c_client_count;
--static int pdev_count;
--static int serdev_count;
--static struct i2c_client **i2c_clients;
--static struct platform_device **pdevs;
--static struct serdev_device **serdevs;
--static struct gpiod_lookup_table * const *gpiod_lookup_tables;
--static const struct software_node *bat_swnode;
--static void (*exit_handler)(void);
--
--static __init int x86_instantiate_i2c_client(const struct x86_dev_info *dev_info,
--					     int idx)
--{
--	const struct x86_i2c_client_info *client_info = &dev_info->i2c_client_info[idx];
--	struct i2c_board_info board_info = client_info->board_info;
--	struct i2c_adapter *adap;
--	acpi_handle handle;
--	acpi_status status;
--
--	board_info.irq = x86_acpi_irq_helper_get(&client_info->irq_data);
--	if (board_info.irq < 0)
--		return board_info.irq;
--
--	status = acpi_get_handle(NULL, client_info->adapter_path, &handle);
--	if (ACPI_FAILURE(status)) {
--		pr_err("Error could not get %s handle\n", client_info->adapter_path);
--		return -ENODEV;
--	}
--
--	adap = i2c_acpi_find_adapter_by_handle(handle);
--	if (!adap) {
--		pr_err("error could not get %s adapter\n", client_info->adapter_path);
--		return -ENODEV;
--	}
--
--	i2c_clients[idx] = i2c_new_client_device(adap, &board_info);
--	put_device(&adap->dev);
--	if (IS_ERR(i2c_clients[idx]))
--		return dev_err_probe(&adap->dev, PTR_ERR(i2c_clients[idx]),
--				      "creating I2C-client %d\n", idx);
--
--	return 0;
--}
--
--static __init int x86_instantiate_serdev(const struct x86_serdev_info *info, int idx)
--{
--	struct acpi_device *ctrl_adev, *serdev_adev;
--	struct serdev_device *serdev;
--	struct device *ctrl_dev;
--	int ret = -ENODEV;
--
--	ctrl_adev = acpi_dev_get_first_match_dev(info->ctrl_hid, info->ctrl_uid, -1);
--	if (!ctrl_adev) {
--		pr_err("error could not get %s/%s ctrl adev\n",
--		       info->ctrl_hid, info->ctrl_uid);
--		return -ENODEV;
--	}
--
--	serdev_adev = acpi_dev_get_first_match_dev(info->serdev_hid, NULL, -1);
--	if (!serdev_adev) {
--		pr_err("error could not get %s serdev adev\n", info->serdev_hid);
--		goto put_ctrl_adev;
--	}
--
--	/* get_first_physical_node() returns a weak ref, no need to put() it */
--	ctrl_dev = acpi_get_first_physical_node(ctrl_adev);
--	if (!ctrl_dev)	{
--		pr_err("error could not get %s/%s ctrl physical dev\n",
--		       info->ctrl_hid, info->ctrl_uid);
--		goto put_serdev_adev;
--	}
--
--	/* ctrl_dev now points to the controller's parent, get the controller */
--	ctrl_dev = device_find_child_by_name(ctrl_dev, info->ctrl_devname);
--	if (!ctrl_dev) {
--		pr_err("error could not get %s/%s %s ctrl dev\n",
--		       info->ctrl_hid, info->ctrl_uid, info->ctrl_devname);
--		goto put_serdev_adev;
--	}
--
--	serdev = serdev_device_alloc(to_serdev_controller(ctrl_dev));
--	if (!serdev) {
--		ret = -ENOMEM;
--		goto put_serdev_adev;
--	}
--
--	ACPI_COMPANION_SET(&serdev->dev, serdev_adev);
--	acpi_device_set_enumerated(serdev_adev);
--
--	ret = serdev_device_add(serdev);
--	if (ret) {
--		dev_err(&serdev->dev, "error %d adding serdev\n", ret);
--		serdev_device_put(serdev);
--		goto put_serdev_adev;
--	}
--
--	serdevs[idx] = serdev;
--
--put_serdev_adev:
--	acpi_dev_put(serdev_adev);
--put_ctrl_adev:
--	acpi_dev_put(ctrl_adev);
--	return ret;
--}
--
--static void x86_android_tablet_cleanup(void)
--{
--	int i;
--
--	for (i = 0; i < serdev_count; i++) {
--		if (serdevs[i])
--			serdev_device_remove(serdevs[i]);
--	}
--
--	kfree(serdevs);
--
--	for (i = 0; i < pdev_count; i++)
--		platform_device_unregister(pdevs[i]);
--
--	kfree(pdevs);
--
--	for (i = 0; i < i2c_client_count; i++)
--		i2c_unregister_device(i2c_clients[i]);
--
--	kfree(i2c_clients);
--
--	if (exit_handler)
--		exit_handler();
--
--	for (i = 0; gpiod_lookup_tables && gpiod_lookup_tables[i]; i++)
--		gpiod_remove_lookup_table(gpiod_lookup_tables[i]);
--
--	software_node_unregister(bat_swnode);
--}
--
--static __init int x86_android_tablet_init(void)
--{
--	const struct x86_dev_info *dev_info;
--	const struct dmi_system_id *id;
--	struct gpio_chip *chip;
--	int i, ret = 0;
--
--	id = dmi_first_match(x86_android_tablet_ids);
--	if (!id)
--		return -ENODEV;
--
--	dev_info = id->driver_data;
--
--	/*
--	 * The broken DSDTs on these devices often also include broken
--	 * _AEI (ACPI Event Interrupt) handlers, disable these.
--	 */
--	if (dev_info->invalid_aei_gpiochip) {
--		chip = gpiochip_find(dev_info->invalid_aei_gpiochip,
--				     gpiochip_find_match_label);
--		if (!chip) {
--			pr_err("error cannot find GPIO chip %s\n", dev_info->invalid_aei_gpiochip);
--			return -ENODEV;
--		}
--		acpi_gpiochip_free_interrupts(chip);
--	}
--
--	/*
--	 * Since this runs from module_init() it cannot use -EPROBE_DEFER,
--	 * instead pre-load any modules which are listed as requirements.
--	 */
--	for (i = 0; dev_info->modules && dev_info->modules[i]; i++)
--		request_module(dev_info->modules[i]);
--
--	bat_swnode = dev_info->bat_swnode;
--	if (bat_swnode) {
--		ret = software_node_register(bat_swnode);
--		if (ret)
--			return ret;
--	}
--
--	gpiod_lookup_tables = dev_info->gpiod_lookup_tables;
--	for (i = 0; gpiod_lookup_tables && gpiod_lookup_tables[i]; i++)
--		gpiod_add_lookup_table(gpiod_lookup_tables[i]);
--
--	if (dev_info->init) {
--		ret = dev_info->init();
--		if (ret < 0) {
--			x86_android_tablet_cleanup();
--			return ret;
--		}
--		exit_handler = dev_info->exit;
--	}
--
--	i2c_clients = kcalloc(dev_info->i2c_client_count, sizeof(*i2c_clients), GFP_KERNEL);
--	if (!i2c_clients) {
--		x86_android_tablet_cleanup();
--		return -ENOMEM;
--	}
--
--	i2c_client_count = dev_info->i2c_client_count;
--	for (i = 0; i < i2c_client_count; i++) {
--		ret = x86_instantiate_i2c_client(dev_info, i);
--		if (ret < 0) {
--			x86_android_tablet_cleanup();
--			return ret;
--		}
--	}
--
--	pdevs = kcalloc(dev_info->pdev_count, sizeof(*pdevs), GFP_KERNEL);
--	if (!pdevs) {
--		x86_android_tablet_cleanup();
--		return -ENOMEM;
--	}
--
--	pdev_count = dev_info->pdev_count;
--	for (i = 0; i < pdev_count; i++) {
--		pdevs[i] = platform_device_register_full(&dev_info->pdev_info[i]);
--		if (IS_ERR(pdevs[i])) {
--			x86_android_tablet_cleanup();
--			return PTR_ERR(pdevs[i]);
--		}
--	}
--
--	serdevs = kcalloc(dev_info->serdev_count, sizeof(*serdevs), GFP_KERNEL);
--	if (!serdevs) {
--		x86_android_tablet_cleanup();
--		return -ENOMEM;
--	}
--
--	serdev_count = dev_info->serdev_count;
--	for (i = 0; i < serdev_count; i++) {
--		ret = x86_instantiate_serdev(&dev_info->serdev_info[i], i);
--		if (ret < 0) {
--			x86_android_tablet_cleanup();
--			return ret;
--		}
--	}
--
--	return 0;
--}
--
--module_init(x86_android_tablet_init);
--module_exit(x86_android_tablet_cleanup);
--
--MODULE_AUTHOR("Hans de Goede <hdegoede@redhat.com>");
--MODULE_DESCRIPTION("X86 Android tablets DSDT fixups driver");
--MODULE_LICENSE("GPL");
-diff --git a/drivers/platform/x86/x86-android-tablets/x86-android-tablets.h b/drivers/platform/x86/x86-android-tablets/x86-android-tablets.h
-new file mode 100644
-index 000000000000..2023b53e0df2
---- /dev/null
-+++ b/drivers/platform/x86/x86-android-tablets/x86-android-tablets.h
-@@ -0,0 +1,77 @@
-+/* SPDX-License-Identifier: GPL-2.0+
-+ *
-+ * DMI based code to deal with broken DSDTs on X86 tablets which ship with
-+ * Android as (part of) the factory image. The factory kernels shipped on these
-+ * devices typically have a bunch of things hardcoded, rather than specified
-+ * in their DSDT.
-+ *
-+ * Copyright (C) 2021-2023 Hans de Goede <hdegoede@redhat.com>
-+ */
-+#ifndef __X86_ANDROID_TABLETS_H
-+#define __X86_ANDROID_TABLETS_H
-+
-+#include <linux/gpio/consumer.h>
-+#include <linux/gpio/machine.h>
-+#include <linux/i2c.h>
-+#include <linux/irqdomain_defs.h>
-+#include <linux/platform_device.h>
-+
-+/*
-+ * Helpers to get Linux IRQ numbers given a description of the IRQ source
-+ * (either IOAPIC index, or GPIO chip name + pin-number).
-+ */
-+enum x86_acpi_irq_type {
-+	X86_ACPI_IRQ_TYPE_NONE,
-+	X86_ACPI_IRQ_TYPE_APIC,
-+	X86_ACPI_IRQ_TYPE_GPIOINT,
-+	X86_ACPI_IRQ_TYPE_PMIC,
-+};
-+
-+struct x86_acpi_irq_data {
-+	char *chip;   /* GPIO chip label (GPIOINT) or PMIC ACPI path (PMIC) */
-+	enum x86_acpi_irq_type type;
-+	enum irq_domain_bus_token domain;
-+	int index;
-+	int trigger;  /* ACPI_EDGE_SENSITIVE / ACPI_LEVEL_SENSITIVE */
-+	int polarity; /* ACPI_ACTIVE_HIGH / ACPI_ACTIVE_LOW / ACPI_ACTIVE_BOTH */
-+};
-+
-+/* Structs to describe devices to instantiate */
-+struct x86_i2c_client_info {
-+	struct i2c_board_info board_info;
-+	char *adapter_path;
-+	struct x86_acpi_irq_data irq_data;
-+};
-+
-+struct x86_serdev_info {
-+	const char *ctrl_hid;
-+	const char *ctrl_uid;
-+	const char *ctrl_devname;
-+	/*
-+	 * ATM the serdev core only supports of or ACPI matching; and sofar all
-+	 * Android x86 tablets DSDTs have usable serdev nodes, but sometimes
-+	 * under the wrong controller. So we just tie the existing serdev ACPI
-+	 * node to the right controller.
-+	 */
-+	const char *serdev_hid;
-+};
-+
-+struct x86_dev_info {
-+	char *invalid_aei_gpiochip;
-+	const char * const *modules;
-+	const struct software_node *bat_swnode;
-+	struct gpiod_lookup_table * const *gpiod_lookup_tables;
-+	const struct x86_i2c_client_info *i2c_client_info;
-+	const struct platform_device_info *pdev_info;
-+	const struct x86_serdev_info *serdev_info;
-+	int i2c_client_count;
-+	int pdev_count;
-+	int serdev_count;
-+	int (*init)(void);
-+	void (*exit)(void);
-+};
-+
-+int x86_android_tablet_get_gpiod(const char *label, int pin, struct gpio_desc **desc);
-+int x86_acpi_irq_helper_get(const struct x86_acpi_irq_data *data);
-+
-+#endif
+-const struct dmi_system_id x86_android_tablet_ids[] __initconst = {
+-	{
+-		/* Acer Iconia One 7 B1-750 */
+-		.matches = {
+-			DMI_MATCH(DMI_SYS_VENDOR, "Insyde"),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "VESPA2"),
+-		},
+-		.driver_data = (void *)&acer_b1_750_info,
+-	},
+-	{
+-		/* Advantech MICA-071 */
+-		.matches = {
+-			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Advantech"),
+-			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "MICA-071"),
+-		},
+-		.driver_data = (void *)&advantech_mica_071_info,
+-	},
+-	{
+-		/* Asus MeMO Pad 7 ME176C */
+-		.matches = {
+-			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+-			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ME176C"),
+-		},
+-		.driver_data = (void *)&asus_me176c_info,
+-	},
+-	{
+-		/* Asus TF103C */
+-		.matches = {
+-			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "TF103C"),
+-		},
+-		.driver_data = (void *)&asus_tf103c_info,
+-	},
+-	{
+-		/* Chuwi Hi8 (CWI509) */
+-		.matches = {
+-			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
+-			DMI_MATCH(DMI_BOARD_NAME, "BYT-PA03C"),
+-			DMI_MATCH(DMI_SYS_VENDOR, "ilife"),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "S806"),
+-		},
+-		.driver_data = (void *)&chuwi_hi8_info,
+-	},
+-	{
+-		/* CZC P10T */
+-		.ident = "CZC ODEON TPC-10 (\"P10T\")",
+-		.matches = {
+-			DMI_MATCH(DMI_SYS_VENDOR, "CZC"),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "ODEON*TPC-10"),
+-		},
+-		.driver_data = (void *)&czc_p10t,
+-	},
+-	{
+-		/* CZC P10T variant */
+-		.ident = "ViewSonic ViewPad 10",
+-		.matches = {
+-			DMI_MATCH(DMI_SYS_VENDOR, "ViewSonic"),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "VPAD10"),
+-		},
+-		.driver_data = (void *)&czc_p10t,
+-	},
+-	{
+-		/* Lenovo Yoga Book X90F / X91F / X91L */
+-		.matches = {
+-			/* Non exact match to match all versions */
+-			DMI_MATCH(DMI_PRODUCT_NAME, "Lenovo YB1-X9"),
+-		},
+-		.driver_data = (void *)&lenovo_yogabook_x9x_info,
+-	},
+-	{
+-		/*
+-		 * Lenovo Yoga Tablet 2 830F/L or 1050F/L (The 8" and 10"
+-		 * Lenovo Yoga Tablet 2 use the same mainboard)
+-		 */
+-		.matches = {
+-			DMI_MATCH(DMI_SYS_VENDOR, "Intel Corp."),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "VALLEYVIEW C0 PLATFORM"),
+-			DMI_MATCH(DMI_BOARD_NAME, "BYT-T FFD8"),
+-			/* Partial match on beginning of BIOS version */
+-			DMI_MATCH(DMI_BIOS_VERSION, "BLADE_21"),
+-		},
+-		.driver_data = (void *)&lenovo_yoga_tab2_830_1050_info,
+-	},
+-	{
+-		/* Lenovo Yoga Tab 3 Pro YT3-X90F */
+-		.matches = {
+-			DMI_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "CHERRYVIEW D1 PLATFORM"),
+-			DMI_MATCH(DMI_PRODUCT_VERSION, "Blade3-10A-001"),
+-		},
+-		.driver_data = (void *)&lenovo_yt3_info,
+-	},
+-	{
+-		/* Medion Lifetab S10346 */
+-		.matches = {
+-			DMI_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
+-			DMI_MATCH(DMI_BOARD_NAME, "Aptio CRB"),
+-			/* Above strings are much too generic, also match on BIOS date */
+-			DMI_MATCH(DMI_BIOS_DATE, "10/22/2015"),
+-		},
+-		.driver_data = (void *)&medion_lifetab_s10346_info,
+-	},
+-	{
+-		/* Nextbook Ares 8 */
+-		.matches = {
+-			DMI_MATCH(DMI_SYS_VENDOR, "Insyde"),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "M890BAP"),
+-		},
+-		.driver_data = (void *)&nextbook_ares8_info,
+-	},
+-	{
+-		/* Whitelabel (sold as various brands) TM800A550L */
+-		.matches = {
+-			DMI_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
+-			DMI_MATCH(DMI_BOARD_NAME, "Aptio CRB"),
+-			/* Above strings are too generic, also match on BIOS version */
+-			DMI_MATCH(DMI_BIOS_VERSION, "ZY-8-BI-PX4S70VTR400-X423B-005-D"),
+-		},
+-		.driver_data = (void *)&whitelabel_tm800a550l_info,
+-	},
+-	{
+-		/* Xiaomi Mi Pad 2 */
+-		.matches = {
+-			DMI_MATCH(DMI_SYS_VENDOR, "Xiaomi Inc"),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "Mipad2"),
+-		},
+-		.driver_data = (void *)&xiaomi_mipad2_info,
+-	},
+-	{ }
+-};
+-MODULE_DEVICE_TABLE(dmi, x86_android_tablet_ids);
 -- 
 2.39.1
 
