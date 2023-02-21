@@ -2,118 +2,140 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CFC869E2AE
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Feb 2023 15:51:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54C2769E716
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Feb 2023 19:09:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233939AbjBUOvt (ORCPT
+        id S231961AbjBUSJf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 21 Feb 2023 09:51:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42020 "EHLO
+        Tue, 21 Feb 2023 13:09:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233843AbjBUOvs (ORCPT
+        with ESMTP id S232478AbjBUSI5 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 21 Feb 2023 09:51:48 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FD6B1C5A8;
-        Tue, 21 Feb 2023 06:51:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676991107; x=1708527107;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=P6qrcknQv2/gUANwLSC3+1QAOD90qlbVKAdAHdiLC4Q=;
-  b=MbAzumJHtzC/O70+e51VtbZJtzx/D3nvEVtbUA9j7t/kb6dHeSrB76aS
-   IElxEbZR6ehBQcoAiiSqyb75xBRmX5ua+rHOQ9OrPzJg0r8PQuxcu1gSe
-   raSp8173e3rOnQd0FAsgqxd1w6VSwooJAUnINQQ4lL7e9CgrwEKLSahUG
-   h5Hox+bIJ3GZncwAmdGJB9BoqYUsiKO6Jol15getDstqYFd+8aW74MV05
-   TIHUZzohHiK/aSEwOTudX+VyJxyHUygTkgjBI2TqNehFr4HScjYgxpzbu
-   jD5MllBr7OMLVe5sgklYwEsHbceItyHSK6ddalaaBJn+40ZGb7IJWyZ/4
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="395129122"
-X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
-   d="scan'208";a="395129122"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 06:51:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="781030102"
-X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
-   d="scan'208";a="781030102"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Feb 2023 06:51:44 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pUTza-00A0Rn-1d;
-        Tue, 21 Feb 2023 16:51:42 +0200
-Date:   Tue, 21 Feb 2023 16:51:42 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Henning Schild <henning.schild@siemens.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Tue, 21 Feb 2023 13:08:57 -0500
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98AE92FCE8
+        for <platform-driver-x86@vger.kernel.org>; Tue, 21 Feb 2023 10:08:13 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id p16so1705057wmq.5
+        for <platform-driver-x86@vger.kernel.org>; Tue, 21 Feb 2023 10:08:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aXGnK42A4qCYJjA+dChUP0zhSGjDFyIg4/mKo/il8PQ=;
+        b=gEBCgz35raawJSWhdXquGkwLq5Bl3DsbUBpnORQBazkiDOm7zRliO40D/jqg5aoqs5
+         gfJPhuCLcF5dL1lL0pkX0w11BKkBacogGz41n1n8hCNbFGenntvfmeNsmQgqCyCZnYAp
+         9O7H8nAWEfBQODQ9ObSCx55Pqc0KwpJzlOGmA3Ez9GHEr+e6t1si0x+WOpWVReLVA18P
+         /W1/K891V36uQ1IWocOQo3oH2vl+bYDhNWTPEaCwVKfMmVgHJYnpA2sZUGMYyz0L+Z2D
+         xNnKYU56b3GVjFNmWsQ7qyvYnMbjX+3GoLn9n8ZgddNX++ygyqQxB3P2PhcmY86SL9cn
+         hm3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aXGnK42A4qCYJjA+dChUP0zhSGjDFyIg4/mKo/il8PQ=;
+        b=iUg2OuzFSHGVOGcf9dzjagaohEi7sH/+9++MGHDwPoIcVVWZFuGIfiegHJrsNL4kSC
+         xNvJU+RaxkFTdaVsMeR17CI6Z2MKemvrjY8J8Z3PdcJ14ajrS01wBi9atEKdaT/HTKUk
+         +muo5zymt6ECcBlrLiFx6Zl/gnBOUBaChc8WA01SRt7IKstLguHIu7HdwQKCUfkiYxK9
+         Bi5WIs3Ya7QJYW5KAao8PCOUY6hYwoaYG6FYaPWy1CbpY1OgI8+7VnrOjusGpe1H1Q6e
+         7iAknG0uXo3fzfsPLUHD+SMwk/ai8ZWZF/pBoUUy/9IRaEW74x15OuJCkj4gn6NtVhE9
+         Ixsw==
+X-Gm-Message-State: AO0yUKWGRaO0bh5kP1sbaSVmlxDrTpguemuU/iBulyQg3jPz8WBSK2rI
+        yR9myYIyaeeoWyG70y/8kRlbog==
+X-Google-Smtp-Source: AK7set/AxKhdQLOX6PHD4ZrMdx67CH7MjQM/RjdI4qGJgjq1hrB5t+oWjz6Ic99/CuyVTvj3XAjUQQ==
+X-Received: by 2002:a05:600c:2ac8:b0:3e0:114:62ee with SMTP id t8-20020a05600c2ac800b003e0011462eemr3974936wme.8.1677002890426;
+        Tue, 21 Feb 2023 10:08:10 -0800 (PST)
+Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:1e9:315c:bb40:e382])
+        by smtp.gmail.com with ESMTPSA id c128-20020a1c3586000000b003e21558ee9dsm5107815wma.2.2023.02.21.10.08.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Feb 2023 10:08:10 -0800 (PST)
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+To:     rafael@kernel.org, daniel.lezcano@linaro.org
+Cc:     linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Peter Kaestle <peter@piie.net>,
         Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <markgross@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 2/3] leds: simatic-ipc-leds-gpio: split up into multiple
- drivers
-Message-ID: <Y/TaftuNMABevCWV@smile.fi.intel.com>
-References: <20230221122414.24874-1-henning.schild@siemens.com>
- <20230221122414.24874-3-henning.schild@siemens.com>
- <Y/TMR0GBUr69KiQ5@smile.fi.intel.com>
- <20230221154354.290ae938@md1za8fc.ad001.siemens.net>
+        platform-driver-x86@vger.kernel.org (open list:ACER ASPIRE ONE
+        TEMPERATURE AND FAN DRIVER)
+Subject: [PATCH v2 14/16] thermal/drivers/acerhdf: Make interval setting only at module load time
+Date:   Tue, 21 Feb 2023 19:07:08 +0100
+Message-Id: <20230221180710.2781027-15-daniel.lezcano@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230221180710.2781027-1-daniel.lezcano@linaro.org>
+References: <20230221180710.2781027-1-daniel.lezcano@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230221154354.290ae938@md1za8fc.ad001.siemens.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Feb 21, 2023 at 03:43:54PM +0100, Henning Schild wrote:
-> Am Tue, 21 Feb 2023 15:51:03 +0200
-> schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:
-> > On Tue, Feb 21, 2023 at 01:24:13PM +0100, Henning Schild wrote:
-> > > In order to clearly describe the dependencies between the gpio  
+The thermal zone device structure is in the process of being private
+to the thermal framework core code. This driver is directly accessing
+and changing the monitoring polling rate.
 
-...
+After discussing with the maintainers of this driver, having the
+polling interval at module loading time is enough for their purpose.
 
-> > > +#ifndef __DRIVERS_LEDS_SIMPLE_SIMATIC_IPC_LEDS_GPIO
-> > > +#define __DRIVERS_LEDS_SIMPLE_SIMATIC_IPC_LEDS_GPIO  
-> > 
-> > > +#endif /* __DRIVERS_LEDS_SIMPLE_SIMATIC_IPC_LEDS_GPIO */  
-> > 
-> > This header doesn't look right.
-> > 
-> > Have you run `make W=1 ...` against your patches?
-> 
-> No reports.
-> 
-> > Even if it doesn't show defined but unused errors
-> > the idea is that this should be a C-file, called,
-> > let's say, ...-core.c.
-> 
-> When i started i kind of had a -common.c in mind as well. But then the
-> header idea came and i gave it a try, expecting questions in the review.
-> 
-> It might be a bit unconventional but it seems to do the trick pretty
-> well. Do you see a concrete problem or a violation of a rule?
+Change the code to take into account the interval when the module is
+loaded but restrict the permissions so the value can not be changed
+afterwards.
 
-Exactly as described above. The header approach means that *all* static
-definitions must be used by each user of that file. Otherwise you will
-get "defined but not used" compiler warning.
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+Acked-by: Peter Kaestle <peter@piie.net>
+---
+ drivers/platform/x86/acerhdf.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-And approach itself is considered (at least by me) as a hackish way to
-achieve what usually should be done via C-file.
-
-So, if maintainers are okay, I wouldn't have objections, but again
-I do not think it's a correct approach.
-
+diff --git a/drivers/platform/x86/acerhdf.c b/drivers/platform/x86/acerhdf.c
+index 1956469c3457..61f1c3090867 100644
+--- a/drivers/platform/x86/acerhdf.c
++++ b/drivers/platform/x86/acerhdf.c
+@@ -79,7 +79,6 @@ static unsigned int list_supported;
+ static unsigned int fanstate = ACERHDF_FAN_AUTO;
+ static char force_bios[16];
+ static char force_product[16];
+-static unsigned int prev_interval;
+ static struct thermal_zone_device *thz_dev;
+ static struct thermal_cooling_device *cl_dev;
+ static struct platform_device *acerhdf_dev;
+@@ -346,20 +345,15 @@ static void acerhdf_check_param(struct thermal_zone_device *thermal)
+ 	trips[0].temperature = fanon;
+ 	trips[0].hysteresis  = fanon - fanoff;
+ 
+-	if (kernelmode && prev_interval != interval) {
++	if (kernelmode) {
+ 		if (interval > ACERHDF_MAX_INTERVAL) {
+ 			pr_err("interval too high, set to %d\n",
+ 			       ACERHDF_MAX_INTERVAL);
+ 			interval = ACERHDF_MAX_INTERVAL;
+ 		}
++
+ 		if (verbose)
+ 			pr_notice("interval changed to: %d\n", interval);
+-
+-		if (thermal)
+-			thermal->polling_delay_jiffies =
+-				round_jiffies(msecs_to_jiffies(interval * 1000));
+-
+-		prev_interval = interval;
+ 	}
+ }
+ 
+@@ -807,5 +801,5 @@ static const struct kernel_param_ops interval_ops = {
+ 	.get = param_get_uint,
+ };
+ 
+-module_param_cb(interval, &interval_ops, &interval, 0600);
++module_param_cb(interval, &interval_ops, &interval, 0000);
+ MODULE_PARM_DESC(interval, "Polling interval of temperature check");
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
