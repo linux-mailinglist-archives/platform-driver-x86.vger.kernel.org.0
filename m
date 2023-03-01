@@ -2,136 +2,142 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 806FC6A6F04
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  1 Mar 2023 16:08:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B16AB6A6F0B
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  1 Mar 2023 16:10:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229544AbjCAPIt (ORCPT
+        id S229589AbjCAPKk (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 1 Mar 2023 10:08:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33214 "EHLO
+        Wed, 1 Mar 2023 10:10:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbjCAPIs (ORCPT
+        with ESMTP id S229563AbjCAPKj (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 1 Mar 2023 10:08:48 -0500
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2089.outbound.protection.outlook.com [40.107.237.89])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60F9BAD28;
-        Wed,  1 Mar 2023 07:08:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YccLngqogFwb/5oqz32urRbXCqEAIte3HBPsSroq9qVLLbUOlfglms/q2b6URLUkWipRRWhsXLvGHGA5BNuh+M0ppmkbSz7ypm3LfXBcKyLzIX50iPcj6piO9InWe3xInuEqHctKSSTZ/WdcL4DXUO4X5qMBxWHQu/aGO1tVP3zKf7AfFY/oeW+xJHPrzS0h8DeAXBo2U0oZQmzJdG6EYDTICGhSYVE3xZvyfbCUHM9XbwtD/QrcHLh81tKeVACIKnOlOiVtyDRkTx/7MRrvLRxE9I0twC35Or9Sh8Fotawtm2b3DyMd0hWwC3JWH+LU032pizVBQsJdOayHmuzVTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XeVPxDh3038mdHDUFMduxjlhkxvHBqfUyEfRQrmaSF4=;
- b=J6fPqhnnm1Kv18GyejSd0wmD2c182E/UArhwZHRqxrSuDYvtIRXo3oQGQYopAe0csCVqC56v1ivtehjXaW+Xso872uM4EgAsqp2HsIah4DSdA0GcLzrHr1oObBPzWGfvHMcjqKIBekBHfB9BAgkYSiOPLcOxhPIzIhA9vCPaavVMkvQGv/hO8xf4t5WMV2kbBBTrIqrRqSNkJu9Ik/EUE128aWsdLgp6FKc40danijMtWSP6dhO+gmpMUD2zBAhL3YDX85lvTPddAjabOttDzAoAEpCSN6++ddb1ry1fLVSnmtckPn7cljKUbIiojmCyr+UwAJAWZ0N9w2RcLaJkug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XeVPxDh3038mdHDUFMduxjlhkxvHBqfUyEfRQrmaSF4=;
- b=RTOhgqfWY+MGpRtZqjYC+/f0aXAG3ZIdbwe/W4CDesDxyIGreEw138AK6vkWSBdlJSqY0DcAPyFOwX+Fep5U1/y24kRP8AhBjDJhsYZLC3dqEG+KlgfLSg6zYJ8CqqmJloIHtL1lDNOfVDB/Stb91/cP5QsRBCPpsSFllpIYndY=
-Received: from BN9PR03CA0064.namprd03.prod.outlook.com (2603:10b6:408:fc::9)
- by PH0PR12MB5420.namprd12.prod.outlook.com (2603:10b6:510:e8::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.29; Wed, 1 Mar
- 2023 15:08:44 +0000
-Received: from BN8NAM11FT111.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:fc:cafe::18) by BN9PR03CA0064.outlook.office365.com
- (2603:10b6:408:fc::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.30 via Frontend
- Transport; Wed, 1 Mar 2023 15:08:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT111.mail.protection.outlook.com (10.13.177.54) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6156.18 via Frontend Transport; Wed, 1 Mar 2023 15:08:44 +0000
-Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 1 Mar
- 2023 09:08:43 -0600
-From:   Mario Limonciello <mario.limonciello@amd.com>
-To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-CC:     Mario Limonciello <mario.limonciello@amd.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        <platform-driver-x86@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH 2/2] platform/x86/amd: pmc: Add a check for PMFW version on PS platform
-Date:   Wed, 1 Mar 2023 09:08:20 -0600
-Message-ID: <20230301150821.9791-2-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230301150821.9791-1-mario.limonciello@amd.com>
-References: <20230301150821.9791-1-mario.limonciello@amd.com>
+        Wed, 1 Mar 2023 10:10:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B872AD28
+        for <platform-driver-x86@vger.kernel.org>; Wed,  1 Mar 2023 07:10:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1677683402;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=T7hjrRmCf/g+G1gciwM0bmknKtmUm3wa7BW6se88ASQ=;
+        b=EorIPs06fPz+gzdUV+e5YMKKWenc/q7scRWNnrCREvlkP8I7zKYR0exvpHPIA3xIlhyUxY
+        ECY/c8NWosdwZl395O6KXsaIH5JjFoX0otSVsFBaVro6xDUCaP99Xfd93+JyBAlbxHw5Lj
+        5Vdz1KEw2I3PZwxuw/XY7J1zkXozQeY=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-225-jS1ybV9RN8icw4kAbLbQAw-1; Wed, 01 Mar 2023 10:09:52 -0500
+X-MC-Unique: jS1ybV9RN8icw4kAbLbQAw-1
+Received: by mail-ed1-f69.google.com with SMTP id t9-20020a056402524900b004af59c073abso19564973edd.6
+        for <platform-driver-x86@vger.kernel.org>; Wed, 01 Mar 2023 07:09:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=T7hjrRmCf/g+G1gciwM0bmknKtmUm3wa7BW6se88ASQ=;
+        b=zrUww+lTh/PhHQrf1LY7kDPnmJqB3Q1IFVS5jE0mR//wdTgzXqkapwC+nS2nA5wWyu
+         t+sCue91rv/Os+DBcVhFJcg0Zn+vmBOGdyiqkb1/Iwta0t6hMQr9jsYKu0mrZVVuyC2h
+         cKfUyzFOOcX3DFM1e8GSXq3jL2oXdkrZE3xiWiy6ZW2Br50INUsMTzjZDccIRa0NHOVi
+         95nbzD4QAKp4eYsSbgilWDReUY6e1cjpQS81fF2MdK7E3iiAoeVmeTh6JtWfpnS9i0CE
+         bKqLLirxugCva/CMtweROZHLdP7p7Iqa9h7Bx49TMbi+uGWX8aJJxDWtDH0phKkqp0YV
+         jhzg==
+X-Gm-Message-State: AO0yUKV0i0m5HLzXhRsv5M80Gj/5H8TsJ1Q+CKZvke3Qmg7kYlzEG8L4
+        HslDyGXW7rr6Q3LcaUXJAv0ZINmq78OgATMu+BSU60GSsPnZjdAicucOthxJyCCbMElfkM2imNu
+        Su03HIkhYsbqTmmg41BbTChkn4Lga1RhKGQ==
+X-Received: by 2002:a17:906:e0cb:b0:8af:370b:da59 with SMTP id gl11-20020a170906e0cb00b008af370bda59mr7667749ejb.17.1677683388436;
+        Wed, 01 Mar 2023 07:09:48 -0800 (PST)
+X-Google-Smtp-Source: AK7set+70rx7GuB6DkF1OfI8nGW24gGFgvqbdHwmBkSAqAy4I6vCMAJiKx2GZJ3zQ+u2pnQ+k7vrCQ==
+X-Received: by 2002:a17:906:e0cb:b0:8af:370b:da59 with SMTP id gl11-20020a170906e0cb00b008af370bda59mr7667726ejb.17.1677683388164;
+        Wed, 01 Mar 2023 07:09:48 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id h11-20020a17090634cb00b008e36f9b2308sm5872671ejb.43.2023.03.01.07.09.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Mar 2023 07:09:47 -0800 (PST)
+Message-ID: <f97fbf83-dd20-0596-14e8-abbe5d0c4f28@redhat.com>
+Date:   Wed, 1 Mar 2023 16:09:47 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT111:EE_|PH0PR12MB5420:EE_
-X-MS-Office365-Filtering-Correlation-Id: 668f608d-6c27-4877-93fd-08db1a66d9b7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +qf3fzcEm8PBth74GtMvNN5BnqNg4idDRmSUCN/zkgKjU/VPJGlBXyOsIM1hsuWYPko+o0/F3dd1OQ0HeXcSiA6Ah2liHYvQVG5eIVPpXSSNbiwdVhLB6khBJMidU8c3itB6X8HftEA8OVtC4T2I1Yc1SsCyATWhKKpbL+AgRer69zXUzB5epKfUKHlZL0IKz19WbCPyKXBI2m6koYiZKT7kIzM1Gj/5yBT5SpP9nChb7dwpeSTZVKeQYhN5LaDsSsxdiUbgMh16w90Oa7RmdUQ/1Kp4o7v+f9/8dvXOjsfams/mbjqRbn8hO0DyKE5YE5rVkkuRbzuZvs9HUtq8oVc+5sWWgFG1qgSBLnm/yeWFPJcfpYeufCZG/DOOoqtssVWzGRtVeR0Irjt9jmNLFG+70haYa8wJbEd2Q2N20fJCRnCagT3DLzKKoMqJ/Yc9YMpN7kIxyvQ4rf9NVLpFEuGq18ICInDXXjy48BCmIRojaSX0b3veELh/0Ch0sluhXF89+tpYZDxo4mhhVIeBUKNsCBFKggl/Wh8cSqoGJ4qv1AOq6xc3JCha0gg0oheU0kfT4FE3/r1zYfLyEvyf1hFOqqnxUn/j0+/NUypBmFLyq+86ZYGSF/v44RT8vV/Qa3CBsn8lk6HZlkGvQ6Q6/5486+JjbUMJalJfDyTrK/bZi9kmK+Gqru8X1QHEacFKQWvXiUI1AH3pW+S2/MbOgOTV4gV9U0H8c0CejhDlCis=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(136003)(39860400002)(396003)(346002)(376002)(451199018)(36840700001)(46966006)(40470700004)(83380400001)(82310400005)(336012)(54906003)(6636002)(2906002)(2616005)(426003)(316002)(37006003)(47076005)(16526019)(6666004)(7696005)(26005)(4744005)(36860700001)(81166007)(82740400003)(86362001)(36756003)(5660300002)(8936002)(186003)(44832011)(6862004)(478600001)(40460700003)(356005)(1076003)(41300700001)(40480700001)(4326008)(8676002)(70586007)(70206006)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2023 15:08:44.4261
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 668f608d-6c27-4877-93fd-08db1a66d9b7
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT111.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5420
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH V3 1/1] platform/x86: Add BIOS Dynamic SAR driver for
+ Intel M.2 Modem
+Content-Language: en-US, nl
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        Shravan S <s.shravan@intel.com>, mgross@linux.intel.com,
+        platform-driver-x86@vger.kernel.org
+Cc:     sudhakar.an@intel.com
+References: <20210602050149.6230-1-s.shravan@intel.com>
+ <20210602050149.6230-2-s.shravan@intel.com>
+ <76868eb4-02c4-93dc-8cb7-2257be8ade8d@redhat.com>
+ <0126d03d-893d-3df4-67d8-586c73426f36@metux.net>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <0126d03d-893d-3df4-67d8-586c73426f36@metux.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-When running s2idle on PS if using PMFW older than 76.49.0 we will
-trip up some bugs that will lead to freezes outside of the control
-of Linux.  Set a guard that we only can enter HW sleep on 76.49.0
-or newer for PS.
+Hi Enrico,
 
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- drivers/platform/x86/amd/pmc.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+On 2/17/23 21:27, Enrico Weigelt, metux IT consult wrote:
+> On 02.08.21 10:59, Hans de Goede wrote:
+> 
+> <snip>
+> 
+>> The driver itself does not limit the tx strength, it only provides information
+>> which is used by other software to determine the max safe tx strength, please
+>> update the description to reflect this.
+> 
+> Also missing specification of the actual meaning of this data, and how
+> to calculate max safe tx from that.
+> 
+> I hightly doubt we want proprietary / largely undocumented userland
+> abi's in the kernel. The general rule for userland abi is that once
+> introduced, shouldn't get any breaking changes, and should be applicable
+> to all devices of the same class (independent from hw vendor/model)
 
-diff --git a/drivers/platform/x86/amd/pmc.c b/drivers/platform/x86/amd/pmc.c
-index c42fa47381c3..e7c6c06b2ccd 100644
---- a/drivers/platform/x86/amd/pmc.c
-+++ b/drivers/platform/x86/amd/pmc.c
-@@ -778,6 +778,14 @@ static void amd_pmc_s2idle_prepare(void)
- 			return;
- 		}
- 		break;
-+	case AMD_CPU_ID_PS:
-+		if (!amd_pmc_verify_min_version(pdev, 76, 49)) {
-+			dev_warn(pdev->dev,
-+				 "hardware sleep unsupported with firmware %u.%u.%u\n",
-+				 pdev->major, pdev->minor, pdev->rev);
-+			return;
-+		}
-+		break;
- 	}
- 
- 	msg = amd_pmc_get_os_hint(pdev);
--- 
-2.34.1
+This driver has long since been merged and AFAIK is being used
+in production now, so this ship has long sailed since.
+
+One remark which I do have here is that this implementation is
+actually one of the least bad implementation of the whole SAR
+stuff where WWAN modems dynamically adjust there tx power based
+on if part of a humanbody is near the antenna or not.
+
+This is all shrouded in secrecy and related to certification
+processes in several countries. The way this specific driver /
+interface works is that we simply have:
+
+1) Kernel reads human-presence sensor info through standardized
+ACPI interface (contents is unknown, but the interface for getting
+the blob with readings is standard)
+
+2. ModemManager reads human-presence sensor info from kernel
+and sends this to the modem as part of the normal command stream
+between ModemManager and the modem. ModemManager needs to be
+in the loop here since it owns the interface to the modem.
+
+This is much better then what some other WWAN modem vendors
+have been trying to push where the process involves not only
+mystery firmware APIs, but also a closed-source userspace process
+to manage the dynamic SAR bits. So Intel's implementation where
+all we need to do is to proxy between the BIOS/EC firmware and
+the modem (because the EC cannot talk directly to the modem)
+is actually pretty decent (compared to the other stuff).
+
+Regards,
+
+Hans
+
+
 
