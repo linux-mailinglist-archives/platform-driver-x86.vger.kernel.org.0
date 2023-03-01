@@ -2,76 +2,99 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07FCF6A6C85
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  1 Mar 2023 13:43:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CC436A6C95
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  1 Mar 2023 13:48:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229635AbjCAMnm (ORCPT
+        id S229567AbjCAMsD (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 1 Mar 2023 07:43:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44936 "EHLO
+        Wed, 1 Mar 2023 07:48:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229701AbjCAMnU (ORCPT
+        with ESMTP id S229883AbjCAMsA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 1 Mar 2023 07:43:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 329883C7BC
-        for <platform-driver-x86@vger.kernel.org>; Wed,  1 Mar 2023 04:42:34 -0800 (PST)
+        Wed, 1 Mar 2023 07:48:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 855DD3D914
+        for <platform-driver-x86@vger.kernel.org>; Wed,  1 Mar 2023 04:47:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677674553;
+        s=mimecast20190719; t=1677674832;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=1rpnH98wTLhNce/b0NogbnAHOQzjLCiRqXJRNeyc7CY=;
-        b=Q//deFSA8PVQo/T7MbtwBC2K5S1mRh9l/fB1CfpIbJTVusy+K0LrJB9PZAzEO7+O+rtKEt
-        JTKuc8c+SiVbeAvDfjwL/OD0No6YL5ZOHtrIZk4wHdTtYaJJEz6dJRxzcYbFoXxasA54yZ
-        wLj3htifVn6KgkVin7YdcUyQW6Q/H1s=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=PrHWi0O3bp5TW073HxIoo2GqwQh60ydUW1vLbyoS8FU=;
+        b=VTPJg8i+eYq5rBgoF9XUbb1GuYajScIVeggUcrjkeI32WpQI3RS82/lBZAsq8oUj5cNyyU
+        E2AUqjrO63uzQlZ7H8293k4dZx2/xUL9PL/AcmBTEL52x7QfEweiguAlXhYCTO3FRE77fu
+        /vjPNFXUOAyeR/OFdTI+Hqjg1G4KFe4=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-308-9IjUUw_rOHGkh_1ZLZkhDw-1; Wed, 01 Mar 2023 07:42:32 -0500
-X-MC-Unique: 9IjUUw_rOHGkh_1ZLZkhDw-1
-Received: by mail-ed1-f71.google.com with SMTP id cy28-20020a0564021c9c00b004acc6cf6322so18771759edb.18
-        for <platform-driver-x86@vger.kernel.org>; Wed, 01 Mar 2023 04:42:32 -0800 (PST)
+ us-mta-633-6eNbSAr7MDeLiJSVkkWijg-1; Wed, 01 Mar 2023 07:47:10 -0500
+X-MC-Unique: 6eNbSAr7MDeLiJSVkkWijg-1
+Received: by mail-ed1-f69.google.com with SMTP id p36-20020a056402502400b004bb926a3d54so3794845eda.2
+        for <platform-driver-x86@vger.kernel.org>; Wed, 01 Mar 2023 04:47:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1rpnH98wTLhNce/b0NogbnAHOQzjLCiRqXJRNeyc7CY=;
-        b=XPQ7xPSt0mfqvV6mwO7PrwAQizkvuOQR6/E2sQLa38tk0VqZ8CvJ33GuwYfEJo89wD
-         kq6bYUCgOnqDerT3v5y3axL0ogBcKE2Ib4fkctTp7yA6E1lZUWKTv/ziUprJ5DBknbEW
-         GE6KiGQngNFp565JnRvIMx998P1i6uIBMEqMClyEPozfVjQ59FeIHhoBPcGWwuS859Dc
-         4StHG55nLX1TtMLPU2GQQu7Dj8WYPlrgzbTQwZ1mh5VSIqJHL+7hYIBdki+xNfBRDFmV
-         CQCQIZx4LzbT8T3yRU6nkCxuHqCoE87L1i6OggACOfoTIK9L+gGEzZH5U/zU3q9C88s/
-         F/3Q==
-X-Gm-Message-State: AO0yUKXfkzwR13xtdRY/IqnkIJ2xNOPNFeEJCh9OD1RN9KKPrKO+pyQW
-        pim4Je+CkjU3GIIl9z1xqfBvfU1CZf9p1H4qDK/94EkkO+HU8cW60uj/Qghjm4lNt0NV0aanbrd
-        FssdnoooZ54FRFrJer04h09DGTZ2G8kxi3g==
-X-Received: by 2002:aa7:cd91:0:b0:4af:6aa6:12d3 with SMTP id x17-20020aa7cd91000000b004af6aa612d3mr5821565edv.40.1677674550476;
-        Wed, 01 Mar 2023 04:42:30 -0800 (PST)
-X-Google-Smtp-Source: AK7set+35lIRUpEO8j+kI01CSCd8mMNqTzPQI81CfWsGcFawLY1xZR54rOk8kDowbztoLzP8EEc88Q==
-X-Received: by 2002:aa7:cd91:0:b0:4af:6aa6:12d3 with SMTP id x17-20020aa7cd91000000b004af6aa612d3mr5821551edv.40.1677674550206;
-        Wed, 01 Mar 2023 04:42:30 -0800 (PST)
+        bh=PrHWi0O3bp5TW073HxIoo2GqwQh60ydUW1vLbyoS8FU=;
+        b=F11TwC8zsMcrircWyjlp80325OwYC5P5gKsoMNOc2x4GvCLpcXaobBeCUx4BsITFEF
+         NLIC0bZUuaxXt5NZ0dSly3y2R7TDW5qHv4bCKVatkrQt+lXtiPtFvUchQrWNq9OnA9A0
+         0S2yjYnfgmfJJnH0NbSdHYN1xN78gSu1kT2DFqU15i8uvheNf2bp38AqggECqMPmPKYz
+         OcgrJ7lj6UYdZ1dUt0/hQuFWojvInvTU3asY9ZIN8+6vsOPd6mVUsZpIW+XiV8vV8S3W
+         GJx7zb8QBxCqIqgUi96RzRszypywRiLlBDKHdoeR/+XNRbnPUSuAVurGtABq19DG+BqS
+         gwMg==
+X-Gm-Message-State: AO0yUKXrbvPK6kI6o735pWtQfnxT9zAHdKT3M7/e8kkDOlDl2rdfNRpU
+        SCvRFGFHhWRcp4WeHpP6+WbqKNeBGzBSr+shdkJylAXZ5o6o/3LslQiWufohk079fCnYsScdFTC
+        T/AkRW0CTS5pw0OBNWixwTS48brdkFIpqmg==
+X-Received: by 2002:aa7:d6c4:0:b0:4af:59c0:744a with SMTP id x4-20020aa7d6c4000000b004af59c0744amr7757582edr.24.1677674829575;
+        Wed, 01 Mar 2023 04:47:09 -0800 (PST)
+X-Google-Smtp-Source: AK7set/gegt3wNPFIA5UaAFSkM0H/Cu2JETEa5VzADkRpzuOeLZLY8c4YHH4dVV9FidRJQJWbeU9sQ==
+X-Received: by 2002:aa7:d6c4:0:b0:4af:59c0:744a with SMTP id x4-20020aa7d6c4000000b004af59c0744amr7757547edr.24.1677674829268;
+        Wed, 01 Mar 2023 04:47:09 -0800 (PST)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id z9-20020a50cd09000000b004ac54d4da22sm5622325edi.71.2023.03.01.04.42.29
+        by smtp.gmail.com with ESMTPSA id b18-20020a50b412000000b004bda465da32sm374934edh.1.2023.03.01.04.47.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Mar 2023 04:42:29 -0800 (PST)
-Message-ID: <984e2340-6d9d-f7b6-a638-b70a3ed40a32@redhat.com>
-Date:   Wed, 1 Mar 2023 13:42:29 +0100
+        Wed, 01 Mar 2023 04:47:08 -0800 (PST)
+Message-ID: <5bb49015-0a9c-5b9d-b22c-38011439c984@redhat.com>
+Date:   Wed, 1 Mar 2023 13:47:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH] platform/x86/intel/tpmi: Fix double free reported by
- Smatch
+Subject: Re: [PATCH 0/8] drivers: select REGMAP instead of depending on it
 Content-Language: en-US, nl
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        markgross@kernel.org
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dan Carpenter <error27@gmail.com>
-References: <20230227140614.2913474-1-srinivas.pandruvada@linux.intel.com>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Andrew Jeffery <andrew@aj.id.au>, Corey Minyard <minyard@acm.org>,
+        openipmi-developer@lists.sourceforge.net,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Riku Voipio <riku.voipio@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk@vger.kernel.org, Michael Walle <michael@walle.cc>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        linux-gpio@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
+        Darren Hart <dvhart@infradead.org>,
+        Michael Shych <michaelsh@nvidia.com>,
+        Mark Gross <markgross@kernel.org>,
+        Vadim Pasternak <vadimp@nvidia.com>,
+        platform-driver-x86@vger.kernel.org,
+        Yegnesh S Iyer <yegnesh.s.iyer@intel.com>,
+        Bin Gao <bin.gao@intel.com>, Zhang Rui <rui.zhang@intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>, linux-pm@vger.kernel.org,
+        Oskar Senft <osk@google.com>, linux-serial@vger.kernel.org
+References: <20230226053953.4681-1-rdunlap@infradead.org>
+ <7dd27ec5-0619-128d-8407-6711a05ef271@redhat.com>
+ <6a95a337-2972-427f-635d-5ef4e91a82fa@infradead.org>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230227140614.2913474-1-srinivas.pandruvada@linux.intel.com>
+In-Reply-To: <6a95a337-2972-427f-635d-5ef4e91a82fa@infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -86,24 +109,44 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 Hi,
 
-On 2/27/23 15:06, Srinivas Pandruvada wrote:
-> Fix warning:
-> drivers/platform/x86/intel/tpmi.c:253 tpmi_create_device()
-> 	warn: 'feature_vsec_dev' was already freed.
+On 2/27/23 17:07, Randy Dunlap wrote:
 > 
-> If there is some error, feature_vsec_dev memory is freed as part
-> of resource managed call intel_vsec_add_aux(). So, additional
-> kfree() call is not required.
 > 
-> Reordered res allocation and feature_vsec_dev, so that on error
-> only res is freed.
+> On 2/27/23 01:31, Hans de Goede wrote:
+>> Hi Randy,
+>>
+>> On 2/26/23 06:39, Randy Dunlap wrote:
+>>> REGMAP is a hidden (not user visible) symbol. Users cannot set it
+>>> directly thru "make *config", so drivers should select it instead of
+>>> depending on it if they need it.
+>>>
+>>> Consistently using "select" or "depends on" can also help reduce
+>>> Kconfig circular dependency issues.
+>>>
+>>> REGMAP is selected 94 times and is depended on 11 times in
+>>> current linux-next. Eliminate the uses of "depends on" by
+>>> converting them to "select".
+>>
+>> Thank you for your work on this. Mixing of depends on vs select
+>> is a real problem with many Kconfig symbols.
+>>
+>>>  [PATCH 1/8] ipmi: ASPEED_BT_IPMI_BMC: select REGMAP_MMIO instead of depending on it
+>>>  [PATCH 2/8] clk: HI655X: select REGMAP instead of depending on it
+>>>  [PATCH 3/8] gpio: GPIO_REGMAP: select REGMAP instead of depending on it
+>>>  [PATCH 4/8] leds: TI_LMU_COMMON: select REGMAP instead of depending on it
+>>>  [PATCH 5/8] platform: mellanox: select REGMAP instead of depending on it
+>>>  [PATCH 6/8] platform: x86: MLX_PLATFORM: select REGMAP instead of depending on it
+>>>  [PATCH 7/8] thermal: intel: BXT_PMIC: select REGMAP instead of depending on it
+>>>  [PATCH 8/8] serial: 8250: ASPEED_VUART: select REGMAP instead of depending on it
+>>
+>> For patch 5/8 and 6/8, do you want me to merge them through the pdx86
+>> (platform-drivers-x86) tree, or do you plan to merge this whole series
+>> in one go through some other tree?
 > 
-> Reported-by: Dan Carpenter <error27@gmail.com>
-> Link: https://lore.kernel.org/platform-driver-x86/Y%2FxYR7WGiPayZu%2FR@kili/T/#u
-> Fixes: 47731fd2865f ("platform/x86/intel: Intel TPMI enumeration driver")
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Hi Hans,
+> Please merge them thru the pdx86 tree.
 
-Thanks, I've applied this patch to my review-hans branch:
+Ok, I've applied patch 5/8 + 6/8 to my review-hans branch:
 https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
 
 I'll rebase that branch once 6.3-rc1 is out and then push the rebased
@@ -118,50 +161,52 @@ Hans
 
 
 
-> ---
->  drivers/platform/x86/intel/tpmi.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
+>>>
+>>> diffstat:
+>>>  drivers/char/ipmi/Kconfig         |    3 ++-
+>>>  drivers/clk/Kconfig               |    2 +-
+>>>  drivers/gpio/Kconfig              |    2 +-
+>>>  drivers/leds/Kconfig              |    2 +-
+>>>  drivers/platform/mellanox/Kconfig |    9 ++++-----
+>>>  drivers/platform/x86/Kconfig      |    3 ++-
+>>>  drivers/thermal/intel/Kconfig     |    3 ++-
+>>>  drivers/tty/serial/8250/Kconfig   |    3 ++-
+>>>  8 files changed, 15 insertions(+), 12 deletions(-)
+>>>
+>>> Cc: Andrew Jeffery <andrew@aj.id.au>
+>>> Cc: Corey Minyard <minyard@acm.org>
+>>> Cc: openipmi-developer@lists.sourceforge.net
+>>> Cc: Arnd Bergmann <arnd@arndb.de>
+>>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>>> Cc: Riku Voipio <riku.voipio@linaro.org>
+>>> Cc: Stephen Boyd <sboyd@kernel.org>
+>>> Cc: Michael Turquette <mturquette@baylibre.com>
+>>> Cc: linux-clk@vger.kernel.org
+>>> Cc: Michael Walle <michael@walle.cc>
+>>> Cc: Linus Walleij <linus.walleij@linaro.org>
+>>> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+>>> Cc: linux-gpio@vger.kernel.org
+>>> Cc: Dan Murphy <dmurphy@ti.com>
+>>> Cc: Pavel Machek <pavel@ucw.cz>
+>>> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+>>> Cc: Lee Jones <lee@kernel.org>
+>>> Cc: linux-leds@vger.kernel.org
+>>> Cc: Darren Hart <dvhart@infradead.org>
+>>> Cc: Hans de Goede <hdegoede@redhat.com>
+>>> Cc: Michael Shych <michaelsh@nvidia.com>
+>>> Cc: Mark Gross <markgross@kernel.org>
+>>> Cc: Vadim Pasternak <vadimp@nvidia.com>
+>>> Cc: platform-driver-x86@vger.kernel.org
+>>> Cc: Yegnesh S Iyer <yegnesh.s.iyer@intel.com>
+>>> Cc: Bin Gao <bin.gao@intel.com>
+>>> Cc: Zhang Rui <rui.zhang@intel.com>
+>>> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+>>> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+>>> Cc: Amit Kucheria <amitk@kernel.org>
+>>> Cc: linux-pm@vger.kernel.org
+>>> Cc: Oskar Senft <osk@google.com>
+>>> Cc: linux-serial@vger.kernel.org
+>>>
+>>
 > 
-> diff --git a/drivers/platform/x86/intel/tpmi.c b/drivers/platform/x86/intel/tpmi.c
-> index c60733261c89..c999732b0f1e 100644
-> --- a/drivers/platform/x86/intel/tpmi.c
-> +++ b/drivers/platform/x86/intel/tpmi.c
-> @@ -209,14 +209,14 @@ static int tpmi_create_device(struct intel_tpmi_info *tpmi_info,
->  	if (!name)
->  		return -EOPNOTSUPP;
->  
-> -	feature_vsec_dev = kzalloc(sizeof(*feature_vsec_dev), GFP_KERNEL);
-> -	if (!feature_vsec_dev)
-> +	res = kcalloc(pfs->pfs_header.num_entries, sizeof(*res), GFP_KERNEL);
-> +	if (!res)
->  		return -ENOMEM;
->  
-> -	res = kcalloc(pfs->pfs_header.num_entries, sizeof(*res), GFP_KERNEL);
-> -	if (!res) {
-> +	feature_vsec_dev = kzalloc(sizeof(*feature_vsec_dev), GFP_KERNEL);
-> +	if (!feature_vsec_dev) {
->  		ret = -ENOMEM;
-> -		goto free_vsec;
-> +		goto free_res;
->  	}
->  
->  	snprintf(feature_id_name, sizeof(feature_id_name), "tpmi-%s", name);
-> @@ -239,6 +239,8 @@ static int tpmi_create_device(struct intel_tpmi_info *tpmi_info,
->  	/*
->  	 * intel_vsec_add_aux() is resource managed, no explicit
->  	 * delete is required on error or on module unload.
-> +	 * feature_vsec_dev memory is also freed as part of device
-> +	 * delete.
->  	 */
->  	ret = intel_vsec_add_aux(vsec_dev->pcidev, &vsec_dev->auxdev.dev,
->  				 feature_vsec_dev, feature_id_name);
-> @@ -249,8 +251,6 @@ static int tpmi_create_device(struct intel_tpmi_info *tpmi_info,
->  
->  free_res:
->  	kfree(res);
-> -free_vsec:
-> -	kfree(feature_vsec_dev);
->  
->  	return ret;
->  }
 
