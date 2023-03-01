@@ -2,51 +2,51 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A36196A69C4
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  1 Mar 2023 10:26:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D94B86A69CB
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  1 Mar 2023 10:26:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229639AbjCAJZk (ORCPT
+        id S229727AbjCAJZp (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 1 Mar 2023 04:25:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46644 "EHLO
+        Wed, 1 Mar 2023 04:25:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229480AbjCAJZL (ORCPT
+        with ESMTP id S229744AbjCAJZT (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 1 Mar 2023 04:25:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8859734F46
-        for <platform-driver-x86@vger.kernel.org>; Wed,  1 Mar 2023 01:23:50 -0800 (PST)
+        Wed, 1 Mar 2023 04:25:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C1E53525A
+        for <platform-driver-x86@vger.kernel.org>; Wed,  1 Mar 2023 01:23:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677662629;
+        s=mimecast20190719; t=1677662634;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=d4WbNtaFnKMhYZ9FLZXOK0qalKndD9wzQjlHaEvuZ3g=;
-        b=VohbHGeawX1POEjsubCop5NsUJoVXDutEMHnQaNJrIB/cdYvBEik8cpK3HUpWY2Op7A7tS
-        30jUKaIt8AeCK1qhJB5V7TCB3O/r9llaKs35+5EUoupRg8l0F56p+v4PRfuTWhXYmbYYvI
-        2FCnuk5XpxC/56XraXOxfujsq4Q8IJ4=
+        bh=3g60CeJUj9TMPcmrxBn3jH1Cx0EI6ljogdDoFcZc6LY=;
+        b=JD9+o5LSVqiUvV04KGi1Ehvu6q5JRW6tVfdsLsg6sMVD0ylBJSUuO62w8q7TMhEObiaLoG
+        dxdviP37d2mGP9bAP8kr71yKuT+YOfjUvEKgy8DSncNWgHxhuG3mDGlDIUfjNpRf8JgbEO
+        GffEHVs5+aMe80ww1qdtbV1B5o5luLs=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-425-6Ccdp1N3PyWh1pwZHLgRow-1; Wed, 01 Mar 2023 04:23:48 -0500
-X-MC-Unique: 6Ccdp1N3PyWh1pwZHLgRow-1
+ us-mta-68-bfgQ2-mKOgma7odYsvSf6A-1; Wed, 01 Mar 2023 04:23:49 -0500
+X-MC-Unique: bfgQ2-mKOgma7odYsvSf6A-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 402213810B0D;
-        Wed,  1 Mar 2023 09:23:48 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2062C29AA3B2;
+        Wed,  1 Mar 2023 09:23:49 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.194.30])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 86814400D796;
-        Wed,  1 Mar 2023 09:23:47 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 72B6F40B40DF;
+        Wed,  1 Mar 2023 09:23:48 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@kernel.org>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH v2 11/14] platform/x86: x86-android-tablets: Add touchscreen support for Lenovo Yoga Tab 3 Pro YT3-X90F
-Date:   Wed,  1 Mar 2023 10:23:28 +0100
-Message-Id: <20230301092331.7038-12-hdegoede@redhat.com>
+Subject: [PATCH v2 12/14] platform/x86: x86-android-tablets: Add backlight ctrl for Lenovo Yoga Tab 3 Pro YT3-X90F
+Date:   Wed,  1 Mar 2023 10:23:29 +0100
+Message-Id: <20230301092331.7038-13-hdegoede@redhat.com>
 In-Reply-To: <20230301092331.7038-1-hdegoede@redhat.com>
 References: <20230301092331.7038-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -62,97 +62,64 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add the necessaty info to instantiate the I2C device for the touchscreen
-on Lenovo Yoga Tab 3 Pro YT3-X90F tablets.
+The YT3 uses an TI LP8557 LED backlight controller, the LP8557's PWM input
+is connected to a PWM output coming from the LCD panel's controller.
+
+The Android kernel has a hack in the i915 driver to write the non-standard
+DSI reg 0x51 with the desired level to set the duty-cycle of the LCD's PWM.
+
+To avoid having to have a similar hack in the mainline kernel program
+instantiate an i2c-client for the LP8557 with platform-data to have
+the LP8557 to directly set the level (ignoring its PWM input), this allows
+backlight brightness control through a backlight device registered by
+the lp855x_bl driver.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../platform/x86/x86-android-tablets/lenovo.c | 46 +++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ .../platform/x86/x86-android-tablets/lenovo.c | 23 +++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
 diff --git a/drivers/platform/x86/x86-android-tablets/lenovo.c b/drivers/platform/x86/x86-android-tablets/lenovo.c
-index 290de07d8aa0..10121fde42da 100644
+index 10121fde42da..f8544a4e807d 100644
 --- a/drivers/platform/x86/x86-android-tablets/lenovo.c
 +++ b/drivers/platform/x86/x86-android-tablets/lenovo.c
-@@ -12,6 +12,7 @@
- 
- #include <linux/efi.h>
- #include <linux/gpio/machine.h>
-+#include <linux/mfd/intel_soc_pmic.h>
- #include <linux/pinctrl/consumer.h>
- #include <linux/pinctrl/machine.h>
- #include <linux/platform_data/lp855x.h>
-@@ -334,6 +335,17 @@ static const struct software_node lenovo_yt3_bq25892_0_node = {
- 	.properties = lenovo_yt3_bq25892_0_props,
+@@ -346,6 +346,20 @@ static const struct software_node lenovo_yt3_hideep_ts_node = {
+ 	.properties = lenovo_yt3_hideep_ts_props,
  };
  
-+static const struct property_entry lenovo_yt3_hideep_ts_props[] = {
-+	PROPERTY_ENTRY_U32("touchscreen-size-x", 1600),
-+	PROPERTY_ENTRY_U32("touchscreen-size-y", 2560),
-+	PROPERTY_ENTRY_U32("touchscreen-max-pressure", 255),
-+	{ }
-+};
-+
-+static const struct software_node lenovo_yt3_hideep_ts_node = {
-+	.properties = lenovo_yt3_hideep_ts_props,
++/*
++ * The YT3 uses an TI LP8557 LED backlight controller, the LP8557's PWM input is
++ * connected to a PWM output coming from the LCD panel's controller. The Android
++ * kernel has a hack in the i915 driver to write the non-standard DSI reg 0x51
++ * with the desired level to set the duty-cycle of the LCD's PWM output.
++ *
++ * To avoid having to have a similar hack in the mainline kernel program the
++ * LP8557 to directly set the level and use the lp855x_bl driver for control.
++ */
++static struct lp855x_platform_data lenovo_yt3_lp8557_pdata = {
++	.device_control = 0x86,
++	.initial_brightness = 128,
 +};
 +
  static const struct x86_i2c_client_info lenovo_yt3_i2c_clients[] __initconst = {
  	{
  		/* bq27500 fuel-gauge for the flat lipo battery behind the screen */
-@@ -369,6 +381,22 @@ static const struct x86_i2c_client_info lenovo_yt3_i2c_clients[] __initconst = {
- 			.swnode = &fg_bq25890_1_supply_node,
+@@ -397,6 +411,15 @@ static const struct x86_i2c_client_info lenovo_yt3_i2c_clients[] __initconst = {
+ 			.trigger = ACPI_LEVEL_SENSITIVE,
+ 			.polarity = ACPI_ACTIVE_LOW,
  		},
- 		.adapter_path = "\\_SB_.PCI0.I2C2",
 +	}, {
-+		/* HiDeep Touchscreen */
++		/* LP8557 Backlight controller */
 +		.board_info = {
-+			.type = "hideep_ts",
-+			.addr = 0x6c,
-+			.dev_name = "hideep_ts",
-+			.swnode = &lenovo_yt3_hideep_ts_node,
++			.type = "lp8557",
++			.addr = 0x2c,
++			.dev_name = "lp8557",
++			.platform_data = &lenovo_yt3_lp8557_pdata,
 +		},
-+		.adapter_path = "\\_SB_.PCI0.I2C6",
-+		.irq_data = {
-+			.type = X86_ACPI_IRQ_TYPE_GPIOINT,
-+			.chip = "INT33FF:03",
-+			.index = 77,
-+			.trigger = ACPI_LEVEL_SENSITIVE,
-+			.polarity = ACPI_ACTIVE_LOW,
-+		},
++		.adapter_path = "\\_SB_.PCI0.I2C1",
  	}
  };
  
-@@ -409,11 +437,29 @@ static int __init lenovo_yt3_init(void)
- 
- 	gpiod_set_value(gpiod, 0);
- 
-+	/* Enable the regulators used by the touchscreen */
-+	intel_soc_pmic_exec_mipi_pmic_seq_element(0x6e, 0x9b, 0x02, 0xff);
-+	intel_soc_pmic_exec_mipi_pmic_seq_element(0x6e, 0xa0, 0x02, 0xff);
-+
- 	return 0;
- }
- 
-+static struct gpiod_lookup_table lenovo_yt3_hideep_gpios = {
-+	.dev_id = "i2c-hideep_ts",
-+	.table = {
-+		GPIO_LOOKUP("INT33FF:00", 7, "reset", GPIO_ACTIVE_LOW),
-+		{ }
-+	},
-+};
-+
-+static struct gpiod_lookup_table * const lenovo_yt3_gpios[] = {
-+	&lenovo_yt3_hideep_gpios,
-+	NULL
-+};
-+
- const struct x86_dev_info lenovo_yt3_info __initconst = {
- 	.i2c_client_info = lenovo_yt3_i2c_clients,
- 	.i2c_client_count = ARRAY_SIZE(lenovo_yt3_i2c_clients),
-+	.gpiod_lookup_tables = lenovo_yt3_gpios,
- 	.init = lenovo_yt3_init,
- };
 -- 
 2.39.1
 
