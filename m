@@ -2,105 +2,120 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33F706A8475
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Mar 2023 15:48:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59FD76A8583
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Mar 2023 16:47:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230015AbjCBOsB (ORCPT
+        id S229484AbjCBPrE (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 2 Mar 2023 09:48:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38684 "EHLO
+        Thu, 2 Mar 2023 10:47:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230096AbjCBOrx (ORCPT
+        with ESMTP id S229480AbjCBPrE (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 2 Mar 2023 09:47:53 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79DF84391F
-        for <platform-driver-x86@vger.kernel.org>; Thu,  2 Mar 2023 06:47:50 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pXkDg-00047D-P2; Thu, 02 Mar 2023 15:47:44 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pXkDf-001Lsy-K7; Thu, 02 Mar 2023 15:47:43 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pXkDe-001ZrA-PF; Thu, 02 Mar 2023 15:47:42 +0100
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>
-Cc:     kernel@pengutronix.de,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 29/29] platform/x86: xo1-rfkill: Convert to platform remove callback returning void
-Date:   Thu,  2 Mar 2023 15:47:32 +0100
-Message-Id: <20230302144732.1903781-30-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230302144732.1903781-1-u.kleine-koenig@pengutronix.de>
-References: <20230302144732.1903781-1-u.kleine-koenig@pengutronix.de>
+        Thu, 2 Mar 2023 10:47:04 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8A053E61A;
+        Thu,  2 Mar 2023 07:47:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677772021; x=1709308021;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=JAipvvtID4UIsHFYIMs4dTvpzhPgRpYEfN79S7XKdlo=;
+  b=JF/Z+PcmyTkpkWhW9ADXA6qJ7638J9e8SaovHjk023fGlhW3dFe7r4aI
+   7BoAjB+XdTLHQcHLys5uLpyJJWM5fkUAtFfjkIw71Cd0L/K/I3hwWJNOk
+   ks/LhDUiPat5ryCevpxoI4YSu5YmHhxxaWexjvQP7bJvoDX5SamYnEZM2
+   dNMHKhlDMa5VSRkSxNFdfSkxCwMoP4xsW7OLTmgwPz93f9pkILXX5Ns0j
+   OmzAgK8325zGOSJiWirTQzXGXw9bEbbWAqj85/SNeIgNVQjBZGeEd/Zkr
+   hz6fMVMSJQcSOvxeyDGk6/YHDbmELwAF/hhHiLVxtv14QklrdDZiDOrnd
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="318571371"
+X-IronPort-AV: E=Sophos;i="5.98,228,1673942400"; 
+   d="scan'208";a="318571371"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 07:47:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="707452421"
+X-IronPort-AV: E=Sophos;i="5.98,228,1673942400"; 
+   d="scan'208";a="707452421"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga001.jf.intel.com with ESMTP; 02 Mar 2023 07:46:55 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pXl8w-00EPc3-14;
+        Thu, 02 Mar 2023 17:46:54 +0200
+Date:   Thu, 2 Mar 2023 17:46:54 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Henning Schild <henning.schild@siemens.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] leds: simatic-ipc-leds-gpio: split up into
+ multiple drivers
+Message-ID: <ZADE7kBB9HzTlpul@smile.fi.intel.com>
+References: <20230301170215.23382-1-henning.schild@siemens.com>
+ <20230301170215.23382-3-henning.schild@siemens.com>
+ <Y/+LLICwh3T25IGv@smile.fi.intel.com>
+ <20230302094009.74b5d368@md1za8fc.ad001.siemens.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1613; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=/cHo/OCIZQ5qmf/ucqmCGmO1pyy35MQ6zTCo8fFg0vg=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBkALb+CScRPFDRsjjCksIWibKoudblETkcH6IrZ Xb/qz0BJV+JATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCZAC2/gAKCRDB/BR4rcrs CVFdB/90zGKMc6uqyCIs6l3icW8VpmwLQ0oPsoq8vzU3e8rzwoxbZmGuMlA9aeLsDqh4UivkfAq jzRjdEEYrK3z9DuxGFmpqHVgF7DZom3ovHvfEQ/ScVj8RGrWOYuOKZLg4z6tQGzfKC948MaN8VT VlUmToaVFtPkNyl4VG9F3AocSbCEmeurnTE2GtEBIdu9pGx14HkfPRhD2d395XPjujV5N0I1HBe WFxgUGcISQgdcO9A4z+DVCSnX7G1IHR+2+hd9E7eB/a4CgWo2eJTS5iWdzRgdbBeoFnN2NOsVuz Z4vusWPbWzzmmMXYf4xe1K+5KfY/vY6RFIgbj7Kxr7HWPMLx
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: platform-driver-x86@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230302094009.74b5d368@md1za8fc.ad001.siemens.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void. In the first step of this
-quest all drivers are converted to .remove_new() which already returns
-void.
+On Thu, Mar 02, 2023 at 09:40:09AM +0100, Henning Schild wrote:
+> Am Wed, 1 Mar 2023 19:28:12 +0200
+> schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:
+> > On Wed, Mar 01, 2023 at 06:02:14PM +0100, Henning Schild wrote:
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+...
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/platform/x86/xo1-rfkill.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+> > > +	.driver = {
+> > > +		.name = KBUILD_MODNAME,  
+> > 
+> > Strictly speaking this is an ABI (as something may instantiate the
+> > driver from the user space or elsewhere by this name. At the same
+> > time this may change with the file name change.
+> > 
+> > Personally I prefer explicit string literal here.
+> 
+> Switching from one module to three the names have to change. People who
+> explicitly loaded the old module which supported multiple machines,
+> will now how to load either both oŕ know which one to load.
 
-diff --git a/drivers/platform/x86/xo1-rfkill.c b/drivers/platform/x86/xo1-rfkill.c
-index cb3253c10ef3..e64d5646b4c7 100644
---- a/drivers/platform/x86/xo1-rfkill.c
-+++ b/drivers/platform/x86/xo1-rfkill.c
-@@ -56,12 +56,11 @@ static int xo1_rfkill_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--static int xo1_rfkill_remove(struct platform_device *pdev)
-+static void xo1_rfkill_remove(struct platform_device *pdev)
- {
- 	struct rfkill *rfk = platform_get_drvdata(pdev);
- 	rfkill_unregister(rfk);
- 	rfkill_destroy(rfk);
--	return 0;
- }
- 
- static struct platform_driver xo1_rfkill_driver = {
-@@ -69,7 +68,7 @@ static struct platform_driver xo1_rfkill_driver = {
- 		.name = "xo1-rfkill",
- 	},
- 	.probe		= xo1_rfkill_probe,
--	.remove		= xo1_rfkill_remove,
-+	.remove_new	= xo1_rfkill_remove,
- };
- 
- module_platform_driver(xo1_rfkill_driver);
+Wait, are you telling that now users load modules _manually_?!
+
+> I personally think the ABI change is acceptable, the assumption would
+> be that the drivers load automatically anyhow. And since there are no
+> params i doubt users will have /etc/modprobe.d/ or /sys/module/ stuff
+> around.
+> 
+> And with the split i guess an ABI change can not be fully avoided.
+> Whether the names is explicit or implicit is another discussion and
+> just a matter of style. I prefer to stay with the currently used
+> pattern, it is not un-common in the kernel.
+
+The problem with that pattern is possible, while unlikely, renaming of the file
+which triggers this to be updated.
+
+Under sysfs the folder will change its name. If user has a script relying on
+this, it will be broken. So, I prefer mine.
+
+> > > +	},  
+
 -- 
-2.39.1
+With Best Regards,
+Andy Shevchenko
+
 
