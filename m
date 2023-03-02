@@ -2,50 +2,49 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0902A6A8483
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Mar 2023 15:48:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA5D06A8474
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Mar 2023 15:48:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230031AbjCBOsM (ORCPT
+        id S230132AbjCBOr6 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 2 Mar 2023 09:48:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39516 "EHLO
+        Thu, 2 Mar 2023 09:47:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230037AbjCBOsF (ORCPT
+        with ESMTP id S229995AbjCBOrw (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 2 Mar 2023 09:48:05 -0500
+        Thu, 2 Mar 2023 09:47:52 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22F5A4684
-        for <platform-driver-x86@vger.kernel.org>; Thu,  2 Mar 2023 06:47:55 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 941E448E3C
+        for <platform-driver-x86@vger.kernel.org>; Thu,  2 Mar 2023 06:47:49 -0800 (PST)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pXkDf-0003zW-0v; Thu, 02 Mar 2023 15:47:43 +0100
+        id 1pXkDf-00040h-3B; Thu, 02 Mar 2023 15:47:43 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pXkDd-001LsM-OB; Thu, 02 Mar 2023 15:47:41 +0100
+        id 1pXkDd-001LsQ-TG; Thu, 02 Mar 2023 15:47:41 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pXkDc-001ZqY-RR; Thu, 02 Mar 2023 15:47:40 +0100
+        id 1pXkDd-001Zqc-1U; Thu, 02 Mar 2023 15:47:41 +0100
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
-To:     Shravan Sudhakar <s.shravan@intel.com>,
-        Intel Corporation <linuxwwan@intel.com>,
+To:     Daniel Scally <djrscally@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <markgross@kernel.org>
 Cc:     kernel@pengutronix.de,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 20/29] platform/x86: intel: int1092: intel_sar: Convert to platform remove callback returning void
-Date:   Thu,  2 Mar 2023 15:47:23 +0100
-Message-Id: <20230302144732.1903781-21-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 21/29] platform/x86: intel: int3472: discrete: Convert to platform remove callback returning void
+Date:   Thu,  2 Mar 2023 15:47:24 +0100
+Message-Id: <20230302144732.1903781-22-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230302144732.1903781-1-u.kleine-koenig@pengutronix.de>
 References: <20230302144732.1903781-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1699; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=0WhBbWaUwjGupEusr4fiMYsWZw2q9sM3XpKt7s0kViQ=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBkALbY61PKNuhLdthRcF9cFYPCDVTf2JIATQZ3F ZhH35ZrolqJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCZAC22AAKCRDB/BR4rcrs CfTaB/0YWSxxN2MEgUnkqLZ8bB6kqb0wGvTpXbJGzDaRdHNlFe4HLCSihoBgVR0KGiP4faA2cl1 BIEyE9F/I851BQzjcEdCsFmSXaT6DS5ZQTzb7wwBz8Giz1pyiYyi1lTeY/ah3WunJBbpFk2B8zF HTsSKodrXFwVTGuy8nmkGMxxFZWB6x3wMF0hV1nNAiNyVUVhOQazN3cdR/7BEYZ+KDo9gsrvog5 MWbNcs3I9RuNB6BR4MBjgfGU6zXt0SdJABBwjSmvLYYTq/7jGe3XfxnSUpxnfc6ObBkgy65WZKM M3Bfl00b8SdNqNtG1F3Obkc9XPfRz5G8atN2x70YRW4B+WWT
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1966; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=UZcNHKDZjEJbsCj/ym4PGZg6gRKQSXlA+HuRGH++vF4=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBkALbc1iljYRotrm+Rq2yhzl9a/KRtXWqcsLW3s iyn+tlGYCiJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCZAC23AAKCRDB/BR4rcrs CdnWB/99xSk8KJ5WTtdChUxqNX7Nlr9oFUYmlHtxAqOF5m1LtLOHZZ+onMuEJqdS8zDM1MX4B47 i+cokuQiYNkMmt7KhF6lFGRIEGx7cEesi8NcSvvMweGumCsnuZTaI9WyGf72j0vseoSc/RzlyR3 kEu8dtEGYy83oWsjGihFY7lkSnuUFJyxdCEsfb9Z24rwV9iYomnegHQ58HRIVOEhwYAaOJw36gN 8OjD6YVDL+NMROL6PcAaAh1QIFIgeTc9BUua98cOnfFgKV46tidNbJ2IBwvyPAvQdkxOGgAy96c GPrPj8xM1urAI9sA0SuoBf5dWx4LqS5Sb1uJzJEHOMn+bxSX
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -73,36 +72,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/platform/x86/intel/int1092/intel_sar.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/platform/x86/intel/int3472/discrete.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/platform/x86/intel/int1092/intel_sar.c b/drivers/platform/x86/intel/int1092/intel_sar.c
-index 352fc4596494..6246c066ade2 100644
---- a/drivers/platform/x86/intel/int1092/intel_sar.c
-+++ b/drivers/platform/x86/intel/int1092/intel_sar.c
-@@ -292,7 +292,7 @@ static int sar_probe(struct platform_device *device)
- 	return result;
+diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+index f064da74f50a..ef020e23e596 100644
+--- a/drivers/platform/x86/intel/int3472/discrete.c
++++ b/drivers/platform/x86/intel/int3472/discrete.c
+@@ -317,7 +317,7 @@ static int skl_int3472_parse_crs(struct int3472_discrete_device *int3472)
+ 	return 0;
  }
  
--static int sar_remove(struct platform_device *device)
-+static void sar_remove(struct platform_device *device)
+-static int skl_int3472_discrete_remove(struct platform_device *pdev)
++static void skl_int3472_discrete_remove(struct platform_device *pdev)
  {
- 	struct wwan_sar_context *context = dev_get_drvdata(&device->dev);
- 	int reg;
-@@ -304,12 +304,11 @@ static int sar_remove(struct platform_device *device)
- 		kfree(context->config_data[reg].device_mode_info);
+ 	struct int3472_discrete_device *int3472 = platform_get_drvdata(pdev);
  
- 	kfree(context);
+@@ -326,8 +326,6 @@ static int skl_int3472_discrete_remove(struct platform_device *pdev)
+ 	skl_int3472_unregister_clock(int3472);
+ 	skl_int3472_unregister_pled(int3472);
+ 	skl_int3472_unregister_regulator(int3472);
+-
 -	return 0;
  }
  
- static struct platform_driver sar_driver = {
- 	.probe = sar_probe,
--	.remove = sar_remove,
-+	.remove_new = sar_remove,
- 	.driver = {
- 		.name = DRVNAME,
- 		.acpi_match_table = ACPI_PTR(sar_device_ids)
+ static int skl_int3472_discrete_probe(struct platform_device *pdev)
+@@ -392,7 +390,7 @@ static struct platform_driver int3472_discrete = {
+ 		.acpi_match_table = int3472_device_id,
+ 	},
+ 	.probe = skl_int3472_discrete_probe,
+-	.remove = skl_int3472_discrete_remove,
++	.remove_new = skl_int3472_discrete_remove,
+ };
+ module_platform_driver(int3472_discrete);
+ 
 -- 
 2.39.1
 
