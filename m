@@ -2,113 +2,173 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C04EE6A83F4
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Mar 2023 15:06:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 24A6E6A849F
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Mar 2023 15:49:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229557AbjCBOG1 (ORCPT
+        id S230281AbjCBOti (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 2 Mar 2023 09:06:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59048 "EHLO
+        Thu, 2 Mar 2023 09:49:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbjCBOG1 (ORCPT
+        with ESMTP id S230182AbjCBOsu (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 2 Mar 2023 09:06:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B9BC498A3
-        for <platform-driver-x86@vger.kernel.org>; Thu,  2 Mar 2023 06:05:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677765938;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=lDeJaM3OXvdvRbi0amjcP00BuSBj+eIeZi+fVmCzkd0=;
-        b=QC6spwAKLLqZE2ZbFyl5/mjwp5pu8KlSuDJXzHVy5rtVTAeIP5OvtFq7IxVWX1dE/+G2sl
-        IAZDUNXYxAnt1qFKAvquuJj0/NKFw8m1ixMXVvdre/7q/cYsHlqTK+cAmWhlt0W9E8b3fb
-        9hL75OzSfBV7Kbnhv1ioqy0QXbkq1b8=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-393-x3ej2wttPXWTUrjpBY3YQQ-1; Thu, 02 Mar 2023 09:05:37 -0500
-X-MC-Unique: x3ej2wttPXWTUrjpBY3YQQ-1
-Received: by mail-ed1-f72.google.com with SMTP id fi8-20020a056402550800b004a26cc7f6cbso24409966edb.4
-        for <platform-driver-x86@vger.kernel.org>; Thu, 02 Mar 2023 06:05:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lDeJaM3OXvdvRbi0amjcP00BuSBj+eIeZi+fVmCzkd0=;
-        b=4Mr+50HpBpYUYoaAnD8diIhYn/xfLiSxUDhfZPz03vMLTJjoQWfrxBJ9Ue1OWJCmLr
-         KRqyo9FgbSbj12TPmQNj/Iy11uupxn1liNd4xCM9DM3mXy3ILKiq5IXpYTMIDAYCUIX8
-         WGcYMmJCSRyzx8qT0D+g5qmj4T/hBu1PWycx812oW/UqzIMe09zotSH7zxFi+9oYmp9V
-         5TTlfJK2TesP11E5zHf1HPZoH1blbknWmToVc69JmFtR7AhXHjpg3Xpt+j682GnidF6/
-         kQYi5Mt9WkEaxwCB+BOiXG9ctmNfiz4WqitVns1hUMzA2pbTc7Wuf9LkzdxuMPAmUw5Y
-         C6Mg==
-X-Gm-Message-State: AO0yUKUoNCvFwshSV9G1Jv/hLJVdyKXuDF8KCfgtqOgEC8KJNtfL0VLp
-        pDMMWpDKbAFNHmTlxw86hbgiorGQRubGysf8FWuxRCs0najVxzKbeFYXp5zd0yqgqZW8PUUOlzM
-        cRq+DCEu9ZnfBUCq6n7roYgGej+R0M+GpKA==
-X-Received: by 2002:a17:906:9b89:b0:88e:e498:109b with SMTP id dd9-20020a1709069b8900b0088ee498109bmr13101894ejc.5.1677765936031;
-        Thu, 02 Mar 2023 06:05:36 -0800 (PST)
-X-Google-Smtp-Source: AK7set9bZbcdC/wqORcyal6tMr8vdK45UqdOQf0mpSKcSmQstpaZCR/kUJqqifbtoHRP15py9lN3Qg==
-X-Received: by 2002:a17:906:9b89:b0:88e:e498:109b with SMTP id dd9-20020a1709069b8900b0088ee498109bmr13101863ejc.5.1677765935745;
-        Thu, 02 Mar 2023 06:05:35 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id us8-20020a170906bfc800b008cafeec917dsm7177746ejb.101.2023.03.02.06.05.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Mar 2023 06:05:34 -0800 (PST)
-Message-ID: <64cbd302-b469-9f39-9ec7-a04ce9f3ed1c@redhat.com>
-Date:   Thu, 2 Mar 2023 15:05:34 +0100
+        Thu, 2 Mar 2023 09:48:50 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5FD4521DC
+        for <platform-driver-x86@vger.kernel.org>; Thu,  2 Mar 2023 06:48:14 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pXkDf-0003r5-84; Thu, 02 Mar 2023 15:47:43 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pXkDY-001Lqo-S2; Thu, 02 Mar 2023 15:47:36 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pXkDY-001ZpK-6Z; Thu, 02 Mar 2023 15:47:36 +0100
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     "Lee, Chun-Yi" <jlee@suse.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Andrea Ho <Andrea.Ho@advantech.com.tw>,
+        Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>,
+        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+        Santosh Kumar Yadav <santoshkumar.yadav@barco.com>,
+        Peter Korsgaard <peter.korsgaard@barco.com>,
+        Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
+        Stuart Hayes <stuart.w.hayes@gmail.com>,
+        =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+        Eric Piel <eric.piel@tremplin-utc.net>,
+        =?utf-8?q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
+        Jorge Lopez <jorge.lopez2@hp.com>,
+        Ike Panhc <ike.pan@canonical.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Alex Hung <alexhung@gmail.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Shravan Sudhakar <s.shravan@intel.com>,
+        Intel Corporation <linuxwwan@intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
+        "David E. Box" <david.e.box@linux.intel.com>,
+        AceLan Kao <acelan.kao@canonical.com>
+Cc:     kernel@pengutronix.de,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: [PATCH 00/29] platform/x86: Convert to platform remove callback returning void
+Date:   Thu,  2 Mar 2023 15:47:03 +0100
+Message-Id: <20230302144732.1903781-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] platform/x86: Add new msi-ec driver
-To:     Nikita Kravets <teackot@gmail.com>,
-        =?UTF-8?Q?Barnab=c3=a1s_P=c5=91cze?= <pobrn@protonmail.com>
-Cc:     platform-driver-x86@vger.kernel.org,
-        Aakash Singh <mail@singhaakash.dev>,
-        Jose Angel Pastrana <japp0005@red.ujaen.es>
-References: <20230214132522.32631-1-teackot@gmail.com>
- <222e94e6-2ddb-a612-31b1-4537141ef478@redhat.com>
- <CAPXvF04_sPUtwB1Rk+XKPMigoxTfoo0RzbHvn9cozTq5vnMa_g@mail.gmail.com>
- <c147567a-40cc-813c-aa48-c24a1e92ff00@redhat.com>
- <CAPXvF05BWuP87KRZ92rZux2pqHxxJ7ux+ieK15HdoXpsG4Updg@mail.gmail.com>
-Content-Language: en-US, nl
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAPXvF05BWuP87KRZ92rZux2pqHxxJ7ux+ieK15HdoXpsG4Updg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5397; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=vRXXcogYXkMjIpSQ/PSu/mECXGaJ5NPjA8DIJa1C5dA=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBkALaAai+lsMP2/3+M9gidrZ5BYYLoghUAKK454 KjxQhHmraiJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCZAC2gAAKCRDB/BR4rcrs CVZ0B/9dzH/Lfa1PlT/p/CMMSaa7GDt3nOpeveiqPrqtyQHw44sTlijnL3AYy4GFt+ycxReQ2yT SshFNGR14rAjD3GvvASpSjaGfKhkujtNJ/WP9MiS1gmMCmZG6xd1WPVyPAAvNwTw+MKkclIpZWl +iCtWNOqHrg4GV1gCTvrgfB8Q0ys+MaBZQd4xRw/GAfxm0/XnoRfrvqVQpVbbTO6MXp8yqNok2f vzU2OEbaxVN5SqVZBUXn78z+x7mAMUNRacSWbC7US3ylMHrcR7uNA0fpRq+/n2QXf/VDg2KBaQW hk4I4gkyZ8RQNGpOgeOzJgK6o67afS6fnmAyNt9on3AIVMjk
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: platform-driver-x86@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+Hello,
 
-On 3/2/23 13:45, Nikita Kravets wrote:
-> Here is my `modinfo msi-ec`:
-> 
-> name:           msi_ec
-> filename:       (builtin)
-> description:    MSI Embedded Controller
-> author:         Nikita Kravets <teackot@gmail.com>
-> author:         Aakash Singh <mail@singhaakash.dev>
-> author:         Jose Angel Pastrana <japp0005@red.ujaen.es>
-> license:        GPL
-> file:           drivers/platform/x86/msi-ec
+this patch series adapts the platform drivers below drivers/platform/x86
+to use the .remove_new() callback. Compared to the traditional .remove()
+callback .remove_new() returns no value. This is a good thing because
+the driver core doesn't (and cannot) cope for errors during remove. The
+only effect of a non-zero return value in .remove() is that the driver
+core emits a warning. The device is removed anyhow and an early return
+from .remove() usually yields a resource leak.
 
-Ah you have set it to builtin rather then building it as
-a module.
+By changing the remove callback to return void driver authors cannot
+reasonably assume any more that there is some kind of cleanup later.
 
-Yes then it will work without any module-aliases since then it
-is always part of the kernel.
+All drivers touched here returned zero unconditionally in their remove
+callback, so they could all be converted trivially to .remove_new().
 
-Regards,
+Note that this series depends on commit 5c5a7680e67b ("platform: Provide
+a remove callback that returns no value") that is already in Linus' tree
+but not yet included in a tagged version.
 
-Hans
+Best regards
+Uwe
+
+Uwe Kleine-König (29):
+  platform/x86: acer-wmi: Convert to platform remove callback returning void
+  platform/x86: adv_swbutton: Convert to platform remove callback returning void
+  platform/x86: amd: hsmp: Convert to platform remove callback returning void
+  platform/x86: amd: pmc: Convert to platform remove callback returning void
+  platform/x86: amd: pmf: core: Convert to platform remove callback returning void
+  platform/x86: amilo-rfkill: Convert to platform remove callback returning void
+  platform/x86: barco-p50-gpio: Convert to platform remove callback returning void
+  platform/x86: compal-laptop: Convert to platform remove callback returning void
+  platform/x86: dell: dcdbas: Convert to platform remove callback returning void
+  platform/x86: dell: dell-smo8800: Convert to platform remove callback returning void
+  platform/x86: hp: hp_accel: Convert to platform remove callback returning void
+  platform/x86: hp: tc1100-wmi: Convert to platform remove callback returning void
+  platform/x86: huawei-wmi: Convert to platform remove callback returning void
+  platform/x86: ideapad-laptop: Convert to platform remove callback returning void
+  platform/x86: intel: bxtwc_tmu: Convert to platform remove callback returning void
+  platform/x86: intel: chtdc_ti_pwrbtn: Convert to platform remove callback returning void
+  platform/x86: intel: chtwc_int33fe: Convert to platform remove callback returning void
+  platform/x86: intel: hid: Convert to platform remove callback returning void
+  platform/x86: intel: int0002_vgpio: Convert to platform remove callback returning void
+  platform/x86: intel: int1092: intel_sar: Convert to platform remove callback returning void
+  platform/x86: intel: int3472: discrete: Convert to platform remove callback returning void
+  platform/x86: intel: mrfld_pwrbtn: Convert to platform remove callback returning void
+  platform/x86: intel: pmc: core: Convert to platform remove callback returning void
+  platform/x86: intel: telemetry: pltdrv: Convert to platform remove callback returning void
+  platform/x86: intel: vbtn: Convert to platform remove callback returning void
+  platform/x86: samsung-q10: Convert to platform remove callback returning void
+  platform/x86: serial-multi-instantiate: Convert to platform remove callback returning void
+  platform/x86: wmi: Convert to platform remove callback returning void
+  platform/x86: xo1-rfkill: Convert to platform remove callback returning void
+
+ drivers/platform/x86/acer-wmi.c                 |  5 ++---
+ drivers/platform/x86/adv_swbutton.c             |  6 ++----
+ drivers/platform/x86/amd/hsmp.c                 |  6 ++----
+ drivers/platform/x86/amd/pmc.c                  |  5 ++---
+ drivers/platform/x86/amd/pmf/core.c             |  5 ++---
+ drivers/platform/x86/amilo-rfkill.c             |  5 ++---
+ drivers/platform/x86/barco-p50-gpio.c           |  6 ++----
+ drivers/platform/x86/compal-laptop.c            |  8 +++-----
+ drivers/platform/x86/dell/dcdbas.c              |  6 ++----
+ drivers/platform/x86/dell/dell-smo8800.c        |  5 ++---
+ drivers/platform/x86/hp/hp_accel.c              |  5 ++---
+ drivers/platform/x86/hp/tc1100-wmi.c            |  6 ++----
+ drivers/platform/x86/huawei-wmi.c               |  6 ++----
+ drivers/platform/x86/ideapad-laptop.c           |  6 ++----
+ drivers/platform/x86/intel/bxtwc_tmu.c          |  5 ++---
+ drivers/platform/x86/intel/chtdc_ti_pwrbtn.c    |  5 ++---
+ drivers/platform/x86/intel/chtwc_int33fe.c      |  6 ++----
+ drivers/platform/x86/intel/hid.c                | 10 ++--------
+ drivers/platform/x86/intel/int0002_vgpio.c      |  5 ++---
+ drivers/platform/x86/intel/int1092/intel_sar.c  |  5 ++---
+ drivers/platform/x86/intel/int3472/discrete.c   |  6 ++----
+ drivers/platform/x86/intel/mrfld_pwrbtn.c       |  5 ++---
+ drivers/platform/x86/intel/pmc/core.c           |  5 ++---
+ drivers/platform/x86/intel/telemetry/pltdrv.c   |  5 ++---
+ drivers/platform/x86/intel/vbtn.c               | 10 ++--------
+ drivers/platform/x86/samsung-q10.c              |  6 ++----
+ drivers/platform/x86/serial-multi-instantiate.c |  6 ++----
+ drivers/platform/x86/wmi.c                      |  6 ++----
+ drivers/platform/x86/xo1-rfkill.c               |  5 ++---
+ 29 files changed, 59 insertions(+), 111 deletions(-)
+
+base-commit: ee3f96b164688dae21e2466a57f2e806b64e8a37
+-- 
+2.39.1
 
