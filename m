@@ -2,218 +2,107 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C084D6AFEE2
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Mar 2023 07:26:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E553D6AFF67
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Mar 2023 08:06:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229707AbjCHG0C (ORCPT
+        id S229903AbjCHHGz (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 Mar 2023 01:26:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43802 "EHLO
+        Wed, 8 Mar 2023 02:06:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbjCHG0B (ORCPT
+        with ESMTP id S229717AbjCHHGx (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 Mar 2023 01:26:01 -0500
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9855A8392
-        for <platform-driver-x86@vger.kernel.org>; Tue,  7 Mar 2023 22:25:59 -0800 (PST)
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 0DE653F1F2
-        for <platform-driver-x86@vger.kernel.org>; Wed,  8 Mar 2023 06:25:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1678256758;
-        bh=ay6ZKa7Tg72PuDk32HxgWNWnSno0ChydUsA4JwYm9Lk=;
-        h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-         To:Cc:Content-Type;
-        b=RYwYftay83NUb+LL/SljubOWcbZ+gxtmr6rGPqL+PA5G2gqVluUjAJbLex7wUgcD0
-         OJXJ6Hi0cVB/tDV1U7hkB+3Nt0A/5rtscWlbur7j93jSFyWHwIRK5uM1AeMWifIm6r
-         dhOCDI789rcPwj+LoxX2q5hPkp35/S3IZH84ptw27ezwAwv7mSa/75TKeWkygowypV
-         xaBwBeOGuXcu8lYg1CfUAYzbWDHhPoQSpOkDIodDP/qlju5GW51+azHb9d/tp4QxLP
-         //8S3pY6M6TqztwMEwmH1caWtSvAzmDOB9COtFI9ti53/MC+hj+dsHVFtAAXKALT/9
-         9gFJFMXk3Uamw==
-Received: by mail-pl1-f198.google.com with SMTP id la3-20020a170902fa0300b0019ca5ddecedso8900327plb.1
-        for <platform-driver-x86@vger.kernel.org>; Tue, 07 Mar 2023 22:25:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678256756;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ay6ZKa7Tg72PuDk32HxgWNWnSno0ChydUsA4JwYm9Lk=;
-        b=6zbkZaAzf+Le6sJ9F9SYlMn4vBl/bK5wSVq2T+7Vl1ergifn8Gt16inPP9SCRe3Nvk
-         +jedMrD6NSufxFOHBQg4ZAFFZtbOAyKUALJCWfW20MQ4dQ3YG+K8evdBwANVSI147Kl0
-         3P2NcQC3/29IG7zd+VkkGS3IaHJ+SSN9+ShjllDrZVoDExb2DaS+AXIlRyvYHPLqupkm
-         1KWj+AvW9hvPskuia5tIXk4FgHVO/+J+2SOE8S92HLCJ0dfBUGXxnRCKgsEJLfjGEH4f
-         PViCfyfYDDouOIPBN0uIyJ+z4GLGmgY/OQw6n5WyNiJ9Ws0ZC5+J7cPncLuEIs0Y168H
-         zBzA==
-X-Gm-Message-State: AO0yUKWAJKKhbYR+RW8cwxq7l0vDhfdG8cWlH5bydnAppSLcrQlqEQ0e
-        Sx6zEGh/3eA+e0sfBZ08XhgzPQ+iF1Qj5iC3v94bTlt30YXd9Qs66qZ69wO1yY4eGE/R51CpeN6
-        +srbHydET5IPrpljmTf0WHiKT68YpmQy7vfaOpHEnXSmjVhmtO/C5N1zTPGAUYIenE3o=
-X-Received: by 2002:a17:90a:ec14:b0:231:1da0:dfce with SMTP id l20-20020a17090aec1400b002311da0dfcemr6011214pjy.3.1678256756313;
-        Tue, 07 Mar 2023 22:25:56 -0800 (PST)
-X-Google-Smtp-Source: AK7set9J/bss+n+FmfnvRWBEazewQBhSsabCnB8JBItXmoxS20MAETu1QTDyhFvR4xmeSPpw2pPROEwS82nh86dFnHY=
-X-Received: by 2002:a17:90a:ec14:b0:231:1da0:dfce with SMTP id
- l20-20020a17090aec1400b002311da0dfcemr6011210pjy.3.1678256755883; Tue, 07 Mar
- 2023 22:25:55 -0800 (PST)
+        Wed, 8 Mar 2023 02:06:53 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89534A2F00;
+        Tue,  7 Mar 2023 23:06:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678259204; x=1709795204;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=qf4M9O3j3uFMxU8uFTT5U/Z0SLo4bxSiuHk1vznyQkU=;
+  b=LCJEQKBoVTwQz8lWP3xjrBEoBYx/2Ijufb1sc6znm3WBenaSxghD1b/i
+   VmJVGULkmJUfP7gg/GvkgtbWPramY4bBv85nKVeMj/gSrK+raHRo91yJQ
+   auatAHaxepy62C0RmsHuLCjpbteRx7zoRC8emIbuBqm7/7pV/HfvbR/5s
+   5kQorNWGeQiJlR9ioO3fv7vIQtmZCBO0TmpgzZWdL6UdKfCk2XCyVB4cK
+   7HrwjFrytcH/WLSuTag7hM3j6hxrNCwh0K7ch5ENVkJyiJJXJTUD1Waum
+   K5jtM9n7EFvwNmmpbzddKW2GKg7b+mBC6aqMq1T0yljB0A5of8GlOzC4d
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="333553961"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; 
+   d="scan'208";a="333553961"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 23:06:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="850986373"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; 
+   d="scan'208";a="850986373"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.8])
+  by orsmga005.jf.intel.com with ESMTP; 07 Mar 2023 23:06:43 -0800
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     hdegoede@redhat.com, markgross@kernel.org
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH v2 0/8] platform/x86: ISST: Use TPMI interface
+Date:   Tue,  7 Mar 2023 23:06:34 -0800
+Message-Id: <20230308070642.1727167-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <20230306142454.722020-1-koba.ko@canonical.com> <a83d9acd-a2c5-85ce-36dc-c6a8f0e11a66@redhat.com>
-In-Reply-To: <a83d9acd-a2c5-85ce-36dc-c6a8f0e11a66@redhat.com>
-From:   Koba Ko <koba.ko@canonical.com>
-Date:   Wed, 8 Mar 2023 14:25:44 +0800
-Message-ID: <CAJB-X+X83dLFsOyYON9zLQxOVukg7bcrikRohn4sRR6UiSUbOQ@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: dell-laptop: Register ctl-led for speaker-mute
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Gross <markgross@kernel.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Mar 7, 2023 at 8:10=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
-wrote:
->
-> Hi,
->
-> On 3/6/23 15:24, Koba Ko wrote:
-> > Some platforms have the speaker-mute led and
-> > current driver doesn't control it.
-> >
-> > If the platform support the control of speaker-mute led, register it
-> >
-> > Signed-off-by: Koba Ko <koba.ko@canonical.com>
->
-> Thank you for your patch, one small remark below.
->
-> > ---
-> >  drivers/platform/x86/dell/dell-laptop.c | 43 +++++++++++++++++++++++++
-> >  drivers/platform/x86/dell/dell-smbios.h |  2 ++
-> >  2 files changed, 45 insertions(+)
-> >
-> > diff --git a/drivers/platform/x86/dell/dell-laptop.c b/drivers/platform=
-/x86/dell/dell-laptop.c
-> > index 1321687d923ed..38d95bae8e3ab 100644
-> > --- a/drivers/platform/x86/dell/dell-laptop.c
-> > +++ b/drivers/platform/x86/dell/dell-laptop.c
-> > @@ -97,6 +97,7 @@ static struct rfkill *bluetooth_rfkill;
-> >  static struct rfkill *wwan_rfkill;
-> >  static bool force_rfkill;
-> >  static bool micmute_led_registered;
-> > +static bool mute_led_registered;
-> >
-> >  module_param(force_rfkill, bool, 0444);
-> >  MODULE_PARM_DESC(force_rfkill, "enable rfkill on non whitelisted model=
-s");
-> > @@ -2177,6 +2178,34 @@ static struct led_classdev micmute_led_cdev =3D =
-{
-> >       .default_trigger =3D "audio-micmute",
-> >  };
-> >
-> > +static int mute_led_set(struct led_classdev *led_cdev,
-> > +                        enum led_brightness brightness)
-> > +{
-> > +     struct calling_interface_buffer buffer;
-> > +     struct calling_interface_token *token;
-> > +     int state =3D brightness !=3D LED_OFF;
-> > +
-> > +     if (state =3D=3D 0)
-> > +             token =3D dell_smbios_find_token(GLOBAL_MUTE_DISABLE);
-> > +     else
-> > +             token =3D dell_smbios_find_token(GLOBAL_MUTE_ENABLE);
-> > +
-> > +     if (!token)
-> > +             return -ENODEV;
-> > +
-> > +     dell_fill_request(&buffer, token->location, token->value, 0, 0);
-> > +     dell_send_request(&buffer, CLASS_TOKEN_WRITE, SELECT_TOKEN_STD);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static struct led_classdev mute_led_cdev =3D {
-> > +     .name =3D "platform::mute",
-> > +     .max_brightness =3D 1,
-> > +     .brightness_set_blocking =3D mute_led_set,
-> > +     .default_trigger =3D "audio-mute",
-> > +};
-> > +
-> >  static int __init dell_init(void)
-> >  {
-> >       struct calling_interface_token *token;
-> > @@ -2230,6 +2259,16 @@ static int __init dell_init(void)
-> >               micmute_led_registered =3D true;
-> >       }
-> >
-> > +     if (dell_smbios_find_token(GLOBAL_MUTE_DISABLE) &&
-> > +         dell_smbios_find_token(GLOBAL_MUTE_ENABLE) &&
-> > +         !dell_privacy_has_mic_mute()) {
->
-> Since this is a speaker mute LED and since the Dell hw privacy
-> stuff does not deal with the speaker at all, I believe that you
-> should drop the "&& !dell_privacy_has_mic_mute()" part of
-> the if condition here ?
->
-> Can you please send a new version with this dropped?
+This series implements TPMI as Intel Speed Select Technology (Intel SST)
+HW interface. TPMI has several advantages for Intel SST. This replaces
+legacy mailbox and MMIO with architectural interface over TPMI.
 
-Sure, have sent v2 with dell_privacy_has_mic_mute dropped
-Thanks
+This improves performance for HPC type applications. One single IOCTL command
+replaces 10s of IOCTLs for mailboxes. This allowed to offer many more
+performance levels and SST configurations.
 
->
-> Regards,
->
-> Hans
->
->
-> > +             mute_led_cdev.brightness =3D ledtrig_audio_get(LED_AUDIO_=
-MUTE);
-> > +             ret =3D led_classdev_register(&platform_device->dev, &mut=
-e_led_cdev);
-> > +             if (ret < 0)
-> > +                     goto fail_led;
-> > +             mute_led_registered =3D true;
-> > +     }
-> > +
-> >       if (acpi_video_get_backlight_type() !=3D acpi_backlight_vendor)
-> >               return 0;
-> >
-> > @@ -2277,6 +2316,8 @@ static int __init dell_init(void)
-> >  fail_backlight:
-> >       if (micmute_led_registered)
-> >               led_classdev_unregister(&micmute_led_cdev);
-> > +     if (mute_led_registered)
-> > +             led_classdev_unregister(&mute_led_cdev);
-> >  fail_led:
-> >       dell_cleanup_rfkill();
-> >  fail_rfkill:
-> > @@ -2299,6 +2340,8 @@ static void __exit dell_exit(void)
-> >       backlight_device_unregister(dell_backlight_device);
-> >       if (micmute_led_registered)
-> >               led_classdev_unregister(&micmute_led_cdev);
-> > +     if (mute_led_registered)
-> > +             led_classdev_unregister(&mute_led_cdev);
-> >       dell_cleanup_rfkill();
-> >       if (platform_device) {
-> >               platform_device_unregister(platform_device);
-> > diff --git a/drivers/platform/x86/dell/dell-smbios.h b/drivers/platform=
-/x86/dell/dell-smbios.h
-> > index 75fa8ea0476dc..eb341bf000c67 100644
-> > --- a/drivers/platform/x86/dell/dell-smbios.h
-> > +++ b/drivers/platform/x86/dell/dell-smbios.h
-> > @@ -34,6 +34,8 @@
-> >  #define KBD_LED_AUTO_100_TOKEN       0x02F6
-> >  #define GLOBAL_MIC_MUTE_ENABLE       0x0364
-> >  #define GLOBAL_MIC_MUTE_DISABLE      0x0365
-> > +#define GLOBAL_MUTE_ENABLE   0x058C
-> > +#define GLOBAL_MUTE_DISABLE  0x058D
-> >
-> >  struct notifier_block;
-> >
->
+This series depends on previously posted series:
+- platform/x86/intel: Intel TPMI enumeration driver
+
+Change History
+v2
+- Rebased on top of review-hans branch of platform-drivers-x86
+- Removed patches which are already present in this branch from the last review
+So number of patches are reduced from 12 to 8.
+- Rework patch for MSR 0x54 support
+- Use suggestion from Hans for suspend/resume callbacks
+- Add Reviewed-by and Test-by tags
+
+
+Srinivas Pandruvada (8):
+  platform/x86: ISST: Add support for MSR 0x54
+  platform/x86: ISST: Enumerate TPMI SST and create framework
+  platform/x86: ISST: Parse SST MMIO and update instance
+  platform/x86: ISST: Add SST-CP support via TPMI
+  platform/x86: ISST: Add SST-PP support via TPMI
+  platform/x86: ISST: Add SST-BF support via TPMI
+  platform/x86: ISST: Add SST-TF support via TPMI
+  platform/x86: ISST: Add suspend/resume callbacks
+
+ .../x86/intel/speed_select_if/Kconfig         |    4 +
+ .../x86/intel/speed_select_if/Makefile        |    2 +
+ .../intel/speed_select_if/isst_if_common.c    |   28 +
+ .../x86/intel/speed_select_if/isst_tpmi.c     |   72 +
+ .../intel/speed_select_if/isst_tpmi_core.c    | 1438 +++++++++++++++++
+ .../intel/speed_select_if/isst_tpmi_core.h    |   18 +
+ include/uapi/linux/isst_if.h                  |  303 ++++
+ 7 files changed, 1865 insertions(+)
+ create mode 100644 drivers/platform/x86/intel/speed_select_if/isst_tpmi.c
+ create mode 100644 drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c
+ create mode 100644 drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.h
+
+-- 
+2.34.1
+
