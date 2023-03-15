@@ -2,95 +2,118 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C77C6BB5FE
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Mar 2023 15:29:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 356966BBC1F
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Mar 2023 19:34:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232283AbjCOO3o (ORCPT
+        id S231536AbjCOSeL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 15 Mar 2023 10:29:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55232 "EHLO
+        Wed, 15 Mar 2023 14:34:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231536AbjCOO3n (ORCPT
+        with ESMTP id S230212AbjCOSeK (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 15 Mar 2023 10:29:43 -0400
-Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com [IPv6:2607:f8b0:4864:20::933])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE7BA1D93E
-        for <platform-driver-x86@vger.kernel.org>; Wed, 15 Mar 2023 07:29:41 -0700 (PDT)
-Received: by mail-ua1-x933.google.com with SMTP id v48so12855641uad.6
-        for <platform-driver-x86@vger.kernel.org>; Wed, 15 Mar 2023 07:29:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678890581;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qwxjRqlme9diiWI0olBsyj7ernpvWc8j729I09nBrOI=;
-        b=VJOxgRwaBr/4mY4ov3vt2eqBnXmS7tAQbDCJ1GgmslNCtkJFr1qz9xDrL2Uu1ZDkZB
-         S18qOYbExXeQNkJ0OsQFWHdjt8T5juCNTEd5knH+hzIVJ6eXmwScVyw9b6VhLi4A1dvd
-         eCRSdNF69dRjINEAICiaglZTyzFNpnFDcNIJQZ3PF1axyGs4DU6UbiaX+Q5ISpZnSMk8
-         ey2xUzxz2KljdkWcol18Iyfh9V1gE7COu22/TKzgbipEPcBFc+2Ymu+hfaXzKdFrMKa8
-         JFIzUmtvars2dn3twQlS8IRQODAv/hPV5XYsgKebPy/sAbNeAtB1PuE2beZnA9dmZerk
-         aMwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678890581;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qwxjRqlme9diiWI0olBsyj7ernpvWc8j729I09nBrOI=;
-        b=ynwEWAEBemho8g83myqEimodfoSbfqWncqQGbs7RceeySwAYMlaSek721TP1PV/r+b
-         7S7YcGih+2yR8NgkZF2TQMcMknECaAUSDJvYf9e5vxBdqoygp4q+nIbaaDKAgBOH6NCV
-         LaVS23auTIfm8jMyXo15CKWiypIL1P9QaqHACUtflwnWs2po8maKwlT60cjVQc5gX9XK
-         HMtiBDAtGhEY4xmZXwOM3XQ2CqSS2N6hIij+I9QwZPTcdoitNtkmjhhbJa1Fqt56LReq
-         pZMl18T9Q6rHuIZDmA3hdH6cI1OW7O2xKZqFrEuyj7pr/G+6MpYqI9CE9PeGCG0dcVg1
-         QwhA==
-X-Gm-Message-State: AO0yUKVEHilyRKqwqS69v+YTK5EuSBjcJd1KKwaRquX3QH7YTOdagGQ4
-        XH58ugXBjKFnzD2jSZhwpNHVC6CNQBjDOLJI+mHU81PG6ME=
-X-Google-Smtp-Source: AK7set/Vorb80gvQOWVHF48ajmt0tMv/XEtKv+C5bFN3IhBILuqjTc6F6R4d/tbbZyi11c02j6PmI+I5+SXWTuihkxY=
-X-Received: by 2002:a1f:5081:0:b0:418:4529:a308 with SMTP id
- e123-20020a1f5081000000b004184529a308mr25509028vkb.3.1678890580606; Wed, 15
- Mar 2023 07:29:40 -0700 (PDT)
+        Wed, 15 Mar 2023 14:34:10 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA87A2885E;
+        Wed, 15 Mar 2023 11:34:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678905247; x=1710441247;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=7buWurkLx342j2qkufbK81+uMROemN3Q2MWKAyW03JA=;
+  b=W4qTyo5+fe68lSRgPHQuVb3c+WxJaBoFD98dbwjwaeqQ4+q+eFxBiU1g
+   LAOmQ/aybTwj+mi5TRIg4JhBnbuPE9Pz2G3cNzG07U5UIsDGcoC0q5B1u
+   6r+LSPRX3JQTnejCLXXjElNK+vMpxbPW/x93yiqI/SlfOJQpwa+yY1Pit
+   NRBpdenYeB4vVcedZxOTvlA5hDe6n+tcdTKhSsMjxEmZIJ9Z7HS/jFxMJ
+   KWYYcAyhnpqoA7yLVqJvV7vVRN0SGHWLsZZqKcLF8G1ZFblJOKhjKIE+F
+   wXMEjs38h5MzXeAxkYXJse9neoqzjYrQmrxCNqTt28z4SERL8LGS6XOdF
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="340154517"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
+   d="scan'208";a="340154517"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 11:34:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="925435195"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
+   d="scan'208";a="925435195"
+Received: from linux.intel.com ([10.54.29.200])
+  by fmsmga006.fm.intel.com with ESMTP; 15 Mar 2023 11:34:06 -0700
+Received: from debox1-desk4.intel.com (unknown [10.209.75.205])
+        by linux.intel.com (Postfix) with ESMTP id 2BF5D580BF6;
+        Wed, 15 Mar 2023 11:34:06 -0700 (PDT)
+From:   "David E. Box" <david.e.box@linux.intel.com>
+To:     irenic.rajneesh@gmail.com, david.e.box@linux.intel.com,
+        hdegoede@redhat.com, markgross@kernel.org,
+        andy.shevchenko@gmail.com, rajvi.jingar@linux.intel.com,
+        xi.pardee@intel.com
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: [PATCH 00/11] Intel pmc_core: Enable telemetry
+Date:   Wed, 15 Mar 2023 11:33:54 -0700
+Message-Id: <20230315183405.2465630-1-david.e.box@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230311144054.8754-1-teackot@gmail.com> <iPt1Reo37oGFvlRdQOY-3kZypWeV0pRah5oZ17K4xUOkeMqE7E43XQVyUX0A4a6oeEc1hPPzbjKcU3NznXUA3fnmp-foM3vuFSnA4YcFTDQ=@protonmail.com>
- <CAPXvF05AurS89f6bNg_5-VCS=vX=qMXbKgSdv5-wwBb8J3Xdcw@mail.gmail.com> <badebe08-7c9b-6f34-b938-b14c06a57985@redhat.com>
-In-Reply-To: <badebe08-7c9b-6f34-b938-b14c06a57985@redhat.com>
-From:   Nikita Kravets <teackot@gmail.com>
-Date:   Wed, 15 Mar 2023 17:29:29 +0300
-Message-ID: <CAPXvF05Sp6jVGaMMPaSfFtaz=Ogt46E2fibu2Q_zBh=HnQzhGA@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/x86: Add new msi-ec driver
-To:     Hans de Goede <hdegoede@redhat.com>,
-        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>
-Cc:     platform-driver-x86@vger.kernel.org,
-        Jose Angel Pastrana <japp0005@red.ujaen.es>,
-        Aakash Singh <mail@singhaakash.dev>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+On Intel SoCs, registers for the Power Management Controller are available
+in the PCI BAR of the SSRAM device, 0000:14.2. On Meteor Lake, these
+registers are structured in Intel PMT Telemetry regions which could be
+handled by the pmt_telemetry driver. This series adds APIs to the
+intel_vsec and pmt_telemetry drivers so that pmc_core driver can both
+create the telemetry instance from the SSRAM device and register for a
+handle to read the telemetry which contains the low power mode requirements
+for the S0ix states supported by Meteor Lake. The series also adds some
+fixes.
 
-> Note most drivers/platform/x86 drivers do indeed use /* ... */, so I would not mind if you convert the comments
+David E. Box (6):
+  platform/x86/intel/vsec: Explicitly enable capabilities
+  platform/x86/intel/vsec: Add base address field
+  platform/x86/intel/pmt: Add INTEL_PMT module namespace
+  platform/x86/intel/pmt: telemetry: Add telemetry read functions
+  platform/x86/intel/pmt/telemetry: Add driver version
+  platform/x86/intel/pmc: Add Intel PMT support for MTL PMC
 
-Okay, I'll do it then
+Gayatri Kammela (1):
+  platform/x86/intel/vsec: Add intel_vsec_register
 
-> But I guess it might be better to put that on the TODO list somewhere and do it once the module has had some more testing.
->
-> E.g. I should really test this on my desktop's MSI B550M PRO-VDH board and see what it does there (hopefully nothing).
+Rajvi Jingar (1):
+  platform/x86/intel/pmc: Alder Lake slp_s0_residency fix
 
-By design it should fail to load on your motherboard since ec_read()
-will return with
-ENODEV if EC isn't present, or read an incompatible version if it is.
-Some testing would be good, so we can add a DMI table in the next set
-of patches.
+Xi Pardee (3):
+  platform/x86:intel/pmc: Combine core_init and core_configure function
+  platform/x86:intel/pmc: Move get_low_power_modes function
+  platform/x86/intel/pmc/mtl: get LPM information using Intel PMT
 
-I have a question about naming. We have the fn_super_swap
-configuration parameter,
-but I noticed that in the kernel code the Super key is often called Meta.
-Should I also rename it to fn_meta_swap or stick with 'Super'?
+ drivers/platform/x86/intel/pmc/Kconfig     |   1 +
+ drivers/platform/x86/intel/pmc/adl.c       |  17 +-
+ drivers/platform/x86/intel/pmc/cnp.c       |  17 +-
+ drivers/platform/x86/intel/pmc/core.c      |  71 +++++---
+ drivers/platform/x86/intel/pmc/core.h      |  24 +--
+ drivers/platform/x86/intel/pmc/icl.c       |  11 +-
+ drivers/platform/x86/intel/pmc/mtl.c       | 187 ++++++++++++++++++-
+ drivers/platform/x86/intel/pmc/spt.c       |  11 +-
+ drivers/platform/x86/intel/pmc/tgl.c       |  17 +-
+ drivers/platform/x86/intel/pmt/class.c     |  48 +++--
+ drivers/platform/x86/intel/pmt/class.h     |  35 ++--
+ drivers/platform/x86/intel/pmt/crashlog.c  |   3 +-
+ drivers/platform/x86/intel/pmt/telemetry.c | 199 ++++++++++++++++++++-
+ drivers/platform/x86/intel/pmt/telemetry.h | 120 +++++++++++++
+ drivers/platform/x86/intel/vsec.c          | 131 ++++++--------
+ drivers/platform/x86/intel/vsec.h          |  64 ++++++-
+ 16 files changed, 790 insertions(+), 166 deletions(-)
+ create mode 100644 drivers/platform/x86/intel/pmt/telemetry.h
 
-Regards,
-Nikita
+
+base-commit: 02c464b73645404654359ad21f368a13735e2850
+-- 
+2.34.1
+
