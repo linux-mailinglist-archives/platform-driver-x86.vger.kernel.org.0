@@ -2,105 +2,140 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D06AA6BAB4C
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Mar 2023 09:57:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 403646BAF6C
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Mar 2023 12:39:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231657AbjCOI5M (ORCPT
+        id S231231AbjCOLjX (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 15 Mar 2023 04:57:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37828 "EHLO
+        Wed, 15 Mar 2023 07:39:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231236AbjCOI5L (ORCPT
+        with ESMTP id S229656AbjCOLjX (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 15 Mar 2023 04:57:11 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 592FE6230C
-        for <platform-driver-x86@vger.kernel.org>; Wed, 15 Mar 2023 01:57:09 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id h8so28728945ede.8
-        for <platform-driver-x86@vger.kernel.org>; Wed, 15 Mar 2023 01:57:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678870628;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2db15S6iWXRPdgvftXuDGGeFS+ITB9v/lZ4kZjfX2FE=;
-        b=bbgttw82VabKnfSALPKyY6CSe5VdryHXsV8GlOAO7bL4cN2r6fMuQVqFB1Jm6hk3vn
-         S2zsqJVs+JfWweRwNgUAh0c6MmfoFevIquw2Khmo4dYBtWNoBUeJfG9YU8QQ0X1KmtaY
-         1uXiiXhudEt2ASXi58kMvZrWXf6vIgs1X/u9hrWDGNCqpeNHRp3I8bfm4X5UDrHsla0E
-         PevXgj+2984Uyab6h7MP0Yv5peGmRHMtPdXw8CiPz/wZ25YefClVetVFYq/VeVugxtXh
-         uwVlcgFA11uM86vcNDLXWGXEIB6E/OU5HYebKC9wzZrZUyDu8LblTOcSKiSMrU4dUzmf
-         lmWA==
+        Wed, 15 Mar 2023 07:39:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A24DBE1AF
+        for <platform-driver-x86@vger.kernel.org>; Wed, 15 Mar 2023 04:38:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1678880309;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=d8y/tpfaJxyCeRo089Yz1NWVwWn2dFz/cip9V11vIfw=;
+        b=Ua/4Ie5x5DNx9sx9XfmOyl9pRFp0j4xjFoBN10S5c0xuKd5GbPikrw6GHlMVX40Gus2Hic
+        MyEhx49KInpZoKFmMmurFhxYm9ycBJnCB3W9S9sd7zqkbC4yagFHDIG2xW+in+MEEWG0wx
+        8X6VZooI8xRItxn2hJ7Nn7FevFxeALc=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-570-EmtutuBkMnu58ydP_zVtqw-1; Wed, 15 Mar 2023 07:38:28 -0400
+X-MC-Unique: EmtutuBkMnu58ydP_zVtqw-1
+Received: by mail-ed1-f71.google.com with SMTP id er23-20020a056402449700b004fed949f808so4213341edb.20
+        for <platform-driver-x86@vger.kernel.org>; Wed, 15 Mar 2023 04:38:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678870628;
-        h=to:subject:message-id:date:from:reply-to:mime-version
+        d=1e100.net; s=20210112; t=1678880307;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2db15S6iWXRPdgvftXuDGGeFS+ITB9v/lZ4kZjfX2FE=;
-        b=P4ThYTNkazcRoN4LBDqY6zkR4sFli5XHGjSng6L+gyGdjrOhm5pHKby8JBMKBCNf3U
-         WLYsDIxLonB+YBm3VJN16dF9XUv+7OW47K12qdazFVC/KhqqsBSMCulIKCtF1EIZTWsq
-         Lm8BTo/umFNcvt31TbbwlkVt2/9HZGmvVxP+GKlG8aghy4ScxxLlUD6x3XpuniAgt1ZQ
-         A3j/5vxWV9plWIw+Kcovs22ANZMEgYK4uyUR2YB/12lRL73T4yM7YgsmWhBEwfenpy/j
-         TgtwzkIz0VKADweslMxunH7NP8agwv0h1t15BHN/epQMK/J0r4seTnHmRV80KE90Cda3
-         WCQw==
-X-Gm-Message-State: AO0yUKUUdbJrI8pkPtwuqWAgUE+Z2jBLPeFeMYdDCFAMDWVdyQMyc7eK
-        Wqv57VYk4QKxOi0nsD0xa2CuMQrLuvv6VJ+TtWo=
-X-Google-Smtp-Source: AK7set888hevlxtdurMiEgh70tqqe1B1++4hrC93S6R+CrYfiBR+1djVWX+sQvl0YvLZOj5Ey/IQcyygvvEu8r8sfTs=
-X-Received: by 2002:a17:906:cf91:b0:919:2e39:95e5 with SMTP id
- um17-20020a170906cf9100b009192e3995e5mr2673267ejb.6.1678870627779; Wed, 15
- Mar 2023 01:57:07 -0700 (PDT)
+        bh=d8y/tpfaJxyCeRo089Yz1NWVwWn2dFz/cip9V11vIfw=;
+        b=D4eEbewVsKOcU7h1+9YLQUcF4ppm4H79AQwYaLHEpGuCPoCBr1KfgEfh/8HNPViEln
+         OakRQLjYzQ3WU5RIZJZfsWmuo35NEwFmqiEqcBosyGEhNtiB/RFXJc+z8N61EMC06wja
+         xWQnl6Hzo+Hkg+1SGYNsjDYl/nXpKXDuLnUuE5hg/TnkqgeTCyyApuxFQ3iSkJ3rqO0H
+         fd93dU4lAhn5RyOt00htD8pFe2YqfCwb6sRFrnH31ySlCTLW1rwAk6EBvOkgQqIqCAsE
+         ruWFewwsTwLv+B0yRR6CgjMgn3JUwVJ1xik3L+j4AIie2Jz74yKTAwNgF6/ac5XQVRTJ
+         hB3Q==
+X-Gm-Message-State: AO0yUKWXe9bmcjWJzPEIb8XJPBDicNmP6Mm8LI20hMGMCdkzN3jPs8yo
+        jvd5hTStektEbf7hcjUT0svyHGn1e+2n7DNHaSQW3/9L890HLeHlOooTDiHo8e4/vuzePDT1NO+
+        eOfSQsExRJTbsnT4CpsZ76/JD5pLSvWmZ3kDpp/7mqA==
+X-Received: by 2002:aa7:d8c4:0:b0:4fd:298a:fa12 with SMTP id k4-20020aa7d8c4000000b004fd298afa12mr2304287eds.3.1678880306991;
+        Wed, 15 Mar 2023 04:38:26 -0700 (PDT)
+X-Google-Smtp-Source: AK7set+GW/yVokU7WNXA7NoRTEgtH4YObh8FT+xacbzGn4ekI4qj9WvwPcgdd+PsiKbWE8m/jNq4fg==
+X-Received: by 2002:aa7:d8c4:0:b0:4fd:298a:fa12 with SMTP id k4-20020aa7d8c4000000b004fd298afa12mr2304272eds.3.1678880306735;
+        Wed, 15 Mar 2023 04:38:26 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id v1-20020a170906488100b008d8f1b238fdsm2391768ejq.149.2023.03.15.04.38.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Mar 2023 04:38:26 -0700 (PDT)
+Message-ID: <badebe08-7c9b-6f34-b938-b14c06a57985@redhat.com>
+Date:   Wed, 15 Mar 2023 12:38:25 +0100
 MIME-Version: 1.0
-Received: by 2002:a05:7208:70ce:b0:65:6438:62d9 with HTTP; Wed, 15 Mar 2023
- 01:57:07 -0700 (PDT)
-Reply-To: hitnodeby23@yahoo.com
-From:   Hinda Itno Deby <georginaaaibi17@gmail.com>
-Date:   Wed, 15 Mar 2023 01:57:07 -0700
-Message-ID: <CAFDg=jX6rPgtjuqQNXRA4=NHzdreToopJSdg+ajVZ8JXOgub2g@mail.gmail.com>
-Subject: Reply
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=7.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM,UNDISC_MONEY,
-        URG_BIZ autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:541 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5030]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [georginaaaibi17[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [georginaaaibi17[at]gmail.com]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [hitnodeby23[at]yahoo.com]
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.6 URG_BIZ Contains urgent matter
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  2.0 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *******
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2] platform/x86: Add new msi-ec driver
+To:     Nikita Kravets <teackot@gmail.com>,
+        =?UTF-8?Q?Barnab=c3=a1s_P=c5=91cze?= <pobrn@protonmail.com>
+Cc:     platform-driver-x86@vger.kernel.org,
+        Jose Angel Pastrana <japp0005@red.ujaen.es>,
+        Aakash Singh <mail@singhaakash.dev>
+References: <20230311144054.8754-1-teackot@gmail.com>
+ <iPt1Reo37oGFvlRdQOY-3kZypWeV0pRah5oZ17K4xUOkeMqE7E43XQVyUX0A4a6oeEc1hPPzbjKcU3NznXUA3fnmp-foM3vuFSnA4YcFTDQ=@protonmail.com>
+ <CAPXvF05AurS89f6bNg_5-VCS=vX=qMXbKgSdv5-wwBb8J3Xdcw@mail.gmail.com>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAPXvF05AurS89f6bNg_5-VCS=vX=qMXbKgSdv5-wwBb8J3Xdcw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
--- 
-Hello
+Hi,
 
-My name is Hinda Itno Deby Please I want us to discuss Urgent Business
-Proposal, if you are interested kindly reply to me so i can give you
-all the details.Thanks and God Bless You.
-Ms Hinda Itno Deby
+On 3/11/23 21:35, Nikita Kravets wrote:
+> Hi,
+> 
+>> The above two functions are inconsistent with the rest of the file because
+>> they have the return type in a separate line.
+> 
+> I believe it was originally made to not exceed the limit of 80 columns
+> 
+>> It's a small thing, but usually /* ... */ comments are preferred.
+>> Hans will tell you if you need to change it.
+> 
+> Okay
+
+Yes I noticed these too during my review, but I'm fine with them as long as a single driver uses a single comment style consistently.
+
+Note most drivers/platform/x86 drivers do indeed use /* ... */, so I would not mind if you convert the comments, but this is not a blocker for merging the driver.
+
+>> Previously you said `match_string()` works here. Has something changed?
+> 
+> No, I implemented it in the main repo but forgot to do it in the kernel patch..
+> I'll do it in the v3 after we're finished reviewing v2
+
+Thanks, sounds good.
+
+Only remark which I have is that the driver still has no modaliases so if this gets enabled as a module by distros, which is what most distros will do it will never load.
+
+I think you should add a dmi_system_id table together with MODULE_DEVICE_TABLE() e.g. something like this:
+
+static const struct dmi_system_id msi_dmi_table[] __initconst = {
+	{
+		matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "MICRO-STAR INT"),
+		}
+	},
+	{
+		matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Micro-Star International"),
+		}
+	},
+	{}
+};
+MODULE_DEVICE_TABLE(dmi, msi_dmi_table);
+
+To make the module auto-load. But I guess it might be better to put that on the TODO list somewhere and do it once the module has had some more testing.
+
+E.g. I should really test this on my desktop's MSI B550M PRO-VDH board and see what it does there (hopefully nothing).
+
+Regards,
+
+Hans
+
