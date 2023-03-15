@@ -2,48 +2,47 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 918486BB375
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Mar 2023 13:45:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6567C6BB34A
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Mar 2023 13:43:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232754AbjCOMpI (ORCPT
+        id S233083AbjCOMnR (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 15 Mar 2023 08:45:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47674 "EHLO
+        Wed, 15 Mar 2023 08:43:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233155AbjCOMow (ORCPT
+        with ESMTP id S232743AbjCOMmy (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 15 Mar 2023 08:44:52 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 554838EA09;
-        Wed, 15 Mar 2023 05:43:30 -0700 (PDT)
+        Wed, 15 Mar 2023 08:42:54 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 792A5A591D;
+        Wed, 15 Mar 2023 05:41:35 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8FB2861D73;
-        Wed, 15 Mar 2023 12:42:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0F97C433EF;
-        Wed, 15 Mar 2023 12:42:55 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CD78861D7E;
+        Wed, 15 Mar 2023 12:41:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E73B3C433D2;
+        Wed, 15 Mar 2023 12:41:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1678884176;
-        bh=if5yWvrLs7s3hjiF6DzbVuIrkn5oiXCRR1mNGRrXXRI=;
+        s=korg; t=1678884094;
+        bh=cLtHXTjXsWs+5x7ythUcMWxMze/ZFs6JONXAkK+DoAI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=NJ+vQ16pXjgVXtdkSjzn/oDJbjx4Dc/EHfNpee+7fsTybApB/xTTlYhOsLv0UrXaf
-         2isiY/jAdd6I2HoxUxUDqbebQiHs9mesEycJIAkke9780rm8P8o7h8a7kVcFCaDfvV
-         8QxzOqiX1Qi4+mqei29hYIKmcYFUY5n+wF7iFq94=
+        b=NUMJR9fPTQTqjJBpHkO/6GC6sT8LRl5A1mF7idWn86Iy4I2x8dqJVivdOTzeb+m/I
+         I0wR7GSqHjYE9Bu62g79pkyrucHxfLWX1u9dZxR2hfAjn5GMer4Xz/LQC3bx25viNX
+         CFchxDXoXb/bBMWS5dHk8ovolqDHCdlPiaAB6EYg=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     stable@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         patches@lists.linux.dev, Randy Dunlap <rdunlap@infradead.org>,
+        Vadim Pasternak <vadimp@mellanox.com>,
         Darren Hart <dvhart@infradead.org>,
         Hans de Goede <hdegoede@redhat.com>,
-        Michael Shych <michaelsh@nvidia.com>,
         Mark Gross <markgross@kernel.org>,
-        Vadim Pasternak <vadimp@nvidia.com>,
         platform-driver-x86@vger.kernel.org,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.2 096/141] platform: mellanox: select REGMAP instead of depending on it
-Date:   Wed, 15 Mar 2023 13:13:19 +0100
-Message-Id: <20230315115742.930964565@linuxfoundation.org>
+Subject: [PATCH 6.2 097/141] platform: x86: MLX_PLATFORM: select REGMAP instead of depending on it
+Date:   Wed, 15 Mar 2023 13:13:20 +0100
+Message-Id: <20230315115742.960406014@linuxfoundation.org>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230315115739.932786806@linuxfoundation.org>
 References: <20230315115739.932786806@linuxfoundation.org>
@@ -51,8 +50,8 @@ User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -63,7 +62,7 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 From: Randy Dunlap <rdunlap@infradead.org>
 
-[ Upstream commit 03f5eb300ad1241f854269a3e521b119189a4493 ]
+[ Upstream commit 7e7e1541c91615e9950d0b96bcd1806d297e970e ]
 
 REGMAP is a hidden (not user visible) symbol. Users cannot set it
 directly thru "make *config", so drivers should select it instead of
@@ -74,74 +73,35 @@ Kconfig circular dependency issues.
 
 Therefore, change the use of "depends on REGMAP" to "select REGMAP".
 
-For NVSW_SN2201, select REGMAP_I2C instead of depending on it.
-
-Fixes: c6acad68eb2d ("platform/mellanox: mlxreg-hotplug: Modify to use a regmap interface")
-Fixes: 5ec4a8ace06c ("platform/mellanox: Introduce support for Mellanox register access driver")
-Fixes: 62f9529b8d5c ("platform/mellanox: mlxreg-lc: Add initial support for Nvidia line card devices")
-Fixes: 662f24826f95 ("platform/mellanox: Add support for new SN2201 system")
+Fixes: ef0f62264b2a ("platform/x86: mlx-platform: Add physical bus number auto detection")
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Vadim Pasternak <vadimp@mellanox.com>
 Cc: Darren Hart <dvhart@infradead.org>
 Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: Michael Shych <michaelsh@nvidia.com>
 Cc: Mark Gross <markgross@kernel.org>
-Cc: Vadim Pasternak <vadimp@nvidia.com>
 Cc: platform-driver-x86@vger.kernel.org
-Link: https://lore.kernel.org/r/20230226053953.4681-6-rdunlap@infradead.org
+Link: https://lore.kernel.org/r/20230226053953.4681-7-rdunlap@infradead.org
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/platform/mellanox/Kconfig | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/platform/x86/Kconfig | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/platform/mellanox/Kconfig b/drivers/platform/mellanox/Kconfig
-index 09c7829e95c4b..382793e73a60a 100644
---- a/drivers/platform/mellanox/Kconfig
-+++ b/drivers/platform/mellanox/Kconfig
-@@ -16,17 +16,17 @@ if MELLANOX_PLATFORM
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index 5692385e2d26f..1396a839dd8a4 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -956,7 +956,8 @@ config SERIAL_MULTI_INSTANTIATE
  
- config MLXREG_HOTPLUG
- 	tristate "Mellanox platform hotplug driver support"
--	depends on REGMAP
- 	depends on HWMON
- 	depends on I2C
+ config MLX_PLATFORM
+ 	tristate "Mellanox Technologies platform support"
+-	depends on I2C && REGMAP
++	depends on I2C
 +	select REGMAP
  	help
- 	  This driver handles hot-plug events for the power suppliers, power
- 	  cables and fans on the wide range Mellanox IB and Ethernet systems.
- 
- config MLXREG_IO
- 	tristate "Mellanox platform register access driver support"
--	depends on REGMAP
- 	depends on HWMON
-+	select REGMAP
- 	help
- 	  This driver allows access to Mellanox programmable device register
- 	  space through sysfs interface. The sets of registers for sysfs access
-@@ -36,9 +36,9 @@ config MLXREG_IO
- 
- config MLXREG_LC
- 	tristate "Mellanox line card platform driver support"
--	depends on REGMAP
- 	depends on HWMON
- 	depends on I2C
-+	select REGMAP
- 	help
- 	  This driver provides support for the Mellanox MSN4800-XX line cards,
- 	  which are the part of MSN4800 Ethernet modular switch systems
-@@ -80,10 +80,9 @@ config MLXBF_PMC
- 
- config NVSW_SN2201
- 	tristate "Nvidia SN2201 platform driver support"
--	depends on REGMAP
- 	depends on HWMON
- 	depends on I2C
--	depends on REGMAP_I2C
-+	select REGMAP_I2C
- 	help
- 	  This driver provides support for the Nvidia SN2201 platform.
- 	  The SN2201 is a highly integrated for one rack unit system with
+ 	  This option enables system support for the Mellanox Technologies
+ 	  platform. The Mellanox systems provide data center networking
 -- 
 2.39.2
 
