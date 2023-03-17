@@ -2,84 +2,199 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0E0D6BEA2A
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 17 Mar 2023 14:36:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D483C6BEA38
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 17 Mar 2023 14:38:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229758AbjCQNgG (ORCPT
+        id S229654AbjCQNiP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 17 Mar 2023 09:36:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58248 "EHLO
+        Fri, 17 Mar 2023 09:38:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229678AbjCQNgF (ORCPT
+        with ESMTP id S229647AbjCQNiM (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 17 Mar 2023 09:36:05 -0400
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01C243430C;
-        Fri, 17 Mar 2023 06:36:03 -0700 (PDT)
-Received: by mail-qv1-xf34.google.com with SMTP id mg14so3403795qvb.12;
-        Fri, 17 Mar 2023 06:36:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679060163;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HNVBg27oIWutxFT+tTBlw9bXDaXQxeVQk+w6ErQV8u0=;
-        b=OFGFge9nJtxmQpEupx9yRDWqHS3snsTOJg+Lp3RztPeBlI0Sa4RxKzjyWjYisGzhIr
-         P/qEy2ZOe+DYk220tj+xjOTGe8FPuVW+9BJByl4Mh4FTZooYcLW22vKWfwmNkCSWIJcj
-         Yb+4sEQvu3hNxeOYXJGfES8Ztg/8TiO64BdDSfrYqrGz+zQRuzS6Anv8R0sfiD5ywrdE
-         bPBctJA/84oBJwyOk4Q67ZEAunF/2jbNKWyPms8Ryl7HDGHfal/tOgWloGWEEwEA3ARh
-         lJ0ICMwpVZXUOSo/Y2RIDeMwP1ZHAXJvqUhG+MtsVabHB3HejfjI7bqvqON4DBSwLqcd
-         KWAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679060163;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HNVBg27oIWutxFT+tTBlw9bXDaXQxeVQk+w6ErQV8u0=;
-        b=r90zK7CZSVEf6XyNZ5Nx5MQix25FeQr4hUMkDxh1IKBjSECXeBWaDIl3P2a0kgNcGD
-         lASbxxnTQHdrvlTqTgULrA32hUt3M8FvjBr/a6i2dVB9LD0UtMQk5oa21tSAjhw2G5Nz
-         z1bEwxyndBn5+xCDcOdEjm7OHbdQDXjeh9EAzpuRv2tr3r0/SXCv+S/SerRlFDuEKQHc
-         vJvBhZrU+gKClBUMy5h6Cx0l3K8epeSQMV5pCSk1bYQIEGnfjdPJv3GXp1NRGMkMMnvy
-         3p4UpUUuZpn2u3zfsPpLQLW0drP4KrDiN9QIefUXIhkEuu2MaBC5lN47Sx/352fRTFnv
-         fSSg==
-X-Gm-Message-State: AO0yUKX49AXLTuMhXVe+pdd4mKWqp5S7kB2bICjDALV3qVOJZO2zjUFT
-        fVf2BYid48QOMap/xt7HNKkvPGWYxDp//hHHk4o=
-X-Google-Smtp-Source: AK7set803kNbp/TPA94Q6gV9IK15KDMVcbMby2EcvOAIUfF27bVl2Tade8EBMlo3YhaPYAiSp3UgfI0azs4oQAMtqP8=
-X-Received: by 2002:a05:6214:9a8:b0:56e:ff38:46a2 with SMTP id
- du8-20020a05621409a800b0056eff3846a2mr5451455qvb.10.1679060163025; Fri, 17
- Mar 2023 06:36:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230316225736.2856521-1-david.e.box@linux.intel.com> <20230316225736.2856521-2-david.e.box@linux.intel.com>
-In-Reply-To: <20230316225736.2856521-2-david.e.box@linux.intel.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 17 Mar 2023 15:35:27 +0200
-Message-ID: <CAHp75VcP5jf4Tt-U7cs77gnTcUpQbQ+exXjOOc5epPRDfT0h0Q@mail.gmail.com>
-Subject: Re: [PATCH 2/2] platform/x86/intel/pmt/telemetry: Add driver version
-To:     "David E. Box" <david.e.box@linux.intel.com>
-Cc:     irenic.rajneesh@gmail.com, david.e.box@intel.com,
-        hdegoede@redhat.com, markgross@kernel.org,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Fri, 17 Mar 2023 09:38:12 -0400
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D123DC97D9;
+        Fri, 17 Mar 2023 06:37:51 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id E654D3200917;
+        Fri, 17 Mar 2023 09:37:50 -0400 (EDT)
+Received: from imap52 ([10.202.2.102])
+  by compute5.internal (MEProxy); Fri, 17 Mar 2023 09:37:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+        :cc:content-transfer-encoding:content-type:content-type:date
+        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
+        1679060270; x=1679146670; bh=Qjjn2kuuO3ncKAaMCKVx4y8KDMy9CPpZX4b
+        Mcqf7GVs=; b=nV4u4DyzAjUxvlg2Hg1H493wLcsFSo/erbs+DT8tVJvx2KDy6Wk
+        T5NrY8KfOgROgdn5tbbvugTcqWD8uEZGU6t6HxPEigAaiW0YvQ3i+FJjg16gl+hv
+        uxJ/NQ7ka4KVp1bGgpZeUaJIeaX3Ih9LdFPzdI4Le/AhQM0FLK4iQTpQCn64COEJ
+        faIQGtvVUWV/1YVPfo1C8x4j+IwrpTS1PPE9jKlelZ8VnCFfbOEX1ySiRaEr/7tS
+        dAnTkKqQPjIql+CpcNUen57HwhhwWWmOn7wkPsdiU5aRBsPE0eY93AGdc8vS2VZD
+        kGj6DkLwmYbOvBu1GUTAv1ZZw2khKQ5aQeA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:content-type:date:date:feedback-id:feedback-id
+        :from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+        1679060270; x=1679146670; bh=Qjjn2kuuO3ncKAaMCKVx4y8KDMy9CPpZX4b
+        Mcqf7GVs=; b=kjwPdJYQllpi86HB3CYpaPcFzkw/G7WyYYDRgfHe/hB+wLZxnJA
+        keBXYRzwAdSpbz8VIaAm6PC0g5Iu5bAUuGFMXQgv7priOPYnmQP5t/4k4/ITD41+
+        qkvLmB7VhNSu3cKSTbq1zeQEZl51Fy0iO0eyVyNFwgKVjP6i109sBGOY9dmgMMcs
+        5fpitqgLK4gRTeBh3/0YVxnTBbxbJOHtaG7Zfj8pjgOULp1lu2Cz/3yHR2i7/BF1
+        pIvWToTnmtUapqtJ0/mtfIlBi2w7YrgZgip9+5VckQVJuBtoUTHVJ12gIEIvNKZX
+        OWX2oT7SBgSDFqqn33xN2euuhenvCCU0NyQ==
+X-ME-Sender: <xms:Lm0UZEbXm6KBv4EQbmhbS9dzEmpdoXwbqv8WX5wn-xAOm8G-fed4bQ>
+    <xme:Lm0UZPaoQbCpnCs0jLcbpdcvMKgC7XYivyFu5PkHjQoGkLF_zYzJUg9ZfXf5r1m7U
+    NVJHOUdQ33a2xXKpik>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdefvddgheefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdfo
+    rghrkhcurfgvrghrshhonhdfuceomhhpvggrrhhsohhnqdhlvghnohhvohesshhquhgvsg
+    gsrdgtrgeqnecuggftrfgrthhtvghrnhepfeejgedvudegvdekhedvffefjefhuedthfdt
+    heehkeffuddvgfetjeegjeeufefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenuc
+    evlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmphgvrghr
+    shhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggr
+X-ME-Proxy: <xmx:Lm0UZO9M6hfgz2Tw8WcV-0Lqu49jyYe1dI34CSWL7rirkmvPn9qNPw>
+    <xmx:Lm0UZOrnGCOeg_86MkZRvIE-X-F_xRDYvTayNnw9aGQpj1m760jOEA>
+    <xmx:Lm0UZPq-8kW3KKa0Yk4Fj9TwznAzu1zuXirU5X2lkDR7qN9FF91mqQ>
+    <xmx:Lm0UZOXCDdJlVpokXuY15ksLwMsDsuH9fj-NjeGrCo3JIWBy5gZc-Q>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 2EE87C60093; Fri, 17 Mar 2023 09:37:50 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-221-gec32977366-fm-20230306.001-gec329773
+Mime-Version: 1.0
+Message-Id: <dd77e7df-022f-4299-8827-4622c1d2d1f3@app.fastmail.com>
+In-Reply-To: <1af9e9c5-681b-483e-620f-c1866fafd6db@redhat.com>
+References: <20230314-think-lmi-sysfs_ops-v1-1-9d4f1cf9caec@weissschuh.net>
+ <1af9e9c5-681b-483e-620f-c1866fafd6db@redhat.com>
+Date:   Fri, 17 Mar 2023 09:37:19 -0400
+From:   "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To:     "Hans de Goede" <hdegoede@redhat.com>,
+        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        "Mark Pearson" <markpearson@lenovo.com>,
+        "markgross@kernel.org" <markgross@kernel.org>
+Cc:     "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] platform/x86: think-lmi: Remove custom kobject sysfs_ops
+Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Mar 17, 2023 at 12:57=E2=80=AFAM David E. Box
-<david.e.box@linux.intel.com> wrote:
+Thanks Thomas,
+
+Tested on a couple of my platforms - all looked good.
+
+Tested-by: mpearson-lenovo@squebb.ca
+
+Mark
+
+On Thu, Mar 16, 2023, at 10:44 AM, Hans de Goede wrote:
+> Hi,
 >
-> Add a driver version number to make it easier to track changes in
-> backported kernels.
-
-Sorry, but NAK. As Greg KH said, we do not use this anymore (in Git
-era) =C2=AD=E2=80=94 the SHA from the Git _is_ the version of the driver.
-
---=20
-With Best Regards,
-Andy Shevchenko
+> On 3/14/23 01:07, Thomas Wei=C3=9Fschuh wrote:
+>> think-lmi defines its own sysfs_ops that are identical to the standard
+>> kobj_sysfs_ops. Use the standard definitions.
+>>=20
+>> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+>
+> Thank you for your patch, I've applied this patch to my review-hans=20
+> branch:
+> https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers=
+-x86.git/log/?h=3Dreview-hans
+>
+> Note it will show up in my review-hans branch once I've pushed my
+> local branch there, which might take a while.
+>
+> Once I've run some tests on this branch the patches there will be
+> added to the platform-drivers-x86/for-next branch and eventually
+> will be included in the pdx86 pull-request to Linus for the next
+> merge-window.
+>
+> Regards,
+>
+> Hans
+>
+>
+>> ---
+>>=20
+>> This has only been compile-tested.
+>> ---
+>>  drivers/platform/x86/think-lmi.c | 31 ++-----------------------------
+>>  1 file changed, 2 insertions(+), 29 deletions(-)
+>>=20
+>> diff --git a/drivers/platform/x86/think-lmi.c b/drivers/platform/x86/=
+think-lmi.c
+>> index 86b33b74519b..2b5ae68ffce8 100644
+>> --- a/drivers/platform/x86/think-lmi.c
+>> +++ b/drivers/platform/x86/think-lmi.c
+>> @@ -1047,33 +1047,6 @@ static const struct attribute_group tlmi_attr_=
+group =3D {
+>>  	.attrs =3D tlmi_attrs,
+>>  };
+>> =20
+>> -static ssize_t tlmi_attr_show(struct kobject *kobj, struct attribute=
+ *attr,
+>> -				    char *buf)
+>> -{
+>> -	struct kobj_attribute *kattr;
+>> -
+>> -	kattr =3D container_of(attr, struct kobj_attribute, attr);
+>> -	if (kattr->show)
+>> -		return kattr->show(kobj, kattr, buf);
+>> -	return -EIO;
+>> -}
+>> -
+>> -static ssize_t tlmi_attr_store(struct kobject *kobj, struct attribut=
+e *attr,
+>> -				     const char *buf, size_t count)
+>> -{
+>> -	struct kobj_attribute *kattr;
+>> -
+>> -	kattr =3D container_of(attr, struct kobj_attribute, attr);
+>> -	if (kattr->store)
+>> -		return kattr->store(kobj, kattr, buf, count);
+>> -	return -EIO;
+>> -}
+>> -
+>> -static const struct sysfs_ops tlmi_kobj_sysfs_ops =3D {
+>> -	.show	=3D tlmi_attr_show,
+>> -	.store	=3D tlmi_attr_store,
+>> -};
+>> -
+>>  static void tlmi_attr_setting_release(struct kobject *kobj)
+>>  {
+>>  	struct tlmi_attr_setting *setting =3D to_tlmi_attr_setting(kobj);
+>> @@ -1091,12 +1064,12 @@ static void tlmi_pwd_setting_release(struct k=
+object *kobj)
+>> =20
+>>  static const struct kobj_type tlmi_attr_setting_ktype =3D {
+>>  	.release        =3D &tlmi_attr_setting_release,
+>> -	.sysfs_ops	=3D &tlmi_kobj_sysfs_ops,
+>> +	.sysfs_ops	=3D &kobj_sysfs_ops,
+>>  };
+>> =20
+>>  static const struct kobj_type tlmi_pwd_setting_ktype =3D {
+>>  	.release        =3D &tlmi_pwd_setting_release,
+>> -	.sysfs_ops	=3D &tlmi_kobj_sysfs_ops,
+>> +	.sysfs_ops	=3D &kobj_sysfs_ops,
+>>  };
+>> =20
+>>  static ssize_t pending_reboot_show(struct kobject *kobj, struct kobj=
+_attribute *attr,
+>>=20
+>> ---
+>> base-commit: eeac8ede17557680855031c6f305ece2378af326
+>> change-id: 20230314-think-lmi-sysfs_ops-e849a18299bb
+>>=20
+>> Best regards,
