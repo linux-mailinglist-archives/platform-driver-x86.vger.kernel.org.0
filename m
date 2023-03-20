@@ -2,81 +2,80 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C485B6C13F6
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Mar 2023 14:50:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D73156C13FF
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Mar 2023 14:51:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229849AbjCTNuf (ORCPT
+        id S231367AbjCTNv0 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 Mar 2023 09:50:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33944 "EHLO
+        Mon, 20 Mar 2023 09:51:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231247AbjCTNue (ORCPT
+        with ESMTP id S231460AbjCTNvU (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 Mar 2023 09:50:34 -0400
+        Mon, 20 Mar 2023 09:51:20 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 313BDAF22
-        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Mar 2023 06:49:42 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F26AD13518
+        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Mar 2023 06:50:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1679320181;
+        s=mimecast20190719; t=1679320224;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=dTB+1XfSXsy0vMQD3TqCWnvYGHCLVIdTBw7HZKV79x0=;
-        b=elADLH1Np0guCnrVNHxGeHEAPnp8Z3CCdZukbLbgmvMkW8HVUflC+HS+7IFWx07ycjcihc
-        RqHKXH33dtQUojDbn2ggDEhxEvgbZzDYLbfDi50lmzf/eYtdJ1aCOEFWdVL4oRG87/nTGM
-        /Z130KMToB0txzejaGPyAUdxf9k0sB0=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=AdZsXeBo8uwDfn+rT5MKVk4PImRFABdRL7zjfVCdjDI=;
+        b=PgJnjA6mTSh32eX1DNSlS7jWQzzpdB03UJFXSsi+JNV4VVUIDqFY8iT9+97HLZg+JYj5sz
+        UGt2yJng4ZBUqQ+h26bZXw6O8yDAy8ucVRKH38l5NB1/NPrUlE1734MHyyiUNSutYeIBN8
+        aoS9NcSOq3t6u4fBXhMKskYdNp/UJZM=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-6-mjevisY9Mbu3od8obQtSvw-1; Mon, 20 Mar 2023 09:49:40 -0400
-X-MC-Unique: mjevisY9Mbu3od8obQtSvw-1
-Received: by mail-ed1-f70.google.com with SMTP id e18-20020a056402191200b004fa702d64b3so17922648edz.23
-        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Mar 2023 06:49:39 -0700 (PDT)
+ us-mta-596-MHawT9JiP7m0jNIZtgRkLA-1; Mon, 20 Mar 2023 09:50:23 -0400
+X-MC-Unique: MHawT9JiP7m0jNIZtgRkLA-1
+Received: by mail-ed1-f69.google.com with SMTP id b1-20020aa7dc01000000b004ad062fee5eso17448060edu.17
+        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Mar 2023 06:50:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679320178;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        d=1e100.net; s=20210112; t=1679320222;
+        h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dTB+1XfSXsy0vMQD3TqCWnvYGHCLVIdTBw7HZKV79x0=;
-        b=QdU341p2YI3mdgJB5QfAG8nkI6SfDPoH2WyBscCny29NBOh+UGoL7TgLqgYLcCEHFW
-         ju069ksbUGrzXTVk2HRb6kQkCrX3bhdSqD6nq6apJR46UPJmCGFkEsgrJ7iT98UL8raJ
-         EWNBbQjG+BTZfMSsQNgPSePfo71xU+vphLenrnLFPv6lovXbcViOZDIki3KJazOU67LH
-         KvZTrFYYJ+Xd0MnhRLl6RfX8SVVAXeokgsuvOlVmDgcHDZBQS9xlEBXmljbKr/XptyQ/
-         3qXoKem/vxd0jkzLrIhVz9RXlaDI05lWEvsNjOvcNO+47Vuy5mEIenwR9aaIAPkJZY0S
-         020A==
-X-Gm-Message-State: AO0yUKWikzzH01xihE2HmQMenLKMex6u+G8lx7orDCOJV62WYXp7F6im
-        zsmrAKGYAMr0itGPC/LI6ebbIRmkmqBqbbp2bYp5CddAcqVfy6A12lMZzi/RJCxGkc9huzd868g
-        fuZs1T92eiQfa4GZovuFToyN+fmIrULWpFecj8LTHAQ==
-X-Received: by 2002:a05:6402:b2e:b0:4f9:9e56:84bf with SMTP id bo14-20020a0564020b2e00b004f99e5684bfmr12071974edb.10.1679320178640;
-        Mon, 20 Mar 2023 06:49:38 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/bYLJtkFRGKGZjvhhYu9afxtSCNjBLiZiL9VRfBbMYcm5RWIy8o4oLuzGO5yrPtHEPIBCBBg==
-X-Received: by 2002:a05:6402:b2e:b0:4f9:9e56:84bf with SMTP id bo14-20020a0564020b2e00b004f99e5684bfmr12071961edb.10.1679320178362;
-        Mon, 20 Mar 2023 06:49:38 -0700 (PDT)
+        bh=AdZsXeBo8uwDfn+rT5MKVk4PImRFABdRL7zjfVCdjDI=;
+        b=cOE5L0ZERUmNfSqDxQ+3FTOejOZ1+qARKIw3wYeLsPCCeoDdvAn3w7OXi21RnSJ0Bw
+         pLt9r+AZXAZTHhTVHyJImzDm/g4HSAm+gECoSFFTuxlPx69CzyUEJScx5Xcr4BtwqQjU
+         eW3ArGtGmYVP8G6vclWO1BguIHCJIF40QSwzmzVPKz1vcWwWhMzcgPFqQRNQA/+nVIHp
+         hV4fWxtYOPjCfGSuuq9fjjOSpHZl4XPWca6xKix4a1eYatfPjYGxmdaMsTLNU1G/c+Ay
+         7l3Lf+0z6b9ds0+rWXTs2S2PJd+q7FtKr4qfisoBUiARrOFBkhHM/NPzRe4BeLjb/UcP
+         HQSA==
+X-Gm-Message-State: AO0yUKWcyCw8NcHpICQ7cb3Sw/UpNIiiHw+jS0BhS1zvdGdhGm/MtHUb
+        fKhFnSw8thV4EvIUSZR25t9Go3uE0tTZmFqLzXtFmZUiLnJutFiRgn/5hk9QvjwoVruKwGsNwpn
+        JBvkf1+7rtbxOKl6WN6QhhOkdIC7uHHOSHg==
+X-Received: by 2002:a17:907:2121:b0:905:a46b:a725 with SMTP id qo1-20020a170907212100b00905a46ba725mr8326658ejb.16.1679320222457;
+        Mon, 20 Mar 2023 06:50:22 -0700 (PDT)
+X-Google-Smtp-Source: AK7set//+ocMBPxAJ+oGl7O0hvGDyckPLBuK7NygnKdhNz3yM3r6+sh+5veETrsH1xY0DXNdI1GCeA==
+X-Received: by 2002:a17:907:2121:b0:905:a46b:a725 with SMTP id qo1-20020a170907212100b00905a46ba725mr8326644ejb.16.1679320222231;
+        Mon, 20 Mar 2023 06:50:22 -0700 (PDT)
 Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id k6-20020a50ce46000000b004f0e11e071dsm4929235edj.73.2023.03.20.06.49.37
+        by smtp.gmail.com with ESMTPSA id rh26-20020a17090720fa00b00930ba362216sm4516540ejb.176.2023.03.20.06.50.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Mar 2023 06:49:37 -0700 (PDT)
-Message-ID: <610802f2-1b02-e3c9-b2a5-c0946303b244@redhat.com>
-Date:   Mon, 20 Mar 2023 14:49:36 +0100
+        Mon, 20 Mar 2023 06:50:21 -0700 (PDT)
+Message-ID: <22d2e345-3640-c8b4-e913-204f1d96dde3@redhat.com>
+Date:   Mon, 20 Mar 2023 14:50:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH] platform/x86 (gigabyte-wmi): Add support for A320M-S2H V2
+Subject: Re: [PATCH v2] platform: olpc: use SPI device ID data to bind device
 Content-Language: en-US
-To:     =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <thomas@weissschuh.net>,
-        Frank Crawford <frank@crawford.emu.id.au>
-Cc:     platform-driver-x86@vger.kernel.org
-References: <20230318091441.1240921-1-frank@crawford.emu.id.au>
- <1fa8e7c3-215b-4888-90e6-e5d372e4d179@t-8ch.de>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Mark Gross <markgross@kernel.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230316160324.78856-1-krzysztof.kozlowski@linaro.org>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <1fa8e7c3-215b-4888-90e6-e5d372e4d179@t-8ch.de>
+In-Reply-To: <20230316160324.78856-1-krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -85,48 +84,53 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 Hi,
 
-On 3/18/23 17:40, Thomas Weißschuh wrote:
-> On Sat, Mar 18, 2023 at 08:14:41PM +1100, Frank Crawford wrote:
->> Add support for A320M-S2H V2.  Tested using module force_load option.
->>
->> Signed-off-by: Frank Crawford <frank@crawford.emu.id.au>
+On 3/16/23 17:03, Krzysztof Kozlowski wrote:
+> The driver defines spi_device_id table for module autoloading, but does
+> not use it in id_table which causes W=1 warning:
 > 
-> Acked-by: Thomas Weißschuh <linux@weissschuh.net>
+>   drivers/platform/olpc/olpc-xo175-ec.c:737:35: error: ‘olpc_xo175_ec_id_table’ defined but not used [-Werror=unused-const-variable=]
+> 
+> Reference the SPI device ID table, so it can be also used for device
+> binding.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Thank you for your patch, I've applied this patch to my fixes
+Thank you for your patch, I've applied this patch to my review-hans 
 branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=fixes
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
 
-Note it will show up in my fixes branch once I've pushed my
+Note it will show up in my review-hans branch once I've pushed my
 local branch there, which might take a while.
 
-I will include this patch in my next fixes pull-req to Linus
-for the current kernel development cycle.
+Once I've run some tests on this branch the patches there will be
+added to the platform-drivers-x86/for-next branch and eventually
+will be included in the pdx86 pull-request to Linus for the next
+merge-window.
 
 Regards,
 
 Hans
 
 
-
->> ---
->>  drivers/platform/x86/gigabyte-wmi.c | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/platform/x86/gigabyte-wmi.c b/drivers/platform/x86/gigabyte-wmi.c
->> index 322cfaeda17b..4dd39ab6ecfa 100644
->> --- a/drivers/platform/x86/gigabyte-wmi.c
->> +++ b/drivers/platform/x86/gigabyte-wmi.c
->> @@ -140,6 +140,7 @@ static u8 gigabyte_wmi_detect_sensor_usability(struct wmi_device *wdev)
->>  	}}
->>  
->>  static const struct dmi_system_id gigabyte_wmi_known_working_platforms[] = {
->> +	DMI_EXACT_MATCH_GIGABYTE_BOARD_NAME("A320M-S2H V2-CF"),
->>  	DMI_EXACT_MATCH_GIGABYTE_BOARD_NAME("B450M DS3H-CF"),
->>  	DMI_EXACT_MATCH_GIGABYTE_BOARD_NAME("B450M DS3H WIFI-CF"),
->>  	DMI_EXACT_MATCH_GIGABYTE_BOARD_NAME("B450M S2H V2"),
->> -- 
->> 2.39.2
->>
 > 
+> ---
+> 
+> Changes since v1:
+> 1. Rework the patch - reference the ID table instead of __maybe_unused.
+> ---
+>  drivers/platform/olpc/olpc-xo175-ec.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/platform/olpc/olpc-xo175-ec.c b/drivers/platform/olpc/olpc-xo175-ec.c
+> index 4823bd2819f6..62ccbcb15c74 100644
+> --- a/drivers/platform/olpc/olpc-xo175-ec.c
+> +++ b/drivers/platform/olpc/olpc-xo175-ec.c
+> @@ -746,6 +746,7 @@ static struct spi_driver olpc_xo175_ec_spi_driver = {
+>  		.of_match_table = olpc_xo175_ec_of_match,
+>  		.pm = &olpc_xo175_ec_pm_ops,
+>  	},
+> +	.id_table	= olpc_xo175_ec_id_table,
+>  	.probe		= olpc_xo175_ec_probe,
+>  	.remove		= olpc_xo175_ec_remove,
+>  };
 
