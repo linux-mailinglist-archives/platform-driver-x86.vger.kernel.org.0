@@ -2,131 +2,89 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE1AC6C4D8E
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Mar 2023 15:25:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AB796C5028
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Mar 2023 17:10:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230211AbjCVOZX (ORCPT
+        id S229556AbjCVQKD (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 22 Mar 2023 10:25:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37958 "EHLO
+        Wed, 22 Mar 2023 12:10:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229638AbjCVOZW (ORCPT
+        with ESMTP id S229747AbjCVQJt (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 22 Mar 2023 10:25:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2335D273E
-        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Mar 2023 07:24:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1679495078;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=X0YgBxZCK3TKKEn5izOKf5PnBb3XSKNQIZxxERv+QSo=;
-        b=jA+bHq2PqUfh6kkCvH+R6g99Nf4INV6s3ZpVIONjW1NTgq2BYAz1dXoQjPhJzNHOHjuGTA
-        nyqgX8tYfnn9HfmGk6EqW+3S1IajFG2XV8EMixZJZMRksIhhZ1wbJX3OAOng5aMH5J8Smw
-        FWZcjxzZ6ajzTAwFYffoA72clFnuvN8=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-35-iitdSmtQNsmc6nrweFQQLg-1; Wed, 22 Mar 2023 10:24:36 -0400
-X-MC-Unique: iitdSmtQNsmc6nrweFQQLg-1
-Received: by mail-ed1-f70.google.com with SMTP id c11-20020a509f8b000000b00501e2facf47so6604279edf.16
-        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Mar 2023 07:24:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679495075;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=X0YgBxZCK3TKKEn5izOKf5PnBb3XSKNQIZxxERv+QSo=;
-        b=EXeIgJXnOYEjT2sVoneps1S8bWGYWUR32a1DwIRLcjqEgWJ3HEMUheaj7U0S70fmB3
-         vs7ILKi8INy3uhGeHqIp9yO6O5JhfgQQ07LCRdr75yUg2AHJPohoTt8Pcr+TdWRP4svv
-         Zb8rR7EJP8IxLbt/wWHqXC4+x873m7uDSeyuPrNQ90vuvKjqoegj54048m6PUc0q3Aro
-         AeBWYIYpJHL42+vfd6S+H/5+kUy/61p5V2DS/uYuXP4NJJ1wcme3NRMVb8hFhHdyH2+X
-         kTvb7oep+5qTChwZKutRJqY4YPXyY371QoGaAFa0Qc2aFpmSfPpinuo6UFJmRdDjl/Mr
-         19uQ==
-X-Gm-Message-State: AO0yUKXCQsvLEHwwwo3WKdtJSZq6WG7jECqMrX/XRwLUIT2BEIsNLR/o
-        kXOxNFB6cD6M57DOblA3zCLCmxzTAqUQtAQND+ng6b/8W3uLNEqGvsYow2mv2A/2WLB+s1CLJRC
-        rpvuPllgb9nAiK6/V6/veUdxm26vV1/t+Hw==
-X-Received: by 2002:a17:906:646:b0:8a5:8620:575 with SMTP id t6-20020a170906064600b008a586200575mr7110697ejb.3.1679495075823;
-        Wed, 22 Mar 2023 07:24:35 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/SB1ve6fWNoXZaagxeG14lg/EdGZCwqdfZCpyUdpRzlYoV89K92lV7Gw9DaHoFcBtXNP2fEA==
-X-Received: by 2002:a17:906:646:b0:8a5:8620:575 with SMTP id t6-20020a170906064600b008a586200575mr7110678ejb.3.1679495075586;
-        Wed, 22 Mar 2023 07:24:35 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id e8-20020a170906c00800b008e1509dde19sm7209170ejz.205.2023.03.22.07.24.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Mar 2023 07:24:34 -0700 (PDT)
-Message-ID: <14350685-1014-6db1-b459-8d0d590498c0@redhat.com>
-Date:   Wed, 22 Mar 2023 15:24:34 +0100
+        Wed, 22 Mar 2023 12:09:49 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72BBD47432;
+        Wed, 22 Mar 2023 09:09:44 -0700 (PDT)
+Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C33B5118E;
+        Wed, 22 Mar 2023 17:09:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1679501382;
+        bh=W5f7kXxLSCbuWrLJsrUYzlcJtgZwBnmH4jczxzSgIA8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JBo2UsWQxsfTCS3naLtl3nVtIdz/8Qf6tZ2lvdZwCtZE4psodzJ2eME32tgUodjq4
+         Lm6kj5A5kMZoa2jSZtKWVOudj/pOqvK2GYfmeMILVVx9tR9AHl/LJraTXrqHdsbXVj
+         Ft0nVpeMeRYI3ikaOwIe0sLr6vj4u0gFlcH3yhN4=
+From:   Daniel Scally <dan.scally@ideasonboard.com>
+To:     linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Cc:     pavel@ucw.cz, lee@kernel.org, hdegoede@redhat.com,
+        markgross@kernel.org, sboyd@kernel.org, hpa@redhat.com,
+        Daniel Scally <dan.scally@ideasonboard.com>
+Subject: [PATCH 0/8] Add WLED support to TPS68470 LED driver
+Date:   Wed, 22 Mar 2023 16:09:18 +0000
+Message-Id: <20230322160926.948687-1-dan.scally@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] platform/surface: aggregator: Add missing
- fwnode_handle_put()
-Content-Language: en-US, nl
-To:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Liang He <windhl@126.com>, markgross@kernel.org,
-        platform-driver-x86@vger.kernel.org
-References: <20230322033057.1855741-1-windhl@126.com>
- <9c417628-f110-97e4-ff3e-4a835a0b0b27@gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <9c417628-f110-97e4-ff3e-4a835a0b0b27@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+This series relies on the recent "leds: tps68470: LED driver for TPS68470" set
+from Kate Hsuan [1]
 
-On 3/22/23 13:41, Maximilian Luz wrote:
-> On 3/22/23 04:30, Liang He wrote:
->> In fwnode_for_each_child_node(), we should add
->> fwnode_handle_put() when break out of the iteration
->> fwnode_for_each_child_node() as it will automatically
->> increase and decrease the refcounter.
->>
->> Fixes: fc622b3d36e6 ("platform/surface: Set up Surface Aggregator device registry")
->> Signed-off-by: Liang He <windhl@126.com>
->> ---
->>   drivers/platform/surface/aggregator/bus.c | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/platform/surface/aggregator/bus.c b/drivers/platform/surface/aggregator/bus.c
->> index de539938896e..b501a79f2a08 100644
->> --- a/drivers/platform/surface/aggregator/bus.c
->> +++ b/drivers/platform/surface/aggregator/bus.c
->> @@ -485,8 +485,10 @@ int __ssam_register_clients(struct device *parent, struct ssam_controller *ctrl,
->>            * device, so ignore it and continue with the next one.
->>            */
->>           status = ssam_add_client_device(parent, ctrl, child);
->> -        if (status && status != -ENODEV)
->> +        if (status && status != -ENODEV) {
->> +            fwnode_handle_put(child);
->>               goto err;
->> +        }
->>       }
->>         return 0;
-> 
-> Thanks for spotting this.
-> 
-> Reviewed-by: Maximilian Luz <luzmaximilian@gmail.com>
+The TPS68470 provides two additional LED outputs on top of the indicator LEDs.
+Add support for those to the driver. The configuration of the chip is drawn from
+platform data which is expected to be passed to the driver. Additionally update
+the int3472-tps68470 driver to register led lookups from platform data so that
+the right LED is driven for each sensor, and finally define those lookups for
+the Microsoft Surface Go line.
 
-Thank you both for the patch / review, I've applied
-this patch to the pdx86/fixes branch now:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=fixes
+Kate, Hans, this is the changes I made on top of the tps68470-led series to
+enable the IR LED on my Go2 (plus one additional patch to media). #5 could
+probably just be squashed into the other series though. The last two patches
+cover how I think the LED lookup should work - I unfortunately can't see an
+automatic way to guarantee the right LED goes to the right sensor.
 
-I will include this patch in my next fixes pull-req to Linus
-for the current kernel development cycle.
+Thanks
+Dan
 
-Regards,
+[1] https://lore.kernel.org/platform-driver-x86/20230321153718.1355511-1-hpa@redhat.com/T/
 
-Hans
+Daniel Scally (8):
+  platform/x86: int3472: Add platform data for LEDs
+  platform/x86: int3472: Init LED registers using platform data
+  platform/x86: int3472: Add TPS68470 LED Board Data
+  platform/x86: int3472: Add tps68470-led as clock consumer
+  leds: tps68470: Refactor tps68470_brightness_get()
+  leds: tps68470: Support the WLED driver
+  platform/x86: int3472: Support LED lookups in board data
+  platform/x86: int3472: Define LED lookup data for MS Surface Go
+
+ drivers/leds/leds-tps68470.c                  | 170 +++++++++++++++++-
+ drivers/platform/x86/intel/int3472/tps68470.c |  31 +++-
+ drivers/platform/x86/intel/int3472/tps68470.h |  10 ++
+ .../x86/intel/int3472/tps68470_board_data.c   |  31 ++++
+ include/linux/mfd/tps68470.h                  |  12 ++
+ include/linux/platform_data/tps68470.h        |  11 ++
+ 6 files changed, 248 insertions(+), 17 deletions(-)
+
+-- 
+2.34.1
 
