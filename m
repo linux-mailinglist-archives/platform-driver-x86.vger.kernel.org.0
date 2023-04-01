@@ -2,100 +2,81 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CA3F6D2BBD
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Apr 2023 01:44:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 740536D2C1B
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Apr 2023 02:34:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231775AbjCaXou (ORCPT
+        id S231775AbjDAAem (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 31 Mar 2023 19:44:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55472 "EHLO
+        Fri, 31 Mar 2023 20:34:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229988AbjCaXot (ORCPT
+        with ESMTP id S231241AbjDAAel (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 31 Mar 2023 19:44:49 -0400
-X-Greylist: delayed 601 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 31 Mar 2023 16:44:47 PDT
-Received: from helium.impl.it (helium.impl.it [IPv6:2a01:4f8:c0c:b78a::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A08F110A82;
-        Fri, 31 Mar 2023 16:44:47 -0700 (PDT)
-Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2a02:ab88:1380:6600:79f7:20e6:6650:f439; helo=localhost; envelope-from=noreply@impl.it; receiver=<UNKNOWN> 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=impl.it; s=mail;
-        t=1680305131; bh=SZqPCakegtWX1R1qWrI7INznL0Z1cwGdHEenYechGH8=;
-        h=From:To:Cc:Subject:Date;
-        b=c+sn60TTvHUyBB7xoT7Q9W2rs7VPzvXvCEtLl7Mwh5xafHo8MFbJ6EMu1X/TvmYYS
-         rzQ412/nOl7GJCcPbt3uYzXLr2bC8IhTBTI8YMmG99Ar9n5PA3kDUIMjgmJ2+y0YoU
-         6q2+P+PFIAWUlQjJpIUOudMoNWequIoo9mAe8Mfs=
-Received: from localhost (unknown [IPv6:2a02:ab88:1380:6600:79f7:20e6:6650:f439])
-        by helium.impl.it (Postfix) with ESMTPSA id 46749443150;
-        Sat,  1 Apr 2023 01:25:31 +0200 (CEST)
-From:   Benjamin Asbach <asbachb.kernel@impl.it>
-Cc:     Mario Limonciello <mario.limonciello@amd.com>,
-        Mark Pearson <markpearson@lenvo.com>,
-        Benjamin Asbach <asbachb.kernel@impl.it>,
-        Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] platform/x86: thinkpad_acpi: Add missing T14s Gen1 type to s2idle quirk list
-Date:   Sat,  1 Apr 2023 01:24:47 +0200
-Message-Id: <20230331232447.37204-1-asbachb.kernel@impl.it>
-X-Mailer: git-send-email 2.40.0
+        Fri, 31 Mar 2023 20:34:41 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AE7FE3B7
+        for <platform-driver-x86@vger.kernel.org>; Fri, 31 Mar 2023 17:34:40 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id 185so3261029pgc.10
+        for <platform-driver-x86@vger.kernel.org>; Fri, 31 Mar 2023 17:34:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680309280;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BxjR5EZmuC29QlRdpiIjXzhP04dUpDFF5Q5K7tpxa7E=;
+        b=Zb0S/HK/g4LOB3u43J0wHCZwCtyjQ/g0FjRvx9kGVOqNRxxGPX23mQfWuqp6eKlalx
+         jqL3eriZaPs3vxmJg+JW/i+oYElUfVNTQQ7suUvxt9x8rYlNPov9WaR4tdGmlb/JoW4D
+         BDNZU0qknATlhLeoETw1Cjn1zXeA5kZDp6+v1b1HvfuRjfNI9ybXoWslVX+eNdR7ils9
+         E+nNKUl/sh7fryhTiuVts8zgchm2R/mEgc//brmGQUPUJZ+TsdMCtAOYRm4Iryoyc6UQ
+         zpoKhPQ7j91TPWe3iMQQ4R46T9s0tEFw3q1oQtAI1GlPbfZbf5U/7samlRr9fb4SU7iK
+         94eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680309280;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BxjR5EZmuC29QlRdpiIjXzhP04dUpDFF5Q5K7tpxa7E=;
+        b=dfrnBk/zXphcAIlVvvuax7h8zZpawRlM6IInf0/vpat7pc9D62yp0hsYtgD08W3q1I
+         clWWVAskRRCx2rzjkkmKjnLJ9mJ+wMRjVzied5Pmc9speolKAMjUJxBBwYG5tI58zcuv
+         /3PUyQy2+yNcFieoCbFQvP2uitc/rOf6S0ZusdXfq8MviBRgn1/UhXwq6BOlATsBGPF2
+         edVl64fsuceULX1HTpaaCfS/cAPxr5YbtQmaRCBHG3Kp639Iz4p6TCoBxwOCOWdVBLjH
+         OlZmbCLpoMAyDkpT4/BfFI6Ea8TJA4enq81truk6s+6uefUtcjBtHvtBjL5/PZAYX4ZN
+         1tZg==
+X-Gm-Message-State: AAQBX9cq7BcCsG971WeZEt6Ir2guFsmmXI/sUdcqiqSv9E5SXNi2z0AK
+        sYJFs6SBcGtM5/F6OObi+vL1D4n17dlgjcvJ5+w=
+X-Google-Smtp-Source: AKy350YgZ1wvMKispqOS/myCgSv5KubGVoOHG5CwXi0t5ueeucNkr6OTihZkTrpJ1/eCjzacNxgrhr4CkJdJ7q03FBg=
+X-Received: by 2002:a63:2157:0:b0:50b:e80f:caff with SMTP id
+ s23-20020a632157000000b0050be80fcaffmr3352027pgm.0.1680309279827; Fri, 31 Mar
+ 2023 17:34:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+Sender: diallomamdou957@gmail.com
+Received: by 2002:a05:6a10:4414:b0:474:d6e6:8b6c with HTTP; Fri, 31 Mar 2023
+ 17:34:39 -0700 (PDT)
+From:   Miss Sherri <sherrigallagher409@gmail.com>
+Date:   Sat, 1 Apr 2023 00:34:39 +0000
+X-Google-Sender-Auth: JsJo4GJe4pgN8_AsOnWzWt0h3Yk
+Message-ID: <CAF0C8JxAE0f4NVBqRdP9yTKz6uPNrvZWL8-MEyvOfzTSxvRw_A@mail.gmail.com>
+Subject: Re: Hello Dear
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-> Lenovo laptops that contain NVME SSDs across a variety of generations have
-> trouble resuming from suspend to idle when the IOMMU translation layer is
-> active for the NVME storage device.
->
-> This generally manifests as a large resume delay or page faults. These
-> delays and page faults occur as a result of a Lenovo BIOS specific SMI
-> that runs during the D3->D0 transition on NVME devices.
+Hej,
 
-Link: https://lore.kernel.org/all/20220503183420.348-1-mario.limonciello@amd.com/
+Modtog du min tidligere besked? Jeg kontaktede dig f=C3=B8r, men beskeden
+kom ikke tilbage, s=C3=A5 jeg besluttede at skrive igen. Bekr=C3=A6ft venli=
+gst,
+om du modtager dette, s=C3=A5 jeg kan forts=C3=A6tte,
 
-As Lenovo distributes T14s Gen1 laptops with different product names
-a missing one is added by this patch.
+venter p=C3=A5 dit svar.
 
-Note: Based on lenovo support page there might be some more variants which
-are not represented in s2idle quirk list.
-
-Signed-off-by: Benjamin Asbach <asbachb.kernel@impl.it>
-Tested-by: Benjamin Asbach <asbachb.kernel@impl.it>
-
-Link: https://bbs.archlinux.org/viewtopic.php?pid=2084655#p2084655
----
- drivers/platform/x86/thinkpad_acpi.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 32c10457399e..57428d7a392d 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -4478,6 +4478,15 @@ static const struct dmi_system_id fwbug_list[] __initconst = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "20UH"),
- 		}
- 	},
-+	{
-+		.ident = "T14s Gen1 AMD",
-+		.driver_data = &quirk_s2idle_bug,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "20UJ"),
-+		}
-+	},
-+
- 	{
- 		.ident = "P14s Gen1 AMD",
- 		.driver_data = &quirk_s2idle_bug,
--- 
-2.40.0
-
+Med venlig hilsen
+Fr=C3=B8ken Sherri
