@@ -2,108 +2,177 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 766086D3117
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Apr 2023 15:40:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E4996D31DE
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Apr 2023 17:08:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229540AbjDANkg (ORCPT
+        id S230082AbjDAPIh (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 1 Apr 2023 09:40:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60810 "EHLO
+        Sat, 1 Apr 2023 11:08:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbjDANkf (ORCPT
+        with ESMTP id S229906AbjDAPIh (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 1 Apr 2023 09:40:35 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4F53191E8
-        for <platform-driver-x86@vger.kernel.org>; Sat,  1 Apr 2023 06:40:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Sat, 1 Apr 2023 11:08:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEE7411EA0
+        for <platform-driver-x86@vger.kernel.org>; Sat,  1 Apr 2023 08:07:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1680361670;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=Nq0PU4hNClmZeCRP/6EgxWQKIg/TOfuZVnD+aKuzvlw=;
+        b=V6gSLY6rWET7H8w0d+YgjEmCNacAGzgMZuEAO9qqAbKEeISiob/SluJR4wNpX8+2DXroQn
+        5qyEGLC/thrIM9/T6SCIxNzqT2WPjMPUNPhVtZDimywm3lXZYnqglfS8bAcnGlTIVnbkjj
+        ipDjYkTI1Ij/73gbAqkMNzLlTdsUs5Q=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-179-3RQgt8HYNaSM4CZjosigZA-1; Sat, 01 Apr 2023 11:07:47 -0400
+X-MC-Unique: 3RQgt8HYNaSM4CZjosigZA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6D396B80B67
-        for <platform-driver-x86@vger.kernel.org>; Sat,  1 Apr 2023 13:40:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1AEB9C433B4
-        for <platform-driver-x86@vger.kernel.org>; Sat,  1 Apr 2023 13:40:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680356432;
-        bh=iA6+0rXos8Nop/+LhzAeE3UUR7zEsqP+HqdHeQ3Rj7U=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=cpIhj95NDWcFktAmAO16lCRwWIL/kuW2I4nvANDKGA7Yoon5WKTedn8t+KW/os9iB
-         4PeBu7fAAD6DKoFFKBrY8S/35suQ6lhIpn5hldFrI3NIyuQPBz/rNglXw71vX9epTV
-         kYOji9CtqicZL3X0Xh8iWIEfzadGG6yXpDziyOIcnNXjbw1Aru3ymj7WWEnVcUGcaC
-         PpBAdgoO3hqLNCPGgTkAQmNbVQ3nVfVJhJFa30+6KQlFmNOBByzlXd+btRG9HhzinX
-         84FWQjbntho4gN0EkboyzL9BvGJGqAaRE1EPXAQ9jBvZ9rSnjoI6IhEiMjLIHEjDa9
-         OOJhiTPVhlsEQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 0BBD8C43144; Sat,  1 Apr 2023 13:40:32 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     platform-driver-x86@vger.kernel.org
-Subject: [Bug 204807] Hardware monitoring sensor nct6798d doesn't work unless
- acpi_enforce_resources=lax is enabled
-Date:   Sat, 01 Apr 2023 13:40:29 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: mblancha@free.fr
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204807-215701-V08NjTA19p@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204807-215701@https.bugzilla.kernel.org/>
-References: <bug-204807-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AAEA63C02521;
+        Sat,  1 Apr 2023 15:07:46 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.49])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 045C41121314;
+        Sat,  1 Apr 2023 15:07:45 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH 1/3] platform/x86: x86-android-tablets: Use LP8557 in direct mode on both the Yoga 830 and the 1050
+Date:   Sat,  1 Apr 2023 17:07:35 +0200
+Message-Id: <20230401150737.597417-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D204807
+Both the Lenovo Yoga Tablet 2 830 and 1050 models use an TI LP8557 LED
+backlight controller. On the 1050 the LP8557's PWM input is connected to
+the PMIC's PWM output and everything works fine with the defaults
+programmed into the LP8557 by the BIOS.
 
---- Comment #322 from Micka=C3=ABl Blanchard (mblancha@free.fr) ---
-> (In reply to Micka=C3=ABl Blanchard from comment #320)
-> > Hi,
-> >=20
-> > I wonder why the board B550M-K has disappeared from the final patch
-> > integrated in the kernel sources. It's somewhat the same board as B550M=
--A,
-> > which is included.
-> > Moreover, it's in the list in comment #278:
-> > https://bugzilla.kernel.org/show_bug.cgi?id=3D204807#c278
-> >=20
-> > An unfortunate omission? :)
-> >=20
-> > Thanks!
->=20
-> Do you mean "PRIME B550M-K"? Both hwmon-next branch and patch have it in
-> https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git/
-> tree/drivers/hwmon/nct6775-platform.c?h=3Dhwmon-
-> next&id=3D8a863eb1b1162653d133856702e13560f3596b85#n1076
->=20
-> Do you have some load issue with new patch?=20=20
+But on the 830 the LP8557's PWM input is connected to a PWM output coming
+from the LCD panel's controller. The Android code has a hack in the i915
+driver to write the non-standard DSI reg 0x9f with the desired backlight
+level to set the duty-cycle of the LCD's PWM output.
 
-Yes this is the board I'm talking about.
-I'm currently running 6.1.21 and the board is not included here. So I still
-have the load issue.
-I haven't watched in the staging, I should have as indeed it's here. :)
-So I guess I just have to wait the merge & backport in 6.1 branch.
+To avoid having to have a similar hack in the mainline kernel the LP8557
+entry in lenovo_yoga_tab2_830_1050_i2c_clients instead just programs the
+LP8557 to directly set the level, ignoring the PWM input.
 
---=20
-You may reply to this email to add a comment.
+So far we have only been instantiating the LP8557 i2c_client for direct
+backlight control on the 830 model. But we want hide/disable the
+intel_backlight interface on the 830 model to avoid having 2 backlight
+interfaces for the same LCD panel.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+And the 830 and 1050 share the same DMI strings. So this will hide the
+intel_backlight interface on the 1050 model too.
+
+To avoid this causing problems make the backlight handling consistent
+between the 2 models and always directly use the LP8557.
+
+This also simplifies the code.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ .../platform/x86/x86-android-tablets/lenovo.c | 29 ++++---------------
+ .../x86-android-tablets/x86-android-tablets.h |  3 +-
+ 2 files changed, 7 insertions(+), 25 deletions(-)
+
+diff --git a/drivers/platform/x86/x86-android-tablets/lenovo.c b/drivers/platform/x86/x86-android-tablets/lenovo.c
+index 0baad9970820..d9d6dccc53c8 100644
+--- a/drivers/platform/x86/x86-android-tablets/lenovo.c
++++ b/drivers/platform/x86/x86-android-tablets/lenovo.c
+@@ -162,9 +162,9 @@ static struct gpiod_lookup_table * const lenovo_yoga_tab2_830_1050_gpios[] = {
+ static int __init lenovo_yoga_tab2_830_1050_init(void);
+ static void lenovo_yoga_tab2_830_1050_exit(void);
+ 
+-struct x86_dev_info lenovo_yoga_tab2_830_1050_info __initdata = {
++const struct x86_dev_info lenovo_yoga_tab2_830_1050_info __initconst = {
+ 	.i2c_client_info = lenovo_yoga_tab2_830_1050_i2c_clients,
+-	/* i2c_client_count gets set by lenovo_yoga_tab2_830_1050_init() */
++	.i2c_client_count = ARRAY_SIZE(lenovo_yoga_tab2_830_1050_i2c_clients),
+ 	.pdev_info = int3496_pdevs,
+ 	.pdev_count = 1,
+ 	.gpio_button = &lenovo_yoga_tab2_830_1050_lid,
+@@ -177,23 +177,10 @@ struct x86_dev_info lenovo_yoga_tab2_830_1050_info __initdata = {
+ 
+ /*
+  * The Lenovo Yoga Tablet 2 830 and 1050 (8" vs 10") versions use the same
+- * mainboard, but they need some different treatment related to the display:
+- * 1. The 830 uses a portrait LCD panel with a landscape touchscreen, requiring
+- *    the touchscreen driver to adjust the touch-coords to match the LCD.
+- * 2. Both use an TI LP8557 LED backlight controller. On the 1050 the LP8557's
+- *    PWM input is connected to the PMIC's PWM output and everything works fine
+- *    with the defaults programmed into the LP8557 by the BIOS.
+- *    But on the 830 the LP8557's PWM input is connected to a PWM output coming
+- *    from the LCD panel's controller. The Android code has a hack in the i915
+- *    driver to write the non-standard DSI reg 0x9f with the desired backlight
+- *    level to set the duty-cycle of the LCD's PWM output.
+- *
+- *    To avoid having to have a similar hack in the mainline kernel the LP8557
+- *    entry in lenovo_yoga_tab2_830_1050_i2c_clients instead just programs the
+- *    LP8557 to directly set the level, ignoring the PWM input. This means that
+- *    the LP8557 i2c_client should only be instantiated on the 830.
++ * mainboard, but the 830 uses a portrait LCD panel with a landscape touchscreen,
++ * requiring the touchscreen driver to adjust the touch-coords to match the LCD.
+  */
+-static int __init lenovo_yoga_tab2_830_1050_init_display(void)
++static int __init lenovo_yoga_tab2_830_1050_init_touchscreen(void)
+ {
+ 	struct gpio_desc *gpiod;
+ 	int ret;
+@@ -206,14 +193,10 @@ static int __init lenovo_yoga_tab2_830_1050_init_display(void)
+ 	ret = gpiod_get_value_cansleep(gpiod);
+ 	if (ret) {
+ 		pr_info("detected Lenovo Yoga Tablet 2 1050F/L\n");
+-		lenovo_yoga_tab2_830_1050_info.i2c_client_count =
+-			ARRAY_SIZE(lenovo_yoga_tab2_830_1050_i2c_clients) - 1;
+ 	} else {
+ 		pr_info("detected Lenovo Yoga Tablet 2 830F/L\n");
+ 		lenovo_yoga_tab2_830_1050_rmi_pdata.sensor_pdata.axis_align.swap_axes = true;
+ 		lenovo_yoga_tab2_830_1050_rmi_pdata.sensor_pdata.axis_align.flip_y = true;
+-		lenovo_yoga_tab2_830_1050_info.i2c_client_count =
+-			ARRAY_SIZE(lenovo_yoga_tab2_830_1050_i2c_clients);
+ 	}
+ 
+ 	return 0;
+@@ -281,7 +264,7 @@ static int __init lenovo_yoga_tab2_830_1050_init(void)
+ {
+ 	int ret;
+ 
+-	ret = lenovo_yoga_tab2_830_1050_init_display();
++	ret = lenovo_yoga_tab2_830_1050_init_touchscreen();
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/platform/x86/x86-android-tablets/x86-android-tablets.h b/drivers/platform/x86/x86-android-tablets/x86-android-tablets.h
+index cf8566b3fd9c..c2b490519324 100644
+--- a/drivers/platform/x86/x86-android-tablets/x86-android-tablets.h
++++ b/drivers/platform/x86/x86-android-tablets/x86-android-tablets.h
+@@ -95,8 +95,7 @@ extern const struct x86_dev_info asus_tf103c_info;
+ extern const struct x86_dev_info chuwi_hi8_info;
+ extern const struct x86_dev_info czc_p10t;
+ extern const struct x86_dev_info lenovo_yogabook_x91_info;
+-/* Not const as this gets modified by its init callback */
+-extern struct x86_dev_info lenovo_yoga_tab2_830_1050_info;
++extern const struct x86_dev_info lenovo_yoga_tab2_830_1050_info;
+ extern const struct x86_dev_info lenovo_yt3_info;
+ extern const struct x86_dev_info medion_lifetab_s10346_info;
+ extern const struct x86_dev_info nextbook_ares8_info;
+-- 
+2.39.1
+
