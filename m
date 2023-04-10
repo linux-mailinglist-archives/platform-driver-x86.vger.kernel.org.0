@@ -2,86 +2,58 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D3E46DCBA7
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 10 Apr 2023 21:36:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A412C6DD0F8
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Apr 2023 06:33:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229605AbjDJTgD (ORCPT
+        id S229996AbjDKEdW convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 10 Apr 2023 15:36:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59184 "EHLO
+        Tue, 11 Apr 2023 00:33:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbjDJTgC (ORCPT
+        with ESMTP id S229925AbjDKEdV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 10 Apr 2023 15:36:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B8D11BD8
-        for <platform-driver-x86@vger.kernel.org>; Mon, 10 Apr 2023 12:35:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681155316;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=aVno4knjdXX5A5qfyB0aXjvKMalS10Qufg6rkywAKIM=;
-        b=Qva7Hvt/u/HIFTMklFeoILTTPG7U7wpwplX4qFP7JRYPOB+h8HyfkqerpCOzmQ9W4PtOwc
-        l/pGIMwoJUzz1FWt06UsVXoJ+5UO7oyqRGz8TfJMsevq8tlmPb6ywOcyiJb71hjFNZOpHK
-        QC4yoTNPAnoPLBlutO5WU1enjvpJ3Hw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-532-M4qVUSBtNHydUQGl6fXjeA-1; Mon, 10 Apr 2023 15:35:14 -0400
-X-MC-Unique: M4qVUSBtNHydUQGl6fXjeA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D338A2A5957F;
-        Mon, 10 Apr 2023 19:35:13 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.46])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 026A01121320;
-        Mon, 10 Apr 2023 19:35:12 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mario Limonciello <mario.limonciello@outlook.com>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH] platform/x86: amd: pmc: Remove __maybe_unused from amd_pmc_suspend_handler()
-Date:   Mon, 10 Apr 2023 21:35:12 +0200
-Message-Id: <20230410193512.64232-1-hdegoede@redhat.com>
+        Tue, 11 Apr 2023 00:33:21 -0400
+X-Greylist: delayed 20488 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 10 Apr 2023 21:33:19 PDT
+Received: from zimbra-dc.paul-scerri.ch (dc.paul-scerri.ch [62.220.130.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E88810DC
+        for <platform-driver-x86@vger.kernel.org>; Mon, 10 Apr 2023 21:33:19 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra-dc.paul-scerri.ch (Postfix) with ESMTP id 9E9F1600C47;
+        Mon, 10 Apr 2023 22:36:16 +0200 (CEST)
+Received: from zimbra-dc.paul-scerri.ch ([127.0.0.1])
+        by localhost (zimbra-dc.paul-scerri.ch [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id muotIi4PzCA1; Mon, 10 Apr 2023 22:36:16 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra-dc.paul-scerri.ch (Postfix) with ESMTP id 723875F2073;
+        Mon, 10 Apr 2023 22:01:41 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at zimbra-dc.paul-scerri.ch
+Received: from zimbra-dc.paul-scerri.ch ([127.0.0.1])
+        by localhost (zimbra-dc.paul-scerri.ch [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id QuO4-zg-RUAr; Mon, 10 Apr 2023 22:01:41 +0200 (CEST)
+Received: from [185.169.4.108] (unknown [185.169.4.108])
+        by zimbra-dc.paul-scerri.ch (Postfix) with ESMTPSA id CC2B3592995;
+        Mon, 10 Apr 2023 21:42:55 +0200 (CEST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Re
+To:     Recipients <wiki@paul-scerri.ch>
+From:   "Maria-Elisabeth Schaeffler" <wiki@paul-scerri.ch>
+Date:   Mon, 10 Apr 2023 12:42:54 -0700
+Reply-To: mariaelisabeths457@gmail.com
+Message-Id: <20230410194255.CC2B3592995@zimbra-dc.paul-scerri.ch>
+X-Spam-Status: No, score=2.8 required=5.0 tests=FREEMAIL_FORGED_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Now that the pmc code has switched to DEFINE_SIMPLE_DEV_PM_OPS()
-the __maybe_unused is no longer necessary, drop it.
+Your email account has been selected for a donation of €1,700,000. Please contact for more information.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/amd/pmc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/platform/x86/amd/pmc.c b/drivers/platform/x86/amd/pmc.c
-index 2761e9b76e95..2e2b99b93df7 100644
---- a/drivers/platform/x86/amd/pmc.c
-+++ b/drivers/platform/x86/amd/pmc.c
-@@ -840,7 +840,7 @@ static struct acpi_s2idle_dev_ops amd_pmc_s2idle_dev_ops = {
- 	.restore = amd_pmc_s2idle_restore,
- };
- 
--static int __maybe_unused amd_pmc_suspend_handler(struct device *dev)
-+static int amd_pmc_suspend_handler(struct device *dev)
- {
- 	struct amd_pmc_dev *pdev = dev_get_drvdata(dev);
- 
--- 
-2.39.1
-
+Mrs Maria Elisabeth Schaeffler
+CEO SCHAEFFLER.
