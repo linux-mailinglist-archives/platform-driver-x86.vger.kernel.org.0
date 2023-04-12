@@ -2,172 +2,69 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92D2D6DF22C
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Apr 2023 12:46:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4765B6DF22A
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Apr 2023 12:46:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230012AbjDLKqt (ORCPT
+        id S229940AbjDLKqg (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 12 Apr 2023 06:46:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49344 "EHLO
+        Wed, 12 Apr 2023 06:46:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229930AbjDLKqm (ORCPT
+        with ESMTP id S229961AbjDLKqR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 12 Apr 2023 06:46:42 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51A476A78
-        for <platform-driver-x86@vger.kernel.org>; Wed, 12 Apr 2023 03:46:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681296401; x=1712832401;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=q6lveQBAmRdk3KNS+OsnnXm+7WrZrJOBwwAimh03fm0=;
-  b=F11SxAogEO+CbLl+N/7RSwPu6MTEnn9xIRJ16+DlzkEGNVRGIl5mffft
-   p+BeJYSitFPTLgt7aaYaESfy1GEVgJCzeUxgVh6W+n6UiNiU0th1RFBlo
-   Wg9+Mvt+aa5A6PACw8IIBmY+Dx6jy81QrNKbNIMNd7bRSOeEtEMdr5t3n
-   lKCBezY1cl31bmSTGeyFuv9GAzQlfXtj63+GcnjQTIcn8QH7qikXU8EbY
-   7w0JpEyXWQdB4ANN2v/x3uNDN2POz0zLO3pf/kFu1tZpi9BKCwCwyzD2d
-   GI19V6XIIKctd9MvJ4KzNi5U3G5HtO1cK5/YVcLylkCoruPmE1lW8USs8
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="323484303"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="323484303"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 03:46:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="688918750"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="688918750"
-Received: from chanse1-mobl2.ger.corp.intel.com ([10.251.213.80])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 03:46:11 -0700
-Date:   Wed, 12 Apr 2023 13:46:08 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-cc:     hdegoede@redhat.com, markgross@kernel.org, Sanket.Goswami@amd.com,
-        mario.limonciello@amd.com, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] platform/x86/amd: pmc: Get STB DRAM size from
- PMFW
-In-Reply-To: <20230412102156.2592318-1-Shyam-sundar.S-k@amd.com>
-Message-ID: <24be9a44-c273-fad9-666c-699270e95929@linux.intel.com>
-References: <20230412102156.2592318-1-Shyam-sundar.S-k@amd.com>
+        Wed, 12 Apr 2023 06:46:17 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5555A6A76
+        for <platform-driver-x86@vger.kernel.org>; Wed, 12 Apr 2023 03:46:16 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id s2so7146036wra.7
+        for <platform-driver-x86@vger.kernel.org>; Wed, 12 Apr 2023 03:46:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681296375; x=1683888375;
+        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/b9hSn8ZWObn0FlHkk+rwYaVaufISYusIZ7dspuZnGU=;
+        b=nE1DvpzE0K/YsSTy2SqqZca4NHdoo0RGWl4vyBh8L/Oj3zqTr3kzK++nuu/a/XxNXP
+         xlvRU/C0T6iFXi166unKDTqgUltTL71iHfD2kZxgD6upnqT8CCTUbh5EPo0mTWyxlquf
+         CkZWaLQcuORqPeYLMHHxRvOg4b51ZG0GUff0tCN6t81DXzCirM9ma4FjqIYuQMUfMI3o
+         HQq9Dp0cYF8FJp0v7gPyEjsMOzdTIDn4Dj6PI3RIjn0gXRCw/3uZA/3qgqVX+svPyOPk
+         K5lo1nyQitlsCE2MdQIWlkQ0vb+oZcmJtuMpjNi+Yp8WhCZ9jlf3HSq+Kc2wgPf9UeWJ
+         uyew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681296375; x=1683888375;
+        h=to:subject:message-id:date:from:sender:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/b9hSn8ZWObn0FlHkk+rwYaVaufISYusIZ7dspuZnGU=;
+        b=c4QR5G3naKNzGvonD6BoOxAYHRm+uKRL/dxwRv0iWK9U/mEeFnBJvzb1ATz71KLUS5
+         rS51/wHLZkhYLddVVtHm5KrgHZP3yvWyJg7vDMJK1wJ1s4JCnu9F5jWelGxJ13zrnoDq
+         az5UnY8SQyFOW4TUfcUh1tBF0IisARa1MZFg+bgOB60ZZ9chv+LlEnH1dH349rPRTiGa
+         GFU2KjMu7wgaqNZotYqHg9SHKWXsQ497c/cz7k4f1FsrLH0NCCh68OZ4IeDLagn8NBdz
+         wTKCMplkWZ6mFgUzcHbWIbBcOAkm6A3vUCrIEVlgE7jnM0iXzshM+C5gzxKnqZNZf3Lw
+         8E2Q==
+X-Gm-Message-State: AAQBX9ccMDlnnJ3nOLbscOYz0gIbTpfovhwNs0C0G+41/KVsLIlPKTrK
+        OYF/fY19Irs+OIX9HDQP06dQqOZ4toDoMzMHlww=
+X-Google-Smtp-Source: AKy350ZxMFEPKn1cMQlvz8Yr9RdKJ/Jd3QXO94zGB63koc1Kh4jUerZj3Dk9fgyHkCD9rmPrb/izqHx3A3GxYwTE1e8=
+X-Received: by 2002:a5d:4241:0:b0:2ce:a3a6:79f6 with SMTP id
+ s1-20020a5d4241000000b002cea3a679f6mr1303384wrr.4.1681296374724; Wed, 12 Apr
+ 2023 03:46:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Sender: abdoukerims@gmail.com
+Received: by 2002:adf:e352:0:b0:2ce:9fd8:fd0a with HTTP; Wed, 12 Apr 2023
+ 03:46:14 -0700 (PDT)
+From:   Kayla Manthey <sergeantkayllamanthey@gmail.com>
+Date:   Wed, 12 Apr 2023 10:46:14 +0000
+X-Google-Sender-Auth: 2mSqUpXyv_7tHWtSBCUPvMEqoZ4
+Message-ID: <CANEDhdznNXeq7SjPeOhCbGENKEMEDy-8Faex7f=NKSTyOd0XJA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, 12 Apr 2023, Shyam Sundar S K wrote:
-
-> Recent PMFW's have support for querying the STB DRAM size. Add this
-> support to the driver.
-> 
-> Co-developed-by: Sanket Goswami <Sanket.Goswami@amd.com>
-> Signed-off-by: Sanket Goswami <Sanket.Goswami@amd.com>
-> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> ---
-> v2:
->  - Based on review-hans branch
->  - Add a switch for cpu-id check based on feedback from Mario.
-> 
->  drivers/platform/x86/amd/pmc.c | 32 +++++++++++++++++++++++++++++++-
->  1 file changed, 31 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/x86/amd/pmc.c b/drivers/platform/x86/amd/pmc.c
-> index 877b629e5cae..9f8bc6711413 100644
-> --- a/drivers/platform/x86/amd/pmc.c
-> +++ b/drivers/platform/x86/amd/pmc.c
-> @@ -114,6 +114,7 @@ enum s2d_arg {
->  	S2D_PHYS_ADDR_LOW,
->  	S2D_PHYS_ADDR_HIGH,
->  	S2D_NUM_SAMPLES,
-> +	S2D_DRAM_SIZE,
->  };
->  
->  struct amd_pmc_bit_map {
-> @@ -146,6 +147,7 @@ struct amd_pmc_dev {
->  	u32 base_addr;
->  	u32 cpu_id;
->  	u32 active_ips;
-> +	u32 dram_size;
->  /* SMU version information */
->  	u8 smu_program;
->  	u8 major;
-> @@ -888,11 +890,34 @@ static const struct pci_device_id pmc_pci_ids[] = {
->  	{ }
->  };
->  
-> +static int amd_pmc_get_dram_size(struct amd_pmc_dev *dev)
-> +{
-> +	switch (dev->cpu_id) {
-> +	case AMD_CPU_ID_YC:
-> +		if (!(dev->major > 90 || (dev->major == 90 && dev->minor > 39)))
-> +			goto err_dram_size;
-> +		break;
-> +	default:
-> +		goto err_dram_size;
-> +	}
-> +
-> +	amd_pmc_send_cmd(dev, S2D_DRAM_SIZE, &dev->dram_size, STB_SPILL_TO_DRAM, 1);
-
-Passing true to bool argument, not 1.
-
-> +	if (!dev->dram_size)
-> +		goto err_dram_size;
-
-Don't overwrite the error code from amd_pmc_send_cmd() with -EINVAL on 
-the error path but pass the same errorcode on.
-
-It might warrant splitting the error path such that the amd_pmc_send_cmd() 
-errors do not print the error in this function but only return the error 
-code (amd_pmc_send_cmd() already has dev_err() for each of the error 
-return cases). That only leaves what to do on non-error return and zero 
-dram_size, is that expected to happen?
-
--- 
- i.
-
-> +
-> +	return 0;
-> +
-> +err_dram_size:
-> +	dev_err(dev->dev, "DRAM size command not supported for this platform\n");
-> +	return -EINVAL;
-> +}
-> +
->  static int amd_pmc_s2d_init(struct amd_pmc_dev *dev)
->  {
->  	u32 phys_addr_low, phys_addr_hi;
->  	u64 stb_phys_addr;
->  	u32 size = 0;
-> +	int ret;
->  
->  	/* Spill to DRAM feature uses separate SMU message port */
->  	dev->msg_port = 1;
-> @@ -901,6 +926,11 @@ static int amd_pmc_s2d_init(struct amd_pmc_dev *dev)
->  	if (size != S2D_TELEMETRY_BYTES_MAX)
->  		return -EIO;
->  
-> +	/* Get DRAM size */
-> +	ret = amd_pmc_get_dram_size(dev);
-> +	if (ret)
-> +		dev->dram_size = S2D_TELEMETRY_DRAMBYTES_MAX;
-> +
->  	/* Get STB DRAM address */
->  	amd_pmc_send_cmd(dev, S2D_PHYS_ADDR_LOW, &phys_addr_low, STB_SPILL_TO_DRAM, 1);
->  	amd_pmc_send_cmd(dev, S2D_PHYS_ADDR_HIGH, &phys_addr_hi, STB_SPILL_TO_DRAM, 1);
-> @@ -910,7 +940,7 @@ static int amd_pmc_s2d_init(struct amd_pmc_dev *dev)
->  	/* Clear msg_port for other SMU operation */
->  	dev->msg_port = 0;
->  
-> -	dev->stb_virt_addr = devm_ioremap(dev->dev, stb_phys_addr, S2D_TELEMETRY_DRAMBYTES_MAX);
-> +	dev->stb_virt_addr = devm_ioremap(dev->dev, stb_phys_addr, dev->dram_size);
->  	if (!dev->stb_virt_addr)
->  		return -ENOMEM;
->  
-> 
-
+Hello!, Please did you get the previous message? thank you
