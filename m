@@ -2,112 +2,135 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FE6C6E0478
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 13 Apr 2023 04:39:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F2F06E057D
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 13 Apr 2023 05:54:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230117AbjDMCjI (ORCPT
+        id S229522AbjDMDyR (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 12 Apr 2023 22:39:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36112 "EHLO
+        Wed, 12 Apr 2023 23:54:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230320AbjDMCiX (ORCPT
+        with ESMTP id S229484AbjDMDyQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 12 Apr 2023 22:38:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F17B8A5E;
-        Wed, 12 Apr 2023 19:37:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0A63D63A95;
-        Thu, 13 Apr 2023 02:37:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95772C433EF;
-        Thu, 13 Apr 2023 02:37:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681353438;
-        bh=6tVoMVjbXjSdhw+ClpiLyHKFwImWUjz0a/dDKuM6uMw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eqjzkD0qq8JdiQZKfgPiSzjb45QjbOChF0dlgVxuoSitddFLCPgYEOzDL0LLFsYxL
-         5nXfnPyrRvf+oWRhmaznq2UCblVJlUfyaUpZgsCPpLjHY3PO+wqpOnDaBmBzEyppaW
-         kYO0NnkH1cmAmTF6fsqQRzAZ00LbmwzhnhflX1r3fiTICfGX4Ep/CbHQnBfA31Jz99
-         +ocojQFvsjIAl/BgXRmdlWkB2ExZsuxr3l+umEzH9Dla3Dme1Ri5q/AT0t9g7QC1jo
-         1KSfGWOJUXOKJCit/H1bl5TGamhWTvNuJ2PtChih93rMBSBJaM/oOZv6m8KvB145Ir
-         +PMfSEBQA85pA==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Benjamin Asbach <asbachb.kernel@impl.it>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, hmh@hmh.eng.br,
-        markgross@kernel.org, ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 13/17] platform/x86: thinkpad_acpi: Add missing T14s Gen1 type to s2idle quirk list
-Date:   Wed, 12 Apr 2023 22:36:41 -0400
-Message-Id: <20230413023647.74661-13-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230413023647.74661-1-sashal@kernel.org>
-References: <20230413023647.74661-1-sashal@kernel.org>
+        Wed, 12 Apr 2023 23:54:16 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86FFE4EE5
+        for <platform-driver-x86@vger.kernel.org>; Wed, 12 Apr 2023 20:54:15 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id 4fb4d7f45d1cf-504eb1155d3so6150231a12.1
+        for <platform-driver-x86@vger.kernel.org>; Wed, 12 Apr 2023 20:54:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681358054;
+        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cLnE1viA2YkFQlIS735wdkGePat6D3JreXDWC7/8f9c=;
+        b=jkUZO5mWveuLbsHVil2ApVsc0mPZp1nZd6u+wWD2e0PrdfjseA7o563gXRzKHthvPl
+         NIPk2WSdb6IBgDuLwLyesh7BtseNAg5OfiwTiqkCjOf6RCiCOQY+Cs4Ci+PC+K5YkvQ8
+         USgxtxKodrTZK0AKfUMbCIUtiLLbSRS0ET2VKW9HVIizZ67z4rqlzYeim5KJcoeYoDoT
+         /WObsxiQEFPm+HPKrJ/a2G+CV6iUHo7gV4Kw2wrAuzcDZQeMl1GwcLU+9VfQoqRaldkz
+         hZ9Nf+i/3km5LtwPVZzoOBfeD88VA2SbbbnlWKdm27Hjzm33HNoZME/2GEDJLnRspZuw
+         4z3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681358054;
+        h=to:subject:message-id:date:from:sender:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cLnE1viA2YkFQlIS735wdkGePat6D3JreXDWC7/8f9c=;
+        b=lAzX1+umGEfr2a1mF/YPyQNUeX7qKH1XUASaD/OskiHOvZ6HvIU3/PKw2ClvjU1UCP
+         Vw9OTE9YUaWvbrEkBnnka+6RYGZxMMO8HxEii95uHDzPnyLv2fpn90Kk/QIA3WOlOOmZ
+         BBmmmg4d3+yZ9vOBhoptytJdwXAbEDzUhEcM0fKQLQjquURtCctTSG0QBZ1Zb/pc1luG
+         AmQYmSy2AzT5qZwKCAlWL4PE9jzUcshn+/iuCK1lViIgk4HcvHQEvcWcTojrdlnXT3p0
+         o844VUmTSrZNW/ZC76Y3kReJPgLrXQ62sIj4MxSl7Q0C1DfjsMrWgII3KJVgUS0h0GOA
+         HIkQ==
+X-Gm-Message-State: AAQBX9cJpbsq450N3grnHZmAMGJxuNnRK7Inpbm4AePIaZ8kJq5zz49B
+        0s0JD8+qLvenX3NrPgtC3R7BKHZ7QdfXQC6BQ0o=
+X-Google-Smtp-Source: AKy350aghV9LjDOnRkNWn9t0P8W/GBNNmZrFpWC35PF74b9qObJf7HN+E+kkxlStchm2mlgO+P97hxoBBSgPfXLlAvs=
+X-Received: by 2002:a05:6402:3483:b0:504:b71d:74d7 with SMTP id
+ v3-20020a056402348300b00504b71d74d7mr3126196edc.4.1681358053644; Wed, 12 Apr
+ 2023 20:54:13 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Sender: bussingoo234@gmail.com
+Received: by 2002:a05:7208:82a9:b0:67:2a42:540b with HTTP; Wed, 12 Apr 2023
+ 20:54:13 -0700 (PDT)
+From:   "Mrs. Sayouba Athelah" <sayoubaathelah@gmail.com>
+Date:   Wed, 12 Apr 2023 20:54:13 -0700
+X-Google-Sender-Auth: rH7jM7DXELU3KjpTzPLSaSoK0Is
+Message-ID: <CAJzhy=GtxyXo_4aupLEvZE0xAc=-KREXZn7tEp+3gN+s=J=Z2Q@mail.gmail.com>
+Subject: Re
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.4 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
+        BAYES_00,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,LOTS_OF_MONEY,MILLION_HUNDRED,
+        MONEY_FRAUD_8,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_HK_NAME_FM_MR_MRS,T_MONEY_PERCENT,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:543 listed in]
+        [list.dnswl.org]
+        * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+        *      [score: 0.0000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [bussingoo234[at]gmail.com]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [bussingoo234[at]gmail.com]
+        *  1.1 MILLION_HUNDRED BODY: Million "One to Nine" Hundred
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
+        *  0.0 T_MONEY_PERCENT X% of a lot of money for you
+        *  0.0 MONEY_FRAUD_8 Lots of money and very many fraud phrases
+        *  3.0 ADVANCE_FEE_5_NEW_MONEY Advance Fee fraud and lots of money
+        *  3.1 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Benjamin Asbach <asbachb.kernel@impl.it>
+Dear God's Select
 
-[ Upstream commit 9a469c6dfab38326f99f105386db84230be09ee3 ]
+I am writing this mail to you with heavy tears In my eyes and great sorrow
+in my heart, My Name is Mrs Athelah Sayouba, I am from Tunisia and I am
+contacting you from a hospital in Burkina Faso. I want to tell you this
+because I don't have any other option than to tell you as I was touched to
+open up to you. I married Mr. Sayouba Brown who worked with the Tunisia
+Ambassador in Burkina Faso for fifteen years before he died in 2016. We
+were married for eleven years without a child.
 
-From the commit message adding the first s2idle quirks:
+He died after a brief illness that lasted for only three days. Since his
+death I decided not to remarry. When my late husband was alive he deposited
+the sum of US$ 8.500.000 million. (Eight Million Five hundred Thousand
+Dollars) in a bank in Ouagadougou the capital city of Burkina Faso in west
+Africa. Presently this money is still in the bank. He made this money
+available for exportation of Gold from Burkina Faso mining.
 
-> Lenovo laptops that contain NVME SSDs across a variety of generations have
-> trouble resuming from suspend to idle when the IOMMU translation layer is
-> active for the NVME storage device.
->
-> This generally manifests as a large resume delay or page faults. These
-> delays and page faults occur as a result of a Lenovo BIOS specific SMI
-> that runs during the D3->D0 transition on NVME devices.
+Recently, my doctor told me that I would not last for the period of seven
+months due to blood cancer and hemorrhagic stroke. Having known my
+condition I decided to hand this money over to you to take care of the
+less-privileged people, you will utilize this money the way I am going to
+instruct herein. I want you to take 30 Percent of the total money for your
+personal use. While 70% of the money you will use to build an orphanage
+home in my late husband's name. And help the poor people in the street. I
+grew up as an Orphan and I don't have anybody as my family member, just to
+endeavor that the house of God is maintained. I am doing this In regards to
+my late husband's wish. This illness has affected me so much. I am just
+like a living death.
 
-Add the DMI ids for another variant of the T14s Gen1, which also needs
-the s2idle quirk.
+As soon as I receive your reply. I will give you the contact of the bank in
+Burkina Faso and I will also instruct the Bank Manager to issue you an
+authority letter that will prove you the present beneficiary of the money
+in the bank, that is if you assure me that you will act accordingly as I
+Stated herein.
 
-Link: https://lore.kernel.org/all/20220503183420.348-1-mario.limonciello@amd.com/
-Link: https://bbs.archlinux.org/viewtopic.php?pid=2084655#p2084655
-Signed-off-by: Benjamin Asbach <asbachb.kernel@impl.it>
-Tested-by: Benjamin Asbach <asbachb.kernel@impl.it>
-Link: https://lore.kernel.org/r/20230331232447.37204-1-asbachb.kernel@impl.it
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/thinkpad_acpi.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 2a48a2d880d86..d1ec31086e9ba 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -4481,6 +4481,14 @@ static const struct dmi_system_id fwbug_list[] __initconst = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "20UH"),
- 		}
- 	},
-+	{
-+		.ident = "T14s Gen1 AMD",
-+		.driver_data = &quirk_s2idle_bug,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "20UJ"),
-+		}
-+	},
- 	{
- 		.ident = "P14s Gen1 AMD",
- 		.driver_data = &quirk_s2idle_bug,
--- 
-2.39.2
-
+From Mrs. Athelah Sayouba.
