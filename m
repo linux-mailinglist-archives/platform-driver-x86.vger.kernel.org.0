@@ -2,133 +2,217 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78CD06E4505
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 17 Apr 2023 12:19:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ADB86E457C
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 17 Apr 2023 12:45:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229754AbjDQKS7 (ORCPT
+        id S229461AbjDQKo5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 17 Apr 2023 06:18:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52592 "EHLO
+        Mon, 17 Apr 2023 06:44:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230523AbjDQKSs (ORCPT
+        with ESMTP id S229634AbjDQKo4 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 17 Apr 2023 06:18:48 -0400
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 513526596
-        for <platform-driver-x86@vger.kernel.org>; Mon, 17 Apr 2023 03:17:58 -0700 (PDT)
-Received: by mail-qv1-xf33.google.com with SMTP id dd8so12200731qvb.13
-        for <platform-driver-x86@vger.kernel.org>; Mon, 17 Apr 2023 03:17:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681726603; x=1684318603;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1nYUg0+2tztcyRYSYW/uc5mLOZV/QwLje5n+NpS6OSo=;
-        b=JRzk6JWx/dtru3zUYLVJg+pdtQSwValQLjcna7Hib5Jfn72Zk5RZJj+HzRodKu+KtZ
-         IXwRlSw07Fk7LgELjr7nzp/hM7IJ3cB8le3ohJbyU43KfceQDb3A/Es9S/kKdea/anEp
-         8ycM6/nbXpJNMI1W61wmpWSmgTbq5Cf9197fargj8IXSmYKoERD3Z7wOc3e8HyBtvcbd
-         LV8rCUusKRjrdMUTy0wo9lq2IHRW+5KVYzh4zyWkNdm4rYWEfJd2/rpdO+To3OIzo94K
-         wlUEC42hNiagaCBBVEOXRHm4ksxaqlfHDYHm8DfIuc6NwkKgD+QKDWEdWs7nhxvGgNZO
-         Xjxw==
+        Mon, 17 Apr 2023 06:44:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8153459FE
+        for <platform-driver-x86@vger.kernel.org>; Mon, 17 Apr 2023 03:43:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1681728078;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=yVioH6reqYXkNBcqXGMdOnvI7hBw/T3Pe2Em6Jl/kA8=;
+        b=Y/XhLDMJ+7ShmNk0fRwY5taYPHR09roBEYKYMZVqo3J6fnOvM+XA6q9B+GNvaZ4xDHf/xU
+        EwPST0d1dF8NSwHX66SCKh04RC8+rvxp8w9KKlDMfwPUUOw2ZtSz+tcTaiV1JhV/718P1g
+        JEdX31yBci0KcFaNjmLw8yeAs54isqo=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-2-TMQYeXzdOfmv3RMZt10hNA-1; Mon, 17 Apr 2023 06:19:21 -0400
+X-MC-Unique: TMQYeXzdOfmv3RMZt10hNA-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-94a356c74e0so302322466b.2
+        for <platform-driver-x86@vger.kernel.org>; Mon, 17 Apr 2023 03:19:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681726603; x=1684318603;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1nYUg0+2tztcyRYSYW/uc5mLOZV/QwLje5n+NpS6OSo=;
-        b=KSowjro/7/imR6vgCLY9vWYxnuBXj6Kitm4JbcOW72CeFlUaGW0xfntXF+D+O2HYxo
-         +Yewljq14jtD7XXcJ7vGQacI8zU9iGd5IEXqUI/P3kCCXPCsQM3elA5TWbDIC4pMIWOG
-         pgEHsJj4Mqf/7nt4/ogPDqlq/YMuH8b3Qe45Sm+CLcpk49DI2xu1oqeFZ0lh4X+CCK8Y
-         zpAWB+JB9slgkCKlXzYD6zpPAOIzVqT0Z95fSwiY9Lcp4vjgIOySpAV+rCEHd4eNicz8
-         Hqv4FW5hjwDCdhnqAZmPW0j3Kbw5AeMH669pfbXld1DehaWo3+SNR02fU8BiETwaHGlj
-         feYw==
-X-Gm-Message-State: AAQBX9dvmt7/RWGcVIy+4krRsT79ttd4yEpAtRrbGLGAn+P+WX0oj8Em
-        1khDmAKY+l+EiV6m97KxN4OZ5swaoS3NiQuqdK8=
-X-Google-Smtp-Source: AKy350Y6k53YeqX08wViOL7MWKggOSHbX4q6FJpgCD4Jjs+M4O2C8n9V7eS4t368J5dZYJm/Hw8kY+LCq+KFOLwYTCY=
-X-Received: by 2002:ad4:5505:0:b0:5ef:474f:eb84 with SMTP id
- pz5-20020ad45505000000b005ef474feb84mr1805670qvb.10.1681726603285; Mon, 17
- Apr 2023 03:16:43 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1681726760; x=1684318760;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yVioH6reqYXkNBcqXGMdOnvI7hBw/T3Pe2Em6Jl/kA8=;
+        b=jZNxMjVFk1fnW6qR1na1OFDYk+BhTpaXw05YnuBQYzfuSxZtfJEzJH4LS7EHI3X2J/
+         umbP0MrA4Jxhf/oPoOEhWuiAhqaoMNuOg4NfzwLVAbgUh5k33oidiPR8mctS+v6X8Pqx
+         pyWlDelhWWGuQaxZd4ELjyYKPIcqgrCZinvuRPdhR7qhwJx+J9j1EBIRWhNax/3VI9Ag
+         HKsvPeXvq4g+rPftZl8FZIgXp2NDphTSnlBoe9gBVmnnhRy3OZBS8ghfSs1fxMoA2ytQ
+         CFleWd2flspZaCZn+mNazLTa5ExMdf6Qq60vPxn2ZnFjE8Hn1SGd/F9neEz/dy14O7Dy
+         Ihqw==
+X-Gm-Message-State: AAQBX9e/isKrZCTXLcsiahQT582ECCNC2vi55bcEAvqlyGu063GWrCpA
+        bAbUJtRbJ0k7snzlJacDNkDRMTiSuKPZAwA7GaTb8H7LT8Doi5WD4JYPh8jB5V3fKA2o3R7/YJY
+        kLvJKZeYFWUcFY9sHm35/Yr9UXciLw82suw==
+X-Received: by 2002:aa7:c403:0:b0:506:8eb1:a266 with SMTP id j3-20020aa7c403000000b005068eb1a266mr6313318edq.33.1681726760045;
+        Mon, 17 Apr 2023 03:19:20 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Y1Z9gl4TiEW7hbJoOhucFOdrVflwjbt8FRuMTvOCqZE2CTvNgpWXLsXcH9O5QkjfafZ9TE5w==
+X-Received: by 2002:aa7:c403:0:b0:506:8eb1:a266 with SMTP id j3-20020aa7c403000000b005068eb1a266mr6313302edq.33.1681726759721;
+        Mon, 17 Apr 2023 03:19:19 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id v3-20020aa7d9c3000000b00506943f60adsm2834654eds.90.2023.04.17.03.19.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Apr 2023 03:19:19 -0700 (PDT)
+Message-ID: <dd07686f-dd03-4efc-3dfe-5b568c6c854d@redhat.com>
+Date:   Mon, 17 Apr 2023 12:19:18 +0200
 MIME-Version: 1.0
-References: <20230416154932.6579-1-julian.winkler1@web.de> <6a2a97d9-140c-3e4f-aa12-c98f928f7481@redhat.com>
-In-Reply-To: <6a2a97d9-140c-3e4f-aa12-c98f928f7481@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 17 Apr 2023 13:16:07 +0300
-Message-ID: <CAHp75VfFptZcJn7c_a2GLnSqJDXBwvUqWmu9Wb19a3VvwXJS5A@mail.gmail.com>
-Subject: Re: [PATCH] intel_scu_pcidrv: add back PCI id for Medfield
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Julian Winkler <julian.winkler1@web.de>,
-        platform-driver-x86@vger.kernel.org,
-        Mika Westerberg <mika.westerberg@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] platform/x86: thinkpad_acpi: Fix Embedded Controller
+ access on X380 Yoga
+Content-Language: en-US, nl
+To:     Daniel Bertalan <dani@danielbertalan.dev>
+Cc:     Liav Albani <liavalb@gmail.com>, Mark Gross <markgross@kernel.org>,
+        Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+        Mark Pearson <mpearson-lenovo@squebb.ca>,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+References: <20230414180034.63914-1-dani@danielbertalan.dev>
+ <060c750b-f282-b1f4-2fcc-64fc3885f149@redhat.com>
+ <a1229347-b5f3-8a1d-40a8-20beb863592a@gmail.com>
+ <2739eb24-736f-6f59-70c5-d9975c354369@redhat.com>
+ <c7LGto3wAWSkvfZaIEtB9_5EhTFe8ZdAOCKSZE8m8L18w0kJu2tms1RSdhrdUPBfHy5f-GMvxi_Etc5s8e7NOdF_xG4atmwco2QQ41bv9Sc=@danielbertalan.dev>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <c7LGto3wAWSkvfZaIEtB9_5EhTFe8ZdAOCKSZE8m8L18w0kJu2tms1RSdhrdUPBfHy5f-GMvxi_Etc5s8e7NOdF_xG4atmwco2QQ41bv9Sc=@danielbertalan.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Apr 17, 2023 at 1:11=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
- wrote:
-> +Cc Andy, Mika,
+Hi,
 
-Thanks for Cc'ing me.
+On 4/15/23 16:22, Daniel Bertalan wrote:
+> Hi,
+> 
+> On Saturday, April 15th, 2023 at 15:30, Hans de Goede <hdegoede@redhat.com> wrote:
+> 
+>> Hi,
+>>
+>> On 4/15/23 15:24, Liav Albani wrote:
+>>
+>>> On 4/15/23 13:12, Hans de Goede wrote:
+>>>
+>>>> Hi,
+>>>>
+>>>> On 4/14/23 20:02, Daniel Bertalan wrote:
+>>>>
+>>>>> On the X380 Yoga, the `ECRD` and `ECWR` ACPI objects cannot be used for
+>>>>> accessing the Embedded Controller: instead of a method that reads from
+>>>>> the EC's memory, `ECRD` is the name of a location in high memory. This
+>>>>> meant that trying to call them would fail with the following message:
+>>>>>
+>>>>> ACPI: \_SB.PCI0.LPCB.EC.ECRD: 1 arguments were passed to a non-method
+>>>>> ACPI object (RegionField)
+>>>>>
+>>>>> With this commit, it is now possible to access the EC and read
+>>>>> temperature and fan speed information. Note that while writes to the
+>>>>> HFSP register do go through (as indicated by subsequent reads showing
+>>>>> the new value), the fan does not actually change its speed.
+>>>>>
+>>>>> Signed-off-by: Daniel Bertalan dani@danielbertalan.dev
+>>>>> Interestig, this looks like a pretty clean solution to me.
+>>>
+>>> Daniel and I have looked in the DSDT ASL code and found a bunch of registers in high physical memory location (which is an ACPI OpRegion),
+>>> and one of the registers had a bit called ECRD.
+>>> However, there were many other registers that might be interesting as well, the problem is the short names in the ASL code (so we only see abbreviations essentially).
+>>>
+>>> While I do agree that adding this code is indeed a clean solution, if you (people that are dealing with Thinkpad laptops) know about cleaner way to access the embedded controller, I think it's preferable, because this way Daniel might be able to trigger the fan on that laptop so it will actually spin and will dissipate-out heat from the system, without the relying on the embedded controller to get into some sort of thermal state and then to trigger the fan.
+>>
+>>
+>> Have you tried falling back to the ec_read() and ec_write() helpers
+>> exported by the ACPI EC code ?
+>>
+>> The "first_ec" pointer used by these functions is exported too,
+>> so you could try modifying thinkpad_acpi to use ec_read() and
+>> ec_write() as fallback when first_ec is set (and the quirk
+>> added by this patch triggers).
+> 
+> This is basically what my patch does. If the ECRD/ECWR method handles
+> are NULL, thinkpad_acpi's acpi_ec_{read,write} functions fall back to
+> the regular ACPI EC helpers you mentioned.
 
-> On 4/16/23 17:49, Julian Winkler wrote:
-> > This id was removed in b47018a778c1a18cbc98b4a11936dec4f8c4bb7b, saying=
- it
-> > is only used on Moorestown, but apparently the same id is also used on
-> > Medfield.
-> >
-> > Tested on the Medfield based Motorola RAZR i smartphone.
+Ah I did not realize that. Ok that sounds good to me.
 
-Wow! This is surprising.
-Can you tell more about your test environment? What is the Linux
-kernel version in use and what is the userspace (AOSP, Buildroot,
-Yocto, custom)? If custom, more details would be nice to hear.
+I'll go and apply the patch then. To be on the save side I'm going
+to only add this to -next, so that it gets some testing before
+showing up in stable series. Once 6.4-rc1 is out you can then
+send it to stable@vger.kernel.org to get it backported.
 
-> > Signed-off-by: Julian Winkler <julian.winkler1@web.de>
->
-> Hmm, so this is a former SFI platform, from your:
-> https://lore.kernel.org/all/20230223060107.23029-1-julian.winkler1@web.de=
-/
->
-> patch I guess the plan is to use some custom bootloader
-> and then use x86 with devicetree support to replace SFI ?
+> Speaking of which, does anyone know why these private helper functions
+> exist in the first place? The code seems to use them interchangeably.
+> Even in the fan control code, there are places where the regular EC
+> helpers are called directly. Can we get away with always doing that?
 
-That would also be nice to hear in detail. With other Intel MID
-platforms the decision was made to pursue ACPI (and U-Boot, as an
-example) supports that for Intel Merrifield platform.
+I assume that on some older models there is no standard ACPI EC device
+in the ACPI tables, so there only ECRD/ECWR work. I guess that code-paths
+which directly call ec_read() / ec_write() are only used on newer
+models. But this does indeed seem inconsistent.
 
-> Do you already have this working ?
->
-> Sorry for all the questions for what is just a simple PCI-id
-> addition. I guess I'm worried this is just the tip of
-> the iceberg for getting medfield support back into
-> the kernel and I'm a bit worried about how much maintenance
-> work this will cause.
->
-> E.g. also see commit e1da811218d2dc ("drm/gma500: Remove Medfield support=
-")
-> which I guess you will want to see reverted too ?
->
-> That is an example of a lot more code to bring back
-> then just a single PCI-id addition.
->
-> Don't get me wrong I'm all for supporting older hw
-> if there are users who are interested in actively
-> maintaining support for it. I just want to get a feel
-> of the amount of work this is going to involve.
->
-> Andy, Mika, any remarks ?
+> Back to the issue at hand, is there someone we could ask if the X380Y
+> even supports manual fan control in the first place? My debugging
+> efforts are starting to look like a wild goose chase.
+> 
+> The thermal sensors and fan PWM readings now work, which is better
+> than nothing, but it would be good to get to the bottom of this.
 
-I'm not against a patch if it helps existing users, but we need to
-understand first if it will be really helpful for upstream (taking
-into account 32-bit Intel MID support removal).
+Mark Pearson from Lenovo can hopefully help answer this, but I know
+that he is quite busy atm. Hopefully Mark will get back to you when
+he has some more bandwidth.
 
---=20
-With Best Regards,
-Andy Shevchenko
+Regards,
+
+Hans
+
+
+
+>>>>> ---
+>>>>> drivers/platform/x86/thinkpad_acpi.c | 16 ++++++++++++++++
+>>>>> 1 file changed, 16 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+>>>>> index 7191ff2625b1..6fe82f805ea8 100644
+>>>>> --- a/drivers/platform/x86/thinkpad_acpi.c
+>>>>> +++ b/drivers/platform/x86/thinkpad_acpi.c
+>>>>> @@ -11699,6 +11699,7 @@ static int __init thinkpad_acpi_module_init(void)
+>>>>> {
+>>>>> const struct dmi_system_id *dmi_id;
+>>>>> int ret, i;
+>>>>> + acpi_object_type obj_type;
+>>>>>
+>>>>> tpacpi_lifecycle = TPACPI_LIFE_INIT;
+>>>>>
+>>>>> @@ -11724,6 +11725,21 @@ static int __init thinkpad_acpi_module_init(void)
+>>>>> TPACPI_ACPIHANDLE_INIT(ecrd);
+>>>>> TPACPI_ACPIHANDLE_INIT(ecwr);
+>>>>>
+>>>>> + /*
+>>>>> + * Quirk: in some models (e.g. X380 Yoga), an object named ECRD
+>>>>> + * exists, but it is a register, not a method.
+>>>>> + */
+>>>>> + if (ecrd_handle) {
+>>>>> + acpi_get_type(ecrd_handle, &obj_type);
+>>>>> + if (obj_type != ACPI_TYPE_METHOD)
+>>>>> + ecrd_handle = NULL;
+>>>>> + }
+>>>>> + if (ecwr_handle) {
+>>>>> + acpi_get_type(ecwr_handle, &obj_type);
+>>>>> + if (obj_type != ACPI_TYPE_METHOD)
+>>>>> + ecwr_handle = NULL;
+>>>>> + }
+>>>>> +
+>>>>> tpacpi_wq = create_singlethread_workqueue(TPACPI_WORKQUEUE_NAME);
+>>>>> if (!tpacpi_wq) {
+>>>>> thinkpad_acpi_module_exit();
+> 
+
