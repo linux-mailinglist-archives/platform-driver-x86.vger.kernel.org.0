@@ -2,77 +2,75 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A0E56E4571
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 17 Apr 2023 12:42:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2BDB6E45B9
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 17 Apr 2023 12:51:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229605AbjDQKmW (ORCPT
+        id S230305AbjDQKvO (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 17 Apr 2023 06:42:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42418 "EHLO
+        Mon, 17 Apr 2023 06:51:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbjDQKmV (ORCPT
+        with ESMTP id S230181AbjDQKuw (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 17 Apr 2023 06:42:21 -0400
+        Mon, 17 Apr 2023 06:50:52 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5776486BF
-        for <platform-driver-x86@vger.kernel.org>; Mon, 17 Apr 2023 03:40:52 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFCA98A6F
+        for <platform-driver-x86@vger.kernel.org>; Mon, 17 Apr 2023 03:49:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681728001;
+        s=mimecast20190719; t=1681728480;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=SDk3y6YL8NcrP7qt8pUV/GZMMEBmQX45ZIgP7zWBk7U=;
-        b=DAVFovligpm4K5m+7swwKkNmkqikkzyFC/3M/MSMOkXRHMzmAEuGiH9QHjC/FFS3mD+T4K
-        jvt3NrnZPCchfrtHS3L09ae2DHUi0Hn6uB7gOr8kh35E/uecEP/wiw85dT6In2yi5E0aAv
-        GfoxzD0RgUxjDcMj4pHiH8DkN2P++98=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=icnW2LXvgJOkMT3ImYMGxEL0kg7+YMO+xtreYgKJV+4=;
+        b=JUaeVY2iKQK38qR73VkecUfBa+zYTOXEdv8WwJP3oeQ93jRzz0xOw2mtWBCzwWUmCuAOOl
+        pBqIXldKwys0cLJBF0AAtTHXDiwbth1SjB6S0Ddw4EvpET/NdJuCNq6cG5B+jmIy7Y7vgc
+        FCSkQiTLwKhRVSF6QK3i/LWIXcpcB80=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-424-Fq91YCzpNtSYh48ZjWy6UQ-1; Mon, 17 Apr 2023 06:23:06 -0400
-X-MC-Unique: Fq91YCzpNtSYh48ZjWy6UQ-1
-Received: by mail-ed1-f71.google.com with SMTP id v10-20020a50d08a000000b0050675b95c83so5983206edd.4
-        for <platform-driver-x86@vger.kernel.org>; Mon, 17 Apr 2023 03:23:06 -0700 (PDT)
+ us-mta-194-V0cJJ1I-Pg6fGYvjpopxow-1; Mon, 17 Apr 2023 06:25:37 -0400
+X-MC-Unique: V0cJJ1I-Pg6fGYvjpopxow-1
+Received: by mail-ed1-f69.google.com with SMTP id z34-20020a509e25000000b00504ed11e0c5so8433491ede.1
+        for <platform-driver-x86@vger.kernel.org>; Mon, 17 Apr 2023 03:25:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681726985; x=1684318985;
+        d=1e100.net; s=20221208; t=1681727136; x=1684319136;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SDk3y6YL8NcrP7qt8pUV/GZMMEBmQX45ZIgP7zWBk7U=;
-        b=cocFiUYPRXVhRyaEG2RKCLJ/20rGl955CNgQywwRf9oWlfsgkhDDMjMUoaij9GndJE
-         VEmxF1ZBk9+QLjqmA+QkYp+PKN4T02z/R9t7EIDJtB10ZaxpDz3paviUMMnoAdlaX7uU
-         3mYh4+KQONs3CIpwU9+HFfYl43UvNQk/4fysQmxdz8UZnlJ8hLIBFXM0r09vrKeJtebb
-         LI4pBh2f0/faLLClvg+cHOtZlrnxiNxtNQWnNvTQei+SvA6sODDAppvYgTT5ecGYqqrY
-         r3rhtHbQNnFcyh+l66vqwyk22wuG+VEMgdi/llQtGWIvyM0o27bV3siVtpTH5Ss38a2K
-         t0mw==
-X-Gm-Message-State: AAQBX9edoPQlu5p30PL/xAZ/WBFhvbxHR5rVC76ebiDVq19MaL3Ynb/7
-        9Fr8qDCENE6ixkB9vknAlDp495gt8U1M1/on+2qa8FBRmsECwxdk4qUpQlvazPPUdO2lw0y8VPt
-        gudM0T5KyPb0GV/8dWjYdlxXbsxVlmdjKbg==
-X-Received: by 2002:a17:906:847b:b0:870:58ae:842e with SMTP id hx27-20020a170906847b00b0087058ae842emr6583227ejc.24.1681726985680;
-        Mon, 17 Apr 2023 03:23:05 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YGUTVdM6CneYScPti+UqjkD+DXhvZvk6sKHWxt1tRef5U+FyZox7r7aBvtrU9acQmYQj4y4A==
-X-Received: by 2002:a17:906:847b:b0:870:58ae:842e with SMTP id hx27-20020a170906847b00b0087058ae842emr6583211ejc.24.1681726985366;
-        Mon, 17 Apr 2023 03:23:05 -0700 (PDT)
+        bh=icnW2LXvgJOkMT3ImYMGxEL0kg7+YMO+xtreYgKJV+4=;
+        b=esrhE5PBR8hqKcWgmpDur9/pGwD9DLnkS5Nm7A+U8R1dKJ+HWkqu+eqSzLwP00LpLt
+         oKhhhx1kLzGvftKFwPPfinCz9LG8pacaM5A4SUd1bzK/GC3YIou5J+rJjxuuue6qgkVS
+         B+q/tUO1n3GpWMMpb7rKEOFdM3gSDwOMSnONnhnYVu5I69eCrEp0BjUOX1JRn0KJ4sd1
+         FunHUfiVMP2xd4wcjOL9ZLNcsIwjKPlKIoQ0sfmD4SKckfSzNP3f/2DjWUXM9M/yDQ/q
+         sipNOILDDKJc5YGIGX7j62uAd/Kl84DHsU8F6jmA0tnkyAwztSYVCItRGL5MFDSc4SHV
+         GqLg==
+X-Gm-Message-State: AAQBX9eODAIyX193jtd1cAgwvIPeWPQ1yySDgQCTka5mW1MIDAIzQTl6
+        JBMluOXpVkLIX1nxEa3ffwLWeT0wNXg87ezY8i/4o9k6ynKyXSmw/PyCiulZNqCFcpzPlnA97wV
+        Nvsd3Mr3RcUKFvZgYxl/eufvT/4vW2ila2G1AEmyYjw==
+X-Received: by 2002:a17:906:6054:b0:947:ebd5:c798 with SMTP id p20-20020a170906605400b00947ebd5c798mr6838235ejj.54.1681727135872;
+        Mon, 17 Apr 2023 03:25:35 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aaIl56IdLA3NbNLrKinZOW8Zjf8g3yD0laZKybOhej/UzvYARION1QstjVk5E7GhpmGglIPg==
+X-Received: by 2002:a17:906:6054:b0:947:ebd5:c798 with SMTP id p20-20020a170906605400b00947ebd5c798mr6838220ejj.54.1681727135599;
+        Mon, 17 Apr 2023 03:25:35 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 14-20020a17090601ce00b0094a671c2298sm959213ejj.62.2023.04.17.03.23.04
+        by smtp.gmail.com with ESMTPSA id t16-20020a170906269000b00932ba722482sm6526421ejc.149.2023.04.17.03.25.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Apr 2023 03:23:04 -0700 (PDT)
-Message-ID: <077df234-1872-c3f1-fc7d-1f935f6e5864@redhat.com>
-Date:   Mon, 17 Apr 2023 12:23:04 +0200
+        Mon, 17 Apr 2023 03:25:35 -0700 (PDT)
+Message-ID: <1aab7409-ae85-802f-9e22-25b8c456b06b@redhat.com>
+Date:   Mon, 17 Apr 2023 12:25:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH] platform/x86: thinkpad_acpi: Fix Embedded Controller
- access on X380 Yoga
+Subject: Re: [PATCH 1/4] platform/x86: x86-android-tablets: Update Yoga Book
+ HiDeep touchscreen comment
 Content-Language: en-US, nl
-To:     Daniel Bertalan <dani@danielbertalan.dev>,
-        Mark Gross <markgross@kernel.org>,
-        Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-Cc:     ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, liavalb@gmail.com
-References: <20230414180034.63914-1-dani@danielbertalan.dev>
+To:     =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>
+Cc:     platform-driver-x86@vger.kernel.org
+References: <20230416212841.311152-1-hdegoede@redhat.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230414180034.63914-1-dani@danielbertalan.dev>
+In-Reply-To: <20230416212841.311152-1-hdegoede@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -87,33 +85,15 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 Hi,
 
-On 4/14/23 20:02, Daniel Bertalan wrote:
-> On the X380 Yoga, the `ECRD` and `ECWR` ACPI objects cannot be used for
-> accessing the Embedded Controller: instead of a method that reads from
-> the EC's memory, `ECRD` is the name of a location in high memory. This
-> meant that trying to call them would fail with the following message:
+On 4/16/23 23:28, Hans de Goede wrote:
+> After recent i2c-hid-of changes, the i2c-hid-of driver could be used
+> for the Yoga Book HiDeep touchscreen comment instead of the native hideep
+> driver. Update the comment to reflect this.
 > 
->   ACPI: \_SB.PCI0.LPCB.EC.ECRD: 1 arguments were passed to a non-method
->   ACPI object (RegionField)
-> 
-> With this commit, it is now possible to access the EC and read
-> temperature and fan speed information. Note that while writes to the
-> HFSP register do go through (as indicated by subsequent reads showing
-> the new value), the fan does not actually change its speed.
-> 
-> Signed-off-by: Daniel Bertalan <dani@danielbertalan.dev>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Thank you for your patch, I've applied this patch to my review-hans 
-branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
-
-Note it will show up in my review-hans branch once I've pushed my
-local branch there, which might take a while.
-
-Once I've run some tests on this branch the patches there will be
-added to the platform-drivers-x86/for-next branch and eventually
-will be included in the pdx86 pull-request to Linus for the next
-merge-window.
+I've added this series to my review-hans (soon to be for-next)
+branch now.
 
 Regards,
 
@@ -121,42 +101,31 @@ Hans
 
 
 
+
 > ---
->  drivers/platform/x86/thinkpad_acpi.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+>  drivers/platform/x86/x86-android-tablets/lenovo.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-> index 7191ff2625b1..6fe82f805ea8 100644
-> --- a/drivers/platform/x86/thinkpad_acpi.c
-> +++ b/drivers/platform/x86/thinkpad_acpi.c
-> @@ -11699,6 +11699,7 @@ static int __init thinkpad_acpi_module_init(void)
->  {
->  	const struct dmi_system_id *dmi_id;
->  	int ret, i;
-> +	acpi_object_type obj_type;
+> diff --git a/drivers/platform/x86/x86-android-tablets/lenovo.c b/drivers/platform/x86/x86-android-tablets/lenovo.c
+> index a571dcd11544..b5dd74bf9e8c 100644
+> --- a/drivers/platform/x86/x86-android-tablets/lenovo.c
+> +++ b/drivers/platform/x86/x86-android-tablets/lenovo.c
+> @@ -41,10 +41,13 @@ static struct lp855x_platform_data lenovo_lp8557_pdata = {
+>  /* Lenovo Yoga Book X90F / X90L's Android factory img has everything hardcoded */
 >  
->  	tpacpi_lifecycle = TPACPI_LIFE_INIT;
->  
-> @@ -11724,6 +11725,21 @@ static int __init thinkpad_acpi_module_init(void)
->  	TPACPI_ACPIHANDLE_INIT(ecrd);
->  	TPACPI_ACPIHANDLE_INIT(ecwr);
->  
-> +	/*
-> +	 * Quirk: in some models (e.g. X380 Yoga), an object named ECRD
-> +	 * exists, but it is a register, not a method.
-> +	 */
-> +	if (ecrd_handle) {
-> +		acpi_get_type(ecrd_handle, &obj_type);
-> +		if (obj_type != ACPI_TYPE_METHOD)
-> +			ecrd_handle = NULL;
-> +	}
-> +	if (ecwr_handle) {
-> +		acpi_get_type(ecwr_handle, &obj_type);
-> +		if (obj_type != ACPI_TYPE_METHOD)
-> +			ecwr_handle = NULL;
-> +	}
-> +
->  	tpacpi_wq = create_singlethread_workqueue(TPACPI_WORKQUEUE_NAME);
->  	if (!tpacpi_wq) {
->  		thinkpad_acpi_module_exit();
+>  /*
+> - * The HiDeep IST940E touchscreen comes up in HID mode and could alternatively
+> - * be used in I2C-HID mode (I2C-HID descriptor reg 0x0020) if i2c-hid-of.c is
+> - * modified to use generic (non-OF) device-properties and thought to deal with
+> - * the reset GPIO. "hideep,force-native-protocol" resets it to native mode.
+> + * The HiDeep IST940E touchscreen comes up in I2C-HID mode. The native protocol
+> + * reports ABS_MT_PRESSURE and ABS_MT_TOUCH_MAJOR which are not reported in HID
+> + * mode, so using native mode is preferred.
+> + * It could alternatively be used in HID mode by changing the properties to:
+> + *	PROPERTY_ENTRY_U32("hid-descr-addr", 0x0020),
+> + *	PROPERTY_ENTRY_U32("post-reset-deassert-delay-ms", 120),
+> + * and changing board_info.type to "hid-over-i2c".
+>   */
+>  static const struct property_entry lenovo_yb1_x90_hideep_ts_props[] = {
+>  	PROPERTY_ENTRY_U32("touchscreen-size-x", 1200),
 
