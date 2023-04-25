@@ -2,95 +2,70 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E1866EDBBF
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Apr 2023 08:39:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EAE26EDDBB
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Apr 2023 10:13:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233073AbjDYGjT (ORCPT
+        id S233560AbjDYINM (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 25 Apr 2023 02:39:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49058 "EHLO
+        Tue, 25 Apr 2023 04:13:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232274AbjDYGjS (ORCPT
+        with ESMTP id S231189AbjDYINL (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 25 Apr 2023 02:39:18 -0400
-Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com [IPv6:2001:4860:4864:20::35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD56D129;
-        Mon, 24 Apr 2023 23:39:17 -0700 (PDT)
-Received: by mail-oa1-x35.google.com with SMTP id 586e51a60fabf-1878f1ebf46so3592465fac.1;
-        Mon, 24 Apr 2023 23:39:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682404757; x=1684996757;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7+bVwaGaITtfF8e/BFCRYIjC8ycF9nPnM49EIwyquBc=;
-        b=g/q5Snq7OUJrXsULi1qzScoCj5La0SDWjF4BfiS82rXB048O/pAxd5A9x5zKdk4vpj
-         ildbjkLbrMtN/DlgrhigNdb2PUeqjwYuNElBR/4WtjqQ/WMMI9IpU9FChmuxY7/q+WWd
-         HboEqH25ubtvxGkxGjMQcFTpUb847umSsjxk7zgjcqTfnUm0OE920H8HT/7wMVeGS7ac
-         8MKW9uVp5wA5lFk6QGMiHCm16z700Km/9zHN/RgVkXRNnAuJPt0A/u/KMQ5AJYVgaH0r
-         er9SZuVxffS/AwMnS+4tr639C12kCpqZeg9eFeQM0t4/s882yfFKz7yfCmArda9ylWKg
-         Jd5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682404757; x=1684996757;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7+bVwaGaITtfF8e/BFCRYIjC8ycF9nPnM49EIwyquBc=;
-        b=Gk5FhVFc1fhJn7G+fsYxgRxmVYgkzIAbNW0W385MA27noYibQTT6vlE6l1UDXvslbF
-         HzOJz0HWg3L9jOm57ytq3T9EbXUHDgcsR2Rx8MuZeHYTgayaeDpmYvnQxBUChsjnLTGF
-         bTStt/P1+UY5RFDRbfkzEbSSok/RUiF19yVfHm23OPVdL7GYAh1C8jM/2hWjZMqCH6YZ
-         R3xnYImmUgv2M28B9K/UG6nw2EhuBwLFEUp4Cy9GOaJ+PKJxmvYV02oCqb3hgoil+QiC
-         +2TseEl/VBB4YOQEFbzHbZ3yggTPcv2l6bjnns/6jSYVrUgSksWXaUIQmFLbeykx9Cnm
-         zwPA==
-X-Gm-Message-State: AAQBX9fxXUw8Ih6t0d7KYE/C/wGUFJzDAWUJ6Cyc9LtOxej1PIRIT/OO
-        z/WFqUdfbhDiFnhFU71slDq9UtFwqhM=
-X-Google-Smtp-Source: AKy350Y4qG07sSuFnxiuvFNW68G7GTQLNnbHu9rucVaVj8cJkm2JdcUgn0tR8wxen+M8rUox9ULMTg==
-X-Received: by 2002:a05:6870:40d4:b0:18e:ab89:5401 with SMTP id l20-20020a05687040d400b0018eab895401mr2863249oal.59.1682404756634;
-        Mon, 24 Apr 2023 23:39:16 -0700 (PDT)
-Received: from localhost ([2600:1700:7130:4fa0::48])
-        by smtp.gmail.com with ESMTPSA id z10-20020a4a984a000000b005413e617935sm5655411ooi.15.2023.04.24.23.39.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Apr 2023 23:39:16 -0700 (PDT)
-From:   Fae <faenkhauser@gmail.com>
-To:     markgross@kernel.org
-Cc:     jorge.lopez2@hp.com, kai.heng.feng@canonical.com,
-        rishitbansal0@gmail.com, dhould3@gmail.com,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Fae <faenkhauser@gmail.com>
-Subject: [PATCH] hp-wmi: add micmute to hp_wmi_keymap struct
-Date:   Tue, 25 Apr 2023 01:36:44 -0500
-Message-Id: <20230425063644.11828-1-faenkhauser@gmail.com>
-X-Mailer: git-send-email 2.40.0
+        Tue, 25 Apr 2023 04:13:11 -0400
+Received: from mail.crawnon.pl (mail.crawnon.pl [51.68.198.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6B7449C2
+        for <platform-driver-x86@vger.kernel.org>; Tue, 25 Apr 2023 01:13:07 -0700 (PDT)
+Received: by mail.crawnon.pl (Postfix, from userid 1002)
+        id 0F652A470B; Tue, 25 Apr 2023 08:11:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=crawnon.pl; s=mail;
+        t=1682410319; bh=vdn5P4TcqbO5KLDdR/tfEP9AjvOe1HPkPv4ZFGYr8oc=;
+        h=Date:From:To:Subject:From;
+        b=Lr5gt5SIMQDY+MUSxi1xEAOoCYhpUjsgfs+7xWWlPsEawlfbALJfiiDs+wO39RKQn
+         EbtnQFbLhc/3y467BBfDWxnUDoMvZjdWXN3WVrXftSsDwj3Esp3mdeCcty9EzLCiXH
+         KTYaIE5QO2SaG60gLlWFElOfIcLdrqr1tmDRFO31McMkcVEA3HFo9qTaRMsfMpSF5h
+         HiT2yZz2Tc0DHlmH8PedXmiNtB47x8kqTkNs9EjOUaG5MuxEW0ivU06F5MTMnAyOxQ
+         IUjvFa8a1sC/Hw5bLTOpu5Pmfg4S/UObD1ZjKh7pdNiSe/GNc/o+D5GLMTUjCrkXrn
+         XkbD/3UZE8oDQ==
+Received: by mail.crawnon.pl for <platform-driver-x86@vger.kernel.org>; Tue, 25 Apr 2023 08:10:46 GMT
+Message-ID: <20230425064500-0.1.ak.10yy3.0.ofllb6ss4o@crawnon.pl>
+Date:   Tue, 25 Apr 2023 08:10:46 GMT
+From:   =?UTF-8?Q? "Miko=C5=82aj_Fiodorczyk" ?= 
+        <mikolaj.fiodorczyk@crawnon.pl>
+To:     <platform-driver-x86@vger.kernel.org>
+Subject: Fotowoltaika- propozycja instalacji
+X-Mailer: mail.crawnon.pl
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED,URIBL_CSS_A,URIBL_DBL_SPAM
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Fixes micmute key of HP Envy X360 ey0xxx
+Dzie=C5=84 dobry,
+=20
+Czy rozwa=C5=BCali Pa=C5=84stwo monta=C5=BC systemu fotowoltaicznego?
+=20
+Instalacja fotowoltaiczna jest najlepszym sposobem na obni=C5=BCenie wyso=
+ko=C5=9Bci rachunk=C3=B3w za pr=C4=85d (pozostaj=C4=85 tylko op=C5=82aty =
+sta=C5=82e) i zabezpieczenie si=C4=99 przed rosn=C4=85cymi cenami energii=
+ elektrycznej. Jest to w pe=C5=82ni odnawialne i bezemisyjne =C5=BAr=C3=B3=
+d=C5=82o energii, dzi=C4=99ki czemu przyczyniamy si=C4=99 do ochrony =C5=9B=
+rodowiska naturalnego.
+=20
+Dzia=C5=82amy od wielu lat na rynku energetycznym. Przygotujemy projekt, =
+wycen=C4=99 oraz kompleksowo wykonamy i zg=C5=82osimy realizacj=C4=99 do =
+zak=C5=82adu energetycznego.=20
+=20
+Czy chc=C4=85 Pa=C5=84stwo pozna=C4=87 nasz=C4=85 propozycj=C4=99? =20
 
-Signed-off-by: Fae <faenkhauser@gmail.com>
----
- drivers/platform/x86/hp/hp-wmi.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/platform/x86/hp/hp-wmi.c b/drivers/platform/x86/hp/hp-wmi.c
-index 873f59c3e280..6364ae262705 100644
---- a/drivers/platform/x86/hp/hp-wmi.c
-+++ b/drivers/platform/x86/hp/hp-wmi.c
-@@ -211,6 +211,7 @@ struct bios_rfkill2_state {
- static const struct key_entry hp_wmi_keymap[] = {
- 	{ KE_KEY, 0x02,    { KEY_BRIGHTNESSUP } },
- 	{ KE_KEY, 0x03,    { KEY_BRIGHTNESSDOWN } },
-+	{ KE_KEY, 0x270,   { KEY_MICMUTE } },
- 	{ KE_KEY, 0x20e6,  { KEY_PROG1 } },
- 	{ KE_KEY, 0x20e8,  { KEY_MEDIA } },
- 	{ KE_KEY, 0x2142,  { KEY_MEDIA } },
--- 
-2.40.0
-
+Pozdrawiam,
+Miko=C5=82aj Fiodorczyk
