@@ -2,77 +2,80 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93E516F0251
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 27 Apr 2023 10:06:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 280CD6F0353
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 27 Apr 2023 11:24:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233104AbjD0IGV (ORCPT
+        id S243315AbjD0JXN (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 27 Apr 2023 04:06:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35748 "EHLO
+        Thu, 27 Apr 2023 05:23:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229665AbjD0IGU (ORCPT
+        with ESMTP id S243306AbjD0JXM (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 27 Apr 2023 04:06:20 -0400
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A9B92D65
-        for <platform-driver-x86@vger.kernel.org>; Thu, 27 Apr 2023 01:06:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-        t=1682582769; i=julian.winkler1@web.de;
-        bh=4ZpTu/chEBtSSu1PYcGkARxU3DEK4KYSWKhecH126/I=;
-        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=Rs2E74cU6XHck9XdPTS+c4pGVroPkGSwRCAKTcIb8mPHPVNMHJzyIYgYyG0kDOJuS
-         X9orTrb78g+PoZ7JImeOV+psd/i0w/GDcndI+9jypG46kTo6w5QSEq+Ja2QXxPKc4S
-         YqNjtiEKnwORm3HXqXSNQitBwlL23LROwaEUTRMidej+BoMaBHtFg1iDLjxM2n07qB
-         XEzFs6/t1boXoNzv3UK4ky4D2NUeT1GqlC45kFoHVR8+63O+YxlTUXq+w+q2WbyBMf
-         lvI7/gli13lh56y/0nPITGPAaQkWVEsTKP2b9SaMlOZRFsnwAn9WTFKsW8VnJHwPHu
-         e+N+aTRbcrCKQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [149.222.207.209] ([149.222.207.209]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1Melax-1qSeRA1D1R-00aePe; Thu, 27
- Apr 2023 10:06:09 +0200
-Message-ID: <046979a4-eade-00d8-c464-05b1df9633e6@web.de>
-Date:   Thu, 27 Apr 2023 10:06:07 +0200
+        Thu, 27 Apr 2023 05:23:12 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 437FD2D69
+        for <platform-driver-x86@vger.kernel.org>; Thu, 27 Apr 2023 02:23:03 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-63b5c4c76aaso5847918b3a.2
+        for <platform-driver-x86@vger.kernel.org>; Thu, 27 Apr 2023 02:23:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1682587382; x=1685179382;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=b4tmAtbJaHWfTAbFkdGyP1UUwCahMULqyPQK3zTjGzc=;
+        b=YRR8+nwiwBRWdu+ISCLSUieKCxjJzKGl6+oqhEO/3BRqOIOSZ8Qko6ouC9u7p2HpTX
+         gdnzmSG1RwEXmBdnDiO0OZMpDHopOb7UfbKa85eHey0TP0gQd3q1yv1tTPeaxeWx2qIu
+         kY2Mj84whu79JeOW5KjI+dW1EjDkrG8S/u0DbgVxwLqXWdjQfebgAN//TuFJsvpHCzMe
+         WdXHvCJQVo9P4UaFl9zY0C7wB0iXNSnzvnt4mHaUmyeayfGP7okRyh6CZxuwWIpMngbd
+         bYPmen8R4y4/TyTosIADLMAPn3mwYVLIBKA0NA7bBzvfqscFUwnmsFtr4siJ+1x47S6b
+         7PJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682587382; x=1685179382;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b4tmAtbJaHWfTAbFkdGyP1UUwCahMULqyPQK3zTjGzc=;
+        b=VafYX5P1XGv7tNIh75VfrkrAEkWW3Ldytd7H8cKp+L+LDJLwj7egGvLSMj91VLOQC0
+         iDkY1PEGLlrHFdjCKvpVNlTmmtO7PWD7r3PTyX7Eb4ewFHvtiR8dR3i+6mIcMyXlvMFY
+         wJ+q0ePPjP+hPzXGzaZwlCVmS9lG3LXU+AkEJdHRlq7nWesidBXBQWEAWk/l7mEryWL3
+         +qGmblv0me0ph2fxaDCDJx68NU5Rj/l6CMH1qhW6oaTCN3J5t69Q6SNInlzDay+8yAcE
+         sqKWsS4A9i6sVDldMqrnYAEi3dN3yuf5oAStaebN2x+zWAkGb00lXIN9N+ZgtcjCzFic
+         qKnw==
+X-Gm-Message-State: AC+VfDw/sh4+EVDdo/MohghRZCky0KcoQdQTiEwhwhjSmKp2dpjsJXMa
+        LqHSrYKr+KXpSK3nc1SdQQInRw==
+X-Google-Smtp-Source: ACHHUZ7RWci9fHcfj1Kz5md3jazQZh7oA/8a9iSA8EEYdE24w8faCyvnC3O4ecPFfRxC69G0cl789g==
+X-Received: by 2002:a05:6a00:22ca:b0:63b:5c82:e21a with SMTP id f10-20020a056a0022ca00b0063b5c82e21amr1814185pfj.1.1682587382560;
+        Thu, 27 Apr 2023 02:23:02 -0700 (PDT)
+Received: from sunil-laptop ([2409:4071:6e90:4e5:b276:2557:8da6:6c7e])
+        by smtp.gmail.com with ESMTPSA id i66-20020a62c145000000b0063d318699f9sm12712205pfg.48.2023.04.27.02.22.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Apr 2023 02:23:02 -0700 (PDT)
+Date:   Thu, 27 Apr 2023 14:52:50 +0530
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Palmer Dabbelt <palmer@dabbelt.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        llvm@lists.linux.dev, corbet@lwn.net,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, lenb@kernel.org, daniel.lezcano@linaro.org,
+        tglx@linutronix.de, qianweili@huawei.com, wangzhou1@hisilicon.com,
+        herbert@gondor.apana.org.au, Marc Zyngier <maz@kernel.org>,
+        luzmaximilian@gmail.com, hdegoede@redhat.com, markgross@kernel.org,
+        nathan@kernel.org, ndesaulniers@google.com, trix@redhat.com,
+        rafael@kernel.org, davem@davemloft.net, rafael.j.wysocki@intel.com
+Subject: Re: [PATCH V4 08/23] RISC-V: ACPI: Cache and retrieve the RINTC
+ structure
+Message-ID: <ZEo+6rwM+c6DvlMM@sunil-laptop>
+References: <20230404182037.863533-9-sunilvl@ventanamicro.com>
+ <mhng-fd6c3622-ce6c-4895-8dc9-7dbaa2ab14f4@palmer-ri-x1c9a>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] intel_scu_pcidrv: add back PCI id for Medfield
-Content-Language: en-US
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        platform-driver-x86@vger.kernel.org,
-        Mika Westerberg <mika.westerberg@linux.intel.com>
-References: <20230416154932.6579-1-julian.winkler1@web.de>
- <6a2a97d9-140c-3e4f-aa12-c98f928f7481@redhat.com>
- <CAHp75VfFptZcJn7c_a2GLnSqJDXBwvUqWmu9Wb19a3VvwXJS5A@mail.gmail.com>
- <a52ab618-97ea-04ea-01e4-ecb673f45f09@web.de>
- <CAHp75VcGWo8YvHYOD19ECRDcF6D_yZB5oN24=aYgyFn5m8Kz=A@mail.gmail.com>
-From:   Julian Winkler <julian.winkler1@web.de>
-In-Reply-To: <CAHp75VcGWo8YvHYOD19ECRDcF6D_yZB5oN24=aYgyFn5m8Kz=A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ewVLe35XSaYoJyFRyp6QZQQm57G35EovErpHfYrL+f7l5EyHaOm
- moJOL4FvcxUZE74l7TP6AoFxlQq5XUqMgcW4lYQe3j3jp6YKpq2de9SzyY60kwAXLP0YUMQ
- tmzk99IEHfMyWqFDNCvzFRjHxlvZzIX6cPuw3v9PepP97OA0/YkbielFWmEmIw0ShUQJjTv
- +ewrDN24EUa1ykSN17vmw==
-UI-OutboundReport: notjunk:1;M01:P0:3bw05+UCcnA=;tSwzQljrefpSx9nCaah1GHU0JSQ
- 1/YfAzA0HBsvONE5YHVDr4Z3FkznJhai+Jv60kRMd4fStSXwVsDKUeCYfOwA44habFLp65rUW
- cjrinNM9F7ZLOu4pxz0XTUqlxuRs/kVGYQgnOkQX4LiMgdfP1c1Gf3h4Bf/+VHCrfJ7P/fvo9
- OdFIGXAaMjV/5qFW4P2X48DDLZ+KfQr/aFkBF+9hYO+mR7RvzLTUccc0dFq9Inc/oUDATKWII
- EYZufsPnKEN7zgXdLqNu/Um2nAeGP8yMcp/fD9Bsv6BjAveq7VYnfmbzHUd4okPVa2SWqJO5S
- 4YkBKSN5KvWRUFYcencHvsgRWhnnhYiD85uvwOXaU/9C3sw/riQXeOm+fqQy3lYsDwxhzNaH6
- AbwAX+/CHg1Y/i/u+NIlslxMEhhXv7f4XiYsCloFJQnjdJUUFrfryftvnK25/VOF8LQaTZK90
- gpOJpTzSHkLPUgzt6WX9iFvkwCiWbmxjk/rH8HWiw27y8Pi7vsNHLkt08l2M2NtDR4ktW60YM
- dYmnVhiVqdLZp6jBBl4tEiV6O5/goA0kiI3c6lWPSDfO9RJ80HFVlzOz/xUZegy/EWF+i/4YW
- qHsJcfZYnqu9yMFL/22ab8UpiOTofykO0/JjaedhA7GUvW14B5ZFnbXPmt8yzPuKSDO1FO+F5
- HdDWjVcaThrK0uTCH0d7Ih4uq0wkb1XbDvfuQK3P8zYwV7bygO3DCHnY96CHAbOLp3w1E/r4T
- Ks+4oeK7tJ9HKrrYJzjjfntO8GKHmI5QZNnwpxrmbjYfocP1X+7qjf5Ft525qheXJcXcM2S8Z
- 6KkjvPoRlO2S9woQrBA1razk7xTVbqvXvgIWALEUWK8NE+4VCtPlY1QeqW0Qs//VkLmEVh8LV
- pNCx88XiAvzYeIEsq7lWuHIyDDUqQ5rgeAzNQFGOMZILZ2nhVnAZLcUQeBvCZciz+ZwE3nQAh
- QOplYQu93ZP+mzk5ehiakSFLd3k=
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <mhng-fd6c3622-ce6c-4895-8dc9-7dbaa2ab14f4@palmer-ri-x1c9a>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -80,113 +83,143 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 25.04.23 21:02, Andy Shevchenko wrote:
-> On Mon, Apr 17, 2023 at 4:02=E2=80=AFPM Julian Winkler <julian.winkler1@=
-web.de> wrote:
->> On 17.04.23 12:16, Andy Shevchenko wrote:
->>> On Mon, Apr 17, 2023 at 1:11=E2=80=AFPM Hans de Goede <hdegoede@redhat=
-.com> wrote:
->>>> On 4/16/23 17:49, Julian Winkler wrote:
->>>>> This id was removed in b47018a778c1a18cbc98b4a11936dec4f8c4bb7b, say=
-ing it
->>>>> is only used on Moorestown, but apparently the same id is also used =
-on
->>>>> Medfield.
->>>>>
->>>>> Tested on the Medfield based Motorola RAZR i smartphone.
->>>
->>> Wow! This is surprising.
->>> Can you tell more about your test environment? What is the Linux
->>> kernel version in use and what is the userspace (AOSP, Buildroot,
->>> Yocto, custom)? If custom, more details would be nice to hear.
->>
->> The test enviroment is postmarketOS. You can find more details on the
->> Wiki page
->> https://wiki.postmarketos.org/wiki/Motorola_RAZR_i_(XT890)_(motorola-sm=
-i)
->>
->>>>> Signed-off-by: Julian Winkler <julian.winkler1@web.de>
->>>>
->>>> Hmm, so this is a former SFI platform, from your:
->>>> https://lore.kernel.org/all/20230223060107.23029-1-julian.winkler1@we=
-b.de/
->>>>
->>>> patch I guess the plan is to use some custom bootloader
->>>> and then use x86 with devicetree support to replace SFI ?
->>>
->>> That would also be nice to hear in detail. With other Intel MID
->>> platforms the decision was made to pursue ACPI (and U-Boot, as an
->>> example) supports that for Intel Merrifield platform.
->>
->> I boot a 5.10 kernel, which still has SFI support, and from there I can
->> boot latest mainline kernel with petitboot, kexec and devicetree.
->
-> Aha, but would it be possible to boot a U-Boot instead?
+Hi Palmer,
 
-Having U-Boot support would be nice. But since I don't have a good way
-to debug the boot procedure on my device and the 5.10 mainline kernel
-just booted out of the box with working USB and eMMC drivers, it was a
-much easier way to go.
+On Wed, Apr 26, 2023 at 11:45:00AM -0700, Palmer Dabbelt wrote:
+> On Tue, 04 Apr 2023 11:20:22 PDT (-0700), sunilvl@ventanamicro.com wrote:
+> > RINTC structures in the MADT provide mapping between the hartid
+> > and the CPU. This is required many times even at run time like
+> > cpuinfo. So, instead of parsing the ACPI table every time, cache
+> > the RINTC structures and provide a function to get the correct
+> > RINTC structure for a given cpu.
+> > 
+> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > ---
+> >  arch/riscv/include/asm/acpi.h |  2 ++
+> >  arch/riscv/kernel/acpi.c      | 60 +++++++++++++++++++++++++++++++++++
+> >  2 files changed, 62 insertions(+)
+> > 
+> > diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
+> > index 9be52b6ffae1..1606dce8992e 100644
+> > --- a/arch/riscv/include/asm/acpi.h
+> > +++ b/arch/riscv/include/asm/acpi.h
+> > @@ -59,6 +59,8 @@ static inline bool acpi_has_cpu_in_madt(void)
+> > 
+> >  static inline void arch_fix_phys_package_id(int num, u32 slot) { }
+> > 
+> > +struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu);
+> > +u32 get_acpi_id_for_cpu(int cpu);
+> >  #endif /* CONFIG_ACPI */
+> > 
+> >  #endif /*_ASM_ACPI_H*/
+> > diff --git a/arch/riscv/kernel/acpi.c b/arch/riscv/kernel/acpi.c
+> > index 81d448c41714..40ab55309c70 100644
+> > --- a/arch/riscv/kernel/acpi.c
+> > +++ b/arch/riscv/kernel/acpi.c
+> > @@ -24,6 +24,66 @@ EXPORT_SYMBOL(acpi_disabled);
+> >  int acpi_pci_disabled = 1;	/* skip ACPI PCI scan and IRQ initialization */
+> >  EXPORT_SYMBOL(acpi_pci_disabled);
+> > 
+> > +static struct acpi_madt_rintc cpu_madt_rintc[NR_CPUS];
+> > +
+> > +static int acpi_parse_madt_rintc(union acpi_subtable_headers *header, const unsigned long end)
+> > +{
+> > +	struct acpi_madt_rintc *rintc = (struct acpi_madt_rintc *)header;
+> > +	int cpuid;
+> > +
+> > +	if (!(rintc->flags & ACPI_MADT_ENABLED))
+> > +		return 0;
+> > +
+> > +	cpuid = riscv_hartid_to_cpuid(rintc->hart_id);
+> 
+> Unless I'm missing something, this races with CPUs coming online.  Maybe
+> that's a rare enough case we don't care, but I think we'd also just have
+> simpler logic if we fixed it...
+> 
+This depend only on cpuid_to_hartid_map filled up. I wish I could
+initialize this RINTC mapping in setup_smp() itself like ARM64. But in
+RISC-V, this file smpboot.c gets built only when CONFIG_SMP is enabled.
+Hence, we need to initialize this array outside of setup_smp().
 
->>>> Do you already have this working ?
->>>>
->>>> Sorry for all the questions for what is just a simple PCI-id
->>>> addition. I guess I'm worried this is just the tip of
->>>> the iceberg for getting medfield support back into
->>>> the kernel and I'm a bit worried about how much maintenance
->>>> work this will cause.
->>>>
->>>> E.g. also see commit e1da811218d2dc ("drm/gma500: Remove Medfield sup=
-port")
->>>> which I guess you will want to see reverted too ?
->>>>
->>>> That is an example of a lot more code to bring back
->>>> then just a single PCI-id addition.
->>>>
->>>> Don't get me wrong I'm all for supporting older hw
->>>> if there are users who are interested in actively
->>>> maintaining support for it. I just want to get a feel
->>>> of the amount of work this is going to involve.
->>>>
->>>> Andy, Mika, any remarks ?
->>>
->>> I'm not against a patch if it helps existing users, but we need to
->>> understand first if it will be really helpful for upstream (taking
->>> into account 32-bit Intel MID support removal).
->>
->> My downstream kernel tree can be seen here:
->> https://gitlab.com/julianwi/linux-intel-medfield.
->
-> Okay, I see that it doesn't have many patches, but it still has some
-> code that won't be acceptable upstream. What I would suggest is to
-> actually provide the ACPI tables rather than going Device Tree way.
+I can update the code to initialize this from setup_arch() immediately
+after setup_smp() if ACPI is enabled. That should avoid the global
+variable check also. Let me know if you prefer this.
 
-The primary reason I chose to use devicetree was that the required
-drivers already have devicetree bindings (maxtouch, max17042 and
-wl1271). Also, I'm not really familiar with ACPI tables and don't know
-if they are flexible enough for my purposes.
+> > +	/*
+> > +	 * When CONFIG_SMP is disabled, mapping won't be created for
+> > +	 * all cpus.
+> > +	 * CPUs more than NR_CPUS, will be ignored.
+> > +	 */
+> > +	if (cpuid >= 0 && cpuid < NR_CPUS)
+> > +		cpu_madt_rintc[cpuid] = *rintc;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int acpi_init_rintc_array(void)
+> > +{
+> > +	if (acpi_table_parse_madt(ACPI_MADT_TYPE_RINTC, acpi_parse_madt_rintc, 0) > 0)
+> > +		return 0;
+> > +
+> > +	return -ENODEV;
+> > +}
+> > +
+> > +/*
+> > + * Instead of parsing (and freeing) the ACPI table, cache
+> > + * the RINTC structures since they are frequently used
+> > + * like in  cpuinfo.
+> > + */
+> > +struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu)
+> > +{
+> > +	static bool rintc_init_done;
+> 
+> ... basically just get rid of this global variable, and instead have a
+> 
+>    if (!&cpu_madt_rintc[cpu])
+>        ... parse ...
+>    return &cpu_madt_rintc[cpu];
+> 
+> that'd probably let us get rid of a handful of these helpers too, as now
+> it's just a call to the parsing bits.
+> 
+I am afraid this (!&cpu_madt_rintc[cpu]) check won't work since we are
+not caching the RINTC pointers but actual contents itself. So, the
+address is always valid. However, as per Drew's earlier feedback I am
+going to reduce one helper. I am planning to send the next version of
+this patch once 6.4 rc1 is available since the ACPICA patches are merged
+now.
 
-> Also note, that GPIO driver has to be integrated into gpio-pxa.c which
-> is the historical parent IP of the Medfield case (it was a mistake to
-> have a separate driver to begin with).
-I have seen your the comment in 944dcbe84b8ab7efdfcc592b6905a797324da51c
+> > +
+> > +	if (!rintc_init_done) {
+> > +		if (acpi_init_rintc_array()) {
+> > +			pr_err("No valid RINTC entries exist\n");
+> > +			return NULL;
+> > +		}
+> > +
+> > +		rintc_init_done = true;
+> > +	}
+> > +
+> > +	return &cpu_madt_rintc[cpu];
+> > +}
+> > +
+> > +u32 get_acpi_id_for_cpu(int cpu)
+> > +{
+> > +	struct acpi_madt_rintc *rintc = acpi_cpu_get_madt_rintc(cpu);
+> > +
+> > +	BUG_ON(!rintc);
+> 
+> We should have some better error reporting here.  It looks like all the
+> callerss of get_acpi_id_for_cpu() are tolerant of a nonsense ID being
+> returned, so maybe we just pr_warn() something users can understand and then
+> return -1 or something?
+> 
 
-> U-Boot would be ideal to have flashed there instead of so called
-> bootstub (which is 4k or 8k blob to load kernel and initrd and pass
-> the execution to it).
+RINTC is mandatory for ACPI systems. Also, all 32bit values are valid
+for UID. So, there is no bogus value we can return. 
 
-The bootstub is probably part of the "bos" partition, which also
-includes the implementation of androids fastboot protocol, which I need
-to reflash my device. Therefore I would rather not risk breaking it.
+Actually, I just realized this check is redundant. It will never be NULL
+since it is a static array. So, we can just get rid of the BUG.
 
->> Indeed, I needed to
->> bring back some removed code to get the display working, but even
->> without display driver, old smartphones can be used as a server or
->> Raspberry Pi replacement.
->
-> True.
->
-> P.S. I'm on a long leave, but I can help you with the stuff to be
-> upstreamed and tested, we still have a device available to test in our
-> lab. Just see above.
->
+Thanks!
+Sunil
