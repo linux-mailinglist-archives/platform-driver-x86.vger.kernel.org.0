@@ -2,266 +2,128 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 460366F1F9F
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Apr 2023 22:47:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 197626F21AF
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Apr 2023 02:37:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346723AbjD1UrL (ORCPT
+        id S1347123AbjD2AhA (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 28 Apr 2023 16:47:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33588 "EHLO
+        Fri, 28 Apr 2023 20:37:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345728AbjD1UrK (ORCPT
+        with ESMTP id S1347078AbjD2Ag7 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 28 Apr 2023 16:47:10 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C2AE2706;
-        Fri, 28 Apr 2023 13:47:09 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-4effb818c37so374799e87.3;
-        Fri, 28 Apr 2023 13:47:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682714827; x=1685306827;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1RoDzqaHs8D0cJHQyOh9YTjplQciDuElxMFrbB4PZkc=;
-        b=kIXorO7U1M214fIhhteYdoFzVksbkPKKcPOblOX4CxeaDvEwvX66QpoLg2AIw++73f
-         PIosZkndjE+katnH5fv5VDvn+n0DoEQIOj2RW7UzS8qRMKXsXaPI6p3H90fUcCfZ1KCK
-         4c6uq/1kCVJ+p0ZTvmYh8oiSGNMv7ve97EmV3SPBLmNK0qI02BK/HwHhsSic7MwclPx2
-         wYOh9syJeyTpBTLcTczGRDCZjbWZZRvx3KWK2LWztnYqrQ0qL48/pfyyFaXTvwAuvPVc
-         bVde9WlU60aF6FsPgkdP+rJ+07SOPA/v//ykiuYJbA7UypRbg8s8Mxv5ypIguGCsGD6m
-         al+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682714827; x=1685306827;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1RoDzqaHs8D0cJHQyOh9YTjplQciDuElxMFrbB4PZkc=;
-        b=MAtNp4brUvVgevheViv89WUi9nZSw6XuO4o5tPEKFY43S70tXDYE+NwOwPV0sowQ5r
-         8BSnXVMX6nZfflagVBpGAYFXdDHrGwJR4n9816IO+Bf/e07wTpFEq6W4HRxVp43qsFb+
-         KctOfpIug+7mJETVaPRND+uN+n0mphIACaIpi1i+YsClXxrUgzW4lyOLKEQB0d6C4WqD
-         GYFiYaqq8aNuxziWch5xDej2LptUEtT/ysE+Q7uGNplE6UbXczsvw+Hxwii+Lwrt9gU9
-         i1XjJBQo/miMjesgnoah3wVv+z0AHEOliWcyfQC6IAqdzS3yOv1I5NPB/d2ggWnLCa2s
-         hVMA==
-X-Gm-Message-State: AC+VfDzHbGcvmRRiAVWITdq736Rv9MktIrd6VyBCqEDUlulaYdDoCkvH
-        KggLm2xRfxYff/skvg+XAHs1LbV0PPx4ceBeC40=
-X-Google-Smtp-Source: ACHHUZ6NozmeYOwehRrfE8FBmoQpThI3M+LicZ8mzN3mkQ6/DiQLohemv9QJBO8BF1bJVCKGwLlKa16Nch91sDr10LE=
-X-Received: by 2002:ac2:4542:0:b0:4ed:c5a4:28dc with SMTP id
- j2-20020ac24542000000b004edc5a428dcmr1894317lfm.38.1682714827024; Fri, 28 Apr
- 2023 13:47:07 -0700 (PDT)
+        Fri, 28 Apr 2023 20:36:59 -0400
+X-Greylist: delayed 444 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 28 Apr 2023 17:36:57 PDT
+Received: from mx2.vologda.ru (mx2.vologda.ru [193.19.66.22])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56EDF1BEB
+        for <platform-driver-x86@vger.kernel.org>; Fri, 28 Apr 2023 17:36:57 -0700 (PDT)
+Received: from mail.vologda.ru (mx0.vologda.ru [78.36.171.227])
+        (Authenticated sender: hippokrat@vologda.ru)
+        by mx2.vologda.ru (SMTP Server) with ESMTPA id 4Q7Vhb1lXlzxZWCG;
+        Sat, 29 Apr 2023 03:29:03 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx2.vologda.ru 4Q7Vhb1lXlzxZWCG
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vologda.ru; s=mail;
+        t=1682728145; bh=vowfiG1tg6ONMQf9sGJtIN395pKU7twzut3VwURnytU=;
+        h=Date:From:To:Subject:Reply-To:From;
+        b=a8/011nR1Zof9WJ9GCT2pFv/xbYSg8/xafk8+nIniBbZSe+TRUG1iNyVzYK/ixyf/
+         Y182UUcSDBrgh6lktgHet/6SdAGteSXJ4xmPnM2XluDZOQI56QXTPGrT++D3HKV0H9
+         +CTf5bAfIN62jWVdE5l9n1QzCRONsAd0AW/uiiGhS/7bSibVAprIi17EHGGJmA9vYQ
+         g8cHx/Zl4QYzGSoDyI1bgb3F2fd7Rwgw8rckEtxGpAcNfEKukKbqp/QRCImvcPDNwh
+         e8lRA9rPpMymIhJCWzk8bxTARM3olaNmFTlf6SR8HE5vKBTZ0tofGttE4FXWMEADpB
+         LMxWLDJKKiPig==
 MIME-Version: 1.0
-References: <20230420165454.9517-1-jorge.lopez2@hp.com> <20230420165454.9517-13-jorge.lopez2@hp.com>
- <cf54c6f4-d177-4904-82ee-9d33566fb920@t-8ch.de> <CAOOmCE8rpA=XvWBxcyRVu_gOHie3qN0E15Rs9bLfhb6tPZ7tyg@mail.gmail.com>
- <479b18e3-a35b-45c7-8c8a-cd30af646977@t-8ch.de> <CAOOmCE87dV6pnnU7r8Ycf0XcVERpRFRZeK6=y+nC+_Fc1EuJMg@mail.gmail.com>
- <7bdac640-cf61-429f-acd0-f8aa40b41e73@t-8ch.de> <CAOOmCE9pWqqN1zNAfdaWFL_cZvSfiEpQjETVeECR0BAw9-sVDQ@mail.gmail.com>
- <52554657-2902-454b-b2af-ed632dd2f081@t-8ch.de>
-In-Reply-To: <52554657-2902-454b-b2af-ed632dd2f081@t-8ch.de>
-From:   Jorge Lopez <jorgealtxwork@gmail.com>
-Date:   Fri, 28 Apr 2023 15:46:41 -0500
-Message-ID: <CAOOmCE8X=VK7hjAB48Jp2x4-5GhtSJKYHB9scdN9CL6gZKvMJQ@mail.gmail.com>
-Subject: Re: [PATCH v11 12/14] HP BIOSCFG driver - surestart-attributes
-To:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>
-Cc:     hdegoede@redhat.com, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Fri, 28 Apr 2023 21:29:03 -0300
+From:   justin gates <hippokrat@vologda.ru>
+To:     undisclosed-recipients:;
+Subject: ATT:Refurb
+Reply-To: Jg@serverrackequip.ca
+User-Agent: Roundcube Webmail/1.4.9
+Message-ID: <af5c411603b132805f57d67c75fd168c@vologda.ru>
+X-Sender: hippokrat@vologda.ru
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Apr 28, 2023 at 11:06=E2=80=AFAM Thomas Wei=C3=9Fschuh <thomas@t-8c=
-h.de> wrote:
->
-> On 2023-04-28 10:40:59-0500, Jorge Lopez wrote:
-> > On Fri, Apr 28, 2023 at 10:21=E2=80=AFAM Thomas Wei=C3=9Fschuh <thomas@=
-t-8ch.de> wrote:
-> > >
-> > > On 2023-04-28 09:58:01-0500, Jorge Lopez wrote:
-> > > > On Fri, Apr 28, 2023 at 1:03=E2=80=AFAM Thomas Wei=C3=9Fschuh <thom=
-as@t-8ch.de> wrote:
-> > > > >
-> > > > > On 2023-04-27 17:17:57-0500, Jorge Lopez wrote:
-> > > > > > On Sun, Apr 23, 2023 at 7:16=E2=80=AFAM Thomas Wei=C3=9Fschuh <=
-thomas@t-8ch.de> wrote:
-> > > > > > >
-> > > > > > > On 2023-04-20 11:54:52-0500, Jorge Lopez wrote:
-> > > > > > > >  .../x86/hp/hp-bioscfg/surestart-attributes.c  | 130 ++++++=
-++++++++++++
-> > > > > > > >  1 file changed, 130 insertions(+)
-> > > > > > > >  create mode 100644 drivers/platform/x86/hp/hp-bioscfg/sure=
-start-attributes.c
-> > > > > > > >
-> > > > > > > > diff --git a/drivers/platform/x86/hp/hp-bioscfg/surestart-a=
-ttributes.c b/drivers/platform/x86/hp/hp-bioscfg/surestart-attributes.c
-> > > > > > > > new file mode 100644
-> > >
-> > > <snip>
-> > >
-> > > > > > > Instead of not returning any data, why not show as many resul=
-ts as
-> > > > > > > possible?
-> > > > > > >
-> > > > > >
-> > > > > > if count * LOG_ENTRY_SIZE > PAGE_SIZE then I prefer to return a=
-n error.
-> > > > > > if the count is correct but a failure occurs while reading indi=
-vidual
-> > > > > > audit logs then we will return a partial list of all audit logs
-> > > > > > This changes will be included in Version 12
-> > > > >
-> > > > > What prevents the firmware from having more log entries?
-> > > > > Wouldn't these audit log entries not accumulate for each logged
-> > > > > operation over the lifetime of the device / boot?
-> > > > >
-> > > > > This would make the interface unusable as soon as there are more
-> > > > > entries.
-> > > >
-> > > > BIOS stores a max number of audit logs appropriate to the current
-> > > > audit log size.The first audit logs are kept in a FIFO queue by BIO=
-S
-> > > > so when the queue is full and a new audit log arrives, then the  fi=
-rst
-> > > > audit log will be deleted.
-> > >
-> > > How does it determine "appropriate"?
-> > > This would also be great in a comment.
-> > >
-> > > If the BIOS is just using FIFO the driver could return the first
-> > > LOG_MAX_ENTRIES entries.
-> > > This would avoid trusting the firmware for a reasonable definition of
-> > > "appropriate".
-> > >
-> > > > >
-> > > > > > > > +
-> > > > > > > > +     if (ret < 0)
-> > > > > > > > +             return ret;
-> > > > >
-> > > > > And this should first validate ret and then count.
-> > > >
-> > > > Done!
-> > > >
-> > > > >
-> > > > > > > > +
-> > > > > > > > +     /*
-> > > > > > > > +      * We are guaranteed the buffer is 4KB so today all t=
-he event
-> > > > > > > > +      * logs will fit
-> > > > > > > > +      */
-> > > > > > > > +
-> > > > > > > > +     for (i =3D 0; ((i < count) & (ret >=3D 0)); i++) {
-> > > > > > >
-> > > > > > > &&
-> > > > > > >
-> > > > > > > Better yet, pull the condition ret >=3D 0 into the body, as a=
-n else-branch
-> > > > > > > for the existing check.
-> > > > > > >
-> > > > > >
-> > > > > > Done!
-> > > > > >
-> > > > > > > > +             *buf =3D (i + 1);
-> > > > > > >
-> > > > > > > Isn't this directly overwritten by the query below?
-> > > > > >
-> > > > > > buf input value indicates the audit log to be read hence the re=
-ason
-> > > > > > why it is overwritten.
-> > > > > > This is an expected behavior.
-> > > > >
-> > > > > So this is read by the HPWMI_SURESTART_GET_LOG method in the firm=
-ware?
-> > > > >
-> > > > > Make sense but need a comment.
-> > > >
-> > > > Done!
-> > > >
-> > > > >
-> > > > > > >
-> > > > > > > > +             ret =3D hp_wmi_perform_query(HPWMI_SURESTART_=
-GET_LOG,
-> > > > > > > > +                                        HPWMI_SURESTART,
-> > > > > > > > +                                        buf, 1, 128);
-> > > > > > > > +             if (ret >=3D 0)
-> > > > > > > > +                     buf +=3D LOG_ENTRY_SIZE;
-> > > > > > >
-> > > > > > > So 128 bytes are read but only the first 16 bytes are preserv=
-ed?
-> > > > > > >
-> > > > > > > The documentation says that each entry has 128 bytes in the f=
-ile.
-> > > > > > > And that they are separated by ";", which is not implemented.
-> > > > > >
-> > > > > > The statement will be removed from documentation  (separated by=
- ";")
-> > > > > > audit log size is 16 bytes.
-> > > > > > >
-> > > > > > > Can the audit-log not contain all-zero bytes?
-> > > > > > > If it does this would need to be a bin_attribute.
-> > > > > >
-> > > > > > Bytes 16-127 are ignored and not used at this time.  If the aud=
-it log
-> > > > > > changes, then the driver will need to change to accommodate the=
- new
-> > > > > > audit log size.
-> > > > >
-> > > > > buf is not guaranteed to have 128 bytes left for this data.
-> > > > >
-> > > > > For example if this is entry number 253 we are at offset 253 * 16=
- =3D 4048
-> > > > > in the sysfs buffer. Now hw_wmi_perform_query may try to write to=
- 4048 +
-> > > > > 127 =3D 4175 which is out of bounds for the buf of size 4096.
-> > > > >
-> > > > > Writing first to a stack buffer would be better,
-> > > > > or pass outsize =3D LOG_ENTRY_SIZE.
-> > > > >
-> > > > BIOS currently stores 16 bytes for each audit log although the WMI
-> > > > query reads 128 bytes.  The 128 bytes size is set to provide suppor=
-t
-> > > > in future BIOS for audit log sizes >=3D 16 and < 128 bytes.
-> > >
-> > > And if an old driver is running on a new BIOS then this would write o=
-ut
-> > > of bounds.
-> > > Or if the BIOS is buggy.
-> > >
-> > > If the current driver can only handle 16 byte sized log entries then =
-the
-> > > this should be used in the call to HPWMI_SURESTART_GET_LOG.
-> >
-> > BIOS WMI specification indicates that the HPWMI_SURESTART_GET_LOG call
-> > expects a 128 byte size output buffer regardless of the actual audit
-> > log size currently supported.
-> >
-> > Return Values:
-> > Byte 0-15: a requested Audit Log entry (Each Audit log is 16 bytes)
-> > Byte 16-127: Unused
-> > >
-> > > Storing it in a 128 byte stackvariable would also sidestep the issue.
-> >
-> > The driver hardcodes the audit log size to 16 bytes.  If the new BIOS
-> > provides an audit log that is larger than 16 bytes, then the logs
-> > provided to the user application by the old driver will be truncated.
->
-> HPWMI_SURESTART_GET_LOG is directly passed a pointer into "buf" which
-> comes from sysfs core and is one page, 4096 bytes large.
-> It is told to write 128 bytes into it at a given offset.
->
-> In the loop if i =3D=3D 253 then this offset will be LOG_ENTRY_SIZE * 253=
- =3D 4048.
->
-> So on a new BIOS the driver may write 128 bytes at offset 4048.
-> This goes up to 4175 which is larger than the 4096 buffer.
->
-> (See also the calculation in the previous mail)
->
-> Just use a 128 byte stack buffer and copy 16 bytes of it to the output
-> buffer.
-> (After having validated that the BIOS actually returned 16 bytes)
 
-Thank you for the clarification.  Done!
+
+-- 
+Hello ,
+
+Looking for a buyer to move any of the following Items located in USA.
+
+172PCS OF ADATA XPG Spectrix D45G RGB Black 8GB DDR4 3600MHz PC4-28800
+CL18 Memory RAM. $2100 ALL.
+
+250PCS Of Brand new Kimtigo 8GB DDR3 1600Mhz DRAM LongDIM Desktop
+PC3-12800U-11. QTY: 123PCS, $1,450 ALL.
+
+
+112PCS OF Brand new Crucial Ballistix 3000MHz DDR4 DRAM Desktop Gaming
+Memory Kit 16GB (8GBx2) CL15 BLS8G4D30AESBK. $1,600 ALL.
+
+Micron MTA18ASF2G72PZ-2G6E1 16GB 2666MHz DIMM Memory Module. QTY:
+108PCS, $1,350 ALL.
+
+G.SKILL Trident Z5 RGB Series 32GB (2X16GB) 288-Pin PC RAM DDR5 6000
+Desktop Memory Model F5-6000J3636F16GX2-TZ5RS. QTY: 60PCS $1,800 ALL.
+
+
+16GB 2RX8 PC4-3200AA-UB1-11 Qty 85
+8GB 1RX8 PC4-2666V RD1 -12- MA0 Qty 190
+We are looking for a buyer to move all @ $1000 USD
+
+
+
+PC3L sodimms 8GB......QTY 150 $8each
+part number and model PC3L-12800 (DDR3L-1600)
+
+
+
+Al units is pull and tested working with a 30 day warranty
+
+
+8GB 2400MHz DDR4 PC4 RAM
+QTY: 1183 ($3.30 EACH)
+
+
+16GB 2400MHz DDR4 PC4 RAM
+QTY:596 ( $4.19 EACH)
+.............................................
+
+Take all memory for $1,400
+
+4GB DDR3 DESKTOP 86PCS
+
+4GB DDR4 DESKTOP 100PCS
+
+4GB DDR4 LAPTOP 50PCS
+
+8GB DDR3 DESKTOP 64PCS
+
+8GB DDR4 DESKTOP 143PCS
+
+8GB DDR4 LAPTOP 165 PCS.
+
+.....................................................
+
+32GB2Rx4 PC4 2400T QTY:150 $15 each
+
+
+Regards,
+
+Justin Gates
+Server Rack Equipment
+1343 No. 5 Road, Richmond,
+British Columbia
+V7A 4G1 Canada
+Phone: +1 7783083945 | Fax: 778 308 4563
+https://www.serverrackequip.ca
