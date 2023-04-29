@@ -2,128 +2,200 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 197626F21AF
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Apr 2023 02:37:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 281146F23D7
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Apr 2023 11:28:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347123AbjD2AhA (ORCPT
+        id S230331AbjD2J2R (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 28 Apr 2023 20:37:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52998 "EHLO
+        Sat, 29 Apr 2023 05:28:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347078AbjD2Ag7 (ORCPT
+        with ESMTP id S230184AbjD2J2Q (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 28 Apr 2023 20:36:59 -0400
-X-Greylist: delayed 444 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 28 Apr 2023 17:36:57 PDT
-Received: from mx2.vologda.ru (mx2.vologda.ru [193.19.66.22])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56EDF1BEB
-        for <platform-driver-x86@vger.kernel.org>; Fri, 28 Apr 2023 17:36:57 -0700 (PDT)
-Received: from mail.vologda.ru (mx0.vologda.ru [78.36.171.227])
-        (Authenticated sender: hippokrat@vologda.ru)
-        by mx2.vologda.ru (SMTP Server) with ESMTPA id 4Q7Vhb1lXlzxZWCG;
-        Sat, 29 Apr 2023 03:29:03 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx2.vologda.ru 4Q7Vhb1lXlzxZWCG
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vologda.ru; s=mail;
-        t=1682728145; bh=vowfiG1tg6ONMQf9sGJtIN395pKU7twzut3VwURnytU=;
-        h=Date:From:To:Subject:Reply-To:From;
-        b=a8/011nR1Zof9WJ9GCT2pFv/xbYSg8/xafk8+nIniBbZSe+TRUG1iNyVzYK/ixyf/
-         Y182UUcSDBrgh6lktgHet/6SdAGteSXJ4xmPnM2XluDZOQI56QXTPGrT++D3HKV0H9
-         +CTf5bAfIN62jWVdE5l9n1QzCRONsAd0AW/uiiGhS/7bSibVAprIi17EHGGJmA9vYQ
-         g8cHx/Zl4QYzGSoDyI1bgb3F2fd7Rwgw8rckEtxGpAcNfEKukKbqp/QRCImvcPDNwh
-         e8lRA9rPpMymIhJCWzk8bxTARM3olaNmFTlf6SR8HE5vKBTZ0tofGttE4FXWMEADpB
-         LMxWLDJKKiPig==
+        Sat, 29 Apr 2023 05:28:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A36B910EF
+        for <platform-driver-x86@vger.kernel.org>; Sat, 29 Apr 2023 02:27:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1682760448;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=YfB3ZMqimdPUhX5nGpTF53m3LpvPeKGPMjucJtvQhEU=;
+        b=QEqOGofeik+kh3u99JHZVr3Bw6KpHDQ7/ch3aAxLBpuneYjSRq+8qV1NZDZJP6qcIwizzl
+        iF42Y/gZmhIT85BH1opN6bmCXsBpb9C3lCgB4OiWly/OcvnyPiyqAVMKBLWlLhyFCz1z50
+        eC0xNb7Qw812VNU+7VdGgt/oD1MmOt4=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-320-0au8AIaCMMelpjsoaOe0qQ-1; Sat, 29 Apr 2023 05:27:27 -0400
+X-MC-Unique: 0au8AIaCMMelpjsoaOe0qQ-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9590389b9f3so94312366b.1
+        for <platform-driver-x86@vger.kernel.org>; Sat, 29 Apr 2023 02:27:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682760446; x=1685352446;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YfB3ZMqimdPUhX5nGpTF53m3LpvPeKGPMjucJtvQhEU=;
+        b=fDkq84/sp12EzeKeDKFaXjgUvKRdshF83jS2GQ9QnXJY80mP58s19QhG+gmQ5C7+rf
+         hRIHanZS50vuK+Y5VR8hHkKCnpB/aULmfpPf3j1181GvhjgBLrZrRTsNuNjUIVo67EGn
+         a1Vi2vFfgnQXKjPPOLjf6jxN4CYL2das2ckAwkN0cBmyGjgj6GrXkop4hFZHiZpPiBwc
+         vEe1jC1trA52fGbrbs8Pe19qomq5vGK6V8taqjtZfi6bO4P+DfA67BDgJsZGcik6h0i2
+         ASlDKlwW1tLJMGc2YCXeMT4eOIGgNhziiqoGEaOodGGbYH+dmf67gB2xvxqakEPB4677
+         WpEQ==
+X-Gm-Message-State: AC+VfDwITT1V0jHGk4iW6B9NZfYQoQm2WWWv31M0he9WqcFMNtkPKLO5
+        G97XGwVU/u4qSCwX0Rs0ZI3wG5vzzTDY7Gf2dk+ICYC5IZokdAiyxbG9KrYkZuusXWRpGRB0t6v
+        dDfcNfA2YfNaLTjVfJTa1Q0ubKLPm2aaXWtV2aEdebA==
+X-Received: by 2002:a17:907:94ca:b0:92f:924b:e8f4 with SMTP id dn10-20020a17090794ca00b0092f924be8f4mr7723760ejc.4.1682760445859;
+        Sat, 29 Apr 2023 02:27:25 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4Cm68ZUeU1U91IWUgPnHSGdiLMMiAKPkHLdDEGcE7kyXyU51tAyKO703Jwl3Z2AJMhVQBp9g==
+X-Received: by 2002:a17:907:94ca:b0:92f:924b:e8f4 with SMTP id dn10-20020a17090794ca00b0092f924be8f4mr7723745ejc.4.1682760445568;
+        Sat, 29 Apr 2023 02:27:25 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id hb8-20020a170906b88800b0094bb4c75695sm12326825ejb.194.2023.04.29.02.27.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 29 Apr 2023 02:27:24 -0700 (PDT)
+Message-ID: <b6340042-e0fa-5706-0b9b-1d9dd17da11a@redhat.com>
+Date:   Sat, 29 Apr 2023 11:27:24 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Fri, 28 Apr 2023 21:29:03 -0300
-From:   justin gates <hippokrat@vologda.ru>
-To:     undisclosed-recipients:;
-Subject: ATT:Refurb
-Reply-To: Jg@serverrackequip.ca
-User-Agent: Roundcube Webmail/1.4.9
-Message-ID: <af5c411603b132805f57d67c75fd168c@vologda.ru>
-X-Sender: hippokrat@vologda.ru
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [RFC v2 1/2] platform/x86: wmi: Allow retrieving the number of
+ WMI object instances
+To:     Armin Wolf <W_Armin@gmx.de>, markgross@kernel.org
+Cc:     Mario.Limonciello@amd.com, prasanth.ksr@dell.com,
+        jorgealtxwork@gmail.com, james@equiv.tech,
+        Dell.Client.Kernel@dell.com, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230426212848.108562-1-W_Armin@gmx.de>
+ <20230426212848.108562-2-W_Armin@gmx.de>
+ <339c6ba5-6d60-8271-1b5d-6c4165801187@redhat.com>
+ <4db0e619-7f18-3f6b-9fb3-769f95233a72@gmx.de>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <4db0e619-7f18-3f6b-9fb3-769f95233a72@gmx.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Hi,
 
+On 4/27/23 18:26, Armin Wolf wrote:
+> Am 27.04.23 um 11:43 schrieb Hans de Goede:
+> 
+>> Hi Armin,
+>>
+>> Thank you for your work on this.
+>>
+>> On 4/26/23 23:28, Armin Wolf wrote:
+>>> Currently, the WMI driver core knows how many instances of a given
+>>> WMI object exist, but WMI drivers cannot access this information.
+>>> At the same time, some current and upcoming WMI drivers want to
+>>> have access to this information. Add wmi_instance_count() and
+>>> wmidev_instance_count() to allow WMI drivers to get the number of
+>>> WMI object instances.
+>>>
+>>> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+>>> ---
+>>>   drivers/platform/x86/wmi.c | 40 ++++++++++++++++++++++++++++++++++++++
+>>>   include/linux/acpi.h       |  2 ++
+>>>   include/linux/wmi.h        |  2 ++
+>>>   3 files changed, 44 insertions(+)
+>>>
+>>> diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
+>>> index c226dd4163a1..7c1a904dec5f 100644
+>>> --- a/drivers/platform/x86/wmi.c
+>>> +++ b/drivers/platform/x86/wmi.c
+>>> @@ -263,6 +263,46 @@ int set_required_buffer_size(struct wmi_device *wdev, u64 length)
+>>>   }
+>>>   EXPORT_SYMBOL_GPL(set_required_buffer_size);
+>>>
+>>> +/**
+>>> + * wmi_instance_count - Get number of WMI object instances
+>>> + * @guid_string: 36 char string of the form fa50ff2b-f2e8-45de-83fa-65417f2f49ba
+>>> + * @instance_count: variable to hold the instance count
+>>> + *
+>>> + * Get the number of WMI object instances.
+>>> + *
+>>> + * Returns: acpi_status signaling success or error.
+>>> + */
+>>> +acpi_status wmi_instance_count(const char *guid_string, u8 *instance_count)
+>>> +{
+>>> +    struct wmi_block *wblock;
+>>> +    acpi_status status;
+>>> +
+>>> +    status = find_guid(guid_string, &wblock);
+>>> +    if (ACPI_FAILURE(status))
+>>> +        return status;
+>>> +
+>>> +    *instance_count = wmidev_instance_count(&wblock->dev);
+>>> +
+>>> +    return AE_OK;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(wmi_instance_count);
+>> I would prefer this to have a normal kernel function prototype
+>> which returns -errno rather then returning an acpi_status. E.g. :
+>>
+>> /**
+>>   * wmi_instance_count - Get number of WMI object instances
+>>   * @guid_string: 36 char string of the form fa50ff2b-f2e8-45de-83fa-65417f2f49ba
+>>   *
+>>   * Get the number of WMI object instances.
+>>   *
+>>   * Returns: The number of WMI object instances, 0 if the GUID is not found.
+>>   */
+>> int wmi_instance_count(const char *guid_string)
+>> {
+>>     struct wmi_block *wblock;
+>>     acpi_status status;
+>>
+>>     status = find_guid(guid_string, &wblock);
+>>     if (ACPI_FAILURE(status))
+>>         return 0;
+>>
+>>     return wmidev_instance_count(&wblock->dev);
+>> }
+>> EXPORT_SYMBOL_GPL(wmi_instance_count);
+>>
+>> This will also allow this to completely replace
+>> the get_instance_count() function in dell-wmi-sysman.
+>>
+>> Note I have just gone with always returning 0 here
+>> on error. I guess you could look at the status and
+>> return 0 for not-found and -errno for other errors
+>> but I don't think any callers will care for the difference,
+>> so just always returning 0 seems easier for callers to
+>> deal with.
+>>
+>> As always this is just a suggestion, let me know if
+>> you think this is a bad idea.
+>>
+>> Regards,
+>>
+>> Hans
+>>
+> I like this idea. Returning a negative errno on error would allow drivers to
+> distinguish between "WMI object not found" and "zero instances found", which
+> might be useful for some drivers.
+> 
+> Maybe a function for converting ACPI errors to POSIX errors already exists,
+> otherwise i will just write one myself.
 
--- 
-Hello ,
-
-Looking for a buyer to move any of the following Items located in USA.
-
-172PCS OF ADATA XPG Spectrix D45G RGB Black 8GB DDR4 3600MHz PC4-28800
-CL18 Memory RAM. $2100 ALL.
-
-250PCS Of Brand new Kimtigo 8GB DDR3 1600Mhz DRAM LongDIM Desktop
-PC3-12800U-11. QTY: 123PCS, $1,450 ALL.
-
-
-112PCS OF Brand new Crucial Ballistix 3000MHz DDR4 DRAM Desktop Gaming
-Memory Kit 16GB (8GBx2) CL15 BLS8G4D30AESBK. $1,600 ALL.
-
-Micron MTA18ASF2G72PZ-2G6E1 16GB 2666MHz DIMM Memory Module. QTY:
-108PCS, $1,350 ALL.
-
-G.SKILL Trident Z5 RGB Series 32GB (2X16GB) 288-Pin PC RAM DDR5 6000
-Desktop Memory Model F5-6000J3636F16GX2-TZ5RS. QTY: 60PCS $1,800 ALL.
-
-
-16GB 2RX8 PC4-3200AA-UB1-11 Qty 85
-8GB 1RX8 PC4-2666V RD1 -12- MA0 Qty 190
-We are looking for a buyer to move all @ $1000 USD
-
-
-
-PC3L sodimms 8GB......QTY 150 $8each
-part number and model PC3L-12800 (DDR3L-1600)
-
-
-
-Al units is pull and tested working with a 30 day warranty
-
-
-8GB 2400MHz DDR4 PC4 RAM
-QTY: 1183 ($3.30 EACH)
-
-
-16GB 2400MHz DDR4 PC4 RAM
-QTY:596 ( $4.19 EACH)
-.............................................
-
-Take all memory for $1,400
-
-4GB DDR3 DESKTOP 86PCS
-
-4GB DDR4 DESKTOP 100PCS
-
-4GB DDR4 LAPTOP 50PCS
-
-8GB DDR3 DESKTOP 64PCS
-
-8GB DDR4 DESKTOP 143PCS
-
-8GB DDR4 LAPTOP 165 PCS.
-
-.....................................................
-
-32GB2Rx4 PC4 2400T QTY:150 $15 each
-
+Ok, that sounds good to me. I'm looking forward to a non RFC submission
+of these changes.
 
 Regards,
 
-Justin Gates
-Server Rack Equipment
-1343 No. 5 Road, Richmond,
-British Columbia
-V7A 4G1 Canada
-Phone: +1 7783083945 | Fax: 778 308 4563
-https://www.serverrackequip.ca
+Hans
+
+
