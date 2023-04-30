@@ -2,132 +2,96 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DAA716F29B9
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 30 Apr 2023 19:01:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34FB56F2AA0
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 30 Apr 2023 22:32:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229883AbjD3RBV (ORCPT
+        id S232081AbjD3UcX (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 30 Apr 2023 13:01:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37402 "EHLO
+        Sun, 30 Apr 2023 16:32:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230512AbjD3RBU (ORCPT
+        with ESMTP id S232086AbjD3UcV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 30 Apr 2023 13:01:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A9AE3A95
-        for <platform-driver-x86@vger.kernel.org>; Sun, 30 Apr 2023 09:58:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1682873929;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FJiw9NzT9K0INdo4+f0MqL/Z4a7dmUaUvTLN8FJpYSU=;
-        b=DV+BGrfDBa+7d7+RjHsAdhfDFfA44WqRKbz9oh3NY9PGkRwGWyowUhEgulUN3JOibhG0zF
-        4+WjdnXk5zZVcNoXlT6dwJp4/86HIQNccg8vGeu77aqrHJ4cU8ustjwwlVfWecZhW71tQV
-        6PA3gh65/X+lV35O6Hiyin6feMccjV4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-649-3a5UH9ogM2m1LeItfg_rzA-1; Sun, 30 Apr 2023 12:58:43 -0400
-X-MC-Unique: 3a5UH9ogM2m1LeItfg_rzA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 39E0B3C0ED4F;
-        Sun, 30 Apr 2023 16:58:43 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.59])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1689C2166B26;
-        Sun, 30 Apr 2023 16:58:41 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Yauhen Kharuzhy <jekhor@gmail.com>,
-        platform-driver-x86@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: [PATCH v2 19/19] platform/x86: lenovo-yogabook: Rename lenovo-yogabook-wmi to lenovo-yogabook
-Date:   Sun, 30 Apr 2023 18:58:07 +0200
-Message-Id: <20230430165807.472798-20-hdegoede@redhat.com>
-In-Reply-To: <20230430165807.472798-1-hdegoede@redhat.com>
-References: <20230430165807.472798-1-hdegoede@redhat.com>
+        Sun, 30 Apr 2023 16:32:21 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1966AE76;
+        Sun, 30 Apr 2023 13:32:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+        t=1682886717; i=w_armin@gmx.de;
+        bh=1iVtXdw2HihhlcV6imnqHABioEJXOGklEJ+NVAHrz0k=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=NT5mEF2NNSh5y6UPC4T+ULzfufgyhcHwYM092pNQ/6ahrlmSfpm8sUBOvu7q4tOXd
+         0zHzaeu2CuFvSP4VT/BwpdTLpdcdxX/nhWoeOTb7rJJTZ0K24CnYzm0od8xW7FRkfF
+         UNsGV3OBnk6t9Ot4drNNhUrjlyx6ALYRN/Sqmlu72aIfrJ3yJyd2mlbYDRqNMQ08BT
+         UHkySnW4tyez3GlbgUgHLCqx8G1DizeDMz4LwL1/GpvwckvRDJzHDmSnTmV3P5BYOy
+         DOo8SBfaFQMBPdIVbeMHAaVvZPH00A/7QAHxe5y/S4cLRREWd160gReQK0pejJ+Xj+
+         Z5YHKRM1v+1IA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from esprimo-mx.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
+ (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
+ 1MBDnI-1pyDdy3jdW-00CkSa; Sun, 30 Apr 2023 22:31:57 +0200
+From:   Armin Wolf <W_Armin@gmx.de>
+To:     hdegoede@redhat.com, markgross@kernel.org
+Cc:     Mario.Limonciello@amd.com, prasanth.ksr@dell.com,
+        jorgealtxwork@gmail.com, james@equiv.tech,
+        Dell.Client.Kernel@dell.com, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] platform/x86: Allow retrieving the number of WMI object instances
+Date:   Sun, 30 Apr 2023 22:31:51 +0200
+Message-Id: <20230430203153.5587-1-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:eRB9SbYAP0wd8FO6N+p+W1r2ZcZ4JPe/LaFtJzAwQT9lk+52BLx
+ ezBvqm97qHlaYrZYygJEkxFvrxkdHKJc4wDR1i3Wsg9s4TqDguvGHrXC0thnafJX+EArGjR
+ wsegqIxMj51JcQO78s36v0J3ruglE3TEGKr+Llbr7cc04sC5hNRTpAxcSlmZWiZ47KQKklw
+ EJzJrbE4hktdioiXHnDKg==
+UI-OutboundReport: notjunk:1;M01:P0:OWnQfJaufvI=;x98zCkXRJnkV2arj2waP2wFW6K3
+ XkC29Rr2/pUUWK3yPhx49gxmAw3Y4xRLhogsP2ZoKfUcqHLhp6UHioRsyS4jjT9F0qzgSxbeo
+ brP2Su/08XbO5Sv07gMIYWBNEP0SvQ4Im0ZoStcSUZe1HEsx+6WoJTSXjpHP0yNO1naeTOJhp
+ WacIOwkfKT6p1Wa4rNUDP6FC2M8/lNdg8Va3+vS+CpXdVu3E8xkyL8uH5XBZWjq4OHy2H5zNK
+ WGHAuleYuR+YdBtkRWdoKt+G8V6zxk+o8/VBvOA3Zh/jqvndo46ta4lQwHDIggLOtmGmGLLap
+ QejpBQZFSfVk4jalJXrM5FtTmkAykHzEt1XKqVwAnd7zuCT9uOwGk+es6hCDwFop8Il8ME9Rd
+ 6rh1ldPB6pJcESeFNhko/Yj/7+ta2RrXALVlclsuILpMz/aG/bZH1d6M67gBFMbusdTxzmf0e
+ hqytjPjFrg/kUxBKDviL07wMiIYmQ/3TPHtDMLhVS+Crx8NIoGREm/4wnH+2Q4OVW6xxVz5ZR
+ 7zt/LF3uDaUh9XgRUzn8g6gT6ikRNcMRr0AnMMJOQjB5w29fSZJcbPX722NAqjh+0pBNES16d
+ USWs+uWA9kvTdL70ba61xQ0do3mP8RSL13kYjEaFHBo5VYDoJI81w7ECdKcCOaNcYfYacwf8A
+ 7PVpIsa/LobrE4U8zEHHK9LAege2j3pPUKb+EsYwJq6ivXNAVI07usJlUipb09SHmNuMjxM9m
+ 2WzeqAf4Iyen5/L3YWA6mZ6CGuGzaPAazi8JF9zdiUUDW1f/Zvc/ygoy54OHWfq/WgcP/Dx5c
+ NAXq1n12Ftyjxlh9/BzhX/QVWrsSUrTFVZgq1mpCFrmNd6yX64GnlcBlIQge7ri9qAKfbECDQ
+ JNZYFp1E6iQnIfenzGzvX3BzI01y/bON/hOYyw/2BWvKcxxKsN0iE6lV3VDg1l3+eEgLnWPkR
+ BGrpQA/yDCn0GcUDDclUUlgrErg=
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The lenovo-yogabook-wmi.c code now consists of both a platform and a WMI
-driver and it does not use WMI at all when used on the Android model.
+This patch series allows WMI drivers to retrieve the number of
+WMI object instances. This functionality benefits several current
+and upcoming WMI drivers, the dell-wmi-sysman driver is converted
+to use this new API as an example.
 
-Rename the module from lenovo-yogabook-wmi to lenovo-yogabook to
-reflect this.
+The changes are compile-tested only, the change to the dell-wmi-sysman
+driver also needs to be tested on real hardware.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/Kconfig                                | 6 +++---
- drivers/platform/x86/Makefile                               | 2 +-
- .../x86/{lenovo-yogabook-wmi.c => lenovo-yogabook.c}        | 0
- 3 files changed, 4 insertions(+), 4 deletions(-)
- rename drivers/platform/x86/{lenovo-yogabook-wmi.c => lenovo-yogabook.c} (100%)
+Changes since RFC v2:
+- modify wmi_instance_count() to return an integer
 
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 22052031c719..2039e3246e1b 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -121,8 +121,8 @@ config GIGABYTE_WMI
- 	  To compile this driver as a module, choose M here: the module will
- 	  be called gigabyte-wmi.
- 
--config YOGABOOK_WMI
--	tristate "Lenovo Yoga Book tablet WMI key driver"
-+config YOGABOOK
-+	tristate "Lenovo Yoga Book tablet key driver"
- 	depends on ACPI_WMI
- 	depends on INPUT
- 	select LEDS_CLASS
-@@ -132,7 +132,7 @@ config YOGABOOK_WMI
- 	  control on the Lenovo Yoga Book tablets.
- 
- 	  To compile this driver as a module, choose M here: the module will
--	  be called lenovo-yogabook-wmi.
-+	  be called lenovo-yogabook.
- 
- config ACERHDF
- 	tristate "Acer Aspire One temperature and fan driver"
-diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-index 2cafe51ec4d8..52dfdf574ac2 100644
---- a/drivers/platform/x86/Makefile
-+++ b/drivers/platform/x86/Makefile
-@@ -14,7 +14,6 @@ obj-$(CONFIG_MXM_WMI)			+= mxm-wmi.o
- obj-$(CONFIG_NVIDIA_WMI_EC_BACKLIGHT)	+= nvidia-wmi-ec-backlight.o
- obj-$(CONFIG_XIAOMI_WMI)		+= xiaomi-wmi.o
- obj-$(CONFIG_GIGABYTE_WMI)		+= gigabyte-wmi.o
--obj-$(CONFIG_YOGABOOK_WMI)		+= lenovo-yogabook-wmi.o
- 
- # Acer
- obj-$(CONFIG_ACERHDF)		+= acerhdf.o
-@@ -66,6 +65,7 @@ obj-$(CONFIG_LENOVO_YMC)	+= lenovo-ymc.o
- obj-$(CONFIG_SENSORS_HDAPS)	+= hdaps.o
- obj-$(CONFIG_THINKPAD_ACPI)	+= thinkpad_acpi.o
- obj-$(CONFIG_THINKPAD_LMI)	+= think-lmi.o
-+obj-$(CONFIG_YOGABOOK)		+= lenovo-yogabook.o
- 
- # Intel
- obj-y				+= intel/
-diff --git a/drivers/platform/x86/lenovo-yogabook-wmi.c b/drivers/platform/x86/lenovo-yogabook.c
-similarity index 100%
-rename from drivers/platform/x86/lenovo-yogabook-wmi.c
-rename to drivers/platform/x86/lenovo-yogabook.c
--- 
-2.39.2
+Armin Wolf (2):
+  platform/x86: wmi: Allow retrieving the number of WMI object instances
+  platform/x86: dell-sysman: Improve instance detection
+
+ .../x86/dell/dell-wmi-sysman/sysman.c         | 13 +++---
+ drivers/platform/x86/wmi.c                    | 41 +++++++++++++++++++
+ include/linux/acpi.h                          |  2 +
+ include/linux/wmi.h                           |  2 +
+ 4 files changed, 50 insertions(+), 8 deletions(-)
+
+=2D-
+2.30.2
 
