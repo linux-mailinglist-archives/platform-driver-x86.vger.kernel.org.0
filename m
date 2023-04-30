@@ -2,149 +2,112 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D5646F2710
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 30 Apr 2023 00:55:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEECF6F2874
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 30 Apr 2023 12:32:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230474AbjD2Wzo (ORCPT
+        id S230118AbjD3KcN (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 29 Apr 2023 18:55:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40096 "EHLO
+        Sun, 30 Apr 2023 06:32:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230353AbjD2Wzn (ORCPT
+        with ESMTP id S229461AbjD3KcM (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 29 Apr 2023 18:55:43 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4C7ADE;
-        Sat, 29 Apr 2023 15:55:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-        t=1682808930; i=w_armin@gmx.de;
-        bh=OPVah3fGgiFDxtemCf8HhtgjxqFM4GudTMA58n/qrqg=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=n3pyPON8ToRzN9zU24IWOAsIgtuJmV9Y+1AVeTsBmx2htwdYmJ70zx9H5ooOltxAv
-         f03FPekgMENIepTWIXeLlVtbuP6PjkjbxvZwzW6pOFOLU31AiAtdWoVPCrWriDikIC
-         uegD7pnPGotauBVOvEBhccFlNwFCxyeyWxa0MGUuctSbKHYg+YQpesHNlPeYf1LA42
-         id7O23vFPl9USeMdm6RsK17sSzVDRGl4IIIKNMwfP9vNUWH10vBvFrw0fyoNpiLc/l
-         QSktCg5mAbaPbOCjM8l8wFuahI0MOhnWdBJFYybzHoorQCjKD90j8Hg/Kw3lH2wDaz
-         2CyPICCHcJuDg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from esprimo-mx.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
- (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1MWASY-1pmuF93rqc-00Xe6z; Sun, 30 Apr 2023 00:55:30 +0200
-From:   Armin Wolf <W_Armin@gmx.de>
-To:     hdegoede@redhat.com, markgross@kernel.org
-Cc:     corbet@lwn.net, platform-driver-x86@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] platform/x86: dell-ddv: Update ABI documentation
-Date:   Sun, 30 Apr 2023 00:55:25 +0200
-Message-Id: <20230429225525.10507-2-W_Armin@gmx.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230429225525.10507-1-W_Armin@gmx.de>
-References: <20230429225525.10507-1-W_Armin@gmx.de>
+        Sun, 30 Apr 2023 06:32:12 -0400
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF41F10F7;
+        Sun, 30 Apr 2023 03:32:10 -0700 (PDT)
+Received: by mail-qt1-x82f.google.com with SMTP id d75a77b69052e-3f0b30f240eso15261071cf.3;
+        Sun, 30 Apr 2023 03:32:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682850730; x=1685442730;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=88q4cylknUGQPnEgNEkNRWSqoVDq4Wpv4/ce7oxcsTc=;
+        b=kwhnndqIX0ZTJfd2uwcPbrvZe69FW1o8V0XDQDVxmihIUueUKcakv62k/R7fv/Uasj
+         EqTd/iTZb1Mw4oNWFC1FI+DycR9chzm8XkOgZ2z1UPrnit0GtZ8v3U3cPopbTCKIdNF9
+         Xc5L5O3pkReOqvWSgHcMPDr8xrI7JdPI/IjqkhG/9ft7flTrwJctcukDPr66wmSWOetw
+         s7cEHD8szfVLdKYdeiuQRjQwynomYFWKZQTXmPYw7ZZHv7dqGiOryfbZ8Pv6F07HUBlC
+         /mgzrIaMydWoMQK/L+8QMFH++IKQPrlMFbXiVmjMfCNYwgfgbjunBlZrxCdRv07Z9lWF
+         poLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682850730; x=1685442730;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=88q4cylknUGQPnEgNEkNRWSqoVDq4Wpv4/ce7oxcsTc=;
+        b=H/iRrRqTf2DhJoOCGfKS7dxvT16Jk3BrNs0Cz2X77TWO10HtZ3IAX0iiwvGxX+Ht3Y
+         QPaJaYzqlAQf3rFTiNzT0vHQqR6qKzNiKqxJAkqKvDO3gMC0TQPzoYOqJVWsxvHXMp3x
+         1dj4yOs3kpiI9VthaT8MnbsBnHtRk9Nt3AUm9KiIv6YP87Afzq5v3WbGmdquW2shOzFp
+         EcFp+NMWyKV8iPDZ5Fy0e36nVm40qErlomOtX4o4KlQOI/d65RP4SZqhxvlikK6Ok8YB
+         u179YikvhAcoBywUONKriLEHC1aaLHrU+3oXl2jtUROpTAa9cZaBTUiNybxo0PaKVA55
+         Ixkw==
+X-Gm-Message-State: AC+VfDyR0vyihW+9oU7GfSeBCUWCbH6ldhq0bHxp+PNCDtBB2ke8o44M
+        HZEVBt9wlz9NMh/sppAjIUV1uEbTQjzSYbJXvocaS46nbA253P3m
+X-Google-Smtp-Source: ACHHUZ7ysxDRJIXIwqloEdjOfVBZum8r3YnorFjgTjRWt92Mm4xXaqE6MvspwQHpLXGJw9W/clktoBj3h4LTDpG6tXM=
+X-Received: by 2002:ac8:5d86:0:b0:3eb:6892:2930 with SMTP id
+ d6-20020ac85d86000000b003eb68922930mr17155324qtx.39.1682850729848; Sun, 30
+ Apr 2023 03:32:09 -0700 (PDT)
 MIME-Version: 1.0
+References: <20230429181551.98201-1-hdegoede@redhat.com> <20230429181551.98201-9-hdegoede@redhat.com>
+In-Reply-To: <20230429181551.98201-9-hdegoede@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sun, 30 Apr 2023 13:31:33 +0300
+Message-ID: <CAHp75Vctex-8_1jOx3jaaCj9MH=d4oMoeCYdw5AYv+F=nzK1Kw@mail.gmail.com>
+Subject: Re: [PATCH 08/19] platform/x86: lenovo-yogabook: Add dev local
+ variable to probe()
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Yauhen Kharuzhy <jekhor@gmail.com>,
+        platform-driver-x86@vger.kernel.org, linux-pwm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:IkdI6Yin7g1agGdxzczipPFzmKmyhclawkTmmmdxepL/Nk4/4en
- r1S9+rKZCaPsBnlV7swakSdQqV3UZBADEDERilt3SbTESYvt9nbYzyGrldUj7mw/916dBAw
- BM4PaQBFNmS4U4qLDe7RFNzxLxkaLi6br421uBmyKojcRC0/nfiVoH3LBBCbGLgeFnvArbC
- MP0lRUqZ75rocy0x4tesQ==
-UI-OutboundReport: notjunk:1;M01:P0:NucOP6JeLGo=;nx8EOk6dhE4hbOh9HTCkmd26eET
- ii6KQePZj2OY2lgMmMAhxqu1OoQ95BtJ9g13SbtuN3LIrXceFzPo9+MS8YS6WiFczXFbOGVRP
- dFElhL7ABv4PAbiBltN1n9blWYrOI9xWoo4nU9Oqpx59dpT5WlaAI0KcYoiiwll66ZKYTlSeE
- 90IzXf3mNC3EjFAmI6wysYlW1dNchLuEeKQ9DJHUGERCDo/zfipYK3XS2Og7J10B0gMLCJL8m
- mTdZ7f6jJItnAL2IikDkGtNKLEGhgLx2Xd33cSkIHmmsl1WJJegVWUpDjba6j8EFh4qNUjt6W
- l0mR/HgozVIPjCIZUG+7cDZwpKqh2Ktpee0fBEhA9jsvVSXmPQmAJOuprofvgEkNWdTb2AiPW
- EQdW5LWBInijaVCEQLrz3bVqLpuIjzOgrdu/wCHbmClxRcMJ0expoHR8sA10fNCUqu+JUFaqW
- ag91cr97EEz5xMZqWAPmGyzs1Owp07lZ4S9zFRa2Suu0/kHN0L6bZ6egkAcpX2q16kVxx3IPu
- tONtWRYK6AIOx+vhQXeZ5AwrnWHtxK1LN0Xg/OEoP5SrmzHHPslaY1ifFwR/WyQs/nM7DJy4U
- T/N6X2YHqnOZrF8t/iqozrTLjOwFv4lROAz1e3V8yN33nmS+5ix+l+/NqfdNeNPL7lDFhu0B5
- DOI8o4fnarMXZqaoc84uRrSM80ZNEYPNfEPwWOAKQqZYNByyCKQsW5p1y4pbudz8MNUjfONgG
- 4nbqR0dun9ptkcTSPMHTRUGN38/se5wWSSUltOPrhFsLj2fucSVtMm059Ilqm0v3CBKVnL+Ds
- RJfoYq8ISam3ZNUfCtgawR3MTyeja2cDB+oMRvaqUWjMp2bD2L1iXQlF/h1P4+BN9IW6S9R45
- LMEFH4HGG4w3SZqdq64hUwjkDHCPkVK6k3cQWEQVOj3N551jK0EpCFvST/bpKTIXaDac0Kj1V
- CZuoZyK+V9+uYndyoYeqxQdXDjc=
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Synchronize the ABI documentation with the driver documentation
-and direct users to the latter in case they are interested in
-more detailed information.
+On Sat, Apr 29, 2023 at 9:16=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
+>
+> Add a "struct device *dev" local variable to probe().
+>
+> This is a preparation patch for making lenovo-yogabook-wmi also work
+> on the Android version of the Yoga Book 1 which does not have a WMI
+> interface to deal with toggling the keyboard half between
+> touch-keyboard and wacom-digitizer mode.
 
-Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-=2D--
- .../ABI/testing/debugfs-dell-wmi-ddv          | 29 ++++++++++++++-----
- .../ABI/testing/sysfs-platform-dell-wmi-ddv   |  4 ++-
- 2 files changed, 24 insertions(+), 9 deletions(-)
+...
 
-diff --git a/Documentation/ABI/testing/debugfs-dell-wmi-ddv b/Documentatio=
-n/ABI/testing/debugfs-dell-wmi-ddv
-index fbcc5d6f7388..81cfc788be15 100644
-=2D-- a/Documentation/ABI/testing/debugfs-dell-wmi-ddv
-+++ b/Documentation/ABI/testing/debugfs-dell-wmi-ddv
-@@ -3,19 +3,32 @@ Date:		September 2022
- KernelVersion:	6.1
- Contact:	Armin Wolf <W_Armin@gmx.de>
- Description:
--		This file contains the contents of the fan sensor information buffer,
--		which contains fan sensor entries and a terminating character (0xFF).
-+		This file contains the contents of the fan sensor information
-+		buffer, which contains fan sensor entries and a terminating
-+		character (0xFF).
+> -       data =3D devm_kzalloc(&wdev->dev, sizeof(struct yogabook_wmi), GF=
+P_KERNEL);
+> +       data =3D devm_kzalloc(dev, sizeof(struct yogabook_wmi), GFP_KERNE=
+L);
+>         if (data =3D=3D NULL)
+>                 return -ENOMEM;
 
--		Each fan sensor entry consists of three bytes with an unknown meaning,
--		interested people may use this file for reverse-engineering.
-+		Each fan sensor entry contains:
-+
-+		- fan type (single byte)
-+		- fan speed in RPM (two bytes, little endian)
-+
-+		See Documentation/wmi/devices/dell-wmi-ddv.rst for details.
+> -       dev_set_drvdata(&wdev->dev, data);
+> +       dev_set_drvdata(dev, data);
 
- What:		/sys/kernel/debug/dell-wmi-ddv-<wmi_device_name>/thermal_sensor_in=
-formation
- Date:		September 2022
- KernelVersion:	6.1
- Contact:	Armin Wolf <W_Armin@gmx.de>
- Description:
--		This file contains the contents of the thermal sensor information buffe=
-r,
--		which contains thermal sensor entries and a terminating character (0xFF=
-).
-+		This file contains the contents of the thermal sensor information
-+		buffer, which contains thermal sensor entries and a terminating
-+		character (0xFF).
-+
-+		Each thermal sensor entry contains:
-+
-+		- thermal type (single byte)
-+		- current temperature (single byte)
-+		- min. temperature (single byte)
-+		- max. temperature (single byte)
-+		- unknown field (single byte)
+For robustness' sake I would at the same time move this a bit down to
+have (some? at least dev seems to be important) fields in data to be
+initialized. Yes, this won't change anything, I hope.
 
--		Each thermal sensor entry consists of five bytes with an unknown meanin=
-g,
--		interested people may use this file for reverse-engineering.
-+		See Documentation/wmi/devices/dell-wmi-ddv.rst for details.
-diff --git a/Documentation/ABI/testing/sysfs-platform-dell-wmi-ddv b/Docum=
-entation/ABI/testing/sysfs-platform-dell-wmi-ddv
-index 1d97ad615c66..a9d39d9e8865 100644
-=2D-- a/Documentation/ABI/testing/sysfs-platform-dell-wmi-ddv
-+++ b/Documentation/ABI/testing/sysfs-platform-dell-wmi-ddv
-@@ -3,5 +3,7 @@ Date:		September 2022
- KernelVersion:	6.1
- Contact:	Armin Wolf <W_Armin@gmx.de>
- Description:
--		Reports the Dell ePPID (electronic Dell Piece Part Identification)
-+		Reports the Dell ePPID (electronic Piece Part Identification)
- 		of the ACPI battery.
-+
-+		See Documentation/wmi/devices/dell-wmi-ddv.rst for details.
-=2D-
-2.30.2
+> -       data->dev =3D &wdev->dev;
+> +       data->dev =3D dev;
+>         data->brightness =3D YB_KBD_BL_DEFAULT;
+>         set_bit(YB_KBD_IS_ON, &data->flags);
+>         set_bit(YB_DIGITIZER_IS_ON, &data->flags);
 
+--=20
+With Best Regards,
+Andy Shevchenko
