@@ -2,105 +2,76 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21A386F823E
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  5 May 2023 13:44:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1B0A6F82C1
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  5 May 2023 14:16:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231549AbjEELoX (ORCPT
+        id S231974AbjEEMQA (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 5 May 2023 07:44:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45378 "EHLO
+        Fri, 5 May 2023 08:16:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231200AbjEELoV (ORCPT
+        with ESMTP id S231256AbjEEMP7 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 5 May 2023 07:44:21 -0400
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D84DB11607;
-        Fri,  5 May 2023 04:44:20 -0700 (PDT)
-Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-61b60d0c5b8so7302176d6.0;
-        Fri, 05 May 2023 04:44:20 -0700 (PDT)
+        Fri, 5 May 2023 08:15:59 -0400
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3056044A9
+        for <platform-driver-x86@vger.kernel.org>; Fri,  5 May 2023 05:15:59 -0700 (PDT)
+Received: by mail-qk1-x744.google.com with SMTP id af79cd13be357-74df47ad36eso78427385a.0
+        for <platform-driver-x86@vger.kernel.org>; Fri, 05 May 2023 05:15:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683287060; x=1685879060;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G+bbaqSd9YZw2df9CDJeO5CzvhDoNZKC+TExeyLVHVM=;
-        b=k3TjWeeC26lLlQD3CO3t99E+HIyPX/SAl9VAL1Bjwr7RiL07G+JwnE/2EW5tCS6/k0
-         OqmZ2yaxeCcZ3+vTkJ69gdDWnu+ey1wcOy+ssNik4pIL6s9EZQ54r3kSB0nplDYm6uvs
-         ocNg1lh1vTW4tt/eQsI/+dIK7a0sBxpDbBXsB0UyWQnlABMAn1HrmuZBsgCMd4xVgIAO
-         JuKHA2C2tPn/JnJKhAeLLV2Q95g7OLYmzW/QTQwctVHzv9EiXPj5sM0Ae+H4ESUm7eOp
-         wPqhZ9lraEkI318CfZHgmvHykiUp3WB/FpwILXQMiotSKeYmmkDT4VHAJMU0sDNNoXS9
-         fG6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683287060; x=1685879060;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=gmail.com; s=20221208; t=1683288958; x=1685880958;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=G+bbaqSd9YZw2df9CDJeO5CzvhDoNZKC+TExeyLVHVM=;
-        b=lDKPQuAExwjdjoFfRHif8qGRgXe+2/6mLNF8Y/zd16ExD7VYFvtHvTpPLRxLTWQIRJ
-         jYvrSMTSlZxo2Efz6dFjrbYhd652VsxFpkE5B1Hkz//znCOAHwlIIH5NVkdjMk8WG9il
-         OyqxCalbc376gGeMS7cGm5hz0Td6iWhse5d2VPBq6Q+vEzH05AA98OwfkU7whARr4gX1
-         jw4/PEzyEa61OpqhT/HZE4PTae4RsiLT2SYQWAEVnTN/qWXSoRxQL2LaHCObOx2Uv5Zv
-         ccz2bKFvVRLNgDM2/11FJoSVoua2ZGi9otZcuVYP63J9rM1bTOmVTOyXEUiMbUFts6YI
-         GyZA==
-X-Gm-Message-State: AC+VfDxfNqOBJexHTr/ZSvdBwdOC0eb1XpcrXqUIjU/7QbEkSlQg/nb4
-        gdZvWCuLaO03c3WVvhCj/wBPhTIMzFmUI09kUkGVYkgVFQTbAsCu
-X-Google-Smtp-Source: ACHHUZ6SHz84O73zKP9Yy6AHUeXGlZzm6X0nJSFvuDnVARhjK67UwKJwqrCAXy0Bs0su7Zm9qan0CNeUH5U5Vc905oA=
-X-Received: by 2002:ad4:5cce:0:b0:5ed:d3d:405 with SMTP id iu14-20020ad45cce000000b005ed0d3d0405mr1487502qvb.34.1683287059877;
- Fri, 05 May 2023 04:44:19 -0700 (PDT)
+        bh=AEdYnWu92iTKsdOky7RuvLMp4SJoRZDPrcAqoMC5U6I=;
+        b=e5V/ICZB8Jfon4Q3ZkkFScdOpsuBAvHLwgfQ2Klken3QPgO4zsSy8pE8Hf7gESoELR
+         8VOkFf+ys+dVHIaUjrZBAv9mS/1P61do6XtwyQZPjoQq4gAq3hfdfIawlFlD4nRlxUMa
+         X6H0o7cORjHP0mZMKhE4uQSjfw10EW1H57NWKwkHyD1X8ivZ9IBg09b3Ik+T8SgcXynY
+         fj7iPoWFs1BmS7RECIpChwBaEuqAMJYjqBrTXglmB+Ffp0iaE4h2TkyO/FvxzGNSOGuU
+         CxKydr+qDVyCnDQmjpOFiP+ZZpbomxJpYY4ez6AA5iL9ur0T1FoVYvEw8fNfPxADZAWW
+         oNHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683288958; x=1685880958;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AEdYnWu92iTKsdOky7RuvLMp4SJoRZDPrcAqoMC5U6I=;
+        b=WmbkyYWaTG8oOgptTuDS82OYUagmCaoMmWRJM6KK63ldHJHuUqk6oKwUf2Wg9WjwAK
+         PiuPwxRiTn1J2G/P19xJ8C6VmNbYQiwYIJTpxOKmaxVYznPLRAjVSYpxu/HualFvrB4v
+         VoCQaaElL/bQlItQF34sJ/qfqXuC3RzIebMjSsRRiv+rhUaMIs0xNFAj3pBX16ycnFLu
+         X6WgSr7JP2vQ6o7pd9J6gN9W7oYGP4dUawK7Mq0RLX6IArm7vTtoSJHiNRBeg/UVGNPg
+         LukUx83yGnPUGekAcs5Y/xpVd/GOrCNtDjWTUD3NTbu9WhY/g8G/W7bFHVFPZ2Kmv5ED
+         t4OA==
+X-Gm-Message-State: AC+VfDwyp4W7NSLggnOCxVXlisxJ8gACzhyyQxlqpcrOgvYBILWUJZlz
+        bOElOnEMg9AvWkXOGy+5SGxS0MrxLz4uuW6iZ+Y=
+X-Google-Smtp-Source: ACHHUZ69co2cuSyCeJNMw/WGqOgcxdGq0GcBMk0LBvNj0XkbHJ0Xzh5aAElIRq8rOfgLAhwZBgKvzC7INe/cW5OjwuU=
+X-Received: by 2002:a05:6214:4107:b0:5ea:2575:dccb with SMTP id
+ kc7-20020a056214410700b005ea2575dccbmr1739885qvb.46.1683288958377; Fri, 05
+ May 2023 05:15:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230430165807.472798-1-hdegoede@redhat.com> <20230430165807.472798-19-hdegoede@redhat.com>
- <20230504165307.tydqlk6sml7sp5qe@pengutronix.de> <CAHp75VdgFFk=q-=ZDiKwV02Tin19ZSmSS=fhwgRrE6v48s-u0w@mail.gmail.com>
- <20230505092111.qknupa2vooi7mqwl@pengutronix.de>
-In-Reply-To: <20230505092111.qknupa2vooi7mqwl@pengutronix.de>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 5 May 2023 14:43:43 +0300
-Message-ID: <CAHp75VcqY0+GWXriA8qzdjY-_zMO_9sAXYxR3nxEaajQfWX5Ag@mail.gmail.com>
-Subject: Re: [PATCH v2 18/19] platform/x86: lenovo-yogabook: Add keyboard
- backlight control to platform driver
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Yauhen Kharuzhy <jekhor@gmail.com>,
-        platform-driver-x86@vger.kernel.org, linux-pwm@vger.kernel.org
+Received: by 2002:a0c:e542:0:b0:56b:f4be:a8da with HTTP; Fri, 5 May 2023
+ 05:15:58 -0700 (PDT)
+Reply-To: choipark90@yahoo.com
+From:   Choi Park <fatimaibraa1@gmail.com>
+Date:   Fri, 5 May 2023 13:15:58 +0100
+Message-ID: <CAKg+TDyO-JONKenKRAnM8Gj3T2z1iJ2Eu+TRXZYS7aZzabehEw@mail.gmail.com>
+Subject: investment partners
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, May 5, 2023 at 12:21=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
-> On Fri, May 05, 2023 at 12:07:02PM +0300, Andy Shevchenko wrote:
-> > On Thu, May 4, 2023 at 7:53=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-> > <u.kleine-koenig@pengutronix.de> wrote:
-> > > On Sun, Apr 30, 2023 at 06:58:06PM +0200, Hans de Goede wrote:
-
-...
-
-> > > I don't know much about x86, but I think the table belongs to where t=
-his
-> > > "80862289:00" device is created.
-> >
-> > Just for your information, it's in drivers/acpi/acpi_lpss.c.
->
-> Compared to drivers/platform/x86/lenovo-yogabook-wmi.c this file is
-> never compiled as a module and so patch #1 would become unnecessary.
->
-> That file also already has a pwm_lookup table.
-
-TBH, Hans knows nowadays much better what those drivers do and why the
-split was done this way. If he thinks that it's needed, I will trust
-his word.
-
---=20
-With Best Regards,
-Andy Shevchenko
+Hello my friend how are you doing with your daily activates I hope all
+is well, well I got your contact as I am searching for a reliable
+reputable person that can be trusted as my that client  Mrs Ma-Ri  Kim
+from  Hong Kong   Directed  me to get her someone that she will trust
+to invest part of her money outside Hong Kong   for her under aged
+child  if you are interested let me know I hoping to hear from you
+Mr Choi Park
