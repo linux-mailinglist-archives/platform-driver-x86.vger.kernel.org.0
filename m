@@ -2,70 +2,92 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DBA66F7E87
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  5 May 2023 10:16:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23B6F6F7F91
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  5 May 2023 11:07:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229904AbjEEIQS (ORCPT
+        id S231555AbjEEJHq (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 5 May 2023 04:16:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49320 "EHLO
+        Fri, 5 May 2023 05:07:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230457AbjEEIQL (ORCPT
+        with ESMTP id S231365AbjEEJHq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 5 May 2023 04:16:11 -0400
-Received: from mail.bizcodes.pl (mail.bizcodes.pl [151.80.57.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06EA81636D
-        for <platform-driver-x86@vger.kernel.org>; Fri,  5 May 2023 01:16:08 -0700 (PDT)
-Received: by mail.bizcodes.pl (Postfix, from userid 1002)
-        id 96431A73A7; Fri,  5 May 2023 08:15:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=bizcodes.pl; s=mail;
-        t=1683274560; bh=5QPMt7jNntM5ZbstM20BWsHIeLbmRE8lVU4Iu89IleQ=;
-        h=Date:From:To:Subject:From;
-        b=L6XBa8Wwr7g2nKR7kvD6AzfKJoz+r2aLI+wA7Ac/nTijnaPyY7noy+N2RCkIe4bVB
-         jKbSR2shM4pp32cnAxzOg0RqXeJXMo+XGUulVdTWWsDPCGCnMNdHLDI8jrFicRnuel
-         bCOZYozQpK2EAClfToXOqYg7zl8nATLNuo0exzTCl5yJEQ5XOMLK8A1BYSTGlpxeOV
-         LAnNb2rRzVuVWuCpXrMSBhGY5S+041KQTBa4r5BeYbv7VcJbg5WJmnIPJQv2Mg8y/R
-         p3eOeYbvpZPvbj/sztvv0o/QT0W2IAXQUMvYksxoBVWq6VlyDAdK1qNzbVNJcHfYc8
-         Ci4uZppvgSIrA==
-Received: by mail.bizcodes.pl for <platform-driver-x86@vger.kernel.org>; Fri,  5 May 2023 08:15:27 GMT
-Message-ID: <20230505064500-0.1.93.y4be.0.814qpa043l@bizcodes.pl>
-Date:   Fri,  5 May 2023 08:15:27 GMT
-From:   "Marcin Chruszcz" <marcin.chruszcz@bizcodes.pl>
-To:     <platform-driver-x86@vger.kernel.org>
-Subject: Prezentacja
-X-Mailer: mail.bizcodes.pl
+        Fri, 5 May 2023 05:07:46 -0400
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F390B18FFA;
+        Fri,  5 May 2023 02:07:39 -0700 (PDT)
+Received: by mail-qv1-xf2d.google.com with SMTP id 6a1803df08f44-5eefa0a5561so13763466d6.1;
+        Fri, 05 May 2023 02:07:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683277659; x=1685869659;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wkNtx0DFC1avEjS6Gt6czwtMdE022sLV8pwGEyLcWOA=;
+        b=PJWm8XAO9lCfmbxarADvwZHpztpMk1hcy5kR4EsGm2DTk6NJhT+MaFd3/ORtSxJd5H
+         ILOVx+zvicVKR081ywtV4+bkIcvgQCDoqUNE5Y+JzZoE7aW647OFtY54XiCEtfAi/s1Z
+         r/5lGLqRn9ps6l9bwUyPeperebD1gCkWQoh02SqUbAdMyYZxpXNvsp66tqzTzWcQbBDr
+         3gL1NXmtHXcWMBsvoruAjJ6ftVosQyXqSi6GvQJ+CU8qvRZoIi7F7UpRdNaIQ8v7vJnW
+         wjheo60GnZoR+SW1xc796ronPBs7lfZccWi8tchobyB2cJOEcfYZNjuJJmrlrYzUFTII
+         abVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683277659; x=1685869659;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wkNtx0DFC1avEjS6Gt6czwtMdE022sLV8pwGEyLcWOA=;
+        b=aN232c55ewLiKo31iNi+nDis1B+kNClN1vYUbfQ+AKF0Zaik14G2VJu/y8Q6yR/v9b
+         bRHqH95XipdZEbgMFgquXOyDb0BPClnubRgAxVh2BpHqqhGwgaAKFEuh2gP52DXMgHU/
+         JwMKBA2ikkwbuBvaGcbOzY5WDO+giEqwDu89JdDs3dsQgJnKwyR5S4B07kERkhqGxdnQ
+         LEoMVZYPeMLryMtFRtC0T3BR76Fr95K1ib0YEkezdnF3SHmJ7WnP+X6H4hnYng4V2v3a
+         zfbJdwzGjqSLyMD/Gazf5BXH6yxPql9qadnrbKQNec2kkUz/iMPGdWJ3D6+xXhAu/Q8H
+         /ERA==
+X-Gm-Message-State: AC+VfDz1Oq8H2ELQ86enSX+l13gFRSlf4OUNUlxeOIMJ5hKbhMYXpR5/
+        fSOiuEJcheTYKoZ/OsBMbiJdoGtqDBMRRvhe4zo=
+X-Google-Smtp-Source: ACHHUZ7cFikwPpj4XTO9xeLhEK+lqrwE6HAz9KY20lXpekX+2VlTrg3YVrd61svAjuq7vekGm8sBusARo5JXGQ3AhqY=
+X-Received: by 2002:a05:6214:20ad:b0:5f5:51c4:fca0 with SMTP id
+ 13-20020a05621420ad00b005f551c4fca0mr788135qvd.52.1683277659042; Fri, 05 May
+ 2023 02:07:39 -0700 (PDT)
 MIME-Version: 1.0
+References: <20230430165807.472798-1-hdegoede@redhat.com> <20230430165807.472798-19-hdegoede@redhat.com>
+ <20230504165307.tydqlk6sml7sp5qe@pengutronix.de>
+In-Reply-To: <20230504165307.tydqlk6sml7sp5qe@pengutronix.de>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 5 May 2023 12:07:02 +0300
+Message-ID: <CAHp75VdgFFk=q-=ZDiKwV02Tin19ZSmSS=fhwgRrE6v48s-u0w@mail.gmail.com>
+Subject: Re: [PATCH v2 18/19] platform/x86: lenovo-yogabook: Add keyboard
+ backlight control to platform driver
+To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Yauhen Kharuzhy <jekhor@gmail.com>,
+        platform-driver-x86@vger.kernel.org, linux-pwm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Dzie=C5=84 dobry!
+On Thu, May 4, 2023 at 7:53=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
+> On Sun, Apr 30, 2023 at 06:58:06PM +0200, Hans de Goede wrote:
 
-Czy m=C3=B3g=C5=82bym przedstawi=C4=87 rozwi=C4=85zanie, kt=C3=B3re umo=C5=
-=BCliwia monitoring ka=C5=BCdego auta w czasie rzeczywistym w tym jego po=
-zycj=C4=99, zu=C5=BCycie paliwa i przebieg?
+...
 
-Dodatkowo nasze narz=C4=99dzie minimalizuje koszty utrzymania samochod=C3=
-=B3w, skraca czas przejazd=C3=B3w, a tak=C5=BCe tworzenie planu tras czy =
-dostaw.
+> I don't know much about x86, but I think the table belongs to where this
+> "80862289:00" device is created.
 
-Z naszej wiedzy i do=C5=9Bwiadczenia korzysta ju=C5=BC ponad 49 tys. Klie=
-nt=C3=B3w. Monitorujemy 809 000 pojazd=C3=B3w na ca=C5=82ym =C5=9Bwiecie,=
- co jest nasz=C4=85 najlepsz=C4=85 wizyt=C3=B3wk=C4=85.
+Just for your information, it's in drivers/acpi/acpi_lpss.c.
 
-Bardzo prosz=C4=99 o e-maila zwrotnego, je=C5=9Bli mogliby=C5=9Bmy wsp=C3=
-=B3lnie om=C3=B3wi=C4=87 potencja=C5=82 wykorzystania takiego rozwi=C4=85=
-zania w Pa=C5=84stwa firmie.
-
-
-Pozdrawiam
-Marcin Chruszcz
+--=20
+With Best Regards,
+Andy Shevchenko
