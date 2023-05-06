@@ -2,199 +2,83 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D04756F91A0
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  6 May 2023 13:41:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61AE66F91AB
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  6 May 2023 13:45:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231956AbjEFLlW (ORCPT
+        id S231986AbjEFLp2 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 6 May 2023 07:41:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57558 "EHLO
+        Sat, 6 May 2023 07:45:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231450AbjEFLlV (ORCPT
+        with ESMTP id S232340AbjEFLpY (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 6 May 2023 07:41:21 -0400
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AE658A53
-        for <platform-driver-x86@vger.kernel.org>; Sat,  6 May 2023 04:41:20 -0700 (PDT)
-Received: by mail-qv1-xf2c.google.com with SMTP id 6a1803df08f44-61b5b4df8baso23519286d6.1
-        for <platform-driver-x86@vger.kernel.org>; Sat, 06 May 2023 04:41:19 -0700 (PDT)
+        Sat, 6 May 2023 07:45:24 -0400
+Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com [IPv6:2607:f8b0:4864:20::c44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78DDF8A53
+        for <platform-driver-x86@vger.kernel.org>; Sat,  6 May 2023 04:45:20 -0700 (PDT)
+Received: by mail-oo1-xc44.google.com with SMTP id 006d021491bc7-54a009bf95bso826131eaf.3
+        for <platform-driver-x86@vger.kernel.org>; Sat, 06 May 2023 04:45:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683373279; x=1685965279;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XyEKePZDBGEn/WtsE6t3vs5F//I0eroqrsCJjRMf4Vo=;
-        b=r/pQAwgXb4ewrRgLJN+gkLWyZZckxOcNZ5sNYp5tl8V6xQgSzD08mX+MGQChho79MF
-         7lSdeE/BKzgxtPnCOyX7LfY4A2qoTFVQetJk2y5ndf7LVkKMSuBL9hZ6LvqJNSDFrEVt
-         m9uf0tj050n28e6JrSSZZzCmEN7KKcaQijbYaxkzDUlU7+cRbeFLElE1JeK0qqvvVEhw
-         aYJEwCFPWMnXKPmwRe+mqgF1aU8Z/1vqyHU8sUdGR8tsvV7c+4EhyAsyZKp18rpKKG9N
-         dbu63TDLZr+7aHT2nNzUBKmJGqtoB3qVMVvU1hmOiKpQ58ESdoko1JEc7DVAtTNsbJCC
-         7FKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683373279; x=1685965279;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=gmail.com; s=20221208; t=1683373520; x=1685965520;
+        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XyEKePZDBGEn/WtsE6t3vs5F//I0eroqrsCJjRMf4Vo=;
-        b=h31/SreYcdgi2vdMhV/Hr8Q4cVSJoxOFAL+8DNzKzj5Aidx0KdqT5dlxWCx+utI+ns
-         wWkiMIC5M5YNaCnPCxG3/xstC7ifhu31tvoD52MzCyjVdt/fcXbv4Cec/7NKsuuv8M3J
-         DyJw5FV2lCRVYSvcijGb/2vi7mCcw4Z3/f4WT20Dxpwep66skih0XNLCa92mWZK16KVJ
-         CnB0v26P71RyizJIWXKfXd1CZUgRhjw9QK0CMXpcZM8PMaDptPont+5A+XP8N/5+C8rq
-         AKk4fcsyNJbeajHkglIH37hDhv+jliB6MIObIJCjJW2GH4+fmzg5/vG5ivFdaN07InKI
-         Em9A==
-X-Gm-Message-State: AC+VfDyTQ1PBFWT3jYK1M5st2M5F9yjXOIBYJ8RUdN9u1g+og6nPzQGq
-        tonrlUMvt67AUaW+ZlGgA+uh89Gn7ypdPwBMX3E=
-X-Google-Smtp-Source: ACHHUZ4QcAmIbgbSBHgC3BISVefoGojJIG8ECEXbmoFQVo7cWHXlYyyHW840j+vHQXnzqRqdcSgaJ5Akf/TBaQPU5lQ=
-X-Received: by 2002:a05:6214:1c42:b0:616:516e:f3ea with SMTP id
- if2-20020a0562141c4200b00616516ef3eamr6958357qvb.51.1683373279074; Sat, 06
- May 2023 04:41:19 -0700 (PDT)
+        bh=3oYidZLIIeufrqimC75alngwweIfSpHMuZMsiKxxUjU=;
+        b=MtEyRNSXoPs9HF6fD52EAxpCv0VFQx78meATgRfU1EtQ0ctzSXg5kORte1cdowJogb
+         uhYzYSk+YlaObP6KA6FV4SrudXvm5u9liCXtdh3pMKm4F7xTtH9l3gZl5LW/QlmK6mjt
+         kmctDS3xH3VII7ahANHhBjfqp8iPQCr9FDfhYNUIV5H7sXaOLM1seI7fHblV2lp305ab
+         WTxVu8TsNcyrAM7uczIZ1dp852xlksPhhWOXBmIgwp8adR6hNMJ5NPjx2pNuJM2K+51p
+         WadT9cIHTzXORJlUA+rui9DfmkTkw9Koxwha5AbiDxQcFSyAaVTWj0fW+NNMxQ1aCb03
+         HZwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683373520; x=1685965520;
+        h=to:subject:message-id:date:from:sender:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3oYidZLIIeufrqimC75alngwweIfSpHMuZMsiKxxUjU=;
+        b=G0R6GWtBDYS3FDEwJV1YQzXZkP9IcDSgcrSH4Y+x/ZNBDmhTAsNwTB9ysQP+mt26YO
+         mOzIh6621UZdm4Pe3mrXsnGK+WcPgMpmUWfgkbwxqRDC9Zb/zmhO1MNQhbUnBCm5SMU1
+         telI9KyGPg5FagBj12fDWAxU1EFrEbXBoK7vp4TBCbOW14+Ur+p9i5MkeUFQYOv82ANv
+         CNGz/IWjC+xA6FxjaIvsk01jDLHOFIuSirqAJsFqesupaA2fOhLnPyzDFJ6TXbTnR4+b
+         8+Ogk4U+SXefnU7i0zVYEC+lT/q7OJK8W1NUKHxGjr02bG6d79ZFDpsm/jvL5W4Sb0D3
+         +5QQ==
+X-Gm-Message-State: AC+VfDzofHfsr9QZ3L9OD7h2P2toGy+7K0CWnKlXCejIafVhmFd5U/o5
+        rHnuz9Hn/AmkqACTm8WFkL4dljccwrWk0B95SCM=
+X-Google-Smtp-Source: ACHHUZ5xokuztzUJDOm6INN0GQ8QQ6CzIJ5pbOaKlozK2ImZXKtY1gYY1zz52PCSMGoDRJsj0MCYM1g1ks7ne+MZ/xE=
+X-Received: by 2002:a4a:7252:0:b0:546:bf26:49c7 with SMTP id
+ r18-20020a4a7252000000b00546bf2649c7mr1702725ooe.8.1683373519745; Sat, 06 May
+ 2023 04:45:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230505205901.42649-1-hdegoede@redhat.com> <20230505205901.42649-2-hdegoede@redhat.com>
-In-Reply-To: <20230505205901.42649-2-hdegoede@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 6 May 2023 14:40:43 +0300
-Message-ID: <CAHp75VfFMDA=ABLhopY+2Eofm4rdJch-f-ZxVRz6OOa7U=NWJw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] platform/x86: x86-android-tablets: Add support for
- extra buttons on Cyberbook T116
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        platform-driver-x86@vger.kernel.org
+Sender: musaabdullahi8398@gmail.com
+Received: by 2002:a05:6358:341a:b0:104:6e10:5c80 with HTTP; Sat, 6 May 2023
+ 04:45:19 -0700 (PDT)
+From:   "Mrs. Margaret Christopher" <mrsmargaretchristopher001@gmail.com>
+Date:   Sat, 6 May 2023 05:45:19 -0600
+X-Google-Sender-Auth: _fLWt1J6jW-6YCmd9wOUf_cCgpk
+Message-ID: <CAADp7K8ssEGMeVc+OOen_T5mpSH+z4X7efQ4BoZYbx1oRKzCTQ@mail.gmail.com>
+Subject: Humanitarian Project For Less Privileged.
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, May 5, 2023 at 11:59=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
- wrote:
->
-> The Cyberbook T116 rugged tablet comes in both Windows and Android versio=
-ns
-> and even on the Android version the DSDT is mostly sane. This tablet has
-> 2 extra general purpose buttons in the row with the power + volume-button=
-s,
-> labeled P and F.
->
-> Use the x86-android-tablets infra to create a gpio-button device for thes=
-e
-> 2 extra buttons.
+-- 
+Hello Dear
 
-For both
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+  Am a dying woman here in the hospital, i was diagnose as a
+Coronavirus patient over 2 months ago. I am A business woman who is
+dealing with Gold Exportation, I Am 59 year old from USA California i
+have a charitable and unfufilling  project that am about to handover
+to you, if you are interested to know more about this project please reply me.
 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  .../platform/x86/x86-android-tablets/dmi.c    | 11 ++++++
->  .../platform/x86/x86-android-tablets/other.c  | 39 +++++++++++++++++++
->  .../x86-android-tablets/x86-android-tablets.h |  1 +
->  3 files changed, 51 insertions(+)
->
-> diff --git a/drivers/platform/x86/x86-android-tablets/dmi.c b/drivers/pla=
-tform/x86/x86-android-tablets/dmi.c
-> index 07acf0978325..2bda152b4a11 100644
-> --- a/drivers/platform/x86/x86-android-tablets/dmi.c
-> +++ b/drivers/platform/x86/x86-android-tablets/dmi.c
-> @@ -58,6 +58,17 @@ const struct dmi_system_id x86_android_tablet_ids[] __=
-initconst =3D {
->                 },
->                 .driver_data =3D (void *)&chuwi_hi8_info,
->         },
-> +       {
-> +               /* Cyberbook T116 Android version */
-> +               .matches =3D {
-> +                       DMI_MATCH(DMI_BOARD_VENDOR, "Default string"),
-> +                       DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
-> +                       /* Above strings are much too generic, also match=
- on SKU + BIOS date */
-> +                       DMI_MATCH(DMI_PRODUCT_SKU, "20170531"),
-> +                       DMI_MATCH(DMI_BIOS_DATE, "07/12/2017"),
-> +               },
-> +               .driver_data =3D (void *)&cyberbook_t116_info,
-> +       },
->         {
->                 /* CZC P10T */
->                 .ident =3D "CZC ODEON TPC-10 (\"P10T\")",
-> diff --git a/drivers/platform/x86/x86-android-tablets/other.c b/drivers/p=
-latform/x86/x86-android-tablets/other.c
-> index 4d54c89e6ca2..e79549c6aae1 100644
-> --- a/drivers/platform/x86/x86-android-tablets/other.c
-> +++ b/drivers/platform/x86/x86-android-tablets/other.c
-> @@ -197,6 +197,45 @@ const struct x86_dev_info chuwi_hi8_info __initconst=
- =3D {
->         .init =3D chuwi_hi8_init,
->  };
->
-> +/*
-> + * Cyberbook T116 Android version
-> + * This comes in both Windows and Android versions and even on Android
-> + * the DSDT is mostly sane. This tablet has 2 extra general purpose butt=
-ons
-> + * in the button row with the power + volume-buttons labeled P and F.
-> + * Use the x86-android-tablets infra to create a gpio-button device for =
-these.
-> + */
-> +static const struct x86_gpio_button cyberbook_t116_buttons[] __initconst=
- =3D {
-> +       {
-> +               .button =3D {
-> +                       .code =3D KEY_PROG1,
-> +                       .active_low =3D true,
-> +                       .desc =3D "prog1_key",
-> +                       .type =3D EV_KEY,
-> +                       .wakeup =3D false,
-> +                       .debounce_interval =3D 50,
-> +               },
-> +               .chip =3D "INT33FF:00",
-> +               .pin =3D 30,
-> +       },
-> +       {
-> +               .button =3D {
-> +                       .code =3D KEY_PROG2,
-> +                       .active_low =3D true,
-> +                       .desc =3D "prog2_key",
-> +                       .type =3D EV_KEY,
-> +                       .wakeup =3D false,
-> +                       .debounce_interval =3D 50,
-> +               },
-> +               .chip =3D "INT33FF:03",
-> +               .pin =3D 48,
-> +       },
-> +};
-> +
-> +const struct x86_dev_info cyberbook_t116_info __initconst =3D {
-> +       .gpio_button =3D cyberbook_t116_buttons,
-> +       .gpio_button_count =3D ARRAY_SIZE(cyberbook_t116_buttons),
-> +};
-> +
->  #define CZC_EC_EXTRA_PORT      0x68
->  #define CZC_EC_ANDROID_KEYS    0x63
->
-> diff --git a/drivers/platform/x86/x86-android-tablets/x86-android-tablets=
-.h b/drivers/platform/x86/x86-android-tablets/x86-android-tablets.h
-> index 8f04a052eada..e46e1128acc8 100644
-> --- a/drivers/platform/x86/x86-android-tablets/x86-android-tablets.h
-> +++ b/drivers/platform/x86/x86-android-tablets/x86-android-tablets.h
-> @@ -94,6 +94,7 @@ extern const struct x86_dev_info advantech_mica_071_inf=
-o;
->  extern const struct x86_dev_info asus_me176c_info;
->  extern const struct x86_dev_info asus_tf103c_info;
->  extern const struct x86_dev_info chuwi_hi8_info;
-> +extern const struct x86_dev_info cyberbook_t116_info;
->  extern const struct x86_dev_info czc_p10t;
->  extern const struct x86_dev_info lenovo_yogabook_x90_info;
->  extern const struct x86_dev_info lenovo_yogabook_x91_info;
-> --
-> 2.40.1
->
+ Hope to hear from you
 
+Best Regard
 
---=20
-With Best Regards,
-Andy Shevchenko
+Margaret Christopher
