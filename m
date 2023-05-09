@@ -2,171 +2,114 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 785296FC892
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 May 2023 16:12:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A82B16FCA86
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 May 2023 17:49:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235376AbjEIOMo (ORCPT
+        id S230181AbjEIPta (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 9 May 2023 10:12:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54224 "EHLO
+        Tue, 9 May 2023 11:49:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235137AbjEIOMo (ORCPT
+        with ESMTP id S235352AbjEIPta (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 9 May 2023 10:12:44 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7273430EC
-        for <platform-driver-x86@vger.kernel.org>; Tue,  9 May 2023 07:12:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683641562; x=1715177562;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=SAL5co0fWXg47QhNXKqVi62/8DFAp6SaFVOF6K+It/I=;
-  b=M4GTGyJ+av3tzyQW57jq6ExKqoyMIOlEYFgUh7SvGpP0Zow1EROphVJe
-   s6iuP4KBIvKaA9DaX452+iDcelG/KfsPWqZVM4799Tq0jZ1zvhD+LXjcc
-   K5r35PA7Z2kxy9NPln1nccbflLdGX2dwej0YrgOvpwjHK/GldW8pZHOBy
-   D1k0o0unw/DVNujywXVO+ln871cKvmj4VPXh5q/57lwrv8SmsirpHec+s
-   SOQGKIAI36pMHLgpN/mUen2z7qab3IGfThyZ6sR4CSrZfyiPAqK9kGuIj
-   ehw4OC5aD9wlZAUOQ5R445u4URqKDUlziOv6l8OEwYwA5YNrbMB8x8qVa
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="413207138"
-X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
-   d="scan'208";a="413207138"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 07:12:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="676475326"
-X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
-   d="scan'208";a="676475326"
-Received: from mbrdon-mobl.ger.corp.intel.com ([10.251.219.121])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 07:12:39 -0700
-Date:   Tue, 9 May 2023 17:12:37 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-cc:     hdegoede@redhat.com, markgross@kernel.org,
-        platform-driver-x86@vger.kernel.org, Patil.Reddy@amd.com,
-        mario.limonciello@amd.com
-Subject: Re: [PATCH v3 2/2] platform/x86/amd/pmf: Add PMF debug facilities
-In-Reply-To: <20230509140657.27479-2-Shyam-sundar.S-k@amd.com>
-Message-ID: <54c09046-e89-2da8-c17-3a7124766ded@linux.intel.com>
-References: <20230509140657.27479-1-Shyam-sundar.S-k@amd.com> <20230509140657.27479-2-Shyam-sundar.S-k@amd.com>
+        Tue, 9 May 2023 11:49:30 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A7F1420B
+        for <platform-driver-x86@vger.kernel.org>; Tue,  9 May 2023 08:49:28 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id a640c23a62f3a-9619095f479so962188566b.1
+        for <platform-driver-x86@vger.kernel.org>; Tue, 09 May 2023 08:49:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683647366; x=1686239366;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9MgH2yk3oKPfzsyrz/5pM854nV5ZPzia2UxJXZBDwzc=;
+        b=D+LIcJgdsBWeK5Qknety9eiFhW20xkC1PyXtsUNwGEn+z4lMZVxdQhT3ONXR7K1J1A
+         vkF2lTJh90FYpDPsx6fOpf2xev9VRURX0Fg0Ll3625Jqj3KkmGJmUCbuK/srI82T8w1E
+         Xc/Y5p8xD2MavThNhJmNcXo8M5hS3pniMWEI6P+qzL/2IdaEQJqwSFE0d3iErc5bxO6T
+         J4qaUcsy4nhCtG/lnXHk60RGxbqdMwzjFslSiY19CQ8Mr8GOnstgSEgthfdDIBgLBpnU
+         I8GIKHd0y5X3Y5TLKhQSSYOHyNbVopU8yLb8oMjH6984Xmted8qT3T/ZWiQYPdGh/uzS
+         3dIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683647366; x=1686239366;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9MgH2yk3oKPfzsyrz/5pM854nV5ZPzia2UxJXZBDwzc=;
+        b=Q+EdqdxzsUKEQBScwmslDG+dX7CpG8/kHSUnMNnnfxFRbQ9xB5/+8l3SwxgwMSOTwy
+         zE2gajFcusKO7WP0sZqok9m25APKlEAZedZ2few+ZgT0o8GqMc3O4CeUhAWqj5KIY99l
+         s3eZ8iwNYQFCY3L7MG7cF/YW6gflUIkcZL5flm+z3069igtF82JlMKX6MKoMOYMzKsmE
+         sjRksryTIW0u/zuxHey8Jv8eMd2hcSVkMnQsgGhVacnY8AT6Rb1CFTX1lGaQqWfWaxu9
+         br0htFpDQzfI1zigFQQH8V1RXWgojMpL+J/BN92Q7uzBZUJGtcE1xd4U47C0kzk2IMaT
+         vTLQ==
+X-Gm-Message-State: AC+VfDx/MRTwfhnkVYXZbJ+wz3vEuet4m+V02fKm6qy8hu+hLmj0nyfp
+        CP04/yALHxoHJc3LGy2eX28MsqhugrKuwL/BmFs=
+X-Google-Smtp-Source: ACHHUZ5NXoy2MgezDhm25oEpMs92Gq9+Zx+cBdVbl3w7poRYS16j6dmAEMc4T529IfyY4fnypOEvQLeFeDGMYAFdD0Q=
+X-Received: by 2002:a17:907:9802:b0:961:a67:296 with SMTP id
+ ji2-20020a170907980200b009610a670296mr13217930ejc.11.1683647365931; Tue, 09
+ May 2023 08:49:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Received: by 2002:a17:906:db04:b0:953:7456:30e4 with HTTP; Tue, 9 May 2023
+ 08:49:25 -0700 (PDT)
+Reply-To: rhsheikhalhamed@gmail.com
+From:   Abu Dhabi Investment Authority <hagdfcost@gmail.com>
+Date:   Tue, 9 May 2023 16:49:25 +0100
+Message-ID: <CAGUzCAceO2iD=xs4tqiRBfinXjwv4en90-aQwxy_6zJXFYs72w@mail.gmail.com>
+Subject: Salam Alaikum /ADIA LOAN OFFER
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=6.4 required=5.0 tests=BAYES_50,DEAR_SOMETHING,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:643 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [hagdfcost[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  2.0 DEAR_SOMETHING BODY: Contains 'Dear (something)'
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.8 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, 9 May 2023, Shyam Sundar S K wrote:
+Dear Sir/Madam,
 
-> At times, when the mode transitions fail to happen, the current
-> driver does not give enough debug information on why the transition
-> failed or the default preset values did not load. Having an on-demand
-> logs guarded by CONFIG would be helpful in such cases.
-> 
-> Co-developed-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
-> Signed-off-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
-> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> ---
-> v3:
->  - Based on review-hans branch
->  - Address Ilpo's review remarks
->  - use the right format specifiers while printing the data
-> 
-> v2:
->  - Based on review-hans branch
->  - Drop extra CONFIG item based on feedback from Hans
-> 
->  drivers/platform/x86/amd/pmf/auto-mode.c | 23 +++++++++++++++++++++++
->  drivers/platform/x86/amd/pmf/cnqf.c      | 19 +++++++++++++++++++
->  2 files changed, 42 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/amd/pmf/auto-mode.c b/drivers/platform/x86/amd/pmf/auto-mode.c
-> index 64425201d353..cb2fb4df39e9 100644
-> --- a/drivers/platform/x86/amd/pmf/auto-mode.c
-> +++ b/drivers/platform/x86/amd/pmf/auto-mode.c
-> @@ -179,11 +179,34 @@ void amd_pmf_trans_automode(struct amd_pmf_dev *dev, int socket_power, ktime_t t
->  			config_store.transition[i].applied = false;
->  			update = true;
->  		}
-> +
-> +#ifdef CONFIG_AMD_PMF_DEBUG
-> +		dev_dbg(dev->dev, "[AUTO MODE] average_power : %d mW mode: %s\n", avg_power,
-> +			state_as_str(config_store.current_mode));
-> +
-> +		dev_dbg(dev->dev, "[AUTO MODE] time: %lld ms timer: %u ms tc: %u ms\n",
-> +			time_elapsed_ms, config_store.transition[i].timer,
-> +			config_store.transition[i].time_constant);
-> +
-> +		dev_dbg(dev->dev, "[AUTO MODE] shiftup: %u pt: %u mW pf: %u mW pd: %u mW\n",
-> +			config_store.transition[i].shifting_up,
-> +			config_store.transition[i].power_threshold,
-> +			config_store.mode_set[i].power_floor,
-> +			config_store.transition[i].power_delta);
-> +#endif
->  	}
->  
->  	dev_dbg(dev->dev, "[AUTO_MODE] avg power: %u mW mode: %s\n", avg_power,
->  		state_as_str(config_store.current_mode));
->  
-> +#ifdef CONFIG_AMD_PMF_DEBUG
-> +	dev_dbg(dev->dev, "[AUTO MODE] priority1: %u priority2: %u priority3: %u priority4: %u\n",
-> +		config_store.transition[0].applied,
-> +		config_store.transition[1].applied,
-> +		config_store.transition[2].applied,
-> +		config_store. transition[3].applied);
+We are a United Arab Emirates based investment company known as Abu
+Dhabi Investment Authority working on expanding its portfolio globally
+and financing projects.
 
-Extra space.
+We are offering Corporate and Personal Loan at 3.5% Interest Rate for
+a duration of 5 to 10 years.
 
--- 
- i.
+Contact us on Email: rhsheikhalhamed@gmail.com ,for more information
+and proceeding!
 
-> +#endif
-> +
->  	if (update) {
->  		for (j = 0; j < AUTO_TRANSITION_MAX; j++) {
->  			/* Apply the mode with highest priority indentified */
-> diff --git a/drivers/platform/x86/amd/pmf/cnqf.c b/drivers/platform/x86/amd/pmf/cnqf.c
-> index 35af7c18f600..539b186e9027 100644
-> --- a/drivers/platform/x86/amd/pmf/cnqf.c
-> +++ b/drivers/platform/x86/amd/pmf/cnqf.c
-> @@ -175,6 +175,13 @@ int amd_pmf_trans_cnqf(struct amd_pmf_dev *dev, int socket_power, ktime_t time_l
->  		config_store.trans_param[src][i].count++;
->  
->  		tp = &config_store.trans_param[src][i];
-> +
-> +#ifdef CONFIG_AMD_PMF_DEBUG
-> +		dev_dbg(dev->dev, "avg_power: %u mW total_power: %u mW count: %u timer: %u ms\n",
-> +			avg_power, config_store.trans_param[src][i].total_power,
-> +			config_store.trans_param[src][i].count,
-> +			config_store.trans_param[src][i].timer);
-> +#endif
->  		if (tp->timer >= tp->time_constant && tp->count) {
->  			avg_power = tp->total_power / tp->count;
->  
-> @@ -195,6 +202,18 @@ int amd_pmf_trans_cnqf(struct amd_pmf_dev *dev, int socket_power, ktime_t time_l
->  	dev_dbg(dev->dev, "[CNQF] Avg power: %u mW socket power: %u mW mode:%s\n",
->  		avg_power, socket_power, state_as_str(config_store.current_mode));
->  
-> +#ifdef CONFIG_AMD_PMF_DEBUG
-> +	dev_dbg(dev->dev, "[CNQF] priority1: %u priority2: %u priority3: %u\n",
-> +		config_store.trans_param[src][0].priority,
-> +		config_store.trans_param[src][1].priority,
-> +		config_store.trans_param[src][2].priority);
-> +
-> +	dev_dbg(dev->dev, "[CNQF] priority4: %u priority5: %u priority6: %u\n",
-> +		config_store.trans_param[src][3].priority,
-> +		config_store.trans_param[src][4].priority,
-> +		config_store.trans_param[src][5].priority);
-> +#endif
-> +
->  	for (j = 0; j < CNQF_TRANSITION_MAX; j++) {
->  		/* apply the highest priority */
->  		if (config_store.trans_param[src][j].priority) {
-> 
+We also give 2% commission to consultants and brokers who introduce
+project owners for finance or other opportunities.
 
+
+Yours truly,
+Mahmoud Al Hamoud
+(Personal Assistant)
+Abu Dhabi Investment Authority
+211 Corniche, PO Box 3600
+Abu Dhabi,United Arab Emirates
