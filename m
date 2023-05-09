@@ -2,114 +2,248 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A82B16FCA86
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 May 2023 17:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C945B6FCD03
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 May 2023 19:50:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230181AbjEIPta (ORCPT
+        id S229543AbjEIRuT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 9 May 2023 11:49:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56806 "EHLO
+        Tue, 9 May 2023 13:50:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235352AbjEIPta (ORCPT
+        with ESMTP id S234364AbjEIRuS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 9 May 2023 11:49:30 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A7F1420B
-        for <platform-driver-x86@vger.kernel.org>; Tue,  9 May 2023 08:49:28 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id a640c23a62f3a-9619095f479so962188566b.1
-        for <platform-driver-x86@vger.kernel.org>; Tue, 09 May 2023 08:49:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683647366; x=1686239366;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9MgH2yk3oKPfzsyrz/5pM854nV5ZPzia2UxJXZBDwzc=;
-        b=D+LIcJgdsBWeK5Qknety9eiFhW20xkC1PyXtsUNwGEn+z4lMZVxdQhT3ONXR7K1J1A
-         vkF2lTJh90FYpDPsx6fOpf2xev9VRURX0Fg0Ll3625Jqj3KkmGJmUCbuK/srI82T8w1E
-         Xc/Y5p8xD2MavThNhJmNcXo8M5hS3pniMWEI6P+qzL/2IdaEQJqwSFE0d3iErc5bxO6T
-         J4qaUcsy4nhCtG/lnXHk60RGxbqdMwzjFslSiY19CQ8Mr8GOnstgSEgthfdDIBgLBpnU
-         I8GIKHd0y5X3Y5TLKhQSSYOHyNbVopU8yLb8oMjH6984Xmted8qT3T/ZWiQYPdGh/uzS
-         3dIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683647366; x=1686239366;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9MgH2yk3oKPfzsyrz/5pM854nV5ZPzia2UxJXZBDwzc=;
-        b=Q+EdqdxzsUKEQBScwmslDG+dX7CpG8/kHSUnMNnnfxFRbQ9xB5/+8l3SwxgwMSOTwy
-         zE2gajFcusKO7WP0sZqok9m25APKlEAZedZ2few+ZgT0o8GqMc3O4CeUhAWqj5KIY99l
-         s3eZ8iwNYQFCY3L7MG7cF/YW6gflUIkcZL5flm+z3069igtF82JlMKX6MKoMOYMzKsmE
-         sjRksryTIW0u/zuxHey8Jv8eMd2hcSVkMnQsgGhVacnY8AT6Rb1CFTX1lGaQqWfWaxu9
-         br0htFpDQzfI1zigFQQH8V1RXWgojMpL+J/BN92Q7uzBZUJGtcE1xd4U47C0kzk2IMaT
-         vTLQ==
-X-Gm-Message-State: AC+VfDx/MRTwfhnkVYXZbJ+wz3vEuet4m+V02fKm6qy8hu+hLmj0nyfp
-        CP04/yALHxoHJc3LGy2eX28MsqhugrKuwL/BmFs=
-X-Google-Smtp-Source: ACHHUZ5NXoy2MgezDhm25oEpMs92Gq9+Zx+cBdVbl3w7poRYS16j6dmAEMc4T529IfyY4fnypOEvQLeFeDGMYAFdD0Q=
-X-Received: by 2002:a17:907:9802:b0:961:a67:296 with SMTP id
- ji2-20020a170907980200b009610a670296mr13217930ejc.11.1683647365931; Tue, 09
- May 2023 08:49:25 -0700 (PDT)
+        Tue, 9 May 2023 13:50:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C74FF3C3A;
+        Tue,  9 May 2023 10:50:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5671E62B20;
+        Tue,  9 May 2023 17:50:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C601C433EF;
+        Tue,  9 May 2023 17:50:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1683654615;
+        bh=rVSz+Tb3H1/HHESESFxVFjW2CxxTsz7vH2xOqzNlQXc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SWUmzHG8xFjWpRkUn7jxvkUG21EZyVRmvIHAfaVcDHRGM9jMRutvis8vhLLUy4O6s
+         TNfr8CkW+0xFnginSyEkOvFBFvpfOmfhA5nD3ARTrQ70JeNf4ZdFCI5HaO0KOLYccW
+         vQdtgGdmg/tQ5H63l/yZA/IRiWefyI99JD7UG/jkDkK98gs8oeXFAAGuZ3x/WUQl08
+         dJVCQI52RgYMOfw8/KVYJ1KtUhhMWuPE0OU99QGXVBQFCtLEJXKyVpOEh03tYK0nnO
+         JOdA+2jhGLcjwX9OUN+wPeWnGy/ROl2o4urTxQBEOvfJ3/SX8Fmf+xvybwL/5Cz17z
+         qRmXV8na65m5w==
+Date:   Tue, 9 May 2023 18:50:07 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Sunil V L <sunilvl@ventanamicro.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        llvm@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Weili Qian <qianweili@huawei.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
+Subject: Re: [PATCH V5 08/21] RISC-V: ACPI: Cache and retrieve the RINTC
+ structure
+Message-ID: <20230509-atlantic-writing-3ceea38e050e@spud>
+References: <20230508115237.216337-1-sunilvl@ventanamicro.com>
+ <20230508115237.216337-9-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
-Received: by 2002:a17:906:db04:b0:953:7456:30e4 with HTTP; Tue, 9 May 2023
- 08:49:25 -0700 (PDT)
-Reply-To: rhsheikhalhamed@gmail.com
-From:   Abu Dhabi Investment Authority <hagdfcost@gmail.com>
-Date:   Tue, 9 May 2023 16:49:25 +0100
-Message-ID: <CAGUzCAceO2iD=xs4tqiRBfinXjwv4en90-aQwxy_6zJXFYs72w@mail.gmail.com>
-Subject: Salam Alaikum /ADIA LOAN OFFER
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=6.4 required=5.0 tests=BAYES_50,DEAR_SOMETHING,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:643 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [hagdfcost[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  2.0 DEAR_SOMETHING BODY: Contains 'Dear (something)'
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.8 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: ******
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="VyG74+KZvewY8TZ5"
+Content-Disposition: inline
+In-Reply-To: <20230508115237.216337-9-sunilvl@ventanamicro.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Dear Sir/Madam,
 
-We are a United Arab Emirates based investment company known as Abu
-Dhabi Investment Authority working on expanding its portfolio globally
-and financing projects.
+--VyG74+KZvewY8TZ5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-We are offering Corporate and Personal Loan at 3.5% Interest Rate for
-a duration of 5 to 10 years.
+Hey Sunil,
 
-Contact us on Email: rhsheikhalhamed@gmail.com ,for more information
-and proceeding!
+On Mon, May 08, 2023 at 05:22:24PM +0530, Sunil V L wrote:
+> RINTC structures in the MADT provide mapping between the hartid
+> and the CPU. This is required many times even at run time like
+> cpuinfo. So, instead of parsing the ACPI table every time, cache
+> the RINTC structures and provide a function to get the correct
+> RINTC structure for a given cpu.
+>=20
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-We also give 2% commission to consultants and brokers who introduce
-project owners for finance or other opportunities.
+=46rom this patch until "RISC-V: Add ACPI initialization in
+setup_arch()" (which is 19/21), the series fails to build.
 
+allmodconfig, clang-16:
+=2E./arch/riscv/include/asm/acpi.h:22:23: error: unknown type name 'acpi_ph=
+ysical_address'; did you mean 'efi_physical_addr_t'?
+=2E./arch/riscv/include/asm/acpi.h:22:51: error: unknown type name 'acpi_si=
+ze'
 
-Yours truly,
-Mahmoud Al Hamoud
-(Personal Assistant)
-Abu Dhabi Investment Authority
-211 Corniche, PO Box 3600
-Abu Dhabi,United Arab Emirates
+rv32_defconfig, clang-16:
+arch/riscv/kernel/setup.c:297:7: error: use of undeclared identifier 'acpi_=
+disabled'; did you mean '__cpu_disable'?
+arch/riscv/kernel/setup.c:297:7: warning: address of function '__cpu_disabl=
+e' will always evaluate to 'true' [-Wpointer-bool-conversion]
+
+I ballsed up a toolchain upgrade to gcc-13, so the whole series is
+showing build issues on patchwork for the gcc configurations:
+https://patchwork.kernel.org/project/linux-riscv/list/?series=3D745787
+
+However, I suspect that the same patches that fail for clang-16 will
+fail for gcc-13 too, once I have fixed that!
+
+Cheers,
+Conor.
+
+> ---
+>  arch/riscv/include/asm/acpi.h | 10 ++++++++
+>  arch/riscv/kernel/acpi.c      | 45 +++++++++++++++++++++++++++++++++++
+>  arch/riscv/kernel/setup.c     |  4 ++++
+>  3 files changed, 59 insertions(+)
+>=20
+> diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
+> index 9be52b6ffae1..6519529c8bdf 100644
+> --- a/arch/riscv/include/asm/acpi.h
+> +++ b/arch/riscv/include/asm/acpi.h
+> @@ -59,6 +59,16 @@ static inline bool acpi_has_cpu_in_madt(void)
+> =20
+>  static inline void arch_fix_phys_package_id(int num, u32 slot) { }
+> =20
+> +void acpi_init_rintc_map(void);
+> +struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu);
+> +u32 get_acpi_id_for_cpu(int cpu);
+> +#else
+> +static inline void acpi_init_rintc_map(void) { }
+> +static inline struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu)
+> +{
+> +	return NULL;
+> +}
+> +
+>  #endif /* CONFIG_ACPI */
+> =20
+>  #endif /*_ASM_ACPI_H*/
+> diff --git a/arch/riscv/kernel/acpi.c b/arch/riscv/kernel/acpi.c
+> index 81d448c41714..89e142611c84 100644
+> --- a/arch/riscv/kernel/acpi.c
+> +++ b/arch/riscv/kernel/acpi.c
+> @@ -24,6 +24,51 @@ EXPORT_SYMBOL(acpi_disabled);
+>  int acpi_pci_disabled =3D 1;	/* skip ACPI PCI scan and IRQ initializatio=
+n */
+>  EXPORT_SYMBOL(acpi_pci_disabled);
+> =20
+> +static struct acpi_madt_rintc cpu_madt_rintc[NR_CPUS];
+> +
+> +static int acpi_parse_madt_rintc(union acpi_subtable_headers *header, co=
+nst unsigned long end)
+> +{
+> +	struct acpi_madt_rintc *rintc =3D (struct acpi_madt_rintc *)header;
+> +	int cpuid;
+> +
+> +	if (!(rintc->flags & ACPI_MADT_ENABLED))
+> +		return 0;
+> +
+> +	cpuid =3D riscv_hartid_to_cpuid(rintc->hart_id);
+> +	/*
+> +	 * When CONFIG_SMP is disabled, mapping won't be created for
+> +	 * all cpus.
+> +	 * CPUs more than num_possible_cpus, will be ignored.
+> +	 */
+> +	if (cpuid >=3D 0 && cpuid < num_possible_cpus())
+> +		cpu_madt_rintc[cpuid] =3D *rintc;
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Instead of parsing (and freeing) the ACPI table, cache
+> + * the RINTC structures since they are frequently used
+> + * like in  cpuinfo.
+> + */
+> +void __init acpi_init_rintc_map(void)
+> +{
+> +	if (acpi_table_parse_madt(ACPI_MADT_TYPE_RINTC, acpi_parse_madt_rintc, =
+0) <=3D 0) {
+> +		pr_err("No valid RINTC entries exist\n");
+> +		BUG();
+> +	}
+> +}
+> +
+> +struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu)
+> +{
+> +	return &cpu_madt_rintc[cpu];
+> +}
+> +
+> +u32 get_acpi_id_for_cpu(int cpu)
+> +{
+> +	return acpi_cpu_get_madt_rintc(cpu)->uid;
+> +}
+> +
+>  /*
+>   * __acpi_map_table() will be called before paging_init(), so early_iore=
+map()
+>   * or early_memremap() should be called here to for ACPI table mapping.
+> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+> index 9fb839074e16..a44c7fcde12f 100644
+> --- a/arch/riscv/kernel/setup.c
+> +++ b/arch/riscv/kernel/setup.c
+> @@ -21,6 +21,7 @@
+>  #include <linux/efi.h>
+>  #include <linux/crash_dump.h>
+> =20
+> +#include <asm/acpi.h>
+>  #include <asm/alternative.h>
+>  #include <asm/cacheflush.h>
+>  #include <asm/cpu_ops.h>
+> @@ -293,6 +294,9 @@ void __init setup_arch(char **cmdline_p)
+>  	setup_smp();
+>  #endif
+> =20
+> +	if (!acpi_disabled)
+> +		acpi_init_rintc_map();
+> +
+>  	riscv_init_cbo_blocksizes();
+>  	riscv_fill_hwcap();
+>  	apply_boot_alternatives();
+> --=20
+> 2.34.1
+>=20
+
+--VyG74+KZvewY8TZ5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZFqHzwAKCRB4tDGHoIJi
+0vwIAP42h0wsHOgAHQ3WyuVw8G1XFBezccQwODC76RxofaL0TAEA+V+4IuPaUdHr
+5H2An4OZhjeskB4ClsRk3M+rqDqMXAc=
+=OVlw
+-----END PGP SIGNATURE-----
+
+--VyG74+KZvewY8TZ5--
