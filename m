@@ -2,76 +2,131 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85F8A701B23
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 14 May 2023 04:11:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA5EB701F80
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 14 May 2023 22:22:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229611AbjENCLl (ORCPT
+        id S233939AbjENUW1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 13 May 2023 22:11:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37240 "EHLO
+        Sun, 14 May 2023 16:22:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjENCLj (ORCPT
+        with ESMTP id S233729AbjENUWZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 13 May 2023 22:11:39 -0400
-X-Greylist: delayed 5776 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 13 May 2023 19:11:27 PDT
-Received: from lizimbra02.cittadellasalute.to.it (lizimbra02.cittadellasalute.to.it [109.69.144.62])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 6BA021FD4;
-        Sat, 13 May 2023 19:11:27 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by lizimbra02.cittadellasalute.to.it (Postfix) with ESMTP id A128442ACC91;
-        Sun, 14 May 2023 01:40:48 +0200 (CEST)
-Received: from lizimbra02.cittadellasalute.to.it ([127.0.0.1])
-        by localhost (lizimbra02.cittadellasalute.to.it [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id khbjRv2cOSm7; Sun, 14 May 2023 01:40:48 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by lizimbra02.cittadellasalute.to.it (Postfix) with ESMTP id 1F74542ACC92;
-        Sun, 14 May 2023 01:40:48 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at lizimbra02.cittadellasalute.to.it
-Received: from lizimbra02.cittadellasalute.to.it ([127.0.0.1])
-        by localhost (lizimbra02.cittadellasalute.to.it [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id LoMvHxOYdFG7; Sun, 14 May 2023 01:40:48 +0200 (CEST)
-Received: from lizimbra07.cittadellasalute.to.it (lizimbra07.cittadellasalute.to.it [172.19.100.53])
-        by lizimbra02.cittadellasalute.to.it (Postfix) with ESMTPS id D1A6242ACC7D;
-        Sun, 14 May 2023 01:40:47 +0200 (CEST)
-Received: from lizimbra07.cittadellasalute.to.it (localhost [127.0.0.1])
-        by lizimbra07.cittadellasalute.to.it (Postfix) with ESMTP id 4QJctC6k6MzN88FC;
-        Sat, 13 May 2023 22:38:59 +0200 (CEST)
-Date:   Sat, 13 May 2023 22:38:59 +0200 (CEST)
-From:   Account principale <vbiondo@cittadellasalute.to.it>
-Reply-To: Account principale <bbirseas@gmail.com>
-Message-ID: <1447419241.15368554.1684010339859.JavaMail.zimbra@cittadellasalute.to.it>
-Subject: Re: blessed deal!
+        Sun, 14 May 2023 16:22:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFC161B6
+        for <platform-driver-x86@vger.kernel.org>; Sun, 14 May 2023 13:21:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1684095703;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=c1tAC8MrLbkSD9UVPWiYzK6fj9aylD3GhGT6+jdvsKI=;
+        b=bLNZgyOWhWQ4bzsVFd4KT7fO7xNvsZbUJOsN0PuDnS+gCmuLOa5K8G2+vDtByv6i4qIfVc
+        VPdDoFClsHk3AhnRpLzeZ92QNIIES7S8JAzIixZZIeM2PdB5ufZUedgvRemG63i2BELQn+
+        xBlzV/xHDH57PvQ7lXdGGefWGBVc30w=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-486-4rUu5J78OEqaxbQVTrGjdw-1; Sun, 14 May 2023 16:21:41 -0400
+X-MC-Unique: 4rUu5J78OEqaxbQVTrGjdw-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-94a341efd9aso1486166266b.0
+        for <platform-driver-x86@vger.kernel.org>; Sun, 14 May 2023 13:21:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684095700; x=1686687700;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=c1tAC8MrLbkSD9UVPWiYzK6fj9aylD3GhGT6+jdvsKI=;
+        b=fzWHgY67Ghkh01dqFl1guzbMsf8/fh6MGXeg+V8c2hgqmlglNbKUBGjf5qFMrZPH9a
+         fx5/3ONn9CeWSR1kfFmAQR6y0nnrTEnDntCtRSbUY7EosKMxvUqXuWR2WNEOGix4nOm+
+         UkdSn/n61f+YpJyNM5uCwo4PwAM0NHCpoBa4RYFxBcbt7gxv3jxtvXIBSDD2MbWg07ro
+         J4YcvJG9zEKudkFmUQXRujzz8V59I9BxvbCZn9tuZbm7lU5Ros5CzJnFKnR77jnxaNGf
+         D2pm4ywphjtL4MkeC6Qw86DbhO9Cj6LyuaX+FQlVwKaIATpKAk4YBPGFJdFotupqhOM5
+         nhMg==
+X-Gm-Message-State: AC+VfDzi+tKVDySlN3qJVHouuKBkgzcZkJCXJLPcPH0EH4ngXSZbLKWK
+        PEX8wz0imEvno/xv72C7WmSDLj9LR0n1CpKd2Zji7V6BtTXwtPhs/4mtAjYYnVdAii+9KXW1Mbj
+        8y4+xL/w5S8k9F0ct6faygxkG0F4HlquQbByvFta71A==
+X-Received: by 2002:a17:907:9444:b0:969:e304:7a22 with SMTP id dl4-20020a170907944400b00969e3047a22mr18377130ejc.18.1684095700408;
+        Sun, 14 May 2023 13:21:40 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6ZObfspH4sKNLtf9/QPLqcX34mz9nMa9vg+VBtS3wSkEN7xRGjSLO74RXlp3y46c6bNe2RSg==
+X-Received: by 2002:a17:907:9444:b0:969:e304:7a22 with SMTP id dl4-20020a170907944400b00969e3047a22mr18377118ejc.18.1684095700154;
+        Sun, 14 May 2023 13:21:40 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id hs32-20020a1709073ea000b009534211cc97sm8534633ejc.159.2023.05.14.13.21.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 14 May 2023 13:21:39 -0700 (PDT)
+Message-ID: <eca4b75a-3a1d-1039-1f5d-b974a920745d@redhat.com>
+Date:   Sun, 14 May 2023 22:21:38 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 0/4] x86-android-tablets: convert to using GPIO references
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Mark Gross <markgross@kernel.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230512001815.591817-1-dmitry.torokhov@gmail.com>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230512001815.591817-1-dmitry.torokhov@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [138.199.54.63, 172.19.100.208]
-X-Mailer: Zimbra 8.8.15_GA_4481 (zclient/8.8.15_GA_4481)
-Thread-Index: gJrk2dVlC19ulCkNR++YnlAzcUzr/w==
-Thread-Topic: blessed deal!
-X-Spam-Status: Yes, score=7.0 required=5.0 tests=BAYES_50,DATE_IN_PAST_03_06,
-        FREEMAIL_FORGED_REPLYTO,MISSING_HEADERS,REPLYTO_WITHOUT_TO_CC,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4993]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  1.6 DATE_IN_PAST_03_06 Date: is 3 to 6 hours before Received: date
-        *  1.0 MISSING_HEADERS Missing To: header
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  1.6 REPLYTO_WITHOUT_TO_CC No description available.
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-X-Spam-Level: *******
+X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Hi Dmitry,
+
+On 5/12/23 02:18, Dmitry Torokhov wrote:
+> Hi Hans,
+> 
+> This series came about because now software nodes can be used to
+> describe GPIOs (via PROPERTY_ENTRY_GPIO() macros) and I would like to
+> eventually get rid of gpio_keys_platform_data structure.
+> 
+> So while I was doing the conversions from GPIO_LOOKUP() tables for
+> gpio_keys devices I decided to convert the rest of them as well. Maybe
+> some time in the future we can drop support for GPIO_LOOKUP() and rely
+> on device properties exclusively.
+> 
+> This is completely untested.
+
+Thank you for your work on this. I have hw to test this.
+
+But it seems that you have based this on an older tree,
+in 6.4-rc1 the x86-android-tablets code has been split
+over multiple files in their own subdir because it was
+becoming unyielding.
+
+Can you please rebase this on top of:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=for-next
+
+?
+
+Regards,
+
+Hans
 
 
-Hello!
-Did you see my blessed deal message???
-From the United States Marine Corps (USMC)
-Sgt Irene
+
+
+
+> Dmitry Torokhov (4):
+>   platform/x86: x86-android-tablets: convert Goodix devices to GPIO references
+>   platform/x86: x86-android-tablets: convert int3496 devices to GPIO references
+>   platform/x86: x86-android-tablets: convert wm1502 devices to GPIO references
+>   platform/x86: x86-android-tablets: convert gpio_keys devices to GPIO references
+> 
+>  drivers/platform/x86/x86-android-tablets.c | 355 ++++++++++++---------
+>  1 file changed, 201 insertions(+), 154 deletions(-)
+> 
+
