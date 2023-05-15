@@ -2,103 +2,118 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E5657030EB
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 15 May 2023 17:05:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 835F47030FD
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 15 May 2023 17:07:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234849AbjEOPFJ (ORCPT
+        id S242088AbjEOPHK (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 15 May 2023 11:05:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48662 "EHLO
+        Mon, 15 May 2023 11:07:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242070AbjEOPEj (ORCPT
+        with ESMTP id S242120AbjEOPHI (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 15 May 2023 11:04:39 -0400
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com (mail-am0eur02on2042.outbound.protection.outlook.com [40.107.247.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15AC5172A;
-        Mon, 15 May 2023 08:04:32 -0700 (PDT)
+        Mon, 15 May 2023 11:07:08 -0400
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on2055.outbound.protection.outlook.com [40.107.7.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FFB7113;
+        Mon, 15 May 2023 08:07:07 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FGP2SbIwblZ4ivgF/qejU+e116y5+zrL+FVsSRmb5r8T8CgA2at6Dr3AJtAy5N3AmX4LO+nopd6uPtrvn+QadEte0mJa+sMcYbiHblJS9lkR64EWCj07pjGb+3Gyje5EEhYKACREtDyd9IWTP8gZLUaRkwrSLoTM0LlhuiJaoTJI7SJ01m5Y6aTtu8T28JIc3Q6ZlLtXcM2AqfPiZ8n7Ef66T5PL6sFaR9v5HHezQHsNzmihMRqkuUoRG5KWMdYX87EFyEk84asAxoDsjT++iOSa+JOf+uc91jgeZNHuEo3MOfyI4AXlndzKPOaKehTlyAQ20XOd/lo4Wm550vFkKA==
+ b=ZU9mtXbeK3q/NvBjGNhrVXmfkOaiuUnkLiOcPXHBtzMawmEuimTqskpSQdk4OWYQkLSDcHb+Ochx1+fM6gbA+11wL2JDtIViBsUVz43XyjipUICIoNqxOTqc7L9IpN50oFFdfANZ5RMJQgPwGG0V2v9FxUSVTMAGjd2Cl19gmEnnvr0NeNUmkK07QxuT/hghX3ywIircPOJxvaf5BYEEii8cMdsUfWHE9Ib9glHuHcmH8NWmrui6Cv9VOVzEkF6cy8EeafB8Sdie8pDKZjAM0sZ9mb2VExXCLdYzgQXGARfS+nVN+t2nnzsJ3v1WhfcxebChSYe0gcmjK/0gZbRjXg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WDIbHt+GIdNrdOWSe2pZSzaoc3EgQgnGfKLokJlxn5o=;
- b=VF6PRs8ZL9dPbQJ8cAuDzWsgX+/4vP22yhChlF7CaOihYuw9SKKO0w7ctyqKwL7mno8mVCLGvYXGTjuZW6dJyphuw1v5z1IzYNnIGW3erazrQI8KZOu39KS03Tg5RSdYRFJ7YswlG9ruExx7ynnQxj6SIf/wiLYNsBbndVBTfYyeCVCrQRX4R9HYCiSTQ5lBPL9N4FS6Nke61S/8LeDIPu4elw8zt1qw6PMHoWkeYqFVyf5aCoJ9V+4m8J0NRybHmoF0sMR8Wxm45R0Jy30fO0MGdNwN3CavtAcybQdTAUC1BnkaQk8esbhq2rNB4Fu1gHWKDt2R7uH/qPOkn6tGZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 194.138.21.76) smtp.rcpttodomain=ucw.cz smtp.mailfrom=siemens.com; dmarc=pass
- (p=reject sp=reject pct=100) action=none header.from=siemens.com; dkim=none
- (message not signed); arc=none
+ bh=WdYPyJ3N3CEfgTawF7jvpdG5vLsMHOJiw4sdIqupTus=;
+ b=KBPJ4jVA3542RqOS/5D185KcW9B1xWm5U6M3wW8WEB3FIPH6Qz2X9ClQLxVMq8WsZVUdPt3HL3gqdadfSOaOSJ6TLmJ93qYXxdAOycMBAZ4QvRhNdJFzW7nOG59KQtjMAHkH/dIjkpztyGBbaJPAP01pcZJXwOE6GxBj3fywVTLmCf3uFAgNapr+HVBWtnqP9Rq3+PSVbbUnj/prH+YVO7O6IdUnIXykamp2MhSLpcfa0S0eLRuj+dsbe+jCuJATc1tTun4zODYIJqEITJdYAqc7wbpIduFzTpxv7FOL+h766spnnHerH78TLoJGMd8IHb2iZp10D/HhKMlhKzjsLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WDIbHt+GIdNrdOWSe2pZSzaoc3EgQgnGfKLokJlxn5o=;
- b=dz9t4681s24Utkwx6fpJIFkP2yoE9nLKPvF3DRlpYrPj7HKXcwOQtGwyXEEd8NR9M4IKZtGFtIc0VLG988zteaHbJeF/zR29SAiY80uu33qHDzFjyUotm8Xo04tKe1ZvC6izbiUxllB2YDQP3US5uuUyyEJjlv65Gpt+XD/sH06VEjYqM86GcIWrsho3A2D4oed+k1ykPuJWcRkDQE83OKjeJ1lZcIi7AO69Jv2B9q/i07CKnBtLJZaCLhwJ4o3qKrsHlp061Egw4H8wys8ZvE2KqvugSYncGBgWhncYPrj6WfpaGQDAtcHU/Z41CpNDblaWRhMl7HKdGLhJnfR0cg==
-Received: from DU2P251CA0008.EURP251.PROD.OUTLOOK.COM (2603:10a6:10:230::10)
- by DB9PR10MB8194.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:4ee::7) with
+ bh=WdYPyJ3N3CEfgTawF7jvpdG5vLsMHOJiw4sdIqupTus=;
+ b=Re90cX8MuG6qpzdPQIw4ttpWpSOhYH8ZZdMz1irb7ER/fTejmddv8sRvlV5IkfB/0Zyl7VgKh8RUBx1Vlf4Ezwpe6R2fmRdUZzEVCJzmq6+fEloB+r2rWxONYPjQ4y880AGWsuOWjKKblKU8X/5CgggODJyOKBoggxe9AL1Kk7o7KDIjOxhYaBL+eY/ntH+jALuV7Aytt+o95Wfi3aPd/uOu2jRgRt89RSG21RM6JIbm6PH5mIjzqsYJEjicmKyRMGPdYBPf8HRUoyq1bpRMmvF01lHOAzL8oLgt+PapNxbsKv014lrCfpO5Ok7EN+HGSM2i6Esw+HmOG0Rbfpoy5A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:269::8)
+ by PA4PR10MB5588.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:262::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.30; Mon, 15 May
- 2023 15:04:28 +0000
-Received: from DB5EUR01FT030.eop-EUR01.prod.protection.outlook.com
- (2603:10a6:10:230:cafe::75) by DU2P251CA0008.outlook.office365.com
- (2603:10a6:10:230::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.30 via Frontend
- Transport; Mon, 15 May 2023 15:04:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.76)
- smtp.mailfrom=siemens.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=siemens.com;
-Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
- 194.138.21.76 as permitted sender) receiver=protection.outlook.com;
- client-ip=194.138.21.76; helo=hybrid.siemens.com; pr=C
-Received: from hybrid.siemens.com (194.138.21.76) by
- DB5EUR01FT030.mail.protection.outlook.com (10.152.4.254) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6411.14 via Frontend Transport; Mon, 15 May 2023 15:04:27 +0000
-Received: from DEMCHDC8WBA.ad011.siemens.net (139.25.226.105) by
- DEMCHDC8VSA.ad011.siemens.net (194.138.21.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Mon, 15 May 2023 17:04:25 +0200
-Received: from localhost.localdomain (167.87.0.30) by
- DEMCHDC8WBA.ad011.siemens.net (139.25.226.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Mon, 15 May 2023 17:04:25 +0200
+ 2023 15:07:04 +0000
+Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::aa98:fb34:754f:8958]) by PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::aa98:fb34:754f:8958%4]) with mapi id 15.20.6387.030; Mon, 15 May 2023
+ 15:07:04 +0000
+Date:   Mon, 15 May 2023 17:06:54 +0200
 From:   Henning Schild <henning.schild@siemens.com>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
+To:     Lee Jones <lee@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>
-CC:     Henning Schild <henning.schild@siemens.com>
-Subject: [PATCH v3 3/3] leds: simatic-ipc-leds-gpio: introduce more Kconfig switches
-Date:   Mon, 15 May 2023 17:03:52 +0200
-Message-ID: <20230515150352.30925-4-henning.schild@siemens.com>
-X-Mailer: git-send-email 2.39.3
-In-Reply-To: <20230515150352.30925-1-henning.schild@siemens.com>
-References: <20230515150352.30925-1-henning.schild@siemens.com>
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] leds: simatic-ipc-leds-gpio: split up
+Message-ID: <20230515170654.7aaae69c@md1za8fc.ad001.siemens.net>
+In-Reply-To: <20230515121247.GB10825@google.com>
+References: <20230301170215.23382-1-henning.schild@siemens.com>
+        <20230513120818.21b99596@md1za8fc.ad001.siemens.net>
+        <20230515095042.GE8963@google.com>
+        <20230515120138.66e48bd4@md1za8fc.ad001.siemens.net>
+        <20230515121247.GB10825@google.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0180.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a0::13) To PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:269::8)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [167.87.0.30]
-X-ClientProxiedBy: DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) To
- DEMCHDC8WBA.ad011.siemens.net (139.25.226.105)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB5EUR01FT030:EE_|DB9PR10MB8194:EE_
-X-MS-Office365-Filtering-Correlation-Id: 02d936c4-e5fe-4983-f5c8-08db5555ada3
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5780:EE_|PA4PR10MB5588:EE_
+X-MS-Office365-Filtering-Correlation-Id: 726b2731-51e9-4054-dbce-08db55560b01
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WbO+POQZ41JYCTgk0hHjEPh/vVz9cy2rDRBcJLd9LwlrSOD1mou5KTmFYpuTk3Q3wyGhzvvJZrGjlb7ME5f4XPbRSbPiSypgha9+F1PEeBrir9+UZnO0w6gNKs+pv/wXL/zbqb/jwW1Rm8FBBbTiC7GamZO7hyX7Nsd6Mc2xjaL3ewrt1NnO7+l0Y0rrBgnuWVHu/bYn2F+qWWBXUvR8AwT0HPYo9zX0o+q6QMKm/aig5ysMnz1YOB67vB/Y4X2RdOhuEPeyEPNeJnU7g6j24NvBHNNAMV5zye+/cAjNzgL5VgGOFrPV0TPtXyObGWLjxFlDhUulm7BH6y4+NuNv7MWwG/vNfxvccUGbUohZOTgTGZFMpLIPq7fZwgPkPJwlkAXu5+FJJaNxeHrw+gQHfRiGqXds97ibG+P3gO+OjhWOvBDF9QgLX+anfcj6VYb8gKbW1IRbxBzGLiUy3OB2SGE7YQXM2crERcCscd94qb5hyVlEfmQ/3OhfE67clBPFNedK4FryLbRlCD5Z3Q0amZnsfSTLzTaMVDE2YbKgEFc9Bgi4ZfvV8xuMrHyJ16/bawipHUYlDmlMAUDjiKrXGNTa0/vSn749ikugXivJ0lQM+Y26cFspdkDO0ZLmp2s/DISLoGuLFVP+5CPNOU51E9iIoS9oY2in6pXhVJFjynBm8IvSzj3D8jvMNPiTYj+FtUxue+IMIi6ofhtsnDcdddsAzT3QjoXreTkfNQNXm7R0hKYigqUKgAGZi5dL5+sfrYw1zUWi7acy/SvS1KchiA==
-X-Forefront-Antispam-Report: CIP:194.138.21.76;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(396003)(39860400002)(136003)(451199021)(46966006)(40470700004)(36840700001)(40460700003)(2906002)(316002)(81166007)(41300700001)(356005)(5660300002)(8676002)(44832011)(36756003)(82310400005)(8936002)(40480700001)(86362001)(6666004)(478600001)(36860700001)(336012)(1076003)(26005)(107886003)(186003)(16526019)(2616005)(956004)(110136005)(83380400001)(47076005)(4326008)(70206006)(70586007)(82960400001)(82740400003)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 9T+i8W8n1Ls9Y8a48k+NpCK1qYWF+z+LkkiWZOKj+JRd/Ubkyle7WKgIe5o3+FoIFTooKP2vNIUlVKWt/Q0380NJV1g5PRLaSKVEEhTFpxC3rn46kzhhOv2nKv+62eASdSBuoaHfqjvQl7Rb1QJZKIFl81QlpTNpkF83p2VyyykRhXq+jYtIi2yQfzfmhMaCp7JzL/1BwoKIhGifc4nEQ0CEf3+mExN22aTv+mzfCcS6Eyws64Ki4lQpYsr49i6FGBfF2IshDfuinR1q3d+t50f3dg7w/ZCLF6r1rJkB5ukc/sHYvBKYfUisdAxgDQWgppeX9J/u6fQavcNgK9gPP1iPejG7xXgmKytKxVELRhpuMXG0vao2s0YJbaWk/pKP8NDpb/jSBznO4TteUwJTlrbTKZQwporMx7pMIRX/W2YmdkCXbr4iwtFYjxeOKQmYwDdZCWA/LU3GgVqxTvw4AR9eURIdmZJa18ofxkJlzoPoilvgLb92MGshuTjCzK+chZE2oK+aWuH/p6Ebp+GNbZ6Yu+vJ0RGf1DCq2u4nYws1sGQZnNUuhLNOIZku22GB
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(366004)(136003)(39860400002)(396003)(451199021)(54906003)(4326008)(6916009)(316002)(478600001)(66946007)(66556008)(66476007)(6486002)(6666004)(41300700001)(5660300002)(86362001)(44832011)(8676002)(38100700002)(8936002)(1076003)(9686003)(186003)(6512007)(6506007)(82960400001)(83380400001)(2906002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Y6uzkbj23t+vyCXMud/pdtdgqJIlzAQ6CF8wtF7QmQYlyQbeaZpsU0YnGesF?=
+ =?us-ascii?Q?xMusdMPRoixRUZQnmJnaZ/O03H+DuryUiRED/KcKdmHJ20Hu2JU+Rov+MEY6?=
+ =?us-ascii?Q?pM8nOY9fSXpTJglTyPt7oyR9In9hQ1udzCPpihqNxjjxWr98Z8Q71RsCrat+?=
+ =?us-ascii?Q?0VcKLR0C0/0GDLUt+5zzDH12HvekJ+Q8RBXHkDLlHFWfvwR9xUAJRG5Jl8va?=
+ =?us-ascii?Q?ny6TcopCCWWCYz8QUovSGz6kGJMLLRboYRxEUjl8FO6yaZWG/BYxkkA7poSi?=
+ =?us-ascii?Q?Eph4kbTy0IuoGPVSJZM4cQ0w8BQVRHtYbrbpVk+whx66BCnWRJ7sxPpoIKFp?=
+ =?us-ascii?Q?f3m2TJwT/3y6Vr2jJWxlV4q0i7BPaDrEnTIJlOwQzfgZ4Bk4P6QrOcuSZs1m?=
+ =?us-ascii?Q?A6xYNV98G5O5jNpozZv4j6t9UJMVLkjuR4RBSn7Z3yWoJ4+JgToZuWijSDja?=
+ =?us-ascii?Q?PY4pEvPE1Pe8GgZh04sYvT5sOJw2obh4Rbrjp0OVW6zcL6brbCzTjkl6rcvx?=
+ =?us-ascii?Q?+uPlQmfSD91UYldGg2i9448hjU6zI0Jw6uEoVSkHoXiE/ynJH055iYLDrf1D?=
+ =?us-ascii?Q?ouTVOMq8g3sNpGjQHf8x8N0Ep2LMa2SwWrCqZIYhm5XhVb/AZ2EHQOCDH/Ni?=
+ =?us-ascii?Q?un4tRNvdytkIwu2FBM41zin9RIUaGOwUUFlAwH09fjp/iFdC8QmTmFL4P0Zb?=
+ =?us-ascii?Q?KSX/C3DMP9odjxNVXPzFo7cUeeeJ3AEL2hvU8KIMgePHx2vGoeOS2mHsD6Jt?=
+ =?us-ascii?Q?xVdxlhS968XGi7bO9NWlNAgl+YdEMJeGq+N5q5p+1m89XO1AHGIyh5VDv6ba?=
+ =?us-ascii?Q?Mmn+NApfK9MrSOe5NwdML/I5YRWMTOpeitE1Juup9VdRUikNV4B5SHNwrR58?=
+ =?us-ascii?Q?kdtrx3oJyEswuwPHvWLw1a3VhE44lR5JQOkACiCovzmRONFC7FZh33Huy70C?=
+ =?us-ascii?Q?STxgVIY67fKU7k7b8g6AJkytYO3/fW9fyH/mF7jZYhm4jHtH4lGYJlBrDDPG?=
+ =?us-ascii?Q?uKRuatS0l4oAf93loBdmx/hFedXOHPi30vmkOC4SQvs1slXd2Yo5LhoAjE26?=
+ =?us-ascii?Q?xwOfUMEQZi4BImuh2/yp8plKSvO3s1hgoKpZbFBLF2P/J6yB7mvINFyAH7SM?=
+ =?us-ascii?Q?1WUnkIoFAzo+6QlhV+9E88FN2rYneAnEPkzCUU9130zjw504hc+OMgKJMWMX?=
+ =?us-ascii?Q?XrqsFqpYMiF8qmNLhSpGT9DCPChbjKMATgNgKb5nyeZPzMOc5g/IzHpj+Tj0?=
+ =?us-ascii?Q?byeLfY++qE0gni3B0uZ4zbr8axEf8dyJXInhAEeTQtQwW7rYGoOXU0wtQgnm?=
+ =?us-ascii?Q?nhIFdPvsmDFO8g5U/OOSDwxzANvSvb5ZPLLCq0+0PfnHGPp2/ZynKr6wpR7x?=
+ =?us-ascii?Q?PIYnlkQfnXcjRbVuYe/i/CQNZv3hyZRT5dW8TDPMvRHH6ca2x1FjBxvPWry3?=
+ =?us-ascii?Q?WVpE40vceTQt7zorTL6ZR7KyikAS9fKwGec/CLVS8H1bNvQh75fnDHlGLuwW?=
+ =?us-ascii?Q?nJLMIPgwWvrq05FpSLrueTE/f0vDeKGyTeyDSUUHnMi/frYWJcyQjF9ovgt9?=
+ =?us-ascii?Q?xniM3Y0ivA6zf2HO+kLOL50apIdQfIB9xHb/qYTLx0W2YhZ5BsuzwIn7POO9?=
+ =?us-ascii?Q?ybppwMMLr+xrJgcPlxbzBJdpsQiQQx+hJAH4ZqvqSOrt9LnpTbZZ2b87rnvt?=
+ =?us-ascii?Q?yOLCkQ=3D=3D?=
 X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2023 15:04:27.6060
+X-MS-Exchange-CrossTenant-Network-Message-Id: 726b2731-51e9-4054-dbce-08db55560b01
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2023 15:07:04.6164
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 02d936c4-e5fe-4983-f5c8-08db5555ada3
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.76];Helo=[hybrid.siemens.com]
-X-MS-Exchange-CrossTenant-AuthSource: DB5EUR01FT030.eop-EUR01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB8194
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2PHTpTj3fIsLB0qO3G+0XDYJvxnA3siRnBTGSpCbsXj4DCb7Vddz9XaE/siKrBnaNz8F8LGzwiacu7/hIXUAM31PI1Kg8ewmL5Wo1hRE3cw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR10MB5588
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
@@ -109,74 +124,45 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-To describe the dependency chain better and allow for potential
-fine-grained config tuning, introduce Kconfig switch for the individual
-GPIO based drivers.
+Am Mon, 15 May 2023 13:12:47 +0100
+schrieb Lee Jones <lee@kernel.org>:
 
-Signed-off-by: Henning Schild <henning.schild@siemens.com>
-Acked-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/leds/simple/Kconfig  | 31 ++++++++++++++++++++++++++++---
- drivers/leds/simple/Makefile |  7 +++----
- 2 files changed, 31 insertions(+), 7 deletions(-)
+> On Mon, 15 May 2023, Henning Schild wrote:
+> 
+> > Am Mon, 15 May 2023 10:50:42 +0100
+> > schrieb Lee Jones <lee@kernel.org>:
+> >   
+> > > On Sat, 13 May 2023, Henning Schild wrote:
+> > >   
+> > > > Ping.
+> > > > 
+> > > > As far as i remember this one should be ready to merge.
+> > > > 
+> > > > ACKed by Hans, and Andy had no objections given the maintainers
+> > > > would accept the patches.
+> > > > 
+> > > > So i think it is the maintainers turn now, Pavel and/or Lee i
+> > > > guess.    
+> > > 
+> > > Looks like there are lots of mail threads in reply to each of the
+> > > patches.  If these culminated in acceptance, please collect all
+> > > of the Acks you've received until this point and submit a
+> > > [RESEND].  If there are changes to be made still, please do the
+> > > same but submit as a new version.  
+> > 
+> > Ok i will send it again and include the ACK from Hans. There would
+> > be no code change. Please review the code already, if you find it
+> > acceptable we might receive a second ACK from Andy.  
+> 
+> Not sure what you mean by 'already'.
+> 
+> I shall not be reviewing this set until it is resent, thanks.
 
-diff --git a/drivers/leds/simple/Kconfig b/drivers/leds/simple/Kconfig
-index fd2b8225d926..44fa0f93cb3b 100644
---- a/drivers/leds/simple/Kconfig
-+++ b/drivers/leds/simple/Kconfig
-@@ -1,11 +1,36 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config LEDS_SIEMENS_SIMATIC_IPC
- 	tristate "LED driver for Siemens Simatic IPCs"
--	depends on LEDS_GPIO
- 	depends on SIEMENS_SIMATIC_IPC
- 	help
- 	  This option enables support for the LEDs of several Industrial PCs
- 	  from Siemens.
- 
--	  To compile this driver as a module, choose M here: the modules
--	  will be called simatic-ipc-leds and simatic-ipc-leds-gpio.
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called simatic-ipc-leds.
-+
-+config LEDS_SIEMENS_SIMATIC_IPC_APOLLOLAKE
-+	tristate "LED driver for Siemens Simatic IPCs based on Intel Apollo Lake GPIO"
-+	depends on LEDS_GPIO
-+	depends on PINCTRL_BROXTON
-+	depends on SIEMENS_SIMATIC_IPC
-+	default LEDS_SIEMENS_SIMATIC_IPC
-+	help
-+	  This option enables support for the LEDs of several Industrial PCs
-+	  from Siemens based on Apollo Lake GPIO i.e. IPC127E.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called simatic-ipc-leds-gpio-apollolake.
-+
-+config LEDS_SIEMENS_SIMATIC_IPC_F7188X
-+	tristate "LED driver for Siemens Simatic IPCs based on Nuvoton GPIO"
-+	depends on LEDS_GPIO
-+	depends on GPIO_F7188X
-+	depends on SIEMENS_SIMATIC_IPC
-+	default LEDS_SIEMENS_SIMATIC_IPC
-+	help
-+	  This option enables support for the LEDs of several Industrial PCs
-+	  from Siemens based on Nuvoton GPIO i.e. IPC227G.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called simatic-ipc-leds-gpio-f7188x.
-diff --git a/drivers/leds/simple/Makefile b/drivers/leds/simple/Makefile
-index ed9057f7b6da..e3e840cea275 100644
---- a/drivers/leds/simple/Makefile
-+++ b/drivers/leds/simple/Makefile
-@@ -1,5 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
--obj-$(CONFIG_LEDS_SIEMENS_SIMATIC_IPC)	+= simatic-ipc-leds.o
--obj-$(CONFIG_LEDS_SIEMENS_SIMATIC_IPC)  += simatic-ipc-leds-gpio-core.o
--obj-$(CONFIG_LEDS_SIEMENS_SIMATIC_IPC)	+= simatic-ipc-leds-gpio-apollolake.o
--obj-$(CONFIG_LEDS_SIEMENS_SIMATIC_IPC)	+= simatic-ipc-leds-gpio-f7188x.o
-+obj-$(CONFIG_LEDS_SIEMENS_SIMATIC_IPC)			+= simatic-ipc-leds.o
-+obj-$(CONFIG_LEDS_SIEMENS_SIMATIC_IPC_APOLLOLAKE)	+= simatic-ipc-leds-gpio-core.o simatic-ipc-leds-gpio-apollolake.o
-+obj-$(CONFIG_LEDS_SIEMENS_SIMATIC_IPC_F7188X)		+= simatic-ipc-leds-gpio-core.o simatic-ipc-leds-gpio-f7188x.o
--- 
-2.39.3
+I just sent that v3 you requested. It has one Ack from Hans in p3. And
+some minor style things from Andy, which i decided to take in when
+having to rebase and test once more.
 
+Looking forward to your feedback on that v3.
+
+regards,
+Henning
