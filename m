@@ -2,255 +2,153 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9C11702F53
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 15 May 2023 16:13:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 398DD7030ED
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 15 May 2023 17:05:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235849AbjEOONF (ORCPT
+        id S241803AbjEOPFL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 15 May 2023 10:13:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45736 "EHLO
+        Mon, 15 May 2023 11:05:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbjEOONE (ORCPT
+        with ESMTP id S241988AbjEOPEg (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 15 May 2023 10:13:04 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BD8D1727;
-        Mon, 15 May 2023 07:13:03 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2ac82912a59so135948651fa.3;
-        Mon, 15 May 2023 07:13:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684159981; x=1686751981;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=chkZheqYGYzsbUmgQjZR+WqcgawPReoRF0Mt00D+UqA=;
-        b=ZWgwlfvxUB0S1xeKw6ZiyF3zHl+Ipk8aw00WTABAru+4kbJOBcNVp1Sj3CO+7d6u5g
-         HeyfCghJDQ44KYgn4QplEzIuFvahGuj81Z4oVxHyzseIyEZCclcNYM9CDRWqdgefvyEv
-         NOEcgnG/6C6FwlsYlIX5+jXPgp1ofnBj9p7mVVkFpNlYUp3jbB8bJv+ZpN/+jap6aHGR
-         T7mHLQfxij8LU+RwHR4iQ1IXSTBxDI6Algmns6BFaf2PP2L1taRE7KhZdbLHH87wfpgz
-         9QMiOWlotkDY4eYDFhNnkih7JuhydLS9ihxtbK2ljwejc49UZxUkD/ysrHy/UVB2FW9q
-         +eEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684159981; x=1686751981;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=chkZheqYGYzsbUmgQjZR+WqcgawPReoRF0Mt00D+UqA=;
-        b=ahQIH0qbMWSZBMbz1hO6njRt26so77uHp+Kf0XRyvSDdJKvDu4JghxbihJby7rVG6j
-         yJ560xNiQtnS2CH6HTvBYR/IBE6aUgOLijpfusyoWe5t/6WfuhF16qx2I95NA/QPlhqe
-         V14lAVjPuVXMs6IPEv0gnSWKzB1Vyxuuw6/+GB3i8x7ZVVjA2EVHOaH49a8HdJoPrO9o
-         6RY5Xy6jXvlQlD34nAPiTEk+zp+xFUwB8fqtvknFy4jBXBNF3yfinrTS8BREhSBEMIUj
-         7XRU2v/U+KVBC0B6RshzqoCMyY3rHdAQYYUZm3mqxYzgBcOtJ7tIHvIi6WTcWypCmoYK
-         clzw==
-X-Gm-Message-State: AC+VfDz16HPWi8/4NcRhBL1cjV2Hcy4MIdQDJKtsJWYBzzscscQEK1Ke
-        /JXN7Lc/9auPQWwAJSADT6NgEBFssPz9bOm2yHXiF4jO
-X-Google-Smtp-Source: ACHHUZ6ogG8v/77kF7RT8ye9NqI9NsJg8UC/prEmD6zJhXqj2pb8gMpr++4JY6MvW/Q6CLSF4ztDJDD67mkhC7w5iU8=
-X-Received: by 2002:a2e:93d5:0:b0:2ae:d757:4c41 with SMTP id
- p21-20020a2e93d5000000b002aed7574c41mr1649060ljh.23.1684159980843; Mon, 15
- May 2023 07:13:00 -0700 (PDT)
+        Mon, 15 May 2023 11:04:36 -0400
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03on2055.outbound.protection.outlook.com [40.107.105.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5E1B30C4;
+        Mon, 15 May 2023 08:04:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AGbn13aAh7g8HrcZMELf9/Lp6qi5IR6WYDzG+oWpsnqBfzbLSCVdTz8T++NAoC50kNT4rNupuCuvTmDWi5lMeBjKW3JCWQWmPNCM4LHaygBmi4BU9t24zcWNhf8W3Mgra8+bb4fl/kj2I+KFHfPPThGf7H5iHNSu2qz2WZhbsAz3aUyh+T7jDC8le1reYzYgYrFGIFTX3razlAsF6PK8/en+WaTcdjo/kxOqQRu0U0yD2XBgVduX3if9GynyzfrorbOmexhATdZKTRLcBQZpF4iG0IXfHMg455xm+XD84A+ZUtQCQdh2SPKtnEYBmTdl54PMfc96/6pGxerUxg0NAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jDaGOO/ylPWkKFRIx28RqHzlzfNyVACnw53nXXviVPM=;
+ b=BumUXydGFrGrJZ22mhmgfx0hesLpvCsHgU0d2s0k2RMuJtjYQ1V2S3++ru54cp3DDtDodQWmnCzGpRTyTCDsIAaAVrON8w8JJMbV4nMvdiwczDrE7pHpQlNt8aM7x/9SK/YnZL1Acw4UUnIDT6agT0I9HdZx8GC23WhAFgLAOlbRiYfoerHh1z10uAQGJKZqXzmJ3jmIP68A/wHAM5RcT+cX/6rlSa+L9ygq0gCOEXctMkPa3CClRb7TlNrcUAf32guKI0UdJ1lrg6SYwMifJjoQ5v407V/Am47HOYk0xwa/7LvE8fU2/kGF95ithkwnslhTpdidBJCcUqdX0X0DiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 194.138.21.74) smtp.rcpttodomain=ucw.cz smtp.mailfrom=siemens.com; dmarc=pass
+ (p=reject sp=reject pct=100) action=none header.from=siemens.com; dkim=none
+ (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jDaGOO/ylPWkKFRIx28RqHzlzfNyVACnw53nXXviVPM=;
+ b=TzcKmo+duvvPAsiGSU3dVVhr1ZgPM20YRotoA2vZWU2n/GeYu7hmPuVJeS2RLRbqDEkOaBTxg4Q1JRPZk5hmOKarjnkVd0w8dZ7JhiQlst5xhIDnxO86N6n1o27GhZB7rmfQpGik6y0Ns/f4jENxMfXCsXzlHtOD8PYD8ma8nXsmXIbI0ySVavAWfz6kBWMUDS/xRpOBrms7aVlRHB9zifEla53UkV9+jEHvarWFFR76x1DRA/36vLsPOASVPodaVt9SnjXgnq2u0qm9G5I3uQwYNnNRSAAaE2EV4tQQjKO3ReKypmXVbPQF8imW0eGr8Fn0zAbx3OF1Oot26fB62Q==
+Received: from FR3P281CA0080.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1f::15)
+ by PR3PR10MB3945.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:28::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.30; Mon, 15 May
+ 2023 15:04:13 +0000
+Received: from VE1EUR01FT084.eop-EUR01.prod.protection.outlook.com
+ (2603:10a6:d10:1f:cafe::f8) by FR3P281CA0080.outlook.office365.com
+ (2603:10a6:d10:1f::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.14 via Frontend
+ Transport; Mon, 15 May 2023 15:04:13 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.74)
+ smtp.mailfrom=siemens.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=siemens.com;
+Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
+ 194.138.21.74 as permitted sender) receiver=protection.outlook.com;
+ client-ip=194.138.21.74; helo=hybrid.siemens.com; pr=C
+Received: from hybrid.siemens.com (194.138.21.74) by
+ VE1EUR01FT084.mail.protection.outlook.com (10.152.3.48) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6411.14 via Frontend Transport; Mon, 15 May 2023 15:04:12 +0000
+Received: from DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) by
+ DEMCHDC8VQA.ad011.siemens.net (194.138.21.74) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Mon, 15 May 2023 17:04:11 +0200
+Received: from localhost.localdomain (167.87.0.30) by
+ DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Mon, 15 May 2023 17:04:10 +0200
+From:   Henning Schild <henning.schild@siemens.com>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+        <platform-driver-x86@vger.kernel.org>
+CC:     Henning Schild <henning.schild@siemens.com>
+Subject: [PATCH v3 0/3] leds: simatic-ipc-leds-gpio: split up
+Date:   Mon, 15 May 2023 17:03:49 +0200
+Message-ID: <20230515150352.30925-1-henning.schild@siemens.com>
+X-Mailer: git-send-email 2.39.3
 MIME-Version: 1.0
-References: <20230505220043.39036-1-jorge.lopez2@hp.com> <20230505220043.39036-11-jorge.lopez2@hp.com>
- <4537f210-4a7a-3c11-ecbb-ed4762a1f598@linux.intel.com> <CAOOmCE9m5++_4nBu3C64uWVOeyUQs3afn_Q9AJz9oudGvMHHiQ@mail.gmail.com>
- <4a14de7-58fb-4192-496a-279dd4109b6@linux.intel.com>
-In-Reply-To: <4a14de7-58fb-4192-496a-279dd4109b6@linux.intel.com>
-From:   Jorge Lopez <jorgealtxwork@gmail.com>
-Date:   Mon, 15 May 2023 09:12:30 -0500
-Message-ID: <CAOOmCE-gipT5r1ABCkqkfFCdssKEwHhvz47yYnHa1fy74jAsFQ@mail.gmail.com>
-Subject: Re: [PATCH v12 10/13] HP BIOSCFG driver - spmobj-attributes
-To:     =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc:     hdegoede@redhat.com, platform-driver-x86@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, thomas@t-8ch.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [167.87.0.30]
+X-ClientProxiedBy: DEMCHDC8WBA.ad011.siemens.net (139.25.226.105) To
+ DEMCHDC8WAA.ad011.siemens.net (139.25.226.104)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VE1EUR01FT084:EE_|PR3PR10MB3945:EE_
+X-MS-Office365-Filtering-Correlation-Id: 28099cf9-2aac-46f7-8874-08db5555a4ac
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: awjPyKjBE5KGgfqS4vehI2pqKxUH/x+xDL20WI3GkXVi3uSvcME+VLFw9pe42JYXbpYI7wkfNI2dp7Nf+3nuXRT9JA331clUDQgxvcanEjme23Zfy4YWHjg9R/LwYDQeEINGREHZHgq2DRzqGM0wBL/yCpv7dB6jSzPea5mbMSlG9/0RirYosaWf20ePZVWFs6Pi0YU3hfambz9PpSCx/bdhsHIVXtA2cnWwx3BnXZTHdGrbrnjIRN6k7Aanpv2aJ5nQqWoq4YHAsKBbbITkdITtXmLDpnZi6EvLBXu7Pvhd4JIlNPI/GMzfy6jKrunXhQD6QSUXLh+Et9XHmsn82SOuu5Fvh4VlTR3qbtzgnh52lPHFDqYsjxcjA3OV7QR7Ojfwjd/BtjN2WB8AkZmDL4CuWg/Ry1hE+Qg6mJLVziFBxVdNa9thLG1REDPG8iDtRs5XFH3MGrzcOiagze3s+XBmU3RlwJRSUjb87P/Ao5+CtA9rm2fh52Ba/8w0xG357ZIdEX2fv3/q9cOBDEKQtXQqmPDPv3y5er4uPuw9dwHbroTLiQHwNAI/uBMVh7mXBMptJean72txmfp/7R3605xUoBBazKPmbdPmReqo0TuwERNhWYVtisl8hKuKOJ8A9MfCbeKyBSjdZDSAVh+wnR9dNoDbWK9u8KLu4KrinjPCEXWM0ryqkldeh2iAyPW+YY7Mli3XBv3HT/B48/qSdbG59SGccdAyLEhol9fJ3cU=
+X-Forefront-Antispam-Report: CIP:194.138.21.74;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:hybrid.siemens.com;CAT:NONE;SFS:(13230028)(4636009)(136003)(346002)(396003)(376002)(39860400002)(451199021)(36840700001)(46966006)(40470700004)(36756003)(86362001)(110136005)(316002)(4326008)(70206006)(70586007)(478600001)(82310400005)(40480700001)(5660300002)(8676002)(8936002)(6666004)(2906002)(44832011)(7636003)(356005)(82960400001)(82740400003)(7596003)(41300700001)(16526019)(2616005)(956004)(1076003)(186003)(107886003)(26005)(336012)(36860700001)(83380400001)(47076005)(66899021)(40460700003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2023 15:04:12.5783
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28099cf9-2aac-46f7-8874-08db5555a4ac
+X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.74];Helo=[hybrid.siemens.com]
+X-MS-Exchange-CrossTenant-AuthSource: VE1EUR01FT084.eop-EUR01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR10MB3945
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, May 11, 2023 at 4:23=E2=80=AFAM Ilpo J=C3=A4rvinen
-<ilpo.jarvinen@linux.intel.com> wrote:
->
-> On Wed, 10 May 2023, Jorge Lopez wrote:
->
-> > On Tue, May 9, 2023 at 8:48=E2=80=AFAM Ilpo J=C3=A4rvinen
-> > <ilpo.jarvinen@linux.intel.com> wrote:
-> > >
-> > > On Fri, 5 May 2023, Jorge Lopez wrote:
-> > >
-> > > > HP BIOS Configuration driver purpose is to provide a driver support=
-ing
-> > > > the latest sysfs class firmware attributes framework allowing the u=
-ser
-> > > > to change BIOS settings and security solutions on HP Inc.=E2=80=99s=
- commercial
-> > > > notebooks.
-> > > >
-> > > > Many features of HP Commercial notebooks can be managed using Windo=
-ws
-> > > > Management Instrumentation (WMI). WMI is an implementation of Web-B=
-ased
-> > > > Enterprise Management (WBEM) that provides a standards-based interf=
-ace
-> > > > for changing and monitoring system settings. HP BIOSCFG driver prov=
-ides
-> > > > a native Linux solution and the exposed features facilitates the
-> > > > migration to Linux environments.
-> > > >
-> > > > The Linux security features to be provided in hp-bioscfg driver ena=
-bles
-> > > > managing the BIOS settings and security solutions via sysfs, a virt=
-ual
-> > > > filesystem that can be used by user-mode applications. The new
-> > > > documentation cover HP-specific firmware sysfs attributes such Secu=
-re
-> > > > Platform Management and Sure Start. Each section provides security
-> > > > feature description and identifies sysfs directories and files expo=
-sed
-> > > > by the driver.
-> > > >
-> > > > Many HP Commercial notebooks include a feature called Secure Platfo=
-rm
-> > > > Management (SPM), which replaces older password-based BIOS settings
-> > > > management with public key cryptography. PC secure product manageme=
-nt
-> > > > begins when a target system is provisioned with cryptographic keys
-> > > > that are used to ensure the integrity of communications between sys=
-tem
-> > > > management utilities and the BIOS.
-> > > >
-> > > > HP Commercial notebooks have several BIOS settings that control its
-> > > > behaviour and capabilities, many of which are related to security.
-> > > > To prevent unauthorized changes to these settings, the system can
-> > > > be configured to use a cryptographic signature-based authorization
-> > > > string that the BIOS will use to verify authorization to modify the
-> > > > setting.
-> > > >
-> > > > Linux Security components are under development and not published y=
-et.
-> > > > The only linux component is the driver (hp bioscfg) at this time.
-> > > > Other published security components are under Windows.
-> > > >
-> > > > Signed-off-by: Jorge Lopez <jorge.lopez2@hp.com>
-> > > >
-> > > > ---
->
->
-> > > > +     } else {
-> > > > +             /*
-> > > > +              * UTF-16 prefix is append to the * buffer when a BIO=
-S
-> > >
-> > > What is "the * buffer" ?
-> >
-> > It is the data stored in 'buffer' variable which is composed of three
-> > strings concatenated together to be submitted to BIOS via WMI call.
-> > 'Buffer' will looks something as    [size attribute][attribute][size
-> > value][value][auth size][auth payload]
-> > size is the length in bytes,  attribute/value/auth are string represent=
-ed in u16
->
-> Even after this explanation I don't understand why it's called "the *
-> buffer". Is that common terminology in this domain (in which case it's
-> fine, I just haven't come across such term before)?
->
+changes sinve v2:
+ - some more style changes from review
 
-Point taken.  Replaced 'buffer' variable name to 'authbuf'
+changes since v1:
+ - move from header- to -core.c-based implementation
+ - style changes from review
 
-> > > > +              * admin password is configured in BIOS
-> > > > +              */
-> > > > +
->
-> [...snip...]
->
-> > > > +/*
-> > > > + * status_show - Reads SPM status
-> > > > + */
-> > > > +static ssize_t status_show(struct kobject *kobj, struct kobj_attri=
-bute
-> > > > +                 *attr, char *buf)
-> > > > +{
-> > > > +     int ret, i;
-> > > > +     struct secureplatform_provisioning_data data;
-> > > > +
-> > > > +     ret =3D statusbin(kobj, attr, &data);
-> > > > +     if (ret < 0)
-> > > > +             goto status_exit;
-> > >
-> > > Can you calculate strnlen() from buf at this point, or is the result
-> > > garbage? Should you return ret instead here?
-> >
-> > It should return the error instead.
-Done!
+This series mainly splits the one GPIO driver into two. The split allows
+to clearly model runtime and compile time dependencies on the GPIO chip
+drivers.
 
-> > >
-> > > > +
-> > > > +     sysfs_emit(buf, "%s{\n", buf);
-> > > > +     sysfs_emit(buf, "%s\t\"State\": \"%s\",\n", buf,
-> > > > +                spm_state_types[data.state]);
-> > > > +     sysfs_emit(buf, "%s\t\"Version\": \"%d.%d\",\n", buf, data.ve=
-rsion[0],
-> > > > +                data.version[1]);
-> > > > +
-> > > > +     /*
-> > > > +      * state =3D=3D 0 means secure platform management
-> > > > +      * feature is not configured in BIOS.
-> > > > +      */
-> > > > +     if (data.state =3D=3D 0)
-> > > > +             goto status_exit;
-> > > > +
-> > > > +     sysfs_emit(buf, "%s\t\"Nonce\": %d,\n", buf, data.nonce);
-> > > > +     sysfs_emit(buf, "%s\t\"FeaturesInUse\": %d,\n", buf, data.fea=
-tures);
-> > > > +     sysfs_emit(buf, "%s\t\"EndorsementKeyMod\": \"", buf);
-> > > > +
-> > > > +     for (i =3D 255; i >=3D 0; i--)
-> > > > +             sysfs_emit(buf, "%s %u", buf, data.kek_mod[i]);
-> > > > +
-> > > > +     sysfs_emit(buf, "%s \",\n", buf);
-> > > > +     sysfs_emit(buf, "%s\t\"SigningKeyMod\": \"", buf);
-> > > > +
-> > > > +     for (i =3D 255; i >=3D 0; i--)
-> > > > +             sysfs_emit(buf, "%s %u", buf, data.sk_mod[i]);
-> > > > +
-> > > > +     /* Return buf contents */
-> > > > +
-> > > > +     sysfs_emit(buf, "%s \"\n", buf);
-> > > > +     sysfs_emit(buf, "%s}\n", buf);
-> > > > +
-> > > > +status_exit:
-> > > > +     return strnlen(buf, PAGE_SIZE);
-> > > > +}
-> > >
-> > > Emit buf into buf? There's sysfs_emit_at(), however,
-> > >
-> > > while I'm far from sysfs formatting expert, this feels something that
-> > > tries to expose more than one thing over same sysfs file. Shouldn't t=
-hey
-> > > be each in their own files?
-> >
-> > This concern was brought up in earlier reviews but it was decided to
-> > allow returning the information as a single json file.
-> > Because the information is part of the same structure and received in
-> > a single WMI call, separating the components into multiple files can
-> > cause the data read in one field to be stale by the time is read.
->
-> Okay, makes more sense. Maybe add a comment that the return is a json
-> string because that's not very obvious (I only realized now when you told
-> me).
->
-A comment will be added.
+p1 is kind of not too related to that split but also prepares for more
+GPIO based drivers to come.
 
-> The other point is still valid though, you should keep length in a
-> variable and use sysfs_emit_at() to avoid printing buf into buf on
-> every line.
->
-I will update the function as indicated.
+p2 takes the driver we had and puts some of its content into a -core,
+to be used by the two drivers.
 
->
-> --
->  i.
+p3 deals with more fine-grained configuration posibilities and compile
+time dependencies.
+
+Henning Schild (3):
+  leds: simatic-ipc-leds-gpio: move two extra gpio pins into another
+    table
+  leds: simatic-ipc-leds-gpio: split up into multiple drivers
+  leds: simatic-ipc-leds-gpio: introduce more Kconfig switches
+
+ drivers/leds/simple/Kconfig                   |  31 +++-
+ drivers/leds/simple/Makefile                  |   5 +-
+ .../simple/simatic-ipc-leds-gpio-apollolake.c |  64 ++++++++
+ .../leds/simple/simatic-ipc-leds-gpio-core.c  | 104 +++++++++++++
+ .../simple/simatic-ipc-leds-gpio-f7188x.c     |  64 ++++++++
+ drivers/leds/simple/simatic-ipc-leds-gpio.c   | 139 ------------------
+ drivers/leds/simple/simatic-ipc-leds-gpio.h   |  22 +++
+ drivers/leds/simple/simatic-ipc-leds.c        |   1 -
+ drivers/platform/x86/simatic-ipc.c            |   7 +-
+ 9 files changed, 289 insertions(+), 148 deletions(-)
+ create mode 100644 drivers/leds/simple/simatic-ipc-leds-gpio-apollolake.c
+ create mode 100644 drivers/leds/simple/simatic-ipc-leds-gpio-core.c
+ create mode 100644 drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c
+ delete mode 100644 drivers/leds/simple/simatic-ipc-leds-gpio.c
+ create mode 100644 drivers/leds/simple/simatic-ipc-leds-gpio.h
+
+-- 
+2.39.3
+
