@@ -2,149 +2,126 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33D03704804
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 16 May 2023 10:38:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEEB67048EB
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 16 May 2023 11:18:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231555AbjEPIig (ORCPT
+        id S232081AbjEPJSo (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 16 May 2023 04:38:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56016 "EHLO
+        Tue, 16 May 2023 05:18:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231559AbjEPIif (ORCPT
+        with ESMTP id S231895AbjEPJS0 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 16 May 2023 04:38:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81BCB4EE8
-        for <platform-driver-x86@vger.kernel.org>; Tue, 16 May 2023 01:37:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1684226257;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=siw2fbStubQ9cCqKAW/aPWM3GTA3DInzEYR9jop8Ufw=;
-        b=eHJTW2E8F0h04Wcd9XzZiXa5eZqVE4mm1ShF/j51p1gh/KBNHkbBp0jZDQ28erBAoQXn0p
-        /KvehgEzwtjYyq8LEkElewo8NEiHn6mwZG//TcGuwH62cnUcYgoy56VLCu6MKCHxPncLRN
-        LgBzoUdAaTbzvGNyNi0WyeCjnAGgA+w=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-626-XOQcpK4oM9OfureJTfSKGQ-1; Tue, 16 May 2023 04:37:25 -0400
-X-MC-Unique: XOQcpK4oM9OfureJTfSKGQ-1
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-51081f7b83dso680055a12.3
-        for <platform-driver-x86@vger.kernel.org>; Tue, 16 May 2023 01:37:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684226244; x=1686818244;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=siw2fbStubQ9cCqKAW/aPWM3GTA3DInzEYR9jop8Ufw=;
-        b=YfNemMx4elZ8CT1DldPrbcDZBnmkMGOMMeMlqA1LMfaNxuobfotaRB8TDcUHm9NrqA
-         zAeFOTQ6rFmhj9iYPUqKTQGIYcdyHR76UJjSt9ZyRIBVbsYU2oXTdDOsq6i4ZZJH64tx
-         yBpjgiGB9jhLjq7hs+55MnWe0AUP0JvO7X9ijye2XLsyGdhPoh6Om7pU3Olv0fewdjfH
-         XCe8iCF8xsRlodJNq7RNA0C+GazmeCKNSvkzM+zNpU3Kew8KYjmF+JfFwxYmC1oeHP3N
-         uZy5AQJOa3CUljAs1eBMuestuWonCFzjP79+eGWLMY2E7atuD1HtpLbKcHVmMzbQGORJ
-         9i4A==
-X-Gm-Message-State: AC+VfDwO39GamnruQpNe3c2pAdbK6IOXZ3ALfn2uvl2e2h7ZCrZsh5mQ
-        Gy4CZAKqmekV8UD5rEJiFutoZgMibHKzhYWN6szJvjGeToQnAD/x/1qnm277EVTfCc7jGJ1PkUL
-        7wJB8GfwN3NwtpFrGKLox3prc1bEq+sQQ2QGIgJlS2w==
-X-Received: by 2002:aa7:ca57:0:b0:50c:1e2:4a42 with SMTP id j23-20020aa7ca57000000b0050c01e24a42mr28642245edt.15.1684226243855;
-        Tue, 16 May 2023 01:37:23 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ74IzeR5u3sGMU3VC1TQrdqIZiI9JRz4zOqp33Mroy+wZC8YoqKBPk+pFm9YcXZdlSP7KI37g==
-X-Received: by 2002:aa7:ca57:0:b0:50c:1e2:4a42 with SMTP id j23-20020aa7ca57000000b0050c01e24a42mr28642228edt.15.1684226243574;
-        Tue, 16 May 2023 01:37:23 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id n21-20020aa7c695000000b0050bdd7fafd8sm8141512edq.29.2023.05.16.01.37.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 May 2023 01:37:23 -0700 (PDT)
-Message-ID: <d8ae1347-6d31-cb1e-4362-119765923281@redhat.com>
-Date:   Tue, 16 May 2023 10:37:22 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] platform/x86/amd/pmf: Fix compiler warnings in static
- slider
-Content-Language: en-US, nl
-To:     =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Tue, 16 May 2023 05:18:26 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FA184EDC
+        for <platform-driver-x86@vger.kernel.org>; Tue, 16 May 2023 02:18:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=A7XEcGXnO4xr4sTucvE11ZvuMq9COhXO8Mj+Kvd6RfOEUDWEOxMsG0pHOXjIaokJCNOmaiEw1F51Cws2BUI5okM8Agy3Wu7fO3GHPoC7rwKZkQKl3CNIURcFv/UGxBHMoso69r2YZl4V1v4fAXoO44hr6pAHFWKcynoxLQHICgzJ3zCELBWPgx3kJXxjAsyPimefrB8TgsA8E5t4IiQYrKXjAhAFCQVD0g/ZJxPzbaxxfI4K69Vqu+rkjLrNC2zXkaaMNBfKWtfEwhjtZ5gSB+SDJ6mTLhcf15Fm3asu8tXyq/lX3y7RTnkejDqay5mG5fn4c5Hx4bO5W9LctIR2Cw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mYY3Ia9++BHA3QtxEp1Zcr5hKInS1KbP1JcTw+wJwiE=;
+ b=PuDtcRNTfi/YozPx/uF7hGBScFy7ydtgbJyqi6o9eOy+DcqJ1Pi2Ni/y3fYWc751XF7IV0CDar3+8XwELQUXrPQPK6rpn+7cCXPf6nqlDXSm07R+vF+qzzDgoRUVV1hNDeni7gcBgT+wpVFy0qxfy+u9eWIm9HrbNuwWtL6bAG/7qldnWvOrS0R4KYKxY8ChoVVvri2gEbd2+5f8BeuemWpR8YMicKggf4B8jAme9b2N63doMFVg77jXspsGNTY4mvCc772JNqavUrY/kZGMMkgImgGhovESq9d/UpwR04e7DXYqQEGQQp1ry4wO1xRGm2dXE97ww/thhvwsFNvb2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mYY3Ia9++BHA3QtxEp1Zcr5hKInS1KbP1JcTw+wJwiE=;
+ b=2+c1dvz+gtiIJEYzNEZX3kXy7ECS/TyoZEo+trWzAZX9RSeL7IoIqsmIt/YXPPkeOUsARWVgBeAUAG3jzcLlziFJSNgSyS1fRNYlyp6Qqp8AoYdc8WzdPIpCgH7SL5DBlA5MX+ZGqF4j9usD0cAzeBo2n5YDjohCJMgis9dZaFM=
+Received: from MW4P223CA0015.NAMP223.PROD.OUTLOOK.COM (2603:10b6:303:80::20)
+ by CH0PR12MB5187.namprd12.prod.outlook.com (2603:10b6:610:ba::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.32; Tue, 16 May
+ 2023 09:13:36 +0000
+Received: from CO1NAM11FT049.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:80:cafe::82) by MW4P223CA0015.outlook.office365.com
+ (2603:10b6:303:80::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.33 via Frontend
+ Transport; Tue, 16 May 2023 09:13:35 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT049.mail.protection.outlook.com (10.13.175.50) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6411.15 via Frontend Transport; Tue, 16 May 2023 09:13:35 +0000
+Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 16 May
+ 2023 04:13:32 -0500
+From:   Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+To:     <hdegoede@redhat.com>, <markgross@kernel.org>
+CC:     <Sanket.Goswami@amd.com>, <mario.limonciello@amd.com>,
+        <platform-driver-x86@vger.kernel.org>,
         Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Cc:     markgross@kernel.org, platform-driver-x86@vger.kernel.org,
-        Patil.Reddy@amd.com, mario.limonciello@amd.com,
-        kernel test robot <lkp@intel.com>
-References: <20230516074531.2885235-1-Shyam-sundar.S-k@amd.com>
- <27c54140-0db-4527-4b4a-65a3e3fe14@linux.intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <27c54140-0db-4527-4b4a-65a3e3fe14@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: [PATCH v3 0/4] Updates to AMD PMC driver
+Date:   Tue, 16 May 2023 14:43:04 +0530
+Message-ID: <20230516091308.3905113-1-Shyam-sundar.S-k@amd.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT049:EE_|CH0PR12MB5187:EE_
+X-MS-Office365-Filtering-Correlation-Id: 77aa842c-7083-465d-6c4f-08db55edd3ec
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FelV3N1fDtPzHqtZSB28CEPNoOA7o+slYAV2czUMmzZrI7N4Cu0Bhu2WlrRTyBrIA0Q2Vn/jc2uMioGjr3hW5nawx+UOhBr52YuCOJebin3ZCUT0gEDiJhKzqqV4DYS9fUY2SeNdg8TFagVIM6dwZvr9/iTYEnYAJrZHehDkj/PyHAVmKjYYAUMNUOy7S8jVKyv4Z0YVsB8a+EVARTGg9rXhT1cxi+1x/HOkSOHdvZZmBi4G0HSv6DUh2EVrCi/eWS301NlxN6sEHnAMryCCR5EICJgHuJCDOphNKwEvMKNM5j2duvZEdQhrMSxNtSQ02PmHYTB8RJeOZjA5Y9trkTFNdyGescJVAgnmIwgAiZd15bITT76w8jIbQro6ExJ9+Ek6RE4T4A5L2TKxr26ttOXqImoKYjREhIVi7y2NS06yXvUECa0kA5CHNaC7Tzfn/8LX2LiNScK8f4670MeZlJsW7Zm8st6vF8cUz6Owb0L2TUvCdo5k7t+hcVelu4eMB2/dCplLPZ2tXwCo6FrdJgMk5CRjT+Qa9aRBUz8qePk+HQ3g5v7LljpNBGL9uR/1yfCNPklAZ9RveE0fijRxMUJZknj2xR/8eG9WuSAkMSkR0x07KsHmcHasuCGxuK82pO+Qpr9q8LDkctXnI83yusAMen36nihROrtssURjU4yNAtR8HbLq1OA+r9iYPCizM1qo38Tg+xkKP3J53WsDn+pEfDByeCX5AHi1Y/LlP1akVU5cNQ+JI0FiTrme2aO3OJoqVBZ0dFkVf6S0DACEVQ==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(346002)(39860400002)(136003)(376002)(396003)(451199021)(46966006)(40470700004)(36840700001)(82310400005)(356005)(81166007)(82740400003)(478600001)(40480700001)(336012)(426003)(2616005)(36860700001)(83380400001)(47076005)(26005)(1076003)(16526019)(40460700003)(36756003)(6666004)(7696005)(186003)(41300700001)(316002)(70586007)(70206006)(4326008)(86362001)(8936002)(8676002)(2906002)(5660300002)(15650500001)(4744005)(110136005)(54906003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2023 09:13:35.2591
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77aa842c-7083-465d-6c4f-08db55edd3ec
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT049.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5187
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+Series includes fixes and feature updates to the PMC driver.
+Series has been split into 4 patches to incorporate the review
+remarks from v2.
 
-On 5/16/23 10:20, Ilpo Järvinen wrote:
-> On Tue, 16 May 2023, Shyam Sundar S K wrote:
-> 
->> This patch fixes warnings with -Wmissing-prototypes:
->>
->> warning: no previous prototype for 'source_as_str' [-Wmissing-prototypes]
->> warning: no previous prototype for 'slider_as_str' [-Wmissing-prototypes]
->>
->> Fixes: a82ebb3d800d ("platform/x86/amd/pmf: Add PMF acpi debug support")
->> Reported-by: kernel test robot <lkp@intel.com>
->> Closes: https://lore.kernel.org/oe-kbuild-all/202305160220.REQc5T2y-lkp@intel.com/
->> Suggested-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
->> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->> ---
->>  drivers/platform/x86/amd/pmf/sps.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/platform/x86/amd/pmf/sps.c b/drivers/platform/x86/amd/pmf/sps.c
->> index 0a4d0549ea03..445ff053b4df 100644
->> --- a/drivers/platform/x86/amd/pmf/sps.c
->> +++ b/drivers/platform/x86/amd/pmf/sps.c
->> @@ -13,7 +13,7 @@
->>  static struct amd_pmf_static_slider_granular config_store;
->>  
->>  #ifdef CONFIG_AMD_PMF_DEBUG
->> -const char *slider_as_str(unsigned int state)
->> +static const char *slider_as_str(unsigned int state)
->>  {
->>  	switch (state) {
->>  	case POWER_MODE_PERFORMANCE:
->> @@ -27,7 +27,7 @@ const char *slider_as_str(unsigned int state)
->>  	}
->>  }
->>  
->> -const char *source_as_str(unsigned int state)
->> +static const char *source_as_str(unsigned int state)
->>  {
->>  	switch (state) {
->>  	case POWER_SOURCE_AC:
->>
-> 
-> Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+v3:
+ - Based on review-hans branch
+ - Pass true/false instead of 1/0 the amd_pmc_send_cmd()
+ - Add helper for supported cpu id check as suggested by Ilpo.
 
-Thank you for your patch, I've applied this patch to my review-hans 
-branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+v2:
+ - Based on review-hans branch
+ - Add a switch for cpu-id check based on feedback from Mario.
 
-Note it will show up in my review-hans branch once I've pushed my
-local branch there, which might take a while.
+Shyam Sundar S K (4):
+  platform/x86/amd: pmc: Pass true/false to bool argument
+  platform/x86/amd: pmc: Get STB DRAM size from PMFW
+  platform/x86/amd: pmc: Add helper function to check the cpu id
+  platform/x86/amd: pmc: Update metrics table info for Pink Sardine
 
-Once I've run some tests on this branch the patches there will be
-added to the platform-drivers-x86/for-next branch and eventually
-will be included in the pdx86 pull-request to Linus for the next
-merge-window.
+ drivers/platform/x86/amd/pmc.c | 123 ++++++++++++++++++++++++++-------
+ 1 file changed, 99 insertions(+), 24 deletions(-)
 
-Regards,
-
-Hans
-
+-- 
+2.25.1
 
