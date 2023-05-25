@@ -2,77 +2,79 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 06DC3711796
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 May 2023 21:44:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09D2471179B
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 May 2023 21:48:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242063AbjEYToI (ORCPT
+        id S241464AbjEYTsr (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 25 May 2023 15:44:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59566 "EHLO
+        Thu, 25 May 2023 15:48:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242073AbjEYToB (ORCPT
+        with ESMTP id S242034AbjEYTsm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 25 May 2023 15:44:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13B3D9B
-        for <platform-driver-x86@vger.kernel.org>; Thu, 25 May 2023 12:42:52 -0700 (PDT)
+        Thu, 25 May 2023 15:48:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C77A8189
+        for <platform-driver-x86@vger.kernel.org>; Thu, 25 May 2023 12:47:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1685043712;
+        s=mimecast20190719; t=1685044032;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=hG6a8dxjoLrvuutaPxgY7/ShfZWOWo5mAvJlZJg9eDk=;
-        b=C207tCjeuZ8yKGDHPk8RAgGoLLb+zbybRntdwz09mbamya8SeUr6N43dfBuWaS+LYt/Z51
-        rL5LWpGNRnqcwQJC2xw5OkVwzgXf+njhSnlE+qbsVcpV+J7uCbhi/QfCdtVOAUMAIqtfhI
-        qAeqfC5m7sRBRWN8O0aBm0+KX7uC4pY=
+        bh=oE4/So5LeNg3LFo5KgJMJSE76TRPYlYOShUwOH/4MCk=;
+        b=XzdWHdq2fOEdJjQFv2hHYFe2ZYJLrvvHI1cJqB9u4NPNrqs4cmupG42Kd3tjC5GklPuebS
+        ZXVYkZgv48JsEBl0YqxieiJz40GzzZhy8qzPnEd4KywSFuUMWWY0Bwe70pKNVeNj0Q146J
+        btp+9SPKzaN0AR0BptxEQ83E37FiRJA=
 Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
  [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-558-NSqwDxKBOYiLHEG0RJjzmg-1; Thu, 25 May 2023 15:41:50 -0400
-X-MC-Unique: NSqwDxKBOYiLHEG0RJjzmg-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-96feeddb1f8so120190966b.3
-        for <platform-driver-x86@vger.kernel.org>; Thu, 25 May 2023 12:41:50 -0700 (PDT)
+ us-mta-100-yOUW_xTrOa-xKSoJ_Lb08Q-1; Thu, 25 May 2023 15:44:01 -0400
+X-MC-Unique: yOUW_xTrOa-xKSoJ_Lb08Q-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-94a34d3e5ebso96227766b.3
+        for <platform-driver-x86@vger.kernel.org>; Thu, 25 May 2023 12:44:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685043709; x=1687635709;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1685043840; x=1687635840;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hG6a8dxjoLrvuutaPxgY7/ShfZWOWo5mAvJlZJg9eDk=;
-        b=YLTKSnbYhswqFF2VVcSTJNWcmnyLCs7AMjwlA4CVa/IIi7aLJdIBoQvndCK0x+KhEV
-         OZej2H2j6OaKmEdz/w7l5BSxFkjzVrqGrGoxrbZC880YdBfMB/uYtD+3XfVDl3uIxXTR
-         nGwcghUwsxuwII4qcnMHY9J3+trvO+941qu78R9meiv6c5CYeaqxE4VMXJKHd/bla6qp
-         p2XU05kTD9oLyu2G43UFMjp/rFdIKWDnx4HJCAnQJIRcQJkPEB6vwkjsFCaBdOLRjxST
-         /8oNQKuT3LHa1p7X2VtpBL5RmYJT1g3mEABCEKyQparzCqR/VOl8NZ2GMPqpfaOt+N4Y
-         6YRQ==
-X-Gm-Message-State: AC+VfDwIsjK8l03yDoSDTwtCUO96MimFxyjOeGYZBmgzVJN5KIMnjT3e
-        LCEjCtcQxdxIYhBubfmx3pKSIlISyxkPL//3HJ6g/jl0gKyFdXOHr3WbXR+TEADRb8MIMujEXOb
-        M1890pZfkn7hNZ0exPOjxsL4y88r6fjJE1Q==
-X-Received: by 2002:a17:907:3689:b0:967:b02c:b06a with SMTP id bi9-20020a170907368900b00967b02cb06amr2104445ejc.27.1685043709757;
-        Thu, 25 May 2023 12:41:49 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6FoBpNxiIWHwkQP7q3np75MJ/V7j8tkvrrWNzruQCldfoKD4g/CrrrJi7Yuyxu44nh7+U0fw==
-X-Received: by 2002:a17:907:3689:b0:967:b02c:b06a with SMTP id bi9-20020a170907368900b00967b02cb06amr2104434ejc.27.1685043709422;
-        Thu, 25 May 2023 12:41:49 -0700 (PDT)
+        bh=oE4/So5LeNg3LFo5KgJMJSE76TRPYlYOShUwOH/4MCk=;
+        b=ePqYgJ0hx+vAIQSeGZ/mwPb5odlHy0sjVYsBEa4kExFL3PM+5JlRBQ3AgStUPo8dKm
+         5M2Ty1cXWhjW8sEmvxK9zQ2H1qeePxg8Sn4QJSyFNK3IL9bViuVzJpNecqQa5YgZvllc
+         d2G5Ocj+hnZa2XqArZvJNL7CbeLc+blOrwboHrs9tIbQw0dCfX56agKwLZV6Bhcq/QNX
+         Hu2uaOA8uZ0SFVr/bW9xMl2MpUSwzpSnmFUEbZT8exEHdoAEdl7ztZb7mMlawlIFhLuY
+         jS6/5/ThISlACUHuB/H6T2p67iUSM/Y0XcwdwAj2OPlFnAS+HqXFbNpX9uZQpQez9eUH
+         Q3WA==
+X-Gm-Message-State: AC+VfDyNei+pgk4ZkrC6NwYZadQkMNHEShIXUVOqS2h6MznjCFYrCiSc
+        s8PD3roRmNLzDqvFFUs8UYvctTmFN44f4gYPU2MjbRuQAULAQEZXLBLxKkSA8CIPmJd+EJwJCnf
+        T+XR7iXVkRaJG9e+IB1m51KHi9PVNV57HXg==
+X-Received: by 2002:a17:907:9289:b0:933:868:413a with SMTP id bw9-20020a170907928900b009330868413amr2461153ejc.15.1685043840710;
+        Thu, 25 May 2023 12:44:00 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6Rrchj/ujtT0nSHQHC4MQvvsLCt6BwBsjFRmag2kyIMmu0HHwRHzCGf5cOvPhHT/1adDWBfA==
+X-Received: by 2002:a17:907:9289:b0:933:868:413a with SMTP id bw9-20020a170907928900b009330868413amr2461147ejc.15.1685043840436;
+        Thu, 25 May 2023 12:44:00 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id b16-20020a170906151000b0096b15e4ffcesm1200378ejd.85.2023.05.25.12.41.48
+        by smtp.gmail.com with ESMTPSA id gs8-20020a170906f18800b0096f4389714csm1219835ejb.55.2023.05.25.12.43.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 May 2023 12:41:48 -0700 (PDT)
-Message-ID: <6e05df16-7125-a634-6b99-3cf3079d3d5d@redhat.com>
-Date:   Thu, 25 May 2023 21:41:48 +0200
+        Thu, 25 May 2023 12:44:00 -0700 (PDT)
+Message-ID: <e5c4c61c-a3a3-97d0-ad50-8c5b345dc334@redhat.com>
+Date:   Thu, 25 May 2023 21:43:59 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 5/5] platform/x86: think-lmi: mutex protection around
- multiple WMI calls
+Subject: Re: [PATCH 3/5] platform/x86: think-lmi: Correct NVME password
+ handling
+Content-Language: en-US, nl
 To:     Mark Pearson <mpearson-lenovo@squebb.ca>
-Cc:     markgross@kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+Cc:     "markgross@kernel.org" <markgross@kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>, linux-kernel@vger.kernel.org
 References: <mpearson-lenovo@squebb.ca>
  <20230525193132.3727-1-mpearson-lenovo@squebb.ca>
- <20230525193132.3727-5-mpearson-lenovo@squebb.ca>
-Content-Language: en-US, nl
+ <20230525193132.3727-3-mpearson-lenovo@squebb.ca>
+ <17963a3d-996f-4bb8-918e-aadba15be9bc@app.fastmail.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230525193132.3727-5-mpearson-lenovo@squebb.ca>
+In-Reply-To: <17963a3d-996f-4bb8-918e-aadba15be9bc@app.fastmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -85,154 +87,80 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Mark,
+Hi,
 
-On 5/25/23 21:31, Mark Pearson wrote:
-> Add mutex protection around cases where an operation needs multiple
-> WMI calls - e.g. setting password.
+On 5/25/23 21:39, Mark Pearson wrote:
+> Hi Hans,
 > 
-> Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-> ---
-> Changes in V2: New commit added after review of other patches in series.
-> 
->  drivers/platform/x86/think-lmi.c | 46 ++++++++++++++++++++++++--------
->  1 file changed, 35 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/think-lmi.c b/drivers/platform/x86/think-lmi.c
-> index 64cd453d6e7d..f3e1e4dacba2 100644
-> --- a/drivers/platform/x86/think-lmi.c
-> +++ b/drivers/platform/x86/think-lmi.c
-> @@ -14,6 +14,7 @@
->  #include <linux/acpi.h>
->  #include <linux/errno.h>
->  #include <linux/fs.h>
-> +#include <linux/mutex.h>
->  #include <linux/string.h>
->  #include <linux/types.h>
->  #include <linux/dmi.h>
-> @@ -195,6 +196,7 @@ static const char * const level_options[] = {
->  };
->  static struct think_lmi tlmi_priv;
->  static struct class *fw_attr_class;
-> +static DEFINE_MUTEX(tlmi_mutex);
->  
->  /* ------ Utility functions ------------*/
->  /* Strip out CR if one is present */
-> @@ -463,23 +465,32 @@ static ssize_t new_password_store(struct kobject *kobj,
->  			sprintf(pwd_type, "%s", setting->pwd_type);
->  		}
->  
-> +		mutex_lock(&tlmi_mutex);
->  		ret = tlmi_opcode_setting("WmiOpcodePasswordType", pwd_type);
-> -		if (ret)
-> +		if (ret) {
-> +			mutex_unlock(&tlmi_mutex);
->  			goto out;
-> -
-> +		}
->  		if (tlmi_priv.pwd_admin->valid) {
->  			ret = tlmi_opcode_setting("WmiOpcodePasswordAdmin",
->  					tlmi_priv.pwd_admin->password);
-> -			if (ret)
-> +			if (ret) {
-> +				mutex_unlock(&tlmi_mutex);
->  				goto out;
-> +			}
->  		}
->  		ret = tlmi_opcode_setting("WmiOpcodePasswordCurrent01", setting->password);
-> -		if (ret)
-> +		if (ret) {
-> +			mutex_unlock(&tlmi_mutex);
->  			goto out;
-> +		}
->  		ret = tlmi_opcode_setting("WmiOpcodePasswordNew01", new_pwd);
-> -		if (ret)
-> +		if (ret) {
-> +			mutex_unlock(&tlmi_mutex);
->  			goto out;
-> +		}
->  		ret = tlmi_simple_call(LENOVO_OPCODE_IF_GUID, "WmiOpcodePasswordSetUpdate;");
-> +		mutex_unlock(&tlmi_mutex);
->  	} else {
->  		/* Format: 'PasswordType,CurrentPw,NewPw,Encoding,KbdLang;' */
->  		auth_str = kasprintf(GFP_KERNEL, "%s,%s,%s,%s,%s;",
+> My apologies - I completely forgot to add the v2 tag on this patch series...had a complete brain fart.
 
+No worries I did not even notice the v2 was missing,
+my brain automatically added it :)
+ 
+> I assume I should resend them all - correctly named.
 
-I haven't take a really close / good look yet. But at a first glance
-I think it would be cleaner to just take the mutex at the top
-and unlock it after the out label to which all the existing goto-s
-already go ?
+Well I have some review remarks on patch 5/5, it would be good if you can address those (if you agree with them) and then lets jump straight to v3 to avoid confusion ?
 
-> @@ -1000,11 +1011,16 @@ static ssize_t current_value_store(struct kobject *kobj,
->  			goto out;
->  		}
->  
-> +		mutex_lock(&tlmi_mutex);
->  		ret = tlmi_simple_call(LENOVO_SET_BIOS_SETTING_CERT_GUID, set_str);
-> -		if (ret)
-> +		if (ret) {
-> +			mutex_unlock(&tlmi_mutex);
->  			goto out;
-> +		}
->  		ret = tlmi_simple_call(LENOVO_SAVE_BIOS_SETTING_CERT_GUID,
->  				tlmi_priv.pwd_admin->save_signature);
-> +
-> +		mutex_unlock(&tlmi_mutex);
->  		if (ret)
->  			goto out;
->  	} else if (tlmi_priv.opcode_support) {
-> @@ -1021,18 +1037,23 @@ static ssize_t current_value_store(struct kobject *kobj,
->  			goto out;
->  		}
->  
-> +		mutex_lock(&tlmi_mutex);
->  		ret = tlmi_simple_call(LENOVO_SET_BIOS_SETTINGS_GUID, set_str);
-> -		if (ret)
-> +		if (ret) {
-> +			mutex_unlock(&tlmi_mutex);
->  			goto out;
-> +		}
->  
->  		if (tlmi_priv.pwd_admin->valid && tlmi_priv.pwd_admin->password[0]) {
->  			ret = tlmi_opcode_setting("WmiOpcodePasswordAdmin",
->  					tlmi_priv.pwd_admin->password);
-> -			if (ret)
-> +			if (ret) {
-> +				mutex_unlock(&tlmi_mutex);
->  				goto out;
-> +			}
->  		}
-> -
->  		ret = tlmi_save_bios_settings("");
-> +		mutex_unlock(&tlmi_mutex);
->  	} else { /* old non opcode based authentication method (deprecated)*/
->  		if (tlmi_priv.pwd_admin->valid && tlmi_priv.pwd_admin->password[0]) {
->  			auth_str = kasprintf(GFP_KERNEL, "%s,%s,%s;",
-> @@ -1056,14 +1077,17 @@ static ssize_t current_value_store(struct kobject *kobj,
->  			goto out;
->  		}
->  
-> +		mutex_lock(&tlmi_mutex);
->  		ret = tlmi_simple_call(LENOVO_SET_BIOS_SETTINGS_GUID, set_str);
-> -		if (ret)
-> +		if (ret) {
-> +			mutex_unlock(&tlmi_mutex);
->  			goto out;
-> -
-> +		}
->  		if (auth_str)
->  			ret = tlmi_save_bios_settings(auth_str);
->  		else
->  			ret = tlmi_save_bios_settings("");
-> +		mutex_unlock(&tlmi_mutex);
->  	}
->  	if (!ret && !tlmi_priv.pending_changes) {
->  		tlmi_priv.pending_changes = true;
+> I also have no idea why they showed up out of order...I'm blaming that one on the email server.
 
-And the same here.
+The out of order thing is normal, this sometimes happens with email.
+
+> Sorry :(
+
+Again no worries / no problem ...
 
 Regards,
 
 Hans
 
+
+
+
+> On Thu, May 25, 2023, at 3:31 PM, Mark Pearson wrote:
+>> NVME passwords identifier have been standardised across the Lenovo
+>> systems and now use udrp and adrp (user and admin level) instead of
+>> unvp and mnvp.
+>>
+>> This should apparently be backwards compatible.
+>>
+>> Also cleaned up so the index is set to a default of 1 rather than 0
+>> as this just makes more sense (there is no device 0).
+>>
+>> Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+>> ---
+>> Changes in V2: None. Version bumped in series
+>>
+>>  drivers/platform/x86/think-lmi.c | 8 ++++++--
+>>  1 file changed, 6 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/platform/x86/think-lmi.c b/drivers/platform/x86/think-lmi.c
+>> index c7e98fbe7c3d..1c02958035ad 100644
+>> --- a/drivers/platform/x86/think-lmi.c
+>> +++ b/drivers/platform/x86/think-lmi.c
+>> @@ -456,9 +456,9 @@ static ssize_t new_password_store(struct kobject *kobj,
+>>  				sprintf(pwd_type, "mhdp%d", setting->index);
+>>  		} else if (setting == tlmi_priv.pwd_nvme) {
+>>  			if (setting->level == TLMI_LEVEL_USER)
+>> -				sprintf(pwd_type, "unvp%d", setting->index);
+>> +				sprintf(pwd_type, "udrp%d", setting->index);
+>>  			else
+>> -				sprintf(pwd_type, "mnvp%d", setting->index);
+>> +				sprintf(pwd_type, "adrp%d", setting->index);
+>>  		} else {
+>>  			sprintf(pwd_type, "%s", setting->pwd_type);
+>>  		}
+>> @@ -1524,6 +1524,10 @@ static int tlmi_analyze(void)
+>>  		if (!tlmi_priv.pwd_nvme)
+>>  			goto fail_clear_attr;
+>>
+>> +		/* Set default hdd/nvme index to 1 as there is no device 0 */
+>> +		tlmi_priv.pwd_hdd->index = 1;
+>> +		tlmi_priv.pwd_nvme->index = 1;
+>> +
+>>  		if (tlmi_priv.pwdcfg.core.password_state & TLMI_HDD_PWD) {
+>>  			/* Check if PWD is configured and set index to first drive found */
+>>  			if (tlmi_priv.pwdcfg.ext.hdd_user_password ||
+>> -- 
+>> 2.40.1
+> 
 
