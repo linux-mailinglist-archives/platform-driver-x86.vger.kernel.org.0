@@ -2,299 +2,687 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D79D7186D1
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 31 May 2023 17:55:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C28A87186EC
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 31 May 2023 18:00:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233855AbjEaPzP (ORCPT
+        id S234496AbjEaQAo (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 31 May 2023 11:55:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38630 "EHLO
+        Wed, 31 May 2023 12:00:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233993AbjEaPzO (ORCPT
+        with ESMTP id S234304AbjEaQAm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 31 May 2023 11:55:14 -0400
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2040.outbound.protection.outlook.com [40.107.22.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F5669D;
-        Wed, 31 May 2023 08:55:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oe+CSbF3Ut6QRE1KP9zgI05vS6JeJlVD/Fel7sVG/nbzt2++hS8fCRCUyBaLsuwvfiOWXkh5dN7WKXc5RzmRG/QAJWYOqkvYRJ+FS0V+MahUUVGtTc8manfMWN7hKc9gGWm7zeYS3aCPyw+RIoH1xj/ialKyAVhqk8K6u5luaMaoKMPDzvqma9beh9gqfYzE7oNsFXCHuyfsfXUb4uvd8PjpnZ6oFQ6VVdSvxDk6Pv/UbLuMcFfrXwJJQvfkGzcBpporqDNNhpM7wWHQ72EdU15I9fz13XTU1/csPWc0/Br3WeG2qfscB5dtMLMx+uU2tvijAwL07DxSWvBdn7c01w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sTQ5lQ0dx8t8kIW5j6FAlAY5EvbdBlLUO9pMQ9KQs1k=;
- b=VSDtuAl5n7gvi4fcbGHNMPKvVyr5C4Ti8YGZ3CS4ZBk8mmBSrLNNDNGgljbKcMid5BlNrlM2J5p8Z4opkI7I4+doiqp/rKrLTQsHJdutNdibTyLVCw/CMxXIQ0dtN56WWXy4P0tlCf6Ozr0bbCSKOztErux2/vnyhi+cLx7zyU0EIvSWorCht3sNYx2ZvCVh75V2C033YwhV0QrmRvKnaHl8r07RFJJLKheCSa3+n3sAcnY06amwog2a9pjsRzAQlZwjE3Oi7bRZA5EpMGUBYu6d/khvoT5OKhUTYFzlkPZiopq4N+gwQbnutA+48GIv1KBWh9uF2ulGTV1pOoSlsw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 194.138.21.76) smtp.rcpttodomain=ucw.cz smtp.mailfrom=siemens.com; dmarc=pass
- (p=reject sp=reject pct=100) action=none header.from=siemens.com; dkim=none
- (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sTQ5lQ0dx8t8kIW5j6FAlAY5EvbdBlLUO9pMQ9KQs1k=;
- b=VML7KefdycWSy3Vf4CIcLtg035uNntYrkBloLVp3zN5Vy5rTTSq3eroDg5Wkpc1JGnJ6acqLAKUHZJ1R0CjOcZxbo/uTvkKt908J9oJTGl+Kc+0N4jA+1DF8B9lxH3UGrNJBZHb0jqhduSYfkElxqJex7m1OdIzSY03Fo0RkTt9DPYSd79MEaKaZL+MnqvnYGUeNfeF1e6BQK13+u12+eDLg26vCpMzMg1uW/ZY2cB8BK3cT9JksHPBoVqBP9pI9RAKosK0csSMMGxRsNaBFl6iup/sORFrKLdZPlQMMCUWssh9INFQE21KMf/6zAwg9vJMfLHBxprXV/sp4q3ykMA==
-Received: from GV3PEPF000000E2.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:144:1:0:2:0:f) by DU0PR10MB6534.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:10:405::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.22; Wed, 31 May
- 2023 15:55:09 +0000
-Received: from HE1EUR01FT036.eop-EUR01.prod.protection.outlook.com
- (2a01:111:f400:7e1f::201) by GV3PEPF000000E2.outlook.office365.com
- (2603:1026:900:3::f) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.23 via Frontend
- Transport; Wed, 31 May 2023 15:55:09 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.76)
- smtp.mailfrom=siemens.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=siemens.com;
-Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
- 194.138.21.76 as permitted sender) receiver=protection.outlook.com;
- client-ip=194.138.21.76; helo=hybrid.siemens.com; pr=C
-Received: from hybrid.siemens.com (194.138.21.76) by
- HE1EUR01FT036.mail.protection.outlook.com (10.152.1.30) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6455.22 via Frontend Transport; Wed, 31 May 2023 15:55:08 +0000
-Received: from DEMCHDC8WBA.ad011.siemens.net (139.25.226.105) by
- DEMCHDC8VSA.ad011.siemens.net (194.138.21.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Wed, 31 May 2023 17:55:08 +0200
-Received: from md1za8fc.ad001.siemens.net (139.25.0.56) by
- DEMCHDC8WBA.ad011.siemens.net (139.25.226.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Wed, 31 May 2023 17:55:07 +0200
-From:   Henning Schild <henning.schild@siemens.com>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>
-CC:     Henning Schild <henning.schild@siemens.com>
-Subject: [PATCH 1/1] leds: simatic-ipc-leds-gpio: add new model BX-21A
-Date:   Wed, 31 May 2023 17:54:57 +0200
-Message-ID: <20230531155457.31632-2-henning.schild@siemens.com>
-X-Mailer: git-send-email 2.39.3
-In-Reply-To: <20230531155457.31632-1-henning.schild@siemens.com>
-References: <20230531155457.31632-1-henning.schild@siemens.com>
+        Wed, 31 May 2023 12:00:42 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CF87132;
+        Wed, 31 May 2023 09:00:37 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-2af98eb6ef0so67045261fa.3;
+        Wed, 31 May 2023 09:00:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685548835; x=1688140835;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YOkBKE/hQQ8rwktRtIxFFLCd/qEMCLP+bHFun6NkU10=;
+        b=XDGcsRq14BfbugKJRTA7BHefDPOXqXhnK5YeF1WfI0yDAE/SdLD/2amGZCQA9fVj1Q
+         WGwFFhlgInXpBRk+uDK+vNrNA7WRK5D7/ugWj5QoeszGsIkBbqvWsGkpJWvc7zzFyAbU
+         akXnGuZlCvE+qNKTOvJaAGDWEQleneKtooBQh6vqsh7BNU6M+dG7hFcGL99aoqn8gsuR
+         vzb20vhqyNDJ1kDcbdClhgroUdtvz+ZHTMIuspdOaG87LD/NMCFxDzasAS/wIQ7CLhO4
+         F3pit9+GGQfDASyetXs4UolbLfosapfUyTyb15QoPgIUacnKHggztXarmYUIQmjcKaYf
+         kokQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685548835; x=1688140835;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YOkBKE/hQQ8rwktRtIxFFLCd/qEMCLP+bHFun6NkU10=;
+        b=KQYGR3T4St1mU/nMRLvYNevHqztgG+V1Fey+4hy/bmcV7qSai4gpndF8PZ4sODB2FA
+         JNV2ihmMbrVObrkh5l802FW+wQeFHUZL2W0vbC5itxn0kD2SITMAL0EnVHzWx3oY0Mug
+         Rqx04o7HNed6m+60EEIdcriQjEvwIfUEXcjGWXGNwzQ4OrgmW5mdy6AvA5FmoL4e0l5m
+         fpJsbJrTH91XV9/crlzFQXK8aeRVtMI3PxbioHh9bsoAZYn7BWs5JQ/8oHW3sxNYA2Wr
+         CTYCKy/gnqxA/NDltFAyc1JVuZNlvUDh/jlGve1JFnW0jYAnMjBxdygRsXeQ202qencL
+         ja9g==
+X-Gm-Message-State: AC+VfDzURK7FVC2diRL7nN+lQhgkXCkA/uv1ikvFiHskFsRMFm1I9/P+
+        IWyjF1tJImI6gmY0PN6s7e+9zfMcZg1KST8MARA=
+X-Google-Smtp-Source: ACHHUZ448aJUSYj9k0YL5urAXKXOIynNHFph4hfWDcabwcYjISRGir1UxQ34r9m2YTXBhwpSIIe7/eUfgNgDIzG0kuE=
+X-Received: by 2002:a2e:2c06:0:b0:2b0:3046:9c6 with SMTP id
+ s6-20020a2e2c06000000b002b0304609c6mr3547711ljs.9.1685548835135; Wed, 31 May
+ 2023 09:00:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [139.25.0.56]
-X-ClientProxiedBy: DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) To
- DEMCHDC8WBA.ad011.siemens.net (139.25.226.105)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: HE1EUR01FT036:EE_|DU0PR10MB6534:EE_
-X-MS-Office365-Filtering-Correlation-Id: b3748bf8-ebad-40f0-b8f6-08db61ef68f1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aBlyNUanDwZeoEv4zBTVCbdaf9zWJVlXq+EBro5/XmyAeevZznyXLdHvQagyAhAg5vAhy76PD5vtXbSQKvOv00k5l+h1HpAS15D5CI6i9OF7Te8Zbh97QnGod38Fe8TQSxSYu2UABD9DOMWqtEQ6KTQZpSNvlpg2BQPMAMBH66TVApzkx4Aw5+dULUxQyqIjhFGcbmd5RiXIxk1ZSKgFpert0UjukQhQYdEuuNCrmydaeMT+FZ4g+E+9ZKheE3uY48I95XcyR1q5Ji/vuVnpsBc+GRxG8srOUzJ1zvxhDb3ocE+K/S6u8RFyNIkln7RVKeranv7xbeI6Cms5CqCRd2RtM3BM4oju8VLCdjSv1kfeXKt0z0fmShrKO2T775tjLnFcGVb/Rki6dsNOQDhOhI5MFPEe3kh7P131aLUxbcH+lL3J76Aovdt8xghkOBi7JI2HCC0SOS+2gQpZhr7FJPw5WTHwHRd/4ZqisB8u9kffGqNKqtj7snRMvhvbkycnRtOTEDV7nWyArGwNkR0an3hMYq+Qg2xi8kvo1oUT4R0FY3z/wtWQQV3EffKpAa0Z31CKNWDaE5r08c5GESRkpRva/Pm+YLuFi4z2XMSvserrtb7RY1i45oPEoYKZAsqj+Q9bAqFrllOA4C1ofmCsyTW8cE9xxbYHUdM9NlKJhTciSdlDCrXYjHJ4Pru6hP2AU2WP7DhC4jm4+bYhxSWaVeZ8yDrGfzq2dbdjPSeljs0YhUDbRpvALUXte5NwuL6eItaK4gbOoXkgEexMvmlPzw==
-X-Forefront-Antispam-Report: CIP:194.138.21.76;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(39860400002)(346002)(136003)(451199021)(46966006)(40470700004)(36840700001)(86362001)(40460700003)(83380400001)(44832011)(6666004)(8676002)(336012)(8936002)(82740400003)(5660300002)(36860700001)(36756003)(26005)(1076003)(47076005)(82960400001)(107886003)(40480700001)(2906002)(356005)(4326008)(70206006)(70586007)(110136005)(478600001)(16526019)(956004)(2616005)(82310400005)(316002)(186003)(41300700001)(81166007)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2023 15:55:08.7869
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3748bf8-ebad-40f0-b8f6-08db61ef68f1
-X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.76];Helo=[hybrid.siemens.com]
-X-MS-Exchange-CrossTenant-AuthSource: HE1EUR01FT036.eop-EUR01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB6534
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+References: <20230519201300.12964-1-jorge.lopez2@hp.com> <20230519201300.12964-6-jorge.lopez2@hp.com>
+ <0cbd158e-0742-4e04-9996-bd376f9b555b@t-8ch.de> <CAOOmCE8=C_qH862G9sdLS59=QPh6U_78WY0SzJwzZfW+iSUiPA@mail.gmail.com>
+ <dd9df9e7-9693-4ddc-8429-cc5e0567da17@t-8ch.de>
+In-Reply-To: <dd9df9e7-9693-4ddc-8429-cc5e0567da17@t-8ch.de>
+From:   Jorge Lopez <jorgealtxwork@gmail.com>
+Date:   Wed, 31 May 2023 10:59:58 -0500
+Message-ID: <CAOOmCE_=LH9rcz4x=q-iq8sBhC4G7TtaU5M_R-ZLWwaJYNadSw@mail.gmail.com>
+Subject: Re: [PATCH v15 05/13] hp-bioscfg: enum-attributes
+To:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+Cc:     hdegoede@redhat.com, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ilpo.jarvinen@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-This adds support for the Siemens Simatic IPC BX-21A. Its LEDs are
-connected to GPIO pins provided by the Intel Elkhart Lake pinctrl
-driver.
+On Tue, May 30, 2023 at 4:42=E2=80=AFPM Thomas Wei=C3=9Fschuh <thomas@t-8ch=
+.de> wrote:
+>
+> On 2023-05-30 12:01:57-0500, Jorge Lopez wrote:
+> > On Fri, May 26, 2023 at 10:35=E2=80=AFAM Thomas Wei=C3=9Fschuh <thomas@=
+t-8ch.de> wrote:
+> > >
+> > > On 2023-05-19 15:12:52-0500, Jorge Lopez wrote:
+> > >
+> > > <snip>
+> > >
+> > > >  .../x86/hp/hp-bioscfg/enum-attributes.c       | 465 ++++++++++++++=
+++++
+> > > >  1 file changed, 465 insertions(+)
+> > > >  create mode 100644 drivers/platform/x86/hp/hp-bioscfg/enum-attribu=
+tes.c
+> > > >
+> > > > diff --git a/drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c b=
+/drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c
+> > > > new file mode 100644
+> > > > index 000000000000..80842835606d
+> > > > --- /dev/null
+> > > > +++ b/drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c
+> > > > @@ -0,0 +1,465 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0
+> > > > +/*
+> > > > + * Functions corresponding to enumeration type attributes under
+> > > > + * BIOS Enumeration GUID for use with hp-bioscfg driver.
+> > > > + *
+> > > > + * Copyright (c) 2022 HP Development Company, L.P.
+> > > > + */
+> > > > +
+> > > > +#include "bioscfg.h"
+> > > > +
+> > > > +GET_INSTANCE_ID(enumeration);
+> > > > +
+> > > > +static ssize_t current_value_show(struct kobject *kobj, struct kob=
+j_attribute *attr, char *buf)
+> > > > +{
+> > > > +     int instance_id =3D get_enumeration_instance_id(kobj);
+> > > > +
+> > > > +     if (instance_id < 0)
+> > > > +             return -EIO;
+> > > > +
+> > > > +     return sysfs_emit(buf, "%s\n",
+> > > > +                      bioscfg_drv.enumeration_data[instance_id].cu=
+rrent_value);
+> > > > +}
+> > > > +
+> > > > +/**
+> > > > + * validate_enumeration_input() -
+> > > > + * Validate input of current_value against possible values
+> > > > + *
+> > > > + * @instance_id: The instance on which input is validated
+> > > > + * @buf: Input value
+> > > > + */
+> >
+> > <snip>
+> >
+> > > > +static int hp_populate_enumeration_elements_from_package(union acp=
+i_object *enum_obj,
+> > > > +                                                      int enum_obj=
+_count,
+> > > > +                                                      int instance=
+_id)
+> > > > +{
+> > > > +     char *str_value =3D NULL;
+> > > > +     int value_len;
+> > > > +     u32 size =3D 0;
+> > > > +     u32 int_value;
+> > > > +     int elem =3D 0;
+> > > > +     int reqs;
+> > > > +     int pos_values;
+> > > > +     int ret;
+> > > > +     int eloc;
+> > > > +     struct enumeration_data *enum_data =3D &bioscfg_drv.enumerati=
+on_data[instance_id];
+> > > > +
+> > > > +     for (elem =3D 1, eloc =3D 1; elem < enum_obj_count; elem++, e=
+loc++) {
+> > > > +             /* ONLY look at the first ENUM_ELEM_CNT elements */
+> > > > +             if (eloc =3D=3D ENUM_ELEM_CNT)
+> > > > +                     goto exit_enumeration_package;
+> > > > +
+> > > > +             switch (enum_obj[elem].type) {
+> > > > +             case ACPI_TYPE_STRING:
+> > > > +                     if (PREREQUISITES !=3D elem && ENUM_POSSIBLE_=
+VALUES !=3D elem) {
+> > > > +                             ret =3D hp_convert_hexstr_to_str(enum=
+_obj[elem].string.pointer,
+> > > > +                                                            enum_o=
+bj[elem].string.length,
+> > > > +                                                            &str_v=
+alue, &value_len);
+> > > > +                             if (ret)
+> > > > +                                     return -EINVAL;
+> > > > +                     }
+> > > > +                     break;
+> > > > +             case ACPI_TYPE_INTEGER:
+> > > > +                     int_value =3D (u32)enum_obj[elem].integer.val=
+ue;
+> > > > +                     break;
+> > > > +             default:
+> > > > +                     pr_warn("Unsupported object type [%d]\n", enu=
+m_obj[elem].type);
+> > > > +                     continue;
+> > > > +             }
+> > > > +
+> > > > +             /* Check that both expected and read object type matc=
+h */
+> > > > +             if (expected_enum_types[eloc] !=3D enum_obj[elem].typ=
+e) {
+> > > > +                     pr_err("Error expected type %d for elem %d, b=
+ut got type %d instead\n",
+> > > > +                            expected_enum_types[eloc], elem, enum_=
+obj[elem].type);
+> > > > +                     return -EIO;
+> > > > +             }
+> > > > +
+> > > > +             /* Assign appropriate element value to corresponding =
+field */
+> > > > +             switch (eloc) {
+> > > > +             case NAME:
+> > > > +             case VALUE:
+> > > > +                     break;
+> > > > +             case PATH:
+> > > > +                     strscpy(enum_data->common.path, str_value,
+> > > > +                             sizeof(enum_data->common.path));
+> > > > +                     break;
+> > > > +             case IS_READONLY:
+> > > > +                     enum_data->common.is_readonly =3D int_value;
+> > > > +                     break;
+> > > > +             case DISPLAY_IN_UI:
+> > > > +                     enum_data->common.display_in_ui =3D int_value=
+;
+> > > > +                     break;
+> > > > +             case REQUIRES_PHYSICAL_PRESENCE:
+> > > > +                     enum_data->common.requires_physical_presence =
+=3D int_value;
+> > > > +                     break;
+> > > > +             case SEQUENCE:
+> > > > +                     enum_data->common.sequence =3D int_value;
+> > > > +                     break;
+> > > > +             case PREREQUISITES_SIZE:
+> > > > +                     enum_data->common.prerequisites_size =3D int_=
+value;
+> > > > +                     if (int_value > MAX_PREREQUISITES_SIZE)
+> > > > +                             pr_warn("Prerequisites size value exc=
+eeded the maximum number of elements supported or data may be malformed\n")=
+;
+> > > > +
+> > > > +                     /*
+> > > > +                      * This HACK is needed to keep the expected
+> > > > +                      * element list pointing to the right obj[ele=
+m].type
+> > > > +                      * when the size is zero. PREREQUISITES
+> > > > +                      * object is omitted by BIOS when the size is
+> > > > +                      * zero.
+> > > > +                      */
+> > > > +                     if (int_value =3D=3D 0)
+> > > > +                             eloc++;
+> > > > +                     break;
+> > > > +
+> > > > +             case PREREQUISITES:
+> > > > +                     size =3D min_t(u32, enum_data->common.prerequ=
+isites_size, MAX_PREREQUISITES_SIZE);
+> > >
+> > > We cannot blindly truncate this to a maximum value.
+> > > The firmware reported an amount of elements it would return.
+> > >
+> > > If this value is to big than we can not just intpret the data as if i=
+t
+> > > was something the firmware did not return.
+> > >
+> > > An error needs to be reported to userspace.
+> > > A default value is not enough as userspace can not interpret this
+> > > properly.
+> > >
+> >
+> > It is ok to truncate prerequisite size to MAX_PREREQUISITES_SIZE.
+> > MAX_PREREQUISITES_SIZE is a value predefined by BIOS when the
+> > prerequisite values size is invalid ( > MAX_PREREQUISITES_SIZE) and/or
+> > the prerequisite data is corrupted.
+> > Neither PREREQUISITES nor PREREQUISITES_SIZE are reported to the
+> > userspace so there is no need to report a failure on data that is not
+> > exposed.  One item that needs clarification is the fact that
+> > regardless if  PREREQUISITES or PREREQUISITES_SIZE are invalid, that
+> > does not mean other values are invalid.  It is for this reason, we
+> > need to continue to read all remaining packages.
+>
+> It may be that prerequisites are not reported to userspace.
+> But the following values are:
+>
+> security level, current value and possible values.
+>
+> And if prerequisites are garbage then those are now also garbage.
 
-Signed-off-by: Henning Schild <henning.schild@siemens.com>
----
- drivers/leds/simple/Kconfig                   | 13 +++++
- drivers/leds/simple/Makefile                  |  1 +
- .../leds/simple/simatic-ipc-leds-gpio-core.c  |  4 ++
- .../simatic-ipc-leds-gpio-elkhartlake.c       | 57 +++++++++++++++++++
- drivers/platform/x86/simatic-ipc.c            |  3 +
- .../platform_data/x86/simatic-ipc-base.h      |  1 +
- include/linux/platform_data/x86/simatic-ipc.h |  3 +-
- 7 files changed, 81 insertions(+), 1 deletion(-)
- create mode 100644 drivers/leds/simple/simatic-ipc-leds-gpio-elkhartlake.c
+This statement is not correct.  Each attribute value is isolated from
+each other hence it only affects a single value and does not impact
+the following values such security level, current value and possible
+values
+Here is a sample where the prerequisite_size is invalid but the
+prerequisites, security, string min value and string max value are
+correct.
 
-diff --git a/drivers/leds/simple/Kconfig b/drivers/leds/simple/Kconfig
-index 44fa0f93cb3b..626ab18ac09d 100644
---- a/drivers/leds/simple/Kconfig
-+++ b/drivers/leds/simple/Kconfig
-@@ -34,3 +34,16 @@ config LEDS_SIEMENS_SIMATIC_IPC_F7188X
- 
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called simatic-ipc-leds-gpio-f7188x.
-+
-+config LEDS_SIEMENS_SIMATIC_IPC_ELKHARTLAKE
-+	tristate "LED driver for Siemens Simatic IPCs based on Intel Elkhart Lake GPIO"
-+	depends on LEDS_GPIO
-+	depends on PINCTRL_ELKHARTLAKE
-+	depends on SIEMENS_SIMATIC_IPC
-+	default LEDS_SIEMENS_SIMATIC_IPC
-+	help
-+	  This option enables support for the LEDs of several Industrial PCs
-+	  from Siemens based on Elkhart Lake GPIO i.e. BX-21A.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called simatic-ipc-leds-gpio-elkhartlake.
-diff --git a/drivers/leds/simple/Makefile b/drivers/leds/simple/Makefile
-index e3e840cea275..783578f11bb0 100644
---- a/drivers/leds/simple/Makefile
-+++ b/drivers/leds/simple/Makefile
-@@ -2,3 +2,4 @@
- obj-$(CONFIG_LEDS_SIEMENS_SIMATIC_IPC)			+= simatic-ipc-leds.o
- obj-$(CONFIG_LEDS_SIEMENS_SIMATIC_IPC_APOLLOLAKE)	+= simatic-ipc-leds-gpio-core.o simatic-ipc-leds-gpio-apollolake.o
- obj-$(CONFIG_LEDS_SIEMENS_SIMATIC_IPC_F7188X)		+= simatic-ipc-leds-gpio-core.o simatic-ipc-leds-gpio-f7188x.o
-+obj-$(CONFIG_LEDS_SIEMENS_SIMATIC_IPC_ELKHARTLAKE)	+= simatic-ipc-leds-gpio-core.o simatic-ipc-leds-gpio-elkhartlake.o
-diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio-core.c b/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
-index 2a21b663df87..c552ea73ed9d 100644
---- a/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
-+++ b/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
-@@ -57,6 +57,7 @@ int simatic_ipc_leds_gpio_probe(struct platform_device *pdev,
- 	switch (plat->devmode) {
- 	case SIMATIC_IPC_DEVICE_127E:
- 	case SIMATIC_IPC_DEVICE_227G:
-+	case SIMATIC_IPC_DEVICE_BX_21A:
- 		break;
- 	default:
- 		return -ENODEV;
-@@ -72,6 +73,9 @@ int simatic_ipc_leds_gpio_probe(struct platform_device *pdev,
- 		goto out;
- 	}
- 
-+	if (!table_extra)
-+		return 0;
-+
- 	table_extra->dev_id = dev_name(dev);
- 	gpiod_add_lookup_table(table_extra);
- 
-diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio-elkhartlake.c b/drivers/leds/simple/simatic-ipc-leds-gpio-elkhartlake.c
-new file mode 100644
-index 000000000000..6ba21dbb3ba0
---- /dev/null
-+++ b/drivers/leds/simple/simatic-ipc-leds-gpio-elkhartlake.c
-@@ -0,0 +1,57 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Siemens SIMATIC IPC driver for GPIO based LEDs
-+ *
-+ * Copyright (c) Siemens AG, 2023
-+ *
-+ * Author:
-+ *  Henning Schild <henning.schild@siemens.com>
-+ */
-+
-+#include <linux/gpio/machine.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/leds.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/platform_data/x86/simatic-ipc-base.h>
-+
-+#include "simatic-ipc-leds-gpio.h"
-+
-+static struct gpiod_lookup_table simatic_ipc_led_gpio_table = {
-+	.dev_id = "leds-gpio",
-+	.table = {
-+		GPIO_LOOKUP_IDX("INTC1020:04", 72, NULL, 0, GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP_IDX("INTC1020:04", 77, NULL, 1, GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP_IDX("INTC1020:04", 78, NULL, 2, GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP_IDX("INTC1020:04", 58, NULL, 3, GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP_IDX("INTC1020:04", 60, NULL, 4, GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP_IDX("INTC1020:04", 62, NULL, 5, GPIO_ACTIVE_HIGH),
-+		{} /* Terminating entry */
-+	},
-+};
-+
-+static int simatic_ipc_leds_gpio_elkhartlake_probe(struct platform_device *pdev)
-+{
-+	return simatic_ipc_leds_gpio_probe(pdev, &simatic_ipc_led_gpio_table,
-+					   NULL);
-+}
-+
-+static int simatic_ipc_leds_gpio_elkhartlake_remove(struct platform_device *pdev)
-+{
-+	return simatic_ipc_leds_gpio_remove(pdev, &simatic_ipc_led_gpio_table,
-+					    NULL);
-+}
-+
-+static struct platform_driver simatic_ipc_led_gpio_elkhartlake_driver = {
-+	.probe = simatic_ipc_leds_gpio_elkhartlake_probe,
-+	.remove = simatic_ipc_leds_gpio_elkhartlake_remove,
-+	.driver = {
-+		.name = KBUILD_MODNAME,
-+	},
-+};
-+module_platform_driver(simatic_ipc_led_gpio_elkhartlake_driver);
-+
-+MODULE_LICENSE("GPL v2");
-+MODULE_ALIAS("platform:" KBUILD_MODNAME);
-+MODULE_SOFTDEP("pre: simatic-ipc-leds-gpio-core platform:elkhartlake-pinctrl");
-+MODULE_AUTHOR("Henning Schild <henning.schild@siemens.com>");
-diff --git a/drivers/platform/x86/simatic-ipc.c b/drivers/platform/x86/simatic-ipc.c
-index c773995b230d..4402cd354104 100644
---- a/drivers/platform/x86/simatic-ipc.c
-+++ b/drivers/platform/x86/simatic-ipc.c
-@@ -48,6 +48,7 @@ static struct {
- 	{SIMATIC_IPC_IPC477E, SIMATIC_IPC_DEVICE_NONE, SIMATIC_IPC_DEVICE_427E},
- 	{SIMATIC_IPC_IPCBX_39A, SIMATIC_IPC_DEVICE_227G, SIMATIC_IPC_DEVICE_227G},
- 	{SIMATIC_IPC_IPCPX_39A, SIMATIC_IPC_DEVICE_NONE, SIMATIC_IPC_DEVICE_227G},
-+	{SIMATIC_IPC_IPCBX_21A, SIMATIC_IPC_DEVICE_BX_21A, SIMATIC_IPC_DEVICE_NONE},
- };
- 
- static int register_platform_devices(u32 station_id)
-@@ -72,6 +73,8 @@ static int register_platform_devices(u32 station_id)
- 			pdevname = KBUILD_MODNAME "_leds_gpio_apollolake";
- 		if (ledmode == SIMATIC_IPC_DEVICE_227G)
- 			pdevname = KBUILD_MODNAME "_leds_gpio_f7188x";
-+		if (ledmode == SIMATIC_IPC_DEVICE_BX_21A)
-+			pdevname = KBUILD_MODNAME "_leds_gpio_elkhartlake";
- 		platform_data.devmode = ledmode;
- 		ipc_led_platform_device =
- 			platform_device_register_data(NULL,
-diff --git a/include/linux/platform_data/x86/simatic-ipc-base.h b/include/linux/platform_data/x86/simatic-ipc-base.h
-index 57d6a10dfc9e..00bf18ecb160 100644
---- a/include/linux/platform_data/x86/simatic-ipc-base.h
-+++ b/include/linux/platform_data/x86/simatic-ipc-base.h
-@@ -20,6 +20,7 @@
- #define SIMATIC_IPC_DEVICE_127E 3
- #define SIMATIC_IPC_DEVICE_227E 4
- #define SIMATIC_IPC_DEVICE_227G 5
-+#define SIMATIC_IPC_DEVICE_BX_21A 6
- 
- struct simatic_ipc_platform {
- 	u8	devmode;
-diff --git a/include/linux/platform_data/x86/simatic-ipc.h b/include/linux/platform_data/x86/simatic-ipc.h
-index a48bb5240977..1a8e4c1099e3 100644
---- a/include/linux/platform_data/x86/simatic-ipc.h
-+++ b/include/linux/platform_data/x86/simatic-ipc.h
-@@ -2,7 +2,7 @@
- /*
-  * Siemens SIMATIC IPC drivers
-  *
-- * Copyright (c) Siemens AG, 2018-2021
-+ * Copyright (c) Siemens AG, 2018-2023
-  *
-  * Authors:
-  *  Henning Schild <henning.schild@siemens.com>
-@@ -34,6 +34,7 @@ enum simatic_ipc_station_ids {
- 	SIMATIC_IPC_IPC227G = 0x00000F01,
- 	SIMATIC_IPC_IPCBX_39A = 0x00001001,
- 	SIMATIC_IPC_IPCPX_39A = 0x00001002,
-+	SIMATIC_IPC_IPCBX_21A = 0x00001101,
- };
- 
- static inline u32 simatic_ipc_get_station_id(u8 *data, int max_len)
--- 
-2.39.3
+8003.571287] Attribute: HP_Disk0MapForUefiBootOrder    Prerequisite_size 31=
+45848
+[ 8003.571287] String Prerequisites size value exceeded the maximum
+number of elements supported or data may be malformed
 
+[ 8003.571288] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[0]
+/Pci(0x1F,0x6)/MAC(3
+[ 8003.571288] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[1]
+24D33F453F,0x0)/IPv6(000
+[ 8003.571289] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[2]
+:0000:0000:0000:0000:000
+[ 8003.571290] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[3]
+:0000:0000,0x0,Static,00
+[ 8003.571290] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[4]
+0:0000:0000:0000:0000:00
+[ 8003.571291] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[5]
+0:0000:0000,0x40,0000:00
+[ 8003.571291] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[6]
+0:0000:0000:0000:0000:00
+[ 8003.571292] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[7]
+0:0000)\r\n\tPciRoot(0x0)/P
+[ 8003.571292] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[8]
+i(0x0,0x0)/IPv4(0.0.0.0,0x0,DHCP,0.0.0.0,0.0.0.0,
+[ 8003.571293] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[9]
+.0.0.0)\r\n\tPciRoot(0x0)/P
+[ 8003.571293] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[10]
+i(0x0,0x0)/IPv6(0000:0000:0000:0000:0000:0000:000
+[ 8003.571294] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[11]
+:0000,0x0,Static,0000:00
+[ 8003.571295] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[12]
+0:0000:0000:0000:0000:00
+[ 8003.571295] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[13]
+0:0000,0x0,0000:0000:000
+[ 8003.571296] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[14]
+:0000:0000:0000:0000:000
+[ 8003.571296] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[15] )
+[ 8003.571297] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[16]
+[ 8003.571297] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[17]
+[ 8003.571298] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[18]
+[ 8003.571298] Attribute: HP_Disk0MapForUefiBootOrder Prerequisite[19]
+
+[ 8003.571298] Attribute: HP_Disk0MapForUefiBootOrder Security 0
+[ 8003.571299] Attribute: HP_Disk0MapForUefiBootOrder String Min Length  0
+[ 8003.571299] Attribute: HP_Disk0MapForUefiBootOrder String Max Length  0
+
+
+>
+> hp_populate_enumeration_package_data() always returns "0".
+
+Earlier in the code, failures reported for a particular attribute
+value were ignored because each value is independent from each other.
+It is up to the user space application to analyze the raw data read from BI=
+OS.
+
+>
+> > In earlier reviews, it was agreed to report a warning  that reads
+> >
+> > /* Report a message and limit prerequisite size to maximum value */
+> > pr_warn("Enum Prerequisites size value exceeded the maximum number of
+> > elements supported or data may be malformed\n");
+> >
+> > See lines 370-374
+> >
+> > > (Affects all attributes)
+> > >
+> > > > +                     for (reqs =3D 0; reqs < size; reqs++) {
+> > > > +                             if (elem >=3D enum_obj_count) {
+> > > > +                                     pr_err("Error enum-objects pa=
+ckage is too small\n");
+> > > > +                                     return -EINVAL;
+> > > > +                             }
+> > > > +
+> > > > +                             ret =3D hp_convert_hexstr_to_str(enum=
+_obj[elem + reqs].string.pointer,
+> > > > +                                                            enum_o=
+bj[elem + reqs].string.length,
+> > > > +                                                            &str_v=
+alue, &value_len);
+> > > > +
+> > > > +                             if (ret)
+> > > > +                                     return -EINVAL;
+> > > > +
+> > > > +                             strscpy(enum_data->common.prerequisit=
+es[reqs],
+> > > > +                                     str_value,
+> > > > +                                     sizeof(enum_data->common.prer=
+equisites[reqs]));
+> > > > +
+> > > > +                             kfree(str_value);
+> > > > +                     }
+> > > > +                     break;
+> > > > +
+> > > > +             case SECURITY_LEVEL:
+> > > > +                     enum_data->common.security_level =3D int_valu=
+e;
+> > > > +                     break;
+> > > > +
+> > > > +             case ENUM_CURRENT_VALUE:
+> > > > +                     strscpy(enum_data->current_value,
+> > > > +                             str_value, sizeof(enum_data->current_=
+value));
+> > > > +                     break;
+> > > > +             case ENUM_SIZE:
+> > > > +                     enum_data->possible_values_size =3D int_value=
+;
+> > > > +                     if (int_value > MAX_VALUES_SIZE)
+> > > > +                             pr_warn("Possible number values size =
+value exceeded the maximum number of elements supported or data may be malf=
+ormed\n");
+> > > > +
+> > > > +                     /*
+> > > > +                      * This HACK is needed to keep the expected
+> > > > +                      * element list pointing to the right obj[ele=
+m].type
+> > > > +                      * when the size is zero. POSSIBLE_VALUES
+> > > > +                      * object is omitted by BIOS when the size is=
+ zero.
+> > > > +                      */
+> > > > +                     if (int_value =3D=3D 0)
+> > > > +                             eloc++;
+> > > > +                     break;
+> > > > +
+> > > > +             case ENUM_POSSIBLE_VALUES:
+> > > > +                     size =3D enum_data->possible_values_size;
+> > > > +
+> > > > +                     for (pos_values =3D 0; pos_values < size && p=
+os_values < MAX_VALUES_SIZE;
+> > > > +                          pos_values++) {
+> > > > +                             if (elem >=3D enum_obj_count) {
+> > > > +                                     pr_err("Error enum-objects pa=
+ckage is too small\n");
+> > > > +                                     return -EINVAL;
+> > > > +                             }
+> > > > +
+> > > > +                             ret =3D hp_convert_hexstr_to_str(enum=
+_obj[elem + pos_values].string.pointer,
+> > > > +                                                            enum_o=
+bj[elem + pos_values].string.length,
+> > > > +                                                            &str_v=
+alue, &value_len);
+> > > > +
+> > > > +                             if (ret)
+> > > > +                                     return -EINVAL;
+> > > > +
+> > > > +                             /*
+> > > > +                              * ignore strings when possible value=
+s size
+> > > > +                              * is greater than MAX_VALUES_SIZE
+> > > > +                              */
+> > > > +                             if (size < MAX_VALUES_SIZE)
+> > > > +                                     strscpy(enum_data->possible_v=
+alues[pos_values],
+> > > > +                                             str_value,
+> > > > +                                             sizeof(enum_data->pos=
+sible_values[pos_values]));
+> > > > +                     }
+> > > > +                     break;
+> > > > +             default:
+> > > > +                     pr_warn("Invalid element: %d found in Enumera=
+tion attribute or data may be malformed\n", elem);
+> > > > +                     break;
+> > > > +             }
+> > > > +
+> > > > +             kfree(str_value);
+> > > > +     }
+> > > > +
+> > > > +exit_enumeration_package:
+> > > > +     kfree(str_value);
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +/**
+> > > > + * hp_populate_enumeration_package_data() -
+> > > > + * Populate all properties of an instance under enumeration attrib=
+ute
+> > > > + *
+> > > > + * @enum_obj: ACPI object with enumeration data
+> > > > + * @instance_id: The instance to enumerate
+> > > > + * @attr_name_kobj: The parent kernel object
+> > > > + */
+> > > > +int hp_populate_enumeration_package_data(union acpi_object *enum_o=
+bj,
+> > > > +                                      int instance_id,
+> > > > +                                      struct kobject *attr_name_ko=
+bj)
+> > > > +{
+> > > > +     struct enumeration_data *enum_data =3D &bioscfg_drv.enumerati=
+on_data[instance_id];
+> > > > +
+> > > > +     enum_data->attr_name_kobj =3D attr_name_kobj;
+> > > > +
+> > > > +     hp_populate_enumeration_elements_from_package(enum_obj,
+> > > > +                                                   enum_obj->packa=
+ge.count,
+> > > > +                                                   instance_id);
+> > > > +     hp_update_attribute_permissions(enum_data->common.is_readonly=
+,
+> > > > +                                     &enumeration_current_val);
+> > > > +     /*
+> > > > +      * Several attributes have names such "MONDAY". Friendly
+> > > > +      * user nane is generated to make the name more descriptive
+> > > > +      */
+> > > > +     hp_friendly_user_name_update(enum_data->common.path,
+> > > > +                                  attr_name_kobj->name,
+> > > > +                                  enum_data->common.display_name,
+> > > > +                                  sizeof(enum_data->common.display=
+_name));
+> > > > +     return sysfs_create_group(attr_name_kobj, &enumeration_attr_g=
+roup);
+> > > > +}
+> > > > +
+> > > > +static int hp_populate_enumeration_elements_from_buffer(u8 *buffer=
+_ptr, u32 *buffer_size,
+> > > > +                                                     int instance_=
+id)
+> > > > +{
+> > > > +     int reqs;
+> > > > +     int values;
+> > > > +     struct enumeration_data *enum_data =3D &bioscfg_drv.enumerati=
+on_data[instance_id];
+> > > > +
+> > > > +     /*
+> > > > +      * In earlier implementation, reported errors were ignored
+> > > > +      * causing the data to remain uninitialized. It is for this
+> > > > +      * reason functions may return an error and no validation
+> > > > +      * takes place.
+> > > > +      */
+> > >
+> > > Where is this error returned?
+> >
+> > functions such hp_get_string_from_buffer, hp_get_integer_from_buffer
+>
+> But the errors returned from those functions are just thrown away, no?
+
+Earlier in the code, failures reported for a particular attribute
+value were ignored because each value is independent from each other.
+It is for this reason, we are throwing away any errors returned from
+those functions.
+
+> > >
+> > > > +
+> > > > +     // VALUE:
+> > > > +     hp_get_string_from_buffer(&buffer_ptr, buffer_size, enum_data=
+->current_value,
+> > > > +                               sizeof(enum_data->current_value));
+> > > > +
+> > > > +     // PATH:
+> > > > +     hp_get_string_from_buffer(&buffer_ptr, buffer_size, enum_data=
+->common.path,
+> > > > +                               sizeof(enum_data->common.path));
+> > > > +
+> > > > +     // IS_READONLY:
+> > > > +     hp_get_integer_from_buffer(&buffer_ptr, buffer_size,
+> > > > +                                &enum_data->common.is_readonly);
+> > > > +
+> > > > +     //DISPLAY_IN_UI:
+> > > > +     hp_get_integer_from_buffer(&buffer_ptr, buffer_size,
+> > > > +                                &enum_data->common.display_in_ui);
+> > > > +
+> > > > +     // REQUIRES_PHYSICAL_PRESENCE:
+> > > > +     hp_get_integer_from_buffer(&buffer_ptr, buffer_size,
+> > > > +                                &enum_data->common.requires_physic=
+al_presence);
+> > > > +
+> > > > +     // SEQUENCE:
+> > > > +     hp_get_integer_from_buffer(&buffer_ptr, buffer_size,
+> > > > +                                &enum_data->common.sequence);
+> > > > +
+> > > > +     // PREREQUISITES_SIZE:
+> > > > +     hp_get_integer_from_buffer(&buffer_ptr, buffer_size,
+> > > > +                                &enum_data->common.prerequisites_s=
+ize);
+> > > > +
+> > > > +     if (enum_data->common.prerequisites_size > MAX_PREREQUISITES_=
+SIZE) {
+> > > > +             /* Report a message and limit prerequisite size to ma=
+ximum value */
+> > > > +             pr_warn("Enum Prerequisites size value exceeded the m=
+aximum number of elements supported or data may be malformed\n");
+> > > > +             enum_data->common.prerequisites_size =3D MAX_PREREQUI=
+SITES_SIZE;
+> > > > +     }
+> > > > +
+> > > > +     // PREREQUISITES:
+> > > > +     for (reqs =3D 0; reqs < enum_data->common.prerequisites_size;=
+ reqs++)
+> > > > +             hp_get_string_from_buffer(&buffer_ptr, buffer_size,
+> > > > +                                       enum_data->common.prerequis=
+ites[reqs],
+> > > > +                                       sizeof(enum_data->common.pr=
+erequisites[reqs]));
+> > > > +
+> > > > +     // SECURITY_LEVEL:
+> > > > +     hp_get_integer_from_buffer(&buffer_ptr, buffer_size,
+> > > > +                                &enum_data->common.security_level)=
+;
+> > >
+> > > The reading of all the common elemtns can be extracted into a helper
+> > > and reused from all the attributes.
+> >
+> > Is extracting all common elements into a helper routine absolutely
+> > necessary now or can it be refactored after driver is accepted?
+>
+> It's not necessary.
+
+Thank you
+>
+> > >
+> > > > +
+> > > > +     // ENUM_CURRENT_VALUE:
+> > > > +     hp_get_string_from_buffer(&buffer_ptr, buffer_size,
+> > > > +                               enum_data->current_value,
+> > > > +                               sizeof(enum_data->current_value));
+> > > > +     // ENUM_SIZE:
+> > > > +     hp_get_integer_from_buffer(&buffer_ptr, buffer_size,
+> > > > +                                &enum_data->possible_values_size);
+> > > > +
+> > > > +     if (enum_data->possible_values_size > MAX_VALUES_SIZE) {
+> > > > +             /* Report a message and limit possible values size to=
+ maximum value */
+> > > > +             pr_warn("Enum Possible size value exceeded the maximu=
+m number of elements supported or data may be malformed\n");
+> > > > +             enum_data->possible_values_size =3D MAX_VALUES_SIZE;
+> > > > +     }
+> > > > +
+> > > > +     // ENUM_POSSIBLE_VALUES:
+> > > > +
+> > > > +     for (values =3D 0; values < enum_data->possible_values_size; =
+values++)
+> > > > +             hp_get_string_from_buffer(&buffer_ptr, buffer_size,
+> > > > +                                       enum_data->possible_values[=
+values],
+> > > > +                                       sizeof(enum_data->possible_=
+values[values]));
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +/**
+> > > > + * hp_populate_enumeration_buffer_data() -
+> > > > + * Populate all properties of an instance under enumeration attrib=
+ute
+> > > > + *
+> > > > + * @buffer_ptr: Buffer pointer
+> > > > + * @buffer_size: Buffer size
+> > > > + * @instance_id: The instance to enumerate
+> > > > + * @attr_name_kobj: The parent kernel object
+> > > > + */
+> > > > +int hp_populate_enumeration_buffer_data(u8 *buffer_ptr, u32 *buffe=
+r_size,
+> > > > +                                     int instance_id,
+> > > > +                                     struct kobject *attr_name_kob=
+j)
+> > > > +{
+> > > > +     struct enumeration_data *enum_data =3D &bioscfg_drv.enumerati=
+on_data[instance_id];
+> > > > +
+> > > > +     enum_data->attr_name_kobj =3D attr_name_kobj;
+> > > > +
+> > > > +     /* Populate enumeration elements */
+> > > > +     hp_populate_enumeration_elements_from_buffer(buffer_ptr, buff=
+er_size, instance_id);
+> > > > +
+> > > > +     hp_update_attribute_permissions(enum_data->common.is_readonly=
+,
+> > > > +                                     &enumeration_current_val);
+> > > > +     /*
+> > > > +      * Several attributes have names such "MONDAY". A Friendlier
+> > > > +      * user nane is generated to make the name more descriptive
+> > > > +      */
+> > > > +     hp_friendly_user_name_update(enum_data->common.path,
+> > > > +                                  attr_name_kobj->name,
+> > > > +                                  enum_data->common.display_name,
+> > > > +                                  sizeof(enum_data->common.display=
+_name));
+> > > > +
+> > > > +     return sysfs_create_group(attr_name_kobj, &enumeration_attr_g=
+roup);
+> > > > +}
+> > > > +
+> > > > +/**
+> > > > + * hp_exit_enumeration_attributes() - Clear all attribute data
+> > > > + *
+> > > > + * Clears all data allocated for this group of attributes
+> > > > + */
+> > > > +void hp_exit_enumeration_attributes(void)
+> > > > +{
+> > > > +     int instance_id;
+> > > > +
+> > > > +     for (instance_id =3D 0; instance_id < bioscfg_drv.enumeration=
+_instances_count;
+> > > > +          instance_id++) {
+> > > > +             struct enumeration_data *enum_data =3D &bioscfg_drv.e=
+numeration_data[instance_id];
+> > > > +             struct kobject *attr_name_kobj =3D enum_data->attr_na=
+me_kobj;
+> > > > +
+> > > > +             if (attr_name_kobj)
+> > > > +                     sysfs_remove_group(attr_name_kobj, &enumerati=
+on_attr_group);
+> > > > +     }
+> > > > +     bioscfg_drv.enumeration_instances_count =3D 0;
+> > > > +
+> > > > +     kfree(bioscfg_drv.enumeration_data);
+> > > > +     bioscfg_drv.enumeration_data =3D NULL;
+> > > > +}
+> > > > --
+> > > > 2.34.1
+> > > >
