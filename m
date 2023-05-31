@@ -2,194 +2,131 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AB3C7186C4
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 31 May 2023 17:51:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27B6E7186D0
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 31 May 2023 17:55:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231997AbjEaPv1 (ORCPT
+        id S234125AbjEaPzO (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 31 May 2023 11:51:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36372 "EHLO
+        Wed, 31 May 2023 11:55:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234273AbjEaPvZ (ORCPT
+        with ESMTP id S233081AbjEaPzN (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 31 May 2023 11:51:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D51D893
-        for <platform-driver-x86@vger.kernel.org>; Wed, 31 May 2023 08:50:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1685548233;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=K5INEdlttC/E8W3P11z/LYyq4LfEb1uvU85+ddKarIQ=;
-        b=GzEKNhtf3bS6h3nDIpXMKA3ZVvMpAClnjzbwlhzYjnWh+OOViRlsRMnT12T7tLZj4Tm/vQ
-        hshW1C/mthjmEg72H4WzOl5RGrY7wy0t8RGIhJyrF7twG2MWTML5of7Bx7k22CW7OusIOZ
-        mhrlZpEV2PGrSVIUqToBimUOjdHFeio=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-66-3EzrRgmeOeG2ay1SFhs7eA-1; Wed, 31 May 2023 11:50:31 -0400
-X-MC-Unique: 3EzrRgmeOeG2ay1SFhs7eA-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-96fd3757bd1so619095666b.1
-        for <platform-driver-x86@vger.kernel.org>; Wed, 31 May 2023 08:50:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685548230; x=1688140230;
-        h=content-transfer-encoding:in-reply-to:references:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K5INEdlttC/E8W3P11z/LYyq4LfEb1uvU85+ddKarIQ=;
-        b=XZI0I1vLC9fZPC78E5mBOTQlAp3bnlVqOIRsrZn/v2lOH9J/rdbjPasj9KhCdOfYIw
-         BskeVxYttMO8xSAHn8tsNYjudjdlLkGOpkld7juKPktdc8hDMc+TaPrTr47wSq69aBiC
-         1snHb1O+b3YhKmmizih0otGr1Ie8j4ob4v8VUHUeXTcjimkU30/Iy4k1Cj+gwskn6Scp
-         QjFbxv6zfVadwxxDK5olMk2MXCc/rtvd05ZISA8atBb2iZavFPNArothwur3dp6fn3OP
-         SmwjDoYWJBEwfZHNQv9HSsUJsLHpZ5T73BTFf//8KNRXaO8RFWrgWKioKxOCekJDGYmH
-         FeKQ==
-X-Gm-Message-State: AC+VfDwox9zEAwUoc28phi/yNoy8B154I9SAj74BHcks4HkG32Vpahar
-        UzpMtzX4rACAE1zEUIXhqK1nCycfMmEs/3i9sod53z8pnhE6rBq6YzeaYxFzhntE+qqMM5fEcaR
-        sZidPcisUMhVvGQ0tOHrHrlAyuFbZCilWlA==
-X-Received: by 2002:a17:907:7e8d:b0:94f:3980:bf91 with SMTP id qb13-20020a1709077e8d00b0094f3980bf91mr6475788ejc.19.1685548230769;
-        Wed, 31 May 2023 08:50:30 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ76VhJ2vqW2F8QsF0N+F7byel/ft3hvC2JQLya1CrWBFHzOG4PapmKZVIL1OfoUmwcBU84SUw==
-X-Received: by 2002:a17:907:7e8d:b0:94f:3980:bf91 with SMTP id qb13-20020a1709077e8d00b0094f3980bf91mr6475776ejc.19.1685548230446;
-        Wed, 31 May 2023 08:50:30 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id bl17-20020a170906c25100b0094e4eabb402sm9171689ejb.128.2023.05.31.08.50.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 May 2023 08:50:29 -0700 (PDT)
-Message-ID: <9ec0d27d-bcee-3902-091a-9349a52a9f5d@redhat.com>
-Date:   Wed, 31 May 2023 17:50:29 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] platform/x86: int3472: Remap reset GPIO for INT347E
-Content-Language: en-US, nl
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Daniel Scally <dan.scally@ideasonboard.com>,
-        Daniel Scally <djrscally@gmail.com>,
+        Wed, 31 May 2023 11:55:13 -0400
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03on2061.outbound.protection.outlook.com [40.107.105.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBFC393;
+        Wed, 31 May 2023 08:55:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=m/G23yFbxg2yjbCg0wKmhWolLGqZ8TPAjijH54SjKm2pbj4uL6nZSTVZdd2O1u40uVmm+38Ki/POysAXmJKz12bCv0VVpfWCr4MSYcqsr27OxQ/QERAW8qfaY5NSTmmh2s7Q7DEzv4X+oEQw7vWyRcZgE2iyaGsiWnwnnNM8CEEHZZFYtRksLd895oCuoXpelkC5JeA1bNn7ec4zLErZYfnelq9IscmQsAjgoaVA0j7gK4odGCUuInvqKulNJCAF/0DDhQGOtuJi/8iasaLM+oBxA1FOhypA2tMDKXm2hi6mOsIichZEZo5bKhwJAUaBjsucp/257MsaioZ492KzTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tFS6AKJV6ZySjl+UONLtE2T94jxUSimUgs+jwcplT4Q=;
+ b=eaV8Py/pYlY7HDAOjPAkHZR5S9CbNVoUMe+u5ungGL9l522zxh20zYpyQzwmm4NA0B8PtyxmLgwZcDMkuaHRzdcZMa32YLMliOkBxtiS/plWfWZxBhOLVOvDBLvTScifIomWOaplp3GxbtYdqe0mbPkggP2IV9QQ9Zev9Q5D3DACPATHKn1+D+781169L1Vji/2jqF+5p5XDChImm+SOvc4RpTMCt0nchDoSZz3ZAKGgrjDYBrF3N2WhRZd6uMDiVX0Xn6ya8qZ1Pq+pVP9yerhHM3KA5LRwqchF4EpY99PEXSJPVk8h9yWrT7zyS3ruM5OWXFGqdYQkgp8VHYCNzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 194.138.21.74) smtp.rcpttodomain=ucw.cz smtp.mailfrom=siemens.com; dmarc=pass
+ (p=reject sp=reject pct=100) action=none header.from=siemens.com; dkim=none
+ (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tFS6AKJV6ZySjl+UONLtE2T94jxUSimUgs+jwcplT4Q=;
+ b=rQL/g9umobIACG3BNscmg0U1R5jbiOC2r3g/rVKbwKD/C4srdn+dFM6pLylInJJqjs8gmKTcqCX9ACcewbljdgaiynYZL5cTBQx4ctoqShxdAFFE5oY3Vv5nh16Npu4wOU2oipy/fGiL9nOUJ3q19BLSWeaQpErnVNsNnRgP7JK/UP8jA4TVCLnK7vfHuQ/z9C3kyXrr2CsM4wTZvittXMN9yIwmt+FLhmup2SN4Ou2WcACJo/bbZKllwIYTLFjtXjhTqPyMR499rRAi+/QPhANRbyt3pqYaMKHdrDyoa9bvNAHscY3L5GZv9wkgKcp5OrXFvNSb4SjC3bhtf1ss+A==
+Received: from OS6P279CA0180.NORP279.PROD.OUTLOOK.COM (2603:10a6:e10:38::14)
+ by AS2PR10MB6541.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:55c::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.24; Wed, 31 May
+ 2023 15:55:09 +0000
+Received: from HE1EUR01FT084.eop-EUR01.prod.protection.outlook.com
+ (2603:10a6:e10:38:cafe::f3) by OS6P279CA0180.outlook.office365.com
+ (2603:10a6:e10:38::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.22 via Frontend
+ Transport; Wed, 31 May 2023 15:55:09 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.74)
+ smtp.mailfrom=siemens.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=siemens.com;
+Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
+ 194.138.21.74 as permitted sender) receiver=protection.outlook.com;
+ client-ip=194.138.21.74; helo=hybrid.siemens.com; pr=C
+Received: from hybrid.siemens.com (194.138.21.74) by
+ HE1EUR01FT084.mail.protection.outlook.com (10.152.1.33) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6455.23 via Frontend Transport; Wed, 31 May 2023 15:55:08 +0000
+Received: from DEMCHDC8WBA.ad011.siemens.net (139.25.226.105) by
+ DEMCHDC8VQA.ad011.siemens.net (194.138.21.74) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Wed, 31 May 2023 17:55:08 +0200
+Received: from md1za8fc.ad001.siemens.net (139.25.0.56) by
+ DEMCHDC8WBA.ad011.siemens.net (139.25.226.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Wed, 31 May 2023 17:55:07 +0200
+From:   Henning Schild <henning.schild@siemens.com>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <markgross@kernel.org>,
-        platform-driver-x86@vger.kernel.org
-References: <20230311223019.14123-1-dan.scally@ideasonboard.com>
- <a97e6200-bdc3-ce8e-cb9b-498b35510bd7@redhat.com>
-In-Reply-To: <a97e6200-bdc3-ce8e-cb9b-498b35510bd7@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+        <platform-driver-x86@vger.kernel.org>
+CC:     Henning Schild <henning.schild@siemens.com>
+Subject: [PATCH 0/1] leds: simatic-ipc-leds-gpio: add new model BX-21A
+Date:   Wed, 31 May 2023 17:54:56 +0200
+Message-ID: <20230531155457.31632-1-henning.schild@siemens.com>
+X-Mailer: git-send-email 2.39.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [139.25.0.56]
+X-ClientProxiedBy: DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) To
+ DEMCHDC8WBA.ad011.siemens.net (139.25.226.105)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: HE1EUR01FT084:EE_|AS2PR10MB6541:EE_
+X-MS-Office365-Filtering-Correlation-Id: 63d8030d-bc19-43e7-f1c0-08db61ef68d5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RpahIy+GZHDvhCX1b7dMwPtAuN+RIPFuyJH+tSmeTX79YTpmv9AMzCPuSF3ka4KIp9dtU9C8KTkgBiDONboaTX4VHnXBrq15eACrUjSjEpjEfsanOwBtX5WUqhQZCe+fFA1vSkQU00Y1gRErejm73CUJpfQAthqjoS5pU1AA5w4mVVYzCtXVOcWgHLIntmWf/75T2ZPvpidKMtwdIKN+wnA8WlQa1Ec431vMc1xpC1d3kmTgOORsvkcdXkXQAuGQ90m04k2qwoTj+lN1D3DvWyRoAmhIC9Nx7JbSPF05jBtIuMQlxJd5YwQY5zRrs5WfMRgM3R42/B2ETP1z3NazwVblCpqdUPtn3q3BQsT9kIw5Y3BOkMAch3wRJJljSQ62Lon7Xkh69klZT1orsqodtpHkYyqiRVbgHmU0LIiLwoLRSbMG+i+pf/JVWFROBRHpVH7+DUnxwEipS46E43LlJzNSEdqyQp5RrzwuNhXr3rswM2Y4nTrBkG5NYE7Yyv5p1rtIArtiAH3iodf4Uruv6VfvYlD3PZaG2nCH2t93+cXRNWCpNg6Cv3TJEx+YxqEWiSyTcaDIGG3BwsvVHXGwT2hQ9lVGfffBq1+/Ep85GV/3M4KxRllFrL3s50i8aF37spEkVY3/Zu5HGa9QLNu+kc9lxecIJWEVLorzTxb3m/BH86SBav6cYQfKNPf97qJpIujTdY5Y+7B4GJpJWjIHQuxlxwVJWewijykByOGveHoYNDtHOcTdvtMHvo6q4ChA
+X-Forefront-Antispam-Report: CIP:194.138.21.74;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:hybrid.siemens.com;CAT:NONE;SFS:(13230028)(4636009)(346002)(39860400002)(136003)(376002)(396003)(451199021)(46966006)(36840700001)(40470700004)(44832011)(4326008)(70206006)(8936002)(2906002)(4744005)(316002)(8676002)(41300700001)(70586007)(107886003)(110136005)(5660300002)(16526019)(186003)(2616005)(956004)(1076003)(336012)(26005)(83380400001)(47076005)(36860700001)(40480700001)(86362001)(40460700003)(6666004)(478600001)(36756003)(82740400003)(82960400001)(356005)(7596003)(82310400005)(7636003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2023 15:55:08.5998
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63d8030d-bc19-43e7-f1c0-08db61ef68d5
+X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.74];Helo=[hybrid.siemens.com]
+X-MS-Exchange-CrossTenant-AuthSource: HE1EUR01FT084.eop-EUR01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB6541
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Dan,
+This is a rather simple patch adding LED support for yet another Simatic
+IPC model.
 
-On 3/16/23 15:59, Hans de Goede wrote:
-> Hi Daniel,
-> 
-> On 3/11/23 23:30, Daniel Scally wrote:
->> ACPI _HID INT347E represents the OmniVision 7251 camera sensor. The
->> driver for this sensor expects a single pin named "enable", but on
->> some Microsoft Surface platforms the sensor is assigned a single
->> GPIO who's type flag is INT3472_GPIO_TYPE_RESET.
->>
->> Remap the GPIO pin's function from "reset" to "enable". This is done
->> outside of the existing remap table since it is a more widespread
->> discrepancy than that method is designed for. Additionally swap the
->> polarity of the pin to match the driver's expectation.
->>
->> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
-> 
-> I have recently been looking into GPIO mappings on various devices
-> using the atomisp2 ISP. These use the same _DSM as the IPU3 but
-> then directly on the sensor ACPI device node.
-> 
-> What I came up with is this (I still need to submit this upstream):
-> 
-> https://github.com/jwrdegoede/linux-sunxi/commit/e2287979db43d46fa7d354c1bde92eb6219b613d
-> 
-> One thing which I learned while working on this is that in the value returned by the _DSM
-> the byte with mask 0xff00 is the pin-number on the GPIO controller; and (and this is the important bit!) unlike the assumption in the IPU3/INT3472 code the order in which the GPIOs are listed in the "79234640-9e10-4fea-a5c1-b5aa8b19756f" _DSM is *NOT* always the order in which they are listed in the GPIO resources!
-> 
-> So as you can see in the linked commit I'm finding the GPIO resource to go with the _DSM value by matching the pin-numbers.
-> 
-> I'm wondering if we need to do the same thing on IPU3 and if this is maybe why we need to do any remapping at all ?
-> 
-> Can you please check if there is not something like the above going on before we add a remap quirk for this ?
+Note that this is based on
+ "[PATCH v4 0/4] leds: simatic-ipc-leds-gpio: split up"
 
-So based on our recent related emails:
+Henning Schild (1):
+  leds: simatic-ipc-leds-gpio: add new model BX-21A
 
-https://lore.kernel.org/linux-media/7fc1a3fb-d300-de09-1e0d-606971560fc1@redhat.com/
+ drivers/leds/simple/Kconfig                   | 13 +++++
+ drivers/leds/simple/Makefile                  |  1 +
+ .../leds/simple/simatic-ipc-leds-gpio-core.c  |  4 ++
+ .../simatic-ipc-leds-gpio-elkhartlake.c       | 57 +++++++++++++++++++
+ drivers/platform/x86/simatic-ipc.c            |  3 +
+ .../platform_data/x86/simatic-ipc-base.h      |  1 +
+ include/linux/platform_data/x86/simatic-ipc.h |  3 +-
+ 7 files changed, 81 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/leds/simple/simatic-ipc-leds-gpio-elkhartlake.c
 
-I have taken another look at this.
-
-The datasheet for the OV7251 is a bit ambiguous it names the pin as
-"XSHUTDOWN" but then describes that pin as:
-
-"reset (active low with internal pull down resistor)"
-
-so based on the longer description of the pin I believe it would
-be reasonable to patch the driver to try and get a "reset"
-con-id GPIO if getting an "enable" con-id pin fails.
-
-IMHO this would be preferably to adding more and more GPIO
-remap hacks to the INT3472 code.
-
-Regards,
-
-Hans
-
-
-
-
-
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> 
-> 
-> 
-> 
->> ---
->>  drivers/platform/x86/intel/int3472/discrete.c | 14 ++++++++++++++
->>  1 file changed, 14 insertions(+)
->>
->> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
->> index f064da74f50a..2064b3bbe530 100644
->> --- a/drivers/platform/x86/intel/int3472/discrete.c
->> +++ b/drivers/platform/x86/intel/int3472/discrete.c
->> @@ -98,6 +98,9 @@ static int skl_int3472_map_gpio_to_sensor(struct int3472_discrete_device *int347
->>  {
->>  	const struct int3472_sensor_config *sensor_config;
->>  	char *path = agpio->resource_source.string_ptr;
->> +	const struct acpi_device_id ov7251_ids[] = {
->> +		{ "INT347E" },
->> +	};
->>  	struct gpiod_lookup *table_entry;
->>  	struct acpi_device *adev;
->>  	acpi_handle handle;
->> @@ -120,6 +123,17 @@ static int skl_int3472_map_gpio_to_sensor(struct int3472_discrete_device *int347
->>  		}
->>  	}
->>  
->> +	/*
->> +	 * In addition to the function remap table we need to bulk remap the
->> +	 * "reset" GPIO for the OmniVision 7251 sensor, as the driver for that
->> +	 * expects its only GPIO pin to be called "enable" (and to have the
->> +	 * opposite polarity).
->> +	 */
->> +	if (!strcmp(func, "reset") && !acpi_match_device_ids(int3472->sensor, ov7251_ids)) {
->> +		func = "enable";
->> +		polarity = GPIO_ACTIVE_HIGH;
->> +	}
->> +
->>  	/* Functions mapped to NULL should not be mapped to the sensor */
->>  	if (!func)
->>  		return 0;
-> 
+-- 
+2.39.3
 
