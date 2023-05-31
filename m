@@ -2,63 +2,69 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A80C871873F
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 31 May 2023 18:22:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF1A37188EC
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 31 May 2023 19:56:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229629AbjEaQWs (ORCPT
+        id S229528AbjEaR4t (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 31 May 2023 12:22:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50708 "EHLO
+        Wed, 31 May 2023 13:56:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229566AbjEaQWp (ORCPT
+        with ESMTP id S229480AbjEaR4t (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 31 May 2023 12:22:45 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B815132;
-        Wed, 31 May 2023 09:22:42 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2af2c35fb85so63884201fa.3;
-        Wed, 31 May 2023 09:22:42 -0700 (PDT)
+        Wed, 31 May 2023 13:56:49 -0400
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99CB3126;
+        Wed, 31 May 2023 10:56:48 -0700 (PDT)
+Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-62614f2eee1so378776d6.0;
+        Wed, 31 May 2023 10:56:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685550160; x=1688142160;
+        d=gmail.com; s=20221208; t=1685555808; x=1688147808;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O44tdFoCQTVZoNLcx4Jw4lcBxJgV7e1izc2pQGeyMtU=;
-        b=hccPON+QR72ivDvazjP93XS1+i5Ru4KN8gNqIBSjluVihSYaEp5QhJJIJ/GPUrf/Ur
-         o3XPAPuHX9U8qUn3B0K5SEna1kNSfMTmAuVTnc/SL9Bh8n+xl9U/6QJi7hV/NLQ7Ku66
-         FE+EcNhrAwPNPasw6c+Q7RhH9A25kLGAtQvpOv0QIpXoxGY/9dUGEgiqFNEb6RBxKr1Y
-         TzVetaJfQMlNnA/cz1eVVDilGuVS+4IEDbnWnLmYRfNw6kh5LVGGxn98LvaTcU4RFFLg
-         qeRkeUlnRzQGPwq0qI/vIZ4Zp2Vu2a3PEjiiibjyctLYIT/Wv48/WiSqKvhoHoU4cpuu
-         hIVA==
+        bh=MV/c9biBREnkCQhVOfi4+gGEBOdEBNIO9x1pDQfIhIc=;
+        b=rnbmb5JlCSJDAEgSUjcHfGlPCWBH6Ob3WXHiWCb8icD/V4HzAFoDfxoebts+CwnVDj
+         DGXevcQNVkHXz+69508oAva6lUdvfcqSAKulxIe+DPJMnrPnNEnkeLilVGD08FTlqyQm
+         ZqnhtIIaLo1wB+BBN6/hSfbdJHtKhlfSjx1kmwpVVC6/LQwl64fGaqF+0fDA3WWzXIbz
+         d/QAf6FIyEVjO8N67m6guyuXEpqAtRDqnE9X8fOnkCYJucPb7tCZslyWscd6trza6enc
+         rWYQJGcfOWpwY+I6FcQ60PH2+QXu9UUEyaqqaZ7R8beShSaTZlG0MsqYPsmwP/PnwrQR
+         NlQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685550160; x=1688142160;
+        d=1e100.net; s=20221208; t=1685555808; x=1688147808;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=O44tdFoCQTVZoNLcx4Jw4lcBxJgV7e1izc2pQGeyMtU=;
-        b=jEvXIMHkjB79I4BHZRvgtF+DoCRL7n83k9P85Q7jrEysERkVOhsAj3PwoCi7y0xvyj
-         HjcnHvDqBxgkzCIo9sc790yBGGBHZraBUvt2Aex9YisVKJW25PSQ+T8TZwAv2nPasK4g
-         7NtnYHyChC7GUQ+OPvMDO/I+D5ey4rYFoUpaPH7NAsVrzbq9mNLADmYIe0Qv31V/H2XF
-         UVvxB9l8znJqL7JhsWQkj7mPtjb+6E5ZX+dYyUOdH0L+fjUkbSsJt8ghTsWFoUMnpvh2
-         43Yw65UZ0zmqJygNhf2n/uG0jNg9Db8e3h80IVDi8TEjp6USgcKCxfVqERa7KvnPVZiP
-         XwnA==
-X-Gm-Message-State: AC+VfDzT2TCZ4fLkfKTcl/XWzX3XGinQqjrzaR+zDVbASEJtImZT1t2r
-        fYkfoOODXnTnXcd051mXdfEcvQIYwQ/Iq9fWxOJkgI/7qZA=
-X-Google-Smtp-Source: ACHHUZ65gHJuYKkAkZR3FktPreo0ps4YUOaxWXtqWmXF3hTtgMbi30hbfdX0TFUnX0Tm5aNwheyvS3vRqrCtjg9DSl8=
-X-Received: by 2002:a2e:868e:0:b0:2ac:70fa:fb7b with SMTP id
- l14-20020a2e868e000000b002ac70fafb7bmr3305255lji.18.1685550160150; Wed, 31
- May 2023 09:22:40 -0700 (PDT)
+        bh=MV/c9biBREnkCQhVOfi4+gGEBOdEBNIO9x1pDQfIhIc=;
+        b=XLRdOFhfOpSyvWJVOJkRaFlCfCf/7A6Huz/b8ub8K1ASMRKLpQPTJqL3qpDzHNA937
+         INkwwUChXAEqKrlIpC/ixWnlCzqSXYDFPUAYFu9SMn7RGqG7UHrz1wothUm07AcZlEYC
+         hm6oMlLCyVJbc5dVGHxQGR/4u05TUO5NXXgWOy9Fw3JoHtsT3jw1D54st8Anxwv4Ugbl
+         ND9GuEPlu2dyZ6bqigpoHMot0zKg6zVzce1boVTHvSEDpgCd6aTBFn7bJS4Ok1QhRb+Y
+         Do6TbEtGxjhQ9au8FscrT1lOW+SGlXlk0+vtLgaHhMw1FyQ1msaxoFGZNWB77/paKvfU
+         J/Vg==
+X-Gm-Message-State: AC+VfDyEvrNq2iUO4exiQ4O1VFToQh57O+X3CLNGxiFjDQfvZ4JwCi3B
+        Z3xf6KdA7NlEYq4+RsQgZHCc4Smm5EGzBWVOsZU=
+X-Google-Smtp-Source: ACHHUZ7oPzEnX2sTgdrIybaJqGhrKECjZE6ClvGKPggqB4ZsjxGeTwBJKYWUj0dGV+eukpHw2u/ObwzaonunVzVeww0=
+X-Received: by 2002:a05:6214:2245:b0:618:e1d9:75b8 with SMTP id
+ c5-20020a056214224500b00618e1d975b8mr8920500qvc.34.1685555807697; Wed, 31 May
+ 2023 10:56:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230519201300.12964-1-jorge.lopez2@hp.com> <20230519201300.12964-3-jorge.lopez2@hp.com>
- <efd7d98f-c441-4098-9ace-93529989d51d@t-8ch.de>
-In-Reply-To: <efd7d98f-c441-4098-9ace-93529989d51d@t-8ch.de>
-From:   Jorge Lopez <jorgealtxwork@gmail.com>
-Date:   Wed, 31 May 2023 11:22:04 -0500
-Message-ID: <CAOOmCE-EmwivPN_LJWqWMNe5WufTdmOHMuzjbJ1nNZ3n+bmpFQ@mail.gmail.com>
-Subject: Re: [PATCH v15 02/13] hp-bioscfg: bioscfg-h
-To:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>
-Cc:     hdegoede@redhat.com, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ilpo.jarvinen@linux.intel.com
+References: <20230531134429.171337-1-hdegoede@redhat.com>
+In-Reply-To: <20230531134429.171337-1-hdegoede@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 31 May 2023 20:56:11 +0300
+Message-ID: <CAHp75VfZN5M8LiP3nw0NT5p3WyJJJJm6w2OZKgm28b6aokzopQ@mail.gmail.com>
+Subject: Re: [PATCH v2] platform/x86: int3472: Evaluate device's _DSM method
+ to control imaging clock
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        bingbu.cao@linux.intel.com, platform-driver-x86@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
+        Hao Yao <hao.yao@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -71,227 +77,36 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, May 26, 2023 at 10:14=E2=80=AFAM Thomas Wei=C3=9Fschuh <thomas@t-8c=
-h.de> wrote:
+On Wed, May 31, 2023 at 4:44=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
 >
-> Hi Jorge,
+> From: Bingbu Cao <bingbu.cao@intel.com>
 >
-> sorry for the long delay.
+> On some platforms, the imaging clock should be controlled by evaluating
+> specific clock device's _DSM method instead of setting gpio, so this
+> change register clock if no gpio based clock and then use the _DSM method
+> to enable and disable clock.
 
-No worries.  I got Covid while you were away so I am slowly coming back.
+...
 
-> Here we go again :-)
->
-> On 2023-05-19 15:12:49-0500, Jorge Lopez wrote:
->
-> <snip>
->
-> > ---
-> >  drivers/platform/x86/hp/hp-bioscfg/bioscfg.h | 486 +++++++++++++++++++
-> >  1 file changed, 486 insertions(+)
-> >  create mode 100644 drivers/platform/x86/hp/hp-bioscfg/bioscfg.h
-> >
-> > diff --git a/drivers/platform/x86/hp/hp-bioscfg/bioscfg.h b/drivers/pla=
-tform/x86/hp/hp-bioscfg/bioscfg.h
-> > new file mode 100644
-> > index 000000000000..3a3b24f766d2
-> > --- /dev/null
-> > +++ b/drivers/platform/x86/hp/hp-bioscfg/bioscfg.h
-> > @@ -0,0 +1,486 @@
-> > +/* SPDX-License-Identifier: GPL-2.0
-> > + *
-> > + * Definitions for kernel modules using hp_bioscfg driver
-> > + *
-> > + *  Copyright (c) 2022 HP Development Company, L.P.
-> > + */
-> > +
-> > +#ifndef _HP_BIOSCFG_H_
-> > +#define _HP_BIOSCFG_H_
-> > +
-> > +#include <linux/wmi.h>
-> > +#include <linux/types.h>
-> > +#include <linux/device.h>
-> > +#include <linux/module.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/capability.h>
->
-> Is this needed?
+> +       if (clk->ena_gpio)
+> +               gpiod_set_value_cansleep(clk->ena_gpio, 1);
+> +       else
+> +               skl_int3472_enable_clk_acpi_method(clk, 1);
 
-+#include <linux/capability.h> is not needed.  It will be removed.
+Looking at this, can we avoid duplicative validation of the GPIO?
+Perhaps skl_int3472_enable_clk_acpi_method() can have embedded another
+check so they won't be called together?
 
->
-> > +#include <linux/nls.h>
-> > +
-> > +#define DRIVER_NAME          "hp-bioscfg"
-> > +
-> > +#define MAX_BUFF_SIZE                512
-> > +#define MAX_KEY_MOD_SIZE     256
-> > +#define MAX_PASSWD_SIZE              64
-> > +#define MAX_PREREQUISITES_SIZE       20
-> > +#define MAX_REQ_ELEM_SIZE    128
-> > +#define MAX_VALUES_SIZE              16
-> > +#define MAX_ENCODINGS_SIZE   16
-> > +#define MAX_ELEMENTS_SIZE    16
-> > +
-> > +#define SPM_STR_DESC         "Secure Platform Management"
-> > +#define SPM_STR                      "SPM"
-> > +#define SURE_START_DESC              "Sure Start"
-> > +#define SURE_START_STR               "Sure_Start"
-> > +#define SETUP_PASSWD         "Setup Password"
-> > +#define POWER_ON_PASSWD              "Power-On Password"
-> > +
-> > +#define LANG_CODE_STR                "en_US.UTF-8"
-> > +#define SCHEDULE_POWER_ON    "Scheduled Power-On"
-> > +
-> > +#define COMMA_SEP            ","
-> > +#define SEMICOLON_SEP                ";"
-> > +
-> > +/* Sure Admin Functions */
-> > +
-> > +#define UTF_PREFIX           "<utf-16/>"
-> > +#define BEAM_PREFIX          "<BEAM/>"
-> > +
-> > +enum mechanism_values {
-> > +     PASSWORD                =3D 0x00,
-> > +     SIGNING_KEY             =3D 0x01,
-> > +     ENDORSEMENT_KEY         =3D 0x02,
-> > +};
-> > +
-> > +#define BIOS_ADMIN           "bios-admin"
-> > +#define POWER_ON             "power-on"
-> > +#define BIOS_SPM             "enhanced-bios-auth"
-> > +
-> > +#define PASSWD_MECHANISM_TYPES "password"
-> > +
-> > +#define HP_WMI_BIOS_GUID             "5FB7F034-2C63-45e9-BE91-3D44E2C7=
-07E4"
-> > +
-> > +#define HP_WMI_BIOS_STRING_GUID              "988D08E3-68F4-4c35-AF3E-=
-6A1B8106F83C"
-> > +#define HP_WMI_BIOS_INTEGER_GUID     "8232DE3D-663D-4327-A8F4-E293ADB9=
-BF05"
-> > +#define HP_WMI_BIOS_ENUMERATION_GUID "2D114B49-2DFB-4130-B8FE-4A3C09E7=
-5133"
-> > +#define HP_WMI_BIOS_ORDERED_LIST_GUID        "14EA9746-CE1F-4098-A0E0-=
-7045CB4DA745"
-> > +#define HP_WMI_BIOS_PASSWORD_GUID    "322F2028-0F84-4901-988E-01517604=
-9E2D"
-> > +#define HP_WMI_SET_BIOS_SETTING_GUID "1F4C91EB-DC5C-460b-951D-C7CB9B4B=
-8D5E"
-> > +
-> > +enum hp_wmi_spm_commandtype {
-> > +     HPWMI_SECUREPLATFORM_GET_STATE  =3D 0x10,
-> > +     HPWMI_SECUREPLATFORM_SET_KEK    =3D 0x11,
-> > +     HPWMI_SECUREPLATFORM_SET_SK     =3D 0x12,
-> > +};
-> > +
-> > +enum hp_wmi_surestart_commandtype {
-> > +     HPWMI_SURESTART_GET_LOG_COUNT   =3D 0x01,
-> > +     HPWMI_SURESTART_GET_LOG         =3D 0x02,
-> > +};
-> > +
-> > +enum hp_wmi_command {
-> > +     HPWMI_READ              =3D 0x01,
-> > +     HPWMI_WRITE             =3D 0x02,
-> > +     HPWMI_ODM               =3D 0x03,
-> > +     HPWMI_SURESTART         =3D 0x20006,
-> > +     HPWMI_GM                =3D 0x20008,
-> > +     HPWMI_SECUREPLATFORM    =3D 0x20010,
-> > +};
-> > +
-> > +struct bios_return {
-> > +     u32 sigpass;
-> > +     u32 return_code;
-> > +};
-> > +
+...
 
-<snip>
+> +       if (clk->ena_gpio)
+> +               gpiod_set_value_cansleep(clk->ena_gpio, 0);
+> +       else
+> +               skl_int3472_enable_clk_acpi_method(clk, 0);
 
-> > +
-> > +struct secure_platform_data {
-> > +     struct kobject *attr_name_kobj;
-> > +     u8 attribute_name[MAX_BUFF_SIZE];
-> > +     u8 *endorsement_key;
-> > +     u8 *signing_key;
-> > +     u8 *auth_token;
-> > +     bool is_enabled;
-> > +     u32 mechanism;
-> > +};
-> > +
-> > +struct bioscfg_priv {
-> > +     struct wmi_device *bios_attr_wdev;
->
-> This wmi_device is never really used.
+Ditto.
 
-bios_attr_wdev will be removed from this file and biosattr-interface.c
-
->
-> > +     struct kset *authentication_dir_kset;
-> > +     struct kset *main_dir_kset;
-> > +     struct device *class_dev;
-> > +     struct string_data *string_data;
-> > +     u32 string_instances_count;
-> > +     struct integer_data *integer_data;
-> > +     u32 integer_instances_count;
-> > +     struct enumeration_data *enumeration_data;
-> > +     u32 enumeration_instances_count;
-> > +     struct ordered_list_data *ordered_list_data;
-> > +     u32 ordered_list_instances_count;
-> > +     struct password_data *password_data;
-> > +     u32 password_instances_count;
-> > +
-> > +     struct kobject *sure_start_attr_kobj;
-> > +     struct secure_platform_data spm_data;
-> > +     u8 display_name_language_code[MAX_BUFF_SIZE];
-> > +     bool pending_reboot;
-> > +     struct mutex mutex;
-> > +};
-> > +
-> > +/* global structure used by multiple WMI interfaces */
-> > +extern struct bioscfg_priv bioscfg_drv;
-> > +
-> > +enum hp_wmi_data_type {
-> > +     HPWMI_STRING_TYPE,
-> > +     HPWMI_INTEGER_TYPE,
-> > +     HPWMI_ENUMERATION_TYPE,
-> > +     HPWMI_ORDERED_LIST_TYPE,
-> > +     HPWMI_PASSWORD_TYPE,
-> > +     HPWMI_SECURE_PLATFORM_TYPE,
-> > +     HPWMI_SURE_START_TYPE,
-> > +};
-> > +
-
-<snip>
-
-> > +/* Bioscfg */
-> > +
-> > +void hp_exit_attr_set_interface(void);
-> > +int hp_init_attr_set_interface(void);
-> > +size_t hp_calculate_string_buffer(const char *str);
-> > +size_t hp_calculate_security_buffer(const char *authentication);
-> > +void *hp_ascii_to_utf16_unicode(u16 *p, const u8 *str);
-> > +int hp_get_integer_from_buffer(u8 **buffer, u32 *buffer_size, u32 *int=
-eger);
-> > +int hp_get_string_from_buffer(u8 **buffer, u32 *buffer_size, char *dst=
-, u32 dst_size);
-> > +int hp_convert_hexstr_to_str(const char *input, u32 input_len, char **=
-str, int *len);
-> > +int hp_encode_outsize_for_pvsz(int outsize);
-> > +int hp_enforce_single_line_input(char *buf, size_t count);
-> > +void hp_set_reboot_and_signal_event(void);
-> > +ssize_t display_name_language_code_show(struct kobject *kobj,
-> > +                                     struct kobj_attribute *attr,
-> > +                                     char *buf);
-> > +union acpi_object *hp_get_wmiobj_pointer(int instance_id, const char *=
-guid_string);
-> > +int hp_get_instance_count(const char *guid_string);
-> > +void hp_update_attribute_permissions(bool isreadonly, struct kobj_attr=
-ibute *current_val);
-> > +void hp_friendly_user_name_update(char *path, const char *attr_name,
-> > +                               char *attr_display, int attr_size);
-> > +int hp_wmi_error_and_message(int error_code);
-> > +
-> > +#endif
-> > --
-> > 2.34.1
-> >
+--=20
+With Best Regards,
+Andy Shevchenko
