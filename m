@@ -2,144 +2,155 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AFF87203EA
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  2 Jun 2023 16:01:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5A9172059C
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  2 Jun 2023 17:11:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235964AbjFBOBq (ORCPT
+        id S235477AbjFBPLq (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 2 Jun 2023 10:01:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54766 "EHLO
+        Fri, 2 Jun 2023 11:11:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234687AbjFBOBp (ORCPT
+        with ESMTP id S236493AbjFBPLo (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 2 Jun 2023 10:01:45 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4676318C;
-        Fri,  2 Jun 2023 07:01:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685714504; x=1717250504;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=62eUZ1WgHKhSaV7KBcN4DmVlf2R9NpAJelqA4VAOaew=;
-  b=DP9nbPRU/3jz73OeCzXgeXPH4gCgl3NWU887JDpshwCR3JlI5pCG621B
-   4yz6suQAF1hGoqFFJNGAh7GlOzrxQuuCiuCGuAA7oxFd3pnzSpe5+hwzy
-   QAG5f00VJCF1/6sWYAmOZcuOgFyQAkjbKp25ehdJRkahlDFCJ2VRPrrSA
-   HihAkwc3E3UdctALlxWgN3zyltFRB+DhcOK/NvzWTYqeK1NzWo8nwq4GV
-   +L8Rhs6nfxl6IYjXm4iifQixD0DXdCXpMR/sI9N1MvnsQhnf18fBAF5x9
-   sxIR3reqQbT4MIt4iP5SLNE5VuwJeE/VegYy12N565Sbhck/HPtMHzP4L
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="421687912"
-X-IronPort-AV: E=Sophos;i="6.00,213,1681196400"; 
-   d="scan'208";a="421687912"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 07:01:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="701973651"
-X-IronPort-AV: E=Sophos;i="6.00,213,1681196400"; 
-   d="scan'208";a="701973651"
-Received: from rspatil-mobl3.gar.corp.intel.com ([10.251.208.112])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 07:01:41 -0700
-Date:   Fri, 2 Jun 2023 17:01:38 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     "Wilczynski, Michal" <michal.wilczynski@intel.com>
-cc:     =?ISO-8859-15?Q?Pali_Roh=E1r?= <pali@kernel.org>,
+        Fri, 2 Jun 2023 11:11:44 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01B2E10EA
+        for <platform-driver-x86@vger.kernel.org>; Fri,  2 Jun 2023 08:11:16 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-65131e85be4so1837310b3a.1
+        for <platform-driver-x86@vger.kernel.org>; Fri, 02 Jun 2023 08:11:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1685718662; x=1688310662;
+        h=to:from:cc:content-transfer-encoding:mime-version:date:message-id
+         :subject:references:in-reply-to:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YrYBSW8qeXE8L8yfvdl8QinykFnJTuk07/XjwMoUeVE=;
+        b=qu93yN+BiKoQR/bKXLpg56UTzaPfupYXZkwPAS/SM4sV/8V5hm62649tjUEpGP7YLW
+         CTcl/91RCAuHjZlaVLKPhSq1JgbIhQ88RkyebHa/Ru9bQcq3orZF1/Phc0RHYqyK/txS
+         4ygVpr4xdpOMgj96fS+DTrwY+vc2+sSk+p2eCCsYHGJhDaUmbzM5QUrHanNekHFnbv64
+         kVnW8lRrLFGxezD/kIDCpKMfjO4phXPEtYQqJ0Qk1ZhLZ2WB0wNNOfrbrlUgTZGsFWPc
+         AMGr7p26DJUfKXi09NOnK2bbdSdhTPsoLDw+CouGXT0eMAERoW7PF+x7a4qOBxCsePKu
+         IJmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685718662; x=1688310662;
+        h=to:from:cc:content-transfer-encoding:mime-version:date:message-id
+         :subject:references:in-reply-to:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YrYBSW8qeXE8L8yfvdl8QinykFnJTuk07/XjwMoUeVE=;
+        b=Kc0iqBLiawouObNuG/HEl171iulp4Nh+xXCCZWh8Mmo4mXf26eT2+QnVV2A5jbKbBV
+         dEkTQkAnHTvZgpUq075Kk8XOtzM/XBEZCGlKzHTvkQWlwhPaAh9p5YCuD81DjksXm6jD
+         iEtn8hKfBqWJeTqwa2Fze9a6/+WoZMO5qbsRdc3amn5jX8NFCi53+8c1iZM9ygsBjmMc
+         rWmjc82igs5GDaCZBvRcH1L8viRmypj4l9dX0n1T4xAQu4EEIGchGvpKuXqeA2IyoRPi
+         V870JzcHaSyCznA5ntP0YtfL8Kal0CU49m/vZYx1hJTZcTQerLv6zfCirDVLKJik0X3C
+         qQbg==
+X-Gm-Message-State: AC+VfDzQzmjlhQwRXS5WqZYa1RKmspWyS0IBWmQPN+Bc19NVVKlY5CyI
+        bngZfo2074d1BnM6Df5IVzxeEg==
+X-Google-Smtp-Source: ACHHUZ5lq868GyrBxPLkEgZi3NcLZ0qAOyZwshzbl/Lk7FSKdcWKA6GQThH1Jum2CNXd5wP4XzABMA==
+X-Received: by 2002:a05:6a00:88d:b0:64f:5406:d59e with SMTP id q13-20020a056a00088d00b0064f5406d59emr17852377pfj.17.1685718662535;
+        Fri, 02 Jun 2023 08:11:02 -0700 (PDT)
+Received: from localhost ([135.180.227.0])
+        by smtp.gmail.com with ESMTPSA id n12-20020a62e50c000000b00634a96493f7sm1114822pff.128.2023.06.02.08.11.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Jun 2023 08:11:02 -0700 (PDT)
+In-Reply-To: <20230515054928.2079268-1-sunilvl@ventanamicro.com>
+References: <20230515054928.2079268-1-sunilvl@ventanamicro.com>
+Subject: Re: (subset) [PATCH V6 00/21] Add basic ACPI support for RISC-V
+Message-Id: <168571787727.17224.6663458864222960682.b4-ty@rivosinc.com>
+Date:   Fri, 02 Jun 2023 07:57:57 -0700
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-901c5
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Weili Qian <qianweili@huawei.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <markgross@kernel.org>,
-        platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
-        rafael@kernel.org
-Subject: Re: [PATCH v4 19/35] platform/x86/dell/dell-rbtn: Move handler
- installing logic to driver
-In-Reply-To: <d7e2577e-b6c3-a392-4331-5ff16e68a609@intel.com>
-Message-ID: <55b4cc-22c-42c7-ec38-3985d724c84@linux.intel.com>
-References: <20230601131739.300760-3-michal.wilczynski@intel.com> <20230601131739.300760-20-michal.wilczynski@intel.com> <ba90f648-6f29-57f3-b1cc-91b929fda393@linux.intel.com> <d7e2577e-b6c3-a392-4331-5ff16e68a609@intel.com>
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-593855215-1685714503=:1742"
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>
+From:   Palmer Dabbelt <palmer@rivosinc.com>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        llvm@lists.linux.dev, Sunil V L <sunilvl@ventanamicro.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323329-593855215-1685714503=:1742
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-
-On Fri, 2 Jun 2023, Wilczynski, Michal wrote:
-> On 6/2/2023 3:20 PM, Ilpo Järvinen wrote:
-> > On Thu, 1 Jun 2023, Michal Wilczynski wrote:
-> >
-> >> Currently logic for installing notifications from ACPI devices is
-> >> implemented using notify callback in struct acpi_driver. Preparations
-> >> are being made to replace acpi_driver with more generic struct
-> >> platform_driver, which doesn't contain notify callback. Furthermore
-> >> as of now handlers are being called indirectly through
-> >> acpi_notify_device(), which decreases performance.
-> >>
-> >> Call acpi_device_install_event_handler() at the end of .add() callback.
-> >> Call acpi_device_remove_event_handler() at the beginning of .remove()
-> >> callback. Change arguments passed to the notify callback to match with
-> >> what's required by acpi_device_install_event_handler().
-> >>
-> >> Signed-off-by: Michal Wilczynski <michal.wilczynski@intel.com>
-> >> ---
-> >>  drivers/platform/x86/dell/dell-rbtn.c | 17 ++++++++++++-----
-> >>  1 file changed, 12 insertions(+), 5 deletions(-)
-> >>
-> >> diff --git a/drivers/platform/x86/dell/dell-rbtn.c b/drivers/platform/x86/dell/dell-rbtn.c
-> >> index aa0e6c907494..4dcad59eb035 100644
-> >> --- a/drivers/platform/x86/dell/dell-rbtn.c
-> >> +++ b/drivers/platform/x86/dell/dell-rbtn.c
-> >> @@ -207,7 +207,7 @@ static void rbtn_input_event(struct rbtn_data *rbtn_data)
-> >>  
-> >>  static int rbtn_add(struct acpi_device *device);
-> >>  static void rbtn_remove(struct acpi_device *device);
-> >> -static void rbtn_notify(struct acpi_device *device, u32 event);
-> >> +static void rbtn_notify(acpi_handle handle, u32 event, void *data);
-> >>  
-> >>  static const struct acpi_device_id rbtn_ids[] = {
-> >>  	{ "DELRBTN", 0 },
-> >> @@ -293,7 +293,6 @@ static struct acpi_driver rbtn_driver = {
-> >>  	.ops = {
-> >>  		.add = rbtn_add,
-> >>  		.remove = rbtn_remove,
-> >> -		.notify = rbtn_notify,
-> >>  	},
-> >>  	.owner = THIS_MODULE,
-> >>  };
-> >> @@ -422,7 +421,10 @@ static int rbtn_add(struct acpi_device *device)
-> >>  		ret = -EINVAL;
-> >>  	}
-> >>  
-> >> -	return ret;
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >> +	return acpi_device_install_event_handler(device, ACPI_DEVICE_NOTIFY, rbtn_notify);
-> > What about the other things that are done in rbtn_remove(), should you 
-> > rollback more?
+On Mon, 15 May 2023 11:19:07 +0530, Sunil V L wrote:
+> This patch series enables the basic ACPI infrastructure for RISC-V.
+> Supporting external interrupt controllers is in progress and hence it is
+> tested using poll based HVC SBI console and RAM disk.
 > 
-> Yeah you're right, but the total lack of rollback in .add() here seems 
-> to be an issue on it's own i.e even before this patchset .add() was 
-> leaking resources in case of failure.
-> I wonder whether to add missing rollback in separate commit ?
-
-Yes, make separate patch out of it and mark it with Fixes tag. You can 
-send it separately.
-
-> > I suspect there's a pre-existing lack of rbtn_acquire(device, false); 
-> > here to begin with.
-> >
+> The first patch in this series is one of the patch from Jisheng's
+> series [1] which is not merged yet. This patch is required to support
+> ACPI since efi_init() which gets called before sbi_init() can enable
+> static branches and hits a panic.
 > 
+> [...]
 
+Applied, thanks!
+
+[01/21] riscv: move sbi_init() earlier before jump_label_init()
+        https://git.kernel.org/palmer/c/24fc18087f42
+[02/21] platform/surface: Disable for RISC-V
+        https://git.kernel.org/palmer/c/7f2e20459b28
+[03/21] crypto: hisilicon/qm: Fix to enable build with RISC-V clang
+        https://git.kernel.org/palmer/c/fbb995a7b27c
+[04/21] ACPI: tables: Print RINTC information when MADT is parsed
+        https://git.kernel.org/palmer/c/4d02d88d2b92
+[05/21] ACPI: OSL: Make should_use_kmap() 0 for RISC-V
+        https://git.kernel.org/palmer/c/214c236223b8
+[06/21] RISC-V: Add support to build the ACPI core
+        https://git.kernel.org/palmer/c/a91a9ffbd3a5
+[07/21] ACPI: processor_core: RISC-V: Enable mapping processor to the hartid
+        https://git.kernel.org/palmer/c/8b7809e28952
+[08/21] RISC-V: Add ACPI initialization in setup_arch()
+        https://git.kernel.org/palmer/c/724f4c0df766
+[09/21] RISC-V: ACPI: Cache and retrieve the RINTC structure
+        https://git.kernel.org/palmer/c/f99561199470
+[10/21] drivers/acpi: RISC-V: Add RHCT related code
+        https://git.kernel.org/palmer/c/e6b9d8eddb17
+[11/21] RISC-V: smpboot: Create wrapper setup_smp()
+        https://git.kernel.org/palmer/c/61946127ab49
+[12/21] RISC-V: smpboot: Add ACPI support in setup_smp()
+        https://git.kernel.org/palmer/c/ce92546cd637
+[13/21] RISC-V: only iterate over possible CPUs in ISA string parser
+        https://git.kernel.org/palmer/c/914d6f44fc50
+[14/21] RISC-V: cpufeature: Add ACPI support in riscv_fill_hwcap()
+        https://git.kernel.org/palmer/c/396c018332a1
+[15/21] RISC-V: cpu: Enable cpuinfo for ACPI systems
+        https://git.kernel.org/palmer/c/0b144c818989
+[16/21] irqchip/riscv-intc: Add ACPI support
+        https://git.kernel.org/palmer/c/7023b9d83f03
+[17/21] clocksource/timer-riscv: Refactor riscv_timer_init_dt()
+        https://git.kernel.org/palmer/c/cd12d206685a
+[18/21] clocksource/timer-riscv: Add ACPI support
+        https://git.kernel.org/palmer/c/21f4f92410dc
+[19/21] RISC-V: time.c: Add ACPI support for time_init()
+        https://git.kernel.org/palmer/c/714aa1d1c8ca
+[20/21] RISC-V: Enable ACPI in defconfig
+        https://git.kernel.org/palmer/c/0b8e15ca0082
+
+Best regards,
 -- 
- i.
+Palmer Dabbelt <palmer@rivosinc.com>
 
---8323329-593855215-1685714503=:1742--
