@@ -2,96 +2,70 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FC157254E2
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  7 Jun 2023 08:56:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FE41725645
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  7 Jun 2023 09:47:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237591AbjFGG4U (ORCPT
+        id S239288AbjFGHrM (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 7 Jun 2023 02:56:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40216 "EHLO
+        Wed, 7 Jun 2023 03:47:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237478AbjFGG4T (ORCPT
+        with ESMTP id S239315AbjFGHqc (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 7 Jun 2023 02:56:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7D5C1BC3;
-        Tue,  6 Jun 2023 23:56:08 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7176D63B19;
-        Wed,  7 Jun 2023 06:56:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A50E0C433EF;
-        Wed,  7 Jun 2023 06:56:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686120967;
-        bh=kxTWU5cvbYPXD97OfkZe5ZmWUKr+C21Zw9jRkJYbsMY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BDEk6rrM+92tjnJUIo7PJ6PVQsXMHm1goz4upfVYo17T9b4OBgbYwWBKZ8MpADWpS
-         k34PbyoX2LXa5/BTSYCNa6XjLggLCYt9BFWVwkyXIr9DoEBug2nz7vGKcGgA3TII9w
-         D64O22jrrQGHK02YQphKJdoMXRS9fvr7fkheX4XtQG+P1gortbckgLeUyVSg34AcGe
-         V17l7nwTuMnhS6/GHMnKDb5oSHFQlHuNrGyJEvWkkFJZ2Q4KcWg491YMpxtykiXsGM
-         AcM5AktF0GA+mm1dL12KMYjfkgnSA5WMSqsCIdJTiKd+rrRAQ8yfgvzPKUsw47vYyR
-         +M58T5kpKH1Iw==
-Received: by pali.im (Postfix)
-        id A1989759; Wed,  7 Jun 2023 08:56:04 +0200 (CEST)
-Date:   Wed, 7 Jun 2023 08:56:04 +0200
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Matthew Garrett <mjg59@srcf.ucam.org>
-Cc:     AceLan Kao <acelan.kao@canonical.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>
-Subject: Re: [PATCH] platform/x86: dell-laptop: Add drm module soft dependency
-Message-ID: <20230607065604.yaivqbbd3dkawxo4@pali>
-References: <20230607034331.576623-1-acelan.kao@canonical.com>
- <20230607042032.GA28835@srcf.ucam.org>
- <CAFv23QmDNUFcPwvSQt5aUxtmHasfr8wrF72ObvcO-X19gfn=LA@mail.gmail.com>
- <20230607052724.GA29834@srcf.ucam.org>
- <CAFv23QkEdGnEz1q7vbyFCa9S9Dqh-zec72nRGyZ3wAz-8wpbvA@mail.gmail.com>
- <20230607062341.GA30618@srcf.ucam.org>
+        Wed, 7 Jun 2023 03:46:32 -0400
+X-Greylist: delayed 522 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 07 Jun 2023 00:44:48 PDT
+Received: from mail.severnusk.pl (mail.severnusk.pl [89.40.115.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C45EC30C4
+        for <platform-driver-x86@vger.kernel.org>; Wed,  7 Jun 2023 00:44:48 -0700 (PDT)
+Received: by mail.severnusk.pl (Postfix, from userid 1002)
+        id D3BAA8272E; Wed,  7 Jun 2023 09:35:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=severnusk.pl; s=mail;
+        t=1686123363; bh=+EeLr85ZLPomICoBd9HkRfsh6EPM8XdZbVfrMzFBjC8=;
+        h=Date:From:To:Subject:From;
+        b=Ks/ypoWNyd+TvAzL6RoeiTqHV27uPRv7Ov+uMhU/eVzJd4EhEpXiJ7krBTeoTCsla
+         +upOMta66VF3aQObcww/ltXSeR9NNsWYvdotHGIFYfpXgrpkf7UszvwudL57Il5Ax+
+         AgsTLOdQQZhez7jzoDOx7+Jyj8Df0xnbLRqDZFNybvnAEATEj/6YGF3GUPCYYGsGX7
+         c+E2QvcjcdIAN502jl1/VrY6lsZUgrk8o//7roTbvO8bgRgoNbh9N3gmc/6CdetJKF
+         Er+Il7N8NvX+AFfXYWt3IvNapBnokKIpB3sSffeuWgC4x4cRTGYijoM2TSdIPhwjtT
+         PXj1JID8ffYDA==
+Received: by mail.severnusk.pl for <platform-driver-x86@vger.kernel.org>; Wed,  7 Jun 2023 07:35:45 GMT
+Message-ID: <20230607084500-0.1.14.1os2.0.p5leda4q5c@severnusk.pl>
+Date:   Wed,  7 Jun 2023 07:35:45 GMT
+From:   "Tomasz Wereszko" <tomasz.wereszko@severnusk.pl>
+To:     <platform-driver-x86@vger.kernel.org>
+Subject: =?UTF-8?Q?Przyznanie_=C5=9Brodk=C3=B3w_na_rozw=C3=B3j_firmy?=
+X-Mailer: mail.severnusk.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230607062341.GA30618@srcf.ucam.org>
-User-Agent: NeoMutt/20180716
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_20,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wednesday 07 June 2023 07:23:41 Matthew Garrett wrote:
-> On Wed, Jun 07, 2023 at 02:13:31PM +0800, AceLan Kao wrote:
-> > Matthew Garrett <mjg59@srcf.ucam.org> 於 2023年6月7日 週三 下午1:27寫道：
-> > >
-> > > On Wed, Jun 07, 2023 at 01:19:40PM +0800, AceLan Kao wrote:
-> > > > Gfx drivers(i915/amdgpu/nvidia) depend on the drm driver, so delaying
-> > > > the loading of dell_laptop after drm can ease the issue the most.
-> > > > Right, it's still possible to encounter the issue, unfortunately, we
-> > > > do not have a better solution for it at the moment.
-> > >
-> > > We could unregister inappropriate backlight drivers when a more
-> > > appropriate one is loaded, or the policy decision around which driver to
-> > > use could be made in userland?
-> > It's hard to decide which backlight driver is redundant, and it's kind of ugly
-> > to unregister the backlight driver which is registered by other driver and maybe
-> > problematic.
-> 
-> But you're relying on registering the working backlight first, which is 
-> an inherently racy thing? We shouldn't be relying on order of 
-> initialisation to make this work, either we should only export a working 
-> interface or we should expose enough information for whatever is using 
-> the interfaces to make an appropriate policy decision itself.
+Szanowni Pa=C5=84stwo,
 
-IIRC, drm drivers unregister redundant fbcon drivers (vesafb), so cannot
-drm drivers use similar strategy also for backlight drivers and
-unregister the redundant? If every backlight driver would have some
-"flag" which say if it should be unregistered by drm then maybe it could
-work? Or are there some other pitfalls?
+czy chcieliby Pa=C5=84stwo skorzysta=C4=87 z dofinansowania na zamkni=C4=99=
+te szkolenie, dopasowane do Pa=C5=84stwa potrzeb rozwojowych?
+
+Jako lider w pozyskiwaniu =C5=9Brodk=C3=B3w zewn=C4=99trznych finansuj=C4=
+=85cych rozw=C3=B3j przedsi=C4=99biorstw mo=C5=BCemy pom=C3=B3c Pa=C5=84s=
+twu obni=C5=BCy=C4=87 koszty inwestycji w rozw=C3=B3j pracownik=C3=B3w na=
+wet o 80%.
+
+Organizujemy szkolenia w formie stacjonarnej i zdalnej dopasowane do potr=
+zeb i konkretnych wyzwa=C5=84 w organizacji. Od 20 lat zapewniamy sperson=
+alizowane rozwi=C4=85zania, z kt=C3=B3rych skorzysta=C5=82o blisko 4,600 =
+uczestnik=C3=B3w.
+
+Prosz=C4=99 o informacj=C4=99 czy mo=C5=BCemy um=C3=B3wi=C4=87 si=C4=99 n=
+a spotkanie lub kr=C3=B3tk=C4=85 rozmow=C4=99.
+
+
+Pozdrawiam
+Tomasz Wereszko
