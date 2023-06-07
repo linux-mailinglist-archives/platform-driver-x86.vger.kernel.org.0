@@ -2,175 +2,148 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09D30727221
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  8 Jun 2023 00:54:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5242072732D
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  8 Jun 2023 01:39:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233042AbjFGWyl (ORCPT
+        id S231970AbjFGXjP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 7 Jun 2023 18:54:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53818 "EHLO
+        Wed, 7 Jun 2023 19:39:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233064AbjFGWyj (ORCPT
+        with ESMTP id S229968AbjFGXjP (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 7 Jun 2023 18:54:39 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C2B7213D
-        for <platform-driver-x86@vger.kernel.org>; Wed,  7 Jun 2023 15:54:36 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-9788554a8c9so1020866b.2
-        for <platform-driver-x86@vger.kernel.org>; Wed, 07 Jun 2023 15:54:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686178475; x=1688770475;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lwmqmz3SLTAm/5XHn54kA2Qkz1KiGdBlOiEDAaxIk1A=;
-        b=WeqXDhOYObEU4Q4S3JxL3bEVQtplVvNKCfakhFkSuiLBGZe/ef388CiKUayAOmbEOV
-         ZR0I5GAxPbS54gQ7Fi+hG72GeTokI+noW1OPwtavsLtjymUzaeyKWDDpDiOtNBnLq40U
-         hKN8QzuE3yuzJvRNnur8tzVGd/WDVGu93YT1PuP86BcJTXG/Q3+EyiY1Ov5Itgxf9sfV
-         puzj8gFJzfO5zpoPQ0K3fO44i5t5qr504eako4ZleNRX8Z/LIaI8UL0On16+KpM6t7Hk
-         P05xDxotWEktWnY1d5dyENuc5li2l9dXU7CCPzvtyNY2IFMeysO2qVasevOMBOewfS/V
-         nc1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686178475; x=1688770475;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lwmqmz3SLTAm/5XHn54kA2Qkz1KiGdBlOiEDAaxIk1A=;
-        b=Sv8g3dI+fu+sl7SsqTbnAGdyToC4oVzw/OyR1xj+7gsOtZ85K3dk4VBBig0CifDOUS
-         aLAJ9nTFRx1b14Y2cgZf968dmCY/VXUadFqOvjKydm4FBLOEWrOzcwSRUAUw+drd4nwi
-         PFz1TqH/C+1BFCc7ORfdyk/5CI77Hi0Fxda6TMTnsKQKRlUnMXBPb97pdjimM22uuROL
-         gBY1kik5hzCVRfugMDnO3cyYQMRpl0FB9Z0ZbNgoh4QP1fRlA3Y+UyBVLakG96yzPGsW
-         NUzcz/EI2Tj7i+HMMdRk8yqmNo+vNmIGW9aZxatkwL4V/qXxa4MhzPlouzh4Gv0Bgsmo
-         QXuQ==
-X-Gm-Message-State: AC+VfDxqtjejpoSwHpHCcDhCwN8Y+Il62QjNykhuX6CHQ1AqfXfTjiFh
-        lQOJWXWQMCnrxJcH+re08mL9v+fGhWfeMMWozqI=
-X-Google-Smtp-Source: ACHHUZ7J0yv2Uy0Ff3URHHllMh6dn7geAOftATdUjaOMCSCEm6sdR3gpAsqx+SgrMGXj3gnAhFPKaDZy027dlMN9Xtw=
-X-Received: by 2002:a17:907:783:b0:94a:6de2:ba9 with SMTP id
- xd3-20020a170907078300b0094a6de20ba9mr6600647ejb.68.1686178474547; Wed, 07
- Jun 2023 15:54:34 -0700 (PDT)
+        Wed, 7 Jun 2023 19:39:15 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A292212B;
+        Wed,  7 Jun 2023 16:38:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686181131; x=1717717131;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=KlCxXW3cettU4hkVoOWitZPtIUn44RhFROQOzqvvN6g=;
+  b=Z7CN/rA7g2YUusFukq0iSSbPUrX0o1v1p//tMd+CLKJCiDSxX5ly1+q0
+   pm6qx3bcoyr9nO22Xa1e1dJBMU3TkOEq5/UJKysbXM7wSeV10b4F2XmnD
+   sJAqiladYTukjGeNi9jjXfqthtNcFtZeYYOvZ9fGVIyhwfiukRwOZIJpZ
+   mqGlpyrGUmM0q91o7J3NuCKw25RyqMc3QPECYDU4HFobdE4OACTXjoH9O
+   XR9ddY4EO7tP7SuvdeHI2d1L9KM6wWYrlV7i3CxXd4IGqW3t6fkpWMVHz
+   HQ07AZ1UvuaFpByCzuImJlSgdFLnTESUavZqnYTj3kpWHFr1U9Vh6lyLl
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="354631544"
+X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; 
+   d="scan'208";a="354631544"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 16:38:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="739461201"
+X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; 
+   d="scan'208";a="739461201"
+Received: from linux.intel.com ([10.54.29.200])
+  by orsmga008.jf.intel.com with ESMTP; 07 Jun 2023 16:38:50 -0700
+Received: from debox1-desk4.intel.com (unknown [10.251.3.221])
+        by linux.intel.com (Postfix) with ESMTP id 159CB580B54;
+        Wed,  7 Jun 2023 16:38:50 -0700 (PDT)
+From:   "David E. Box" <david.e.box@linux.intel.com>
+To:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Cc:     david.e.box@linux.intel.com, markgross@kernel.org,
+        hdegoede@redhat.com, irenic.rajneesh@gmail.com,
+        ilpo.jarvinen@linux.intel.com, xi.pardee@intel.com,
+        rajvi.jingar@linux.intel.com
+Subject: [PATCH V2 1/2] platform/x86/intel/pmc: Add resume callback
+Date:   Wed,  7 Jun 2023 16:38:48 -0700
+Message-Id: <20230607233849.239047-1-david.e.box@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Received: by 2002:a54:2409:0:b0:217:72a9:f646 with HTTP; Wed, 7 Jun 2023
- 15:54:33 -0700 (PDT)
-Reply-To: unitednationcompensationcoordinatortreasury@hotmail.com
-From:   "UNITED NATION DEPUTY SECRETARY-GENERAL (U.N)" 
-        <successikolo@gmail.com>
-Date:   Wed, 7 Jun 2023 15:54:33 -0700
-Message-ID: <CADFNGJ9M60ti_yHcUzQD8BP2Qji_qiW+6MK-iYxt_qf8B830+w@mail.gmail.com>
-Subject: CONTACT DHL OFFICE IMMEDIATELY FOR YOUR ATM MASTER CARD 1.5 MILLION,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.6 required=5.0 tests=ADVANCE_FEE_3_NEW_FRM_MNY,
-        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FILL_THIS_FORM,FORM_FRAUD_5,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        LOTS_OF_MONEY,MONEY_FORM,MONEY_FRAUD_5,MONEY_FREEMAIL_REPTO,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,
-        T_FILL_THIS_FORM_LOAN,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:62d listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [successikolo[at]gmail.com]
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  0.2 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  0.0 FILL_THIS_FORM Fill in a form with personal information
-        *  0.0 T_FILL_THIS_FORM_LOAN Answer loan question(s)
-        *  0.0 MONEY_FORM Lots of money if you fill out a form
-        *  1.3 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-        *  0.0 ADVANCE_FEE_3_NEW_FRM_MNY Advance Fee fraud form and lots of
-        *      money
-        *  0.2 MONEY_FRAUD_5 Lots of money and many fraud phrases
-        *  0.0 FORM_FRAUD_5 Fill a form and many fraud phrases
-X-Spam-Level: ******
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-UNITED NATION DEPUTY SECRETARY-GENERAL.
+Add a resume callback to perform platform specific functions during resume
+from suspend.
 
-This is to official inform you that we have been having meetings for
-the past three (3) weeks which ended two days ago with MR. JIM YONG
-KIM the world bank president and other seven continent presidents on
-the congress we treated on solution to scam victim problems.
+Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+---
 
- Note: we have decided to contact you following the reports we
-received from anti-fraud international monitoring group your
-name/email has been submitted to us therefore the united nations have
-agreed to compensate you with the sum of (USD$ 1.5 Million) this
-compensation is also including international business that failed you
-in the past due to government problems etc.
+V2 - Change resume_fixup to just resume and use it a a replacement for
+     the regular resume flow (now called pmc_core_resume_common) if it
+     exist. Suggested by Ilpo.
 
- We have arranged your payment through our ATM Master Card and
-deposited it in DHL Office to deliver it to you which is the latest
-instruction from the World Bank president MR. JIM YONG KIM, For your
-information=E2=80=99s, the delivery charges already paid by U.N treasury, t=
-he
-only money you will send to DHL office south Korea is
-($500). for security keeping fee, U.N coordinator already paid for
-others charges fees for delivery except the security keeping fee, the
-director of DHL refused to collect the security keeping fee from U.N
-coordinator, the Director of DHL office said that they don=E2=80=99t know
-exactly time you will contact them to reconfirm your details to avoid
-counting demur-rage that is why they refused collecting the ($500) .
-for security keeping fee.
+ drivers/platform/x86/intel/pmc/core.c | 14 ++++++++++++--
+ drivers/platform/x86/intel/pmc/core.h |  3 +++
+ 2 files changed, 15 insertions(+), 2 deletions(-)
 
- Therefore be advice to contact DHL Office agent south Korea. Rev:John
-Lee Tae-seok
-who is in position to deliver your ATM
-Master Card to your location address, contact DHL Office immediately
-with the bellow email & phone number as listed below.
+diff --git a/drivers/platform/x86/intel/pmc/core.c b/drivers/platform/x86/intel/pmc/core.c
+index da6e7206d38b..bb2f11251f73 100644
+--- a/drivers/platform/x86/intel/pmc/core.c
++++ b/drivers/platform/x86/intel/pmc/core.c
+@@ -1223,11 +1223,11 @@ static inline bool pmc_core_is_s0ix_failed(struct pmc_dev *pmcdev)
+ 	return false;
+ }
+ 
+-static __maybe_unused int pmc_core_resume(struct device *dev)
++int pmc_core_resume_common(struct pmc_dev *pmcdev)
+ {
+-	struct pmc_dev *pmcdev = dev_get_drvdata(dev);
+ 	const struct pmc_bit_map **maps = pmcdev->map->lpm_sts;
+ 	int offset = pmcdev->map->lpm_status_offset;
++	struct device *dev = &pmcdev->pdev->dev;
+ 
+ 	/* Check if the syspend used S0ix */
+ 	if (pm_suspend_via_firmware())
+@@ -1257,6 +1257,16 @@ static __maybe_unused int pmc_core_resume(struct device *dev)
+ 	return 0;
+ }
+ 
++static __maybe_unused int pmc_core_resume(struct device *dev)
++{
++	struct pmc_dev *pmcdev = dev_get_drvdata(dev);
++
++	if (pmcdev->resume)
++		return pmcdev->resume(pmcdev);
++
++	return pmc_core_resume_common(pmcdev);
++}
++
+ static const struct dev_pm_ops pmc_core_pm_ops = {
+ 	SET_LATE_SYSTEM_SLEEP_PM_OPS(pmc_core_suspend, pmc_core_resume)
+ };
+diff --git a/drivers/platform/x86/intel/pmc/core.h b/drivers/platform/x86/intel/pmc/core.h
+index 9ca9b9746719..7c95586e742b 100644
+--- a/drivers/platform/x86/intel/pmc/core.h
++++ b/drivers/platform/x86/intel/pmc/core.h
+@@ -327,6 +327,7 @@ struct pmc_reg_map {
+  * @lpm_en_modes:	Array of enabled modes from lowest to highest priority
+  * @lpm_req_regs:	List of substate requirements
+  * @core_configure:	Function pointer to configure the platform
++ * @resume:		Function to perform platform specific resume
+  *
+  * pmc_dev contains info about power management controller device.
+  */
+@@ -345,6 +346,7 @@ struct pmc_dev {
+ 	int lpm_en_modes[LPM_MAX_NUM_MODES];
+ 	u32 *lpm_req_regs;
+ 	void (*core_configure)(struct pmc_dev *pmcdev);
++	int (*resume)(struct pmc_dev *pmcdev);
+ };
+ 
+ extern const struct pmc_bit_map msr_map[];
+@@ -398,6 +400,7 @@ extern const struct pmc_reg_map mtl_reg_map;
+ extern void pmc_core_get_tgl_lpm_reqs(struct platform_device *pdev);
+ extern int pmc_core_send_ltr_ignore(struct pmc_dev *pmcdev, u32 value);
+ 
++int pmc_core_resume_common(struct pmc_dev *pmcdev);
+ void spt_core_init(struct pmc_dev *pmcdev);
+ void cnp_core_init(struct pmc_dev *pmcdev);
+ void icl_core_init(struct pmc_dev *pmcdev);
 
- Contact name: John Lee Tae-seok
+base-commit: 86f67fe2db439867f9476c9b78ea3ebd4a06a123
+-- 
+2.34.1
 
- Email:( dhlgeneralheadquartersrepublic@gmail.com )
-
- Do not hesitate to Contact Rev: John Lee Tae-seok, as soon as you
-
- read this message. Email:( dhlgeneralheadquartersrepublic@gmail.com )
-
- Make sure you reconfirmed DHL Office your details ASAP as stated
-below to avoid wrong delivery.
-
- Your full name..........
-
- Home address:.........
-
- Your country...........
-
- Your city..............
-
- Telephone......
-
- Occupation:.......
-
- Age:=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6..
-
- Let us know as soon as possible you receive your ATM MasterCard
-for proper verification.
-
- Regards,
-
- Mrs Vivian kakadu.
-
- DEPUTY SECRETARY-GENERAL (U.N)
