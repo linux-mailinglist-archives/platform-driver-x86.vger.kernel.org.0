@@ -2,74 +2,58 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5785729CD9
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  9 Jun 2023 16:27:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BB4D72A4D8
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  9 Jun 2023 22:43:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241386AbjFIO1U (ORCPT
+        id S232335AbjFIUnV (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 9 Jun 2023 10:27:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50960 "EHLO
+        Fri, 9 Jun 2023 16:43:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241437AbjFIO1R (ORCPT
+        with ESMTP id S229471AbjFIUnU (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 9 Jun 2023 10:27:17 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9B0B3C2A;
-        Fri,  9 Jun 2023 07:26:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686320799; x=1717856799;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9bI0m+ifES+6k8pQzzNX2KP969ALq4IZ/1G6tuuvLB4=;
-  b=K144sWYmy7kS/OcBx/NatGVj1PpWLxBtZHp22ZoTz6O4QTinr5LPDmgj
-   qZV1aRqJrUNnKIzdhGP89ybnzJlxJVODjC0FgtG5biHG9FDpi6vemlooa
-   TkzgjtlFHjf2qg+d1+/OmMwcdHVhnx6OdiyGz3dMC7MIYmbJGqNz5bH7d
-   KFmGV2ZGJQrQEs98UtHcTESAbbK1SRopfH94DClGbkbirVjH8SFJo07dV
-   6RVLzUPSQ2EYnwjv9nLbAbdSynMl5xuj8g2IhiZAqoCRv+/yg14fFZ8sQ
-   SuSCOo2pr5rTwLi804fLNikna74vUNWoPVT02USYWSSAz+hDr2ppHBusK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="355096131"
-X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="355096131"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 07:25:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="780330340"
-X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="780330340"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga004.fm.intel.com with ESMTP; 09 Jun 2023 07:25:26 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1q7d3M-002Pzt-31;
-        Fri, 09 Jun 2023 17:25:24 +0300
-Date:   Fri, 9 Jun 2023 17:25:24 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Lee Jones <lee@kernel.org>
-Cc:     Henning Schild <henning.schild@siemens.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v4 1/4] leds: simatic-ipc-leds-gpio: add terminating
- entries to gpio tables
-Message-ID: <ZIM2VK9MlxGqBfDT@smile.fi.intel.com>
-References: <20230524124628.32295-1-henning.schild@siemens.com>
- <20230524124628.32295-2-henning.schild@siemens.com>
- <ZHHFMPEYNz9jBBRd@smile.fi.intel.com>
- <20230530171100.75e5b86c@md1za8fc.ad001.siemens.net>
- <ZHjLjU7WPv2W9SuJ@smile.fi.intel.com>
- <20230608173027.GL3572061@google.com>
+        Fri, 9 Jun 2023 16:43:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC1B226B1
+        for <platform-driver-x86@vger.kernel.org>; Fri,  9 Jun 2023 13:42:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686343352;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=i8u5YBtgug7p9/d4nlwZdckLX/Cv1cwVjAeKYPeg0YE=;
+        b=RPC98BaXVpi+jCGHXuYv8zw21cyXt2vMvOl9XZW1ul+8pQmqYU38FsDm57IevopEWj68v3
+        s281yLSrolSN0dNwWPc5Z3sf6MnwL6NBzOomyzi3iOHajOX3fg7GqBquJ7vp9LjWTeYjqM
+        RO1zH+s7W2d/nxSoWQ8AgQqrP4zdLy0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-209-99Kg8QYpM8a6O7fJ6zqO9g-1; Fri, 09 Jun 2023 16:42:30 -0400
+X-MC-Unique: 99Kg8QYpM8a6O7fJ6zqO9g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6AA918007D9;
+        Fri,  9 Jun 2023 20:42:30 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.16])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 366C840CFD00;
+        Fri,  9 Jun 2023 20:42:29 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Dan Scally <dan.scally@ideasonboard.com>,
+        Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH 0/4] platform/x86: int3472: discrete: Regulator rework / Lenovo Miix 510 support
+Date:   Fri,  9 Jun 2023 22:42:24 +0200
+Message-Id: <20230609204228.74967-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230608173027.GL3572061@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,45 +61,56 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Jun 08, 2023 at 06:30:27PM +0100, Lee Jones wrote:
-> On Thu, 01 Jun 2023, Andy Shevchenko wrote:
-> > On Tue, May 30, 2023 at 05:11:00PM +0200, Henning Schild wrote:
-> > > Am Sat, 27 May 2023 11:54:08 +0300
-> > > schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:
-> > > 
-> > > > On Wed, May 24, 2023 at 02:46:25PM +0200, Henning Schild wrote:
-> > > > > The entries do not seem to be stricly needed when the number of
-> > > > > entries is given via the number of LEDs. But adding them is a
-> > > > > safeguard should anyone ever iterate over the tables to their end,
-> > > > > it also gets us in line with other drivers that register
-> > > > > "leds-gpio" tables.  
-> > > > 
-> > > > Reported-by?
-> > > > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > 
-> > > I think we could do
-> > > 
-> > > Reported-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > 
-> > > on merge. But i would not want to send the whole series again for that
-> > > one line.
-> > 
-> > Since you added it, `b4` will happily take it, I believe no manual work even
-> > needed for that, thank you!
-> 
-> b4 didn't pick this up.  Nor the whole-series Ack provided by Hans.
-> 
-> I added both manually.
+Hi Dan, Hao Yao and Bingbu Cao,
 
-There is an option to take this
+Patches 1/2 drop the sensor-config stuff since I thought we should be
+able to make things work without any board specific fixups.
 
-  -t, --apply-cover-trailers
-                        Apply trailers sent to the cover letter to all patches
+This is the result of my working on getting IPU6 to work on Jasper Lake
+for $dayjob and then tonight I switched to trying to get the ov2680
+on the Lenovo Miix 510 to work and it turns out that does require some
+board specific workarounds after all :|
 
-have you tried it?
+With this series together with my recent ov2680 sensor driver series:
+https://lore.kernel.org/linux-media/20230607164712.63579-1-hdegoede@redhat.com/
+I can get the ov2680 driver to load and successfully read the id register:
+
+[   11.365319] ipu3-cio2 0000:00:14.3: Found supported sensor OVTI2680:00
+[   11.431595] ov2680 i2c-OVTI2680:00: supply DOVDD not found, using dummy regulator
+[   11.433125] ov2680 i2c-OVTI2680:00: supply DVDD not found, using dummy regulator
+[   11.454698] ov2680 i2c-OVTI2680:00: sensor_revision id = 0x2680, rev= 0
+
+Dan, currently the DMI match used only matches the 12IKB version of
+the Miix 510 I think you have a 12ISK version. Can you verify this
+works there too?  I guess we can just drop the KB part of the DMI
+match if this works on the 12ISK version too.
+
+Hao Yao and Bingbu Cao I think that the way the issue with how different
+drivers may expect different regulator supply-ids is of interest to you
+too. Note I see that the mainline version of ov13b10.c does not have
+regulator support at all yet. So when adding this please just use
+one of the existing set of supply-names + the bulk API like how
+the ov5693.c driver is doing. In this case no int3472 driver changes
+will be necessary at all.
+
+Regards,
+
+Hans
+
+
+Hans de Goede (4):
+  platform/x86: int3472: discrete: Drop GPIO remapping support
+  platform/x86: int3472: discrete: Remove sensor_config-s
+  platform/x86: int3472: discrete: Add support for 1 GPIO regulator
+    shared between 2 sensors
+  platform/x86: int3472: discrete: Add alternative "AVDD" regulator
+    supply name
+
+ .../x86/intel/int3472/clk_and_regulator.c     | 72 ++++++++++++++----
+ drivers/platform/x86/intel/int3472/common.h   | 14 +---
+ drivers/platform/x86/intel/int3472/discrete.c | 76 ++-----------------
+ 3 files changed, 66 insertions(+), 96 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.40.1
 
