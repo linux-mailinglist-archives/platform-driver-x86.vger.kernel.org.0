@@ -2,61 +2,56 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A99472A4DE
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  9 Jun 2023 22:43:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F8FE72B8DA
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Jun 2023 09:41:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229471AbjFIUnl (ORCPT
+        id S234909AbjFLHlm (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 9 Jun 2023 16:43:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44758 "EHLO
+        Mon, 12 Jun 2023 03:41:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232397AbjFIUnk (ORCPT
+        with ESMTP id S234942AbjFLHli (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 9 Jun 2023 16:43:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB0F630FC
-        for <platform-driver-x86@vger.kernel.org>; Fri,  9 Jun 2023 13:42:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686343359;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=mzndwuP0LpdJxn891Q/PMOc0nzuDQLSEN3wJaaM6GYM=;
-        b=LR4jC5y9oY/+Y810i21/dNlPSV9heN0+nstw3mbIUALWhWgILgPOEFJCFYmGqZgYR/X6ZD
-        BT2XGDyLMqt+CIoFHl6UwyZGSu9VjTmnfY1c5zZsePB032f8u3oBsQS7V5Ac2RkSRr3lxW
-        Wsuh1sDLMQsQnad+W0gM6hoo40e8sMs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-33-wRgBGtNHOri2XRVFJeaYlQ-1; Fri, 09 Jun 2023 16:42:36 -0400
-X-MC-Unique: wRgBGtNHOri2XRVFJeaYlQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A6D43185A78F;
-        Fri,  9 Jun 2023 20:42:35 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.16])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 94D1640CFD00;
-        Fri,  9 Jun 2023 20:42:34 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Dan Scally <dan.scally@ideasonboard.com>,
-        Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 4/4] platform/x86: int3472: discrete: Add alternative "AVDD" regulator supply name
-Date:   Fri,  9 Jun 2023 22:42:28 +0200
-Message-Id: <20230609204228.74967-5-hdegoede@redhat.com>
-In-Reply-To: <20230609204228.74967-1-hdegoede@redhat.com>
-References: <20230609204228.74967-1-hdegoede@redhat.com>
+        Mon, 12 Jun 2023 03:41:38 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 782D6173F
+        for <platform-driver-x86@vger.kernel.org>; Mon, 12 Jun 2023 00:40:52 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q8c8r-00042r-1P; Mon, 12 Jun 2023 09:39:09 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q8c8p-006pmo-VE; Mon, 12 Jun 2023 09:39:07 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q8c8o-00DQwk-RG; Mon, 12 Jun 2023 09:39:06 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        Daniel Scally <djrscally@gmail.com>
+Cc:     platform-driver-x86@vger.kernel.org, kernel@pengutronix.de,
+        acpi4asus-user@lists.sourceforge.net
+Subject: [PATCH 0/3] platform: Switch back to use struct i2c_driver's .probe()
+Date:   Mon, 12 Jun 2023 09:38:59 +0200
+Message-Id: <20230612073902.840435-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=964; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=0sPDBAvxSDiQWVYBnZyVzCOvbyNtBnc364k2Oh1KXVY=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkhsuPGZ0oJdd/cSgBqjPJ9F7CW3YCVR6zRTNgA JpO18LDQCaJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZIbLjwAKCRCPgPtYfRL+ Ti2UB/0co/D321+MhWjyA7OXBQcK32V8RKycEQsebsznUFoCA0VVMeL7j0otTodHMyG3of9lbD8 GV39CLfzOlFpKhNe6/QecT1A1O4Xw5DB1whGeRtoMqrbxITOJkaTDcFdo/ONU//GGAmieboXOPI N53ZuyodTuq1G3WiUzcx0hLzFWJtCgcxho3R0w6K0ewr08ruaTmFIngme7cRtXnDs2klc9mOcay zoMIuHXSeTrlDlL7h6lOWx34GP/U+Vt+Sxc83T6FtWW2EqcZaf/SJmQY8TDQ9VNXZa5SbNu8iU4 /zulj1ABdUSxVlKoKuOQlU7fx9MYXLpVfYZrEudEk22/VrDo
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: platform-driver-x86@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,44 +59,32 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add an "AVDD" regulator supply name alias to the supply-map which
-gets registered for the INT3472 GPIO regulator.
+Hello,
 
-This is necessary for the ov2680 driver which expects "AVDD" rather then
-"avdd". Updating the ov2680 driver to use "avdd" is not possible because
-that will break compatibility with existing DT / DTB files.
+these three patches convert three i2c drivers back to use .probe() after
+its prototype was changed.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/intel/int3472/clk_and_regulator.c | 1 +
- drivers/platform/x86/intel/int3472/common.h            | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+I was unsure if I should put the surface change together with the two
+other x86 changes but as surfaces are x86, too, I thought this might be
+right. If not: The patches are orthogonal to each other, so they can be
+applied to different trees without interdependencies.
 
-diff --git a/drivers/platform/x86/intel/int3472/clk_and_regulator.c b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
-index 9166f6afcdf9..8fbcf1f41f65 100644
---- a/drivers/platform/x86/intel/int3472/clk_and_regulator.c
-+++ b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
-@@ -246,6 +246,7 @@ void skl_int3472_unregister_clock(struct int3472_discrete_device *int3472)
-  */
- static const char * const skl_int3472_regulator_map_supplies[] = {
- 	"avdd",
-+	"AVDD",
- };
- 
- /*
-diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platform/x86/intel/int3472/common.h
-index fd2a3d3884fa..9f29baa13860 100644
---- a/drivers/platform/x86/intel/int3472/common.h
-+++ b/drivers/platform/x86/intel/int3472/common.h
-@@ -28,7 +28,7 @@
- 
- #define GPIO_REGULATOR_NAME_LENGTH				21
- #define GPIO_REGULATOR_SUPPLY_NAME_LENGTH			9
--#define GPIO_REGULATOR_SUPPLY_MAP_COUNT				1
-+#define GPIO_REGULATOR_SUPPLY_MAP_COUNT				2
- 
- #define INT3472_LED_MAX_NAME_LEN				32
- 
+Best regards
+Uwe
+
+Uwe Kleine-König (3):
+  surface: surface3_power: Switch back to use struct i2c_driver's
+    .probe()
+  platform/x86: asus-tf103c-dock: Switch back to use struct i2c_driver's
+    .probe()
+  platform/x86: int3472: Switch back to use struct i2c_driver's .probe()
+
+ drivers/platform/surface/surface3_power.c     | 2 +-
+ drivers/platform/x86/asus-tf103c-dock.c       | 2 +-
+ drivers/platform/x86/intel/int3472/tps68470.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+base-commit: ac9a78681b921877518763ba0e89202254349d1b
 -- 
-2.40.1
+2.39.2
 
