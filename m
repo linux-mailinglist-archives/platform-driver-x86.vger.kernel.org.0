@@ -2,51 +2,84 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93B2C72C827
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Jun 2023 16:23:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDF4272C9F2
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Jun 2023 17:26:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238419AbjFLOXO (ORCPT
+        id S237781AbjFLP0M (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 12 Jun 2023 10:23:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60924 "EHLO
+        Mon, 12 Jun 2023 11:26:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238263AbjFLOXC (ORCPT
+        with ESMTP id S236807AbjFLP0C (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 12 Jun 2023 10:23:02 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F1C63C01;
-        Mon, 12 Jun 2023 07:20:53 -0700 (PDT)
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2B4B5547;
-        Mon, 12 Jun 2023 16:20:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686579621;
-        bh=uVn3gLlOp9JSs+hiYJZpY16vQ8jwQIVK9OS+OkLtdTU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=K/S3pg9dL+MNZwXlnxDF6qgFQxlkdQbFtcq21AXDJSjRE7CEprSjfD8R8CDjFY3Fa
-         GcqVmfYakV5hbkpqNUrg0ApN/bTQZeby8gHG/jW1of6yBoUKIFk4PvvcwZpAlL84+N
-         /s3L7IcpUwlUAcIMCaCx/vLkb2OpybyL3HJb0tAo=
-Message-ID: <be624721-b150-010d-f78d-1815db65bb8f@ideasonboard.com>
-Date:   Mon, 12 Jun 2023 15:20:47 +0100
+        Mon, 12 Jun 2023 11:26:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AED1010F5
+        for <platform-driver-x86@vger.kernel.org>; Mon, 12 Jun 2023 08:25:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686583521;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=i65rFJvHOOM8EKdbnoEWD9HJVU1NrRZ1Rpd5+Qn8ETo=;
+        b=eRxXr6UFcwPWwmZXUSQQdS1oXHN4CP+TqRpaOOcaYdx0ZElgLHXDwUpPEFEMMNnJruap9R
+        B0y1pX+B3LLv01F+VYd6ibP5jdCE3vZ1FRtMC39hsZkVU17kQA1UtFggz4QgQJ5gx6gnXT
+        Ef+v/7kC/ki9+4qwtPTbEEX1niDZW4s=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-206-5dJ2zNnZOXyyrne-MR6FJw-1; Mon, 12 Jun 2023 11:25:19 -0400
+X-MC-Unique: 5dJ2zNnZOXyyrne-MR6FJw-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-97888a89775so414046066b.0
+        for <platform-driver-x86@vger.kernel.org>; Mon, 12 Jun 2023 08:25:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686583519; x=1689175519;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=i65rFJvHOOM8EKdbnoEWD9HJVU1NrRZ1Rpd5+Qn8ETo=;
+        b=JboRFEcnbCJ6yZQaWnXSGORokJ49Q8oD7wKWbktKgD0Bo/zD38sRNe+s/u2g0lLJLt
+         LI2W6Tk8EQk0KFfZST/rLT6l25n8hpxhfamlfyCV9TvmyE2Q6XR9WWXmV4ICI5pVD21B
+         m/77TOptRA3BrC9fMNHkim2oP72WGn5QK0y7ZFTcqsnIoMISEdp/qVQgJIuJI9Kd6i+x
+         WVUVseYUJBdgu8Dg1MwRVQ7RkaKl9JuP5TKlgtg8r7JrfRaokj5SWiBcchqVRKuCptlW
+         40nw9CRgiv8mzHqUBTwvJPiGND9Fv49RCeG1M2eciUElF6Xb1YoX8NaHK1FUylpgkIKu
+         geYw==
+X-Gm-Message-State: AC+VfDy9FynzkyYopFXTmb0V+mL1fi+tw7ke2ReaMuOF079PuBXKr9dC
+        zEIK+FbE12mH0j7mAGw3mRU13Zy+K/h64JmX1bTL4d9vUs8IkaRd5jTi+fEa4fMHRr8MWAGdKgA
+        9FtUPfvUfidkZ2TN9scxLIYbvk7vDstxl0w==
+X-Received: by 2002:a17:907:9414:b0:979:65f0:cd07 with SMTP id dk20-20020a170907941400b0097965f0cd07mr8858674ejc.38.1686583518884;
+        Mon, 12 Jun 2023 08:25:18 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6Nc4IMoSj2ZsgsuRG+IJw0zAFVwvw9Uq2Ko1tpq5HVYaOQjhA9iU+dEIl9SarUmIgtYKzavQ==
+X-Received: by 2002:a17:907:9414:b0:979:65f0:cd07 with SMTP id dk20-20020a170907941400b0097965f0cd07mr8858656ejc.38.1686583518494;
+        Mon, 12 Jun 2023 08:25:18 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id gj15-20020a170906e10f00b0096f4c9ce526sm5369256ejb.225.2023.06.12.08.25.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Jun 2023 08:25:17 -0700 (PDT)
+Message-ID: <86828409-d95f-43a6-215b-b0bfbaf9f69e@redhat.com>
+Date:   Mon, 12 Jun 2023 17:25:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 2/2] platform/x86: int3472: discrete: Log a warning if the
- pin-numbers don't match
-Content-Language: en-US
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc:     platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 1/2] platform/x86: int3472: discrete: Fix getting
+ active_value
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Andy Shevchenko <andy@kernel.org>,
+        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Dan Scally <dan.scally@ideasonboard.com>,
+        platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
 References: <20230612141632.5232-1-hdegoede@redhat.com>
- <20230612141632.5232-2-hdegoede@redhat.com>
-From:   Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <20230612141632.5232-2-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+ <CAHp75Ve3+XvsyrPauSzto0jU8Q1czM4Bj-qMquAc_WYK+ZHhxg@mail.gmail.com>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAHp75Ve3+XvsyrPauSzto0jU8Q1czM4Bj-qMquAc_WYK+ZHhxg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,58 +87,19 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Hans
+Hi,
 
-On 12/06/2023 15:16, Hans de Goede wrote:
-> The INT3472 discrete code assumes that the ACPI GPIO resources are
-> in the same order as the pin-info _DSM entries.
->
-> The returned pin-info includes the pin-number in bits 15-8. Add a check
-> that this matches with the ACPI GPIO resource pin-number in case
-> the assumption is not true with some ACPI tables.
->
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+On 6/12/23 16:18, Andy Shevchenko wrote:
+> On Mon, Jun 12, 2023 at 5:16 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> acpi_object.integer.value is 64 bit, so to get bits 31-24
+>> the value not only needs to be shifted but also masked.
+> 
+> Why? The type of active_value is u8. How does this make any difference?
 
+Ah right I forgot about that, I'll drop this patch and drop the & 0xff for the second patch.
 
-That seems like a good idea to me:
+Regards,
 
+Hans
 
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-
-> ---
->   drivers/platform/x86/intel/int3472/discrete.c | 10 +++++++++-
->   1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
-> index 4ef60883154d..c1132bbbff41 100644
-> --- a/drivers/platform/x86/intel/int3472/discrete.c
-> +++ b/drivers/platform/x86/intel/int3472/discrete.c
-> @@ -149,8 +149,8 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
->   {
->   	struct int3472_discrete_device *int3472 = data;
->   	struct acpi_resource_gpio *agpio;
-> +	u8 active_value, pin, type;
->   	union acpi_object *obj;
-> -	u8 active_value, type;
->   	const char *err_msg;
->   	const char *func;
->   	u32 polarity;
-> @@ -174,10 +174,18 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
->   		return 1;
->   	}
->   
-> +	/* Bits 7-0 contain the type/function of the pin */
->   	type = obj->integer.value & 0xff;
->   
->   	int3472_get_func_and_polarity(type, &func, &polarity);
->   
-> +	/* Bits 15-8 contain the pin-number on the GPIO chip */
-> +	pin = (obj->integer.value >> 8) & 0xff;
-> +	if (pin != agpio->pin_table[0])
-> +		dev_warn(int3472->dev, "%s %s pin number mismatch _DSM %d resource %d\n",
-> +			 func, agpio->resource_source.string_ptr, pin,
-> +			 agpio->pin_table[0]);
-> +
->   	/* If bits 31-24 of the _DSM entry are all 0 then the signal is inverted */
->   	active_value = (obj->integer.value >> 24) & 0xff;
->   	if (!active_value)
