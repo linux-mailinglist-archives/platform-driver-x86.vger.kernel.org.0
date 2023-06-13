@@ -2,17 +2,17 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BFD3B72DFA0
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 13 Jun 2023 12:33:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CFDC72DF8C
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 13 Jun 2023 12:32:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241333AbjFMKdk (ORCPT
+        id S232194AbjFMKcF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 13 Jun 2023 06:33:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59628 "EHLO
+        Tue, 13 Jun 2023 06:32:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239974AbjFMKdF (ORCPT
+        with ESMTP id S240523AbjFMKbS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 13 Jun 2023 06:33:05 -0400
+        Tue, 13 Jun 2023 06:31:18 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
         by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD0B0171F
         for <platform-driver-x86@vger.kernel.org>; Tue, 13 Jun 2023 03:30:36 -0700 (PDT)
