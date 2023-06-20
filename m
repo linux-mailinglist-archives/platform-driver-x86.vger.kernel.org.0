@@ -2,135 +2,70 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 619C273645B
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jun 2023 09:21:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BD1A73656E
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jun 2023 09:56:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230372AbjFTHVh (ORCPT
+        id S231737AbjFTH4q (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 20 Jun 2023 03:21:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33178 "EHLO
+        Tue, 20 Jun 2023 03:56:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229758AbjFTHVg (ORCPT
+        with ESMTP id S231272AbjFTH4X (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 20 Jun 2023 03:21:36 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71A26E7;
-        Tue, 20 Jun 2023 00:21:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=uYLeKz7CtPLIuBievrQxgmZUSwGBkqjnNayiyMmgK3M=; b=jcPw1aVbWJ4FXuugKXEX0kTRZj
-        RffNTyB0eEcsVpSmqG2B7rIhT84FlDdB3ule03g1AfNUBsjktvGUbFT4736H3oNVkkKcSH7f8uO7Y
-        w1DBjsmNPR3i7AG+nMWNDuDcNokDha6GNQDsG7VkYzlJ10XXIygkXWKGf83NwQ1JMHQdjl3WgUtZg
-        C5NeDJLZbNqrsPwhtay5wpS3zswXL22SgbyZjwu1JHS+rmXDSx4wrZddK9Jk3Q/hw6R+ezpGc+ZFv
-        CtGNfTUPowA7O9w5Gosgrw5k3fWeIvXSi7PA+CeXifr+kVyBf54oE59kOZ1HMQQOYX46Xk/bhJmw7
-        SMGsgLFA==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qBVfV-00Fxtf-2Q;
-        Tue, 20 Jun 2023 07:20:50 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id C789A30020B;
-        Tue, 20 Jun 2023 09:20:47 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 4AF2F21440F48; Tue, 20 Jun 2023 09:20:47 +0200 (CEST)
-Date:   Tue, 20 Jun 2023 09:20:47 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Xin Li <xin3.li@intel.com>
-Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        iommu@lists.linux.dev, linux-hyperv@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, x86@kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, hpa@zytor.com, steve.wahl@hpe.com,
-        mike.travis@hpe.com, dimitri.sivanich@hpe.com,
-        russ.anderson@hpe.com, dvhart@infradead.org, andy@infradead.org,
-        joro@8bytes.org, suravee.suthikulpanit@amd.com, will@kernel.org,
-        robin.murphy@arm.com, kys@microsoft.com, haiyangz@microsoft.com,
-        wei.liu@kernel.org, decui@microsoft.com, dwmw2@infradead.org,
-        baolu.lu@linux.intel.com, acme@kernel.org, mark.rutland@arm.com,
-        alexander.shishkin@linux.intel.com, jolsa@kernel.org,
-        namhyung@kernel.org, irogers@google.com, adrian.hunter@intel.com,
-        seanjc@google.com, jiangshanlai@gmail.com, jgg@ziepe.ca,
-        yangtiezhu@loongson.cn
-Subject: Re: [PATCH 2/3] x86/vector: Replace IRQ_MOVE_CLEANUP_VECTOR with a
- timer callback
-Message-ID: <20230620072047.GS4253@hirez.programming.kicks-ass.net>
-References: <20230619231611.2230-1-xin3.li@intel.com>
- <20230619231611.2230-3-xin3.li@intel.com>
+        Tue, 20 Jun 2023 03:56:23 -0400
+X-Greylist: delayed 524 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 20 Jun 2023 00:55:01 PDT
+Received: from mail.lahouille.pl (mail.lahouille.pl [217.182.69.204])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1BB619BF
+        for <platform-driver-x86@vger.kernel.org>; Tue, 20 Jun 2023 00:55:01 -0700 (PDT)
+Received: by mail.lahouille.pl (Postfix, from userid 1002)
+        id 381E9463A0; Tue, 20 Jun 2023 07:46:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lahouille.pl; s=mail;
+        t=1687247175; bh=aes4pTqKgBnWjaRufbrhtQag/Wjwd7pKgVnSqLd2GlA=;
+        h=Date:From:To:Subject:From;
+        b=J+Dq5pYsDhsOcu7pYxVv2124iqzNZYBLkz3dVN27L2NYPb9ku56+xpci+zufpjqXe
+         ErCv9rPcpqtu9kC9AaZzFifR6/cklCWe/BhFXmyf1xL2urGQr8Gwt4TVioR8IuzpIp
+         r9mDMbI0lRAXxQ1nlsAS1U8NxpbodmD0pc0eXqRcSGkIjs0eDe5TruvHB8JhiM92Ps
+         VNR5QtnBnij93JTNf9cJS+Ae3cMS03iqrvEVRZxj448H2IY8tzWO9eHXF60hAkAZ4y
+         WEpqSEnrsGm8dw08W/n27A6Y1kRnh0X4FI7j0YsnJlk/pooCChpSNFiT6FiF5fLKjo
+         s1rSoqCAgZWxA==
+Received: by mail.lahouille.pl for <platform-driver-x86@vger.kernel.org>; Tue, 20 Jun 2023 07:46:08 GMT
+Message-ID: <20230620064500-0.1.2d.52wv.0.tavi1ih5sr@lahouille.pl>
+Date:   Tue, 20 Jun 2023 07:46:08 GMT
+From:   =?UTF-8?Q? "Micha=C5=82_Rodziewicz" ?= 
+        <michal.rodziewicz@lahouille.pl>
+To:     <platform-driver-x86@vger.kernel.org>
+Subject: =?UTF-8?Q?Bezp=C5=82atna_konsultacja?=
+X-Mailer: mail.lahouille.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230619231611.2230-3-xin3.li@intel.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=3.2 required=5.0 tests=BAYES_40,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,
+        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED,URIBL_CSS_A autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Jun 19, 2023 at 04:16:10PM -0700, Xin Li wrote:
+Dzie=C5=84 dobry,
 
-> +/*
-> + * Called with vector_lock held
-> + */
+czy konsultowali Pa=C5=84stwo swoj=C4=85 umow=C4=99 ubezpieczeniow=C4=85 =
+z niezale=C5=BCnym doradc=C4=85?
 
-Instead of comments like that, I tend to add a lockdep_assert*()
-statement to the same effect. Which unlike comment actually validate the
-claim and since it's code it tends to not go stale like comments do.
+Wi=C4=99kszo=C5=9B=C4=87 moich Klient=C3=B3w, dotychczas nie by=C5=82a =C5=
+=9Bwiadoma, jak bardzo przep=C5=82acaj=C4=85 za polisy.
 
-> +static void __vector_cleanup(struct vector_cleanup *cl, bool check_irr)
->  {
->  	struct apic_chip_data *apicd;
->  	struct hlist_node *tmp;
-> +	bool rearm = false;
+Jako specjalista niepowi=C4=85zany z =C5=BCadn=C4=85 organizacja ubezpiec=
+zeniow=C4=85 bezp=C5=82atnie przeanalizuj=C4=99 Pa=C5=84stwa rozwi=C4=85z=
+ania finansowe i zarekomenduj=C4=99 najkorzystniejsze na rynku alternatyw=
+y, kt=C3=B3re pozwol=C4=85 zmniejszy=C4=87 dotychczasowe koszty przy jedn=
+ocze=C5=9Bnie zwi=C4=99kszonej ochronie.
 
-	lockdep_assert_held(&vector_lock);
+Byliby Pa=C5=84stwo zainteresowani?
 
-> +	hlist_for_each_entry_safe(apicd, tmp, &cl->head, clist) {
->  		unsigned int irr, vector = apicd->prev_vector;
->  
->  		/*
->  		 * Paranoia: Check if the vector that needs to be cleaned
-> +		 * up is registered at the APICs IRR. That's clearly a
-> +		 * hardware issue if the vector arrived on the old target
-> +		 * _after_ interrupts were disabled above. Keep @apicd
-> +		 * on the list and schedule the timer again to give the CPU
-> +		 * a chance to handle the pending interrupt.
-> +		 *
-> +		 * Do not check IRR when called from lapic_offline(), because
-> +		 * fixup_irqs() was just called to scan IRR for set bits and
-> +		 * forward them to new destination CPUs via IPIs.
->  		 */
-> +		irr = check_irr ? apic_read(APIC_IRR + (vector / 32 * 0x10)) : 0;
->  		if (irr & (1U << (vector % 32))) {
-> +			pr_warn_once("Moved interrupt pending in old target APIC %u\n", apicd->irq);
-> +			rearm = true;
->  			continue;
->  		}
->  		free_moved_vector(apicd);
->  	}
->  
-> +	/*
-> +	 * Must happen under vector_lock to make the timer_pending() check
-> +	 * in __vector_schedule_cleanup() race free against the rearm here.
-> +	 */
-> +	if (rearm)
-> +		mod_timer(&cl->timer, jiffies + 1);
-> +}
-> +
-> +static void vector_cleanup_callback(struct timer_list *tmr)
-> +{
-> +	struct vector_cleanup *cl = container_of(tmr, typeof(*cl), timer);
-> +
-> +	/* Prevent vectors vanishing under us */
-> +	raw_spin_lock_irq(&vector_lock);
-> +	__vector_cleanup(cl, true);
-> +	raw_spin_unlock_irq(&vector_lock);
->  }
+
+Pozdrawiam
+Micha=C5=82 Rodziewicz
