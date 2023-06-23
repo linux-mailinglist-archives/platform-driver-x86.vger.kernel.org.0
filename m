@@ -2,46 +2,78 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1243F73AC85
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 23 Jun 2023 00:33:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 675D673AE20
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 23 Jun 2023 03:03:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230255AbjFVWdJ convert rfc822-to-8bit (ORCPT
+        id S231332AbjFWBDi (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 22 Jun 2023 18:33:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53332 "EHLO
+        Thu, 22 Jun 2023 21:03:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229757AbjFVWdI (ORCPT
+        with ESMTP id S230091AbjFWBDc (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 22 Jun 2023 18:33:08 -0400
-Received: from mail-gw.fondkr24.ru (mail-gw.fondkr24.ru [109.195.69.35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60335E9;
-        Thu, 22 Jun 2023 15:33:07 -0700 (PDT)
-Received: from mail-gw.fondkr24.ru (localhost.localdomain [127.0.0.1])
-        by mail-gw.fondkr24.ru (Proxmox) with ESMTP id E58A31AFE64;
-        Thu, 22 Jun 2023 20:19:31 +0700 (+07)
-Content-Type: text/plain; charset="iso-8859-1"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: 
-To:     Recipients <Mariaisabeth01@outlook.com>
-From:   Mariaisabeth01@outlook.com
-Date:   Thu, 22 Jun 2023 06:19:16 -0700
-Reply-To: mariaelisschae42@gmail.com
-Message-Id: <20230622131918.ECE351072CF@mail.fondkr24.ru>
-X-Spam-Status: No, score=3.4 required=5.0 tests=BAYES_50,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,
-        SPF_HELO_NONE,SPF_SOFTFAIL,SPOOFED_FREEMAIL,SPOOFED_FREEM_REPTO,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+        Thu, 22 Jun 2023 21:03:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 240BD1728;
+        Thu, 22 Jun 2023 18:03:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 889FD61919;
+        Fri, 23 Jun 2023 01:03:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E92F1C433C8;
+        Fri, 23 Jun 2023 01:03:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687482210;
+        bh=eBbboiYQGsBbAqMGQtM00YWrB6NuLA8rSZ0kHuTQ2A0=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=FqE5lKYz4s1S5CpoJvTU0XYFZi2Lsd9E1Unhlk2IINIJ3bSK95+oyaOnyankuMDoZ
+         1uwrwYJ6uAuQ1LC0YUyV3PiDFWDEQ5KLrqk+kaUcv9w9s/yhjxZHstI1jOP7uj9wBb
+         nddOUELNPZmXe0Wshc/qq+KJtOWJiCE4TCoJ/Pc/yyAsQ1Ev6CjyWyKQDKC7ijlIG6
+         8eA7KpOYb4Egv9WKbpyAeI1kE/L8BNr/LHbTOV9PLRHzoCPMvW0VdywERywqdbHwu0
+         xKnEZtJTQQBNJLo127DsQb71BM5LmUZizz/nlgk1fU/pEKzpJHZqA07l1uZMic0XZI
+         UVvUT1FT2Mi4Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D8C5AC395F1;
+        Fri, 23 Jun 2023 01:03:30 +0000 (UTC)
+Subject: Re: [GIT PULL] platform-drivers-x86 for 6.4-5
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <075d2f89-aa61-ce14-edb1-f56cfcc90bcf@redhat.com>
+References: <075d2f89-aa61-ce14-edb1-f56cfcc90bcf@redhat.com>
+X-PR-Tracked-List-Id: <platform-driver-x86.vger.kernel.org>
+X-PR-Tracked-Message-Id: <075d2f89-aa61-ce14-edb1-f56cfcc90bcf@redhat.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-v6.4-5
+X-PR-Tracked-Commit-Id: 146b6f6855e7656e8329910606595220c761daac
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 65d48989f81b976b43c8b42c050f157900f61321
+Message-Id: <168748221087.12146.2357638061508768828.pr-tracker-bot@kernel.org>
+Date:   Fri, 23 Jun 2023 01:03:30 +0000
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        platform-driver-x86@vger.kernel.org,
+        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Herzlichen Glückwunsch, Free Will Donation hat Sie für Ihren Anspruch auf 1,7 Millionen Euro ausgewählt. Senden Sie uns eine E-Mail, um weitere Informationen darüber zu erhalten, wie Sie Ihren Spendenfonds beanspruchen können
-Frau Maria Elisabeth Schaeffler.
-CEO Schaeffler
+The pull request you sent on Thu, 22 Jun 2023 10:25:59 +0200:
 
+> git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-v6.4-5
+
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/65d48989f81b976b43c8b42c050f157900f61321
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
