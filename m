@@ -2,55 +2,55 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CDD373D255
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 25 Jun 2023 18:30:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB16273D260
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 25 Jun 2023 18:30:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230307AbjFYQaF (ORCPT
+        id S231540AbjFYQaJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 25 Jun 2023 12:30:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58324 "EHLO
+        Sun, 25 Jun 2023 12:30:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230362AbjFYQ3j (ORCPT
+        with ESMTP id S231466AbjFYQ3k (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 25 Jun 2023 12:29:39 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06EED1AB
-        for <platform-driver-x86@vger.kernel.org>; Sun, 25 Jun 2023 09:29:18 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-51d7e8dd118so2257652a12.1
-        for <platform-driver-x86@vger.kernel.org>; Sun, 25 Jun 2023 09:29:17 -0700 (PDT)
+        Sun, 25 Jun 2023 12:29:40 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B002F1702
+        for <platform-driver-x86@vger.kernel.org>; Sun, 25 Jun 2023 09:29:20 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-9786fc23505so193131466b.2
+        for <platform-driver-x86@vger.kernel.org>; Sun, 25 Jun 2023 09:29:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687710534; x=1690302534;
+        d=linaro.org; s=google; t=1687710536; x=1690302536;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LcWzH/RHmwMa3/x+/zg00uCVAY2MK7RPL3Qa0SH0q0U=;
-        b=UlmhGix7s5v0WhZkyYVMXvB33R9ZUZPAYDNOZkYKTMgXi6rkhMM4Vc0XmOIFCG+VPJ
-         Y/9NC31kGfA1YYnz7oOzt67TUwsNwLFNPK7n3Ve8KiHvQeNypruvpwoggl9xf8MZhH6Q
-         wcrlngx+qd6mUA8fSlQ8K5JNLSGkFGxbMb5gOEriEV/xhbtkqHUoYBAZDZe5F5CTvzxo
-         41xpTQR0TgfNUnVVjDuWmy8TrC1cy4MiZGz0AwLBy4XnnJ5IA9Nv56PJCGMlrsnDJuy2
-         He6+gwMUR++usJd/7S0EdGCYRXktAjjB4PVcNQ+iH+1IdIjUaidrAOpYNdVoJQ0JpL6d
-         fnPw==
+        bh=hBwWVyiT1or6L/qAtYaBPHGSvXZlvDgrfYi37JFCZ9A=;
+        b=QPMfHgMkgP1G4fF1llYySBCqeYS4EtgSTgIqSwonEoQJslqEOK3iRXl+ZBCpLQpjWm
+         gcTiyfl+RCObIBJJVzDP42TPlz7Vw8+HmcS9fJ9f1H8rt3Ew9IhEjY+KMruiDE5cyoj9
+         TbTL5m33RNK+vdADYbLrldRcvEcguiJ9pFhd93bvy7JldyrRzpR4B0k6RiHdR1R44zNv
+         krMEMtY/e69Pufm/yc2V3ZzCFx6NoF05hxOLL3G6X8o8/K/McPbdLG7b+49LMK9bIcV1
+         QrRe1U6V4cXUixc682+ITuHi5n/UGh8W1k4Eexr2VDLDbOYpodKa/PdhVnqJHNkCPI3D
+         QXHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687710534; x=1690302534;
+        d=1e100.net; s=20221208; t=1687710536; x=1690302536;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LcWzH/RHmwMa3/x+/zg00uCVAY2MK7RPL3Qa0SH0q0U=;
-        b=F9jd8p5akXFhkbI17OiyYHcwUSlTtdxa4LaRBIl0YLfRP4w56lkUZsbvVArfgRJf7p
-         f9gaWYQxlXsjYJkOabuxv0r/TgHnqBX0ZKbe3LwFfhMM2FEihI1utEg987EJMi/cghWG
-         +HHpy0tFAX3hIKd4SPNs5P5Snk3DEKpVrTiRntncJPwoyDIDMDdeVYLqtptn31eQUtHt
-         mLSO6AztdCujA55i8BfQdyN1Q2OVj98wFeDuSdvO3llcCGenURKyLpz1QCVFLfjYweR/
-         B1XhQm3p6Kuq6sQXUY7hcRUjvIi+59EPzQ/TD01aqyOe4XB6qL1fiMQ5PK1iN/OHitNx
-         xAUw==
-X-Gm-Message-State: AC+VfDy1IG14FagQABuJYpiklYnjcq29kL/ws5O6cpIKs9GQo0RanZLQ
-        E9uQl/+wz09VLC4Szg0KbnS8OyRxGI0h0ORySn4=
-X-Google-Smtp-Source: ACHHUZ5luKl0u5pODvkSWW7OV5oi9JK3VKz1V/ffHGil8YhRFO4e+LGCOFQmaOEzMNU6Wu8kjAHvMQ==
-X-Received: by 2002:a17:907:3d94:b0:98c:d733:bf03 with SMTP id he20-20020a1709073d9400b0098cd733bf03mr12217721ejc.43.1687710534201;
-        Sun, 25 Jun 2023 09:28:54 -0700 (PDT)
+        bh=hBwWVyiT1or6L/qAtYaBPHGSvXZlvDgrfYi37JFCZ9A=;
+        b=k+W+Cvi5rVD7pjsMKN7Dp6pW17g4h70fHTABJQ424kvV8vkuh729+ZD0rBsi6Ro3v1
+         yp3oZ2eSQlQ62wGohEOt43Ho+3ZF1oTPK+sttJ27+SrM6XyExFgs4BEOhhOWy2Ef5Kfa
+         yN5SmaYPS1d/1tGdcbceo56iQ2ZPf/azVSBhBbM+46uN63nhpPXtirlnqOsCOTCT+xdw
+         MyV4IRyyFSuY/8NhEfgLaMQ4K5uL4dXB8Inl0uQ9/5gY1purtWL8MmXjO/dnIqvX/bDg
+         84wmAskKSFzTGfZzPX+dWKV7j5a3w/dzFj7WmJ2LnKwId12MTu5WdalcGftFcvfIoigZ
+         s3FA==
+X-Gm-Message-State: AC+VfDxKgyfx7EevyVFz5f51UPK1h9lfzigQFkHZymkBD2tg/azyJfQI
+        hjkY4YHjosvFPbN+V5m7D+qJxw==
+X-Google-Smtp-Source: ACHHUZ56u1JEBMpCzlL4LAGuaJ/ZlB0XiRh/kGy0YbXR8oi78PJ6a/l7ly6YbZewI7R4JBzJKWIp3Q==
+X-Received: by 2002:a17:906:6a25:b0:989:40a9:505d with SMTP id qw37-20020a1709066a2500b0098940a9505dmr14530283ejc.0.1687710536045;
+        Sun, 25 Jun 2023 09:28:56 -0700 (PDT)
 Received: from krzk-bin.. ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id ec10-20020a170906b6ca00b00982be08a9besm2277731ejb.172.2023.06.25.09.28.52
+        by smtp.gmail.com with ESMTPSA id ec10-20020a170906b6ca00b00982be08a9besm2277731ejb.172.2023.06.25.09.28.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Jun 2023 09:28:53 -0700 (PDT)
+        Sun, 25 Jun 2023 09:28:55 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -65,9 +65,9 @@ Cc:     Andi Shyti <andi.shyti@kernel.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v4 17/24] Input: resistive-adc-touch - Simplify with dev_err_probe()
-Date:   Sun, 25 Jun 2023 18:28:10 +0200
-Message-Id: <20230625162817.100397-18-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v4 18/24] Input: silead - Simplify with dev_err_probe()
+Date:   Sun, 25 Jun 2023 18:28:11 +0200
+Message-Id: <20230625162817.100397-19-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230625162817.100397-1-krzysztof.kozlowski@linaro.org>
 References: <20230625162817.100397-1-krzysztof.kozlowski@linaro.org>
@@ -90,28 +90,28 @@ Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- drivers/input/touchscreen/resistive-adc-touch.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/input/touchscreen/silead.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/input/touchscreen/resistive-adc-touch.c b/drivers/input/touchscreen/resistive-adc-touch.c
-index 6f754a8d30b1..7e761ec73273 100644
---- a/drivers/input/touchscreen/resistive-adc-touch.c
-+++ b/drivers/input/touchscreen/resistive-adc-touch.c
-@@ -210,12 +210,8 @@ static int grts_probe(struct platform_device *pdev)
+diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
+index 9e28f962e059..62f562ad5026 100644
+--- a/drivers/input/touchscreen/silead.c
++++ b/drivers/input/touchscreen/silead.c
+@@ -706,11 +706,9 @@ static int silead_ts_probe(struct i2c_client *client)
  
- 	/* get the channels from IIO device */
- 	st->iio_chans = devm_iio_channel_get_all(dev);
--	if (IS_ERR(st->iio_chans)) {
--		error = PTR_ERR(st->iio_chans);
--		if (error != -EPROBE_DEFER)
--			dev_err(dev, "can't get iio channels.\n");
--		return error;
+ 	/* Power GPIO pin */
+ 	data->gpio_power = devm_gpiod_get_optional(dev, "power", GPIOD_OUT_LOW);
+-	if (IS_ERR(data->gpio_power)) {
+-		if (PTR_ERR(data->gpio_power) != -EPROBE_DEFER)
+-			dev_err(dev, "Shutdown GPIO request failed\n");
+-		return PTR_ERR(data->gpio_power);
 -	}
-+	if (IS_ERR(st->iio_chans))
-+		return dev_err_probe(dev, PTR_ERR(st->iio_chans), "can't get iio channels\n");
++	if (IS_ERR(data->gpio_power))
++		return dev_err_probe(dev, PTR_ERR(data->gpio_power),
++				     "Shutdown GPIO request failed\n");
  
- 	if (!device_property_present(dev, "io-channel-names"))
- 		return -ENODEV;
+ 	error = silead_ts_setup(client);
+ 	if (error)
 -- 
 2.34.1
 
