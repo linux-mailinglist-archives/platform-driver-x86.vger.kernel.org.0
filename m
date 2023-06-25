@@ -2,55 +2,55 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EA4773D258
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 25 Jun 2023 18:30:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 866AA73D25C
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 25 Jun 2023 18:30:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230362AbjFYQaG (ORCPT
+        id S231484AbjFYQaI (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 25 Jun 2023 12:30:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57758 "EHLO
+        Sun, 25 Jun 2023 12:30:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231540AbjFYQ3r (ORCPT
+        with ESMTP id S231627AbjFYQ3t (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 25 Jun 2023 12:29:47 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F9131992
-        for <platform-driver-x86@vger.kernel.org>; Sun, 25 Jun 2023 09:29:31 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-98e25fa6f5bso160146966b.3
-        for <platform-driver-x86@vger.kernel.org>; Sun, 25 Jun 2023 09:29:30 -0700 (PDT)
+        Sun, 25 Jun 2023 12:29:49 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A6D819B7
+        for <platform-driver-x86@vger.kernel.org>; Sun, 25 Jun 2023 09:29:34 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-514ab6cb529so6356234a12.1
+        for <platform-driver-x86@vger.kernel.org>; Sun, 25 Jun 2023 09:29:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687710543; x=1690302543;
+        d=linaro.org; s=google; t=1687710546; x=1690302546;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hrK9BhmeRbtcXzgi7rTTXpnSu/d5rWV1MCplOE4+PiY=;
-        b=qr9LMO/Q+uU19l25OB/u4TWDpd9xHm9oJH3Foo76AbbHQctIYRf5ZUFkY8L9AiHLl4
-         IOGoE/YwDvYjQ7Z/RoI8LAsyAb0Oou9jV/eNjnv0tRqSdclfwqq5uy94d6B0rnmCPUUR
-         iSLOq5KkZanLgOR/nRBhyLxHONuPzS/nAZpnltsISPxUbmC0LUfNyXpYLU0YpLs1vWve
-         AC96ifIl+9PInt0WomEwgqB0VL3ODDiMvq9dIQEL7Sq3bYrqAHuOVxVLoe7A0CTRvKCZ
-         mcw9tPNo76ttBFw4192eFXvpbfamJYHlQPGZpjvPhBEBJagw7rmSeUJ7CKA6ktmCZMlI
-         AgRw==
+        bh=XIYC5RHCUmHOYXB4rEzcPmseZLQl8WhYPFeXh6HSghs=;
+        b=xH3FhA04qFZBGJXE48A4RzYemkesixHL9/B3HxrhIRp3eF67XxCcL9xfgwALWocg0u
+         +xW6afSWOw0xhBojG/J8RAT/NxKmqFfz4Z1+43w2Dt29MaGVcoenrxDDgcc0hWJbYvvT
+         28eSQlO6pOMDcZ0l6nu6sgQCxjYtM0PrScnmYCCCOLsgiUjwGjN6cSJfxzCru47GPxyl
+         lMixvzjIGsXJSdMxobecCT/KR1DGpg7fg35SvpGhuOM9HqLMMkwSTb2YjpEq7dn60XN3
+         061RBK3XGX9n0OurOehnpqa/nMUNqRzXuWnVfU7ReWtd+uK1R85bR/cIN7VhV82n8a0h
+         3zGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687710543; x=1690302543;
+        d=1e100.net; s=20221208; t=1687710546; x=1690302546;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hrK9BhmeRbtcXzgi7rTTXpnSu/d5rWV1MCplOE4+PiY=;
-        b=dgcnPmLrN7t5SbTGouU6vLU6HMBv3LsPjtD8HKJMja86T1ixRTqYJPiiDLi9gVlfO8
-         OIP1zSfubmZC7TYIe2eZIPUjIKfltXNck2H9TxNzbHdrnkRJApqwD+4QKoqS8+cKPpRf
-         QOZXSJZWIvnl+iUXsuvnjMsz8VZAfaKUu3Qyk52ISuz7DyyQwXwD+rn7fSa72FYvwz0h
-         H+y7eSSpYfzFmZqtfX+tzVdKMT+R3E6LPp/d1YufW7IhD5noebYHsSaeXxjYe9qdMDnt
-         FoviL1G03rar/7IWDKxC+HbPkNcSulCjhqqSylYGoXPiJwH07Bvf/Ko0IwDGzYWKgqoe
-         1lQw==
-X-Gm-Message-State: AC+VfDx/guIefY9uB2UEL9h4u187AR8QmHBQJXWIEX+2X81VjN8ZpRM2
-        bANv/iIVGNIFDjllXVY6XYBaZw==
-X-Google-Smtp-Source: ACHHUZ4pmUNrCMXBMGQAiWrlzAcQbXivm8kcH4HsBYA2BwE5vUWcO7yFRLSprd8nU0O23IiOEHcsJg==
-X-Received: by 2002:a17:906:58c5:b0:988:891b:28c6 with SMTP id e5-20020a17090658c500b00988891b28c6mr20998191ejs.15.1687710543723;
-        Sun, 25 Jun 2023 09:29:03 -0700 (PDT)
+        bh=XIYC5RHCUmHOYXB4rEzcPmseZLQl8WhYPFeXh6HSghs=;
+        b=g+tHiB6A4sOeOuLDg+fp8eIKXWsC98JrYzXqDW4eng1NPEaVc3yDkKwXi3863YyGvc
+         3hZKXRALHpD+Wj31B9CMe4dH0b8yZtk5DWpR0hIWwxP+u4gxVoLxU8dB/o3LU2S+WAI2
+         vzwmR2sJQ2gs4RD6AkUprBk+nnHK2CLGIKqeeIyI5bnV0IS2D2AZe890RHBci35z/K8D
+         j90aX7WYW4HD1RW+G/UrKurfI5arlx0NQGSy9F+xZNt0dBafB6lGn+UHQ9LrCxZh3vVD
+         KQeAduK5AeTH/3dJSFEThGiHVmdH/HSlMjcODl7cyvCKZjfeQ7vu6LUuyQtvD8yBEMuy
+         nsMQ==
+X-Gm-Message-State: AC+VfDysuLQtjEQg3FtMpQ/kwbeuzs4CsfnBL7y9ELg5T1GefGzNz5nK
+        1bHg6xtzuLWfqbh9S+Vqw7gstg==
+X-Google-Smtp-Source: ACHHUZ6Z8vfrrWRs60MAbbV1HqtZg+S0t3M8PVFYy/Jx41q9RFtvBflzgocooaRSSpWSbzEQVmBLJA==
+X-Received: by 2002:a17:907:360a:b0:982:a022:a540 with SMTP id bk10-20020a170907360a00b00982a022a540mr27049924ejc.11.1687710546129;
+        Sun, 25 Jun 2023 09:29:06 -0700 (PDT)
 Received: from krzk-bin.. ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id ec10-20020a170906b6ca00b00982be08a9besm2277731ejb.172.2023.06.25.09.29.02
+        by smtp.gmail.com with ESMTPSA id ec10-20020a170906b6ca00b00982be08a9besm2277731ejb.172.2023.06.25.09.29.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Jun 2023 09:29:03 -0700 (PDT)
+        Sun, 25 Jun 2023 09:29:05 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -65,9 +65,9 @@ Cc:     Andi Shyti <andi.shyti@kernel.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v4 22/24] Input: bcm-keypad - Simplify with dev_err_probe()
-Date:   Sun, 25 Jun 2023 18:28:15 +0200
-Message-Id: <20230625162817.100397-23-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v4 23/24] Input: bu21013_ts - Use local 'client->dev' variable in probe()
+Date:   Sun, 25 Jun 2023 18:28:16 +0200
+Message-Id: <20230625162817.100397-24-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230625162817.100397-1-krzysztof.kozlowski@linaro.org>
 References: <20230625162817.100397-1-krzysztof.kozlowski@linaro.org>
@@ -83,48 +83,187 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Common pattern of handling deferred probe can be simplified with
-dev_err_probe() and devm_clk_get_optional().  Less code and the error
-value gets printed.
+'dev' is shorter and simpler than '&client->dev' and in few cases it
+allows to skip line wrapping. Probe function uses '&client->dev' a lot,
+so this improves readability slightly.
 
+Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 ---
 
-Changes since v1:
-1. Use also devm_clk_get_optional()
----
- drivers/input/keyboard/bcm-keypad.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+Changes since v3:
+1. Correct suggested-by tag.
 
-diff --git a/drivers/input/keyboard/bcm-keypad.c b/drivers/input/keyboard/bcm-keypad.c
-index 56a919ec23b5..05b09066df84 100644
---- a/drivers/input/keyboard/bcm-keypad.c
-+++ b/drivers/input/keyboard/bcm-keypad.c
-@@ -365,17 +365,11 @@ static int bcm_kp_probe(struct platform_device *pdev)
- 		return PTR_ERR(kp->base);
+Changes since v2:
+1. New patch
+---
+ drivers/input/touchscreen/bu21013_ts.c | 61 ++++++++++++--------------
+ 1 file changed, 28 insertions(+), 33 deletions(-)
+
+diff --git a/drivers/input/touchscreen/bu21013_ts.c b/drivers/input/touchscreen/bu21013_ts.c
+index f811677a59f7..652439a79e21 100644
+--- a/drivers/input/touchscreen/bu21013_ts.c
++++ b/drivers/input/touchscreen/bu21013_ts.c
+@@ -410,31 +410,32 @@ static int bu21013_probe(struct i2c_client *client)
+ 	struct input_dev *in_dev;
+ 	struct input_absinfo *info;
+ 	u32 max_x = 0, max_y = 0;
++	struct device *dev = &client->dev;
+ 	int error;
  
- 	/* Enable clock */
--	kp->clk = devm_clk_get(&pdev->dev, "peri_clk");
-+	kp->clk = devm_clk_get_optional(&pdev->dev, "peri_clk");
- 	if (IS_ERR(kp->clk)) {
--		error = PTR_ERR(kp->clk);
--		if (error != -ENOENT) {
--			if (error != -EPROBE_DEFER)
--				dev_err(&pdev->dev, "Failed to get clock\n");
--			return error;
--		}
--		dev_dbg(&pdev->dev,
--			"No clock specified. Assuming it's enabled\n");
--		kp->clk = NULL;
-+		return dev_err_probe(&pdev->dev, error, "Failed to get clock\n");
-+	} else if (!kp->clk) {
-+		dev_dbg(&pdev->dev, "No clock specified. Assuming it's enabled\n");
- 	} else {
- 		unsigned int desired_rate;
- 		long actual_rate;
+ 	if (!i2c_check_functionality(client->adapter,
+ 				     I2C_FUNC_SMBUS_BYTE_DATA)) {
+-		dev_err(&client->dev, "i2c smbus byte data not supported\n");
++		dev_err(dev, "i2c smbus byte data not supported\n");
+ 		return -EIO;
+ 	}
+ 
+ 	if (!client->irq) {
+-		dev_err(&client->dev, "No IRQ set up\n");
++		dev_err(dev, "No IRQ set up\n");
+ 		return -EINVAL;
+ 	}
+ 
+-	ts = devm_kzalloc(&client->dev, sizeof(*ts), GFP_KERNEL);
++	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
+ 	if (!ts)
+ 		return -ENOMEM;
+ 
+ 	ts->client = client;
+ 
+-	ts->x_flip = device_property_read_bool(&client->dev, "rohm,flip-x");
+-	ts->y_flip = device_property_read_bool(&client->dev, "rohm,flip-y");
++	ts->x_flip = device_property_read_bool(dev, "rohm,flip-x");
++	ts->y_flip = device_property_read_bool(dev, "rohm,flip-y");
+ 
+-	in_dev = devm_input_allocate_device(&client->dev);
++	in_dev = devm_input_allocate_device(dev);
+ 	if (!in_dev) {
+-		dev_err(&client->dev, "device memory alloc failed\n");
++		dev_err(dev, "device memory alloc failed\n");
+ 		return -ENOMEM;
+ 	}
+ 	ts->in_dev = in_dev;
+@@ -444,8 +445,8 @@ static int bu21013_probe(struct i2c_client *client)
+ 	in_dev->name = DRIVER_TP;
+ 	in_dev->id.bustype = BUS_I2C;
+ 
+-	device_property_read_u32(&client->dev, "rohm,touch-max-x", &max_x);
+-	device_property_read_u32(&client->dev, "rohm,touch-max-y", &max_y);
++	device_property_read_u32(dev, "rohm,touch-max-x", &max_x);
++	device_property_read_u32(dev, "rohm,touch-max-y", &max_y);
+ 
+ 	input_set_abs_params(in_dev, ABS_MT_POSITION_X, 0, max_x, 0, 0);
+ 	input_set_abs_params(in_dev, ABS_MT_POSITION_Y, 0, max_y, 0, 0);
+@@ -454,14 +455,14 @@ static int bu21013_probe(struct i2c_client *client)
+ 
+ 	/* Adjust for the legacy "flip" properties, if present */
+ 	if (!ts->props.invert_x &&
+-	    device_property_read_bool(&client->dev, "rohm,flip-x")) {
++	    device_property_read_bool(dev, "rohm,flip-x")) {
+ 		info = &in_dev->absinfo[ABS_MT_POSITION_X];
+ 		info->maximum -= info->minimum;
+ 		info->minimum = 0;
+ 	}
+ 
+ 	if (!ts->props.invert_y &&
+-	    device_property_read_bool(&client->dev, "rohm,flip-y")) {
++	    device_property_read_bool(dev, "rohm,flip-y")) {
+ 		info = &in_dev->absinfo[ABS_MT_POSITION_Y];
+ 		info->maximum -= info->minimum;
+ 		info->minimum = 0;
+@@ -471,50 +472,46 @@ static int bu21013_probe(struct i2c_client *client)
+ 				    INPUT_MT_DIRECT | INPUT_MT_TRACK |
+ 					INPUT_MT_DROP_UNUSED);
+ 	if (error) {
+-		dev_err(&client->dev, "failed to initialize MT slots");
++		dev_err(dev, "failed to initialize MT slots");
+ 		return error;
+ 	}
+ 
+-	ts->regulator = devm_regulator_get(&client->dev, "avdd");
++	ts->regulator = devm_regulator_get(dev, "avdd");
+ 	if (IS_ERR(ts->regulator)) {
+-		dev_err(&client->dev, "regulator_get failed\n");
++		dev_err(dev, "regulator_get failed\n");
+ 		return PTR_ERR(ts->regulator);
+ 	}
+ 
+ 	error = regulator_enable(ts->regulator);
+ 	if (error) {
+-		dev_err(&client->dev, "regulator enable failed\n");
++		dev_err(dev, "regulator enable failed\n");
+ 		return error;
+ 	}
+ 
+-	error = devm_add_action_or_reset(&client->dev, bu21013_power_off, ts);
++	error = devm_add_action_or_reset(dev, bu21013_power_off, ts);
+ 	if (error) {
+-		dev_err(&client->dev, "failed to install power off handler\n");
++		dev_err(dev, "failed to install power off handler\n");
+ 		return error;
+ 	}
+ 
+ 	/* Named "CS" on the chip, DT binding is "reset" */
+-	ts->cs_gpiod = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
++	ts->cs_gpiod = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+ 	if (IS_ERR(ts->cs_gpiod))
+-		return dev_err_probe(&client->dev, PTR_ERR(ts->cs_gpiod),
+-				     "failed to get CS GPIO\n");
++		return dev_err_probe(dev, PTR_ERR(ts->cs_gpiod), "failed to get CS GPIO\n");
+ 
+ 	gpiod_set_consumer_name(ts->cs_gpiod, "BU21013 CS");
+ 
+-	error = devm_add_action_or_reset(&client->dev,
+-					 bu21013_disable_chip, ts);
++	error = devm_add_action_or_reset(dev, bu21013_disable_chip, ts);
+ 	if (error) {
+-		dev_err(&client->dev,
+-			"failed to install chip disable handler\n");
++		dev_err(dev, "failed to install chip disable handler\n");
+ 		return error;
+ 	}
+ 
+ 	/* Named "INT" on the chip, DT binding is "touch" */
+-	ts->int_gpiod = devm_gpiod_get_optional(&client->dev,
+-						"touch", GPIOD_IN);
++	ts->int_gpiod = devm_gpiod_get_optional(dev, "touch", GPIOD_IN);
+ 	error = PTR_ERR_OR_ZERO(ts->int_gpiod);
+ 	if (error)
+-		return dev_err_probe(&client->dev, error, "failed to get INT GPIO\n");
++		return dev_err_probe(dev, error, "failed to get INT GPIO\n");
+ 
+ 	if (ts->int_gpiod)
+ 		gpiod_set_consumer_name(ts->int_gpiod, "BU21013 INT");
+@@ -522,22 +519,20 @@ static int bu21013_probe(struct i2c_client *client)
+ 	/* configure the touch panel controller */
+ 	error = bu21013_init_chip(ts);
+ 	if (error) {
+-		dev_err(&client->dev, "error in bu21013 config\n");
++		dev_err(dev, "error in bu21013 config\n");
+ 		return error;
+ 	}
+ 
+-	error = devm_request_threaded_irq(&client->dev, client->irq,
+-					  NULL, bu21013_gpio_irq,
++	error = devm_request_threaded_irq(dev, client->irq, NULL, bu21013_gpio_irq,
+ 					  IRQF_ONESHOT, DRIVER_TP, ts);
+ 	if (error) {
+-		dev_err(&client->dev, "request irq %d failed\n",
+-			client->irq);
++		dev_err(dev, "request irq %d failed\n", client->irq);
+ 		return error;
+ 	}
+ 
+ 	error = input_register_device(in_dev);
+ 	if (error) {
+-		dev_err(&client->dev, "failed to register input device\n");
++		dev_err(dev, "failed to register input device\n");
+ 		return error;
+ 	}
+ 
 -- 
 2.34.1
 
