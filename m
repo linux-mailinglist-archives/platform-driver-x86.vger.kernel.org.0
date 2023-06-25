@@ -2,55 +2,55 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFEF873D25A
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 25 Jun 2023 18:30:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B54B73D253
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 25 Jun 2023 18:30:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231469AbjFYQaH (ORCPT
+        id S229929AbjFYQaF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 25 Jun 2023 12:30:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58400 "EHLO
+        Sun, 25 Jun 2023 12:30:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231477AbjFYQ3n (ORCPT
+        with ESMTP id S231381AbjFYQ3o (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 25 Jun 2023 12:29:43 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CB96E5B
-        for <platform-driver-x86@vger.kernel.org>; Sun, 25 Jun 2023 09:29:24 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-9896216338cso193268866b.3
-        for <platform-driver-x86@vger.kernel.org>; Sun, 25 Jun 2023 09:29:24 -0700 (PDT)
+        Sun, 25 Jun 2023 12:29:44 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AE60E65
+        for <platform-driver-x86@vger.kernel.org>; Sun, 25 Jun 2023 09:29:25 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-9741caaf9d4so194416366b.0
+        for <platform-driver-x86@vger.kernel.org>; Sun, 25 Jun 2023 09:29:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687710538; x=1690302538;
+        d=linaro.org; s=google; t=1687710540; x=1690302540;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JmS3pJ1SyrLevST8bGOOD7yXt2zH6zG2iD3vhDp7X08=;
-        b=gTI8JU+ZA8Kr8RNGjDMmEGGx04B54DFxcjCoX05mV0tdcOiQ4/ZIBpJFZNDajO7s/5
-         QL2aWBoD+OfKOt2tAoJ7uTt42SwAznxpokPO5sZnwMPs2KGSNPlM+S13UJkE5iHwC1FO
-         NsdjUL8HRmHUvJmp3UsD0RwKEKlIsjvpHVJj8spyjxzzusT6BsJWFzYc8K1ZJXjnhAmZ
-         jAvL39DCwkF16P784MtycdiOLNy4fKQUTdHxK950v0WaUa2L1nSZQGPWXYXi7Fh37mO0
-         GAwHz0vxkoEDDxuoKGy52+dSO9bqSwf0SlyU0YVORQE29RC2sqfzZ/PclYPOPSpl5+qf
-         IBrg==
+        bh=dFNLWz5nb9xBhB40IBJoDah+KxzePJk8q7QGRODucW0=;
+        b=ob0lMxAwJrExIVf3oDeXjQ+jA6kXqRF/1aB785MgbNcpsFJMzGAFqFqFU3QJ0Wx437
+         lf0QxL+6yym9EKpnkTrjiXQrQVauNv88Ex2a2QmeV3DI9cHL9R6z2laDzsULdZ38iXPk
+         bENqFNUI9+CT3IE4JUaecgT+iPnkQ6zSGhSYOQN7KALHcjUy/hTk8Wq9vhfkkkiYlb3X
+         fjA5Tyu406KjZ5NozbmI1U710BcMxDQVNB0rrCFGYpRjGlmqry/P4F2XRtX4wxy3OF8i
+         HLe+1P+BO9bOe9oMJ3TanB7IJemcN4HveJ7rSuASMevLNsP9iMKp3mFoRTBVK89M4PYQ
+         9FVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687710538; x=1690302538;
+        d=1e100.net; s=20221208; t=1687710540; x=1690302540;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JmS3pJ1SyrLevST8bGOOD7yXt2zH6zG2iD3vhDp7X08=;
-        b=bCORpaHb8E+az+6lMLzz8v+nWcljeTi3a8Pi8RbOaQpgJ3UtSSMFKY5PAx8iI0rDU3
-         EYGOE/i/oEUvokTivymNqGnIoaZlBL/unU+trk5/jXW5R3W0AgWvjGMbZo3euakWJ4HH
-         Ro1M4a82Qn+OB1JHP+HGeVr8S5nKmNTvo6aZlfq1bm/UwWVJVXd3Ajslj6EWsum2NNxV
-         EBzODiiwUT/EtUwORMs5nRuu8pFuulqyBmsPaJHJ6sB/K4PSQAVqZ7Zo+1UHTbKgtqWF
-         E37H4LWVpToqOqie2VBzaKu/XXh28NLyKWjpUZ+imAoewpE1HdNZd89yz/aSDB382T/1
-         QlkQ==
-X-Gm-Message-State: AC+VfDz+uopQUmdNS+Nl032xcgwtYECCMSQJW/J50rwdRabzGLCVj7fK
-        mnYLNJeK9v74SaarjPpliAbSkg==
-X-Google-Smtp-Source: ACHHUZ40Qb3W3LkY7oK41/MEkUCkEpBE4VxbC9OyUmcAy8rrCe5L4wQOsEbshuUjWAUUngr7rO15IQ==
-X-Received: by 2002:a17:907:2be7:b0:98e:2b00:c509 with SMTP id gv39-20020a1709072be700b0098e2b00c509mr1551774ejc.30.1687710538039;
-        Sun, 25 Jun 2023 09:28:58 -0700 (PDT)
+        bh=dFNLWz5nb9xBhB40IBJoDah+KxzePJk8q7QGRODucW0=;
+        b=lL6SCbtZjviowLDFe22sb9b+t7X+iTIbUDZJ+rf6h4VJ7Ah2nrGOTQqhy6eihhdtDf
+         uOOod6CJPWClLrXybXkL+EiPUqYadNm/3PYQJgbbDnOCcLebInxVd3CBneR2ivwu5dw9
+         3LaqMZxjsG1MTVgiRCIwD/DSw+PuT9LJmbN8Q+XqpQgU7Dn3Gn+5YAGsaRQc91/olHAe
+         PNFGZs3gJOuc19EgIaAiF+sQYb9Kzatl6uDfUDKfO+f26yFKWLm593jOTqk+/evSZZ6O
+         xW/LOZclO5QuXte+YfEoNVxRztiFHdoC7+V9Q46hJXdawNfvajMh+CepqLhWVR3r4hZQ
+         NY5g==
+X-Gm-Message-State: AC+VfDzOBm8wLkPodZo/Z6V3t51WWgpdgxLVHwb7gJMLun5seigxya7O
+        WWdkvU3J8f3yxp4Aj6BuEZ9ZGQ==
+X-Google-Smtp-Source: ACHHUZ4IWpx7MtY7/2SvrmNwqXJvzmNUubEvlOsfgGHZlYizAAyyYC36b0mZ7/57mBFvOsRQ+jyjaw==
+X-Received: by 2002:a17:907:96a5:b0:988:76ed:e55e with SMTP id hd37-20020a17090796a500b0098876ede55emr21352012ejc.13.1687710539927;
+        Sun, 25 Jun 2023 09:28:59 -0700 (PDT)
 Received: from krzk-bin.. ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id ec10-20020a170906b6ca00b00982be08a9besm2277731ejb.172.2023.06.25.09.28.56
+        by smtp.gmail.com with ESMTPSA id ec10-20020a170906b6ca00b00982be08a9besm2277731ejb.172.2023.06.25.09.28.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Jun 2023 09:28:57 -0700 (PDT)
+        Sun, 25 Jun 2023 09:28:59 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -65,9 +65,9 @@ Cc:     Andi Shyti <andi.shyti@kernel.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v4 19/24] Input: sis_i2c - Simplify with dev_err_probe()
-Date:   Sun, 25 Jun 2023 18:28:12 +0200
-Message-Id: <20230625162817.100397-20-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v4 20/24] Input: surface3_spi - Simplify with dev_err_probe()
+Date:   Sun, 25 Jun 2023 18:28:13 +0200
+Message-Id: <20230625162817.100397-21-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230625162817.100397-1-krzysztof.kozlowski@linaro.org>
 References: <20230625162817.100397-1-krzysztof.kozlowski@linaro.org>
@@ -75,7 +75,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -90,43 +90,40 @@ Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- drivers/input/touchscreen/sis_i2c.c | 20 ++++++--------------
- 1 file changed, 6 insertions(+), 14 deletions(-)
+ drivers/input/touchscreen/surface3_spi.c | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/input/touchscreen/sis_i2c.c b/drivers/input/touchscreen/sis_i2c.c
-index 426564d0fc39..ed56cb546f39 100644
---- a/drivers/input/touchscreen/sis_i2c.c
-+++ b/drivers/input/touchscreen/sis_i2c.c
-@@ -310,23 +310,15 @@ static int sis_ts_probe(struct i2c_client *client)
+diff --git a/drivers/input/touchscreen/surface3_spi.c b/drivers/input/touchscreen/surface3_spi.c
+index 31d140248f2e..7efbcd0fde4f 100644
+--- a/drivers/input/touchscreen/surface3_spi.c
++++ b/drivers/input/touchscreen/surface3_spi.c
+@@ -221,7 +221,6 @@ static void surface3_spi_power(struct surface3_ts_data *data, bool on)
+  */
+ static int surface3_spi_get_gpio_config(struct surface3_ts_data *data)
+ {
+-	int error;
+ 	struct device *dev;
+ 	struct gpio_desc *gpiod;
+ 	int i;
+@@ -231,15 +230,9 @@ static int surface3_spi_get_gpio_config(struct surface3_ts_data *data)
+ 	/* Get the reset lines GPIO pin number */
+ 	for (i = 0; i < 2; i++) {
+ 		gpiod = devm_gpiod_get_index(dev, NULL, i, GPIOD_OUT_LOW);
+-		if (IS_ERR(gpiod)) {
+-			error = PTR_ERR(gpiod);
+-			if (error != -EPROBE_DEFER)
+-				dev_err(dev,
+-					"Failed to get power GPIO %d: %d\n",
+-					i,
+-					error);
+-			return error;
+-		}
++		if (IS_ERR(gpiod))
++			return dev_err_probe(dev, PTR_ERR(gpiod),
++					     "Failed to get power GPIO %d\n", i);
  
- 	ts->attn_gpio = devm_gpiod_get_optional(&client->dev,
- 						"attn", GPIOD_IN);
--	if (IS_ERR(ts->attn_gpio)) {
--		error = PTR_ERR(ts->attn_gpio);
--		if (error != -EPROBE_DEFER)
--			dev_err(&client->dev,
--				"Failed to get attention GPIO: %d\n", error);
--		return error;
--	}
-+	if (IS_ERR(ts->attn_gpio))
-+		return dev_err_probe(&client->dev, PTR_ERR(ts->attn_gpio),
-+				     "Failed to get attention GPIO\n");
- 
- 	ts->reset_gpio = devm_gpiod_get_optional(&client->dev,
- 						 "reset", GPIOD_OUT_LOW);
--	if (IS_ERR(ts->reset_gpio)) {
--		error = PTR_ERR(ts->reset_gpio);
--		if (error != -EPROBE_DEFER)
--			dev_err(&client->dev,
--				"Failed to get reset GPIO: %d\n", error);
--		return error;
--	}
-+	if (IS_ERR(ts->reset_gpio))
-+		return dev_err_probe(&client->dev, PTR_ERR(ts->reset_gpio),
-+				     "Failed to get reset GPIO\n");
- 
- 	sis_ts_reset(ts);
- 
+ 		data->gpiod_rst[i] = gpiod;
+ 	}
 -- 
 2.34.1
 
