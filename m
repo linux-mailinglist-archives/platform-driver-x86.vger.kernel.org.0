@@ -2,77 +2,105 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EF3F744ABB
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Jul 2023 19:41:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58BAA744DFC
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 Jul 2023 15:45:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229506AbjGARlc (ORCPT
+        id S229569AbjGBNpX (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 1 Jul 2023 13:41:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35428 "EHLO
+        Sun, 2 Jul 2023 09:45:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjGARlc (ORCPT
+        with ESMTP id S229516AbjGBNpU (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 1 Jul 2023 13:41:32 -0400
-Received: from mail.saee.gov.ua (mail.saee.gov.ua [176.104.1.250])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 835A2172C
-        for <platform-driver-x86@vger.kernel.org>; Sat,  1 Jul 2023 10:41:31 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.saee.gov.ua (Postfix) with ESMTP id 7556122A30A;
-        Sat,  1 Jul 2023 19:06:12 +0300 (EEST)
-Received: from mail.saee.gov.ua ([127.0.0.1])
-        by localhost (mail.saee.gov.ua [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id lDy2TmiZpODh; Sat,  1 Jul 2023 19:06:09 +0300 (EEST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.saee.gov.ua (Postfix) with ESMTP id 1EBD022A321;
-        Sat,  1 Jul 2023 19:06:07 +0300 (EEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.saee.gov.ua 1EBD022A321
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=saee.gov.ua;
-        s=E2317EBC-4A8C-11E7-92B2-EEDC296942EF; t=1688227567;
-        bh=dqTs1ooyS01M2EtpbETGQHMKuV+uG6zNQDNbc4k5FS4=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=gCpLUGiJULP+biUR4vRGnt2of68y72jJ/XORjYC5lMSl58Xq1IBavLIMItYTbQxnA
-         gzGiRHHl2SJGaJ0/RGzes930J5VAeLx84Cr0cM5h4cadYNdvMBkIewbJnAE6Wu2zGZ
-         BP0akydlDj8IJKkqYXKbE0XbRyi3v4cjsEPgSb/Y62D2b85LwAKbYcuzdLjq/e450H
-         ZAzCCtGYdaeuVSfGhNSKjEnkIYtDiqjeselLL4YTKvTO5/Ry3Y1GlShm7fryZc/P+T
-         z/LdaektbnCurt0yGRv578oBR+n44n7nZ7uXYNTIwKbs7y6a9aRS5JadTtBYNakmV8
-         xkNzgGaiA8dPA==
-X-Virus-Scanned: amavisd-new at saee.gov.ua
-Received: from mail.saee.gov.ua ([127.0.0.1])
-        by localhost (mail.saee.gov.ua [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id K8NhRgpB4EWT; Sat,  1 Jul 2023 19:06:06 +0300 (EEST)
-Received: from DESKTOP-R0D81MP.home (216-131-89-38.ams.as54203.net [216.131.89.38])
-        by mail.saee.gov.ua (Postfix) with ESMTPSA id 6E32922A30A;
-        Sat,  1 Jul 2023 19:06:04 +0300 (EEST)
-Content-Type: text/plain; charset="iso-8859-1"
+        Sun, 2 Jul 2023 09:45:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A1E0E68
+        for <platform-driver-x86@vger.kernel.org>; Sun,  2 Jul 2023 06:44:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1688305469;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=CQPmY3YgKkcmXgnTKyyGhzbqz5W1ZZqveUHs3/0dmWg=;
+        b=jNm37lTfNGBuFevgY2Qr3HN+Gn60GztoxqJOnl0hgdfEoYD6GCw7I9gvX75NH65KBTh7A4
+        a4NzYSwp6RGvnrb+6ho2L+IAtFYsvmW0HBB+ZRVOV9n2l56yqBMPaw4cOaAAWfLAZE3fRa
+        dd5OyDzJFoD4V8398oY6GsjpCcFGqe4=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-106-6t7Aho5-MUyPXfYkWZxCQQ-1; Sun, 02 Jul 2023 09:44:27 -0400
+X-MC-Unique: 6t7Aho5-MUyPXfYkWZxCQQ-1
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-635eeb952b8so39048786d6.3
+        for <platform-driver-x86@vger.kernel.org>; Sun, 02 Jul 2023 06:44:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688305467; x=1690897467;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CQPmY3YgKkcmXgnTKyyGhzbqz5W1ZZqveUHs3/0dmWg=;
+        b=ELXyUjbVuEJICT+nZih89372l+hTChuchOqRsmSISmyWcQWiEhp5e/u7DULd5znVzY
+         2WeziGbluvdUuKUJA0IwOtsG3JRqNOcbJ8gXUzn6P+sk3mWP3a2lyLmO1LpH0auNO9Bt
+         gbBMOErwOGU8yMuW0xzpnfoDndeEQUDyth3mdVIfpdm53MjhY/5lq0kpAIG/JZ4WD+Qa
+         hM9/WS0rLDcbqtLQy9ElhHovRtW86sDqBzPO6tEX5IjMjLqsE2Ccrjuv3aMoJBkRjz1m
+         RACwFlpUBrCONblixy2gwUqOKEH98AFKRrBQ6bAkGgBrtPh7q5Trzj9V5935cp/4hdKm
+         VBJg==
+X-Gm-Message-State: ABy/qLZZBrLIDTffDwSFfwFBj+yBBxciYZMMbo31PKvIeWqd/ow3C336
+        7dY5LWFx7ikBBEXv6W8zZE6D8IwDFZsTxyd0d6IapAq1swIDJtq3KAiS1hia8BIJI+s4hWWmiLZ
+        Mp78LtWFixU60zUYmxWzDTkiGepcXPtM/Sw==
+X-Received: by 2002:a05:6214:5194:b0:631:f964:7ab with SMTP id kl20-20020a056214519400b00631f96407abmr10042640qvb.60.1688305467302;
+        Sun, 02 Jul 2023 06:44:27 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlH9Hw7Cw7EnZSWaMX/eP2Tdd0HP/I5KQYDhe7mnH4i7QSQGHSQxDgxErkRJk4MklEI+1ytGlw==
+X-Received: by 2002:a05:6214:5194:b0:631:f964:7ab with SMTP id kl20-20020a056214519400b00631f96407abmr10042627qvb.60.1688305467128;
+        Sun, 02 Jul 2023 06:44:27 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+        by smtp.gmail.com with ESMTPSA id ep8-20020a05621418e800b00630182f0191sm10227585qvb.1.2023.07.02.06.44.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Jul 2023 06:44:26 -0700 (PDT)
+From:   Tom Rix <trix@redhat.com>
+To:     djrscally@gmail.com, hdegoede@redhat.com, markgross@kernel.org
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tom Rix <trix@redhat.com>
+Subject: [PATCH] platform/x86: int3472/discrete: set variable skl_int3472_regulator_second_sensor storage-class-specifier to static
+Date:   Sun,  2 Jul 2023 09:44:19 -0400
+Message-Id: <20230702134419.3438361-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Re:
-To:     Recipients <pressa@saee.gov.ua>
-From:   MacKenzie Scott <pressa@saee.gov.ua>
-Date:   Sun, 02 Jul 2023 00:06:01 +0800
-Reply-To: rf@workermachines.com
-Message-Id: <20230701160604.6E32922A30A@mail.saee.gov.ua>
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,LOTS_OF_MONEY,RCVD_IN_MSPIKE_BL,
-        RCVD_IN_MSPIKE_L4,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello, =
+smatch reports
+drivers/platform/x86/intel/int3472/clk_and_regulator.c:263:28: warning: symbol
+  'skl_int3472_regulator_second_sensor' was not declared. Should it be static?
 
-                          =
+This variable is only used in its defining file, so it should be static.
 
-I'm MacKenzie Scott Ex-wife of Amazon CEO and founder, I've donated $14 bil=
-lion dollars to charities, individuals, colleges across the Globe from Scot=
-t's foundation, to provide immediate support to people suffering economical=
-ly from COVID-19 pandemic and you're one of the lucky winners, I have a don=
-ation grant worth $100,800,000.00 dollars for you, you can contact me for m=
-ore information if you're interested.
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/platform/x86/intel/int3472/clk_and_regulator.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-MacKenzie Scott.
+diff --git a/drivers/platform/x86/intel/int3472/clk_and_regulator.c b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
+index 61aeca804ba2..ef4b3141efcd 100644
+--- a/drivers/platform/x86/intel/int3472/clk_and_regulator.c
++++ b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
+@@ -260,7 +260,7 @@ static_assert(ARRAY_SIZE(skl_int3472_regulator_map_supplies) ==
+  * This DMI table contains the name of the second sensor. This is used to add
+  * entries for the second sensor to the supply_map.
+  */
+-const struct dmi_system_id skl_int3472_regulator_second_sensor[] = {
++static const struct dmi_system_id skl_int3472_regulator_second_sensor[] = {
+ 	{
+ 		/* Lenovo Miix 510-12IKB */
+ 		.matches = {
+-- 
+2.27.0
+
