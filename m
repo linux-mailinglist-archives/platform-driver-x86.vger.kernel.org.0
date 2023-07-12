@@ -2,166 +2,203 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E48D751419
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 13 Jul 2023 01:06:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 037DD751424
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 13 Jul 2023 01:08:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233240AbjGLXGr (ORCPT
+        id S233162AbjGLXI5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 12 Jul 2023 19:06:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52114 "EHLO
+        Wed, 12 Jul 2023 19:08:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232176AbjGLXG0 (ORCPT
+        with ESMTP id S233233AbjGLXHy (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 12 Jul 2023 19:06:26 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92BB730FA;
-        Wed, 12 Jul 2023 16:05:43 -0700 (PDT)
+        Wed, 12 Jul 2023 19:07:54 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BECDA271B;
+        Wed, 12 Jul 2023 16:07:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689203143; x=1720739143;
+  t=1689203249; x=1720739249;
   h=message-id:subject:from:to:cc:date:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=e7LYvcVy+v9S3RlgAaVngEjeffDD+Hja50r5usVYpTk=;
-  b=MXejf7MCf3VWQMtPaexmqz66LTUTqsQ15F3pxIFkINSe88+squDsDWzL
-   uS4Yx3jYZkmIDDMzpd2YN0HsRquqCBxwvoARNVu5neCClsicMJ3cf3zDi
-   3e15mRGz2o3fw4K5pwzxJ05Bn3VNcvNVz3+l7s5VEdYueQaOO2toTAf+/
-   Jlyf7ec/XOAhCADjcr2xVE7/uv+v+Knj3NCPJ2Pwr4q3qwliq2J1nEfs7
-   Nldm6QCFzPS9+LN4toPPlm7bsbM0G71msoMIdz/aD6cBlYBlPxeRXk5hd
-   oo3aEbRrxQeQLcRrd/n+4e7Uh7LUxNzEKQF1iZMfb6B+abPvPUTp2YPyC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="428774641"
+  bh=X0ev2njybRILWDnx6CfYSNeQvyx6ndrvO3cLSpr75KU=;
+  b=JHFZkDK6oCZnAHiLJSFZETKMQtLpQfQbI1dd/dnlBOxpYxgNAQ7PaPkA
+   32j0kvrcZVMv+7CFEOs4tgIlH/O/vPEXh9+oo0B3OeBoF2NpV/011mudp
+   gEwwJpuAdhbBfLJfUHvA6zRLh5Uojsda9sQV6HWZyLIMOkE1mYcONYofK
+   oNpalI3HjoZeEqltdctphTV1dr5Y8m1CAfZMVfeuH2WnSpiARNPyV/0D6
+   WpKwpZJtOkzmqKdGrLDPOIggL/3YcgD+DbIbmnzBPjLRAzAGwPn1X8xob
+   6UJSUVoy1oEF5wRDfix2iiaErUd4ckuQh5G4Ubpm1UM9NOT9if3u6Bxc1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="451388355"
 X-IronPort-AV: E=Sophos;i="6.01,200,1684825200"; 
-   d="scan'208";a="428774641"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 16:03:59 -0700
+   d="scan'208";a="451388355"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 16:06:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="835338901"
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="751351815"
 X-IronPort-AV: E=Sophos;i="6.01,200,1684825200"; 
-   d="scan'208";a="835338901"
+   d="scan'208";a="751351815"
 Received: from nlsegerl-mobl1.amr.corp.intel.com (HELO spandruv-desk1.amr.corp.intel.com) ([10.212.182.248])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 16:03:58 -0700
-Message-ID: <9e6873e53112ea9568fd0d1c8ef50e652ca05d84.camel@linux.intel.com>
-Subject: Re: [PATCH v2 1/3] platform/x86/intel/tpmi: Read feature control
- status
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 16:06:51 -0700
+Message-ID: <befd890f0252f0cec193d3bea379c2e23e62e824.camel@linux.intel.com>
+Subject: Re: [PATCH v2 2/3] platform/x86/intel/tpmi: Add debugfs interface
 From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     hdegoede@redhat.com, markgross@kernel.org,
         ilpo.jarvinen@linux.intel.com, platform-driver-x86@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Date:   Wed, 12 Jul 2023 16:03:57 -0700
-In-Reply-To: <ZK7BL0GIPgr3alVr@smile.fi.intel.com>
+Date:   Wed, 12 Jul 2023 16:06:50 -0700
+In-Reply-To: <ZK7DNdlUvUZ5deho@smile.fi.intel.com>
 References: <20230711220949.71881-1-srinivas.pandruvada@linux.intel.com>
-         <20230711220949.71881-2-srinivas.pandruvada@linux.intel.com>
-         <ZK7BL0GIPgr3alVr@smile.fi.intel.com>
+         <20230711220949.71881-3-srinivas.pandruvada@linux.intel.com>
+         <ZK7DNdlUvUZ5deho@smile.fi.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, 2023-07-12 at 18:05 +0300, Andy Shevchenko wrote:
-> On Tue, Jul 11, 2023 at 03:09:47PM -0700, Srinivas Pandruvada wrote:
-> > Some of the PM features can be locked or disabled. In that case,
-> > write
-> > interface can be locked.
+On Wed, 2023-07-12 at 18:13 +0300, Andy Shevchenko wrote:
+> On Tue, Jul 11, 2023 at 03:09:48PM -0700, Srinivas Pandruvada wrote:
+> > Add debugfs interface for debugging TPMI configuration and register
+> > contents. This shows PFS (PM Feature structure) for each TPMI
+> > device.
 > > 
-> > This status is read via a mailbox. There is one TPMI ID which
-> > provides
-> > base address for interface and data register for mail box
-> > operation.
-> > The mailbox operations is defined in the TPMI specification. Refer
-> > to
-> > https://github.com/intel/tpmi_power_management/ for TPMI
-> > specifications.
+> > For each feature, show full register contents and allow to modify
+> > register at an offset.
 > > 
-> > An API is exposed to feature drivers to read feature control
-> > status.
+> > This debugfs interface is not present on locked down kernel with no
+> > DEVMEM access and without CAP_SYS_RAWIO permission.
 > 
 > ...
 > 
-> > +/*
-> > + * TPMI PFS and per feature memory size can't exceed 4K.
-> > + * Also PFS start and feature memory is 4K aligned.
-> > + */
-> > +#define TPMI_MAX_BUFFER_SIZE    (4 * 1024)
+> >  struct intel_tpmi_pm_feature {
+> >         struct intel_tpmi_pfs_entry pfs_header;
+> >         unsigned int vsec_offset;
+> > +       struct intel_vsec_device *vsec_dev;
 > 
-> SZ_4K from sizes.h?
+> Hmm... I don't know the layout of pfs_header, but this may be 4 bytes
+> less
+> if you move it upper.
+The pfs_header is packed with size of 64 bit. So size will not change.
+ 
+> 
+> >  };
 > 
 > ...
-I added a macro for size and uses sizes.h define.
+> 
+> > +       for (count = 0; count < pfs->pfs_header.num_entries;
+> > ++count) {
+> 
+> > +               size = pfs->pfs_header.entry_size * sizeof(u32);
+> 
+> You already used this once, perhaps a macro helper?
+> Also you can add there a comment that this comes from the trusted hw.
+> 
+Added.
 
-> 
-> > +#define TPMI_CONTROL_TIMEOUT_MAX_US    USEC_PER_SEC
-> 
-> > +#define TPMI_RB_TIMEOUT_MAX_US         USEC_PER_SEC
-> 
-> I think it's easier to get in a form (1 * ..._SEC)
-> 
-OK
-
-> ...
-> 
-> > +static int tpmi_wait_for_owner(struct intel_tpmi_info *tpmi_info,
-> > u8 owner)
-> > +{
-> > +       u64 control;
+> > +               /* The size is from a trusted hardware, but verify
+> > anyway */
+> > +               if (size > TPMI_MAX_BUFFER_SIZE) {
+> > +                       /*
+> > +                        * The next offset depends on the current
+> > size. So, can't skip to the
+> > +                        * display of the next entry. Simply return
+> > from this function with error.
+> > +                        */
+> > +                       ret = -EIO;
+> > +                       goto done_mem_show;
+> > +               }
 > > +
-> > +       return read_poll_timeout(readq, control,
-> > +                                owner ==
-> > FIELD_GET(TPMI_CONTROL_STATUS_OWNER, control),
-> > +                                TPMI_CONTROL_TIMEOUT_US,
-> > TPMI_CONTROL_TIMEOUT_MAX_US, false,
-> > +                                tpmi_info->tpmi_control_mem +
-> > TPMI_CONTROL_STATUS_OFFSET);
-> 
-> Since you have "false" why not use readq_poll_timeout()?
-> 
-Changed in new version
-
+> > +               buffer = kmalloc(size, GFP_KERNEL);
+> > +               if (!buffer) {
+> > +                       ret = -ENOMEM;
+> > +                       goto done_mem_show;
+> > +               }
+> > +
+> > +               seq_printf(s, "TPMI Instance:%d offset:0x%x\n",
+> > count, off);
+> > +
+> > +               mem = ioremap(off, size);
+> > +               if (!mem) {
+> > +                       ret = -ENOMEM;
+> > +                       kfree(buffer);
+> > +                       goto done_mem_show;
+> > +               }
+> > +
+> > +               memcpy_fromio(buffer, mem, size);
+> > +
+> > +               seq_hex_dump(s, " ", DUMP_PREFIX_OFFSET, row_size,
+> > sizeof(u32), buffer, size,
+> > +                            false);
+> > +
+> > +               iounmap(mem);
+> > +               kfree(buffer);
+> > +
+> > +               off += size;
+> > +       }
+> > +
+> > +done_mem_show:
+> > +       mutex_unlock(&tpmi_dev_lock);
+> > +
+> > +       return ret;
 > > +}
 > 
 > ...
 > 
-> > +       /* Wait for Run Busy clear */
-> > +       ret = read_poll_timeout(readq, control, !(control &
-> > TPMI_CONTROL_STATUS_RB),
-> > +                               TPMI_RB_TIMEOUT_US,
-> > TPMI_RB_TIMEOUT_MAX_US, false,
-> > +                               tpmi_info->tpmi_control_mem +
-> > TPMI_CONTROL_STATUS_OFFSET);
+> > +       size = pfs->pfs_header.entry_size * sizeof(u32);
+> > +       if (size > TPMI_MAX_BUFFER_SIZE)
+> > +               return -EIO;
 > 
-> Ditto.
-Done.
-
-> 
-> > +       if (ret)
-> > +               goto done_proc;
+> Again a dup even with a check.
 > 
 > ...
 > 
-> > +       size = pfs->pfs_header.num_entries * pfs-
-> > >pfs_header.entry_size * sizeof(u32);
-> > +       /* This size is coming from trusted hardware, but verify
-> > anyway */
+> > +       top_dir = debugfs_create_dir(name, NULL);
+> > +       if (IS_ERR_OR_NULL(top_dir))
 > 
-> I would move this comment before size assignment that we already know
-> that it's
-> from the trusted hw.
-Created a macro.
+> I dunno if I told you, but after a discussion (elsewhere), I realized
+> two things:
+> 1) this one never returns NULL;
+> 2) even if error pointer is returned, the debugfs API is aware and
+>    will do nothing.
+> 
+> Hence this conditional is redundant.
+Removed that. My original version didn't check the return value.
+
+> 
+> > +               return;
+> 
+> ...
+> 
+> > +       for (i = 0; i < tpmi_info->feature_count; ++i) {
+> 
+> Why preincrement?
+Does it matter for a "for" loop increment?
 
 Thanks,
 Srinivas
-
 > 
-> > +       if (size > TPMI_MAX_BUFFER_SIZE)
-> > +               return;
+> > +               struct intel_tpmi_pm_feature *pfs;
+> > +               struct dentry *dir;
+> > +
+> > +               pfs = &tpmi_info->tpmi_features[i];
+> > +               snprintf(name, sizeof(name), "tpmi-id-%02x", pfs-
+> > >pfs_header.tpmi_id);
+> > +               dir = debugfs_create_dir(name, top_dir);
+> > +
+> > +               debugfs_create_file("mem_dump", 0444, dir, pfs,
+> > &tpmi_mem_dump_fops);
+> > +               debugfs_create_file("mem_write", 0644, dir, pfs,
+> > &mem_write_ops);
+> > +       }
 > 
 
