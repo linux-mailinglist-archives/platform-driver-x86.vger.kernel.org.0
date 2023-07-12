@@ -2,93 +2,79 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A26B9751421
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 13 Jul 2023 01:08:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A7A675146C
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 13 Jul 2023 01:28:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232140AbjGLXIP (ORCPT
+        id S232530AbjGLX2E (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 12 Jul 2023 19:08:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55750 "EHLO
+        Wed, 12 Jul 2023 19:28:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233289AbjGLXH7 (ORCPT
+        with ESMTP id S233222AbjGLX2D (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 12 Jul 2023 19:07:59 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 676C1268D;
-        Wed, 12 Jul 2023 16:07:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689203258; x=1720739258;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=zF/TXZw6hOm08VrKmM6zI6uDz3q9AB/6cG/sj6SO8/Q=;
-  b=aQ35bKgZcelOnc+imrUyyFKdEZiwY5g54N1ZRi/9TkX3ReAuW7wsdOlJ
-   vHu/KuRuFG6+6ODHjUtkQteh8v1a9dM2lui7OBRWp48RdN11m0Vxu0zUh
-   RGSfSGIgiWjWvqYfChrrwwtBPv0DtBjgwult2FsKOWEGIQfVoxxbYpjOz
-   j3Zyb/39XrNQRSCC8b0u4MMoJnnveiEzNb6+z3CNuTEtHsxbn2AFrlIIG
-   zvMFioGHKpdrZLi8DUqXEr62KtSLfXuxZN3PoztxFJZT3pMKxG06Z93WA
-   8aZBmqBSAqBDJwAx/j5dQ5mXbawASg5hN5oYXjl80eeSsuakv8ACIXQPD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="451388411"
-X-IronPort-AV: E=Sophos;i="6.01,200,1684825200"; 
-   d="scan'208";a="451388411"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 16:07:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="751351909"
-X-IronPort-AV: E=Sophos;i="6.01,200,1684825200"; 
-   d="scan'208";a="751351909"
-Received: from nlsegerl-mobl1.amr.corp.intel.com (HELO spandruv-desk1.amr.corp.intel.com) ([10.212.182.248])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 16:07:19 -0700
-Message-ID: <39172b7b3016a7f850cbffe752cb8ccdb986623d.camel@linux.intel.com>
-Subject: Re: [PATCH v2 3/3] doc: TPMI: Add debugfs documentation
-From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     hdegoede@redhat.com, markgross@kernel.org,
-        ilpo.jarvinen@linux.intel.com, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Wed, 12 Jul 2023 16:07:19 -0700
-In-Reply-To: <ZK7DYuyo88efUje+@smile.fi.intel.com>
-References: <20230711220949.71881-1-srinivas.pandruvada@linux.intel.com>
-         <20230711220949.71881-4-srinivas.pandruvada@linux.intel.com>
-         <ZK7DYuyo88efUje+@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 12 Jul 2023 19:28:03 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB0691724;
+        Wed, 12 Jul 2023 16:28:02 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6FA01619A0;
+        Wed, 12 Jul 2023 23:28:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D3BD1C433C8;
+        Wed, 12 Jul 2023 23:28:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689204481;
+        bh=OkLQfd1Guhg9/SwPrwWjGykOzhKJA7Sqn9Gr9KDsb4E=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=QmDatwRYs6YrWE51oIm6H4qHI7Le1d7VqWS/leU8l3S2IyrBWMbhtI56XMZxVbi6r
+         cwkBlWVjD5gDrAUImsT+oKjYJMS54IVi7N0aP5517rjqxlffaHczIrVAW4aDFA5Cgh
+         ih0OacS0ya/bFK513MJ3L6qnSorBni2He6sEd0wdicv+11A4SqZ7boAGwSyktPELJ5
+         abFDAvlch+MPIy1PGImVkUGfv7U9EmZCCtp32XWwchyyp7CRLZPKRAZrC9fmuU10Rn
+         eNw1QuNvQWU5QqVn6oJ5Y8/X7RWRPy90eWUM20tHsj9GBCMnHlrRSv+RaFa2oZkndz
+         TH3lGmQ2r/Ktw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B8B9DC4167B;
+        Wed, 12 Jul 2023 23:28:01 +0000 (UTC)
+Subject: Re: [GIT PULL] platform-drivers-x86 for 6.5-2
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <d56a3a15-58f7-1af6-0563-55e2db4ac45b@redhat.com>
+References: <d56a3a15-58f7-1af6-0563-55e2db4ac45b@redhat.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <d56a3a15-58f7-1af6-0563-55e2db4ac45b@redhat.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-v6.5-2
+X-PR-Tracked-Commit-Id: 6b293a8c91bca52726448d03216e65da509e9bb7
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: eb26cbb1a754ccde5d4d74527dad5ba051808fad
+Message-Id: <168920448175.20936.2005607830922077641.pr-tracker-bot@kernel.org>
+Date:   Wed, 12 Jul 2023 23:28:01 +0000
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        platform-driver-x86@vger.kernel.org,
+        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, 2023-07-12 at 18:14 +0300, Andy Shevchenko wrote:
-> On Tue, Jul 11, 2023 at 03:09:49PM -0700, Srinivas Pandruvada wrote:
-> > Describe fields in the TPMI debugfs folder.
-> 
-> ...
-> 
-> > +What:          /sys/kernel/debug/tpmi-<n>/pfs_dump
-> > +Date:          December 2023
-> 
-> November ?
-> 
-Changed.
+The pull request you sent on Wed, 12 Jul 2023 12:20:08 +0200:
 
+> git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-v6.5-2
 
-Thanks,
-Srinivas
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/eb26cbb1a754ccde5d4d74527dad5ba051808fad
 
-> > +KernelVersion: 6.6
-> 
-> ...
-> 
-> > +Date:          December 2023
-> 
-> > +Date:          December 2023
-> 
+Thank you!
 
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
