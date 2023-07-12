@@ -2,143 +2,132 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60816750BCD
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Jul 2023 17:07:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F9C9750C06
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Jul 2023 17:14:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232663AbjGLPHP (ORCPT
+        id S232303AbjGLPOi (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 12 Jul 2023 11:07:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55636 "EHLO
+        Wed, 12 Jul 2023 11:14:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232634AbjGLPHO (ORCPT
+        with ESMTP id S231523AbjGLPOi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 12 Jul 2023 11:07:14 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC66D1BFB;
-        Wed, 12 Jul 2023 08:07:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689174427; x=1720710427;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7qPO5ZC8PugsPSPcQTXfdqjF2EFoTAyaJlrSxXwwINA=;
-  b=VO0WWxGRDH04xNFjPWhqcb2OMKaDPlX/jlVQB+utXe9Mrwd62g1pjTgx
-   gitczehii6Wn8dX28pvJeXpbY+geK7yqYEpuPTTEfbLgT0HQ2WjcgWYaE
-   DAXEiZ/DKxQ0LPYQQj4k0rBZ1RMSISgqUdhr77/kchPKiPb1StV4EipDV
-   Bgyn4FSJrBcaYMZF7dXCvJACr0zFWr3k0anoJOIuVVKYfvU62wmU4jhEc
-   VcYuLN9Yh1j15y9F5rjs0vL3wDXToW30XGcmppKCgjU0JKMklzaMoYim8
-   g1yius3ZLOv5FxRyujPv6Is9zLVFP7Tkx63LA3xghgz8+qe55IPw6NN5u
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="431049521"
-X-IronPort-AV: E=Sophos;i="6.01,200,1684825200"; 
-   d="scan'208";a="431049521"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 08:05:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="845696460"
-X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; 
-   d="scan'208";a="845696460"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga004.jf.intel.com with ESMTP; 12 Jul 2023 08:05:21 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qJbP5-0029vK-1V;
-        Wed, 12 Jul 2023 18:05:19 +0300
-Date:   Wed, 12 Jul 2023 18:05:19 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     hdegoede@redhat.com, markgross@kernel.org,
-        ilpo.jarvinen@linux.intel.com, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] platform/x86/intel/tpmi: Read feature control
- status
-Message-ID: <ZK7BL0GIPgr3alVr@smile.fi.intel.com>
-References: <20230711220949.71881-1-srinivas.pandruvada@linux.intel.com>
- <20230711220949.71881-2-srinivas.pandruvada@linux.intel.com>
+        Wed, 12 Jul 2023 11:14:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9971D1BC9
+        for <platform-driver-x86@vger.kernel.org>; Wed, 12 Jul 2023 08:13:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1689174834;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=J4jj/mQeZxkriiAdmR1sFT2gdMhpSQaioylXdFXQ1Gw=;
+        b=DY3e3DHuxDN7NP8Qg14vu8dQL5GEF/80gatVgbUFuHe6c3gdAb/sHHWxGz2LSoFbFG1MFy
+        u3UYpr/AMZf5vkWT6zjkftyZbZGnYl7+JDQ3tw2RwRuKONLYTyP3CLUPbHCQYaA8rNUyWk
+        GCchal5pKLf0JFypJfO92iFyHWpU8Ys=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-9-ucKUIm-RMjuZuE6rZ3AyYQ-1; Wed, 12 Jul 2023 11:13:53 -0400
+X-MC-Unique: ucKUIm-RMjuZuE6rZ3AyYQ-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-993d41cbc31so347887366b.1
+        for <platform-driver-x86@vger.kernel.org>; Wed, 12 Jul 2023 08:13:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689174832; x=1691766832;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=J4jj/mQeZxkriiAdmR1sFT2gdMhpSQaioylXdFXQ1Gw=;
+        b=Kg11knDjMWX+sGATD62m6n8EYD+AKdTOwoXQeVjgOlfDZ0oZ9/XX6oSQn7PL8TmlxS
+         p6K6TgkgHEXNFZFVo9a06X8pKjHThpcAX9hKqg+dPPF6tqK3MuT9SI3CFkV1s4rYmmkQ
+         CT+WHY4xe5GrpluiU7/yimvBLxO+BoRedQcaq1XEF1MesBUBk4YVqZCpqu4CTswiJ/Hy
+         uTEoSujL9fs+euIRhuI+e3b73YjkH7jMQmERIdr1gv6+1euTu+nQn1c7P4bqd2m8AYPr
+         f9jzZWIy+85FDty2MSfTIuGLHMUpB6AEZmZCic5ClGg1wpZPwmk9ADaXFE3nL4d9FZ7c
+         AhMw==
+X-Gm-Message-State: ABy/qLbSkls3cXNMGAVAIg/mQjMoGcEw/h0+aitcffDoSP13cvI0E7tn
+        RdYd229TexGVOzLl0bQ5Dut5OpJZWn6kWQgG3yEP9lIPDpI+INmKUhLKChOe8k/62TpB4Ug4np1
+        5iqHr9DmrMLqMaaN4XBghoCB9AfLAeHf/0Q==
+X-Received: by 2002:a17:907:2383:b0:98d:63c5:d132 with SMTP id vf3-20020a170907238300b0098d63c5d132mr18180649ejb.72.1689174832552;
+        Wed, 12 Jul 2023 08:13:52 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlHPC7AnwJQvnOUd4EsxNO3LMICF6ZcJtexOZVlWjEk1rKThg6OlCjH4FzvAvbDTQLDCn+pCOw==
+X-Received: by 2002:a17:907:2383:b0:98d:63c5:d132 with SMTP id vf3-20020a170907238300b0098d63c5d132mr18180627ejb.72.1689174832296;
+        Wed, 12 Jul 2023 08:13:52 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id s8-20020a170906a18800b0098e0a937a6asm2703274ejy.69.2023.07.12.08.13.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Jul 2023 08:13:51 -0700 (PDT)
+Message-ID: <0cc30dc8-64d9-e58d-a436-fe92b8dcfb85@redhat.com>
+Date:   Wed, 12 Jul 2023 17:13:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230711220949.71881-2-srinivas.pandruvada@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: Add Silicom Platform Driver
+Content-Language: en-US, nl
+To:     Henry Shi <henryshi2018@gmail.com>, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, markgross@kernel.org,
+        jdelvare@suse.com, linux@roeck-us.net,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-hwmon@vger.kernel.org
+Cc:     wenw@silicom-usa.com, henrys@silicom-usa.com
+References: <20230630203529.GA20585@build.adi.eng>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230630203529.GA20585@build.adi.eng>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Jul 11, 2023 at 03:09:47PM -0700, Srinivas Pandruvada wrote:
-> Some of the PM features can be locked or disabled. In that case, write
-> interface can be locked.
+Hi Henri,
+
+On 6/30/23 22:35, Henry Shi wrote:
+> Please review this patch.
 > 
-> This status is read via a mailbox. There is one TPMI ID which provides
-> base address for interface and data register for mail box operation.
-> The mailbox operations is defined in the TPMI specification. Refer to
-> https://github.com/intel/tpmi_power_management/ for TPMI specifications.
+> The Silicom platform (silicom-platform) Linux driver for Swisscom
+> Business Box (Swisscom BB) as well as Cordoba family products is a 
+> software solution designed to facilitate the efficient management
+> and control of devices through the integration of various Linux
+> frameworks. This platform driver provides seamless support for
+> device management via the Linux LED framework, GPIO framework,
+> Hardware Monitoring (HWMON), and device attributes. The Silicom
+> platform driver's compatibility with these Linux frameworks allows
+> applications to access and control Cordoba family devices using
+> existing software that is compatible with these frameworks. This
+> compatibility simplifies the development process, reduces
+> dependencies on proprietary solutions, and promotes
+> interoperability with other Linux-based systems and software.
 > 
-> An API is exposed to feature drivers to read feature control status.
+> Thanks!
+> 
+> Henry Shi
+> Silicom Ltd.
+> Henrys@silicom-usa.com
+> Henryshi2018@gmail.com
 
-...
+Thank you for the patch.
 
-> +/*
-> + * TPMI PFS and per feature memory size can't exceed 4K.
-> + * Also PFS start and feature memory is 4K aligned.
-> + */
-> +#define TPMI_MAX_BUFFER_SIZE    (4 * 1024)
+The Kconfig bits for this should be in drivers/platform/x86/Kconfig please move them there.
 
-SZ_4K from sizes.h?
+Please send a new version with that change with the contents of the patch actually in the body of the email so that we can quoute it while replying for review purposes.
 
-...
+Please use git send-email on the .patch file to submit the next version, e.g. :
 
-> +#define TPMI_CONTROL_TIMEOUT_MAX_US	USEC_PER_SEC
+git send-email Silicom-Platform-Driver.patch
 
-> +#define TPMI_RB_TIMEOUT_MAX_US		USEC_PER_SEC
+Do NOT copy and paste the contents of the patch to your email client to send it, this will mangle the patch and make it unusable.
 
-I think it's easier to get in a form (1 * ..._SEC)
+Once we have a submission with the patch content in the body of the email (with git send-email) then I'll try to make time to do a more thorough review.
 
-...
+Regards,
 
-> +static int tpmi_wait_for_owner(struct intel_tpmi_info *tpmi_info, u8 owner)
-> +{
-> +	u64 control;
-> +
-> +	return read_poll_timeout(readq, control,
-> +				 owner == FIELD_GET(TPMI_CONTROL_STATUS_OWNER, control),
-> +				 TPMI_CONTROL_TIMEOUT_US, TPMI_CONTROL_TIMEOUT_MAX_US, false,
-> +				 tpmi_info->tpmi_control_mem + TPMI_CONTROL_STATUS_OFFSET);
-
-Since you have "false" why not use readq_poll_timeout()?
-
-> +}
-
-...
-
-> +	/* Wait for Run Busy clear */
-> +	ret = read_poll_timeout(readq, control, !(control & TPMI_CONTROL_STATUS_RB),
-> +				TPMI_RB_TIMEOUT_US, TPMI_RB_TIMEOUT_MAX_US, false,
-> +				tpmi_info->tpmi_control_mem + TPMI_CONTROL_STATUS_OFFSET);
-
-Ditto.
-
-> +	if (ret)
-> +		goto done_proc;
-
-...
-
-> +	size = pfs->pfs_header.num_entries * pfs->pfs_header.entry_size * sizeof(u32);
-> +	/* This size is coming from trusted hardware, but verify anyway */
-
-I would move this comment before size assignment that we already know that it's
-from the trusted hw.
-
-> +	if (size > TPMI_MAX_BUFFER_SIZE)
-> +		return;
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+Hans
 
