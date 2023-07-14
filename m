@@ -2,343 +2,129 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A19E753BEE
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Jul 2023 15:40:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC832753DF6
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Jul 2023 16:45:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235219AbjGNNkf (ORCPT
+        id S235833AbjGNOpZ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 14 Jul 2023 09:40:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42514 "EHLO
+        Fri, 14 Jul 2023 10:45:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234688AbjGNNke (ORCPT
+        with ESMTP id S235487AbjGNOpW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 14 Jul 2023 09:40:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A2662D64
-        for <platform-driver-x86@vger.kernel.org>; Fri, 14 Jul 2023 06:39:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1689341987;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=yVH76M3F1Q5BCz2IRmb3FK24W3I9UaVN4ZZZThuMds0=;
-        b=ck7b+YYsg9sPXyJXhRJpSrE+L5U5VoaXMVuOSex3dbuO0kyBlgU6EekFjcSU8/huUs0Ba6
-        5FGopNk5qRkGmn0iJ2lAFfTnk2zodtOwAGN5WnFFX9r5Gitd1ok2OjOBTmlrEODY91TR68
-        wzq/fBKryaQqQDk0sfUbOWdGfH0gOtc=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-266-SiYh1lqRN_2IcnyzFEeNBg-1; Fri, 14 Jul 2023 09:39:46 -0400
-X-MC-Unique: SiYh1lqRN_2IcnyzFEeNBg-1
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-51df43db167so1284775a12.1
-        for <platform-driver-x86@vger.kernel.org>; Fri, 14 Jul 2023 06:39:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689341985; x=1691933985;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yVH76M3F1Q5BCz2IRmb3FK24W3I9UaVN4ZZZThuMds0=;
-        b=FThJ4VIa2tY96l2zuEepzoPSjsaR5YIDkiV26AnjvWTB06doXHWuQDv9o2UsIVm0gY
-         tqBxiqDIjHRoBpb8jDMOs1vfBEuyFZlv8m8Hl8/GYLGPsqrPrYYhHWs9KTj5Y962jIuv
-         SFT8/+ygbIK2omEfF0LLS39cQKQqAZBFUo4zcuUm1AdFJ+kDUH/JA4+E0HpefYDa38hf
-         xxMYwDa7lu0U/6XavnRLp8umox02o8q+yaQU6WVGkQUJKCphVZse/4X1u/zDcbTjXOcJ
-         FROIxPKC57Sdqx5z6ZzHzrqKKQwWcD8skOpQZt59cvnti6ZN8zjdOqIt8/jWAIPZInwG
-         nB+w==
-X-Gm-Message-State: ABy/qLYpz6q+Y96RPSamUdm8RC3ieMDKM0WMT5yU6QK3IwNNG65eRDaj
-        moTPp8sB6kxi3JVmCN16fX/SX1a+z1b3ZZD/0eFvcS7dFDupNohEmWZy96qqinQpScaeR0sEsRo
-        eYopBxmjOQmGMug/nNpBusGGJgk+PxwDd8w==
-X-Received: by 2002:a05:6402:61a:b0:51d:7ed9:c65 with SMTP id n26-20020a056402061a00b0051d7ed90c65mr4545940edv.21.1689341985597;
-        Fri, 14 Jul 2023 06:39:45 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlHLUQO4PwDzja/qIAB8ZflkKtOwJALyQJie/4I4gEyyTxPuWxkW9DSn44UiARnUAw68GsmUHA==
-X-Received: by 2002:a05:6402:61a:b0:51d:7ed9:c65 with SMTP id n26-20020a056402061a00b0051d7ed90c65mr4545930edv.21.1689341985280;
-        Fri, 14 Jul 2023 06:39:45 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id w22-20020aa7da56000000b0051e1a4454b2sm5739538eds.67.2023.07.14.06.39.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jul 2023 06:39:44 -0700 (PDT)
-Message-ID: <071b639e-2b81-cced-c52e-aaec66a065fb@redhat.com>
-Date:   Fri, 14 Jul 2023 15:39:44 +0200
+        Fri, 14 Jul 2023 10:45:22 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2043.outbound.protection.outlook.com [40.107.92.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2465F10FA
+        for <platform-driver-x86@vger.kernel.org>; Fri, 14 Jul 2023 07:45:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OTUNeLAePL5WLPU78p/rJ4zkb5JwMufqDBAsuFbkpKcFkHQoWqxkyEWURWe9QO5+kvsJfr0ASAGdryN8/GuIeiQZ3qTlIWAo82n1LVB2UohrEKgYvCamoBn+BhCPapYKGNW7golVPLXGfdDb9eFMeFN9obzvaMf2WaVzLdTrRtD6ztb7TBTmroAVY93yJDQA9NOeO6F7zGmL1RFQeN6Z7zBuxqqxwoj0t91l8WGZhBxzGvwspNQEfzJpzydJVPnolNj7FqeGvefZix3k57pu5g9e7D1ldXx8vlggBWbue8Hew6vhOYfweavXXmdA6/DNIvOe0vKjFHYmldQ+8MqUpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lCBGOZRZkPoNgbi0U2S/vMpROHcM1x6WjKH7p9/Z6N4=;
+ b=YbSUdIVNz0uEBMpIse90/HMpxMewTf0S48e4gImCs54v/fP2ndS8JGxCO6r55mGXSImsFJsReced+A77YlOnEn4CCr6kB3eSfoJyT2RUakEOv3iJXLQTnxJgY8O7JSrm0kmcO11+4zRgaFRAGyAEp7xojQ4SrdSvp8gxBxTv2t7TtFB/BbY4v/OoOb+kOxUtnTKOeHcATp0vje7N1HCU4+DRCpZU5+KLqhq/tKVaJq6HovcVTfwh7j9Syl70EDYvV/bAwUuL5AHau114t9VDxZmCvOgCV9DrCpkJ/592RO1TPweJACpu8TgGKWXAAZJ9I5GlfawhN/W2+sY1iW1ajQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lCBGOZRZkPoNgbi0U2S/vMpROHcM1x6WjKH7p9/Z6N4=;
+ b=s7KSJ/G8zAS4UWi/PpmgODw4lW0lRKSFKCdEvHZmWTpJWYxPSnXimg9WfJxJk3n3S1Ui2uPve/eigAZeDv3R8Y8QZSZ0ZoMAA/4a3IZCqQGrCgsUV9NjNjZ2VSyithV4HmScsUnOmuFQa4kavTU6uWZUK+rk+th/GNUbNwpXQ8k=
+Received: from MW4PR04CA0192.namprd04.prod.outlook.com (2603:10b6:303:86::17)
+ by BN9PR12MB5258.namprd12.prod.outlook.com (2603:10b6:408:11f::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.32; Fri, 14 Jul
+ 2023 14:45:09 +0000
+Received: from CO1NAM11FT033.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:86:cafe::4e) by MW4PR04CA0192.outlook.office365.com
+ (2603:10b6:303:86::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.27 via Frontend
+ Transport; Fri, 14 Jul 2023 14:45:09 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT033.mail.protection.outlook.com (10.13.174.247) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6588.27 via Frontend Transport; Fri, 14 Jul 2023 14:45:09 +0000
+Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 14 Jul
+ 2023 09:45:06 -0500
+From:   Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+To:     <hdegoede@redhat.com>, <markgross@kernel.org>
+CC:     <platform-driver-x86@vger.kernel.org>, <Patil.Reddy@amd.com>,
+        <mario.limonciello@amd.com>,
+        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: [PATCH v2 1/2] platform/x86/amd/pmf: reduce verbosity of apmf_get_system_params
+Date:   Fri, 14 Jul 2023 20:14:34 +0530
+Message-ID: <20230714144435.1239776-1-Shyam-sundar.S-k@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 2/2] platform/x86/amd/pmf: Notify OS power slider update
-Content-Language: en-US, nl
-To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, markgross@kernel.org
-Cc:     platform-driver-x86@vger.kernel.org, Patil.Reddy@amd.com,
-        mario.limonciello@amd.com
-References: <20230713093312.1233743-1-Shyam-sundar.S-k@amd.com>
- <20230713093312.1233743-2-Shyam-sundar.S-k@amd.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230713093312.1233743-2-Shyam-sundar.S-k@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT033:EE_|BN9PR12MB5258:EE_
+X-MS-Office365-Filtering-Correlation-Id: 639d1b12-c087-4519-3b33-08db8478ec09
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FYwFZ+qLyXurWSbmn0tg62NhRejPIDcgSsty5qZyL8CmdowZbePWZYVdo5MyBZFQXccG8MfNy7jVJWWDO9ZlwNpVxG4Qm8sd8PH5VcBNwBGY2XNDjiH/mmrvbt50mR5vcZVuBvLWb80cNo5XidMIJKnC4Iuha/mGUmmncjSu1WPZeoo++oTtXRsO3UYFtw0UzzllGW6ms2EGEChEE+c73Rdtxsh+/sohA20MzbrvuNAQl3sRB3oap8dV6MOki288bYa1pF938M1GyYsYVCcy5dDWf99qzG3NHnkAhvuxciaa863bmdMDmDLcg3mpZwEv5fQ11YHLBr2QXdDfL1fbyxh9VlBQrhnU2C6j5VuKA8sawTP2mdZ6wwQE/D4k37qakc5AcSynHj0hBjy2sKuK7fRdjkgFUNipcm95CNchdbyFtJM4OXyNM+bsS7nFF6AJX8swL6wp+PNt0ERMQWGekXEN+MBKP3SQ+b7IOlfbwBsF0QRycoJgqOhCs2/smAOCGpQmmtSdvLlP2+8ZV/0sqJM++CxYw69ws5JEUgZKTZD7V+7dBRixnkOXm0Dw5nOuD17Li3iv7cYNGp2yv9IqSHQGUz/MNKTHkm/BsaclTONFoRbLv925Q90EicWkeDMYvLLbkMGBjfMa+IhnDH3gl7wFEODnro6NGgj0OQmJOiXJTN6MN1bF7I7Luq5axrqf2sqyWpWFaCwZnSMh99L7ccwpJgFrKfsZ6csnDLcvILlg/snvVRtLOHANUu3+XmyqWtxB9fS6br0OdIsH1zl5nw==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(346002)(376002)(396003)(136003)(451199021)(40470700004)(36840700001)(46966006)(478600001)(336012)(426003)(41300700001)(36860700001)(1076003)(26005)(47076005)(83380400001)(16526019)(186003)(2616005)(81166007)(82740400003)(356005)(54906003)(110136005)(8936002)(7696005)(40460700003)(6666004)(4326008)(316002)(40480700001)(70206006)(70586007)(8676002)(4744005)(86362001)(82310400005)(5660300002)(36756003)(2906002)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2023 14:45:09.2464
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 639d1b12-c087-4519-3b33-08db8478ec09
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT033.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5258
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Shyam,
+apmf_get_system_params() failure is not a critical event, reduce its
+verbosity from dev_err to dev_dbg.
 
-On 7/13/23 11:33, Shyam Sundar S K wrote:
-> APMF fn8 can notify EC about the OS slider position change. Add this
-> capability to the PMF driver so that it can call the APMF fn8 based on
-> the changes in the Platform profile events.
-> 
-> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> Signed-off-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
-> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> ---
->  drivers/platform/x86/amd/pmf/acpi.c | 21 ++++++++
->  drivers/platform/x86/amd/pmf/core.c |  9 +++-
->  drivers/platform/x86/amd/pmf/pmf.h  | 16 +++++++
->  drivers/platform/x86/amd/pmf/sps.c  | 74 +++++++++++++++++++++++++++--
->  4 files changed, 114 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/amd/pmf/acpi.c b/drivers/platform/x86/amd/pmf/acpi.c
-> index 732b15b392ab..3fc5e4547d9f 100644
-> --- a/drivers/platform/x86/amd/pmf/acpi.c
-> +++ b/drivers/platform/x86/amd/pmf/acpi.c
-> @@ -106,6 +106,27 @@ int apmf_get_static_slider_granular(struct amd_pmf_dev *pdev,
->  									 data, sizeof(*data));
->  }
->  
-> +int apmf_os_power_slider_update(struct amd_pmf_dev *pdev, u8 event)
-> +{
-> +	struct os_power_slider args;
-> +	struct acpi_buffer params;
-> +	union acpi_object *info;
-> +	int err = 0;
-> +
-> +	args.size = sizeof(args);
-> +	args.slider_event = event;
-> +
-> +	params.length = sizeof(args);
-> +	params.pointer = (void *)&args;
-> +
-> +	info = apmf_if_call(pdev, APMF_FUNC_OS_POWER_SLIDER_UPDATE, &params);
-> +	if (!info)
-> +		err = -EIO;
-> +
-> +	kfree(info);
-> +	return err;
-> +}
-> +
->  static void apmf_sbios_heartbeat_notify(struct work_struct *work)
->  {
->  	struct amd_pmf_dev *dev = container_of(work, struct amd_pmf_dev, heart_beat.work);
-> diff --git a/drivers/platform/x86/amd/pmf/core.c b/drivers/platform/x86/amd/pmf/core.c
-> index 730b22457117..42224e37c8ba 100644
-> --- a/drivers/platform/x86/amd/pmf/core.c
-> +++ b/drivers/platform/x86/amd/pmf/core.c
-> @@ -72,7 +72,11 @@ static int amd_pmf_pwr_src_notify_call(struct notifier_block *nb, unsigned long
->  			return NOTIFY_DONE;
->  	}
->  
-> -	amd_pmf_set_sps_power_limits(pmf);
-> +	if (is_apmf_func_supported(pmf, APMF_FUNC_STATIC_SLIDER_GRANULAR))
-> +		amd_pmf_set_sps_power_limits(pmf);
-> +
-> +	if (is_apmf_func_supported(pmf, APMF_FUNC_OS_POWER_SLIDER_UPDATE))
-> +		amd_pmf_power_slider_update_event(pmf);
->  
->  	return NOTIFY_OK;
->  }
-> @@ -280,7 +284,8 @@ static void amd_pmf_init_features(struct amd_pmf_dev *dev)
->  	int ret;
->  
->  	/* Enable Static Slider */
-> -	if (is_apmf_func_supported(dev, APMF_FUNC_STATIC_SLIDER_GRANULAR)) {
-> +	if (is_apmf_func_supported(dev, APMF_FUNC_STATIC_SLIDER_GRANULAR) ||
-> +	    is_apmf_func_supported(dev, APMF_FUNC_OS_POWER_SLIDER_UPDATE)) {
->  		amd_pmf_init_sps(dev);
->  		dev_dbg(dev->dev, "SPS enabled and Platform Profiles registered\n");
->  	}
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+---
+v1->v2:
+ - Rebase to review-hans branch
 
-My review-hans branch has the following here, so this won't apply:
+ drivers/platform/x86/amd/pmf/acpi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-        /* Enable Static Slider */
-        if (is_apmf_func_supported(dev, APMF_FUNC_STATIC_SLIDER_GRANULAR)) {
-                amd_pmf_init_sps(dev);
-                dev->pwr_src_notifier.notifier_call = amd_pmf_pwr_src_notify_call;
-                power_supply_reg_notifier(&dev->pwr_src_notifier);
-                dev_dbg(dev->dev, "SPS enabled and Platform Profiles registered\n");
-        }
-
-It looks like your branch is missing:
-
-146b6f6855e76 platform/x86/amd/pmf: Register notify handler only if SPS is enabled
-
-Please rebase and send a new version.
-
-Regards,
-
-Hans
-
-
-
-
-
-> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
-> index 06c30cdc0573..deba88e6e4c8 100644
-> --- a/drivers/platform/x86/amd/pmf/pmf.h
-> +++ b/drivers/platform/x86/amd/pmf/pmf.h
-> @@ -21,6 +21,7 @@
->  #define APMF_FUNC_SBIOS_HEARTBEAT			4
->  #define APMF_FUNC_AUTO_MODE					5
->  #define APMF_FUNC_SET_FAN_IDX				7
-> +#define APMF_FUNC_OS_POWER_SLIDER_UPDATE		8
->  #define APMF_FUNC_STATIC_SLIDER_GRANULAR       9
->  #define APMF_FUNC_DYN_SLIDER_AC				11
->  #define APMF_FUNC_DYN_SLIDER_DC				12
-> @@ -44,6 +45,14 @@
->  #define GET_STT_LIMIT_APU	0x20
->  #define GET_STT_LIMIT_HS2	0x21
->  
-> +/* OS slider update notification */
-> +#define DC_BEST_PERF		0
-> +#define DC_BETTER_PERF		1
-> +#define DC_BATTERY_SAVER	3
-> +#define AC_BEST_PERF		4
-> +#define AC_BETTER_PERF		5
-> +#define AC_BETTER_BATTERY	6
-> +
->  /* Fan Index for Auto Mode */
->  #define FAN_INDEX_AUTO		0xFFFFFFFF
->  
-> @@ -193,6 +202,11 @@ struct amd_pmf_static_slider_granular {
->  	struct apmf_sps_prop_granular prop[POWER_SOURCE_MAX][POWER_MODE_MAX];
->  };
->  
-> +struct os_power_slider {
-> +	u16 size;
-> +	u8 slider_event;
-> +} __packed;
-> +
->  struct fan_table_control {
->  	bool manual;
->  	unsigned long fan_id;
-> @@ -383,6 +397,7 @@ int amd_pmf_send_cmd(struct amd_pmf_dev *dev, u8 message, bool get, u32 arg, u32
->  int amd_pmf_init_metrics_table(struct amd_pmf_dev *dev);
->  int amd_pmf_get_power_source(void);
->  int apmf_install_handler(struct amd_pmf_dev *pmf_dev);
-> +int apmf_os_power_slider_update(struct amd_pmf_dev *dev, u8 flag);
->  
->  /* SPS Layer */
->  int amd_pmf_get_pprof_modes(struct amd_pmf_dev *pmf);
-> @@ -393,6 +408,7 @@ void amd_pmf_deinit_sps(struct amd_pmf_dev *dev);
->  int apmf_get_static_slider_granular(struct amd_pmf_dev *pdev,
->  				    struct apmf_static_slider_granular_output *output);
->  bool is_pprof_balanced(struct amd_pmf_dev *pmf);
-> +int amd_pmf_power_slider_update_event(struct amd_pmf_dev *dev);
->  
->  
->  int apmf_update_fan_idx(struct amd_pmf_dev *pdev, bool manual, u32 idx);
-> diff --git a/drivers/platform/x86/amd/pmf/sps.c b/drivers/platform/x86/amd/pmf/sps.c
-> index 445ff053b4df..ab69d517a36a 100644
-> --- a/drivers/platform/x86/amd/pmf/sps.c
-> +++ b/drivers/platform/x86/amd/pmf/sps.c
-> @@ -174,14 +174,77 @@ int amd_pmf_get_pprof_modes(struct amd_pmf_dev *pmf)
->  	return mode;
->  }
->  
-> +int amd_pmf_power_slider_update_event(struct amd_pmf_dev *dev)
-> +{
-> +	u8 mode, flag = 0;
-> +	int src;
-> +
-> +	mode = amd_pmf_get_pprof_modes(dev);
-> +	if (mode < 0)
-> +		return mode;
-> +
-> +	src = amd_pmf_get_power_source();
-> +
-> +	if (src == POWER_SOURCE_AC) {
-> +		switch (mode) {
-> +		case POWER_MODE_PERFORMANCE:
-> +			flag |= BIT(AC_BEST_PERF);
-> +			break;
-> +		case POWER_MODE_BALANCED_POWER:
-> +			flag |= BIT(AC_BETTER_PERF);
-> +			break;
-> +		case POWER_MODE_POWER_SAVER:
-> +			flag |= BIT(AC_BETTER_BATTERY);
-> +			break;
-> +		default:
-> +			dev_err(dev->dev, "unsupported platform profile\n");
-> +			return -EOPNOTSUPP;
-> +		}
-> +
-> +	} else if (src == POWER_SOURCE_DC) {
-> +		switch (mode) {
-> +		case POWER_MODE_PERFORMANCE:
-> +			flag |= BIT(DC_BEST_PERF);
-> +			break;
-> +		case POWER_MODE_BALANCED_POWER:
-> +			flag |= BIT(DC_BETTER_PERF);
-> +			break;
-> +		case POWER_MODE_POWER_SAVER:
-> +			flag |= BIT(DC_BATTERY_SAVER);
-> +			break;
-> +		default:
-> +			dev_err(dev->dev, "unsupported platform profile\n");
-> +			return -EOPNOTSUPP;
-> +		}
-> +	}
-> +
-> +	apmf_os_power_slider_update(dev, flag);
-> +
-> +	return 0;
-> +}
-> +
->  static int amd_pmf_profile_set(struct platform_profile_handler *pprof,
->  			       enum platform_profile_option profile)
->  {
->  	struct amd_pmf_dev *pmf = container_of(pprof, struct amd_pmf_dev, pprof);
-> +	int ret = 0;
->  
->  	pmf->current_profile = profile;
->  
-> -	return amd_pmf_set_sps_power_limits(pmf);
-> +	/* Notify EC about the slider position change */
-> +	if (is_apmf_func_supported(pmf, APMF_FUNC_OS_POWER_SLIDER_UPDATE)) {
-> +		ret = amd_pmf_power_slider_update_event(pmf);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	if (is_apmf_func_supported(pmf, APMF_FUNC_STATIC_SLIDER_GRANULAR)) {
-> +		ret = amd_pmf_set_sps_power_limits(pmf);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
->  }
->  
->  int amd_pmf_init_sps(struct amd_pmf_dev *dev)
-> @@ -189,10 +252,13 @@ int amd_pmf_init_sps(struct amd_pmf_dev *dev)
->  	int err;
->  
->  	dev->current_profile = PLATFORM_PROFILE_BALANCED;
-> -	amd_pmf_load_defaults_sps(dev);
->  
-> -	/* update SPS balanced power mode thermals */
-> -	amd_pmf_set_sps_power_limits(dev);
-> +	if (is_apmf_func_supported(dev, APMF_FUNC_STATIC_SLIDER_GRANULAR)) {
-> +		amd_pmf_load_defaults_sps(dev);
-> +
-> +		/* update SPS balanced power mode thermals */
-> +		amd_pmf_set_sps_power_limits(dev);
-> +	}
->  
->  	dev->pprof.profile_get = amd_pmf_profile_get;
->  	dev->pprof.profile_set = amd_pmf_profile_set;
+diff --git a/drivers/platform/x86/amd/pmf/acpi.c b/drivers/platform/x86/amd/pmf/acpi.c
+index 081e84e116e7..732b15b392ab 100644
+--- a/drivers/platform/x86/amd/pmf/acpi.c
++++ b/drivers/platform/x86/amd/pmf/acpi.c
+@@ -289,7 +289,7 @@ int apmf_acpi_init(struct amd_pmf_dev *pmf_dev)
+ 
+ 	ret = apmf_get_system_params(pmf_dev);
+ 	if (ret) {
+-		dev_err(pmf_dev->dev, "APMF apmf_get_system_params failed :%d\n", ret);
++		dev_dbg(pmf_dev->dev, "APMF apmf_get_system_params failed :%d\n", ret);
+ 		goto out;
+ 	}
+ 
+-- 
+2.25.1
 
