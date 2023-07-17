@@ -2,36 +2,37 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E51DA756EB0
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 17 Jul 2023 23:01:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5173756EA9
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 17 Jul 2023 22:59:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230499AbjGQVBR (ORCPT
+        id S230111AbjGQU7N (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 17 Jul 2023 17:01:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47058 "EHLO
+        Mon, 17 Jul 2023 16:59:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231246AbjGQVBP (ORCPT
+        with ESMTP id S229697AbjGQU7M (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 17 Jul 2023 17:01:15 -0400
-Received: from smtp.smtpout.orange.fr (smtp-24.smtpout.orange.fr [80.12.242.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A2A9A10E0
-        for <platform-driver-x86@vger.kernel.org>; Mon, 17 Jul 2023 14:01:13 -0700 (PDT)
+        Mon, 17 Jul 2023 16:59:12 -0400
+X-Greylist: delayed 327 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 17 Jul 2023 13:59:11 PDT
+Received: from smtp.smtpout.orange.fr (smtp-18.smtpout.orange.fr [80.12.242.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32E06B2
+        for <platform-driver-x86@vger.kernel.org>; Mon, 17 Jul 2023 13:59:10 -0700 (PDT)
 Received: from pop-os.home ([86.243.2.178])
         by smtp.orange.fr with ESMTPA
-        id LVDvqk82e2ts4LVDvqgmhS; Mon, 17 Jul 2023 22:53:41 +0200
+        id LVJCqUVoYFtSYLVJDqOY7F; Mon, 17 Jul 2023 22:59:09 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1689627221;
-        bh=gH/CT643ZS5ZguiPFDy4NfnRiWDoPJy5TfU7apbBTY4=;
+        s=t20230301; t=1689627549;
+        bh=bBwLuFazUuxYCGfEXRFxeHu86Q9tYW1XepWJEFG929I=;
         h=From:To:Cc:Subject:Date;
-        b=EUxW+eBqx0/fwJQ4mgi6TBoMfh2JIImC5lXvo4ECT562e2t/Pe25+tCgrwogyu7TW
-         34f6skb/GVFv9oRX95oCPkM0o2XzJilSzDsFzjB1pxM5q5vqzomhi3fAB8d11h4DZZ
-         pCrsK4Yfm2hSz5L8D6b8Jr7olrJgiBMFaG7u3OwMHbV6O6PJB8A20qLxtd1W3gb54U
-         HZ2WLgmx7vG9PuCOHL8HjbZA+ROG2YNwNWJ3W3vHS9FSaWu12UXGVvMhRKND0vNznj
-         swWYgfwcqIjMRk9ADNPg6mER/KqK0vCheGn94fEkkwiHqm/Bfi53yE+gW5QQarZhCa
-         TvcXmXOrFSYaw==
+        b=bBnCqgbyiMVdDcTfAiV13KWJ+nMAcHQ4A1fYFzfHrR4flM9hjIb/z63k1uiviOhM6
+         umJvYXgXrfHZkSoCPKg5b96aLoLFeJnhF2m0q2r9tg5sxWpQpkArXzd+nbUR79ALxV
+         ca1rahGgOJ3CdhL/0n4DLqs1o0UKGdWtc2luHACVxJWbQ3EBjRf0P7yIQXkTkv299I
+         ZY1ATpTB8B8WT86vU8Ne42vutpWSbRU+MhQKEXiCEGtX8sDyiYIouanqZ8yyT2SZBk
+         v3P3R36xMYJ8o4bLAu3iF9h9Vw6cJC/h84RxNyo842mIkyZQeN64qnQopMQni/22m7
+         /DmDBYCK0Fs4A==
 X-ME-Helo: pop-os.home
 X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 17 Jul 2023 22:53:41 +0200
+X-ME-Date: Mon, 17 Jul 2023 22:59:09 +0200
 X-ME-IP: 86.243.2.178
 From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 To:     Jorge Lopez <jorge.lopez2@hp.com>,
@@ -41,15 +42,15 @@ To:     Jorge Lopez <jorge.lopez2@hp.com>,
 Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
         Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH] platform/x86: hp-bioscfg: Fix some memory leaks in hp_populate_enumeration_elements_from_package()
-Date:   Mon, 17 Jul 2023 22:53:37 +0200
-Message-Id: <9770122e4e079dfa87d860ed86ba1a1237bcf944.1689627201.git.christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] platform/x86: hp-bioscfg: Fix another memory leaks in hp_populate_enumeration_elements_from_package()
+Date:   Mon, 17 Jul 2023 22:59:05 +0200
+Message-Id: <2a60147e2d555a77d348d1bdfec160bc936e1dc6.1689627531.git.christophe.jaillet@wanadoo.fr>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -58,11 +59,10 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-In the loop in the ENUM_POSSIBLE_VALUES case, we allocate some memory that
-is never freed.
+If the check that both expected and read object type match fails, some
+resource may still need to be released.
 
-While at it, add some "str_value = NULL" to avoid some potential double
-free.
+Add the missing kfree().
 
 Fixes: 6b2770bfd6f9 ("platform/x86: hp-bioscfg: enum-attributes")
 Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
@@ -74,39 +74,21 @@ Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
 /!\ Speculative /!\
 ---
- drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c b/drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c
-index b1b241f0205a..dd173020c747 100644
+index dd173020c747..8e615ccfc9b5 100644
 --- a/drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c
 +++ b/drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c
-@@ -224,6 +224,7 @@ static int hp_populate_enumeration_elements_from_package(union acpi_object *enum
- 					sizeof(enum_data->common.prerequisites[reqs]));
- 
- 				kfree(str_value);
-+				str_value = NULL;
- 			}
- 			break;
- 
-@@ -275,6 +276,9 @@ static int hp_populate_enumeration_elements_from_package(union acpi_object *enum
- 					strscpy(enum_data->possible_values[pos_values],
- 						str_value,
- 						sizeof(enum_data->possible_values[pos_values]));
-+
-+				kfree(str_value);
-+				str_value = NULL;
- 			}
- 			break;
- 		default:
-@@ -283,6 +287,7 @@ static int hp_populate_enumeration_elements_from_package(union acpi_object *enum
+@@ -164,6 +164,7 @@ static int hp_populate_enumeration_elements_from_package(union acpi_object *enum
+ 		if (expected_enum_types[eloc] != enum_obj[elem].type) {
+ 			pr_err("Error expected type %d for elem %d, but got type %d instead\n",
+ 			       expected_enum_types[eloc], elem, enum_obj[elem].type);
++			kfree(str_value);
+ 			return -EIO;
  		}
  
- 		kfree(str_value);
-+		str_value = NULL;
- 	}
- 
- exit_enumeration_package:
 -- 
 2.34.1
 
