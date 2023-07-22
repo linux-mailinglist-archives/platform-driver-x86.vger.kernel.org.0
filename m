@@ -2,74 +2,66 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D28475DD83
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 22 Jul 2023 18:50:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B80575DDF7
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 22 Jul 2023 19:46:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229552AbjGVQun (ORCPT
+        id S229662AbjGVRqW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 22 Jul 2023 12:50:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58716 "EHLO
+        Sat, 22 Jul 2023 13:46:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229662AbjGVQun (ORCPT
+        with ESMTP id S229552AbjGVRqT (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 22 Jul 2023 12:50:43 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F0F010FA
-        for <platform-driver-x86@vger.kernel.org>; Sat, 22 Jul 2023 09:50:42 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-55b1238cab4so1579618a12.2
-        for <platform-driver-x86@vger.kernel.org>; Sat, 22 Jul 2023 09:50:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690044642; x=1690649442;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XwQ9KTk0AvNg4YEGpLO6Mzd1tQ0NGTk2GH4qBYSzWYc=;
-        b=dz9MnwuaAkdK+DrzQy91dutBLwRZowgml6TlJeh0uf+lX2NKvReeYfdLeOgf2q3UmR
-         gkzEdVZQwAyqWBA53I+3lgOrzL1tDrzQBhTNPwylJXGd8aTHdB/qOsSST3ICcBOt9eKG
-         4EUkl+C6OnEmLgnS+wlz0NQhUL6+tHni07iiJCCe78TWTNi4kofhN7/L0PNxdd5BbQAY
-         jCiZxQ7JhDF5a/9ia/jFTVnvO77+evyILBdlTGcubZkwJbJ4+ZygJ2UCOjPYasnA8rXT
-         7tWyREwwiC0Xhz5oT8/FiPu6Oz8dtGr/XsCIy0WxgMVAEsVFEVCZg3nJShU/owf83tcR
-         /6mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690044642; x=1690649442;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XwQ9KTk0AvNg4YEGpLO6Mzd1tQ0NGTk2GH4qBYSzWYc=;
-        b=YL3k13+usxWaJnHP7OFXGCgQIOgQ4l4aHjNnzriXaY8h7YUM2lDJocf1E0Tfknb/3j
-         aIpTCp+gdjb5Tba0rvQBVScCm9yr0jnfRylL4BrtWJOTUXb7KZeU62kdVRj87UaMZQcl
-         R0LqyDx5keVSzoZxNhPXejGAV/f2iRohrrQJtIsopV5fNYNSrVd1AHsT2x3EEGmpIGFZ
-         o6NO42Rywy6rFyUBMKe/6RekuY4K/WteO3pwAcsbX6u2SuxPdCwPK7Kf9XAHwfkQQv+7
-         XCa2v/Qmuz/B+rtHBxX/jStzTa08GWxYphpJWEAOKWCMN6aC/wlVy3K0iApiEieUBm7e
-         nA6A==
-X-Gm-Message-State: ABy/qLYFs0Mts9GDLNSNxjpP5CWZzm13ssTM+FnNT7Qn7J31v1OP1KZM
-        g12/kmH7hmZ9UGdi5lGqCKne/kdS4MnmI3uppKM=
-X-Google-Smtp-Source: APBJJlFmGVjNvOwlpyZapsHnI+aqfbALIPV10y8bFw55nPJrgepqFdeo3Nfxdqq7eiwfgvQ9CDHTCgdDPbVeGRr2i3w=
-X-Received: by 2002:a17:90b:30c2:b0:263:9e9b:5586 with SMTP id
- hi2-20020a17090b30c200b002639e9b5586mr4279916pjb.44.1690044642062; Sat, 22
- Jul 2023 09:50:42 -0700 (PDT)
+        Sat, 22 Jul 2023 13:46:19 -0400
+Received: from rs227.mailgun.us (rs227.mailgun.us [209.61.151.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 835E226B7
+        for <platform-driver-x86@vger.kernel.org>; Sat, 22 Jul 2023 10:46:16 -0700 (PDT)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=equiv.tech; q=dns/txt;
+ s=mx; t=1690047975; x=1690055175; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Subject: Cc: To: To: From: From: Sender: Sender;
+ bh=2ZM8uvTNkSlbDWoHgS2NyrOFq+N/5mog0L1a0g4U21Y=;
+ b=C0t9MmKxdY1HrqDEkRqBsbD+FMFZkmgZBT6szcVPUma6OzMtyLmUPEmudDDQmgNoo49lTeMz+hLaJfNbbV1i5hxJplMuo78WvGrg8QSJtePNIRbFJUiSycMBCkkJzOD8Mi4Cm3XJiIGo7HxYizpjGFQ7qFXQnrsesHRbhTzQ+kN4bo1Xpc1gDUwrZykdQVx/ITxAkC6+oI0uTztwSeiGnBeTIXemfFOqHf8jxJwAibiNBH2hmWwtrfjFApbOsTDnVFinwbrYDx2GthJLQAChA/nRF/a+tFS3uP/sjy8MY3V/abv8GGvUzrtFCWXQOwII4hvLPwfleNvuFUPNC01ejA==
+X-Mailgun-Sending-Ip: 209.61.151.227
+X-Mailgun-Sid: WyI0MzAwNyIsInBsYXRmb3JtLWRyaXZlci14ODZAdmdlci5rZXJuZWwub3JnIiwiOTNkNWFiIl0=
+Received: from mail.equiv.tech (equiv.tech [142.93.28.83]) by 1b2ddc83fb9c with SMTP id
+ 64bc11178dca71a24a2eda78 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 22 Jul 2023 17:25:43 GMT
+Sender: james@equiv.tech
+From:   James Seo <james@equiv.tech>
+To:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>
+Cc:     James Seo <james@equiv.tech>, linux-hwmon@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] hwmon: hp-wmi-sensors: Minor fixes
+Date:   Sat, 22 Jul 2023 10:25:11 -0700
+Message-Id: <20230722172513.9324-1-james@equiv.tech>
 MIME-Version: 1.0
-Received: by 2002:a05:7300:d1e:b0:d5:25c7:90d9 with HTTP; Sat, 22 Jul 2023
- 09:50:41 -0700 (PDT)
-Reply-To: mrsvl06@gmail.com
-From:   Veronica Lee <och4412@gmail.com>
-Date:   Sat, 22 Jul 2023 18:50:41 +0200
-Message-ID: <CAD9sPJHYbhe0Acp+nTrOJSYXBAoNZ2MzWauf6xxdu8BQZMt-Fg@mail.gmail.com>
-Subject: re
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-16nXnNeV150g15nXp9eZ16jXmSwg15DXoNeZINek15XXoNeUINeQ15zXmdeaINec157XmdeT16Ig
-16nXkdeo16bXldeg15kg15zXl9ec15XXpyDXkNeZ16rXmiDXkNecINeq15TXodehINec15TXqdeZ
-15Eg15zXpNeo15jXmdedDQo=
+Make driver init slightly more efficient and the appearance of
+generated documentation more consistent.
+
+James Seo (2):
+  hwmon: hp-wmi-sensors: Get WMI instance count from WMI driver core
+  docs: hwmon: hp-wmi-sensors: Change document title
+
+ Documentation/hwmon/hp-wmi-sensors.rst |  6 +++---
+ drivers/hwmon/hp-wmi-sensors.c         | 20 +++-----------------
+ 2 files changed, 6 insertions(+), 20 deletions(-)
+
+
+base-commit: c4be22597a36e3487474aee9b4177cc8cf780124
+-- 
+2.39.2
+
