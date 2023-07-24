@@ -2,60 +2,68 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D593A75EEE7
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Jul 2023 11:18:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7292E75FEF8
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Jul 2023 20:22:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232204AbjGXJSR (ORCPT
+        id S230201AbjGXSWS (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 24 Jul 2023 05:18:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37004 "EHLO
+        Mon, 24 Jul 2023 14:22:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232208AbjGXJR7 (ORCPT
+        with ESMTP id S229850AbjGXSWR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 24 Jul 2023 05:17:59 -0400
+        Mon, 24 Jul 2023 14:22:17 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C093A6;
-        Mon, 24 Jul 2023 02:17:58 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3B5A10F4
+        for <platform-driver-x86@vger.kernel.org>; Mon, 24 Jul 2023 11:22:16 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 92DE461000;
-        Mon, 24 Jul 2023 09:17:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E051C433C7;
-        Mon, 24 Jul 2023 09:17:54 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 614736139D
+        for <platform-driver-x86@vger.kernel.org>; Mon, 24 Jul 2023 18:22:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 82A3BC433CC
+        for <platform-driver-x86@vger.kernel.org>; Mon, 24 Jul 2023 18:22:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690190276;
-        bh=8a29HgSLoVm9OT+3DOAGJKF4MS3J2IMMxQ4wA9HJO4I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Q7mDhZF6QyCJBUWj+rU0z2Z4B0dMWl2PQGQaPeq5SGN3vmEKhgJc3qaWb311TrJlt
-         d4J9J6icXBk/54Z1FsejZvX3LTVOa34QSr7tgkZdanmiqoydW0kp+KszNzwXS0RZQF
-         mcZZ/eaMUHA2MkMkybmnGGXh1BeAhzrVwnHFCb3LvqXFo8jFIG7KPx9zED/w5DY2r+
-         gNP/FsoGyz/5qlH5U/84iDNQF8APFAWiVlgZd7K/LaCT+AdaCanbwxokbAr1oUTukE
-         MX+a1BQhDkgjdCSv9ppRWZZ0Q9zriBr8QlS9EZPmbbg1CZLv3ygPf2YF6c3WpdzL7M
-         X6SfJJB1XuKew==
-Date:   Mon, 24 Jul 2023 10:17:51 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Henning Schild <henning.schild@siemens.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Tobias Schaffner <tobias.schaffner@siemens.com>
-Subject: Re: [PATCH v2 2/3] leds: simatic-ipc-leds: default config switch to
- platform switch
-Message-ID: <20230724091751.GA11203@google.com>
-References: <20230719153518.13073-1-henning.schild@siemens.com>
- <20230719153518.13073-3-henning.schild@siemens.com>
+        s=k20201202; t=1690222935;
+        bh=b7xy0BSR+r1v/O0QVDa8Ll4R9qzGjgwCU8Vbwx2sDjs=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=N4w7bVF0SCv+Xk/UOlzlINHv8pT2H69xzqokSUwun2qR6V+Cv90FMEfKwUT6g8zTX
+         NJ2c90rqOcJ6wVnovrT+0VVSFarVkkAXjHymQtArZH235CW1NG8XyPnh5TSf4wYhXi
+         NWY72YNmnX7ES2XRA+4rzkOgzJ8obHNkV95mVNxncg27RiZJUpSOocBZfjbox35lxb
+         aN+3vqNucDS8f7rg1xKuKNfIfc4gevUKcCCdi6Fi/sMzyUZPZsqCkrdct8dTpIG9ai
+         PrG8v6dA1VCkxQ4ATncxB4IRkU+7BA8fo4LJWvLvv0CIY4TgE/xSkfZZhN40UpEQ4q
+         9lxwnh/nKlCdg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 736F1C53BCD; Mon, 24 Jul 2023 18:22:15 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     platform-driver-x86@vger.kernel.org
+Subject: [Bug 217696] Looking for a way to enable power saving mode for Ryzen
+ APUs, along with limiting the upper temperature and total power consumption
+Date:   Mon, 24 Jul 2023 18:22:14 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Platform_x86
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: mario.limonciello@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc component assigned_to
+Message-ID: <bug-217696-215701-bLuZPtI8af@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-217696-215701@https.bugzilla.kernel.org/>
+References: <bug-217696-215701@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230719153518.13073-3-henning.schild@siemens.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -66,19 +74,19 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, 19 Jul 2023, Henning Schild wrote:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217696
 
-> If a user did choose to enable Siemens Simatic platform support they
-> likely want the LED drivers to be enabled without having to flip more
-> config switches. So we make the LED drivers config switch default to
-> the platform driver switches value.
-> 
-> Signed-off-by: Henning Schild <henning.schild@siemens.com>
-> ---
->  drivers/leds/simple/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
+Mario Limonciello (AMD) (mario.limonciello@amd.com) changed:
 
-Acked-by: Lee Jones <lee@kernel.org>
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |shyam-sundar.s-k@amd.com
+          Component|PCI                         |Platform_x86
+           Assignee|drivers_pci@kernel-bugs.osd |drivers_platform_x86@kernel
+                   |l.org                       |-bugs.osdl.org
 
--- 
-Lee Jones [李琼斯]
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
