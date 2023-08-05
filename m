@@ -2,99 +2,75 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 691117704C3
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  4 Aug 2023 17:31:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2B48770DC0
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  5 Aug 2023 06:41:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231598AbjHDPb4 (ORCPT
+        id S229460AbjHEElp (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 4 Aug 2023 11:31:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34198 "EHLO
+        Sat, 5 Aug 2023 00:41:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231592AbjHDPbk (ORCPT
+        with ESMTP id S229436AbjHEElo (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 4 Aug 2023 11:31:40 -0400
-X-Greylist: delayed 304 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 04 Aug 2023 08:31:22 PDT
-Received: from abi149hd127.arn1.oracleemaildelivery.com (abi149hd127.arn1.oracleemaildelivery.com [129.149.84.127])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39C47524B
-        for <platform-driver-x86@vger.kernel.org>; Fri,  4 Aug 2023 08:31:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=oci-arn1-20220924;
- d=augustwikerfors.se;
- h=Date:To:From:Subject:Message-Id:MIME-Version:Sender;
- bh=lkeyCUNxw6Rc/OPS654INdsxLT2B3j/nzdnoNSEJjig=;
- b=bac6FmIFqM2VTXBwCerNcTs1vGSwGm1YskznsLbPIatRy6FNMCF0GpZOJe6uP/K2LzGhvGvYNKhv
-   AFgxcTdVPaxd4yH41nkWVlvrB0QhIJozfiL5zG/LLPyGubxrRLd1XnfMtkq7+MnHH+EsoaXlOUZL
-   1SHp9GIChx4CWxEUz7Kg3KlGqZz708Y06INpwUzBMwHQROF+Ameh3i36FxIYtKDOTF3ijsdkn3s4
-   yRQf8S8uKtsCbslTRfbZlCLnHauQlg16rPnxNzCjS+0CP3GT5vGI/fj6Yfb3LGeC59Vv7N75+MG7
-   7CUrBkZxMIl7yB80aZPpIVc00jbubo89NhzNvQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=prod-arn-20211201;
- d=arn1.rp.oracleemaildelivery.com;
- h=Date:To:From:Subject:Message-Id:MIME-Version:Sender;
- bh=lkeyCUNxw6Rc/OPS654INdsxLT2B3j/nzdnoNSEJjig=;
- b=UQ/wioqw7YM345lLt/Rg5JZCedZ4CgI/TLJydeYOoOXCWITVJuslpve8uNh1b37zxAIYqD5jUTU2
-   8HiF1MxGap3Y4scje345llC3CG5owAQtGVPe5uFR28am1ISnuJbAG7wOcdnWBak/AXb9XCwEr17V
-   W0FDraxbITYS3WYQb8qSD27BKLDSOzWtO9LqS2dhB6o4oEQmqu23A+rs/lkMWk11iIDwwLXYTKS+
-   LCFFVdUIjITOJhigCifcav24LBQlXvWxWK4AFqAxHCQH6D1mSo05tCgcPWPU91aMbXryEcLw0kzD
-   yP7ayI3G+Qe0HlzN35WaXT6vpJtp5TI2gkWpyw==
-Received: by omta-ad1-fd2-401-eu-stockholm-1.omtaad1.vcndparn.oraclevcn.com
- (Oracle Communications Messaging Server 8.1.0.1.20230707 64bit (built Jul  7
- 2023))
- with ESMTPS id <0RYV005XUHJT7R80@omta-ad1-fd2-401-eu-stockholm-1.omtaad1.vcndparn.oraclevcn.com>
- for platform-driver-x86@vger.kernel.org; Fri, 04 Aug 2023 15:26:17 +0000 (GMT)
-Message-id: <b7df9a02-3b81-4f8c-aeba-222c298180d4@augustwikerfors.se>
-Date:   Fri, 4 Aug 2023 17:26:14 +0200
-MIME-version: 1.0
-Subject: Re: Fwd: 6.5 - 6.4.7 Regression : ASUS UM5302TA Keyboard don't work
-Content-language: en-US
-To:     Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     Mario Limonciello <mario.limonciello@amd.com>,
-        Linux Input Devices <linux-input@vger.kernel.org>,
-        ACPI Asus <acpi4asus-user@lists.sourceforge.net>,
-        Linux x86 Platform Drivers 
-        <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Corentin Chary <corentin.chary@gmail.com>,
-        Guilhem Lettron <guilhem@lettron.fr>
-References: <bdc6cb4d-a853-72b2-b132-989b64740ad9@gmail.com>
- <8ee87fe1-684f-ad59-21c7-4401a4e70bee@leemhuis.info>
-From:   August Wikerfors <git@augustwikerfors.se>
-In-reply-to: <8ee87fe1-684f-ad59-21c7-4401a4e70bee@leemhuis.info>
-Content-type: text/plain; charset=UTF-8; format=flowed
-Content-transfer-encoding: 7bit
-Reporting-Meta: AAFFfLcUsxW36ThPzjsNnUXQm7U6Sr9gxxLdxvDmieyTQubvanypwsv0aq8t1egt
- VXasQBWsOdnmCguJTPNqbAfWd/iC2bEZITLDPzLaixnby1orXDatUCn/crAyfoWj
- S5lVLW2Quy80DrB+8b+CWE+2GMdq0lsyMJGpmlS9CxMX5L2Zzk/YgFaGtLMh4/+l
- tXRVYoBNfoOSGh6jNLZoU1tUFpgS14VeySwuatKYwjUxlmbjP4nXNUWbWA8KFWi0
- QkwFnuPiGYlz+oR+9wHdTmBzjYSzPHlwFWuVERLrHUj53pIi9KtBPELekdm7K/vE
- u6EKyv+pM2GZP2ELPgrfaPKxYLdn2XjhL3x1hA/IeNpriGiQ272beUC8KYEQDxZr
- 3Y35/VBUtf7eq5tjzoFa15qjL/mzQB0U3iNuyOWoE0aADE8V1LJIRMRzV+K9B31j
- QeVq7X61T9sJV7I=
-X-Spam-Status: No, score=-0.3 required=5.0 tests=BAYES_05,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+        Sat, 5 Aug 2023 00:41:44 -0400
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFEA34ED6
+        for <platform-driver-x86@vger.kernel.org>; Fri,  4 Aug 2023 21:41:42 -0700 (PDT)
+Received: by mail-ot1-x32c.google.com with SMTP id 46e09a7af769-6bcade59b24so2361160a34.0
+        for <platform-driver-x86@vger.kernel.org>; Fri, 04 Aug 2023 21:41:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691210502; x=1691815302;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Fyaf0OHfvWgaqfRiwRufcy49gz6rXRNyNLf1qH0Ffk0=;
+        b=NYqWGaDKM/NBvVCsWk7Q+FK60T+8JllhM75SJp6E4NNkSwqmOpfIXI0d2x93e4wtTz
+         k+r4DiZm7QGyeyEA+HGwiyWmaj22vYGdFdvwy9u22/3CqXDfKj1JBV1ipGXODcBm6ED7
+         qIspFN0Sq89Z0sXq1NACIgpUficfQBucX2HjfOamdJ94nbRNyT8edlEp71tKQgN53rLb
+         lK5DMh8rEW+7XPx+sVBS/8ojlrmGnre1l4BKFoCBkVgzcFKLchLYEbYuKH83tPWgb3dE
+         ubqWtYuEy2CDyCJT/NWf+UBWmzr/UJgupZxBuCZMpmkVlwN90GTKgAT46zebLrYaRRNG
+         Dudw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691210502; x=1691815302;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fyaf0OHfvWgaqfRiwRufcy49gz6rXRNyNLf1qH0Ffk0=;
+        b=DufyQ1y8VWstYH1TGONWAmZqYYJpon5nWaSRWD+DyoqWp1DFnlozkIfsFfmCmSy0GU
+         WEMQtijYOKJvITP8FrcuscvLkE7dwWokJXuKbtpgyy7NL8xD2+ZT2vJJ8VpEk2zJtogl
+         xTV65Te+uOe/dyGhbLr38a07iJM2ucDIPSOVoa1nz2hnbIGoDvjssmOUw49g6/S6PKKo
+         xyVNlmy6FpAqd1VSYP36cimvCpfbKAvR+EwGviQ/31YZTDefa66kzsPKmiNRtM69PqWN
+         5yrLHO73rpDd54XBZGQ+weA1aE0QdBmuCIDSqND6lXZyIQL7IQ4OSQKT8DpXVEx2Vp9Q
+         5EEQ==
+X-Gm-Message-State: AOJu0YyyKpVGyYjr1nqYToRwikJA3UMPILXW22Y6Sq5itig0052qsdoV
+        Gp7cMgg9gY7tl8mon7crmVYT6hgzOppVVyOokrE=
+X-Google-Smtp-Source: AGHT+IGM9Fr9Ueq6unEi8QY90LLElxL46k0fnFjEqkh/F8S64Gq5U8iGE2t4+ak7DRe9wJZ07fQzImijvj/vfEgzi+M=
+X-Received: by 2002:a05:6870:5627:b0:1be:dab4:308b with SMTP id
+ m39-20020a056870562700b001bedab4308bmr4697158oao.55.1691210502137; Fri, 04
+ Aug 2023 21:41:42 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a8a:1054:0:b0:4ea:3880:2f10 with HTTP; Fri, 4 Aug 2023
+ 21:41:41 -0700 (PDT)
+Reply-To: bintu37999@gmail.com
+From:   BINTU FELICIA <gsselinawilliams@gmail.com>
+Date:   Sat, 5 Aug 2023 05:41:41 +0100
+Message-ID: <CAE4dffBw6_6QxsJduV13HEFHMc+1sh7FePxNg-6Go_5Ff6wR+Q@mail.gmail.com>
+Subject: HELLO...,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 2023-07-30 06:49, Linux regression tracking (Thorsten Leemhuis) wrote:
-> Lo!
-> 
-> On 30.07.23 04:41, Bagas Sanjaya wrote:
->>
->> I notice a regression report on Bugzilla [1]. Quoting from it:
->>
->>> On a kernel 6.4.5 and less, the keyboard is working fine.
->>>
->>> Beginning with 6.5 rc1 and 6.4.7 any key don't respond.
-> 
-> That is a AMD Ryzen Laptop. And if that really started from
-> v6.4.6..v6.4.7 then I guess there is a decent chance that this is caused
-> by ```ACPI: resource: Remove "Zen" specific match and quirks``` from
-> Mario. Hence adding him to the list of recipients.
-
-Confirmed now, see https://bugzilla.kernel.org/show_bug.cgi?id=217726#c9
-
-#regzbot introduced: a9c4a912b7dc7ff922d4b9261160c001558f9755
+How are you today? I hope you are fine. My name is Miss
+Bintu Felicia . l am single looking for honest and nice
+person whom i can partner with . I don't care about
+your color, ethnicity, Status or Sex. Upon your reply to
+this mail I will tell you more about myself and send you
+more of my picture .I am sending you this beautiful mail
+with a wish for much happiness
