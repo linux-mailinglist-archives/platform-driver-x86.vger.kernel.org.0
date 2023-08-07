@@ -2,80 +2,64 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC1947722EF
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Aug 2023 13:43:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9B627728B9
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Aug 2023 17:08:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229925AbjHGLnq (ORCPT
+        id S229939AbjHGPIo (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 7 Aug 2023 07:43:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47920 "EHLO
+        Mon, 7 Aug 2023 11:08:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233224AbjHGLnN (ORCPT
+        with ESMTP id S229592AbjHGPIn (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 7 Aug 2023 07:43:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B559459F7
-        for <platform-driver-x86@vger.kernel.org>; Mon,  7 Aug 2023 04:39:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1691408331;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=e2w/SmCL+H3bXSVQLt4PZrBtL3ODk0uBW3yXUGSJZU4=;
-        b=Xh/LrajEdYdXH0zcfwW+IbSmqPoJaZv7oNNr5Tc/FDTx1ElWgwwrcdyuKIKzM1qiegiTEk
-        pGsBi0sTpZWHbkUJTtUtFsp3HiriaVv4AZaJeBzkl1yJ6UjCJyCN8mkhsAdIPCjueDuppt
-        bSxUvAxH7AeG0suzBEpCLaWZRnq5Cs0=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-33-9JwVhChuO1Kzp-RvuIrxzQ-1; Mon, 07 Aug 2023 07:38:50 -0400
-X-MC-Unique: 9JwVhChuO1Kzp-RvuIrxzQ-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-94a355cf318so356224566b.2
-        for <platform-driver-x86@vger.kernel.org>; Mon, 07 Aug 2023 04:38:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691408328; x=1692013128;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=e2w/SmCL+H3bXSVQLt4PZrBtL3ODk0uBW3yXUGSJZU4=;
-        b=c38ifaXHWusB3GtiXfvf/1/Q6KmuHw0cNguT3w3OZ8+yuODO+CxYlprvqZDqNHDd3d
-         862l5nzX7OfSwl6Dj0Z/WcGrTPmy+vWW6TxD7HacvbmLOl5+nJRudlnBo1DlUHaHyyZm
-         l7+XWVC/jcbHFYYJbWsOCsmmGCvUgfjOLgfKdd9My5rcOal181Y8zFZFYHV76EY5lZfi
-         z2CnS6xcxADa7CwJI/U/LiTWvyvWDgbPnfm/VMN0G+0NcpI2INrjigkiiwhgdoB7yPD7
-         LTyVIWK+xwbMBQ1k2LBzGhkgU5mxJV11Pq690Xxr2J2TtEmALAF3gom23CILorKBwtL2
-         yNFA==
-X-Gm-Message-State: AOJu0YwoH7IuDWRUOs+weaOGI+1cFCnXiryBSqFyT/1q04Dz4CXtofYw
-        5J2e293zCOWqjWcus5Hsuo1Tqov+/cXAyrYx2YHuPKygtCN3NeVLcHZJC1uchOefzSNy34Iv7pH
-        sKqvny5IxOO0hqYfQYbLcr4JWhmXDyS/FFUwf8n8NWQ==
-X-Received: by 2002:a17:906:18c:b0:994:542c:8718 with SMTP id 12-20020a170906018c00b00994542c8718mr8734312ejb.76.1691408328735;
-        Mon, 07 Aug 2023 04:38:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IERphai9ZuF3TV8UwBuU3LTba/UPtBQMl69GuNhcTMAaMWEKx4jY1NHDQwLh9oLUTFuB6l1fA==
-X-Received: by 2002:a17:906:18c:b0:994:542c:8718 with SMTP id 12-20020a170906018c00b00994542c8718mr8734301ejb.76.1691408328505;
-        Mon, 07 Aug 2023 04:38:48 -0700 (PDT)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id y16-20020a170906525000b0099bd046170fsm5053078ejm.104.2023.08.07.04.38.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Aug 2023 04:38:47 -0700 (PDT)
-Message-ID: <9c15a6ba-5f67-02f9-601a-b097aa7d4ae0@redhat.com>
-Date:   Mon, 7 Aug 2023 13:38:47 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH -next] platform/x86: hp-bioscfg: Use kmemdup() to replace
- kmalloc + memcpy
-Content-Language: en-US
-To:     Li Zetao <lizetao1@huawei.com>, jorge.lopez2@hp.com,
-        markgross@kernel.org
-Cc:     platform-driver-x86@vger.kernel.org
-References: <20230803032027.3044851-1-lizetao1@huawei.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230803032027.3044851-1-lizetao1@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        Mon, 7 Aug 2023 11:08:43 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2422C1FCE;
+        Mon,  7 Aug 2023 08:08:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Subject:Cc:To:From:Date:Message-ID:
+        Sender:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=Cc7Qso+rtqYL4z41yt/S7GCvRApv9pu8SfGh30r2Ct4=; b=MKv0W1lCMX7Ig/GFUcBTKF23rP
+        kfBI64q+FB4WSJjX6NLuD/+/rI1HuEZYBeNX4bB27POHliDxcoNHoNoWlsu9NHNEwKx6wwKUH/LBO
+        fqV+CBH06QCDe0I9F8TZ0t4NMynLzlsPSklN7kaf3+B0oxuZhz1PqzcCXYjfy8Z6Z2XAjLtwJXjBB
+        jf/rRReJO/M2ohlj0sKH7G/H4XsMbNe/2MTZh0mqu74JeloE+UbHZR7veW953WyUdAVKlhl6YMdyz
+        pPiZMhetJCBDFbwW/n6JlAULYU0CFK0YTLWocYBY27vtMfOvclELTaZho3UbToYjWu3l2gMyc0zbA
+        ECZ/gBzQ==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qT1pP-00BlpC-Vn; Mon, 07 Aug 2023 15:07:28 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 8AB0C30014A;
+        Mon,  7 Aug 2023 17:07:27 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
+        id 6D7CA2028F056; Mon,  7 Aug 2023 17:07:27 +0200 (CEST)
+Message-ID: <20230807123806.700370534@infradead.org>
+User-Agent: quilt/0.66
+Date:   Mon, 07 Aug 2023 14:38:06 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     x86@kernel.org
+Cc:     peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
+        mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
+        jolsa@kernel.org, namhyung@kernel.org, irogers@google.com,
+        adrian.hunter@intel.com, tglx@linutronix.de, bp@alien8.de,
+        dave.hansen@linux.intel.com, hpa@zytor.com,
+        Tony Luck <tony.luck@intel.com>, luto@kernel.org,
+        james.morse@arm.com, mchehab@kernel.org, rric@kernel.org,
+        jacob.jun.pan@linux.intel.com, lenb@kernel.org,
+        irenic.rajneesh@gmail.com, david.e.box@intel.com,
+        hdegoede@redhat.com, markgross@kernel.org,
+        srinivas.pandruvada@linux.intel.com, rafael@kernel.org,
+        daniel.lezcano@linaro.org, amitk@kernel.org, rui.zhang@intel.com,
+        linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-pm@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH 0/3] x86/cpu: Cleanup of INTEL_FAM6_foo
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -85,88 +69,5 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 Hi,
 
-On 8/3/23 05:20, Li Zetao wrote:
-> There are some warnings reported by coccinelle:
-> 
-> ./drivers/platform/x86/hp/hp-bioscfg/spmobj-attributes.c:317:35-42:
-> 		WARNING opportunity for kmemdup
-> ./drivers/platform/x86/hp/hp-bioscfg/spmobj-attributes.c:270:40-47:
-> 		WARNING opportunity for kmemdup
-> ./drivers/platform/x86/hp/hp-bioscfg/spmobj-attributes.c:233:36-43:
-> 		WARNING opportunity for kmemdup
-> 
-> Use kmemdup rather than duplicating its implementation.
-> 
-> Signed-off-by: Li Zetao <lizetao1@huawei.com>
-
-Thank you for your patch, I've applied this patch to my review-hans 
-branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
-
-Note it will show up in my review-hans branch once I've pushed my
-local branch there, which might take a while.
-
-Once I've run some tests on this branch the patches there will be
-added to the platform-drivers-x86/for-next branch and eventually
-will be included in the pdx86 pull-request to Linus for the next
-merge-window.
-
-Regards,
-
-Hans
-
-
-> ---
->  .../platform/x86/hp/hp-bioscfg/spmobj-attributes.c    | 11 +++--------
->  1 file changed, 3 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/hp/hp-bioscfg/spmobj-attributes.c b/drivers/platform/x86/hp/hp-bioscfg/spmobj-attributes.c
-> index 02291e32684f..86f90238750c 100644
-> --- a/drivers/platform/x86/hp/hp-bioscfg/spmobj-attributes.c
-> +++ b/drivers/platform/x86/hp/hp-bioscfg/spmobj-attributes.c
-> @@ -230,12 +230,10 @@ static ssize_t sk_store(struct kobject *kobj,
->  		length--;
->  
->  	/* allocate space and copy current signing key */
-> -	bioscfg_drv.spm_data.signing_key = kmalloc(length, GFP_KERNEL);
-> +	bioscfg_drv.spm_data.signing_key = kmemdup(buf, length, GFP_KERNEL);
->  	if (!bioscfg_drv.spm_data.signing_key)
->  		return -ENOMEM;
->  
-> -	memcpy(bioscfg_drv.spm_data.signing_key, buf, length);
-> -
->  	/* submit signing key payload */
->  	ret = hp_wmi_perform_query(HPWMI_SECUREPLATFORM_SET_SK,
->  				   HPWMI_SECUREPLATFORM,
-> @@ -267,14 +265,12 @@ static ssize_t kek_store(struct kobject *kobj,
->  		length--;
->  
->  	/* allocate space and copy current signing key */
-> -	bioscfg_drv.spm_data.endorsement_key = kmalloc(length, GFP_KERNEL);
-> +	bioscfg_drv.spm_data.endorsement_key = kmemdup(buf, length, GFP_KERNEL);
->  	if (!bioscfg_drv.spm_data.endorsement_key) {
->  		ret = -ENOMEM;
->  		goto exit_kek;
->  	}
->  
-> -	memcpy(bioscfg_drv.spm_data.endorsement_key, buf, length);
-> -
->  	ret = hp_wmi_perform_query(HPWMI_SECUREPLATFORM_SET_KEK,
->  				   HPWMI_SECUREPLATFORM,
->  				   (void *)bioscfg_drv.spm_data.endorsement_key,
-> @@ -314,13 +310,12 @@ static ssize_t auth_token_store(struct kobject *kobj,
->  		length--;
->  
->  	/* allocate space and copy current auth token */
-> -	bioscfg_drv.spm_data.auth_token = kmalloc(length, GFP_KERNEL);
-> +	bioscfg_drv.spm_data.auth_token = kmemdup(buf, length, GFP_KERNEL);
->  	if (!bioscfg_drv.spm_data.auth_token) {
->  		ret = -ENOMEM;
->  		goto exit_token;
->  	}
->  
-> -	memcpy(bioscfg_drv.spm_data.auth_token, buf, length);
->  	return count;
->  
->  exit_token:
+I seem to have missed 'spring' but here goes...
 
