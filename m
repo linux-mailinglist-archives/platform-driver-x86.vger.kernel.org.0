@@ -2,124 +2,94 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 64C2B7728AE
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Aug 2023 17:08:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E7AA7729E2
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Aug 2023 17:56:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229643AbjHGPIn (ORCPT
+        id S229545AbjHGP4Y (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 7 Aug 2023 11:08:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39674 "EHLO
+        Mon, 7 Aug 2023 11:56:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229591AbjHGPIm (ORCPT
+        with ESMTP id S229491AbjHGP4X (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 7 Aug 2023 11:08:42 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 547B11FC9;
-        Mon,  7 Aug 2023 08:08:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
-        Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
-        Content-ID:Content-Description:In-Reply-To;
-        bh=FsGLstpvkSVmBkgu77rL1Iiy2ks7bnKLLUqwpkys3+c=; b=ccMB1SjDD/dV/XdmrvdlHzl7vb
-        864L3C27FVT1g+tUqxfFZj0idVnGgVhyYy5i8cEr75czsjVJGaGjuGWFIrFcX2ZbcMrMg3ZdoABq3
-        K8tbhG06vFtbvYiUKths0+iXbFw269a4chcUKDqJE8o9YUDEoyEXiwS7raprI7nEh8rejmqXWYuzt
-        VweDhbU+5WSUkYKueWaANZhTIE8wVDXVKBWAA4BecfgbOEUdHOg/nvj8Xu/RIcBJXpAO9+zwZlIWq
-        C62kXusZ3AZyvQd10T+G/sB2YEQ6cI7ZyErLzmILMRQLJL2YnlSly/Ku7zz2Uw0dwNcXTQKA1f/A/
-        nJBNMx2w==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1qT1pQ-00BlpE-1v; Mon, 07 Aug 2023 15:07:28 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A4A9B3006F1;
-        Mon,  7 Aug 2023 17:07:27 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-        id 84F30201F3C6C; Mon,  7 Aug 2023 17:07:27 +0200 (CEST)
-Message-ID: <20230807150405.828551866@infradead.org>
-User-Agent: quilt/0.66
-Date:   Mon, 07 Aug 2023 14:38:09 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     x86@kernel.org
-Cc:     peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
-        mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
-        jolsa@kernel.org, namhyung@kernel.org, irogers@google.com,
-        adrian.hunter@intel.com, tglx@linutronix.de, bp@alien8.de,
-        dave.hansen@linux.intel.com, hpa@zytor.com,
-        Tony Luck <tony.luck@intel.com>, luto@kernel.org,
-        james.morse@arm.com, mchehab@kernel.org, rric@kernel.org,
-        jacob.jun.pan@linux.intel.com, lenb@kernel.org,
-        irenic.rajneesh@gmail.com, david.e.box@intel.com,
-        hdegoede@redhat.com, markgross@kernel.org,
-        srinivas.pandruvada@linux.intel.com, rafael@kernel.org,
-        daniel.lezcano@linaro.org, amitk@kernel.org, rui.zhang@intel.com,
-        linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-pm@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH 3/3] x86/cpu: Update Hybrids
-References: <20230807123806.700370534@infradead.org>
+        Mon, 7 Aug 2023 11:56:23 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3720F0;
+        Mon,  7 Aug 2023 08:56:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691423782; x=1722959782;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=udsAEu9C41dvA0CswFSJhLFhNgvz1he+2g/uOtdU38Y=;
+  b=nkrbVUn1NPyvTBU38sHTs9MTkQKz1hyxCJXXdrqlLUwDFQKbwqrdIIMP
+   Dd/cubs5Acw42DKbeqFNj6jF+QEMjn7mDqQiP7f2AkZ2IbSgFNbch8dcd
+   jiwxec9VBDbsqawMYKIkqeXAEpUEI0KK4WrqbKdMQvRAUxCMyKnRtkp4i
+   b8Ud+4WLQPX2uVHn2Ybfhk2pSs8ffeaQrry+NSf9j1C2EGzgK4tqZ2XtJ
+   tGkCJrqhcPEDzOsJwYEQZcShpNQHz9OG8lbZw0tnn/SuRS+Aj3mGuCbsP
+   zVQ5zOdpvwB4LoKn+1i61JNJlH1puyKpVG3uasX038otnEqaN35U8J2Kq
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="456965930"
+X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; 
+   d="scan'208";a="456965930"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2023 08:56:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="724559351"
+X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; 
+   d="scan'208";a="724559351"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga007.jf.intel.com with ESMTP; 07 Aug 2023 08:56:16 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qT2ac-000kTr-36;
+        Mon, 07 Aug 2023 18:56:14 +0300
+Date:   Mon, 7 Aug 2023 18:56:14 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     xingtong_wu@163.com
+Cc:     ilpo.jarvinen@linux.intel.com, hdegoede@redhat.com,
+        markgross@kernel.org, xingtong.wu@siemens.com, lee@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        gerd.haeussler.ext@siemens.com, tobias.schaffner@siemens.com,
+        lkp@intel.com
+Subject: Re: [PATCH v2 1/2] platform/x86/siemens: simatic-ipc: fix logic
+ error in BX-59A
+Message-ID: <ZNEUHo0fR280O4mN@smile.fi.intel.com>
+References: <7196d4b9-34fe-4a18-863b-65d07c4a348c@linux.intel.com>
+ <20430731173026.2631-1-xingtong_wu@163.com>
+ <20430731173026.2631-2-xingtong_wu@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20430731173026.2631-2-xingtong_wu@163.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Give the hybrid thingies their own section, appropriately between Core
-and Atom.
+On Sat, Aug 01, 2043 at 01:30:26AM +0800, xingtong_wu@163.com wrote:
+> From: "xingtong.wu" <xingtong.wu@siemens.com>
+> 
+> The variable "ledmode" is missing from if statement that leads to
+> a logical error. Add the missing variable to the if condition.
+> 
+> Fixes: b8af77951941 ("platform/x86/siemens: simatic-ipc: add new models BX-56A/BX-59A")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202307312322.Aa8upHWK-lkp@intel.com/
 
-Add the Raptor Lake uarch names.
+> 
 
-Put Lunar Lake after Arrow Lake per interweb guidance.
+Blank lines are not allowed in the tag block.
 
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
----
- arch/x86/include/asm/intel-family.h |   12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+> Signed-off-by: xingtong.wu <xingtong.wu@siemens.com>
 
---- a/arch/x86/include/asm/intel-family.h
-+++ b/arch/x86/include/asm/intel-family.h
-@@ -98,8 +98,6 @@
- #define INTEL_FAM6_ICELAKE_L		0x7E	/* Sunny Cove */
- #define INTEL_FAM6_ICELAKE_NNPI		0x9D	/* Sunny Cove */
- 
--#define INTEL_FAM6_LAKEFIELD		0x8A	/* Sunny Cove / Tremont */
--
- #define INTEL_FAM6_ROCKETLAKE		0xA7	/* Cypress Cove */
- 
- #define INTEL_FAM6_TIGERLAKE_L		0x8C	/* Willow Cove */
-@@ -112,20 +110,24 @@
- #define INTEL_FAM6_GRANITERAPIDS_X	0xAD
- #define INTEL_FAM6_GRANITERAPIDS_D	0xAE
- 
-+/* "Hybrid" Processors (P-Core/E-Core) */
-+
-+#define INTEL_FAM6_LAKEFIELD		0x8A	/* Sunny Cove / Tremont */
-+
- #define INTEL_FAM6_ALDERLAKE		0x97	/* Golden Cove / Gracemont */
- #define INTEL_FAM6_ALDERLAKE_L		0x9A	/* Golden Cove / Gracemont */
- 
--#define INTEL_FAM6_RAPTORLAKE		0xB7
-+#define INTEL_FAM6_RAPTORLAKE		0xB7	/* Raptor Cove / Enhanced Gracemont */
- #define INTEL_FAM6_RAPTORLAKE_P		0xBA
- #define INTEL_FAM6_RAPTORLAKE_S		0xBF
- 
- #define INTEL_FAM6_METEORLAKE		0xAC
- #define INTEL_FAM6_METEORLAKE_L		0xAA
- 
--#define INTEL_FAM6_LUNARLAKE_M		0xBD
--
- #define INTEL_FAM6_ARROWLAKE		0xC6
- 
-+#define INTEL_FAM6_LUNARLAKE_M		0xBD
-+
- /* "Small Core" Processors (Atom/E-Core) */
- 
- #define INTEL_FAM6_ATOM_BONNELL		0x1C /* Diamondville, Pineview */
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
