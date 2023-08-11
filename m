@@ -2,96 +2,120 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1681F778D91
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 11 Aug 2023 13:24:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44FB2778EAB
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 11 Aug 2023 14:05:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236196AbjHKLYU (ORCPT
+        id S233932AbjHKMFC (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 11 Aug 2023 07:24:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56114 "EHLO
+        Fri, 11 Aug 2023 08:05:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236191AbjHKLYT (ORCPT
+        with ESMTP id S231939AbjHKMFB (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 11 Aug 2023 07:24:19 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2067.outbound.protection.outlook.com [40.107.223.67])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 254C41FEC
-        for <platform-driver-x86@vger.kernel.org>; Fri, 11 Aug 2023 04:24:00 -0700 (PDT)
+        Fri, 11 Aug 2023 08:05:01 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17E5B10F
+        for <platform-driver-x86@vger.kernel.org>; Fri, 11 Aug 2023 05:05:00 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=STdlNs/4KjkgyMTMkalTzbXR0asYQltGMEpTM+2eTy6sB/aoj827oKJUptHaKFAF8n7OXT5PhNSQpuen3noebBrkkNoNNRej0mO1dxYzRgGsHBpNaP7bxrTxnW0UapcoJl+Q2sfK7DWKtE9k5wJpdz8ympgYiv7tdy+X6Sqqvh9zsbVbfFs19dgbKAHmFWjuK1h3IpleDa5amMLA0NaenW4patIz+z9AxQmJRNTdVipStIcASrXhjPT5ICmUfOIzfdpaDNpQGrjjxUrPi7jLQAfBV4iwLzfmc/kzKI3MpXiU7hel37XwHG4GPav5iCGpY75wKs5c70P7gXoFDg8wrw==
+ b=JQz3f6xoCjX7g8wnUuz65uXFVa2zPWc9Xee8OHcM/wJUxvuQoQusVpBilqw+75bRSmXiiZCPoV8oFM7RxGPSOmqpX8q7VPNqXkGUutz3UtXiZuZVCplL5VCmD9tcFVxXAaW5eY0Jzdwvnqss5Y8lMyOuVkySAWKunlxX2Iv5l85ej6lqp/i99QwOBuQiJDcT80ll6S/K19BdF9HDu9qkCQs50rgi8oEbwmBYiqGxC9zENJLKRXZnz4XuEKFQTgLf2867xii1+8ZK7l3yaPt9T3amf6rZA1VUEU4yaV4+QdpFJoy94WdG55fK/R+Z/KlQqLCwcKJa2inpj+Vw8u0WwA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y5ynKp312ZqpiHcehms+bMCoI0wBYhONTKfiiVY12Yo=;
- b=nk79XL3rZKP5TL0WNTpD122pF/tPPPFuAF1I+yFK+R1Ogfyuy57Jn7l68+kdXW6nnyegmAQJe6rm8OreF/60eN7qd6XCAxDMP5j5zYOT40Z0wlA5o8pmOdDHPck+BhU1sHZCf0DCoHPDeJK/98detGOVPFkWWjGS8WTE/5XhOGqcX4czpC9409+U5f8Mhhv35qvXc0yp2gw+ueBls5Nzhw+5wKQko2ufIVU96OgnqNruDVEYOJLPbxq+9cWuZDUz0Mldfu4nP0rNTkQWN8w/Pfb1ImwIorkRIrvXkgszTFGeWwnT9wP0gF6faWHG2uLBaauYtmQrVRS2AH7tlnSjHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
+ bh=vPBOY5g0Fs1v1MUQ3rKYdcrqtC9WBqaHNS3zrUg9vt8=;
+ b=OyS3jJTB5qNQ5VuDh4uZuYlUfY0/zsZiukehe9o7zkCPhfJV+03zeRPQ/dnxwOBCKNDC3s0BVrbjaOtHGIkqMh571UTk4nShEUDtRikEq9g67zmyBue0Qd59MHIErA47FzFYTZNVtxtrOHLASQpwy8T0AYWYhwrO530kMVvxkjg9dARn0K1C6tDJ21ICMtfwS/rN30I27qOpiXT2mpz9yhuBoFoJM2fkC7ZOTjQJqpXVAXz5+MrFbFc2+0ZIY5Zc9gJF+XpKPgsWAQBDmYPG4duRw4yNy+QaE1SYLQvHgfIWzVgjbH99xpVVi8O0XAApYKiXFtLfnJ9Ac/RONax32Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y5ynKp312ZqpiHcehms+bMCoI0wBYhONTKfiiVY12Yo=;
- b=S3gHfhGSX9iDDOgN5L32SbHN9zVXPBBLqqtK/6N+RsWsMKvNjvBhg+xS40nvoQ8YLejiqSuiX4LbwVB1GEYpBmGnQQv2AK4Y7js1EptPZd87fd8VGCSKewVsQ6KYJt5IUFtAWS5TxOW0LktBCYDmliaZwzxiMMPkteLCtergNv4=
-Received: from MW4PR03CA0108.namprd03.prod.outlook.com (2603:10b6:303:b7::23)
- by IA1PR12MB7520.namprd12.prod.outlook.com (2603:10b6:208:42f::8) with
+ bh=vPBOY5g0Fs1v1MUQ3rKYdcrqtC9WBqaHNS3zrUg9vt8=;
+ b=hh+qKBh6jnUotfxcphXvdc0GI1FvphJvA5S+u8E2TfYABEuH+o8Kgr0aMLb4n8MR2SqIEFU+R8sGHzhtUTKaOPRTUyT2hqBsCF53EZZTPt2gApErSkIvnQW/b6/IgN4be51wFUm4hmmDs0sqHM+Rj+0FIiBWnjwcWU2Hb8QnerM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by SJ1PR12MB6291.namprd12.prod.outlook.com (2603:10b6:a03:456::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.30; Fri, 11 Aug
- 2023 11:22:14 +0000
-Received: from CO1PEPF000042AA.namprd03.prod.outlook.com
- (2603:10b6:303:b7:cafe::4) by MW4PR03CA0108.outlook.office365.com
- (2603:10b6:303:b7::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.31 via Frontend
- Transport; Fri, 11 Aug 2023 11:22:14 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF000042AA.mail.protection.outlook.com (10.167.243.39) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6652.20 via Frontend Transport; Fri, 11 Aug 2023 11:22:13 +0000
-Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 11 Aug
- 2023 06:22:11 -0500
-From:   Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-To:     <hdegoede@redhat.com>, <markgross@kernel.org>
-CC:     <Sanket.Goswami@amd.com>, <mario.limonciello@amd.com>,
-        <platform-driver-x86@vger.kernel.org>,
-        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-        Harsh Jain <Harsh.Jain@amd.com>
-Subject: [PATCH 4/4] platform/x86/amd/pmc: Add dump_custom_stb module parameter
-Date:   Fri, 11 Aug 2023 16:51:16 +0530
-Message-ID: <20230811112116.2279419-5-Shyam-sundar.S-k@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230811112116.2279419-1-Shyam-sundar.S-k@amd.com>
+ 2023 12:04:55 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::36f9:ffa7:c770:d146]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::36f9:ffa7:c770:d146%7]) with mapi id 15.20.6652.029; Fri, 11 Aug 2023
+ 12:04:55 +0000
+Message-ID: <744416dd-b860-4ad9-b731-857fd53fbb4e@amd.com>
+Date:   Fri, 11 Aug 2023 07:04:52 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] platform/x86/amd/pmc: Read SMU version at the time of
+ probe
+To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, hdegoede@redhat.com,
+        markgross@kernel.org
+Cc:     Sanket.Goswami@amd.com, platform-driver-x86@vger.kernel.org
 References: <20230811112116.2279419-1-Shyam-sundar.S-k@amd.com>
+ <20230811112116.2279419-3-Shyam-sundar.S-k@amd.com>
+Content-Language: en-US
+From:   "Limonciello, Mario" <mario.limonciello@amd.com>
+In-Reply-To: <20230811112116.2279419-3-Shyam-sundar.S-k@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR06CA0006.namprd06.prod.outlook.com
+ (2603:10b6:a03:d4::19) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000042AA:EE_|IA1PR12MB7520:EE_
-X-MS-Office365-Filtering-Correlation-Id: 927b2dbb-17ed-446f-b0d7-08db9a5d368f
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|SJ1PR12MB6291:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8c3e3949-a2c7-4a18-571b-08db9a632d1f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EzM53z5cFnzIPZude+VpjiT41QeClLzefTz1w/8tfizN31HmOXfkwh9BSbZ4zvLSQ5Bh1EsA98QvPee3iwAPndkBxIkp+w18WalxBBBZLQWn+/v1NbthGo029eSzKVE2sKVh8S4Tyh5be4zPPhsvyLRrFxUzJPlQ6Scm4OLNEwO7YDMYmK6x6IR/bqUV6B/D4/037zP55RoatBDqbrGkgFMvNbrAcH+1IuXgByf/ynhdchO7EFhSfxtKrynvq5l2PuND33/qBq2MyaVGfw0kdCG3DLf6RaIiIjXsPAJELg6mpwdKRBIBkeioJTbbSsiMOIAKCFImHBCTDU9y+BKLCMcoQFTl9ZnfIFijvNIFcyv0bbhrbCSoc8kicJH9TGA/aIK44bdqzzAuRyloaaHe9irC0bMYfBCzBz30Zz+xcZHBOau3nf9T5vjVVZrwg6zjKDeomJPexG7eoPkWL4zByLYovchTE8NZ0E92BR08Wmd/IKXr4osAhm3q/s59BGxUizJCHftNBr7IDplgeymxh5eODrZV6SOuxMKzbufnXvt+54hUO+LyLqh/+pG3ymOa1n5gzPEHEX8ITHB3yCoAeeEAmR0PvlDPKdc9zPh0LlCNGvzalxMkh5nX+D5df0Yx7tbYqfgHMFRSxjlqbLuKRRzARYxt9pMaRGsRGWj/mbnuv7whBj7xcW0FvmLddJ4Cc477hcPl1fpksVSXpYzSImIE3pSvlOVsyKMNQR3LHEghhzTOQbL7zs33A+6RHKphEpAnMZACdQd3+HOMM1iP4Q==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(136003)(346002)(396003)(39860400002)(376002)(186006)(451199021)(82310400008)(1800799006)(40470700004)(46966006)(36840700001)(40460700003)(2616005)(4326008)(81166007)(336012)(82740400003)(16526019)(356005)(36756003)(41300700001)(70586007)(47076005)(36860700001)(40480700001)(5660300002)(426003)(83380400001)(70206006)(7696005)(316002)(110136005)(8936002)(54906003)(8676002)(86362001)(2906002)(478600001)(26005)(1076003)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: YrHpsDwXcy7/qA7h9CQIdq5UeOUQklV8AluIdY2/7nhOidD3PF6lZLM7JfcE5K879RK4lYN9ge/mIb1U1gi93ju7NJ+j99YXpPxmWYDSPokAYhreadUQ/N9Kswm/YcIrZU8ZCGp09+ozgx5j9542mJXID117tL/aDqkKlFFqweRDBKDXpq9kUV1Qh//1GlEjBX8ZFV8ZYqqhjhsijLM6928i8LUgheq5LVs9JZDtyzESVOsW0vg2S7Tg5U2jjn6V1udCT2rv3rQSnIiNi3K6LCsef5Rpsx8qFp1n7ud0WhkEtJ0GkLW8R7UvtPdo6adaw3OdWjHPYSLuKePzA/1mJ+jNDwZnlq3aTPDbPo9cXXgSRbyBpewbdC+cWMZj1ZikDLRicM7bn7g685+a7MKIK1M2NrAijCkZ6koBnGDIbfPhmbR3rwulJUtJIwMbsrAue1YNs5+/QELrFFJB/Rc6RIgKyjUuiiCUBRGZLUuYBS8p2+Rd5+sDRf0QOPK1BuG5lp8KtB8+jfz4HN7iZv/gX6B2Cq6B68xqbZSlG3CuL4P1aYSTZvza0Z/YFhiRJJa8l6McuUYWKcmJuPvrtE5ImXbvopKYAit+f8mC7+DfPSo5SLNoBOKBDnGoEeG/7E8qq/nFuw8e46HRIHZOt8DoOQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(396003)(366004)(346002)(39860400002)(376002)(136003)(451199021)(1800799006)(186006)(36756003)(53546011)(2906002)(478600001)(26005)(6506007)(6512007)(6486002)(31696002)(6666004)(8936002)(5660300002)(316002)(8676002)(66556008)(66946007)(4326008)(66476007)(41300700001)(31686004)(38100700002)(2616005)(86362001)(83380400001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RnFoeGdua1ppQ0lRYnJZL3daTE1Cdm1pdGx2SlN1TFdkcHZRS2VaelFMZVFi?=
+ =?utf-8?B?alZHZUlDSjlmc2tRdWNWLzJqd0dXNkZUOHdNUTd6V05RbW8yOEdHby80d1pS?=
+ =?utf-8?B?emxJUTJBaVRVUlJ5UXM5dGFLTFYybmxUOXJoOFZRb0xlQXB5TnFSTlc0NFlQ?=
+ =?utf-8?B?SWtjbmZuQ293QTVaMk9NNGNWRDYvUmw0bjZacXgvZXRMWXlGcXo3c1FoYnds?=
+ =?utf-8?B?dE5BVDJtM1JVTVUxNi96MmV6U01BYzZlOWZsRmJGSUdoM2k1RURlaGVNcmhD?=
+ =?utf-8?B?Nkpoekt3S2RNMDBrd1QxQ0hxVklnTEpEZjlyaEtySU9QOG1GeTlQczVoQnFG?=
+ =?utf-8?B?K091bGt3WHVTVXlCMnZueW1FejJYL3FPTXpEbHpJNWRHZ3dzUGhPQkF5ZnpO?=
+ =?utf-8?B?TlJRRmo5MmNscTU0cDhXUzhVM2hneEk5ZHJ2S3JSODZGSnB0TnlQNjhUUDVK?=
+ =?utf-8?B?bUZrYkFiaDJnd2FWNVhUdGs0c0xhekgxOFhlK2tmYllFdkNvdEdYWTg0Sy9w?=
+ =?utf-8?B?RGw3d25Bd3FBWUJqdjJMazk3WjJlYUoxMXpPSEhzOXJLcWh6bWJGRmViUHBr?=
+ =?utf-8?B?NHZQSy9SdHkyZDZnbUJKUjlsdU1ZdUVXY1dWUGNOaG5veHQ1bDdKaWh0S0k5?=
+ =?utf-8?B?MyszWWVnbGl5VVFsRjNwTzZXZ3d1cVRoZmZWQU5RamR5WXc4bGRtbkJvZUg4?=
+ =?utf-8?B?UGt3RVBxcU9DNVFHZURaYm10NG1UOWhTS29BdGRnR2pxYmdkV2NVWHMrZDBz?=
+ =?utf-8?B?bzJDa0thOU85Vml4VzlQelhvRER0dUpPVnFJaEZjaDhhZzVPMHFicXNiMWZH?=
+ =?utf-8?B?QjlyZlRDZUpackFIRTZwdVNtdnhzMzFtdTN6QlVyenV5TVhPcDlPUnJTQnMv?=
+ =?utf-8?B?dWU4QmxFSjRDWEorTjZBMHpjU2NleDJzUmwzWFZNN0JSVGNrSXQzOEIzY1ZX?=
+ =?utf-8?B?L3BQQjFvbzFjL3E5L1RnR2RDVXhTbzZkbnhaZ0VuZkNmWnVIY1VMQWwxRUla?=
+ =?utf-8?B?U20vM2tLcHd2dW1MMUdiZ0pZYzgrbFhIVlA4eVgzSDFxMUhOUldPclRFNnZr?=
+ =?utf-8?B?bTN3Njg0aGRTSGVONEhJbHo2UXdpWFZ2VjBJeHlxRVR5OVVKeU90eW9GeEVx?=
+ =?utf-8?B?Qjlua1dkVEdnSEVzc0xPUmR6Mi8xVDBLOXZCNEVxVnFYSnZ4ZXA4Y0E4VHRE?=
+ =?utf-8?B?aUs0eksvT0w2c0lTOHRlMDRxOWtacW1rVCt0L3pqZ2RTLzhmU3hseDdMMzIv?=
+ =?utf-8?B?YTlRWnd6WUNWeXRXMjV3Szd1RTZKbnVQaUNmZGhHM1ZIOEwrY1FxN045bWZu?=
+ =?utf-8?B?bGZWQnlwT2FIUnA3dHo2Q05FeHFOR2ZzemVRMjNmOTE4YndITDFBblRHZER0?=
+ =?utf-8?B?aTh1cGdrbGJuNUM5WnlPUTV4NjZ4SXJySm5tSWc0blFwZEVsenRkcjZRVy9U?=
+ =?utf-8?B?VW1hdU8wSDFzMEJOMXh1UkUycUV6Zk1haDl2dFVUbXE1cEpOVUlCV3lZOUt4?=
+ =?utf-8?B?T2tsRHU1THpmU2pZS0xlUmhqQlQwR2Nwd3lBc2tKWEErM3ZpRnhJdHhGaUN1?=
+ =?utf-8?B?emZ2UWpjeExML1VEMGwyZEJLenRsT3lhK1BEQVBYSEV3SlMzRTNQZFZ0N3Nx?=
+ =?utf-8?B?M1RnSnpJWnVJOHVSWVpZa2Z6L3NOT1QxK1V0anhjcGlwaDhDbVdlYm81djBr?=
+ =?utf-8?B?Ny83Z256ZW5VOVAvZ0tZWTFYbUtxZFE1eEtaQ3NvNGVtbDk3Y2N0Ly92WHNV?=
+ =?utf-8?B?ckpINzN4Njg0bDE0aHJUencrVWtwRkp5WmxObWZrSzB0eFJQMWVnUXdCYTFE?=
+ =?utf-8?B?eWEwUFJhd1FIQnFNT3ZjdVpBdlB1T29OTmg0TXJBM3MwVm9rYy8xWW9zSUIx?=
+ =?utf-8?B?NnNTUmtyMTJCcEZxWkNkYmxOU2JNMmRLS2R5K09adEdSOFRrSjQrMGtTYWhl?=
+ =?utf-8?B?di9VMW9EK296bjhzN1BkM0lpT2ZmbFJnTzkrRGRxTm1BeE44SXZhZ3hqWHVa?=
+ =?utf-8?B?MnZpVGJvYWFZQnF0VmN5VG5sQmV2YWFUcTVVRC9id3VpNEVETW5mdXhsS1BU?=
+ =?utf-8?B?dDhMcVlaM2NpM0tmUmxWUmRvZWpzNXNuSU5HZHpNUGpGU1piY3pSdHM2Mngz?=
+ =?utf-8?Q?eA2vTjTy2TjTQxbUFmYQPmjqS?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2023 11:22:13.9517
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c3e3949-a2c7-4a18-571b-08db9a632d1f
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2023 12:04:55.4914
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 927b2dbb-17ed-446f-b0d7-08db9a5d368f
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000042AA.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7520
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8lJSEbMckq8BhoK5P9AOsJN8f2wzMfIVw0GE2MalstKunnD/gQAPivEDvru5Tt5xtLJ+lPHU98AszQ3G8/9lTg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6291
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
         RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
@@ -102,125 +126,109 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-There have been instances when the default size (1M) of the STB is not
-sufficient to get the complete traces of the failure. In such scenarios
-we can use a module_param to enable full trace that shall contain more
-debugging data. This is not a regular case and hence not enabling this
-capability by default.
 
-Co-developed-by: Harsh Jain <Harsh.Jain@amd.com>
-Signed-off-by: Harsh Jain <Harsh.Jain@amd.com>
-Signed-off-by: Sanket Goswami <Sanket.Goswami@amd.com>
-Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
----
- drivers/platform/x86/amd/pmc/pmc.c | 34 +++++++++++++++++++-----------
- drivers/platform/x86/amd/pmc/pmc.h |  1 +
- 2 files changed, 23 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/platform/x86/amd/pmc/pmc.c b/drivers/platform/x86/amd/pmc/pmc.c
-index 45f7d21276bb..06d901a8f6e5 100644
---- a/drivers/platform/x86/amd/pmc/pmc.c
-+++ b/drivers/platform/x86/amd/pmc/pmc.c
-@@ -53,6 +53,7 @@
- 
- /* STB Spill to DRAM Parameters */
- #define S2D_TELEMETRY_BYTES_MAX		0x100000
-+#define S2D_TELEMETRY_FSIZE_MAX		0x200000
- #define S2D_TELEMETRY_DRAMBYTES_MAX	0x1000000
- 
- /* STB Spill to DRAM Message Definition */
-@@ -160,6 +161,10 @@ static bool disable_workarounds;
- module_param(disable_workarounds, bool, 0644);
- MODULE_PARM_DESC(disable_workarounds, "Disable workarounds for platform bugs");
- 
-+static bool dump_custom_stb;
-+module_param(dump_custom_stb, bool, 0644);
-+MODULE_PARM_DESC(dump_custom_stb, "Enable to dump full STB buffer");
-+
- static struct amd_pmc_dev pmc;
- static int amd_pmc_send_cmd(struct amd_pmc_dev *dev, u32 arg, u32 *data, u8 msg, bool ret);
- static int amd_pmc_read_stb(struct amd_pmc_dev *dev, u32 *buf);
-@@ -239,7 +244,7 @@ static const struct file_operations amd_pmc_stb_debugfs_fops = {
- static int amd_pmc_stb_debugfs_open_v2(struct inode *inode, struct file *filp)
- {
- 	struct amd_pmc_dev *dev = filp->f_inode->i_private;
--	u32 *buf, fsize, num_samples, val, stb_rdptr_offset = 0;
-+	u32 *buf, num_samples, val, stb_rdptr_offset = 0;
- 	int ret;
- 
- 	/* Write dummy postcode while reading the STB buffer */
-@@ -247,10 +252,6 @@ static int amd_pmc_stb_debugfs_open_v2(struct inode *inode, struct file *filp)
- 	if (ret)
- 		dev_err(dev->dev, "error writing to STB: %d\n", ret);
- 
--	buf = kzalloc(S2D_TELEMETRY_BYTES_MAX, GFP_KERNEL);
--	if (!buf)
--		return -ENOMEM;
--
- 	/* Spill to DRAM num_samples uses separate SMU message port */
- 	dev->msg_port = 1;
- 
-@@ -264,20 +265,27 @@ static int amd_pmc_stb_debugfs_open_v2(struct inode *inode, struct file *filp)
- 	dev->msg_port = 0;
- 	if (ret) {
- 		dev_err(dev->dev, "error: S2D_NUM_SAMPLES not supported : %d\n", ret);
--		kfree(buf);
- 		return ret;
- 	}
- 
- 	/* Start capturing data from the last push location */
--	if (num_samples > S2D_TELEMETRY_BYTES_MAX) {
--		fsize  = S2D_TELEMETRY_BYTES_MAX;
--		stb_rdptr_offset = num_samples - fsize;
-+	if (dump_custom_stb &&
-+	    (dev->dram_size - S2D_TELEMETRY_BYTES_MAX <= S2D_TELEMETRY_FSIZE_MAX)) {
-+		dev->fsize = dev->dram_size - S2D_TELEMETRY_BYTES_MAX;
-+		stb_rdptr_offset = 0;
-+	} else if (num_samples > S2D_TELEMETRY_BYTES_MAX) {
-+		dev->fsize  = S2D_TELEMETRY_BYTES_MAX;
-+		stb_rdptr_offset = num_samples - dev->fsize;
- 	} else {
--		fsize = num_samples;
-+		dev->fsize = num_samples;
- 		stb_rdptr_offset = 0;
- 	}
- 
--	memcpy_fromio(buf, dev->stb_virt_addr + stb_rdptr_offset, fsize);
-+	buf = kzalloc(dev->fsize, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	memcpy_fromio(buf, dev->stb_virt_addr + stb_rdptr_offset, dev->fsize);
- 	filp->private_data = buf;
- 
- 	return 0;
-@@ -286,11 +294,13 @@ static int amd_pmc_stb_debugfs_open_v2(struct inode *inode, struct file *filp)
- static ssize_t amd_pmc_stb_debugfs_read_v2(struct file *filp, char __user *buf, size_t size,
- 					   loff_t *pos)
- {
-+	struct amd_pmc_dev *dev = filp->f_inode->i_private;
-+
- 	if (!filp->private_data)
- 		return -EINVAL;
- 
- 	return simple_read_from_buffer(buf, size, pos, filp->private_data,
--					S2D_TELEMETRY_BYTES_MAX);
-+					dev->fsize);
- }
- 
- static int amd_pmc_stb_debugfs_release_v2(struct inode *inode, struct file *filp)
-diff --git a/drivers/platform/x86/amd/pmc/pmc.h b/drivers/platform/x86/amd/pmc/pmc.h
-index c27bd6a5642f..f73d265430b8 100644
---- a/drivers/platform/x86/amd/pmc/pmc.h
-+++ b/drivers/platform/x86/amd/pmc/pmc.h
-@@ -26,6 +26,7 @@ struct amd_pmc_dev {
- 	u32 dram_size;
- 	u32 num_ips;
- 	u32 s2d_msg_id;
-+	u32 fsize;
- /* SMU version information */
- 	u8 smu_program;
- 	u8 major;
--- 
-2.25.1
+On 8/11/2023 6:21 AM, Shyam Sundar S K wrote:
+> Currently the SMU version is being read at multiple places, unify all
+> of them and get the SMU version at the time of probe.
+> 
+> Co-developed-by: Sanket Goswami <Sanket.Goswami@amd.com>
+> Signed-off-by: Sanket Goswami <Sanket.Goswami@amd.com>
+> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> ---
+>   drivers/platform/x86/amd/pmc/pmc.c | 39 +++++-------------------------
+>   1 file changed, 6 insertions(+), 33 deletions(-)
+> 
 
+It's actually quite intentional that the SMU version isn't read at probe 
+but rather at first use.  The reason is that it increased boot time in a 
+measurable way.
+
+> diff --git a/drivers/platform/x86/amd/pmc/pmc.c b/drivers/platform/x86/amd/pmc/pmc.c
+> index c1e788b67a74..043451fabbbe 100644
+> --- a/drivers/platform/x86/amd/pmc/pmc.c
+> +++ b/drivers/platform/x86/amd/pmc/pmc.c
+> @@ -405,12 +405,6 @@ static ssize_t smu_fw_version_show(struct device *d, struct device_attribute *at
+>   {
+>   	struct amd_pmc_dev *dev = dev_get_drvdata(d);
+>   
+> -	if (!dev->major) {
+> -		int rc = amd_pmc_get_smu_version(dev);
+> -
+> -		if (rc)
+> -			return rc;
+> -	}
+>   	return sysfs_emit(buf, "%u.%u.%u\n", dev->major, dev->minor, dev->rev);
+>   }
+>   
+> @@ -419,12 +413,6 @@ static ssize_t smu_program_show(struct device *d, struct device_attribute *attr,
+>   {
+>   	struct amd_pmc_dev *dev = dev_get_drvdata(d);
+>   
+> -	if (!dev->major) {
+> -		int rc = amd_pmc_get_smu_version(dev);
+> -
+> -		if (rc)
+> -			return rc;
+> -	}
+>   	return sysfs_emit(buf, "%u\n", dev->smu_program);
+>   }
+>   
+> @@ -526,16 +514,9 @@ static int amd_pmc_idlemask_read(struct amd_pmc_dev *pdev, struct device *dev,
+>   				 struct seq_file *s)
+>   {
+>   	u32 val;
+> -	int rc;
+>   
+>   	switch (pdev->cpu_id) {
+>   	case AMD_CPU_ID_CZN:
+> -		/* we haven't yet read SMU version */
+> -		if (!pdev->major) {
+> -			rc = amd_pmc_get_smu_version(pdev);
+> -			if (rc)
+> -				return rc;
+> -		}
+>   		if (pdev->major > 56 || (pdev->major >= 55 && pdev->minor >= 37))
+>   			val = amd_pmc_reg_read(pdev, AMD_PMC_SCRATCH_REG_CZN);
+>   		else
+> @@ -717,13 +698,6 @@ static int amd_pmc_get_os_hint(struct amd_pmc_dev *dev)
+>   static int amd_pmc_czn_wa_irq1(struct amd_pmc_dev *pdev)
+>   {
+>   	struct device *d;
+> -	int rc;
+> -
+> -	if (!pdev->major) {
+> -		rc = amd_pmc_get_smu_version(pdev);
+> -		if (rc)
+> -			return rc;
+> -	}
+>   
+>   	if (pdev->major > 64 || (pdev->major == 64 && pdev->minor > 65))
+>   		return 0;
+> @@ -749,13 +723,6 @@ static int amd_pmc_verify_czn_rtc(struct amd_pmc_dev *pdev, u32 *arg)
+>   	struct rtc_time tm;
+>   	int rc;
+>   
+> -	/* we haven't yet read SMU version */
+> -	if (!pdev->major) {
+> -		rc = amd_pmc_get_smu_version(pdev);
+> -		if (rc)
+> -			return rc;
+> -	}
+> -
+>   	if (pdev->major < 64 || (pdev->major == 64 && pdev->minor < 53))
+>   		return 0;
+>   
+> @@ -1059,6 +1026,12 @@ static int amd_pmc_probe(struct platform_device *pdev)
+>   
+>   	mutex_init(&dev->lock);
+>   
+> +	err = amd_pmc_get_smu_version(dev);
+> +	if (err) {
+> +		dev_err(dev->dev, "error reading SMU version\n");
+> +		goto err_pci_dev_put;
+> +	}
+> +
+>   	if (enable_stb && amd_pmc_is_stb_supported(dev)) {
+>   		err = amd_pmc_s2d_init(dev);
+>   		if (err)
