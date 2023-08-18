@@ -2,45 +2,45 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97555780C26
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 18 Aug 2023 14:52:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4BAE780C23
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 18 Aug 2023 14:52:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376973AbjHRMwH (ORCPT
+        id S241866AbjHRMwG (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 18 Aug 2023 08:52:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49226 "EHLO
+        Fri, 18 Aug 2023 08:52:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376980AbjHRMvy (ORCPT
+        with ESMTP id S1376978AbjHRMvx (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 18 Aug 2023 08:51:54 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2061.outbound.protection.outlook.com [40.107.244.61])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 398361988
-        for <platform-driver-x86@vger.kernel.org>; Fri, 18 Aug 2023 05:51:53 -0700 (PDT)
+        Fri, 18 Aug 2023 08:51:53 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C86826AB
+        for <platform-driver-x86@vger.kernel.org>; Fri, 18 Aug 2023 05:51:52 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cpzuRaDZV48wN8obg3RdBqyHFTOKFc6DmC2156xHVqF4je1dtqIprbXyeE75URTqACTIwAamu/cqgPSp5Qp7OgyDlGDwcJS9GR8H8ghsNgInJpXFarkj7Oi9MyP1UbWo1voRNT3vJXsSCAEvUUyPc1vrqY4fwgqdKSET7D1EGQiKyLE/z/syuTsBBNW9jKAFAQmrTP1kdPamTAwzISexu8W8o0tVn5ojHOGAzMJvrwu1oNyHWlP7XVEyHe4vF7ybSBoQpq4Xz3CWXYjpO/eXRk7lh7J7/AMRDc7jf5xURs8A87F9el3KJcX4TJdKf/W6GBYkTqZCdjZKOu3edxqNXQ==
+ b=WuGD/4JmWufPmITfBwUQEucy1JSb/O99txtC73XGj472B32GZGmvV98Xa/aH6Bi0e8NPGCiZ4lfOVq6aWt9U/bEj6L56Ci59evgI24nDuH7cL7Ol/ua1sqZtUBqAMdWNo6R7eidVgF+Qm9t5uX5pZhtfH8HNAGhBYQzO0KDe2ZZmdK+G7iMx5aVQ1fEp90VTwDYqrR3txxN7z5OceIY5X7nd4dqs9a9YNQ+o672oXWu4aDG9JmDDnRh+kB80jIouBfT5dd6fwINJCX1VCSwnqhQX2v35yjiJzg4G2bPpsPdJitdec9spO1v9nMSITjrGp5mL6UrjyE+tVHUMEAPigQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8PqIuTXyNJlcNz9ImjiTDGwK7QZnfJpRuSuy0BRUm+4=;
- b=Y470dXZMhpXFiUYL07KDxzq8LP9Yt9YO9OSnKbIY9fijRd9XjkWCdZ7HSYx6e79dS/5ZHovNIGOSXpvFihPQ6UIgsdL0IdsGEh4dsBg38NU9iUANAyM5v0vQYmLwJ84trVYbOSgkwQFlRfYYX6iT861JcGMYMn/Wosb8Gd1h14Ih3ExTY3zegmZquUc81JZImd8Gezlj7/IbIrJirkpPqHD6ZNQRI6EfR5JiiWdwmoOEuDkgvMiPn4EW4oFJNHwfF1ZkevsgeJUeqQDQ8AqxMkW++mLlTiGJexrc7z/1+L/FhSCoJzFHjCKTBcSNLfXnYW5kkOcugApsFuS4dt706w==
+ bh=7H6ytSIckiWRUw/mZjyTG0OLdsXSX+BVCZ7Zkj7ABhQ=;
+ b=UckocO6YjdTC7EkQY0awD71yyh0AxpgrOufnqL9eMBVYvb5lvUNQaIkxvwHc9fF+PV5ChEZtBBGq6NIPr6Wo61mAngJZQod9VtiMltzJBT81c1Tx/iM5RE1Ur2Wsv/TKKITDLuW3MbAT7+mIzrNgvomMv1+hvPoEfhN12XqYIzXR5KquC5Q+SIr7VWISypWzrCzlu+664+Ezd37ZyaJd/ZPjdzeqFzAcaiKlp9fhiqbfn7gyvDm7UkrMLi1tYtnX2jTRKwqmMNxFtmsGmsCTi/7SRrMu2+tMqPudjHBrTBe7nipGfgw2LtLxNGyt2IDQ3+XHHnb2UlTXrddpsBoXjw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8PqIuTXyNJlcNz9ImjiTDGwK7QZnfJpRuSuy0BRUm+4=;
- b=DCyOTkS6L2iPNX/o6py40WDtci6e5xRM7Ip1smTH7KktkxCXeEwzW5Y8OsRCh4FBpdSMxcuiVuVD1vnW3OUPE9AqnLedgrkAoChFSI7pE1cvE5lbHKXc+rgye+SFOuH1UR9c9FgbJtEGfLsUB6mYP91XapVRoqStIyWWm1pXTas=
-Received: from SN4PR0501CA0105.namprd05.prod.outlook.com
- (2603:10b6:803:42::22) by BY5PR12MB4306.namprd12.prod.outlook.com
- (2603:10b6:a03:206::17) with Microsoft SMTP Server (version=TLS1_2,
+ bh=7H6ytSIckiWRUw/mZjyTG0OLdsXSX+BVCZ7Zkj7ABhQ=;
+ b=hpo6FL1gP5omHrtB+UeD8WEL06t4QjnpsGCu+eCXXE9szAxUJIsyoQb8O0aPasb9Hdrh4X4njBmmpSqmv8RA7SwLxcPQORqEc5kfOAv2ihsXmeeyLye2IL2qQGXm1OtwB7hVTfc0mw/VC3scolWNK1TqkilrXmXssKHC7Hw7RCY=
+Received: from SA9PR13CA0158.namprd13.prod.outlook.com (2603:10b6:806:28::13)
+ by DM4PR12MB8499.namprd12.prod.outlook.com (2603:10b6:8:181::10) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20; Fri, 18 Aug
- 2023 12:51:48 +0000
-Received: from SN1PEPF00026368.namprd02.prod.outlook.com
- (2603:10b6:803:42:cafe::f9) by SN4PR0501CA0105.outlook.office365.com
- (2603:10b6:803:42::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.14 via Frontend
- Transport; Fri, 18 Aug 2023 12:51:48 +0000
+ 2023 12:51:50 +0000
+Received: from SN1PEPF0002636E.namprd02.prod.outlook.com
+ (2603:10b6:806:28:cafe::e3) by SA9PR13CA0158.outlook.office365.com
+ (2603:10b6:806:28::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6723.6 via Frontend
+ Transport; Fri, 18 Aug 2023 12:51:50 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,21 +48,24 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SN1PEPF00026368.mail.protection.outlook.com (10.167.241.133) with Microsoft
+ SN1PEPF0002636E.mail.protection.outlook.com (10.167.241.139) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6699.14 via Frontend Transport; Fri, 18 Aug 2023 12:51:48 +0000
+ 15.20.6699.14 via Frontend Transport; Fri, 18 Aug 2023 12:51:50 +0000
 Received: from trento15c5.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 18 Aug
- 2023 07:51:46 -0500
+ 2023 07:51:48 -0500
 From:   Suma Hegde <Suma.Hegde@amd.com>
 To:     <hdegoede@redhat.com>
 CC:     <platform-driver-x86@vger.kernel.org>,
-        Suma Hegde <suma.hegde@amd.com>
-Subject: [PATCH 0/3] platform/x86/amd/hsmp: add metrics table support
-Date:   Fri, 18 Aug 2023 12:51:16 +0000
-Message-ID: <20230818125119.1323499-1-Suma.Hegde@amd.com>
+        Suma Hegde <suma.hegde@amd.com>,
+        Naveen Krishna Chatradhi <nchatrad@amd.com>
+Subject: [PATCH 1/4] platform/x86/amd/hsmp: create plat specific struct
+Date:   Fri, 18 Aug 2023 12:51:17 +0000
+Message-ID: <20230818125119.1323499-2-Suma.Hegde@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230818125119.1323499-1-Suma.Hegde@amd.com>
+References: <20230818125119.1323499-1-Suma.Hegde@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -71,23 +74,23 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF00026368:EE_|BY5PR12MB4306:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7f1a7626-ef9e-4a1f-8b5d-08db9fe9e2c1
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002636E:EE_|DM4PR12MB8499:EE_
+X-MS-Office365-Filtering-Correlation-Id: 13ede0b0-ebca-4495-16ec-08db9fe9e3d2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6EwcKmxdVMDNLeqiiFh7GmJoJoyiwk2Xh+bLLHAKoanH6GI0UlCSd+ANFpAYcHOKkufzxMl/eadhxHoCUz+iPBsWlAOvI5IEFq8ZjAy8/21dWZskGR0nE19bbN/YSJUTQ1EuF3/eOzlqUY31+iLjaWeEM1WdT3/IacQaNiVtqRcX+Sc4KVZb0OOYakNf9nFf38vkf/xZfNyPunF4u4Le98IvFhyDDQd5AxbYhnYz+BONW3kJ4IIeYbW+kI9pRhLjChBF+eaj71MTCkYbnO7N/TzbPGPNKRWjKzy4V2YK836ckFx9bGEHd4PDx14+GbyFB7PP9AA8Lphv0xC3wnyI4udNBOOKf1dMckitZiJMn54S4tvpaNAGnOWS+axiXUvwcv9FAbHU39TF0tScmYJakNGwWzgmpsT9eqvnxZFo6Nx2a1OzPjnHc1Z9BD43sayP/yWsT2dqGzpeHGmQs1lgXScyJapwJXmiGJyxjqk2gVKPAaYOFWa5QyLl+K0QHUnwmYyqgtfpjAsQQS4NkN3Abx46iWYOZwsaDgwqY+qlgFLC52PwEd/0SfuCeofTiwM7vjnirlMW1CNSmbA5fRZKng4tWQRxO8bL+p+W9vFF+xLBcHGzaVjkU+g2GKYhSOprGSDpRVy8AB0NqdkjfXlIvRRuHZjnxBrH6B5Sqzbhwn12QJ+pYVvwwFwzmfStck82QFJeROzzNtWYGZjSFYuOR/8THP3lZBmPA8NCLHc6v5V6zPSbXghcltPF4957t1jI5DDmNR/teysP1ROCkdJxPA==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(376002)(346002)(396003)(39860400002)(136003)(451199024)(82310400011)(1800799009)(186009)(36840700001)(40470700004)(46966006)(356005)(40460700003)(316002)(2616005)(36860700001)(426003)(1076003)(336012)(16526019)(6666004)(26005)(7696005)(47076005)(83380400001)(4326008)(5660300002)(8936002)(8676002)(2906002)(478600001)(41300700001)(70586007)(6916009)(54906003)(70206006)(82740400003)(36756003)(40480700001)(86362001)(81166007)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: Olny7CiujzA9wdEzbzTEsOIW2BJn8uctUOKAT0CibYl8qwK7xc9TH/uvtLYlzHVw+wlB7kMYqdgumU2g7bJSY9jUe5sfV1R+ZzsChR0/qcCIK57ecv/JzEcvnuk3eEPVy0xWMtGT1sBWR461T9cuprT64tEKlhUmPhY8VF8qkSrWs7DiXohFd6sg8LTSKi5SL+wnOsXlVBkuq54YCwe2cTO8bTbF6E7jA3qcKZegrlpfJ06GZf+e6ZzrqJ1qdxJ0FQ9DTDDY4HFOu3y2iWzp68vg4xTiNx50KcxCgWQU4RcHXHUfCyQGgdzZOo7aSoC2NqsAHJzsn8/vbY9uyFi4jvOL2008iUuxuURCe4Wxc2cKhLCe9+4mn3qRrpF6gGiwiuQpNKvM8Go+HT/XERkFfJC9E1Ly6+/VK+e6OPyWwXMQRsFikQ6zXjHQOfErwM2iYrUIURzI/GesriC6d6z+euUcV88Dftkpnpw1TTJF4oNgeTfCeHVdajuFFQ1Q7vlmKngpmnDC1PyCkzTQbUdcqd0BZYb25VaI9v+VNX+dJ/a1JFJjTIEwIg8qJCddpJh18BIyEYlNOlBsvOq/iHjsR3V3y5E9FsInjaYgI1haJe5BGhmeXYzMFpIERstVDBGR35nVVK+gAaqsG9GG97noZGtJfVt3FM3P3e0nIMfP2jX/hzToSvS7dfbZjvmmOYEbnuvQfanTIDFqkcfpI/ZLPsv74v4GDboHh/yx135cwP4sdyycnSEV1esOR8HH923+ZHoROvUoYMRGdZIAFtvzUA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(136003)(39860400002)(376002)(396003)(186009)(1800799009)(82310400011)(451199024)(36840700001)(46966006)(40470700004)(6666004)(7696005)(40460700003)(86362001)(16526019)(336012)(426003)(1076003)(26005)(40480700001)(83380400001)(36756003)(36860700001)(47076005)(81166007)(82740400003)(356005)(2616005)(2906002)(54906003)(316002)(6916009)(41300700001)(70206006)(70586007)(5660300002)(8676002)(4326008)(8936002)(478600001)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2023 12:51:48.2963
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2023 12:51:50.0824
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f1a7626-ef9e-4a1f-8b5d-08db9fe9e2c1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13ede0b0-ebca-4495-16ec-08db9fe9e3d2
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF00026368.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002636E.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4306
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8499
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
         RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
@@ -100,27 +103,121 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 From: Suma Hegde <suma.hegde@amd.com>
 
-AMD MI300A processor supports metrics table, a structure of data shared by the SMU to the CPU,
-Which provides a bunch of information in one go, this reduces the latency in telemetry and
-adds atomicity to the information.
-The following modifications and additions are needed to support reading the metrics table.
+Having a separate platform device structure helps in future, to
+contain platform specific variables and other data.
 
-1. Create a separate platform structure for platform specific data (such as socket index and lock).
-2. Create binary sysfs file for metrics table which can be read by userspace and decoded using
-   hsmp_metric_table structure defined in uapi header.
-   	2.a E-SMI library and esmi_tool [https://github.com/amd/esmi_ib_library]
-	    will be updated with API and option respectively.
-3. A general patch to modify logs to specify failure reasons.
+Signed-off-by: Suma Hegde <suma.hegde@amd.com>
+Reviewed-by: Naveen Krishna Chatradhi <nchatrad@amd.com>
+---
+ drivers/platform/x86/amd/hsmp.c | 53 ++++++++++++++++++++-------------
+ 1 file changed, 33 insertions(+), 20 deletions(-)
 
-Suma Hegde (3):
-  platform/x86/amd/hsmp: create plat specific struct
-  platform/x86/amd/hsmp: add support for metrics tbl
-  platform/x86/amd/hsmp: change the print message
-
- arch/x86/include/uapi/asm/amd_hsmp.h | 109 ++++++++++++++
- drivers/platform/x86/amd/hsmp.c      | 206 +++++++++++++++++++++++----
- 2 files changed, 291 insertions(+), 24 deletions(-)
-
+diff --git a/drivers/platform/x86/amd/hsmp.c b/drivers/platform/x86/amd/hsmp.c
+index 31382ef52efb..699c22f7cd42 100644
+--- a/drivers/platform/x86/amd/hsmp.c
++++ b/drivers/platform/x86/amd/hsmp.c
+@@ -47,9 +47,20 @@
+ #define HSMP_INDEX_REG		0xc4
+ #define HSMP_DATA_REG		0xc8
+ 
+-static struct semaphore *hsmp_sem;
++struct hsmp_socket {
++	struct semaphore hsmp_sem;
++	u16 sock_ind;
++};
++
++struct hsmp_plat_device {
++	struct miscdevice hsmp_device;
++	struct hsmp_socket *sock;
++	struct device *dev;
++};
+ 
+-static struct miscdevice hsmp_device;
++static u16 num_sockets;
++
++static struct hsmp_plat_device plat_dev;
+ 
+ static int amd_hsmp_rdwr(struct pci_dev *root, u32 address,
+ 			 u32 *value, bool write)
+@@ -188,6 +199,7 @@ static int validate_message(struct hsmp_message *msg)
+ 
+ int hsmp_send_message(struct hsmp_message *msg)
+ {
++	struct hsmp_socket *sock = &plat_dev.sock[msg->sock_ind];
+ 	struct amd_northbridge *nb;
+ 	int ret;
+ 
+@@ -208,14 +220,13 @@ int hsmp_send_message(struct hsmp_message *msg)
+ 	 * In SMP system timeout of 100 millisecs should
+ 	 * be enough for the previous thread to finish the operation
+ 	 */
+-	ret = down_timeout(&hsmp_sem[msg->sock_ind],
+-			   msecs_to_jiffies(HSMP_MSG_TIMEOUT));
++	ret = down_timeout(&sock->hsmp_sem, msecs_to_jiffies(HSMP_MSG_TIMEOUT));
+ 	if (ret < 0)
+ 		return ret;
+ 
+ 	ret = __hsmp_send_message(nb->root, msg);
+ 
+-	up(&hsmp_sem[msg->sock_ind]);
++	up(&sock->hsmp_sem);
+ 
+ 	return ret;
+ }
+@@ -321,28 +332,31 @@ static int hsmp_pltdrv_probe(struct platform_device *pdev)
+ {
+ 	int i;
+ 
+-	hsmp_sem = devm_kzalloc(&pdev->dev,
+-				(amd_nb_num() * sizeof(struct semaphore)),
+-				GFP_KERNEL);
+-	if (!hsmp_sem)
++	plat_dev.sock = devm_kzalloc(&pdev->dev,
++				     (num_sockets * sizeof(struct hsmp_socket)),
++				     GFP_KERNEL);
++	if (!plat_dev.sock)
+ 		return -ENOMEM;
++	plat_dev.dev = &pdev->dev;
+ 
+-	for (i = 0; i < amd_nb_num(); i++)
+-		sema_init(&hsmp_sem[i], 1);
++	for (i = 0; i < num_sockets; i++) {
++		sema_init(&plat_dev.sock[i].hsmp_sem, 1);
++		plat_dev.sock[i].sock_ind = i;
++	}
+ 
+-	hsmp_device.name	= "hsmp_cdev";
+-	hsmp_device.minor	= MISC_DYNAMIC_MINOR;
+-	hsmp_device.fops	= &hsmp_fops;
+-	hsmp_device.parent	= &pdev->dev;
+-	hsmp_device.nodename	= "hsmp";
+-	hsmp_device.mode	= 0644;
++	plat_dev.hsmp_device.name	= "hsmp_cdev";
++	plat_dev.hsmp_device.minor	= MISC_DYNAMIC_MINOR;
++	plat_dev.hsmp_device.fops	= &hsmp_fops;
++	plat_dev.hsmp_device.parent	= &pdev->dev;
++	plat_dev.hsmp_device.nodename	= "hsmp";
++	plat_dev.hsmp_device.mode	= 0644;
+ 
+-	return misc_register(&hsmp_device);
++	return misc_register(&plat_dev.hsmp_device);
+ }
+ 
+ static void hsmp_pltdrv_remove(struct platform_device *pdev)
+ {
+-	misc_deregister(&hsmp_device);
++	misc_deregister(&plat_dev.hsmp_device);
+ }
+ 
+ static struct platform_driver amd_hsmp_driver = {
+@@ -358,7 +372,6 @@ static struct platform_device *amd_hsmp_platdev;
+ static int __init hsmp_plt_init(void)
+ {
+ 	int ret = -ENODEV;
+-	u16 num_sockets;
+ 	int i;
+ 
+ 	if (boot_cpu_data.x86_vendor != X86_VENDOR_AMD || boot_cpu_data.x86 < 0x19) {
 -- 
 2.25.1
 
