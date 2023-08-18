@@ -2,80 +2,91 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C236D77FED5
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Aug 2023 22:04:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BCD47803B5
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 18 Aug 2023 04:12:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348961AbjHQUDe (ORCPT
+        id S1357201AbjHRCL7 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 17 Aug 2023 16:03:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46284 "EHLO
+        Thu, 17 Aug 2023 22:11:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354850AbjHQUDd (ORCPT
+        with ESMTP id S1357247AbjHRCLs (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 17 Aug 2023 16:03:33 -0400
-Received: from mail.lojasbeagle.com.br (mail.lojasbeagle.com.br [177.101.127.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6C8030DF
-        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Aug 2023 13:03:31 -0700 (PDT)
-Received: from mail.lojasbeagle.com.br (localhost [127.0.0.1])
-        by mail.lojasbeagle.com.br (Postfix) with ESMTPS id E8EA6402FD6;
-        Thu, 17 Aug 2023 15:40:23 -0300 (-03)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.lojasbeagle.com.br (Postfix) with ESMTP id 28DB340612B;
-        Thu, 17 Aug 2023 13:26:19 -0300 (-03)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.lojasbeagle.com.br 28DB340612B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lojasbeagle.com.br;
-        s=D2D572D0-F9E1-11EB-A012-464601134BAD; t=1692289579;
-        bh=ZnCL0gN0yDrp6UWY3bvQhM294HPUfwSK6ETJ0ihhK1E=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=Fu2h67MwDhvZ9mYyJIh2+O2/EMTsgskwIWWYc1C4HueJckCzgoKt8o9iIcMD2gorp
-         lrj5CXaF8DSaLV3mw3kXDS08O6frSGkEhNV0Eqd+Wd6Kjc6rhNItrfDaRSsGxSMP/n
-         Tv3YIz5b5lbfHI/C/WLZjvgQaw1Jy3QnHqAAmOzs=
-X-Virus-Scanned: amavisd-new at lojasbeagle.com.br
-Received: from mail.lojasbeagle.com.br ([127.0.0.1])
-        by localhost (mail.lojasbeagle.com.br [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id JvEIOWLk0nnK; Thu, 17 Aug 2023 13:26:19 -0300 (-03)
-Received: from [80.94.95.86] (unknown [159.89.101.90])
-        (Authenticated sender: k2palhoca@lojasbeagle.com.br)
-        by mail.lojasbeagle.com.br (Postfix) with ESMTPSA id 01C8D40B4B9;
-        Thu, 17 Aug 2023 12:30:52 -0300 (-03)
-Content-Type: text/plain; charset="utf-8"
+        Thu, 17 Aug 2023 22:11:48 -0400
+X-Greylist: delayed 906 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 17 Aug 2023 19:11:46 PDT
+Received: from sender-of-o51.zoho.in (sender-of-o51.zoho.in [103.117.158.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F04F03589
+        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Aug 2023 19:11:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1692323795; cv=none; 
+        d=zohomail.in; s=zohoarc; 
+        b=WNlLIyjWEIgYU9l0wbhQbbMDjcnI/dDkUqqHTqhCF12OFttjfIcoE0HjA/8m32GXQL9eXrDxhDHPHcXLZHAtWOD8hC9pqEiPAvDIxER2CE63kOVQXSL7Blywp+nPe50ZoW/0JEdAEAkgtPrLkCJ2V4h3PWXtNo6QArCm5qNJum8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
+        t=1692323795; h=Content-Type:Content-Transfer-Encoding:Date:From:MIME-Version:Message-ID:Subject:To; 
+        bh=YukD4xbZtNpe66y7+n8QIlm39jAnGeupD0q/0eYyuqY=; 
+        b=WdLZAWBg8MvN1V6bkqXCOoy1BsFWBRWb22ukMmqMYVqzS1ScQylvtHx9Jl52zaq7F3U67M46TCK1zCDOff4PSKmL8vUVV4DvJwCGoh5r3UrjJuFw5GqSG2baVudqxrhtwXbse04v0ngT8sq+nHg7QBczsFSDMUO+QRLJBQHsXhg=
+ARC-Authentication-Results: i=1; mx.zohomail.in;
+        dkim=pass  header.i=sidevesh.com;
+        spf=pass  smtp.mailfrom=me@sidevesh.com;
+        dmarc=pass header.from=<me@sidevesh.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1692323795;
+        s=zoho; d=sidevesh.com; i=me@sidevesh.com;
+        h=Date:Date:From:From:To:To:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
+        bh=YukD4xbZtNpe66y7+n8QIlm39jAnGeupD0q/0eYyuqY=;
+        b=K3we/tUwkEam25AnSm+lYc3FXqx/OJGjOJapX+vsmF71V6cPGU83hjPPvu0lvU6l
+        /ItIkkhKefbz6NyozHSY+8rN9EjZ8OWYf2pbFZqawieV1X/RasBK6vPA4mkUF/pJU8N
+        dwNpz6mpbNUsTKS1y+FpbwPltIQXXSXOQ1Cut9LU=
+Received: from mail.zoho.in by mx.zoho.in
+        with SMTP id 1692323794814913.7014078018179; Fri, 18 Aug 2023 07:26:34 +0530 (IST)
+Date:   Fri, 18 Aug 2023 07:26:34 +0530
+From:   Swapnil Devesh <me@sidevesh.com>
+To:     "platform-driver-x86" <platform-driver-x86@vger.kernel.org>
+Message-ID: <18a065bcf2b.8463a18831891.1434329337528931605@sidevesh.com>
+In-Reply-To: 
+Subject: [PATCH 1/1 V2] Add Lenovo Yoga 7 14ACN6 to
+ ec_trigger_quirk_dmi_table
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: kredit
-To:     Recipients <k2palhoca@lojasbeagle.com.br>
-From:   "Davies Mark" <k2palhoca@lojasbeagle.com.br>
-Date:   Thu, 17 Aug 2023 08:30:45 -0700
-Reply-To: thomasmarkstarting@skiff.com
-Message-Id: <20230817153053.01C8D40B4B9@mail.lojasbeagle.com.br>
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Sehr geehrter Herr/Frau
 
-Ich hoffe, diese Botschaft findet Sie gut. Ich teile mit Ihnen eine Gelegen=
-heit, die Sie interessieren k=C3=B6nnte. Unsere Darlehen dienen allen Zweck=
-en, und wir empfehlen Ihnen, sich heute zu bewerben.
+This adds my laptop Lenovo Yoga 7 14ACN6, with Product Name: 82N7 (from `dmidecode -t1 | grep "Product Name"`) to the ec_trigger_quirk_dmi_table, have tested that this is required for the YMC driver to work correctly on this model.
 
-Unsere Darlehen k=C3=B6nnten die Finanzierungsl=C3=B6sung sein, die Sie ges=
-ucht haben. Sie k=C3=B6nnen damit rechnen, innerhalb von drei Werktagen nac=
-h der Antragstellung eine Finanzierung zu erhalten, und wir bieten einen Mi=
-ndestkreditbetrag von 20.000,00 =E2=82=AC und einen maximalen Kreditbetrag =
-von 40.000.000,00 =E2=82=AC. Unser Zinssatz liegt bei niedrigen 1,5% pro Ja=
-hr, so dass Sie sicher sein k=C3=B6nnen, dass Sie eine gro=C3=9Fe Menge bek=
-ommen.
+Sending again as V2 from the mail that is signing off on this and the previous push had the tabs removed messing up the formatting of the patch.
 
-Wenn Sie mehr =C3=BCber unsere Darlehen erfahren m=C3=B6chten, z=C3=B6gern =
-Sie bitte nicht, uns per E-Mail zu kontaktieren. Wir sind f=C3=BCr Sie da, =
-um alle Fragen zu beantworten und Sie bei Ihrer Bewerbung zu unterst=C3=BCt=
-zen.
+Thanks to Gergo, the author of the Lenovo YMC driver for guiding this.
 
-Mit freundlichen Gr=C3=BC=C3=9Fen
+Signed-off-by: Swapnil Devesh <me@sidevesh.com>
+---
+ drivers/platform/x86/lenovo-ymc.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Herr Thomas Mark.
+diff --git a/drivers/platform/x86/lenovo-ymc.c b/drivers/platform/x86/lenovo-ymc.c
+index 41676188b373..7d38151a5b27 100644
+--- a/drivers/platform/x86/lenovo-ymc.c
++++ b/drivers/platform/x86/lenovo-ymc.c
+@@ -32,6 +32,13 @@ static const struct dmi_system_id ec_trigger_quirk_dmi_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "82QF"),
+ 		},
+ 	},
++	{
++		/* Lenovo Yoga 7 14ACN6 */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "82N7"),
++		},
++	},
+ 	{ }
+ };
+
