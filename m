@@ -2,77 +2,75 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F07E87826C2
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 21 Aug 2023 12:04:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D32F57826EC
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 21 Aug 2023 12:19:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232963AbjHUKEt (ORCPT
+        id S234597AbjHUKTF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 21 Aug 2023 06:04:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49794 "EHLO
+        Mon, 21 Aug 2023 06:19:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230193AbjHUKEs (ORCPT
+        with ESMTP id S234607AbjHUKTE (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 21 Aug 2023 06:04:48 -0400
+        Mon, 21 Aug 2023 06:19:04 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B46CADC
-        for <platform-driver-x86@vger.kernel.org>; Mon, 21 Aug 2023 03:04:04 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5B9DCF
+        for <platform-driver-x86@vger.kernel.org>; Mon, 21 Aug 2023 03:18:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1692612243;
+        s=mimecast20190719; t=1692613102;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=xg9daV7uWAmIhLcF/R04spGodJ9GWcUQaJbU5Trx9fQ=;
-        b=ZyN/kjrPKD+Fi0Eg7juHXcIB4Jo9UTQ8lgSjzzpo9jNhNkWJ9sMfdPTHIv3/bEj9zzWfaj
-        K/8a1hLIFYXuARB7htLl53brRnzwuH4qTzCC1cnFKJRvSwPLm0DCtu1+bUlBhXb7rvtUaO
-        CkBjCA5NimFiT0g64rEBrIzcUzYLC6s=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=JuWYmlrr5hMPaiP8wsfDHQ4DesEtMHLgNalV/fRwpXo=;
+        b=PBI7dmhMBOFQKZTsfNnuLzmk0JPo7ogT9c8nMQjtN/IMTaXbnZ70p3dEnwarIp6Lh7qY0x
+        Svwa7/u0yF3kTPm0ZTvXZ18KEPS98bY+Gm1p89xMAA2TKnzfLIgyiFIuK0SneOygYe8KVt
+        yJPImZLVZcwDqI0su7qMHpo+Kgo47D8=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-346-5HI5pTnHMXmX8nu2xzstsA-1; Mon, 21 Aug 2023 06:04:02 -0400
-X-MC-Unique: 5HI5pTnHMXmX8nu2xzstsA-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-99cc32f2ec5so210841966b.1
-        for <platform-driver-x86@vger.kernel.org>; Mon, 21 Aug 2023 03:04:02 -0700 (PDT)
+ us-mta-510-nyfu1eFIMqKfaqIZ-XkOOg-1; Mon, 21 Aug 2023 06:18:21 -0400
+X-MC-Unique: nyfu1eFIMqKfaqIZ-XkOOg-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-99df53612d2so524166366b.1
+        for <platform-driver-x86@vger.kernel.org>; Mon, 21 Aug 2023 03:18:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692612241; x=1693217041;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        d=1e100.net; s=20221208; t=1692613100; x=1693217900;
+        h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xg9daV7uWAmIhLcF/R04spGodJ9GWcUQaJbU5Trx9fQ=;
-        b=DSysy+2jYsyC1hHgYvuQoBaOqPt0aCqDf1i2rmY/fMrw3JZO8nC2lCBOZA04c2ZBQK
-         ebZTND+50S7NLQWHpqWGZXAyj0MPdPUgy/zk3JkK9aknDIdndHwEZv0/XXTbVfiFJvqX
-         RBhx8RaTPz801MhvVdi2yEQ1Tu50heg0A9NoQeFUMo6okeydM9rZFYO2RvhlfVEF/9or
-         IuZNnvmVX4LjWfjKtosmQ+NhI3zZRK8lkH0BAe43l7M+ai0RJKMdkKME1ZqtrPEr1uNG
-         D3hWWzUeYn3O+XZwMzrDwLljOJMU139+1BjH+CuEGrlcm5GeeDf2adoNspwcjF7P1DK3
-         iN+Q==
-X-Gm-Message-State: AOJu0YxyZk8EIGNhOcFz2qWhNcKlK3nr3GgiWbosu3FzL/D5OJqeo5fO
-        QJRAK9+JVzusQB1VRMINgbMlxbGkD/QFCiWnt2A5yeVVVeFUs5713WlvHv+wi46ebJ41S1iahHJ
-        xL9apDmhzCQuYS5AlNbu0JhthvGZ96h7sYA==
-X-Received: by 2002:a17:906:113:b0:99d:dc0b:a898 with SMTP id 19-20020a170906011300b0099ddc0ba898mr3819184eje.69.1692612241359;
-        Mon, 21 Aug 2023 03:04:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE+kOx3h4pL6VVinVKGtauFYxSqWn9IHcE9L+rnnke+HTGQpb9UPTXLilgemLfOfaH9txtzmw==
-X-Received: by 2002:a17:906:113:b0:99d:dc0b:a898 with SMTP id 19-20020a170906011300b0099ddc0ba898mr3819173eje.69.1692612241047;
-        Mon, 21 Aug 2023 03:04:01 -0700 (PDT)
+        bh=JuWYmlrr5hMPaiP8wsfDHQ4DesEtMHLgNalV/fRwpXo=;
+        b=V3+GWDeVL3fA+h6MuYPhU4RpMeHoNRRCOSYmzQn9TWI04ayJQeqhuBPBH/BRgypM8Y
+         7iqN8O90f8wFqc+SgkzoBwyNgTl6hLfA4S2cwxBqb5zGFuOA2agXZzN70bR7+KFgXz2R
+         Jb9WcsAzPYHEyMBLtKLWU7DEtxQBcNTUjZpI643ohmMoIRsxKeGck59f68hDQWbTugk3
+         SXCwJt4w7ana/MxfcVIcB04kIxxr0wpbntc9JIhncpnp7rCQ4z4T7DTg6d4gjcATkZ2k
+         4evcMbaTKiq3nDkER6pQVFjNhvTy23aOUDP5ufQ/af7ssfyPSct0KDrYy0EXQYJlobTG
+         jAOQ==
+X-Gm-Message-State: AOJu0YzD1AT6U6ScfbC4Plcb6hOI17MO0NIxKOSUedOnwjwCkUCLJTJo
+        IXo0tbdrSQNGFB/hVJmVwBio0XJVLTBUMrL+uOD7DUwY5JBCKyB8OkqKd2+/QVOVa3VD5aTGN40
+        g4wTC5bjsyub0i1IYs3E7iadMgUpgJkb+1w==
+X-Received: by 2002:a17:906:d4:b0:9a1:8ce6:620e with SMTP id 20-20020a17090600d400b009a18ce6620emr3830813eji.17.1692613100510;
+        Mon, 21 Aug 2023 03:18:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEBw0Ad0gEf09Mz8/BbZOQ+T5zxE40KhcItulUaJsMuDlgB1QHthrHIVMZadvZw+mrQ2cSipQ==
+X-Received: by 2002:a17:906:d4:b0:9a1:8ce6:620e with SMTP id 20-20020a17090600d400b009a18ce6620emr3830798eji.17.1692613100247;
+        Mon, 21 Aug 2023 03:18:20 -0700 (PDT)
 Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id p9-20020a170906140900b0099bca8b9a31sm6238818ejc.100.2023.08.21.03.04.00
+        by smtp.gmail.com with ESMTPSA id f15-20020a170906084f00b0099cf9bf4c98sm6279077ejd.8.2023.08.21.03.18.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Aug 2023 03:04:00 -0700 (PDT)
-Message-ID: <6f57cd3a-f10d-d94e-d74d-685e2722d11f@redhat.com>
-Date:   Mon, 21 Aug 2023 12:03:59 +0200
+        Mon, 21 Aug 2023 03:18:19 -0700 (PDT)
+Message-ID: <87ddaa85-b3ea-7dcd-64e6-bbca6bf1de19@redhat.com>
+Date:   Mon, 21 Aug 2023 12:18:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v1] [v1] platform/mellanox: Fix mlxbf-tmfifo not handling
- all virtio CONSOLE notifictions
+Subject: Re: [PATCH] platform/x86: intel: int1092: intel_sar: fix _DSM
+ argument4 type mismatch issue
 Content-Language: en-US
-To:     Shiih-Yi Chen <shihyic@nvidia.com>, linux-kernel@vger.kernel.org,
-        Mark Gross <markgross@kernel.org>,
-        Vadim Pasternak <vadimp@nvidia.com>,
-        platform-driver-x86@vger.kernel.org
-Cc:     davthompson@nvidia.com, limings@nvidia.com
-References: <20230814175313.7101-1-shihyic@nvidia.com>
+To:     Ivan Hu <ivan.hu@canonical.com>, s.shravan@intel.com,
+        linuxwwan@intel.com, markgross@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230815102445.7101-1-ivan.hu@canonical.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230814175313.7101-1-shihyic@nvidia.com>
+In-Reply-To: <20230815102445.7101-1-ivan.hu@canonical.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -85,36 +83,65 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+Hi Ivan,
 
-On 8/14/23 19:53, Shiih-Yi Chen wrote:
-> From: shihyic <shihyic@nvidia.com>
+On 8/15/23 12:24, Ivan Hu wrote:
+> Encountered a type mismatch as described below:
+> \_SB.WCCD._DSM: Argument #4 type mismatch - Found [Integer], ACPI requires
+> [Package]
+> This is because the argument#4(arg3) is integer.
+> According to the ACPI specification, the arg3 should be a package.
+> _DSM (Device Specific Method)
+> This optional object is a control method that enables devices to provide device
+> specific control functions that are consumed by the device driver.
+> Arguments: (4)
+> Arg0 - A Buffer containing a UUID
+> Arg1 - An Integer containing the Revision ID
+> Arg2 - An Integer containing the Function Index
+> Arg3 - A Package that contains function-specific arguments
 > 
-> rshim console does not show all entries of dmesg.
+> The solution involves rectifying arg3 to be a package for the _DSM method.
+> Furthermore, the firmware needs to ensure that ACPI table arg3 is a package as
+> well. The suggested amendment is as follows:
+> If ((Arg3 == Zero))
+> {
+>     WDMC [0x02] = WCS0
+> }
+> should modify as,
+> If (((ToInteger(Derefof (Arg3 [Zero]))) == Zero))
+> {
+>     WDMC [0x02] = WCS0
+> }
 > 
-> Fixed by setting MLXBF_TM_TX_LWM_IRQ for every CONSOLE notification. 
->  
-> 
-> Signed-off-by: shihyic <shihyic@nvidia.com>
-> Review-by: limings@nvidia.com
-> 
-> ---
->  drivers/platform/mellanox/mlxbf-tmfifo.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/platform/mellanox/mlxbf-tmfifo.c b/drivers/platform/mellanox/mlxbf-tmfifo.c
-> index a79318e90a13..4561b7d42412 100644
-> --- a/drivers/platform/mellanox/mlxbf-tmfifo.c
-> +++ b/drivers/platform/mellanox/mlxbf-tmfifo.c
-> @@ -887,6 +887,8 @@ static bool mlxbf_tmfifo_virtio_notify(struct virtqueue *vq)
->  			tm_vdev = fifo->vdev[VIRTIO_ID_CONSOLE];
->  			mlxbf_tmfifo_console_output(tm_vdev, vring);
->  			spin_unlock_irqrestore(&fifo->spin_lock[0], flags);
-> +			test_and_set_bit(MLXBF_TM_TX_LWM_IRQ,
-> +					 &fifo->pend_events);
+> Signed-off-by: Ivan Hu <ivan.hu@canonical.com>
 
-You are not doing anything with the test result of test_and_set_bit() here,
-so I think you can just use a (cheaper) set_bit() call here ?
+Thank you for your patch.
+
+As you have mentioned in your commit message in order for this to
+NOT break things the ACPI tables on *all* laptops using the
+intel_sar driver would need to be updated to match.
+
+Which is never going to happen, so merging this patch would
+break intel_sar functionality on all existing laptop models
+and likely also on future models since presumably Windows
+will keep passing an Integer and this is what the ACPI tables
+will keep expecting.
+
+The "Argument #4 type mismatch - Found [Integer], ACPI requires [Package]"
+messages is just warning and it is not that unusual for devices
+to have a _DSM which goes against the ACPI specification
+and instead e.g. directly expects an Integer as Arg3.
+
+In this case we MUST always pass what the ACPI tables expect,
+so that things *actually* work and we will just have to
+live with the warning thrown by ACPICA.
+
+NACK for this patch because we don't break working things
+on purpose. We never ever break things on purpose but especially
+not just to silence a warning in dmesg.
+
+If you really want to get rid of these warnings then I suggest
+you write a patch lowering the ACPI log message to a debug level.
 
 Regards,
 
@@ -122,7 +149,35 @@ Hans
 
 
 
->  		} else if (test_and_set_bit(MLXBF_TM_TX_LWM_IRQ,
->  					    &fifo->pend_events)) {
->  			return true;
+
+
+> ---
+>  drivers/platform/x86/intel/int1092/intel_sar.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/intel/int1092/intel_sar.c b/drivers/platform/x86/intel/int1092/intel_sar.c
+> index 6246c066ade2..8fffdce994aa 100644
+> --- a/drivers/platform/x86/intel/int1092/intel_sar.c
+> +++ b/drivers/platform/x86/intel/int1092/intel_sar.c
+> @@ -215,13 +215,17 @@ static void sar_notify(acpi_handle handle, u32 event, void *data)
+>  
+>  static void sar_get_data(int reg, struct wwan_sar_context *context)
+>  {
+> -	union acpi_object *out, req;
+> +	union acpi_object *out, req, argv4;
+>  	u32 rev = 0;
+>  
+> -	req.type = ACPI_TYPE_INTEGER;
+> +	argv4.type = ACPI_TYPE_PACKAGE;
+> +	argv4.package.count = 1;
+> +	argv4.package.elements = &req;
+> +	req.integer.type = ACPI_TYPE_INTEGER;
+>  	req.integer.value = reg;
+> +
+>  	out = acpi_evaluate_dsm_typed(context->handle, &context->guid, rev,
+> -				      COMMAND_ID_CONFIG_TABLE, &req, ACPI_TYPE_PACKAGE);
+> +				      COMMAND_ID_CONFIG_TABLE, &argv4, ACPI_TYPE_PACKAGE);
+>  	if (!out)
+>  		return;
+>  	if (out->package.count >= 3 &&
 
