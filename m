@@ -2,80 +2,127 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B20C27826C8
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 21 Aug 2023 12:08:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F07E87826C2
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 21 Aug 2023 12:04:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230423AbjHUKIz (ORCPT
+        id S232963AbjHUKEt (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 21 Aug 2023 06:08:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44244 "EHLO
+        Mon, 21 Aug 2023 06:04:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229854AbjHUKIz (ORCPT
+        with ESMTP id S230193AbjHUKEs (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 21 Aug 2023 06:08:55 -0400
-X-Greylist: delayed 468 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 21 Aug 2023 03:08:50 PDT
-Received: from mail.consultprobiz.pl (unknown [80.211.106.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DED08CA
-        for <platform-driver-x86@vger.kernel.org>; Mon, 21 Aug 2023 03:08:50 -0700 (PDT)
-Received: by mail.consultprobiz.pl (Postfix, from userid 1001)
-        id 91A3082C0F; Mon, 21 Aug 2023 11:00:48 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=consultprobiz.pl;
-        s=mail; t=1692612059;
-        bh=tFBS6egEyXOfvZNctCY8RjWmL4HVnGAM2BeJdd07Ojs=;
-        h=Date:From:To:Subject:From;
-        b=srL/+dj9tl0RWIOc8VdB0ANZIyckbzGsFqJNMuc5LyriGFQ7HTksjPAeAuaSikMnA
-         +Zs0P2cGSQc8IuV2O5GGU6Q4OlPMSMJnFuDbZ1Xa0Ud6FrapPCbkwjjRLuoRtoTAjh
-         8rRzNR3aXrWoFBrF74ZwwKd91TKtGb8h7fl2vSFMtiT0JkzuWqsX153C0sWqfo7YqL
-         kuectAnE+ybYh5pNSBRbE6iht9grIcEDXckRwc70/d/VTT1PRbAoVdLDXTNWaAXTKy
-         fU8NszIyEeIc7TsPULRNbATLSfMvONnc+CkkOuNglYDjAOFFtVctnL9drrBhpGR4q3
-         z2V6xderUW+vg==
-Received: by mail.consultprobiz.pl for <platform-driver-x86@vger.kernel.org>; Mon, 21 Aug 2023 10:00:38 GMT
-Message-ID: <20230821094922-0.1.7x.n5mm.0.47khkzfn0c@consultprobiz.pl>
-Date:   Mon, 21 Aug 2023 10:00:38 GMT
-From:   "Kamil Durjasz" <kamil.durjasz@consultprobiz.pl>
-To:     <platform-driver-x86@vger.kernel.org>
-Subject: Projekt e-sklepu do akceptacji 
-X-Mailer: mail.consultprobiz.pl
+        Mon, 21 Aug 2023 06:04:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B46CADC
+        for <platform-driver-x86@vger.kernel.org>; Mon, 21 Aug 2023 03:04:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1692612243;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=xg9daV7uWAmIhLcF/R04spGodJ9GWcUQaJbU5Trx9fQ=;
+        b=ZyN/kjrPKD+Fi0Eg7juHXcIB4Jo9UTQ8lgSjzzpo9jNhNkWJ9sMfdPTHIv3/bEj9zzWfaj
+        K/8a1hLIFYXuARB7htLl53brRnzwuH4qTzCC1cnFKJRvSwPLm0DCtu1+bUlBhXb7rvtUaO
+        CkBjCA5NimFiT0g64rEBrIzcUzYLC6s=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-346-5HI5pTnHMXmX8nu2xzstsA-1; Mon, 21 Aug 2023 06:04:02 -0400
+X-MC-Unique: 5HI5pTnHMXmX8nu2xzstsA-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-99cc32f2ec5so210841966b.1
+        for <platform-driver-x86@vger.kernel.org>; Mon, 21 Aug 2023 03:04:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692612241; x=1693217041;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xg9daV7uWAmIhLcF/R04spGodJ9GWcUQaJbU5Trx9fQ=;
+        b=DSysy+2jYsyC1hHgYvuQoBaOqPt0aCqDf1i2rmY/fMrw3JZO8nC2lCBOZA04c2ZBQK
+         ebZTND+50S7NLQWHpqWGZXAyj0MPdPUgy/zk3JkK9aknDIdndHwEZv0/XXTbVfiFJvqX
+         RBhx8RaTPz801MhvVdi2yEQ1Tu50heg0A9NoQeFUMo6okeydM9rZFYO2RvhlfVEF/9or
+         IuZNnvmVX4LjWfjKtosmQ+NhI3zZRK8lkH0BAe43l7M+ai0RJKMdkKME1ZqtrPEr1uNG
+         D3hWWzUeYn3O+XZwMzrDwLljOJMU139+1BjH+CuEGrlcm5GeeDf2adoNspwcjF7P1DK3
+         iN+Q==
+X-Gm-Message-State: AOJu0YxyZk8EIGNhOcFz2qWhNcKlK3nr3GgiWbosu3FzL/D5OJqeo5fO
+        QJRAK9+JVzusQB1VRMINgbMlxbGkD/QFCiWnt2A5yeVVVeFUs5713WlvHv+wi46ebJ41S1iahHJ
+        xL9apDmhzCQuYS5AlNbu0JhthvGZ96h7sYA==
+X-Received: by 2002:a17:906:113:b0:99d:dc0b:a898 with SMTP id 19-20020a170906011300b0099ddc0ba898mr3819184eje.69.1692612241359;
+        Mon, 21 Aug 2023 03:04:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE+kOx3h4pL6VVinVKGtauFYxSqWn9IHcE9L+rnnke+HTGQpb9UPTXLilgemLfOfaH9txtzmw==
+X-Received: by 2002:a17:906:113:b0:99d:dc0b:a898 with SMTP id 19-20020a170906011300b0099ddc0ba898mr3819173eje.69.1692612241047;
+        Mon, 21 Aug 2023 03:04:01 -0700 (PDT)
+Received: from [10.40.98.142] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id p9-20020a170906140900b0099bca8b9a31sm6238818ejc.100.2023.08.21.03.04.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Aug 2023 03:04:00 -0700 (PDT)
+Message-ID: <6f57cd3a-f10d-d94e-d74d-685e2722d11f@redhat.com>
+Date:   Mon, 21 Aug 2023 12:03:59 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.9 required=5.0 tests=BAYES_50,DKIM_INVALID,
-        DKIM_SIGNED,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,URIBL_CSS_A,
-        URIBL_DBL_SPAM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
-        *      blocklist
-        *      [URIs: consultprobiz.pl]
-        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
-        *      [80.211.106.90 listed in zen.spamhaus.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4424]
-        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
-        *      blocklist
-        *      [URIs: consultprobiz.pl]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        *  0.1 DKIM_INVALID DKIM or DK signature exists, but is not valid
-X-Spam-Level: ******
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v1] [v1] platform/mellanox: Fix mlxbf-tmfifo not handling
+ all virtio CONSOLE notifictions
+Content-Language: en-US
+To:     Shiih-Yi Chen <shihyic@nvidia.com>, linux-kernel@vger.kernel.org,
+        Mark Gross <markgross@kernel.org>,
+        Vadim Pasternak <vadimp@nvidia.com>,
+        platform-driver-x86@vger.kernel.org
+Cc:     davthompson@nvidia.com, limings@nvidia.com
+References: <20230814175313.7101-1-shihyic@nvidia.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230814175313.7101-1-shihyic@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Hi,
 
-od wielu lat tworzymy sklepy internetowe dla firm z r=C3=B3=C5=BCnych bra=
-n=C5=BC, kt=C3=B3re dzia=C5=82aj=C4=85 jak wirtualny przedstawiciel handl=
-owy 24 godziny na dob=C4=99, siedem dni w tygodniu.=20
+On 8/14/23 19:53, Shiih-Yi Chen wrote:
+> From: shihyic <shihyic@nvidia.com>
+> 
+> rshim console does not show all entries of dmesg.
+> 
+> Fixed by setting MLXBF_TM_TX_LWM_IRQ for every CONSOLE notification. 
+>  
+> 
+> Signed-off-by: shihyic <shihyic@nvidia.com>
+> Review-by: limings@nvidia.com
+> 
+> ---
+>  drivers/platform/mellanox/mlxbf-tmfifo.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/platform/mellanox/mlxbf-tmfifo.c b/drivers/platform/mellanox/mlxbf-tmfifo.c
+> index a79318e90a13..4561b7d42412 100644
+> --- a/drivers/platform/mellanox/mlxbf-tmfifo.c
+> +++ b/drivers/platform/mellanox/mlxbf-tmfifo.c
+> @@ -887,6 +887,8 @@ static bool mlxbf_tmfifo_virtio_notify(struct virtqueue *vq)
+>  			tm_vdev = fifo->vdev[VIRTIO_ID_CONSOLE];
+>  			mlxbf_tmfifo_console_output(tm_vdev, vring);
+>  			spin_unlock_irqrestore(&fifo->spin_lock[0], flags);
+> +			test_and_set_bit(MLXBF_TM_TX_LWM_IRQ,
+> +					 &fifo->pend_events);
 
-Nasz model dzia=C5=82ania sprawia, =C5=BCe nasi Klienci otrzymuj=C4=85 wi=
-=C4=99cej ni=C5=BC dotychczas zapyta=C5=84 ofertowych z e-sklepu.
+You are not doing anything with the test result of test_and_set_bit() here,
+so I think you can just use a (cheaper) set_bit() call here ?
 
-Jest szansa, aby=C5=9Bmy mogli porozmawia=C4=87 na temat mo=C5=BCliwo=C5=9B=
-ci stworzenia dla Pa=C5=84stwa tego typu projektu?
+Regards,
+
+Hans
 
 
-Z pozdrowieniami
-Kamil Durjasz
+
+>  		} else if (test_and_set_bit(MLXBF_TM_TX_LWM_IRQ,
+>  					    &fifo->pend_events)) {
+>  			return true;
+
