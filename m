@@ -2,38 +2,38 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 770A3783F3E
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 22 Aug 2023 13:36:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D51B0783FA4
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 22 Aug 2023 13:38:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234428AbjHVLgY (ORCPT
+        id S235369AbjHVLi3 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 22 Aug 2023 07:36:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35308 "EHLO
+        Tue, 22 Aug 2023 07:38:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234729AbjHVLgY (ORCPT
+        with ESMTP id S235313AbjHVLiS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 22 Aug 2023 07:36:24 -0400
+        Tue, 22 Aug 2023 07:38:18 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7D1ACF8;
-        Tue, 22 Aug 2023 04:35:59 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A91410D4;
+        Tue, 22 Aug 2023 04:37:52 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 902B264AA1;
-        Tue, 22 Aug 2023 11:35:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9209BC433C7;
-        Tue, 22 Aug 2023 11:35:57 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E233365380;
+        Tue, 22 Aug 2023 11:36:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C0BDC433C8;
+        Tue, 22 Aug 2023 11:36:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692704158;
+        s=k20201202; t=1692704192;
         bh=S7/4s+iDxNxtTNGeDtAq1MLwAPIHwlcpSk7B6Czqm+0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HCi+FrcxnvIy6kMORZZZspKipvjpTZR8+K2Gq5o+OUN/olIGIBAiEfJg1AAFeVY/d
-         Miqj7b1IYbn5MIo7kfVAFpANalpNLfV26bj3KrzMClnNjzmXirMsmO0WTn4daOXVlA
-         Txz3VU5nC7yAMhhYKU9IQtrJk6dWQiHouEqmmY4ILlXfk3+vWIdJJ+lvzD5KHUWzRS
-         +y8tNkTNQqQ7xQtYV9k6jDmLZfaemwhRTUnHNhYD8zaVzlh2VkJOUgmydndUdzIVqL
-         ZzjXcvJ9RBFxhc2uqgGnlJLi7VurHFfygMrRvlJNQ8+v3n/fReISgzrsVZmsOQfec7
-         XVprUwhu75BZg==
+        b=hpUoOup6zOnXsfCT88qiAw/e6bW5luJ2wb29EmwxTYoOSujt+Eoi51ugFRM6vGv/q
+         w84luCgrLFi985SmEOwnn7+BrbaFw1jARyqH3ZYVXEsTNH4pJ4BlIAxH4LPH/3P3Cu
+         W+OoQp8q9eaiobipIYFrDKvkcfSNmJiTDIa5PPH8pi53zCHkqSfX7dC1t2xfCXZx7z
+         OyrI4U4bHn3hji0F5PDbJCgUPXrtrCBAhQbX/Izw/ab39MKI03AgFsgGrJDNSOYna2
+         8YLhVoxoke08rkS4g2kGr/zXhSId5qrKzRvc0VrLke8cx1E4VWWU6gvF6CVCda+5Pc
+         w61xcrL47ps0w==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Yang Li <yang.lee@linux.alibaba.com>,
@@ -41,16 +41,16 @@ Cc:     Yang Li <yang.lee@linux.alibaba.com>,
         Hans de Goede <hdegoede@redhat.com>,
         Sasha Levin <sashal@kernel.org>, Shyam-sundar.S-k@amd.com,
         markgross@kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.4 02/11] platform/x86/amd/pmf: Fix unsigned comparison with less than zero
-Date:   Tue, 22 Aug 2023 07:35:44 -0400
-Message-Id: <20230822113553.3551206-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 02/10] platform/x86/amd/pmf: Fix unsigned comparison with less than zero
+Date:   Tue, 22 Aug 2023 07:36:20 -0400
+Message-Id: <20230822113628.3551393-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230822113553.3551206-1-sashal@kernel.org>
-References: <20230822113553.3551206-1-sashal@kernel.org>
+In-Reply-To: <20230822113628.3551393-1-sashal@kernel.org>
+References: <20230822113628.3551393-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.4.11
+X-stable-base: Linux 6.1.46
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
