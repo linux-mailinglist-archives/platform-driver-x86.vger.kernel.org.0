@@ -2,67 +2,56 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7192B78DCED
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 30 Aug 2023 20:53:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACFE278DCE7
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 30 Aug 2023 20:52:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242742AbjH3SrF (ORCPT
+        id S243205AbjH3SrE (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 30 Aug 2023 14:47:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48006 "EHLO
+        Wed, 30 Aug 2023 14:47:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343986AbjH3Rvi (ORCPT
+        with ESMTP id S1344000AbjH3Ryb (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 30 Aug 2023 13:51:38 -0400
-Received: from mail-ot1-x34a.google.com (mail-ot1-x34a.google.com [IPv6:2607:f8b0:4864:20::34a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8AE41A2
-        for <platform-driver-x86@vger.kernel.org>; Wed, 30 Aug 2023 10:51:34 -0700 (PDT)
-Received: by mail-ot1-x34a.google.com with SMTP id 46e09a7af769-6bb31e13a13so110939a34.1
-        for <platform-driver-x86@vger.kernel.org>; Wed, 30 Aug 2023 10:51:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1693417893; x=1694022693; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=EYjQFc4xOJMLhqSY/15Eo/bkP9OF+XNV2qczMiBYtL4=;
-        b=aw9dPjDYPDyipNtu8Wxx18Dx9m/0Xd2cYgG3isygHJfTvcaiF7aSiPVrgFXiAdlEHI
-         MOl7xQcITcqAi8kEmkQZeVP9JhUFBg0Y2hDCV9jZsq8cACSTmPMEraSRDXAbcmMqdY2i
-         WIxR+ba/wJ6bZ4wyPiOW4TzGS8jBpZLI0frOzSqPgjKqtpiZ5C6LI5lBoE9vfLzV13aj
-         E4lG7ZDx8vddONjM/G4VsainecpOjvLzRVKLEvsU3WJDk6FNp5aQKPJ92qu7r95VTCNW
-         9e/ENAlk22sgytAuyCk8508oyLXZ9kbfQeWujtLs4VjfCSWOuyAW6qgMT+vSnUCqFzcu
-         fGQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693417893; x=1694022693;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EYjQFc4xOJMLhqSY/15Eo/bkP9OF+XNV2qczMiBYtL4=;
-        b=JhI0CpKMeM4iCzE0IZERlkoQqMvyxpIFE7w0NX+3+f4vpILDsChoRhJlrWrSYU4q/K
-         LvdNPW8MUvSJxfo8V6FDTD1+5+hYlTAX5SditEEQ0xzL3k2qUa/aCJ2zxNzZ3cBjQWBY
-         ARNv9NZ25DU1W1OaVH4Qht1FG6Vi8Dx1pW8sf9GXE4zMIdYcYEDRbHsDiNYzkfjuf7Te
-         25oRm5FqZP49KZ8f6iW7/o1nr81l1M0YP2/6gIwtUEr5hrWGR1/zJomyr4SYIIzf/hn0
-         P5I4R6NqLHIE2w7a+4v9nbEBfsERKxRuo52+eDNWh0pdMc7HsTPy/Xz1reCAdG3Wm2MY
-         iESg==
-X-Gm-Message-State: AOJu0Yw/XSDY+jqJw7zrU3Bf4uoaRH7eaKAM6/rY+JEacXQvIocFk2QS
-        /FcuhBdUNQ9Xe4NYEjraCN8t41UjLA1xjbaFXw==
-X-Google-Smtp-Source: AGHT+IGL/3lcQ6hwMvsl4p1gk/LCm0paBP0RD6v6Kz3Tt1iisx7fE8BgSUyT/0wksBkGcJvZoAMVnrwDfWF9o8Lg1w==
-X-Received: from jstitt-linux1.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:23b5])
- (user=justinstitt job=sendgmr) by 2002:a05:6870:5b1b:b0:1c0:e9e9:ae91 with
- SMTP id ds27-20020a0568705b1b00b001c0e9e9ae91mr137879oab.3.1693417893238;
- Wed, 30 Aug 2023 10:51:33 -0700 (PDT)
-Date:   Wed, 30 Aug 2023 17:51:29 +0000
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAKCB72QC/32NTQrCMBSEr1Le2kh+TLWuvId0EZLX9EGblESCU
- nJ3Yw8gs/oG5psdMibCDPduh4SFMsXQQJ46sLMJHhm5xiC5VPwmB7ZSzhR8McmhXRhOxPSgeG+
- MndBdoA231Nr3IX2OjWfKr5g+x0cRv/avrgjWohzX2mgtrv3Dx+gXPNu4wlhr/QIVCrnRtQAAA A==
-X-Developer-Key: i=justinstitt@google.com; a=ed25519; pk=tC3hNkJQTpNX/gLKxTNQKDmiQl6QjBNCGKJINqAdJsE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1693417892; l=3644;
- i=justinstitt@google.com; s=20230717; h=from:subject:message-id;
- bh=+vRGVRwlIjkmcXJXBfhvIJnVrDxDHX9+bhatyE7XQZE=; b=tEmNmV0Gd9vM2MDL3PKKkeIiRgAoxL8apKcKfw1CvhU6tPKZlGnans1x4nL4cCT6uVZeVgfd6
- lVCgmhdzg/wB7MReF69x2zwkmSByyHgiMvfwCsafFz90SSsJqUm4woN
-X-Mailer: b4 0.12.3
-Message-ID: <20230830-missingvardecl-efi-v2-1-818081a204d2@google.com>
-Subject: [PATCH v2] efi: fix -Wmissing-variable-declarations warning
-From:   Justin Stitt <justinstitt@google.com>
-To:     Ard Biesheuvel <ardb@kernel.org>,
-        Darren Hart <dvhart@infradead.org>,
+        Wed, 30 Aug 2023 13:54:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98F98193;
+        Wed, 30 Aug 2023 10:54:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 35CC9622A8;
+        Wed, 30 Aug 2023 17:54:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DB38C433CD;
+        Wed, 30 Aug 2023 17:54:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693418067;
+        bh=rt/hnc5Zf5SvOK4V7TwKX86XH/xhfkZIEuWMAJko7Oo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Np2zGK4TLWp0cphvLVxcUlj5wXDzTyjj5YxDnjeCxuvyrjDbgLgWvhSZkXk5vCmFs
+         NDp7omZg21RY2TTKlpXpT2RUyo6epc8oZBDdbDbu1SFOI3Nkci3O/E7iqjYNe4J8Ay
+         6aTwpm+3voALdVhQptWSD2O8YslVbIv/e6lKUokdwzoFPo/Zp8bJ4l0FredImpl8BP
+         N6gZXPdJ93XSpj6LzRzjLXFJZBv/fg4ooibDFDWDcfyU/BTvmLfMqy9rSqbJHzYlx0
+         vLJFBlrv116pFEum1qt4zIu62R5mMrt5stOsRfzQv4dvw7JIwBwMfFxELHcWsCPu1n
+         eUKk4flJKZEMg==
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-4ff9b389677so147117e87.3;
+        Wed, 30 Aug 2023 10:54:27 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxE+Q6WLdG/Z9QXHnXBp7bh1gpMQwWomx5xX9ja7888itCyB7uk
+        QA6/7gVprND1VaZJR57M30GUIq5EJjsEu+eGKaA=
+X-Google-Smtp-Source: AGHT+IEqQMN+IcRmtTMXd59iAF9ILtW7KZkiubAGa7hIsI/KtNSzlic4NfqcZz+mVUoS/phIzlMP38SZKD0dScnHdWk=
+X-Received: by 2002:a05:6512:3d9e:b0:4fe:993:2218 with SMTP id
+ k30-20020a0565123d9e00b004fe09932218mr2879577lfv.31.1693418065528; Wed, 30
+ Aug 2023 10:54:25 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230830-missingvardecl-efi-v2-1-818081a204d2@google.com>
+In-Reply-To: <20230830-missingvardecl-efi-v2-1-818081a204d2@google.com>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Wed, 30 Aug 2023 19:54:14 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXGbBx=gWsDJ7nXPwygOvX=Ek3tPQmZ_fQpBNmVg5_7u9A@mail.gmail.com>
+Message-ID: <CAMj1kXGbBx=gWsDJ7nXPwygOvX=Ek3tPQmZ_fQpBNmVg5_7u9A@mail.gmail.com>
+Subject: Re: [PATCH v2] efi: fix -Wmissing-variable-declarations warning
+To:     Justin Stitt <justinstitt@google.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -70,98 +59,107 @@ To:     Ard Biesheuvel <ardb@kernel.org>,
         "H. Peter Anvin" <hpa@zytor.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>
-Cc:     linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-        Justin Stitt <justinstitt@google.com>
-Content-Type: text/plain; charset="utf-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Tom Rix <trix@redhat.com>, linux-efi@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-When building x86/defconfig with Clang-18 I encounter the following warnings:
-| arch/x86/platform/efi/efi.c:934:23: warning: no previous extern declaration for non-static variable 'efi_attr_fw_vendor' [-Wmissing-variable-declarations]
-|   934 | struct kobj_attribute efi_attr_fw_vendor = __ATTR_RO(fw_vendor);
-| arch/x86/platform/efi/efi.c:935:23: warning: no previous extern declaration for non-static variable 'efi_attr_runtime' [-Wmissing-variable-declarations]
-|   935 | struct kobj_attribute efi_attr_runtime = __ATTR_RO(runtime);
-| arch/x86/platform/efi/efi.c:936:23: warning: no previous extern declaration for non-static variable 'efi_attr_config_table' [-Wmissing-variable-declarations]
-|   936 | struct kobj_attribute efi_attr_config_table = __ATTR_RO(config_table);
+On Wed, 30 Aug 2023 at 19:51, Justin Stitt <justinstitt@google.com> wrote:
+>
+> When building x86/defconfig with Clang-18 I encounter the following warnings:
+> | arch/x86/platform/efi/efi.c:934:23: warning: no previous extern declaration for non-static variable 'efi_attr_fw_vendor' [-Wmissing-variable-declarations]
+> |   934 | struct kobj_attribute efi_attr_fw_vendor = __ATTR_RO(fw_vendor);
+> | arch/x86/platform/efi/efi.c:935:23: warning: no previous extern declaration for non-static variable 'efi_attr_runtime' [-Wmissing-variable-declarations]
+> |   935 | struct kobj_attribute efi_attr_runtime = __ATTR_RO(runtime);
+> | arch/x86/platform/efi/efi.c:936:23: warning: no previous extern declaration for non-static variable 'efi_attr_config_table' [-Wmissing-variable-declarations]
+> |   936 | struct kobj_attribute efi_attr_config_table = __ATTR_RO(config_table);
+>
+> These symbols are declared extern in drivers/firmware/efi/efi.c. Move
+> the declarations to linux/efi.h to resolve these warnings.
+>
+> Also, trim a trailing space from efi_set_variable_t typedef.
+>
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1920
+> Suggested-by: Ard Biesheuvel <ardb@kernel.org>
+> Signed-off-by: Justin Stitt <justinstitt@google.com>
 
-These symbols are declared extern in drivers/firmware/efi/efi.c. Move
-the declarations to linux/efi.h to resolve these warnings.
+Thanks, I'll take this as a fix.
 
-Also, trim a trailing space from efi_set_variable_t typedef.
+> ---
+> Changes in v2:
+> - Don't use static. Instead move symbols to header file (thanks Ard)
+> - Remove duplicated warnings output from b4 (thanks Ard)
+> - Link to v1: https://lore.kernel.org/r/20230829-missingvardecl-efi-v1-1-13d055a55176@google.com
+> ---
+> Note: build-tested.
+>
+> Also, a question: Why does the compiler warn at all? The extern
+> declarations _do_ exist as Ard points out [1].
+>
+> [1]: https://lore.kernel.org/all/CAMj1kXE_xs+wWno4G4U+6CFCOwO7JWcmNv4et5=W=ZRrQatWnQ@mail.gmail.com/
 
-Link: https://github.com/ClangBuiltLinux/linux/issues/1920
-Suggested-by: Ard Biesheuvel <ardb@kernel.org>
-Signed-off-by: Justin Stitt <justinstitt@google.com>
----
-Changes in v2:
-- Don't use static. Instead move symbols to header file (thanks Ard)
-- Remove duplicated warnings output from b4 (thanks Ard)
-- Link to v1: https://lore.kernel.org/r/20230829-missingvardecl-efi-v1-1-13d055a55176@google.com
----
-Note: build-tested.
+Those declarations are not observed by the compiler when building .c
+files other than drivers/firmware/efi/efi.c, so they essentially don't
+exist when compiling arch/x86/platform/efi/efi.c.
 
-Also, a question: Why does the compiler warn at all? The extern
-declarations _do_ exist as Ard points out [1].
 
-[1]: https://lore.kernel.org/all/CAMj1kXE_xs+wWno4G4U+6CFCOwO7JWcmNv4et5=W=ZRrQatWnQ@mail.gmail.com/
----
- drivers/firmware/efi/efi.c | 3 ---
- include/linux/efi.h        | 6 +++++-
- 2 files changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/firmware/efi/efi.c b/drivers/firmware/efi/efi.c
-index 1599f1176842..7b4e59ccf09e 100644
---- a/drivers/firmware/efi/efi.c
-+++ b/drivers/firmware/efi/efi.c
-@@ -161,9 +161,6 @@ static ssize_t fw_platform_size_show(struct kobject *kobj,
- 	return sprintf(buf, "%d\n", efi_enabled(EFI_64BIT) ? 64 : 32);
- }
- 
--extern __weak struct kobj_attribute efi_attr_fw_vendor;
--extern __weak struct kobj_attribute efi_attr_runtime;
--extern __weak struct kobj_attribute efi_attr_config_table;
- static struct kobj_attribute efi_attr_fw_platform_size =
- 	__ATTR_RO(fw_platform_size);
- 
-diff --git a/include/linux/efi.h b/include/linux/efi.h
-index ab088c662e88..32f7ca60b0e9 100644
---- a/include/linux/efi.h
-+++ b/include/linux/efi.h
-@@ -287,7 +287,7 @@ typedef efi_status_t efi_get_variable_t (efi_char16_t *name, efi_guid_t *vendor,
- 					 unsigned long *data_size, void *data);
- typedef efi_status_t efi_get_next_variable_t (unsigned long *name_size, efi_char16_t *name,
- 					      efi_guid_t *vendor);
--typedef efi_status_t efi_set_variable_t (efi_char16_t *name, efi_guid_t *vendor, 
-+typedef efi_status_t efi_set_variable_t (efi_char16_t *name, efi_guid_t *vendor,
- 					 u32 attr, unsigned long data_size,
- 					 void *data);
- typedef efi_status_t efi_get_next_high_mono_count_t (u32 *count);
-@@ -632,6 +632,10 @@ typedef struct {
- 
- extern unsigned long __ro_after_init efi_rng_seed;		/* RNG Seed table */
- 
-+extern __weak struct kobj_attribute efi_attr_fw_vendor;
-+extern __weak struct kobj_attribute efi_attr_runtime;
-+extern __weak struct kobj_attribute efi_attr_config_table;
-+
- /*
-  * All runtime access to EFI goes through this structure:
-  */
-
----
-base-commit: 706a741595047797872e669b3101429ab8d378ef
-change-id: 20230829-missingvardecl-efi-59306aacfed4
-
-Best regards,
---
-Justin Stitt <justinstitt@google.com>
-
+> ---
+>  drivers/firmware/efi/efi.c | 3 ---
+>  include/linux/efi.h        | 6 +++++-
+>  2 files changed, 5 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/firmware/efi/efi.c b/drivers/firmware/efi/efi.c
+> index 1599f1176842..7b4e59ccf09e 100644
+> --- a/drivers/firmware/efi/efi.c
+> +++ b/drivers/firmware/efi/efi.c
+> @@ -161,9 +161,6 @@ static ssize_t fw_platform_size_show(struct kobject *kobj,
+>         return sprintf(buf, "%d\n", efi_enabled(EFI_64BIT) ? 64 : 32);
+>  }
+>
+> -extern __weak struct kobj_attribute efi_attr_fw_vendor;
+> -extern __weak struct kobj_attribute efi_attr_runtime;
+> -extern __weak struct kobj_attribute efi_attr_config_table;
+>  static struct kobj_attribute efi_attr_fw_platform_size =
+>         __ATTR_RO(fw_platform_size);
+>
+> diff --git a/include/linux/efi.h b/include/linux/efi.h
+> index ab088c662e88..32f7ca60b0e9 100644
+> --- a/include/linux/efi.h
+> +++ b/include/linux/efi.h
+> @@ -287,7 +287,7 @@ typedef efi_status_t efi_get_variable_t (efi_char16_t *name, efi_guid_t *vendor,
+>                                          unsigned long *data_size, void *data);
+>  typedef efi_status_t efi_get_next_variable_t (unsigned long *name_size, efi_char16_t *name,
+>                                               efi_guid_t *vendor);
+> -typedef efi_status_t efi_set_variable_t (efi_char16_t *name, efi_guid_t *vendor,
+> +typedef efi_status_t efi_set_variable_t (efi_char16_t *name, efi_guid_t *vendor,
+>                                          u32 attr, unsigned long data_size,
+>                                          void *data);
+>  typedef efi_status_t efi_get_next_high_mono_count_t (u32 *count);
+> @@ -632,6 +632,10 @@ typedef struct {
+>
+>  extern unsigned long __ro_after_init efi_rng_seed;             /* RNG Seed table */
+>
+> +extern __weak struct kobj_attribute efi_attr_fw_vendor;
+> +extern __weak struct kobj_attribute efi_attr_runtime;
+> +extern __weak struct kobj_attribute efi_attr_config_table;
+> +
+>  /*
+>   * All runtime access to EFI goes through this structure:
+>   */
+>
+> ---
+> base-commit: 706a741595047797872e669b3101429ab8d378ef
+> change-id: 20230829-missingvardecl-efi-59306aacfed4
+>
+> Best regards,
+> --
+> Justin Stitt <justinstitt@google.com>
+>
