@@ -2,153 +2,137 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15C2B78DCF5
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 30 Aug 2023 20:53:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 609F578DCEC
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 30 Aug 2023 20:53:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243241AbjH3SrP (ORCPT
+        id S243231AbjH3SrI (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 30 Aug 2023 14:47:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40470 "EHLO
+        Wed, 30 Aug 2023 14:47:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244601AbjH3N0D (ORCPT
+        with ESMTP id S244624AbjH3NdG (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 30 Aug 2023 09:26:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03167137
-        for <platform-driver-x86@vger.kernel.org>; Wed, 30 Aug 2023 06:25:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1693401913;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=kFnD1m1yLujtko63yZwJAVnOy/cqW7aQ9lGmVnvKkI0=;
-        b=ObJbHhwClcz2wpyq4kp78br/peL+E0pAjyVww5D4OsXo7sPVM6hux/VAB7OxQScsaMpOEK
-        cnsuat7GgzU9WnDFlPDlfX8ITvTsUZmUJM48tP/cAoXzhyogp3+60WT+nr2NzxkdzFX+7b
-        bzGXO7d0W0F1RFDP3gLSLq+cKUkYl1E=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-524-CMs8cZj5MDuW2DHfGm0q8g-1; Wed, 30 Aug 2023 09:25:12 -0400
-X-MC-Unique: CMs8cZj5MDuW2DHfGm0q8g-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9a198d4d98aso407629066b.1
-        for <platform-driver-x86@vger.kernel.org>; Wed, 30 Aug 2023 06:25:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693401911; x=1694006711;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kFnD1m1yLujtko63yZwJAVnOy/cqW7aQ9lGmVnvKkI0=;
-        b=SfuUAe81tlBkZYrzxYlWziNEJ4v/OU5HKBP1dKbXTNU363rMVQx8jwhodFYzCZOBey
-         ZgvtHLreSSLT6h7lidiPJt99bLhejNoAkl9a1bZ0kGMHtctYNDUhDIK36NekbnNSV3SS
-         OohcBIk2vQKncP/epr5ETKEW/h/oNwA5PCLHF8Cy8+B1Bs0tHxAuURLFqEuF5faoCeMN
-         ECRsbaUE9PHIDCH8is1O/GIN8bl6R+QDB4KupJNiDwos3fAdDR0/4ulGU+d4L+vYW52x
-         kBmtn7NxfKb0aBoYkR9CK7LiFngzIYpr7puVFZP7Ch2HvGm01UWoTIvaoroK626yLHDt
-         K62w==
-X-Gm-Message-State: AOJu0YyvV898KN7rkF/RNUXijTFSf2Nb6ulE16QAp/H/nv27UM9Ad6aT
-        wZEGIOXn50Yl1yEP1GYykHe5VVh9WGLPUbUmP+3AmtRe/SkUZfENXNTWFrYDTQKQ63oN/FozWyR
-        rhCkfH/jntnoAZR1qYz72J9bGg5vLKCNmNg==
-X-Received: by 2002:a17:907:a07c:b0:9a5:846d:d829 with SMTP id ia28-20020a170907a07c00b009a5846dd829mr1702015ejc.18.1693401911212;
-        Wed, 30 Aug 2023 06:25:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGBVdw6KKG0vv0Oq7Kq7f5ODajPyvo+lDFA68sx6L6XsWgpLto9ykCgUvXPgSQBXx0UE1urzw==
-X-Received: by 2002:a17:907:a07c:b0:9a5:846d:d829 with SMTP id ia28-20020a170907a07c00b009a5846dd829mr1702006ejc.18.1693401910925;
-        Wed, 30 Aug 2023 06:25:10 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id p21-20020a170906229500b0099cf44adf2csm7162311eja.46.2023.08.30.06.25.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Aug 2023 06:25:10 -0700 (PDT)
-Message-ID: <f6a745d2-aed4-b10d-3343-d34a364f5236@redhat.com>
-Date:   Wed, 30 Aug 2023 15:25:09 +0200
+        Wed, 30 Aug 2023 09:33:06 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0093E11F;
+        Wed, 30 Aug 2023 06:33:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8B8E162390;
+        Wed, 30 Aug 2023 13:33:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED459C433C8;
+        Wed, 30 Aug 2023 13:33:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693402383;
+        bh=nQgp86MKxOrSCn+y2q+FObwNi+k/hNmyb1P1RmPb5xk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=EfasZJr5StYeQXgzod0sx6bGBqJoc1XYMTKm+8TBCxh3iZuPx8NxKpcz5HxfeK6mx
+         jARbDkw3LXm+DqiGFNtSUUgFz9DNkGnA+avr45tTJfXFToVxhTfhg/bTJHgAgLHflg
+         HNQMPrdLQ34bV2+4H9WpywPwUz+r7x5hVNB3wSsgfzfPXTEcuVnZr2r0YJ/05C5eJy
+         BH41WRn+9Ikyn9wQHBrbIWk402ljWzi0Jv9NXHsAVEKCPRNZI3rd0I5KRWsLfw6sHn
+         3Gwx7Tx7QU/iw1RWPAXAYvTWZ2ZkffuW4e4XQQOEJmnp9jgo2vnySmdSirjUI/F3Hg
+         4OZFxlB6b1HNw==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2bcb50e194dso85523371fa.3;
+        Wed, 30 Aug 2023 06:33:02 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yz2Pf0ivcqKq16tdgB5rZryG14txXjs2CDydzGI0pgNCovog+Qc
+        dz9EtES8irTzu+NyXou1bnClr+eX3H6HGZnhOJQ=
+X-Google-Smtp-Source: AGHT+IEczqc2q2dpCrAf6gstOmu97YU6GzRl+D7s3bMHOw1vVTZ7uWLeBA8Z45LYHxSOKw5riW45834TbnQ75sHW6IU=
+X-Received: by 2002:a05:6512:234d:b0:4fb:52a3:e809 with SMTP id
+ p13-20020a056512234d00b004fb52a3e809mr1831624lfu.28.1693402380916; Wed, 30
+ Aug 2023 06:33:00 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 1/1] platform/x86: asus-wmi: corrections to egpu safety
- check
-Content-Language: en-US, nl
-To:     "Luke D. Jones" <luke@ljones.dev>
-Cc:     corentin.chary@gmail.com, markgross@kernel.org,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-References: <20230830022908.36264-1-luke@ljones.dev>
- <20230830022908.36264-2-luke@ljones.dev>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230830022908.36264-2-luke@ljones.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230829-missingvardecl-efi-v1-1-13d055a55176@google.com>
+ <CAMj1kXE_xs+wWno4G4U+6CFCOwO7JWcmNv4et5=W=ZRrQatWnQ@mail.gmail.com> <CAHp75VeEvWXQoMwfmMixw_DHWrXq3=eSPkxgzJaKTT0L3G_Fpg@mail.gmail.com>
+In-Reply-To: <CAHp75VeEvWXQoMwfmMixw_DHWrXq3=eSPkxgzJaKTT0L3G_Fpg@mail.gmail.com>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Wed, 30 Aug 2023 15:32:49 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXHXR5UOxS2C1T267hFg+x15Gnf+OS8RYSUs8fPpR=6a1Q@mail.gmail.com>
+Message-ID: <CAMj1kXHXR5UOxS2C1T267hFg+x15Gnf+OS8RYSUs8fPpR=6a1Q@mail.gmail.com>
+Subject: Re: [PATCH] efi: fix -Wmissing-variable-declarations warning
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Justin Stitt <justinstitt@google.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, linux-efi@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Luke,
+On Wed, 30 Aug 2023 at 15:25, Andy Shevchenko <andy.shevchenko@gmail.com> w=
+rote:
+>
+> On Wed, Aug 30, 2023 at 2:04=E2=80=AFAM Ard Biesheuvel <ardb@kernel.org> =
+wrote:
+> > On Wed, 30 Aug 2023 at 00:54, Justin Stitt <justinstitt@google.com> wro=
+te:
+>
+> ...
+>
+> > > When building x86/defconfig with Clang-18 I encounter the following w=
+arnings:
+> > > | arch/x86/platform/efi/efi.c:934:23: warning: no previous extern dec=
+laration for non-static variable 'efi_attr_fw_vendor' [-Wmissing-variable-d=
+eclarations]
+> > > |   934 | struct kobj_attribute efi_attr_fw_vendor =3D __ATTR_RO(fw_v=
+endor);
+> > > | arch/x86/platform/efi/efi.c:935:23: warning: no previous extern dec=
+laration for non-static variable 'efi_attr_runtime' [-Wmissing-variable-dec=
+larations]
+> > > |   935 | struct kobj_attribute efi_attr_runtime =3D __ATTR_RO(runtim=
+e);
+> > > | arch/x86/platform/efi/efi.c:936:23: warning: no previous extern dec=
+laration for non-static variable 'efi_attr_config_table' [-Wmissing-variabl=
+e-declarations]
+> > > |   936 | struct kobj_attribute efi_attr_config_table =3D __ATTR_RO(c=
+onfig_table);
+> > >
+> > > These variables are not externally declared anywhere (AFAIK)
+> >
+> > They are:
+> >
+> > drivers/firmware/efi/efi.c:extern __weak struct kobj_attribute
+> > efi_attr_fw_vendor;
+> > drivers/firmware/efi/efi.c:extern __weak struct kobj_attribute efi_attr=
+_runtime;
+> > drivers/firmware/efi/efi.c:extern __weak struct kobj_attribute
+> > efi_attr_config_table;
+> >
+> > > so let's add the static keyword and ensure we follow the ODR.
+>
+> > This won't work.
+> >
+> > Those variables are referenced via weak references in generic code.
+> > The idea is that the weak references resolve to NULL pointers on
+> > architectures other than x86, terminating the array early and hiding
+> > the non-existent variables.
+> >
+> > Making them static in arch/x86/platform/efi/efi.c means that these
+> > references will remain unsatisfied, and so the variables will no
+> > longer be exposed on x86 either.
+>
+> So it means that we have no definitions in the header for these, right?
+>
 
-On 8/30/23 04:29, Luke D. Jones wrote:
-> An incorrect if statement was preventing the enablement of the egpu.
-> 
-> Fixes: d49f4d1a30ac ("platform/x86: asus-wmi: don't allow eGPU switching if eGPU not connected")
-> 
-> Signed-off-by: Luke D. Jones <luke@ljones.dev>
-> ---
->  drivers/platform/x86/asus-wmi.c | 15 +++++++--------
->  1 file changed, 7 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-> index 9783893d2d6e..f54178d6f780 100644
-> --- a/drivers/platform/x86/asus-wmi.c
-> +++ b/drivers/platform/x86/asus-wmi.c
-> @@ -726,19 +726,18 @@ static ssize_t egpu_enable_store(struct device *dev,
->  		return -EINVAL;
->  
->  	err = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_EGPU_CONNECTED);
-> -	if (err < 0)
-> -		return err;
-> -	if (err < 1) {
-> -		err = -ENODEV;
-> -		pr_warn("Failed to set egpu disable: %d\n", err);
-> +	if (err < 0) {
-> +		pr_warn("Failed to get egpu connection status: %d\n", err);
->  		return err;
->  	}
->  
->  	if (asus->gpu_mux_mode_available) {
->  		result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_GPU_MUX);
-> -		if (result < 0)
-> +		if (result < 0) {
->  			/* An error here may signal greater failure of GPU handling */
-> +			pr_warn("Failed to get gpu mux status: %d\n", err);
+Indeed.
 
-The error-code to print here should be result not err, since the error is stored in result.
-
-I've fixed this up while merging this.
-
-Regards,
-
-Hans
-
-
-
->  			return result;
-> +		}
->  		if (!result && enable) {
->  			err = -ENODEV;
->  			pr_warn("Can not enable eGPU when the MUX is in dGPU mode: %d\n", err);
-> @@ -748,12 +747,12 @@ static ssize_t egpu_enable_store(struct device *dev,
->  
->  	err = asus_wmi_set_devstate(ASUS_WMI_DEVID_EGPU, enable, &result);
->  	if (err) {
-> -		pr_warn("Failed to set egpu disable: %d\n", err);
-> +		pr_warn("Failed to set egpu state: %d\n", err);
->  		return err;
->  	}
->  
->  	if (result > 1) {
-> -		pr_warn("Failed to set egpu disable (retval): 0x%x\n", result);
-> +		pr_warn("Failed to set egpu state (retval): 0x%x\n", result);
->  		return -EIO;
->  	}
->  
-
+If there are better ways of fixing this that don't involve weak
+references, I am also fine with that, but just moving the existing
+extern declarations into linux/efi.h is probably the easiest approach
+here.
