@@ -2,49 +2,49 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17C9F78EF15
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 31 Aug 2023 15:58:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38FC878EF77
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 31 Aug 2023 16:21:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244210AbjHaN62 (ORCPT
+        id S236682AbjHaOVY (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 31 Aug 2023 09:58:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42322 "EHLO
+        Thu, 31 Aug 2023 10:21:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231384AbjHaN61 (ORCPT
+        with ESMTP id S235385AbjHaOVX (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 31 Aug 2023 09:58:27 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E49B5B5;
-        Thu, 31 Aug 2023 06:58:24 -0700 (PDT)
+        Thu, 31 Aug 2023 10:21:23 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03A46CF;
+        Thu, 31 Aug 2023 07:21:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693490304; x=1725026304;
+  t=1693491681; x=1725027681;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HglTuLoHbYLIfAQzy82eLjJIMlyaJ7UjkVVkzK1ra54=;
-  b=BsAR/i1P1XruqXrzHWWxKqja2giVH56vl2yOz6gA19ewqXr52R0Lu8dT
-   wQ2zhHuXXRO/E9PAu2oRy2uTV5U3kh6OLQtFTBT2mv4xkjqQWI3G9QCAf
-   avyAyI5rpvlCOos3n2/ioFELakgedJDnXRdBD4OUl6/GMBw7h1/X5bsM9
-   4+JRr4k9/BvwJwQr/9Uo45CicIAgNnXlKy+0IjCE9XZQ0MX/Ci4hXVjjH
-   YeUxfh2Mra/F1tPl6RMgMu+TqXkmBF3mbsx99CQoZ6QXQ4wtMa35mt7Dg
-   9N0J7JM5blkB26HjXLMzM+WHCL04notlJob90YzPoiYm4xHXA9S+m4hSt
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="355450948"
-X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; 
-   d="scan'208";a="355450948"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 06:58:24 -0700
+  bh=8oKQD9M25fFEQrtVAj6n2ITPsYj6gJcwmARduDZtNcA=;
+  b=UUevlDgmzCdMGz+I4TjZfXARpRx4ro3vZjnTDDOtf+fYJf60zDOb/8Bg
+   9vWQJj5ui2/fdFG6Vt2qMnGYlj/YjXmgeBQXMrMJfuHJ04OLPmvpeQeQs
+   0wj781NtMVjApwufe5LvDsYf0Br5H41oRGY5XyOSZE5gt6Xid/bJedVuo
+   itxk/2BkDqCTvnwwnH7foB9HgsDj0U15Q3goH7k2u7xm74C+Cp4L/oXI5
+   QsAVPHq2B+Pwhev6ZGOYrdaDrdMSOUmdfTu2qNfgSXUKtZOyE2Y2QhXpv
+   lJy2CoPtTJAheSnS06JVlzt80I5y5OKSBpf6uIpDPw2c7OPyNMOtUHroP
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="379730044"
+X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
+   d="scan'208";a="379730044"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 06:53:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="805002182"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="986238572"
 X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; 
-   d="scan'208";a="805002182"
+   d="scan'208";a="986238572"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 06:58:21 -0700
+  by fmsmga006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 06:53:17 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qbiBe-005P1x-29;
-        Thu, 31 Aug 2023 16:58:18 +0300
-Date:   Thu, 31 Aug 2023 16:58:18 +0300
+        id 1qbi6k-005Oxh-2r;
+        Thu, 31 Aug 2023 16:53:14 +0300
+Date:   Thu, 31 Aug 2023 16:53:14 +0300
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Stephen Boyd <swboyd@chromium.org>
 Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
@@ -55,15 +55,15 @@ Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
         Kuppuswamy Sathyanarayanan 
         <sathyanarayanan.kuppuswamy@linux.intel.com>,
         Prashant Malani <pmalani@chromium.org>
-Subject: Re: [PATCH 2/3] platform/x86: intel_scu_ipc: Check status upon
- timeout in ipc_wait_for_interrupt()
-Message-ID: <ZPCcevAt4CwCADe2@smile.fi.intel.com>
+Subject: Re: [PATCH 1/3] platform/x86: intel_scu_ipc: Check status after
+ timeouts in busy_loop()
+Message-ID: <ZPCbSse3J6ksZwJa@smile.fi.intel.com>
 References: <20230831011405.3246849-1-swboyd@chromium.org>
- <20230831011405.3246849-3-swboyd@chromium.org>
+ <20230831011405.3246849-2-swboyd@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230831011405.3246849-3-swboyd@chromium.org>
+In-Reply-To: <20230831011405.3246849-2-swboyd@chromium.org>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
@@ -74,59 +74,30 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Aug 30, 2023 at 06:14:02PM -0700, Stephen Boyd wrote:
-> It's possible for the completion in ipc_wait_for_interrupt() to timeout,
-> simply because the interrupt was delayed in being processed. A timeout
-> in itself is not an error. This driver should check the status register
-> upon a timeout to ensure that scheduling or interrupt processing delays
-> don't affect the outcome of the IPC return value.
+On Wed, Aug 30, 2023 at 06:14:01PM -0700, Stephen Boyd wrote:
+> It's possible for the polling loop in busy_loop() to get scheduled away
+> for a long time.
 > 
->  CPU0                                                   SCU
->  ----                                                   ---
->  ipc_wait_for_interrupt()
->   wait_for_completion_timeout(&scu->cmd_complete)
->   [TIMEOUT]                                             status[IPC_BUSY]=0
+>   status = ipc_read_status(scu);
+>   <long time scheduled away>
+>   if (!(status & IPC_STATUS_BUSY))
 > 
-> Fix this problem by reading the status bit in all cases, regardless of
-> the timeout. If the completion times out, we'll assume the problem was
-> that the IPC_BUSY bit was still set, but if the status bit is cleared in
-> the meantime we know that we hit some scheduling delay and we should
-> just check the error bit.
+> If this happens, then the status bit could change and this function
+> would never test it again after checking the jiffies against the timeout
+> limit. Polling code should check the condition one more time after the
+> timeout in case this happens.
+> 
+> The read_poll_timeout() helper implements this logic, and is shorter, so
+> simply use that helper here.
 
-Makes sense, thanks for fixing this!
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+I don't remember by heart, but on some older Intel hardware this might have
+been called during early stages where ktime() is not functional yet.
 
-Also see below.
+Is this still a case here?
 
 ...
 
->  /* Wait till ipc ioc interrupt is received or timeout in 10 HZ */
-
-Not sure if this comment needs to be updated / amended.
-
-...
-
->  	status = ipc_read_status(scu);
-> -	if (status & IPC_STATUS_ERR)
-> -		return -EIO;
-> +	if (!(status & IPC_STATUS_BUSY))
-> +		err = (status & IPC_STATUS_ERR) ? -EIO : 0;
->  
-> -	return 0;
-> +	return err;
-
-I would write it as:
-
-	status = ipc_read_status(scu);
-	if (status & IPC_STATUS_BUSY)
-		return 0;
-	if (status & IPC_STATUS_ERR)
-		return -EIO;
-
-	return 0;
-
-Also would be good, in case you are not doing it yet, to use --patience when
-formatting your patches.
+Codewise change looks good to me.
 
 -- 
 With Best Regards,
