@@ -2,99 +2,96 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E513793232
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Sep 2023 00:56:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7016F79324B
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Sep 2023 01:12:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232047AbjIEW4W (ORCPT
+        id S230363AbjIEXM2 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 5 Sep 2023 18:56:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58228 "EHLO
+        Tue, 5 Sep 2023 19:12:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233641AbjIEW4W (ORCPT
+        with ESMTP id S229509AbjIEXM2 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 5 Sep 2023 18:56:22 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63A0B1B6
-        for <platform-driver-x86@vger.kernel.org>; Tue,  5 Sep 2023 15:56:17 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-500bbe3ef0eso417330e87.1
-        for <platform-driver-x86@vger.kernel.org>; Tue, 05 Sep 2023 15:56:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1693954575; x=1694559375; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4NGXeEczgA9LphP4UdxC38RekZBY8qrCBSM7+Stq+6I=;
-        b=aBXKCU36JS11wSUlj4lIPcqgu7aj9E6PfV5E3/GvmeeofDI5xQ/0kavv1v37id+nel
-         7zBYvHa2Qr+ic3YpkY7Q0IXuhWnUxC1PiidUFGhSALFgUDFtZsOObvaRO1G1IIoZBGaO
-         A8wG8KaXPueY/sVH0N/FLpm+qqSsirTfZu7HI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693954575; x=1694559375;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4NGXeEczgA9LphP4UdxC38RekZBY8qrCBSM7+Stq+6I=;
-        b=D9B5Nuj4pmc+w3wSy6dd+6Zs9QcfSR2StEyBFQO1iW6QBnoXVNNYePXM0MOI/BI07D
-         B+eU28Rv0tV37wmHt1z8H2lonF+rv3A4E0aID6RfLO9o0rptRtlu+OHj0h/trQNkjwju
-         vMnm+lF5C/CyJbw9Bl95Yc53/0ag/sqFHVKxShD903eUPhxYvDkt6LRCI708Ggajc5vQ
-         d/J6RxoNNPnRfZIDxnIaOT6yKQw5SPDKzmU1NUfj+IZvYFxtRbE2uXgGvSMm2RMlPN0d
-         kohrQUwFLfJvTt4HWyQ6bvAAH1B1qRmKikA5Iyar+He3S51mQNpZ2BH62EY/FbY0Wmpl
-         QrUw==
-X-Gm-Message-State: AOJu0Yx0TTIWuIpak61YopktzqFv+I9y8bdTclJ96Ez+MB4q3+EKm5VP
-        xBTNhPbbRq9WkKlUPoE6yEBQN02LhDmWlFZAMEWyVA==
-X-Google-Smtp-Source: AGHT+IHYUtjBkMfDU9GXRAamcogYrs+yiDDeqP/qm65g/NIerCdBZ0EqaUtXVDrQlBvmo3WeXpe55hJMABEEFT3h5sI=
-X-Received: by 2002:a05:6512:2256:b0:4fe:13c9:2071 with SMTP id
- i22-20020a056512225600b004fe13c92071mr395748lfu.2.1693954575649; Tue, 05 Sep
- 2023 15:56:15 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 5 Sep 2023 17:56:15 -0500
-MIME-Version: 1.0
-In-Reply-To: <321578a9-91fb-4733-b4c7-82dcc0ec8f8f@linux.intel.com>
-References: <20230831011405.3246849-1-swboyd@chromium.org> <20230831011405.3246849-3-swboyd@chromium.org>
- <321578a9-91fb-4733-b4c7-82dcc0ec8f8f@linux.intel.com>
-From:   Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date:   Tue, 5 Sep 2023 17:56:15 -0500
-Message-ID: <CAE-0n514jMG3ckYF58koSamHDYiuoxry7cyuoNMGjygwQOCb9g@mail.gmail.com>
-Subject: Re: [PATCH 2/3] platform/x86: intel_scu_ipc: Check status upon
- timeout in ipc_wait_for_interrupt()
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Tue, 5 Sep 2023 19:12:28 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BFB91B6
+        for <platform-driver-x86@vger.kernel.org>; Tue,  5 Sep 2023 16:12:24 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D14B7C433C7;
+        Tue,  5 Sep 2023 23:03:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693955035;
+        bh=wMx4Tp3d/EJsu6/oCM6hDQiu1DWer7zBkf0OEbTAv7s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GyAowMHhMN3dIJNd8pMn037z7dgwt4wq+dDE7tACBzarLdVtEtDwprbQBEk31n9bD
+         BNFePJFYmmDf1rgi8g3viVXEM4CSHSg6cRfLHBeFgqnHqDpGkrbDk2zAKgVho88o4x
+         KwkhuDx1gRDXR1bDAoZWjrAz2N0ESrqLPhPNLM+WXqqAt8R7y1pCMn4CzlUL9OQZV2
+         uX5uTjvnaYA2ZqcIjjELu7MEnmmRYRv/A4LY5vbqWNc7XYlzunrbmUIJI9X5nMdj+1
+         f3DTCgAA9KsyWwZNKIGew7hd9OVGhNj+0GKi8XhKmNL6LOV4Q6jnq+IQiOO0hs6EOj
+         dw/hI836iz3Ow==
+Date:   Wed, 6 Sep 2023 01:03:52 +0200
+From:   Andi Shyti <andi.shyti@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <markgross@kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        platform-driver-x86@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Prashant Malani <pmalani@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+        Vadim Pasternak <vadimp@nvidia.com>,
+        Michael Shych <michaelsh@nvidia.com>,
+        Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] platform/mellanox: NVSW_SN2201 should depend on ACPI
+Message-ID: <20230905230352.nizvkaurtwqjdoxe@zenone.zhora.eu>
+References: <cover.1693828363.git.geert+renesas@glider.be>
+ <ec5a4071691ab08d58771b7732a9988e89779268.1693828363.git.geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ec5a4071691ab08d58771b7732a9988e89779268.1693828363.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Quoting Kuppuswamy Sathyanarayanan (2023-08-31 07:27:35)
->
->
-> Since you are not using the return value, I would not use time_left. I think the
-> following version is easy to read. But it is up to you.
->
-> wait_for_completion_timeout(&scu->cmd_complete, IPC_TIMEOUT)
->
-> status = ipc_read_status(scu);
->
-> if (status & IPC_STATUS_BUSY)
->    return -ETIMEDOUT;
->
-> if (status & IPC_STATUS_ERR)
->    return -EIO;
->
-> return 0;
->
-> With above fixed, you can add
+Hi Geert,
 
-Thanks! That's a lot better.
+On Mon, Sep 04, 2023 at 02:00:35PM +0200, Geert Uytterhoeven wrote:
+> The only probing method supported by the Nvidia SN2201 platform driver
+> is probing through an ACPI match table.  Hence add a dependency on
+> ACPI, to prevent asking the user about this driver when configuring a
+> kernel without ACPI support.
+> 
+> Fixes: 662f24826f954d49 ("platform/mellanox: Add support for new SN2201 system")
+
+I don't think the Fixes tag is needed here...
+
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/platform/mellanox/Kconfig | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/platform/mellanox/Kconfig b/drivers/platform/mellanox/Kconfig
+> index 382793e73a60a8b3..30b50920b278c94b 100644
+> --- a/drivers/platform/mellanox/Kconfig
+> +++ b/drivers/platform/mellanox/Kconfig
+> @@ -80,8 +80,8 @@ config MLXBF_PMC
+>  
+>  config NVSW_SN2201
+>  	tristate "Nvidia SN2201 platform driver support"
+> -	depends on HWMON
+> -	depends on I2C
+> +	depends on HWMON && I2C
+> +	depends on ACPI || COMPILE_TEST
+
+Acked-by: Andi Shyti <andi.shyti@kernel.org> 
+
+Andi
+
+>  	select REGMAP_I2C
+>  	help
+>  	  This driver provides support for the Nvidia SN2201 platform.
+> -- 
+> 2.34.1
+> 
