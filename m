@@ -2,55 +2,55 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A12FB792DDE
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 Sep 2023 20:55:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB455792E44
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 Sep 2023 21:06:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240309AbjIESzK (ORCPT
+        id S235556AbjIETGr (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 5 Sep 2023 14:55:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41202 "EHLO
+        Tue, 5 Sep 2023 15:06:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239223AbjIESzF (ORCPT
+        with ESMTP id S238625AbjIETGo (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 5 Sep 2023 14:55:05 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 583E4CF9
-        for <platform-driver-x86@vger.kernel.org>; Tue,  5 Sep 2023 11:54:36 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-401ec23be82so30149465e9.0
-        for <platform-driver-x86@vger.kernel.org>; Tue, 05 Sep 2023 11:54:36 -0700 (PDT)
+        Tue, 5 Sep 2023 15:06:44 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 387F4E52
+        for <platform-driver-x86@vger.kernel.org>; Tue,  5 Sep 2023 12:06:12 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-401ec23be82so30245145e9.0
+        for <platform-driver-x86@vger.kernel.org>; Tue, 05 Sep 2023 12:06:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1693940012; x=1694544812; darn=vger.kernel.org;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1693940707; x=1694545507; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0ESplXfwHuP68mF4bwcKzJlFkniMRPzx/b85/cMF6oE=;
-        b=t6vnKqg+T54zB4Fkaa6Gy9AZAwhWlkIbFZZHoCfpms+RuRj6YJyXvIX1Wypx53fBqS
-         ttS+voJEq+UucTCkf4/EU9pxZml9x38cspPMCu3FrX66N5Yg28F5N8FMEieVxRwRb+ZF
-         E2NY8v6ju8+Y27OxjHyVsJzdrAMRomc2mT2SSXGTDokhY7gQgTbmaT6N8tXraLbt5NJp
-         3jEmVCJiEdw8wth1e6Y+QlwteQHt2OAmZI7Tz+7qUAOeJnTSkeRVizE+H5JU9idv0ygH
-         kq/U3oYVdaOinSqHyWCHvHr0DTlem8c5OxqzxwQTPK3ozuPMt2RKw9s2UQ0kjTKZmp1+
-         1pCw==
+        bh=rGZDmwAMqeUVhOTfv7ZtpSGAuFAAm5HZQ+raVbVaSso=;
+        b=XfSw6uorce7VXjWb7LFBEM3EumWuErlAqi52Ki8g+n6WkvZmmPtWunKWCfR0Uu0SDi
+         6cqH+bYmhMgDBjP9sf75Ry0rqhPB+lvhQkr2vE67E2Ml+LBoIiobacYFy8Tp8Hz4SrCx
+         iIa/CG7l79HskX6rbWlwgnAqOiO2/5jjacdbQaY4hVR15cpPSC0q9y/NaJNvAYLbIUWg
+         k2SEJg1aDoU3gys06sx776CUIc7kp+ZV9kIiS411TzBlJbuXg/FnHmU3J8TUjVQoeCSk
+         slxhbudA/p+ksXye5fkmoaa3WjAADI6wNeMf2uVDV21QVw2pn1QYOKpbRhfqhvcnBKUL
+         JJ5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693940012; x=1694544812;
+        d=1e100.net; s=20221208; t=1693940707; x=1694545507;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0ESplXfwHuP68mF4bwcKzJlFkniMRPzx/b85/cMF6oE=;
-        b=AyM5m5REJs1rAaFdaMd7/b40l4vYJabGbXif88iA9T9sU8QLa9Ks3K+cj6hkATNrda
-         vAAo2dQ8vXa7uwO9QASdS7JRXUfe7vZtqhMIDC2zzxRQR78boF/nApPwu0jYfSlBn7gD
-         3oea8F/FDBM6GZDNUbWrifucW9DKquoSebDbanTAnPzRZY1aHrEkKlMJo/s/0XnSY9Fk
-         G18F79bxFU09sggWSOTLoLJP3bVV89EcqY2hghDvgW6mE9+nm5N/gaOZgOp/X1PVMGts
-         rM4Ozz+lJAViNiVFqxqqxWpVIy2OfKTHHqgfC6//J2ompwLMwOeRRHNWPs0uvN3fcqtR
-         5ScQ==
-X-Gm-Message-State: AOJu0YwP2uDe854ZwF04UV2LxZC3X8j4DKKsykXq2B+0Ed7PFV1P0nuR
-        O+w5U5sJZx6Q6BpMgb7DcaZcUA==
-X-Google-Smtp-Source: AGHT+IH/VUJWjUGeUiwbD9fUfZeGiUcxVuhg9dWO0f7MJ889A/l01WqAkHMkYlgWTOb/EzfuaH05Kg==
-X-Received: by 2002:a7b:c411:0:b0:3fe:f45:772d with SMTP id k17-20020a7bc411000000b003fe0f45772dmr436878wmi.28.1693940012315;
-        Tue, 05 Sep 2023 11:53:32 -0700 (PDT)
+        bh=rGZDmwAMqeUVhOTfv7ZtpSGAuFAAm5HZQ+raVbVaSso=;
+        b=WINSrcaOSjElNvoEPmDAyLVptmVBm8bjrFz0wYL0dsT9lVi1hBclT8uAX2mF7ZlZgm
+         8rPed0d3CKUBG1EWQ981N27vZNRnhFv1ceUwhZAqGMoxS+M0YQP7ZLjwfLas55z0DyXN
+         jsD5wsz1n8r8nn+5ObBmVBfLXNeSm+dbwLBCw/777hY0GwcLNc5wy+I2UfPk2Hk6LSog
+         1h6HycOuAU/gItCflajEUGSkpt3xe1aAJR/VeRZeH7Gm1vYifBh/TJ1JvvyGV421NBze
+         OKUeizDwRYFwKajd+wHEsE23RhyML+Wbx/CP7w6+h7eIcCEru/E6sfJ2/ajNSE7mF0aE
+         We0w==
+X-Gm-Message-State: AOJu0Yy2gZDjIYTjiqH+k4iW7x0jp7yDijWejHLhIPZlOTdIjMfMXZ+V
+        64a1kolaH0gOwFr0sYY56V1GlxGPuzowuZ8QitA=
+X-Google-Smtp-Source: AGHT+IE6a92Y8/0xOq//9BYLFPzr9xAdeK40uWCbwfh4Inevy5jL9Qx5QtQIzqIf7nl+RNMdD6lXWg==
+X-Received: by 2002:a05:600c:2149:b0:402:8c7b:ceea with SMTP id v9-20020a05600c214900b004028c7bceeamr402336wml.30.1693940013467;
+        Tue, 05 Sep 2023 11:53:33 -0700 (PDT)
 Received: from brgl-uxlite.home ([2a01:cb1d:334:ac00:7a54:5dbc:6d09:48b7])
-        by smtp.gmail.com with ESMTPSA id 17-20020a05600c249100b003fbc30825fbsm17550010wms.39.2023.09.05.11.53.31
+        by smtp.gmail.com with ESMTPSA id 17-20020a05600c249100b003fbc30825fbsm17550010wms.39.2023.09.05.11.53.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Sep 2023 11:53:31 -0700 (PDT)
+        Tue, 05 Sep 2023 11:53:33 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Aaro Koskinen <aaro.koskinen@iki.fi>,
         Janusz Krzysztofik <jmkrzyszt@gmail.com>,
@@ -70,16 +70,16 @@ Cc:     linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
         linux-acpi@vger.kernel.org, timestamp@lists.linux.dev,
         linux-tegra@vger.kernel.org, platform-driver-x86@vger.kernel.org,
         Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: [PATCH 05/21] gpiolib: add support for scope-based management to gpio_device
-Date:   Tue,  5 Sep 2023 20:52:53 +0200
-Message-Id: <20230905185309.131295-6-brgl@bgdev.pl>
+Subject: [PATCH 06/21] gpiolib: provide gpiod_to_device()
+Date:   Tue,  5 Sep 2023 20:52:54 +0200
+Message-Id: <20230905185309.131295-7-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230905185309.131295-1-brgl@bgdev.pl>
 References: <20230905185309.131295-1-brgl@bgdev.pl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -89,28 +89,52 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-As the few users that need to get the reference to the GPIO device often
-release it right after inspecting its properties, let's add support for
-the automatic reference release to struct gpio_device.
+struct gpio_desc is opaque so provide a way for users to retrieve the
+underlying GPIO device.
 
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 ---
- include/linux/gpio/driver.h | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpio/gpiolib.c      | 14 ++++++++++++++
+ include/linux/gpio/driver.h |  1 +
+ 2 files changed, 15 insertions(+)
 
+diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+index 4a9af6bfc6d4..9637a79a9a60 100644
+--- a/drivers/gpio/gpiolib.c
++++ b/drivers/gpio/gpiolib.c
+@@ -219,6 +219,20 @@ struct gpio_chip *gpiod_to_chip(const struct gpio_desc *desc)
+ }
+ EXPORT_SYMBOL_GPL(gpiod_to_chip);
+ 
++/**
++ * gpiod_to_device() - Return the GPIO device owning this descriptor
++ * @desc: GPIO descriptor
++ *
++ * Returns:
++ * Pointer to the opaque struct gpio_device object. This function does not
++ * increase the reference count of gpio_device.
++ */
++struct gpio_device *gpiod_to_device(struct gpio_desc *desc)
++{
++	return gpio_device_get(desc->gdev);
++}
++EXPORT_SYMBOL_GPL(gpiod_to_device);
++
+ /* dynamic allocation of GPIOs, e.g. on a hotplugged device */
+ static int gpiochip_find_base(int ngpio)
+ {
 diff --git a/include/linux/gpio/driver.h b/include/linux/gpio/driver.h
-index a769baf3d731..b2572b26c8e3 100644
+index b2572b26c8e3..e3747e730ed1 100644
 --- a/include/linux/gpio/driver.h
 +++ b/include/linux/gpio/driver.h
-@@ -614,6 +614,8 @@ struct gpio_device *gpio_device_find_by_label(const char *label);
- struct gpio_device *gpio_device_get(struct gpio_device *gdev);
- void gpio_device_put(struct gpio_device *gdev);
+@@ -778,6 +778,7 @@ int gpiochip_lock_as_irq(struct gpio_chip *gc, unsigned int offset);
+ void gpiochip_unlock_as_irq(struct gpio_chip *gc, unsigned int offset);
  
-+DEFINE_FREE(gpio_device_put, struct gpio_device *, if (_T) gpio_device_put(_T));
-+
- bool gpiochip_line_is_irq(struct gpio_chip *gc, unsigned int offset);
- int gpiochip_reqres_irq(struct gpio_chip *gc, unsigned int offset);
- void gpiochip_relres_irq(struct gpio_chip *gc, unsigned int offset);
+ struct gpio_chip *gpiod_to_chip(const struct gpio_desc *desc);
++struct gpio_device *gpiod_to_device(struct gpio_desc *desc);
+ 
+ #else /* CONFIG_GPIOLIB */
+ 
 -- 
 2.39.2
 
