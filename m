@@ -2,240 +2,431 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3283792A32
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 Sep 2023 18:58:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3CB7792A30
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 Sep 2023 18:58:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235194AbjIEQeT (ORCPT
+        id S234841AbjIEQeQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 5 Sep 2023 12:34:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56502 "EHLO
+        Tue, 5 Sep 2023 12:34:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354346AbjIEKxT (ORCPT
+        with ESMTP id S1354394AbjIELSr (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 5 Sep 2023 06:53:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ED3E1AB
-        for <platform-driver-x86@vger.kernel.org>; Tue,  5 Sep 2023 03:52:31 -0700 (PDT)
+        Tue, 5 Sep 2023 07:18:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36CF41AD
+        for <platform-driver-x86@vger.kernel.org>; Tue,  5 Sep 2023 04:17:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1693911150;
+        s=mimecast20190719; t=1693912676;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=iA7IdFpDwtnuDlVKS2NZegEsBXTaUrliGdVa1RbXg5w=;
-        b=Es1xkVMA8pqJ/q+AzM3D0OSLZ0ig+L7i50hlre3yz6xqZjkUWb/VFbwRPTdF7E+mDp94om
-        MSlZTrt3XnmCgDfsen0bNxac/5wJvZgNGqM8rtVBXFPeeCvbdwWYBAjh2HJJIf9Avx9Zpo
-        TeVRHZiPTczP59FQKO7a1YuxD2r8LWQ=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=Lz27U5Kf5m2Y2KJQjXZ9NnxsAx8VJafnm8+91J7UNQE=;
+        b=VxwQxcI8zofeAP/2pdymX/JP40E2SorqdKICl16UxvpQQzANvTfW736DcHl/QkI05uzOd8
+        6WdNk+kxtWvUjRdGyVEKHaWTEiMn7rVmYXJUnMVQaS8S+GvSBeqePm8LNbrwFL2HAsTRe5
+        CxhZAxMcaD+ncIMQcealvFq6g73DK0c=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-690-vLV2BLtGPXGxKbIjHbYT4w-1; Tue, 05 Sep 2023 06:52:29 -0400
-X-MC-Unique: vLV2BLtGPXGxKbIjHbYT4w-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-99c8bbc902eso179941966b.1
-        for <platform-driver-x86@vger.kernel.org>; Tue, 05 Sep 2023 03:52:29 -0700 (PDT)
+ us-mta-299-MfEf9cvvMQKEu25Xu0OF7Q-1; Tue, 05 Sep 2023 07:17:54 -0400
+X-MC-Unique: MfEf9cvvMQKEu25Xu0OF7Q-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9a62adedadbso183793466b.1
+        for <platform-driver-x86@vger.kernel.org>; Tue, 05 Sep 2023 04:17:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693911145; x=1694515945;
+        d=1e100.net; s=20221208; t=1693912673; x=1694517473;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iA7IdFpDwtnuDlVKS2NZegEsBXTaUrliGdVa1RbXg5w=;
-        b=QNr/4gvOG4vaSJTb2kGZL3u61VsSjNC0Z20MHSnHiko0s40KdmwAX1HnA/NPENtrFG
-         pXdv7lv8F14I3KyQB7WGEYlK2kxHZzxMjHp2q1RDFMDS2QamZoGHTAgpvhEeEuqHpwDL
-         BmlD6v1pnWpbMQkWvOhh4FUETchcRRWd7k5JfQznEiSMeInHk13C215QDfnSpq9avnSr
-         /0c7yTx4XkEpTym8IVpZeGlq4oKfV/L5DC7eUFS/e/PyrlWjEIZY+tHXo7izzFXuJefw
-         T3cbayBFN4ePBMpntaE7JhdoawRvfBJCtE1ptPL5dO4t0MhXyRBddoLNydUuDEzxtbHT
-         8q5A==
-X-Gm-Message-State: AOJu0YyF1S5nNvdAvaHP0vmJUzKQNQD/0xHt5IoZb7NAjWlA0mXg5VlG
-        JQdH1oMDAn6eRsin/sTWiC+6fjZpV9BFEgn7tAuyNNDCr9RdKNCXDICcswir9M4ifbbegk0RD79
-        z+aENwO/8ZlFWC15FtMIWiNwbE0DGKHF5tw==
-X-Received: by 2002:a17:906:cc18:b0:9a5:ce62:6e19 with SMTP id ml24-20020a170906cc1800b009a5ce626e19mr8533487ejb.69.1693911145442;
-        Tue, 05 Sep 2023 03:52:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFP3ELd8tEEkkAjXou7dlgTGLonfFfdHBVi8/VthBpLHkYSyll3QShK2Y6WgqpuYr5U998Zpg==
-X-Received: by 2002:a17:906:cc18:b0:9a5:ce62:6e19 with SMTP id ml24-20020a170906cc1800b009a5ce626e19mr8533467ejb.69.1693911145117;
-        Tue, 05 Sep 2023 03:52:25 -0700 (PDT)
+        bh=Lz27U5Kf5m2Y2KJQjXZ9NnxsAx8VJafnm8+91J7UNQE=;
+        b=IvgbbbO0lsVxZbOwC82Tt67VixsOGQzNcZhBlSYOaOCtSBjFSPxoF4l2TfEaS+r5co
+         uZxwLHXo9ICvv/HDxwxKCHumr1UqZsIwbZQereOkWw+YIYQkutiN4ATf6qjfhPkKagSu
+         vGatNv5KdQCu1mWP3XzYhqel1ZJztUnOA8e9deV7syxeC3x8KkMBUgKW110H/Covgo/0
+         Eg6BbkUszLLkZmnpDuBNx0i5f6TUpAOyXyL12L5CZABMDXs2qQH//dTa3TYu60Ik+u5K
+         j4+WKrAu6z57KHxQEMNEI0U9nnlup4jRpSK32g7AGz5bBSA2ocj+o34Rwe63tWnS/A8f
+         Ev5Q==
+X-Gm-Message-State: AOJu0YyVQ0ZBv6jkLKNErWId7oWnVIrJS3LJYhI8fin+y5slHmEVthn/
+        szbaR47VIvm/S6N1U5eyszoNNh2NlyZyA6cwr3PIHv1cPI6aQAF2KWJ5HfJUJxgFl65haClw/IH
+        uoIpJAQJpuRA1hxn3UL8Vc5AdQSBcbrFYZA==
+X-Received: by 2002:a17:907:a04d:b0:99b:cd1a:a453 with SMTP id gz13-20020a170907a04d00b0099bcd1aa453mr8428065ejc.3.1693912673103;
+        Tue, 05 Sep 2023 04:17:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHCT4j1lyT19Rz3sk4BZWGzCU4ktQwNW8ng//oZv+HvW9reup1xc9tDgoMScjI5bVO8ew43yQ==
+X-Received: by 2002:a17:907:a04d:b0:99b:cd1a:a453 with SMTP id gz13-20020a170907a04d00b0099bcd1aa453mr8428050ejc.3.1693912672724;
+        Tue, 05 Sep 2023 04:17:52 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id vi18-20020a170907d41200b0098ec690e6d7sm7430529ejc.73.2023.09.05.03.52.23
+        by smtp.gmail.com with ESMTPSA id g20-20020a1709067c5400b00999bb1e01dfsm7402576ejp.52.2023.09.05.04.17.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Sep 2023 03:52:24 -0700 (PDT)
-Message-ID: <685e4951-e283-835c-5cce-ddd802fadf62@redhat.com>
-Date:   Tue, 5 Sep 2023 12:52:23 +0200
+        Tue, 05 Sep 2023 04:17:52 -0700 (PDT)
+Message-ID: <59d1b822-e8e1-9373-1942-0f376abb02b8@redhat.com>
+Date:   Tue, 5 Sep 2023 13:17:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v2] x86/platform/uv: refactor deprecated strcpy and
- strncpy
+Subject: Re: [PATCH] platform/x86: think-lmi: Add bulk save feature
 Content-Language: en-US, nl
-To:     Justin Stitt <justinstitt@google.com>,
-        Steve Wahl <steve.wahl@hpe.com>,
-        Mike Travis <mike.travis@hpe.com>,
-        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-        Russ Anderson <russ.anderson@hpe.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org, Yang Yang <yang.yang29@zte.com.cn>
-References: <20230824-strncpy-arch-x86-platform-uv-uv_nmi-v2-1-e16d9a3ec570@google.com>
+To:     Mark Pearson <mpearson-lenovo@squebb.ca>
+Cc:     markgross@kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <mpearson-lenovo@squebb.ca>
+ <20230829131523.17369-1-mpearson-lenovo@squebb.ca>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230824-strncpy-arch-x86-platform-uv-uv_nmi-v2-1-e16d9a3ec570@google.com>
+In-Reply-To: <20230829131523.17369-1-mpearson-lenovo@squebb.ca>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Justin,
+Hi Mark,
 
-On 8/24/23 20:52, Justin Stitt wrote:
-> Both `strncpy` and `strcpy` are deprecated for use on NUL-terminated
-> destination strings [1].
+On 8/29/23 15:15, Mark Pearson wrote:
+> On Lenovo platforms there is a limitation in the number of times an
+> attribute can be saved. This is an architectural limitation and it limits
+> the number of attributes that can be modified to 48.
+> A solution for this is instead of the attribute being saved after every
+> modification allow a user to bulk set the attributes and then trigger a
+> final save. This allows unlimited attributes.
 > 
-> A suitable replacement is `strscpy` [2] due to the fact that it
-> guarantees NUL-termination on its destination buffer argument which is
-> _not_ the case for `strncpy` or `strcpy`!
+> This patch introduces a save_settings attribute that can be configured to
+> either single or bulk mode by the user.
+> Single mode is the default but customers who want to avoid the 48
+> attribute limit can enable bulk mode.
 > 
-> In this case, we can drop both the forced NUL-termination and the `... -1` from:
-> |       strncpy(arg, val, ACTION_LEN - 1);
-> as `strscpy` implicitly has this behavior.
+> Displaying the save_settings attribute will display the enabled mode.
 > 
-> Also include slight refactor to code removing possible new-line chars as
-> per Yang Yang's work at [3]. This reduces code size and complexity by
-> using more robust and better understood interfaces.
+> When in bulk mode writing 'save' to the save_settings attribute will
+> trigger a save. Once this has been done a reboot is required before more
+> attributes can be modified.
 > 
-> Link: www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings[1]
-> Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
-> Link: https://lore.kernel.org/all/202212091545310085328@zte.com.cn/ [3]
-> Link: https://github.com/KSPP/linux/issues/90
-> Cc: linux-hardening@vger.kernel.org
-> Co-developed-by: Yang Yang <yang.yang29@zte.com.cn>
-> Signed-off-by: Justin Stitt <justinstitt@google.com>
+> Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 > ---
-> Changes in v2:
-> - use `sizeof` on destination string instead of `strlen` (thanks Andy, Kees and Dimitri)
-> - refactor code to remove potential new-line chars (thanks Yang Yang and Andy)
-> - Link to v1: https://lore.kernel.org/r/20230822-strncpy-arch-x86-platform-uv-uv_nmi-v1-1-931f2943de0d@google.com
-> ---
-> Note: build-tested only
+>  .../testing/sysfs-class-firmware-attributes   |  30 ++++
+>  drivers/platform/x86/think-lmi.c              | 134 ++++++++++++++++--
+>  drivers/platform/x86/think-lmi.h              |  14 ++
+>  3 files changed, 163 insertions(+), 15 deletions(-)
 > 
-> Another thing, Yang Yang's patch [3] had some review from Andy regarding
-> the use of `-1` and `+1` in and around the strnchrnul invocation. I
-> believe Yang Yang's original implementation is correct but let's also
-> just use sizeof(arg) instead of ACTION_LEN.
-> 
-> Here's a godbolt link detailing some findings around the new-line
-> refactor in response to Andy's feedback: https://godbolt.org/z/K8drG3oq5
-> ---
->  arch/x86/platform/uv/uv_nmi.c | 12 ++++--------
->  1 file changed, 4 insertions(+), 8 deletions(-)
-> 
-> diff --git a/arch/x86/platform/uv/uv_nmi.c b/arch/x86/platform/uv/uv_nmi.c
-> index a60af0230e27..913347b2b9ab 100644
-> --- a/arch/x86/platform/uv/uv_nmi.c
-> +++ b/arch/x86/platform/uv/uv_nmi.c
-> @@ -202,21 +202,17 @@ static int param_set_action(const char *val, const struct kernel_param *kp)
->  {
->  	int i;
->  	int n = ARRAY_SIZE(valid_acts);
-> -	char arg[ACTION_LEN], *p;
-> +	char arg[ACTION_LEN];
+> diff --git a/Documentation/ABI/testing/sysfs-class-firmware-attributes b/Documentation/ABI/testing/sysfs-class-firmware-attributes
+> index f205d39409a3..c2f1a044475e 100644
+> --- a/Documentation/ABI/testing/sysfs-class-firmware-attributes
+> +++ b/Documentation/ABI/testing/sysfs-class-firmware-attributes
+> @@ -383,6 +383,36 @@ Description:
+>  		Note that any changes to this attribute requires a reboot
+>  		for changes to take effect.
 >  
->  	/* (remove possible '\n') */
-> -	strncpy(arg, val, ACTION_LEN - 1);
-> -	arg[ACTION_LEN - 1] = '\0';
-> -	p = strchr(arg, '\n');
-> -	if (p)
-> -		*p = '\0';
-> +	strscpy(arg, val, strnchrnul(val, sizeof(arg) - 1, '\n') - val + 1);
+> +What:		/sys/class/firmware-attributes/*/attributes/save_settings
+> +Date:		August 2023
+> +KernelVersion:	6.5
+> +Contact:	Mark Pearson <mpearson-lenovo@squebb.ca>
+> +Description:
+> +		On Lenovo platforms there is a limitation in the number of times an attribute can be
+> +		saved. This is an architectural limitation and it limits the number of attributes
+> +		that can be modified to 48.
+> +		A solution for this is instead of the attribute being saved after every modification,
+> +		to allow a user to bulk set the attributes, and then trigger a final save. This allows
+> +		unlimited attributes.
+> +
+> +		Read the attribute to check what save mode is enabled (single or bulk).
+> +		E.g:
+> +		# cat /sys/class/firmware-attributes/thinklmi/attributes/save_settings
+> +		single
+> +
+> +		Write the attribute with 'bulk' to enable bulk save mode.
+> +		Write the attribute with 'single' to enable saving, after every attribute set.
+> +		The default setting is single mode.
+> +		E.g:
+> +		# echo bulk > /sys/class/firmware-attributes/thinklmi/attributes/save_settings
+> +
+> +		When in bulk mode write 'save' to trigger a save of all currently modified attributes.
+> +		Note, once a save has been triggered, in bulk mode, attributes can no longer be set and
+> +		will return a permissions error. This is to prevent users hitting the 48+ save limitation
+> +		(which requires entering the BIOS to clear the error condition)
+> +		E.g:
+> +		# echo save > /sys/class/firmware-attributes/thinklmi/attributes/save_settings
+> +
+>  What:		/sys/class/firmware-attributes/*/attributes/debug_cmd
+>  Date:		July 2021
+>  KernelVersion:	5.14
+> diff --git a/drivers/platform/x86/think-lmi.c b/drivers/platform/x86/think-lmi.c
+> index 52d1ce8dfe44..87e8f06ee7c8 100644
+> --- a/drivers/platform/x86/think-lmi.c
+> +++ b/drivers/platform/x86/think-lmi.c
+> @@ -985,6 +985,13 @@ static ssize_t current_value_store(struct kobject *kobj,
+>  	if (!tlmi_priv.can_set_bios_settings)
+>  		return -EOPNOTSUPP;
+>  
+> +	/*
+> +	 * If we are using bulk saves a reboot should be done once save has
+> +	 * been called
+> +	 */
+> +	if (tlmi_priv.save_mode == TLMI_SAVE_BULK && tlmi_priv.reboot_required)
+> +		return -EPERM;
+> +
+>  	new_setting = kstrdup(buf, GFP_KERNEL);
+>  	if (!new_setting)
+>  		return -ENOMEM;
+> @@ -1011,10 +1018,11 @@ static ssize_t current_value_store(struct kobject *kobj,
+>  		ret = tlmi_simple_call(LENOVO_SET_BIOS_SETTING_CERT_GUID, set_str);
+>  		if (ret)
+>  			goto out;
+> -		ret = tlmi_simple_call(LENOVO_SAVE_BIOS_SETTING_CERT_GUID,
+> -				tlmi_priv.pwd_admin->save_signature);
+> -		if (ret)
+> -			goto out;
+> +		if (tlmi_priv.save_mode == TLMI_SAVE_BULK)
+> +			tlmi_priv.save_required = true;
+> +		else
+> +			ret = tlmi_simple_call(LENOVO_SAVE_BIOS_SETTING_CERT_GUID,
+> +					       tlmi_priv.pwd_admin->save_signature);
+>  	} else if (tlmi_priv.opcode_support) {
+>  		/*
+>  		 * If opcode support is present use that interface.
+> @@ -1033,14 +1041,17 @@ static ssize_t current_value_store(struct kobject *kobj,
+>  		if (ret)
+>  			goto out;
+>  
+> -		if (tlmi_priv.pwd_admin->valid && tlmi_priv.pwd_admin->password[0]) {
+> -			ret = tlmi_opcode_setting("WmiOpcodePasswordAdmin",
+> -						  tlmi_priv.pwd_admin->password);
+> -			if (ret)
+> -				goto out;
+> +		if (tlmi_priv.save_mode == TLMI_SAVE_BULK) {
+> +			tlmi_priv.save_required = true;
+> +		} else {
+> +			if (tlmi_priv.pwd_admin->valid && tlmi_priv.pwd_admin->password[0]) {
+> +				ret = tlmi_opcode_setting("WmiOpcodePasswordAdmin",
+> +							  tlmi_priv.pwd_admin->password);
+> +				if (ret)
+> +					goto out;
+> +			}
+> +			ret = tlmi_save_bios_settings("");
+>  		}
+> -
+> -		ret = tlmi_save_bios_settings("");
+>  	} else { /* old non-opcode based authentication method (deprecated) */
+>  		if (tlmi_priv.pwd_admin->valid && tlmi_priv.pwd_admin->password[0]) {
+>  			auth_str = kasprintf(GFP_KERNEL, "%s,%s,%s;",
+> @@ -1068,10 +1079,14 @@ static ssize_t current_value_store(struct kobject *kobj,
+>  		if (ret)
+>  			goto out;
+>  
+> -		if (auth_str)
+> -			ret = tlmi_save_bios_settings(auth_str);
+> -		else
+> -			ret = tlmi_save_bios_settings("");
+> +		if (tlmi_priv.save_mode == TLMI_SAVE_BULK) {
+> +			tlmi_priv.save_required = true;
+> +		} else {
+> +			if (auth_str)
+> +				ret = tlmi_save_bios_settings(auth_str);
+> +			else
+> +				ret = tlmi_save_bios_settings("");
+> +		}
+>  	}
+>  	if (!ret && !tlmi_priv.pending_changes) {
+>  		tlmi_priv.pending_changes = true;
+> @@ -1152,6 +1167,89 @@ static ssize_t pending_reboot_show(struct kobject *kobj, struct kobj_attribute *
+>  
+>  static struct kobj_attribute pending_reboot = __ATTR_RO(pending_reboot);
+>  
+> +static ssize_t save_settings_show(struct kobject *kobj, struct kobj_attribute *attr,
+> +				  char *buf)
+> +{
+> +	return sprintf(buf, "%s\n", tlmi_priv.save_mode == TLMI_SAVE_SINGLE ? "single" : "bulk");
+> +}
+> +
+> +static ssize_t save_settings_store(struct kobject *kobj, struct kobj_attribute *attr,
+> +				   const char *buf, size_t count)
+> +{
+> +	char *auth_str = NULL;
+> +	int ret;
+> +
+> +	/* Check if user is trying to change the save mode */
+> +	if (!strncmp(buf, "bulk", 4) || !strncmp(buf, "single", 6)) {
+> +		tlmi_priv.save_mode = strncmp(buf, "bulk", 4) ? TLMI_SAVE_SINGLE : TLMI_SAVE_BULK;
+> +		return count;
+> +	}
+> +	if (strncmp(buf, "save", 4))
+> +		return -EINVAL;
 
-I have 25 years of C-programming experience and even I
-cannot read this.
+Things look good up to this point, but I'm not happy
+with the string parsing here. Using strncmp to avoid
+a possible '\n' means that writing
+"bulk extra special with onions" will also match "bulk".
 
-It seems to me that you are trying to use the length
-argument to not copy the '\n' here.
+Instead I suggest the following (better names
+for the enum are welcome):
 
-While at the same time using strnchr(..., sizeof(arg) ...)
-instead of normal strchr() to make sure you don't pass\
-a value bigger then sizeof(arg) as length to strscpy().
+	enum { save_single, save_bulk, save_save };
 
-Please do not do this it is needlessly complicated and
-makes the code almost impossible to read / reason about.
+	const char * const save_strings[] = {
+		[save_single] = "single",
+		[save_bulk] = "bulk",
+		[save_save] = "save",
+	};
 
-What the original code was doing, first copying at
-most ACTION_LEN - 1 bytes into arg and then ensuring
-0 termination, followed by stripping '\n' from the
-writable copy we have just made is much cleaner.
+	int ret = 0;
+	int cmd;
 
-IMHO this patch should simple replace the strncpy()
-+ 0 termination with a strscpy() and not make
-any other changes, leading to:
+	cmd = sysfs_match_string(save_strings, buf);
+	if (cmd < 0)
+		return cmd;
 
-	/* (remove possible '\n') */
-	strscpy(arg, val, sizeof(arg));
-	p = strchr(arg, '\n');
-	if (p)
-		*p = '\0';
+	mutex_lock(&tlmi_mutex);
 
-See how this is much much more readable /
-much easier to wrap ones mind around ?
+	switch (cmd) {
+	case save_single:
+		tlmi_priv.save_mode = TLMI_SAVE_SINGLE;
+		goto out;
+	case save_bulk:
+		tlmi_priv.save_mode = TLMI_SAVE_BULK;
+		goto out;
+	case save_save:
+		break; /* Continue with saving settings */
+	}
 
-And then as a *separate* followup patch
-you could simplify this further by using strchrnul():
+	/* The user is triggering a save - if supported */
+	if (!tlmi_priv.can_set_bios_settings ||
+	    tlmi_priv.save_mode == TLMI_SAVE_SINGLE)
+		return -EOPNOTSUPP;
 
-	/* (remove possible '\n') */
-	strscpy(arg, val, sizeof(arg));
-	p = strchrnul(arg, '\n');
-	*p = '\0';
+	...
 
-But again that belongs in a separate patch
-since it is not:
+This lets sysfs_match_string() do the string parsing work
+for us, getting rid of having to do this ourselves.
 
-"refactor deprecated strcpy and strncpy"
+Notice I have also moved the mutex_lock() up, so that
+it is also done for updating the save_mode since we
+don't want that the change halfway through a possibly
+racing current_value_store() call.
+
+
+> +
+> +	/* Otherwise assume the user is triggering a save - if supported*/
+> +	if (!tlmi_priv.can_set_bios_settings ||
+> +	    tlmi_priv.save_mode == TLMI_SAVE_SINGLE)
+> +		return -EOPNOTSUPP;
+> +
+> +	/* Check there is actually something to save */
+> +	if (!tlmi_priv.save_required)
+> +		return -ENOENT;
+> +
+> +	/* Use lock in case multiple WMI operations needed */
+> +	mutex_lock(&tlmi_mutex);
+> +
+> +	/* Check if certificate authentication is enabled and active */
+> +	if (tlmi_priv.certificate_support && tlmi_priv.pwd_admin->cert_installed) {
+> +		if (!tlmi_priv.pwd_admin->signature || !tlmi_priv.pwd_admin->save_signature) {
+> +			ret = -EINVAL;
+> +			goto out;
+> +		}
+> +		ret = tlmi_simple_call(LENOVO_SAVE_BIOS_SETTING_CERT_GUID,
+> +				       tlmi_priv.pwd_admin->save_signature);
+> +		if (ret)
+> +			goto out;
+> +	} else if (tlmi_priv.opcode_support) {
+> +		if (tlmi_priv.pwd_admin->valid && tlmi_priv.pwd_admin->password[0]) {
+> +			ret = tlmi_opcode_setting("WmiOpcodePasswordAdmin",
+> +						  tlmi_priv.pwd_admin->password);
+> +			if (ret)
+> +				goto out;
+> +		}
+> +		ret = tlmi_save_bios_settings("");
+> +	} else { /* old non-opcode based authentication method (deprecated) */
+> +		if (tlmi_priv.pwd_admin->valid && tlmi_priv.pwd_admin->password[0]) {
+> +			auth_str = kasprintf(GFP_KERNEL, "%s,%s,%s;",
+> +					     tlmi_priv.pwd_admin->password,
+> +					     encoding_options[tlmi_priv.pwd_admin->encoding],
+> +					     tlmi_priv.pwd_admin->kbdlang);
+> +			if (!auth_str) {
+> +				ret = -ENOMEM;
+> +				goto out;
+> +			}
+> +		}
+> +
+> +		if (auth_str)
+> +			ret = tlmi_save_bios_settings(auth_str);
+> +		else
+> +			ret = tlmi_save_bios_settings("");
+> +	}
+> +	tlmi_priv.save_required = false;
+> +	tlmi_priv.reboot_required = true;
+> +
+> +	if (!ret && !tlmi_priv.pending_changes) {
+> +		tlmi_priv.pending_changes = true;
+> +		/* let userland know it may need to check reboot pending again */
+> +		kobject_uevent(&tlmi_priv.class_dev->kobj, KOBJ_CHANGE);
+> +	}
+> +out:
+> +	mutex_unlock(&tlmi_mutex);
+> +	kfree(auth_str);
+> +	return ret ?: count;
+> +}
+> +
+> +static struct kobj_attribute save_settings = __ATTR_RW(save_settings);
+> +
+>  /* ---- Debug interface--------------------------------------------------------- */
+>  static ssize_t debug_cmd_store(struct kobject *kobj, struct kobj_attribute *attr,
+>  				const char *buf, size_t count)
+> @@ -1221,6 +1319,8 @@ static void tlmi_release_attr(void)
+>  		}
+>  	}
+>  	sysfs_remove_file(&tlmi_priv.attribute_kset->kobj, &pending_reboot.attr);
+> +	sysfs_remove_file(&tlmi_priv.attribute_kset->kobj, &save_settings.attr);
+> +
+>  	if (tlmi_priv.can_debug_cmd && debug_support)
+>  		sysfs_remove_file(&tlmi_priv.attribute_kset->kobj, &debug_cmd.attr);
+>  
+> @@ -1302,6 +1402,10 @@ static int tlmi_sysfs_init(void)
+>  	if (ret)
+>  		goto fail_create_attr;
+>  
+> +	ret = sysfs_create_file(&tlmi_priv.attribute_kset->kobj, &save_settings.attr);
+> +	if (ret)
+> +		goto fail_create_attr;
+> +
+>  	if (tlmi_priv.can_debug_cmd && debug_support) {
+>  		ret = sysfs_create_file(&tlmi_priv.attribute_kset->kobj, &debug_cmd.attr);
+>  		if (ret)
+> diff --git a/drivers/platform/x86/think-lmi.h b/drivers/platform/x86/think-lmi.h
+> index 4daba6151cd6..0c6304f323ed 100644
+> --- a/drivers/platform/x86/think-lmi.h
+> +++ b/drivers/platform/x86/think-lmi.h
+> @@ -27,6 +27,17 @@ enum level_option {
+>  	TLMI_LEVEL_MASTER,
+>  };
+>  
+> +/* There are a limit on the number of WMI operations you can do if you use
+> + * the default implementation of saving on every set. This is due to a
+> + * limitation in EFI variable space used.
+> + * Have a 'bulk save' mode where you can manually trigger the save, and can
+> + * therefore set unlimited variables - for users that need it.
+> + */
+> +enum save_mode {
+> +	TLMI_SAVE_SINGLE,
+> +	TLMI_SAVE_BULK,
+> +};
+> +
+>  /* password configuration details */
+>  struct tlmi_pwdcfg_core {
+>  	uint32_t password_mode;
+> @@ -86,6 +97,9 @@ struct think_lmi {
+>  	bool can_debug_cmd;
+>  	bool opcode_support;
+>  	bool certificate_support;
+> +	enum save_mode save_mode;
+> +	bool save_required;
+> +	bool reboot_required;
+>  
+>  	struct tlmi_attr_setting *setting[TLMI_SETTINGS_COUNT];
+>  	struct device *class_dev;
 
 Regards,
 
 Hans
-
-
-
-
-
-
->  
->  	for (i = 0; i < n; i++)
->  		if (!strcmp(arg, valid_acts[i].action))
->  			break;
->  
->  	if (i < n) {
-> -		strcpy(uv_nmi_action, arg);
-> +		strscpy(uv_nmi_action, arg, sizeof(uv_nmi_action));
->  		pr_info("UV: New NMI action:%s\n", uv_nmi_action);
->  		return 0;
->  	}
-> @@ -959,7 +955,7 @@ static int uv_handle_nmi(unsigned int reason, struct pt_regs *regs)
->  
->  		/* Unexpected return, revert action to "dump" */
->  		if (master)
-> -			strncpy(uv_nmi_action, "dump", strlen(uv_nmi_action));
-> +			strscpy(uv_nmi_action, "dump", sizeof(uv_nmi_action));
->  	}
->  
->  	/* Pause as all CPU's enter the NMI handler */
-> 
-> ---
-> base-commit: 706a741595047797872e669b3101429ab8d378ef
-> change-id: 20230822-strncpy-arch-x86-platform-uv-uv_nmi-474e5295c2c1
-> 
-> Best regards,
-> --
-> Justin Stitt <justinstitt@google.com>
-> 
 
