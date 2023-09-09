@@ -2,43 +2,43 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9993C799986
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  9 Sep 2023 18:25:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03CEA79998E
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  9 Sep 2023 18:25:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231143AbjIIQZR (ORCPT
+        id S231722AbjIIQZT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 9 Sep 2023 12:25:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34562 "EHLO
+        Sat, 9 Sep 2023 12:25:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346381AbjIIOUN (ORCPT
+        with ESMTP id S1346373AbjIIOUF (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 9 Sep 2023 10:20:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28361E47
-        for <platform-driver-x86@vger.kernel.org>; Sat,  9 Sep 2023 07:18:39 -0700 (PDT)
+        Sat, 9 Sep 2023 10:20:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ED8EE46
+        for <platform-driver-x86@vger.kernel.org>; Sat,  9 Sep 2023 07:18:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694269118;
+        s=mimecast20190719; t=1694269117;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=CdsDqz0zPOy7jhgwrTpUp+gZgwT9fxcigX67K+/zeIs=;
-        b=VLoVEryXQ8Rzm/ufiH4bUZ+/rOpmyrXcPH1l3Qam12EQ5V8KvoqjxKrJMZJ1m18dAQkCON
-        Gdp+S2+8cfqYcjb0bEdWgQzaX8CCJ6UBgjevK2CXItZqTNP0CT70dkJ0RQLZVCtxEmPQZw
-        SeykjGxeCOaHlzPVvGjL/XRF+JghogQ=
+        bh=V9w02tjgg+rCW2IRt1y+039+nKLy7RT6uNR25PwjTMs=;
+        b=X6kBabCJ12Duh5Nm0JrYkxqc+jfBuU/v+Dl/9qF1S3gcDstywv0W99qQHNwdTCZMdF6v6T
+        s6vcuMf1Wu4BRC8S4jvbTnMY2tjIpByHPjteetoHqMlUhaqQPgLjMkHbYM+Otv7wfyzcrA
+        JPlom63mWJQDI8m3iYdjpZ+5aU1bHE8=
 Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
  by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-R4Sy07_2OC6hoH4Ca72KFQ-1; Sat, 09 Sep 2023 10:18:33 -0400
-X-MC-Unique: R4Sy07_2OC6hoH4Ca72KFQ-1
+ us-mta-138-diEMnHx0OOSxA39h2iSYQw-1; Sat, 09 Sep 2023 10:18:34 -0400
+X-MC-Unique: diEMnHx0OOSxA39h2iSYQw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C1F2380671E;
-        Sat,  9 Sep 2023 14:18:32 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C4D9A3803909;
+        Sat,  9 Sep 2023 14:18:33 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.37])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 632A614171B6;
-        Sat,  9 Sep 2023 14:18:31 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AD4441460FE5;
+        Sat,  9 Sep 2023 14:18:32 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
@@ -47,46 +47,47 @@ To:     =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
         Linus Walleij <linus.walleij@linaro.org>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org
-Subject: [PATCH 7/8] platform/x86: x86-android-tablets: Use platform-device as gpio-keys parent
-Date:   Sat,  9 Sep 2023 16:18:15 +0200
-Message-ID: <20230909141816.58358-8-hdegoede@redhat.com>
+Subject: [PATCH 8/8] platform/x86: x86-android-tablets: Drop "linux,power-supply-name" from lenovo_yt3_bq25892_0_props[]
+Date:   Sat,  9 Sep 2023 16:18:16 +0200
+Message-ID: <20230909141816.58358-9-hdegoede@redhat.com>
 In-Reply-To: <20230909141816.58358-1-hdegoede@redhat.com>
 References: <20230909141816.58358-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Use the new x86-android-tablets platform-device as gpio-keys parent
-to make it clear that this gpio-keys device was instantiated by
-the x86-android-tablets driver.
+The "linux,power-supply-name" property is a left-over from an earlier
+attempt to allow properties to specify the power_supply class-device name.
+
+The patch to read this property never made it upstream (and is no longer
+necessary). Drop the unused property.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/x86-android-tablets/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/platform/x86/x86-android-tablets/lenovo.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/platform/x86/x86-android-tablets/core.c b/drivers/platform/x86/x86-android-tablets/core.c
-index 673f3a14941b..b72bb0376fe5 100644
---- a/drivers/platform/x86/x86-android-tablets/core.c
-+++ b/drivers/platform/x86/x86-android-tablets/core.c
-@@ -378,7 +378,7 @@ static __init int x86_android_tablet_probe(struct platform_device *pdev)
- 		pdata.buttons = buttons;
- 		pdata.nbuttons = dev_info->gpio_button_count;
- 
--		pdevs[pdev_count] = platform_device_register_data(NULL, "gpio-keys",
-+		pdevs[pdev_count] = platform_device_register_data(&pdev->dev, "gpio-keys",
- 								  PLATFORM_DEVID_AUTO,
- 								  &pdata, sizeof(pdata));
- 		if (IS_ERR(pdevs[pdev_count])) {
+diff --git a/drivers/platform/x86/x86-android-tablets/lenovo.c b/drivers/platform/x86/x86-android-tablets/lenovo.c
+index 35aa2968d726..5c803cdb5586 100644
+--- a/drivers/platform/x86/x86-android-tablets/lenovo.c
++++ b/drivers/platform/x86/x86-android-tablets/lenovo.c
+@@ -565,7 +565,6 @@ static const struct software_node fg_bq25890_1_supply_node = {
+ /* bq25892 charger settings for the flat lipo battery behind the screen */
+ static const struct property_entry lenovo_yt3_bq25892_0_props[] = {
+ 	PROPERTY_ENTRY_STRING_ARRAY("supplied-from", lenovo_yt3_bq25892_0_suppliers),
+-	PROPERTY_ENTRY_STRING("linux,power-supply-name", "bq25892-second-chrg"),
+ 	PROPERTY_ENTRY_U32("linux,iinlim-percentage", 40),
+ 	PROPERTY_ENTRY_BOOL("linux,skip-reset"),
+ 	/* Values taken from Android Factory Image */
 -- 
 2.41.0
 
