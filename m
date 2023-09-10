@@ -2,92 +2,97 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03CEA79998E
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  9 Sep 2023 18:25:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 832BA799CF7
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 10 Sep 2023 09:52:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231722AbjIIQZT (ORCPT
+        id S242241AbjIJHwZ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 9 Sep 2023 12:25:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42466 "EHLO
+        Sun, 10 Sep 2023 03:52:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346373AbjIIOUF (ORCPT
+        with ESMTP id S229650AbjIJHwZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 9 Sep 2023 10:20:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ED8EE46
-        for <platform-driver-x86@vger.kernel.org>; Sat,  9 Sep 2023 07:18:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694269117;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=V9w02tjgg+rCW2IRt1y+039+nKLy7RT6uNR25PwjTMs=;
-        b=X6kBabCJ12Duh5Nm0JrYkxqc+jfBuU/v+Dl/9qF1S3gcDstywv0W99qQHNwdTCZMdF6v6T
-        s6vcuMf1Wu4BRC8S4jvbTnMY2tjIpByHPjteetoHqMlUhaqQPgLjMkHbYM+Otv7wfyzcrA
-        JPlom63mWJQDI8m3iYdjpZ+5aU1bHE8=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-138-diEMnHx0OOSxA39h2iSYQw-1; Sat, 09 Sep 2023 10:18:34 -0400
-X-MC-Unique: diEMnHx0OOSxA39h2iSYQw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C4D9A3803909;
-        Sat,  9 Sep 2023 14:18:33 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.37])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id AD4441460FE5;
-        Sat,  9 Sep 2023 14:18:32 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Sun, 10 Sep 2023 03:52:25 -0400
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com [IPv6:2607:f8b0:4864:20::c29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB9F4119;
+        Sun, 10 Sep 2023 00:52:20 -0700 (PDT)
+Received: by mail-oo1-xc29.google.com with SMTP id 006d021491bc7-5733710eecaso2033046eaf.1;
+        Sun, 10 Sep 2023 00:52:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694332340; x=1694937140; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kUzbkQyUnUnw16/PAooedaB75hvDn/Lqq4EvQow4wqo=;
+        b=sR4YvV6osnCPWv9aXrBgWkSvKpJLPf/UZVY9J6EhmnhQWZAW2JlzefQ4rxZ0cnGemi
+         8qrNhLzdrZF+JU4EoJIMTaaz/78GjphnWWNow1ChYFrk835iP23jVQ05KbFUcJx+FlnA
+         YqpJpa2onA+MiOZ4ExvlJztMuNJs2UnQBWVUzL+a6gCbAv6RweCrNQEEDH1OioCnhbne
+         88l5Y8oyAC24FkEZAiwz/GKugTpIvbWFe4+/wNhj/1zyN4LRMdzoUFUd4ALTthx4FBt7
+         5s2rQSMDzSMbPazJqOMKX9kb3TK53wL8dBXBUg1nISivgJbvOI4CwI6GgPU6l0ZSuaQe
+         RKlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694332340; x=1694937140;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kUzbkQyUnUnw16/PAooedaB75hvDn/Lqq4EvQow4wqo=;
+        b=PndA87ErXRNuX9CITX8/e5JH+zRPoaXyGZ2EDDIIZdrJNIgVJOcwkYDYqUadOrwyhh
+         m2/CWdEg3E1ME1NO7u8FEvECHvoJgUQRL2nJz1bb3KXypUTbfh/Q/M8tlJ3JZ7A6Cj7y
+         9petSAOMsFkpvnvlOMrSMrs9DcEjUsJ582SUgPG18H1ARtwPKmjoNXRzPzs9T1D7f3pn
+         XfC4SSccabN7IDh4Ezi2fPjNq0ZKHuD+S8OMgGca7aX3Ik/LAlAAc7LYUNL1EHLuTcbu
+         gp0WpwO2SmObcTRLuOu/B3KKnu/3CPDw8z25PyMcbAQ/f/jMb8QS51L8vKKRjHGEKsGC
+         1dVA==
+X-Gm-Message-State: AOJu0YxC+BWUWzE5df/+WpFuK0O79blcCh81q8CRctaX1wbGQvCt/iYg
+        q4fEYQlwjBZDfoXOwSVw1tQYUQGYUAiVBmvE1SfkeL/qAe3D2g==
+X-Google-Smtp-Source: AGHT+IGK/ttI78Z2GTMxrNN9NIxY/3tl+ALjMDLU4K0aG0JEE8Y5d2MtCzLgnBbMcPorG5qNeGyu4W6+74WVBaf6P+A=
+X-Received: by 2002:a4a:9111:0:b0:56c:820e:7f02 with SMTP id
+ k17-20020a4a9111000000b0056c820e7f02mr5485901oog.0.1694332340192; Sun, 10 Sep
+ 2023 00:52:20 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230909141816.58358-1-hdegoede@redhat.com> <20230909141816.58358-2-hdegoede@redhat.com>
+In-Reply-To: <20230909141816.58358-2-hdegoede@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sun, 10 Sep 2023 10:51:44 +0300
+Message-ID: <CAHp75Vds-PLeZ4RNQevZ8hF4wrQjHYea1BGNuFm3cRbHy5A+Dw@mail.gmail.com>
+Subject: Re: [PATCH 1/8] gpiolib: acpi: Check if a GPIO is listed in
+ ignore_interrupt earlier
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
         Andy Shevchenko <andy@kernel.org>,
         Bartosz Golaszewski <brgl@bgdev.pl>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
         platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org
-Subject: [PATCH 8/8] platform/x86: x86-android-tablets: Drop "linux,power-supply-name" from lenovo_yt3_bq25892_0_props[]
-Date:   Sat,  9 Sep 2023 16:18:16 +0200
-Message-ID: <20230909141816.58358-9-hdegoede@redhat.com>
-In-Reply-To: <20230909141816.58358-1-hdegoede@redhat.com>
-References: <20230909141816.58358-1-hdegoede@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The "linux,power-supply-name" property is a left-over from an earlier
-attempt to allow properties to specify the power_supply class-device name.
+On Sat, Sep 9, 2023 at 5:18=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
+wrote:
+>
+> In some cases where a broken AEI is present for a GPIO and the GPIO
+> is listed in the ignore_interrupt list to avoid the broken event
+> handler, the kernel may want to use the GPIO for another purpose.
+>
+> Before this change trying to use such a GPIO for another purpose would
+> fail, because the ignore_interrupt list was only checked after
+> the acpi_request_own_gpiod() call, causing the GPIO to already be
+> claimed even though it is listed in the ignore_interrupt list.
+>
+> Fix this by moving the ignore_interrupt list to above
+> the acpi_request_own_gpiod() call.
 
-The patch to read this property never made it upstream (and is no longer
-necessary). Drop the unused property.
+Not sure if we need a Fixes tag, either way this makes sense,
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/x86-android-tablets/lenovo.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/platform/x86/x86-android-tablets/lenovo.c b/drivers/platform/x86/x86-android-tablets/lenovo.c
-index 35aa2968d726..5c803cdb5586 100644
---- a/drivers/platform/x86/x86-android-tablets/lenovo.c
-+++ b/drivers/platform/x86/x86-android-tablets/lenovo.c
-@@ -565,7 +565,6 @@ static const struct software_node fg_bq25890_1_supply_node = {
- /* bq25892 charger settings for the flat lipo battery behind the screen */
- static const struct property_entry lenovo_yt3_bq25892_0_props[] = {
- 	PROPERTY_ENTRY_STRING_ARRAY("supplied-from", lenovo_yt3_bq25892_0_suppliers),
--	PROPERTY_ENTRY_STRING("linux,power-supply-name", "bq25892-second-chrg"),
- 	PROPERTY_ENTRY_U32("linux,iinlim-percentage", 40),
- 	PROPERTY_ENTRY_BOOL("linux,skip-reset"),
- 	/* Values taken from Android Factory Image */
--- 
-2.41.0
-
+--=20
+With Best Regards,
+Andy Shevchenko
