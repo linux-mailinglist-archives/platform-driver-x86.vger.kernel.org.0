@@ -2,88 +2,168 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E1E879AFBE
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Sep 2023 01:48:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 275B679B52D
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Sep 2023 02:03:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238100AbjIKWAn (ORCPT
+        id S243725AbjIKWA4 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 11 Sep 2023 18:00:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41270 "EHLO
+        Mon, 11 Sep 2023 18:00:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236171AbjIKJwR (ORCPT
+        with ESMTP id S236709AbjIKLP1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 11 Sep 2023 05:52:17 -0400
-Received: from mail-ua1-x934.google.com (mail-ua1-x934.google.com [IPv6:2607:f8b0:4864:20::934])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E46F0E40
-        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Sep 2023 02:52:12 -0700 (PDT)
-Received: by mail-ua1-x934.google.com with SMTP id a1e0cc1a2514c-7a5170c78e6so1371202241.2
-        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Sep 2023 02:52:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1694425932; x=1695030732; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KIn7ppfI5hUpZ9BWxWQzUJmi7tuPomUJZC2PQ3FzTQQ=;
-        b=07YFJQkUeiL3lWFl7abLIGKxeKDPyLSlQvruWtuE0RXA3iHdEPmYRzO+dSTW1yls7P
-         im38IXFacFuIQibFMVCGF/JdCcfW3gVvaehmubYhS3TwiLnxd7mmluFkj2P/PTie7skn
-         q6eDMcNkYgzx6JalgZnSoCfqjxoSpOHs0ukqDQb62PrbF/YcVHB1qcfLsVPzahBvaWW0
-         cf/SnTinPTP07H8iIT1tj//ruT97cgtd7Rj9/i8LHe6+DlpbgxXvER5McsJ9a1Hcjyhy
-         KFI4TPEYhwJDQjO3/76fuF7/Hm2flaeOl1WHskRz+E8v/TbDxu7qFWyBEkIri98v4soq
-         ZfJA==
+        Mon, 11 Sep 2023 07:15:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 79F65CEB
+        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Sep 2023 04:14:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1694430877;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=LZHlUfn/17CG9PV8K2nMC6g5yBMLaeUVhPgQcvBVUcM=;
+        b=bNnUpEut8zXwGSe2I91jR0vIFHwZK7WP3e8/AGvvlKxX0sAH4SJM2rqh7DlsS+Nrv8p6KP
+        alYGdB3N71M7cO77dS7U7Lk1Giru1ePugrBJwAKZY6wKF9wStXO9XWbhVe/wrMHxcQs3sH
+        n+pYnT0FNqSR6gYjUlZ4lp/jgNxLTIc=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-306--d8f2ql5N66ajGIOIxx0Lw-1; Mon, 11 Sep 2023 07:14:36 -0400
+X-MC-Unique: -d8f2ql5N66ajGIOIxx0Lw-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9a647551b7dso615787766b.1
+        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Sep 2023 04:14:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694425932; x=1695030732;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KIn7ppfI5hUpZ9BWxWQzUJmi7tuPomUJZC2PQ3FzTQQ=;
-        b=Re0XYD3m6h5/CbYgx48BcO5HHpFa7R6pPrKlP8FUlxnP/+KMp4VQ41q6Q9VEugGZ8F
-         D7foO7WW3/0fclkgZqSLPDTBycwFIEvpRb4Y/ToVfl4U4/nybmOTBTM7CNJmSqLs4CBj
-         Wj7xNBaRf8UJHN2Gxg5GiWC9HiVH9HUqQm3KPihEdO2sFEMK65sSf5BbauCS8OyPz5Hd
-         UMKiH/xqw11JQg4XTfnQRkQqYolzOt95FKseVJlu6V9mFi9McNRh2rV/Lz0J3e+ebCKp
-         VahjUYjUOs+mPMLLOYOfRhAmJ17J0zdeig4LDfizSkcuIzwYO0DEDd/O8n+vHryBHB5q
-         +nrg==
-X-Gm-Message-State: AOJu0Yz1nHAzOAWcl8UABd7qCcz3hKuIF5tZjht6dDxjC/V36PLhJxsu
-        TGJorODNTmM5m/cc3zWvWD/OtPjlpozEsWYsuL8Psw==
-X-Google-Smtp-Source: AGHT+IHibDNcC0W+t+sqyHgZd/i+fSeIzfiyJ4cjrCpSbO2UJ3YBbXCP+TDuS+qow+FJct3Pniq4ec1uXbAZUbmESNQ=
-X-Received: by 2002:a67:e981:0:b0:44e:d6c3:51d6 with SMTP id
- b1-20020a67e981000000b0044ed6c351d6mr7589163vso.14.1694425932088; Mon, 11 Sep
- 2023 02:52:12 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1694430875; x=1695035675;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LZHlUfn/17CG9PV8K2nMC6g5yBMLaeUVhPgQcvBVUcM=;
+        b=eOHTOg07dCIlNfnpO1V1o1pcZk11m1t0ah9FtSCbb5/Ij0Q3S8wBMAz6qnjWPBe2Yw
+         BWzt1cPitgSQNvx7mpPqcSdLG38vyXojov444/LfAQljFXZDGk7dOnaXm4WLKIr7YhvG
+         nL9SmMcwKMuIdouAwLcSp+M4Zh563S3y90a6abCtPTQbZJRlRl24y+k13LcwXHZDRvBs
+         QzueMWrgLl0gNXNuyvj7KDOwkHwxLJ87pM9xKucWwcTWuvQFf4vqt6yVTzdrCTNm8oqj
+         T3Exan5iDVhGMSvWzYftpxcFzl3eH9LtP/cIeBi7G2qQFWh2SUps/Pcfho6QAuOIoaqe
+         YnJA==
+X-Gm-Message-State: AOJu0YyL6rCyhpWJwPT4t/wn84LKTGOO0+SelgaQmjBx4jd9RPdFXHby
+        Y0uMMgvJnaY66U8QDz+qYMNJUEe60W8ly9sS7W0E/JRo2QuOvIIGL4BvE5RDenvUVlac9KXEZDX
+        NGQ64alwSP7oOvvvV9e2ujE/JNeX8iy4Ezw==
+X-Received: by 2002:a17:906:58cd:b0:9a1:c35b:9e09 with SMTP id e13-20020a17090658cd00b009a1c35b9e09mr18980887ejs.8.1694430875052;
+        Mon, 11 Sep 2023 04:14:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHc1yQRo/edO3xM+hTUpURKygC1fRP+bgKUURdgH3b7p2xbJeY1EngsA/BV5BKgyZZEYBdGdg==
+X-Received: by 2002:a17:906:58cd:b0:9a1:c35b:9e09 with SMTP id e13-20020a17090658cd00b009a1c35b9e09mr18980867ejs.8.1694430874770;
+        Mon, 11 Sep 2023 04:14:34 -0700 (PDT)
+Received: from [10.40.98.142] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id a7-20020a1709062b0700b009a1dbf55665sm5199607ejg.161.2023.09.11.04.14.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Sep 2023 04:14:34 -0700 (PDT)
+Message-ID: <97f90ed6-e857-8b66-a4b8-8ed580bb18c7@redhat.com>
+Date:   Mon, 11 Sep 2023 13:14:33 +0200
 MIME-Version: 1.0
-References: <20230909141816.58358-1-hdegoede@redhat.com> <20230909141816.58358-4-hdegoede@redhat.com>
-In-Reply-To: <20230909141816.58358-4-hdegoede@redhat.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Mon, 11 Sep 2023 11:52:01 +0200
-Message-ID: <CAMRc=MeErGNWcYmm=T8HXPUoYzOQwjsSZGh9w_ssTffk-ze_zA@mail.gmail.com>
-Subject: Re: [PATCH 3/8] platform/x86: x86-android-tablets: Remove
- invalid_aei_gpiochip from Peaq C1010
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v4 1/3] platform/mellanox: mlxbf-pmc: Fix potential buffer
+ overflows
+Content-Language: en-US
+To:     Shravan Kumar Ramani <shravankr@nvidia.com>,
+        Mark Gross <markgross@kernel.org>,
+        Vadim Pasternak <vadimp@nvidia.com>,
+        David Thompson <davthompson@nvidia.com>
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1693917738.git.shravankr@nvidia.com>
+ <bef39ef32319a31b32f999065911f61b0d3b17c3.1693917738.git.shravankr@nvidia.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <bef39ef32319a31b32f999065911f61b0d3b17c3.1693917738.git.shravankr@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sat, Sep 9, 2023 at 4:18=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
-wrote:
->
-> Remove the invalid_aei_gpiochip setting from the x86_dev_info
-> for the Peaq C1010.
->
-> This is no longer necessary since there now is a quirk to ignore
-> the "dolby" button GPIO in gpiolib_acpi_quirks[] in
-> drivers/gpio/gpiolib-acpi.c .
->
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
+Hi,
 
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+On 9/5/23 14:49, Shravan Kumar Ramani wrote:
+> Replace sprintf with sysfs_emit where possible.
+> Size check in mlxbf_pmc_event_list_show should account for "\0".
+> 
+> Fixes: 1a218d312e65 ("platform/mellanox: mlxbf-pmc: Add Mellanox BlueField PMC driver")
+> Signed-off-by: Shravan Kumar Ramani <shravankr@nvidia.com>
+> Reviewed-by: Vadim Pasternak <vadimp@nvidia.com>
+> Reviewed-by: David Thompson <davthompson@nvidia.com>
+
+Thank you for your patch, I've applied this patch to my fixes
+branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=fixes
+
+Note it will show up in my fixes branch once I've pushed my
+local branch there, which might take a while.
+
+I will include this patch in my next fixes pull-req to Linus
+for the current kernel development cycle.
+
+Regards,
+
+Hans
+
+> ---
+>  drivers/platform/mellanox/mlxbf-pmc.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/platform/mellanox/mlxbf-pmc.c b/drivers/platform/mellanox/mlxbf-pmc.c
+> index be967d797c28..95afcae7b9fa 100644
+> --- a/drivers/platform/mellanox/mlxbf-pmc.c
+> +++ b/drivers/platform/mellanox/mlxbf-pmc.c
+> @@ -1008,7 +1008,7 @@ static ssize_t mlxbf_pmc_counter_show(struct device *dev,
+>  	} else
+>  		return -EINVAL;
+>  
+> -	return sprintf(buf, "0x%llx\n", value);
+> +	return sysfs_emit(buf, "0x%llx\n", value);
+>  }
+>  
+>  /* Store function for "counter" sysfs files */
+> @@ -1078,13 +1078,13 @@ static ssize_t mlxbf_pmc_event_show(struct device *dev,
+>  
+>  	err = mlxbf_pmc_read_event(blk_num, cnt_num, is_l3, &evt_num);
+>  	if (err)
+> -		return sprintf(buf, "No event being monitored\n");
+> +		return sysfs_emit(buf, "No event being monitored\n");
+>  
+>  	evt_name = mlxbf_pmc_get_event_name(pmc->block_name[blk_num], evt_num);
+>  	if (!evt_name)
+>  		return -EINVAL;
+>  
+> -	return sprintf(buf, "0x%llx: %s\n", evt_num, evt_name);
+> +	return sysfs_emit(buf, "0x%llx: %s\n", evt_num, evt_name);
+>  }
+>  
+>  /* Store function for "event" sysfs files */
+> @@ -1139,9 +1139,9 @@ static ssize_t mlxbf_pmc_event_list_show(struct device *dev,
+>  		return -EINVAL;
+>  
+>  	for (i = 0, buf[0] = '\0'; i < size; ++i) {
+> -		len += sprintf(e_info, "0x%x: %s\n", events[i].evt_num,
+> -			       events[i].evt_name);
+> -		if (len > PAGE_SIZE)
+> +		len += snprintf(e_info, sizeof(e_info), "0x%x: %s\n",
+> +				events[i].evt_num, events[i].evt_name);
+> +		if (len >= PAGE_SIZE)
+>  			break;
+>  		strcat(buf, e_info);
+>  		ret = len;
+> @@ -1168,7 +1168,7 @@ static ssize_t mlxbf_pmc_enable_show(struct device *dev,
+>  
+>  	value = FIELD_GET(MLXBF_PMC_L3C_PERF_CNT_CFG_EN, perfcnt_cfg);
+>  
+> -	return sprintf(buf, "%d\n", value);
+> +	return sysfs_emit(buf, "%d\n", value);
+>  }
+>  
+>  /* Store function for "enable" sysfs files - only for l3cache */
+
