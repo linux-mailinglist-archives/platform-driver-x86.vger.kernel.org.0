@@ -2,83 +2,70 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A6E479BAFC
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Sep 2023 02:12:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C31CF79B946
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Sep 2023 02:09:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355592AbjIKWBU (ORCPT
+        id S1355886AbjIKWCQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 11 Sep 2023 18:01:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33154 "EHLO
+        Mon, 11 Sep 2023 18:02:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243529AbjIKRR2 (ORCPT
+        with ESMTP id S244216AbjIKTjq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 11 Sep 2023 13:17:28 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9692F1AD;
-        Mon, 11 Sep 2023 10:17:23 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-502153ae36cso7506619e87.3;
-        Mon, 11 Sep 2023 10:17:23 -0700 (PDT)
+        Mon, 11 Sep 2023 15:39:46 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 053AD18D
+        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Sep 2023 12:39:41 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-273ca7ab3f5so3221969a91.2
+        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Sep 2023 12:39:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694452642; x=1695057442; darn=vger.kernel.org;
-        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SI5vlgRKYRNHM1C+DkX5FIATlpw7hyOP/MciW4qezs4=;
-        b=CEG/GNZEFcoigcN1/Kzcm/xxVTvQTJ6YQIALk5DtwB/w/ZC7GjMaHXHBQb3jvYgdAJ
-         19LsGJaWP38DQYGHjRgcOdm1Biwcvkdm4PgRfHwzZQNEDCXI7T6vFK3OTdpGlhwx7qHw
-         MaNlrzZxHGBEZ/0FX1Wz5JpIXkHaAzwELbdOKgASxwfTlNwqI2h3p83QnOQi2fHVvs8d
-         1l/EvaFum7f74bcC2zJy8BECdumI4LfJ7xPhI6X9XqaiKlSP5R/davcWPbWTNhlfyVKF
-         GEgeJXFQZf9DJ28L8ozEYoCLGrpeJ/pzT2NdT0BaUIVv2SlNuoHtkeZ9JhZvO2r0gOSr
-         /oag==
+        d=chromium.org; s=google; t=1694461180; x=1695065980; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=U3kmuOgV1MqL70eyPKBwPx+gEeRsYvUgeQvC+nXxSq0=;
+        b=ajWJG9I8jbM77iPAy1T/ElAcjr6Ie3c6CY5X34nR6HzWNaL6hvVFx5wynsy+uFYJDe
+         J9NXbTddDvYWnxK9w7wM+4dfSKrmJa3YNxChontaAGSxn+B+t+BLDkZnrxRaioh1wbde
+         bOsrN35eQ274Fn6eXpq+sXR/v3/maILwApqIQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694452642; x=1695057442;
-        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SI5vlgRKYRNHM1C+DkX5FIATlpw7hyOP/MciW4qezs4=;
-        b=k9+wLAlyboTMEMFzMVC1Fhw+TMdGmjAmgvlfJwvbDH+m1mFCDeBuZ74ZCFLh0C3ou3
-         GBZ6mOeeEqijviTQ/UNpSdy/hE5F1RbtQrGju2iiMZDh0XYmh8ikp97e94fOXjx6Wuny
-         /3JB8MqabhZCYETuaxUYcrPwRdWcuZQNBAt7hVmNYNuR9zQvg/UqHRivZIs8a+D1xmt3
-         7788tsZiSrpueMeuWpbqlZAHtSBC+0p3i9MwZ+TuiQeiIjZmq2ayG2eqt09LyaRWSkVV
-         MJLKew/nFRPXubFlS5RGhb0sdt5OqmpSvHUbnNtVp1T77EkVq56fiYt4uVtMeeOVSDLR
-         ThEw==
-X-Gm-Message-State: AOJu0Yz4Lxy8HsQqqxO99KU/mboIShSoxlL17mbV0agY6L4o23VzmKDO
-        XBIiYplsdp0uFzXV15nwKjc=
-X-Google-Smtp-Source: AGHT+IGQJHojqhRwH0OQBhk3JhUu00YPa6S2W1S/m1cP6oA0/UCR4y1XMC4AB9LxZ3CXkImsKxpW4Q==
-X-Received: by 2002:a05:6512:108d:b0:500:97e4:587e with SMTP id j13-20020a056512108d00b0050097e4587emr9273543lfg.44.1694452641413;
-        Mon, 11 Sep 2023 10:17:21 -0700 (PDT)
-Received: from dell.localnet (77-255-201-154.dynamic.inetia.pl. [77.255.201.154])
-        by smtp.gmail.com with ESMTPSA id kj13-20020a170907764d00b009a1b857e3a5sm5622150ejc.54.2023.09.11.10.17.19
+        d=1e100.net; s=20230601; t=1694461180; x=1695065980;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U3kmuOgV1MqL70eyPKBwPx+gEeRsYvUgeQvC+nXxSq0=;
+        b=AJ5P4uFtRDeH6DJc6qdrBdt9BHbKlV0OPNc2/uBvyC6nbb0eA9zamb86UY980+zQN9
+         mi4Ggjfv+/WUrrnoptE2b1NrnCvXa0JPsoCc/QZXtDsFioCJ2kKxSk4xciW8EU/UsuNp
+         luq6FD7sPUSTtE7nGLeMz8X16X4TlXALKncOI7tS5OjngQaflzyZy2FDOiZcxA9CtZrP
+         GAi+doWl+1Zb5UVAh9DtQ8sSbdFap1Tw/klsmmgPaErZ2V9F8cB6GqSF1rvwRnkwQoFQ
+         30+VLZvca4o32q7aRy6kNCniOA2cEAAXYdx5ec1uxx5JAWdp5scQS8KB0qfvyx04WK+1
+         KSow==
+X-Gm-Message-State: AOJu0YzOUBr+oisNMjViqW6CON0b7H32fffOvmqybhJpEoHYXQgPdDZa
+        k3SKbSMKdHj9Yw4eoE5QXSugAw==
+X-Google-Smtp-Source: AGHT+IE1KCz2PPBtztjQa6r5F5mW8DpeJaFNItpLjTVRsOtt8Oshgk1XrqynXDOck4L9xWpjZ39/nw==
+X-Received: by 2002:a17:90a:7003:b0:273:fa72:ba83 with SMTP id f3-20020a17090a700300b00273fa72ba83mr4056419pjk.47.1694461180415;
+        Mon, 11 Sep 2023 12:39:40 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:11a:201:d487:5e33:6656:3711])
+        by smtp.gmail.com with ESMTPSA id fu8-20020a17090ad18800b00262e485156esm7736543pjb.57.2023.09.11.12.39.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 10:17:20 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Dipen Patel <dipenp@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mon, 11 Sep 2023 12:39:39 -0700 (PDT)
+From:   Stephen Boyd <swboyd@chromium.org>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>,
         Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-acpi@vger.kernel.org, timestamp@lists.linux.dev,
-        linux-tegra@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [RFT PATCH 15/21] arm: omap1: ams-delta: stop using gpiochip_find()
-Date:   Mon, 11 Sep 2023 19:17:18 +0200
-Message-ID: <4001581.3daJWjYHZt@dell>
-In-Reply-To: <CAMRc=Mfrk9q6fJyEAuxDXYPpbjVHeLJaTjHEcKiYHzrE3r+_7A@mail.gmail.com>
-References: <20230905185309.131295-1-brgl@bgdev.pl> <6555932.G0QQBjFxQf@dell>
- <CAMRc=Mfrk9q6fJyEAuxDXYPpbjVHeLJaTjHEcKiYHzrE3r+_7A@mail.gmail.com>
+        Mark Gross <markgross@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        platform-driver-x86@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Prashant Malani <pmalani@chromium.org>
+Subject: [PATCH v3 0/4] platform/x86: intel_scu_ipc: Timeout fixes
+Date:   Mon, 11 Sep 2023 12:39:32 -0700
+Message-ID: <20230911193937.302552-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.42.0.283.g2d96d420d3-goog
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart6408794.j6PcuT4dK6";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
-        HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -86,89 +73,47 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
---nextPart6408794.j6PcuT4dK6
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"; protected-headers="v1"
-From: Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Mon, 11 Sep 2023 19:17:18 +0200
-Message-ID: <4001581.3daJWjYHZt@dell>
-MIME-Version: 1.0
+I recently looked at some crash reports on ChromeOS devices that call
+into this intel_scu_ipc driver. They were hitting timeouts, and it
+certainly looks possible for those timeouts to be triggering because of
+scheduling issues. Once things started going south, the timeouts kept
+coming. Maybe that's because the other side got seriously confused? I
+don't know.
 
-Hi Bartosz,
+I added some sleeps to these paths to trigger the timeout behavior to
+make sure the code works. Simply sleeping for a long time in busy_loop()
+hits the timeout, which could happen if the system is scheduling lots of
+other things at the time.
 
-Dnia poniedzia=C5=82ek, 11 wrze=C5=9Bnia 2023 13:09:56 CEST Bartosz Golasze=
-wski pisze:
-> On Fri, Sep 8, 2023 at 8:07=E2=80=AFPM Janusz Krzysztofik <jmkrzyszt@gmai=
-l.com> wrote:
-> >
-> > Dnia czwartek, 7 wrze=C5=9Bnia 2023 09:31:01 CEST Linus Walleij pisze:
-> > > On Tue, Sep 5, 2023 at 8:53=E2=80=AFPM Bartosz Golaszewski <brgl@bgde=
-v.pl> wrote:
-> > >
-> > > > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > > >
-> > > > gpiochip_find() is going away as it's not hot-unplug safe. This pla=
-tform
-> > > > is not affected by any of the related problems as this GPIO control=
-ler
-> > > > cannot really go away but in order to finally remove this function,=
- we
-> > > > need to convert it to using gpio_device_find() as well.
-> > > >
-> > > > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > >
-> > > I was cleaning this one just some merge cycle ago, now it
-> > > looks even better!
-> > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> >
-> > Acked-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
-> >
->=20
-> Janusz,
->=20
-> Is it fine if I take it through the GPIO tree?
+I couldn't really test the third patch because forcing a timeout or
+returning immediately wasn't fast enough to trigger the second
+transaction to run into the first one being processed.
 
-Yes, should be fine, I believe.  Tony, Aaro, any doubts?
+Changes from v2 (https://lore.kernel.org/r/20230906180944.2197111-1-swboyd@chromium.org):
+ * Use read_poll_timeout() helper in patch #1 (again)
+ * New patch #3 to fix bug pointed out by Andy
+ * Consolidate more code into busy check in patch #4
 
-Thanks,
-Janusz
+Changes from v1 (https://lore.kernel.org/r/20230831011405.3246849-1-swboyd@chromium.org):
+ * Don't use read_poll_timeout() helper in patch 1, just add code
+ * Rewrite patch 2 to be simpler
+ * Make intel_scu_ipc_busy() return -EBUSY when busy
+ * Downgrade dev_err() to dev_dbg() in intel_scu_ipc_busy()
 
->=20
-> Bartosz
->=20
-> > Thanks,
-> > Janusz
-> >
-> > >
-> > > Yours,
-> > > Linus Walleij
-> > >
-> >
-> >
-> >
-> >
->=20
+Stephen Boyd (4):
+  platform/x86: intel_scu_ipc: Check status after timeout in busy_loop()
+  platform/x86: intel_scu_ipc: Check status upon timeout in
+    ipc_wait_for_interrupt()
+  platform/x86: intel_scu_ipc: Don't override scu in
+    intel_scu_ipc_dev_simple_command()
+  platform/x86: intel_scu_ipc: Fail IPC send if still busy
 
+ drivers/platform/x86/intel_scu_ipc.c | 66 +++++++++++++++++-----------
+ 1 file changed, 40 insertions(+), 26 deletions(-)
 
---nextPart6408794.j6PcuT4dK6
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+Cc: Prashant Malani <pmalani@chromium.org>
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEEnyr6IsGnTYAeAkHJ2WqSnltsjBoFAmT/S54ACgkQ2WqSnlts
-jBqfwggAkqeTBmvDijSA5oujmDfSsAwfI3pBy3VlWvEHNLW4jys50C18KyynuMPa
-QyvA9s4AZQjeusGTcGaGzSJ7KtMFCmTba/RuaP1mHrH/D9aXB0QlAhdaSoKEWpFl
-2ClWbPt6nnGyMQ17eFTpip9HD4ylxRY/wT748JaWqWBQPsOaSDsq1ghsuQy/6Dy2
-aos/iIizgrK5rhgxxBYmxHi7mm0Pa0sMkr6h8nqash55cMpCEMQeZmSV+GpDZ+vz
-BevtWk7pY+j5WGhOYJNulyih6cdVOVU8J6LqpUCkvKDwK2DzjKFsPSxJ2g1qA7/C
-B/sE4gkeNsH/dCnyiX/Rv1Kd3ak3YA==
-=/Mjl
------END PGP SIGNATURE-----
-
---nextPart6408794.j6PcuT4dK6--
-
-
+base-commit: 2dde18cd1d8fac735875f2e4987f11817cc0bc2c
+-- 
+https://chromeos.dev
 
