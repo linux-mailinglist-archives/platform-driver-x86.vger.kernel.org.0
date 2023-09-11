@@ -2,75 +2,80 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 062F479B7A5
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Sep 2023 02:07:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6099A79C06C
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Sep 2023 02:20:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355897AbjIKWCR (ORCPT
+        id S1355880AbjIKWCP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 11 Sep 2023 18:02:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57360 "EHLO
+        Mon, 11 Sep 2023 18:02:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236791AbjIKL0J (ORCPT
+        with ESMTP id S236814AbjIKL14 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 11 Sep 2023 07:26:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0405ACDD
-        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Sep 2023 04:25:18 -0700 (PDT)
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        Mon, 11 Sep 2023 07:27:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E228FCE5
+        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Sep 2023 04:27:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1694431627;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=8XU8RLh7grKPuWPmu4OmjyaOM+2R9QefqTD05IQ9xwE=;
+        b=iR0ezwhBeto/eQGsJ6BZgjHeQhygXy6YjrSA9mQr1CWL6esKM2kXZZPETnyT7v8ugLCbmO
+        we7hGnuV65ENcoxg7vPSq5LU2hXpEbbItod5hmVNgcEoZgQD5dU4us3tBfu9vH71aqnF/w
+        3/Qgk4LiD5UlcDL5BGMRLk2hzi0r64c=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-292-EpeDcTNNNSqyMfxNxrkoaw-1; Mon, 11 Sep 2023 07:25:17 -0400
-X-MC-Unique: EpeDcTNNNSqyMfxNxrkoaw-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-94a348facbbso299875166b.1
-        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Sep 2023 04:25:16 -0700 (PDT)
+ us-mta-15-dMdnUrJeP-Wc1VEHtRfttg-1; Mon, 11 Sep 2023 07:27:03 -0400
+X-MC-Unique: dMdnUrJeP-Wc1VEHtRfttg-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9ad73eb9668so30494866b.0
+        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Sep 2023 04:27:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694431516; x=1695036316;
+        d=1e100.net; s=20230601; t=1694431623; x=1695036423;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2Iim/K20vnt05KkdZYOYBtAD92BDdr0wfxtmdMEpivQ=;
-        b=np/Bt8Z5GUkx+6tvriiKNla96afCoW3VpcuQV0HnvNMkB9n+sZ8MLM0s085sz2aTCv
-         +okMKfRBG0zttigwWH6zcS/cQqP2HmI+EnO6wwH+sda3pG6F0MqjNbWbTIoKfnfGykEI
-         nbh2wUT+85uyGIHDnlej3oSDm7p94XW+8go3I/lSxjLgI+r24SUZXWGwYZvS/ObqgqWU
-         0XWGt1pW3jNqP1k4Uh2PuyOIACkFqS4CY3wjQfflBhuiBfBBaJrM0khm/DSinxV+g8VG
-         Ly4fJtwSizgpNfC5WY6he9kJW3DrWjg0zgMGvHEvS5k1qbusO71uJFmdCgXZRC/8uHlZ
-         l5EA==
-X-Gm-Message-State: AOJu0YwAI3CRYXqWUZas5EVm0GTFlB1Zxtd2mzIIlWg7EQKrWHm2pmte
-        L/RcoK+qoAEbtuDY+Zmyoi5Rflnk+c2IZUdAYMPVIa6yVvZ0A4iDBXxiSNXouuQoRc7tNpWzqhH
-        6meNfj1t/HhDG+VSljnUmx7MZfSxOTYIE5A==
-X-Received: by 2002:a17:907:a073:b0:9a1:d400:39e5 with SMTP id ia19-20020a170907a07300b009a1d40039e5mr7153725ejc.4.1694431515986;
-        Mon, 11 Sep 2023 04:25:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGRmzBlFjuupO/WhzEW9QA8x/A7Crw88ZDujh/u8xJM8zhdS52wjhVtQr5s2VmPio2T37TxEA==
-X-Received: by 2002:a17:907:a073:b0:9a1:d400:39e5 with SMTP id ia19-20020a170907a07300b009a1d40039e5mr7153710ejc.4.1694431515670;
-        Mon, 11 Sep 2023 04:25:15 -0700 (PDT)
+        bh=8XU8RLh7grKPuWPmu4OmjyaOM+2R9QefqTD05IQ9xwE=;
+        b=NhBrCsCPpgLAyffu1ZOzi1DWQhIC3ZGuEJk7EnrOlILCKoGX5JSKbPlb7PMTBXRoo1
+         9pSdLRqf3++fq7c09c/LApMdsT/N3SeNf/WGXSscAyg8o8CXe2FYpHGebtphhEC/DRD3
+         Tx79gCTaORMr5q7gMo6PI7V9QEzDKONc1G7ISHjRUqQDdwchNvAfZhKjLWpSk/P4P4Qo
+         LukVzmKHy7+hX5hyrjsFykss1mf7oEZYgo7raqRYtjgff1htIVjta7sw0pM6OLJFXqZ/
+         lDLuuFjOTINV6RaR6qFVEm9tNHVKchgWoxlvFOgxOX67NzvmSGu9QEaCOwBVD6H9nP0e
+         Skpw==
+X-Gm-Message-State: AOJu0YzNQjEa0pqFVEH6DLE9R69/0HRWSThA8iAJdfW+b6eyPAJ7cQUf
+        hBKlV+CxuHQ8uVlxRQfMiBD4kQSoBfu9Z8BeBpQoMQO9amAAt3qX797o1s8Whmfuc74NxVGA10d
+        O4nMYT/8i5nFbPtAMmTol4qJQBSM4XPMlrw==
+X-Received: by 2002:a17:907:9724:b0:9a5:962c:cb6c with SMTP id jg36-20020a170907972400b009a5962ccb6cmr17846764ejc.31.1694431622919;
+        Mon, 11 Sep 2023 04:27:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFZ/AHu7nLmYgByLaPLMmYUvX4ccy5bwEbWpR+GUk2r/aBtLdPjo047ti0Vrwz7SNb+Q3eH2A==
+X-Received: by 2002:a17:907:9724:b0:9a5:962c:cb6c with SMTP id jg36-20020a170907972400b009a5962ccb6cmr17846740ejc.31.1694431622681;
+        Mon, 11 Sep 2023 04:27:02 -0700 (PDT)
 Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id z20-20020a170906241400b009829d2e892csm5243509eja.15.2023.09.11.04.25.14
+        by smtp.gmail.com with ESMTPSA id q24-20020a170906941800b0098921e1b064sm5185543ejx.181.2023.09.11.04.27.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Sep 2023 04:25:14 -0700 (PDT)
-Message-ID: <f1ac222b-00ce-70cd-2d26-d66bc0b0ef70@redhat.com>
-Date:   Mon, 11 Sep 2023 13:25:14 +0200
+        Mon, 11 Sep 2023 04:27:02 -0700 (PDT)
+Message-ID: <aa427e7e-374d-facb-883f-0b9b69ce00c0@redhat.com>
+Date:   Mon, 11 Sep 2023 13:27:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH 1/2] platform/mellanox: NVSW_SN2201 should depend on ACPI
+Subject: Re: [PATCH] platform/x86: asus-wmi: Support 2023 ROG X16 tablet mode
 Content-Language: en-US
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        Mark Gross <markgross@kernel.org>,
-        Vadim Pasternak <vadimp@nvidia.com>,
-        Michael Shych <michaelsh@nvidia.com>,
-        Wolfram Sang <wsa@kernel.org>
-Cc:     linux-i2c@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1693828363.git.geert+renesas@glider.be>
- <ec5a4071691ab08d58771b7732a9988e89779268.1693828363.git.geert+renesas@glider.be>
+To:     "Luke D. Jones" <luke@ljones.dev>
+Cc:     corentin.chary@gmail.com, markgross@kernel.org,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+References: <20230905082813.13470-1-luke@ljones.dev>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <ec5a4071691ab08d58771b7732a9988e89779268.1693828363.git.geert+renesas@glider.be>
+In-Reply-To: <20230905082813.13470-1-luke@ljones.dev>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -79,14 +84,11 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 Hi,
 
-On 9/4/23 14:00, Geert Uytterhoeven wrote:
-> The only probing method supported by the Nvidia SN2201 platform driver
-> is probing through an ACPI match table.  Hence add a dependency on
-> ACPI, to prevent asking the user about this driver when configuring a
-> kernel without ACPI support.
+On 9/5/23 10:28, Luke D. Jones wrote:
+> Add quirk for ASUS ROG X16 (GV601V, 2023 versions) Flow 2-in-1
+> to enable tablet mode with lid flip (all screen rotations).
 > 
-> Fixes: 662f24826f954d49 ("platform/mellanox: Add support for new SN2201 system")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Luke D. Jones <luke@ljones.dev>
 
 Thank you for your patch, I've applied this patch to my fixes
 branch:
@@ -98,9 +100,6 @@ local branch there, which might take a while.
 I will include this patch in my next fixes pull-req to Linus
 for the current kernel development cycle.
 
-Note I'm only picking up PATCH 1/2. I expect 2/2 to be merged
-through the i2c tree.
-
 Regards,
 
 Hans
@@ -108,22 +107,27 @@ Hans
 
 
 > ---
->  drivers/platform/mellanox/Kconfig | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/platform/x86/asus-nb-wmi.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
-> diff --git a/drivers/platform/mellanox/Kconfig b/drivers/platform/mellanox/Kconfig
-> index 382793e73a60a8b3..30b50920b278c94b 100644
-> --- a/drivers/platform/mellanox/Kconfig
-> +++ b/drivers/platform/mellanox/Kconfig
-> @@ -80,8 +80,8 @@ config MLXBF_PMC
->  
->  config NVSW_SN2201
->  	tristate "Nvidia SN2201 platform driver support"
-> -	depends on HWMON
-> -	depends on I2C
-> +	depends on HWMON && I2C
-> +	depends on ACPI || COMPILE_TEST
->  	select REGMAP_I2C
->  	help
->  	  This driver provides support for the Nvidia SN2201 platform.
+> diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
+> index fdf7da06af30..d85d895fee89 100644
+> --- a/drivers/platform/x86/asus-nb-wmi.c
+> +++ b/drivers/platform/x86/asus-nb-wmi.c
+> @@ -478,6 +478,15 @@ static const struct dmi_system_id asus_quirks[] = {
+>  		},
+>  		.driver_data = &quirk_asus_tablet_mode,
+>  	},
+> +	{
+> +		.callback = dmi_matched,
+> +		.ident = "ASUS ROG FLOW X16",
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "GV601V"),
+> +		},
+> +		.driver_data = &quirk_asus_tablet_mode,
+> +	},
+>  	{
+>  		.callback = dmi_matched,
+>  		.ident = "ASUS VivoBook E410MA",
 
