@@ -2,77 +2,69 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E74079B2A5
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Sep 2023 01:59:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C32D579B504
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Sep 2023 02:02:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355770AbjIKWB6 (ORCPT
+        id S241832AbjIKWAj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 11 Sep 2023 18:01:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56704 "EHLO
+        Mon, 11 Sep 2023 18:00:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237847AbjIKNPA (ORCPT
+        with ESMTP id S238100AbjIKNhu (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 11 Sep 2023 09:15:00 -0400
-Received: from mail-vs1-xe2c.google.com (mail-vs1-xe2c.google.com [IPv6:2607:f8b0:4864:20::e2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB621E40
-        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Sep 2023 06:14:54 -0700 (PDT)
-Received: by mail-vs1-xe2c.google.com with SMTP id ada2fe7eead31-44d3a5cd2f9so1717884137.3
-        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Sep 2023 06:14:54 -0700 (PDT)
+        Mon, 11 Sep 2023 09:37:50 -0400
+Received: from mail-ua1-x929.google.com (mail-ua1-x929.google.com [IPv6:2607:f8b0:4864:20::929])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BB6ECD7
+        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Sep 2023 06:37:46 -0700 (PDT)
+Received: by mail-ua1-x929.google.com with SMTP id a1e0cc1a2514c-7a50bd29064so1241429241.3
+        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Sep 2023 06:37:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1694438093; x=1695042893; darn=vger.kernel.org;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1694439465; x=1695044265; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RmHlHXBKieO1ptu2ldznM8ZuZhTbj+/naN6JcvAFLCM=;
-        b=wMbspLXnU4SWJPP2pyiFS+UPFCNPGYLSf7ttzlXYAlHzDhVZW7HVGa2l9NwlellZJE
-         njOC3G16h+joZnmK7I9iIFB+fNBIjy4gsffff7BLFLKycGVnAhDL9SNDPFOKQVtPIyKL
-         KgvKxOKEeCpMKUx+LLmH4Kve69knsX4HPJjf0h5QaVBII8vQBPS4tD0JkrVZaqxhJisA
-         jnYS2/kGs69torDAx8w+jn0ySA4fIvj3s8mGyhCjeMldRAFv4+DiDllCXiYLIuZIky1Y
-         bi34YIU6PyRFd+MPjR5QGvsk+pqn/ffJoDFP2AXXlp/Bu18d3f+Mqsa5qSk/HAHiD5Mj
-         ZPEQ==
+        bh=9DBjVU8xoqTxVeBdjw5DQAtCVxxc+Wceya3iiHagqYw=;
+        b=BiF7l6RKG/jvkwHSH2mjHSvFzmGidhxn8PtF3vgCzeu+vMcP+/V5YuwuKvMpwgyqGP
+         bDrqM79WFpHOjSqkCvFU+UeS2S+sZL+hmXJuTXo0fmeYpT+55KwnI9k7AUqWVcnbyB1U
+         4W5ujVoV8d5IubJl7MnRCD4ttWlk/sSlGx/z9DaA/TNJ0EsKq8OID8oWOw3rVS3fg4MZ
+         awvO0As4spmZUbLd9StWOxrZa9qoyvLMmha6RVA6xiICbwNWt8tPbwzw+/VoSNp27uDt
+         Ta5c/GAZOznAQ7Ziu7wq06g1bz16yYue9lststrDbUXhtf5rfrxVAm3bOn1n+0k4Dede
+         hSpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694438093; x=1695042893;
+        d=1e100.net; s=20230601; t=1694439465; x=1695044265;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RmHlHXBKieO1ptu2ldznM8ZuZhTbj+/naN6JcvAFLCM=;
-        b=nFg46fElSLeLzlBDdicA4AGY+ycSA7xL48kTCSIK/4GDClnwYovs5wSwwHKcdYm4l4
-         xm3+MTQzC06+otjDpAvjUZx0gB/4olktytNdpY769newC3rN9murXDi+NOH1eAUUA2aE
-         W2OxMtaWFP3cUZ+awjgEyDJQprOTDoWutYWkktXku1Jd13z9nbVREEt/KVQW3pPwyDF2
-         QrHIgIp61PgeosPUbQaeMUO131m5Ntfn9heedVft+n0DynJ+dHjVd+Pqeu4ZQTZkE5EZ
-         tSqPy+crQORicgmM3eJMWp2ocT7XZ+27dSsfbqrNhcWsuBY0ChN3kZ+PeOlGiMz7FUS2
-         2YaA==
-X-Gm-Message-State: AOJu0YxJG24SWDQeJvLEAyTBPiQcz3O88dkhSCC0LAXtYs+8or+lqSaY
-        OThVWUnWO7JBoumiy95jPoN8l4dlFjW/fbfunhy83w==
-X-Google-Smtp-Source: AGHT+IGbBUp7apcBf0Wo94rPuei/uMCOLdfymAUYtbXkWV6tuJHuzpKRqe3xeH+LKJOYB5mMHTLfbCwIf2IHKGe4l8I=
-X-Received: by 2002:a67:fe92:0:b0:44d:5a92:ec45 with SMTP id
- b18-20020a67fe92000000b0044d5a92ec45mr8588355vsr.23.1694438093755; Mon, 11
- Sep 2023 06:14:53 -0700 (PDT)
+        bh=9DBjVU8xoqTxVeBdjw5DQAtCVxxc+Wceya3iiHagqYw=;
+        b=L983CKn4Wu2VUf1h6SPIrqKBWJ+Qwt461Q8+1fYvgm3ung8t2lPhAA4PrB7Q/9xfJK
+         eCg7U1HmZmZgfJi0pHfzDYEvSjK5y24IfjNNo6OeYdfYa4Leq3S6unnJbPFXb4hjggqc
+         1evRNp37q3RsHYx/a3FLGvZfpX/bgf9+8OZK89gzDrFnmFgDBm+kIKL7xidDxMWPbx7v
+         fkvu8KRJXT/6/gvX14ui8nujl6RYlAmt1db8HNvNpb8sz0tvNNuUF1uS4O9DuJIHzLeB
+         dP//VJYQPrNcy00uMYCg6JuSWJCGDDt1LNIv6uBinO5KXbaA8Rd05B28IdW4sWPurXXh
+         EIhQ==
+X-Gm-Message-State: AOJu0YxVzi6AsYi2W3qLq6TDcCSzn/YS5UucLiKAuzH/PVy1AfOySH4J
+        ++oBHNUCog7hfNgZ6CBQS5u8qiT/9fbxA52KLBLjwA==
+X-Google-Smtp-Source: AGHT+IEy0h1HWpl5jX3bshyTtKFKNGqBO1pN8FBH3gT/WDAJ4F5oF0f5YCpM+mx6nULFtg5/ERhEVB303Go/mHER5iQ=
+X-Received: by 2002:ac5:cb79:0:b0:495:bca8:63f5 with SMTP id
+ l25-20020ac5cb79000000b00495bca863f5mr4830126vkn.15.1694439465000; Mon, 11
+ Sep 2023 06:37:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230905185309.131295-1-brgl@bgdev.pl> <20230905185309.131295-3-brgl@bgdev.pl>
- <ZPiISpLoVx35PuYc@smile.fi.intel.com>
-In-Reply-To: <ZPiISpLoVx35PuYc@smile.fi.intel.com>
+References: <20230909141816.58358-1-hdegoede@redhat.com> <20230909141816.58358-7-hdegoede@redhat.com>
+ <CAMRc=MfeKirks7N7scu+dh+M1Nf0bNxzC7PE2Q7J4bxgpRnECw@mail.gmail.com>
+ <0b1e0312-9144-85ed-666e-a84110b26418@redhat.com> <CAMRc=MfVZCqc-v+5oMkTkhfLvq1pE66E7GykqT2ymxzS_kw83w@mail.gmail.com>
+ <01a85a3d-c888-11d8-f47e-be2a26d0cb9d@redhat.com>
+In-Reply-To: <01a85a3d-c888-11d8-f47e-be2a26d0cb9d@redhat.com>
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Mon, 11 Sep 2023 15:14:42 +0200
-Message-ID: <CAMRc=MfLGZNmQT55dtrLuqsKbfXjTn7kqOm029oJrOnH002wBw@mail.gmail.com>
-Subject: Re: [PATCH 02/21] gpiolib: provide gpio_device_find()
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
+Date:   Mon, 11 Sep 2023 15:37:33 +0200
+Message-ID: <CAMRc=MeGRreVVz=tCnEWtvixV+ZNEXXvG5SVRRmmnWG_sawMcg@mail.gmail.com>
+Subject: Re: [PATCH 6/8] platform/x86: x86-android-tablets: Stop using gpiolib
+ private APIs
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
         Linus Walleij <linus.walleij@linaro.org>,
-        Dipen Patel <dipenp@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-acpi@vger.kernel.org, timestamp@lists.linux.dev,
-        linux-tegra@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+        platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -84,97 +76,172 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Sep 6, 2023 at 4:10=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+On Mon, Sep 11, 2023 at 3:32=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
 >
-> On Tue, Sep 05, 2023 at 08:52:50PM +0200, Bartosz Golaszewski wrote:
-> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Hi,
+>
+> On 9/11/23 15:18, Bartosz Golaszewski wrote:
+> > On Mon, Sep 11, 2023 at 3:08=E2=80=AFPM Hans de Goede <hdegoede@redhat.=
+com> wrote:
+> >>
+> >> Hi,
+> >>
+> >> On 9/11/23 14:50, Bartosz Golaszewski wrote:
+> >>> On Sat, Sep 9, 2023 at 4:18=E2=80=AFPM Hans de Goede <hdegoede@redhat=
+.com> wrote:
+> >>>>
+> >>>> Refactor x86_android_tablet_get_gpiod() to no longer use
+> >>>> gpiolib private functions like gpiochip_find().
+> >>>>
+> >>>> As a bonus this allows specifying that the GPIO is active-low,
+> >>>> like the /CE (charge enable) pin on the bq25892 charger on
+> >>>> the Lenovo Yoga Tablet 3.
+> >>>>
+> >>>> Reported-by: Bartosz Golaszewski <brgl@bgdev.pl>
+> >>>> Closes: https://lore.kernel.org/platform-driver-x86/20230905185309.1=
+31295-12-brgl@bgdev.pl/
+> >>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> >>>> ---
+> >>>>  .../platform/x86/x86-android-tablets/asus.c   |  1 +
+> >>>>  .../platform/x86/x86-android-tablets/core.c   | 51 +++++++++++-----=
+---
+> >>>>  .../platform/x86/x86-android-tablets/lenovo.c | 28 +++++-----
+> >>>>  .../platform/x86/x86-android-tablets/other.c  |  6 +++
+> >>>>  .../x86-android-tablets/x86-android-tablets.h |  6 ++-
+> >>>>  5 files changed, 55 insertions(+), 37 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/platform/x86/x86-android-tablets/asus.c b/drive=
+rs/platform/x86/x86-android-tablets/asus.c
+> >>>> index f9c4083be86d..227afbb51078 100644
+> >>>> --- a/drivers/platform/x86/x86-android-tablets/asus.c
+> >>>> +++ b/drivers/platform/x86/x86-android-tablets/asus.c
+> >>>> @@ -303,6 +303,7 @@ static const struct x86_i2c_client_info asus_tf1=
+03c_i2c_clients[] __initconst =3D
+> >>>>                         .index =3D 28,
+> >>>>                         .trigger =3D ACPI_EDGE_SENSITIVE,
+> >>>>                         .polarity =3D ACPI_ACTIVE_LOW,
+> >>>> +                       .con_id =3D "atmel_mxt_ts_irq",
+> >>>>                 },
+> >>>>         },
+> >>>>  };
+> >>>> diff --git a/drivers/platform/x86/x86-android-tablets/core.c b/drive=
+rs/platform/x86/x86-android-tablets/core.c
+> >>>> index 3d3101b2848f..673f3a14941b 100644
+> >>>> --- a/drivers/platform/x86/x86-android-tablets/core.c
+> >>>> +++ b/drivers/platform/x86/x86-android-tablets/core.c
+> >>>> @@ -12,7 +12,7 @@
+> >>>>
+> >>>>  #include <linux/acpi.h>
+> >>>>  #include <linux/dmi.h>
+> >>>> -#include <linux/gpio/driver.h>
+> >>>> +#include <linux/gpio/consumer.h>
+> >>>>  #include <linux/gpio/machine.h>
+> >>>>  #include <linux/irq.h>
+> >>>>  #include <linux/module.h>
+> >>>> @@ -21,35 +21,39 @@
+> >>>>  #include <linux/string.h>
+> >>>>
+> >>>>  #include "x86-android-tablets.h"
+> >>>> -/* For gpiochip_get_desc() which is EXPORT_SYMBOL_GPL() */
+> >>>> -#include "../../../gpio/gpiolib.h"
+> >>>> -#include "../../../gpio/gpiolib-acpi.h"
+> >>>>
+> >>>>  static struct platform_device *x86_android_tablet_device;
+> >>>>
+> >>>> -static int gpiochip_find_match_label(struct gpio_chip *gc, void *da=
+ta)
+> >>>> -{
+> >>>> -       return gc->label && !strcmp(gc->label, data);
+> >>>> -}
+> >>>> -
+> >>>> -int x86_android_tablet_get_gpiod(const char *label, int pin, struct=
+ gpio_desc **desc)
+> >>>> +int x86_android_tablet_get_gpiod(const char *chip, int pin, const c=
+har *con_id,
+> >>>> +                                bool active_low, enum gpiod_flags d=
+flags,
+> >>>> +                                struct gpio_desc **desc)
+> >>>>  {
+> >>>> +       struct gpiod_lookup_table *lookup;
+> >>>>         struct gpio_desc *gpiod;
+> >>>> -       struct gpio_chip *chip;
+> >>>>
+> >>>> -       chip =3D gpiochip_find((void *)label, gpiochip_find_match_la=
+bel);
+> >>>> -       if (!chip) {
+> >>>> -               pr_err("error cannot find GPIO chip %s\n", label);
+> >>>> -               return -ENODEV;
+> >>>> -       }
+> >>>> +       lookup =3D kzalloc(struct_size(lookup, table, 2), GFP_KERNEL=
+);
+> >>>> +       if (!lookup)
+> >>>> +               return -ENOMEM;
+> >>>> +
+> >>>> +       lookup->dev_id =3D KBUILD_MODNAME;
+> >>>> +       lookup->table[0].key =3D chip;
+> >>>> +       lookup->table[0].chip_hwnum =3D pin;
+> >>>> +       lookup->table[0].con_id =3D con_id;
+> >>>> +       lookup->table[0].flags =3D active_low ? GPIO_ACTIVE_LOW : GP=
+IO_ACTIVE_HIGH;
+> >>>> +
+> >>>> +       gpiod_add_lookup_table(lookup);
+> >>>> +       gpiod =3D devm_gpiod_get(&x86_android_tablet_device->dev, co=
+n_id, dflags);
+> >>>> +       gpiod_remove_lookup_table(lookup);
+> >>>> +       kfree(lookup);
+> >>>>
+> >>>
+> >>> Any reason for not creating static lookup tables for GPIOs here?
+> >>
+> >> Not sure what you mean with static?
+> >>
+> >> I guess you mean using global or stack memory instead of kmalloc() ?
+> >>
+> >> gcc did not like me putting a struct with a variable length array
+> >> at the end on the stack, so I went with a kzalloc using the
+> >> struct_size() helper for structs with variable length arrays instead.
+> >>
+> >> Note this only runs once at boot, so the small extra cost of
+> >> the malloc + free is not really a big deal here.
+> >>
+> >> I did not try making it global data as that would make the function
+> >> non re-entrant. Not that it is used in a re-entrant way anywhere,
+> >> but generally I try to avoid creating code which is not re-entrant.
+> >>
 > >
-> > gpiochip_find() is wrong and its kernel doc is misleading as the
-> > function doesn't return a reference to the gpio_chip but just a raw
-> > pointer. The chip itself is not guaranteed to stay alive, in fact it ca=
-n
-> > be deleted at any point. Also: other than GPIO drivers themselves,
-> > nobody else has any business accessing gpio_chip structs.
-> >
-> > Provide a new gpio_device_find() function that returns a real reference
-> > to the opaque gpio_device structure that is guaranteed to stay alive fo=
-r
-> > as long as there are active users of it.
+> > I meant static-per-compilation-unit.
 >
-> ...
+> I see.
 >
-> > +/**
-> > + * gpio_device_find() - find a specific GPIO device
-> > + * @data: data to pass to match function
-> > + * @match: Callback function to check gpio_chip
+> > It doesn't have to be a variable
+> > length array either. Typically GPIO lookups are static arrays that are
+> > added once and never removed.
 >
-> > + * Returns:
-> > + * New reference to struct gpio_device.
+> Right.
 >
-> I believe this is wrong location of the Return section.
-> AFAIU how kernel doc uses section markers, this entire description become=
-s
-> a Return(s) section. Have you tried to render man/html/pdf and see this?
+> > The SPI example I posted elsewhere is
+> > different as it addresses a device quirk and cannot be generalized
+> > like this. How many GPIOs would you need to describe for this
+> > use-case? If it's just a few, then I'd go with static lookup tables.
+> > If it's way more than disregard this comment.
 >
+> ATM x86_android_tablet_get_gpiod() gets called for 24 GPIOs,
+> so more the just a few.
 
-Yes, it works just fine. Try for yourself: scripts/kernel-doc -rst
-drivers/gpio/gpiolib.c
+For different devices? As in: dev_id would differ? If not then I'd go
+with a static table, you can use GPIO_LOOKUP() macro and have one line
+per GPIO. If there are more devices, then I agree - let's keep dynamic
+allocation.
 
-Bart
+Just please: add a comment why you're doing it this way so that people
+don't just copy and paste it elsewhere.
 
-> > + * Similar to bus_find_device(). It returns a reference to a gpio_devi=
-ce as
-> > + * determined by a user supplied @match callback. The callback should =
-return
-> > + * 0 if the device doesn't match and non-zero if it does. If the callb=
-ack
-> > + * returns non-zero, this function will return to the caller and not i=
-terate
-> > + * over any more gpio_devices.
-> > + *
-> > + * The callback takes the GPIO chip structure as argument. During the =
-execution
-> > + * of the callback function the chip is protected from being freed. TO=
-DO: This
-> > + * actually has yet to be implemented.
-> > + *
-> > + * If the function returns non-NULL, the returned reference must be fr=
-eed by
-> > + * the caller using gpio_device_put().
-> > + */
-> > +struct gpio_device *gpio_device_find(void *data,
+Bart.
+
 >
-> > +                                  int (*match)(struct gpio_chip *gc,
-> > +                                               void *data))
+> Regards,
 >
-> One line?
-> Or maybe a type for it? (gpio_match_fn, for example)
->
-> > +{
-> > +     struct gpio_device *gdev;
-> > +
-> > +     guard(spinlock_irqsave)(&gpio_lock);
-> > +
-> > +     list_for_each_entry(gdev, &gpio_devices, list) {
-> > +             if (gdev->chip && match(gdev->chip, data))
-> > +                     return gpio_device_get(gdev);
-> > +     }
-> > +
-> > +     return NULL;
-> > +}
->
-> ...
->
-> > +struct gpio_device *gpio_device_find(void *data,
-> > +                                  int (*match)(struct gpio_chip *gc,
-> > +                                               void *data));
->
-> Ditto.
->
->
-> --
-> With Best Regards,
-> Andy Shevchenko
+> Hans
 >
 >
