@@ -2,59 +2,90 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A918D79B1C6
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Sep 2023 01:57:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79F8F79B42F
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Sep 2023 02:01:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355906AbjIKWCW (ORCPT
+        id S242067AbjIKWAs (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 11 Sep 2023 18:02:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56358 "EHLO
+        Mon, 11 Sep 2023 18:00:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237620AbjIKNBb (ORCPT
+        with ESMTP id S237438AbjIKMuw (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 11 Sep 2023 09:01:31 -0400
-Received: from sanan-e.com (unknown [218.107.219.99])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5E2C7CC;
-        Mon, 11 Sep 2023 06:01:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sanan-e.com; s=dkim; h=Received:Content-Type:MIME-Version:
-        Content-Transfer-Encoding:Content-Description:Subject:To:From:
-        Date:Reply-To:Message-Id; bh=JlB5+d9LM8owbqGfrdZXyhb3r+ZFKQaAdOH
-        ATpJsLVA=; b=a17fpS473FQnn4axBxBmoqjQSlIHu+8a1yOF1RX0cDikrBt1hnC
-        Vm32Bp26DzMLVACewy+2bZs33ohbZdF7ZfgTWObTtK5nKHG8+1h6sn5hF7O3T64J
-        LkRJprXTUo7BzvTWhIPp3c/xlTgyx8dADA/rhvl3p+wQobKEsMt5dkvY=
-Received: from [156.96.56.92] (unknown [128.14.67.204])
-        by MailDR (Coremail) with SMTP id AQAAfwCHMgc5A_9kRtObAA--.2315S207;
-        Mon, 11 Sep 2023 20:35:07 +0800 (CST)
-Content-Type: text/plain; charset="iso-8859-1"
+        Mon, 11 Sep 2023 08:50:52 -0400
+Received: from muru.com (muru.com [72.249.23.125])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 40BA5CEB;
+        Mon, 11 Sep 2023 05:50:48 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by muru.com (Postfix) with ESMTPS id 6F29580A2;
+        Mon, 11 Sep 2023 12:50:47 +0000 (UTC)
+Date:   Mon, 11 Sep 2023 15:50:46 +0300
+From:   Tony Lindgren <tony@atomide.com>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Russell King <linux@armlinux.org.uk>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Dipen Patel <dipenp@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-acpi@vger.kernel.org, timestamp@lists.linux.dev,
+        linux-tegra@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [RFT PATCH 15/21] arm: omap1: ams-delta: stop using
+ gpiochip_find()
+Message-ID: <20230911125046.GA5285@atomide.com>
+References: <20230905185309.131295-1-brgl@bgdev.pl>
+ <20230905185309.131295-16-brgl@bgdev.pl>
+ <CACRpkdaVUPNYVjAi2XsNKVhwmtk2qpVp62Lke4xeDOwhhBXLtg@mail.gmail.com>
+ <6555932.G0QQBjFxQf@dell>
+ <CAMRc=Mfrk9q6fJyEAuxDXYPpbjVHeLJaTjHEcKiYHzrE3r+_7A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Help
-To:     Recipients <olena@sanan-e.com>
-From:   olena@sanan-e.com
-Date:   Mon, 11 Sep 2023 05:34:52 -0700
-Reply-To: olenasheve73@gmail.com
-X-CM-TRANSID: AQAAfwCHMgc5A_9kRtObAA--.2315S207
-Message-Id: <64FF0F97.47AB38.70031@sanan-e.com>
-Authentication-Results: MailDR; spf=neutral smtp.mail=olena@sanan-e.co
-        m;
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-        VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU
-        =
-X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_INVALID,
-        DKIM_SIGNED,FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_MSPIKE_BL,RCVD_IN_MSPIKE_L4,RCVD_IN_VALIDITY_RPBL,
-        SPF_HELO_PASS,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRc=Mfrk9q6fJyEAuxDXYPpbjVHeLJaTjHEcKiYHzrE3r+_7A@mail.gmail.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
-I am a Ukrainian, I have funds for investment, can you please help me reloc=
-ate and invest in your country?
-Thank you as i possibly wait to hear from you, Olena.
+* Bartosz Golaszewski <brgl@bgdev.pl> [230911 11:10]:
+> On Fri, Sep 8, 2023 at 8:07 PM Janusz Krzysztofik <jmkrzyszt@gmail.com> wrote:
+> >
+> > Dnia czwartek, 7 września 2023 09:31:01 CEST Linus Walleij pisze:
+> > > On Tue, Sep 5, 2023 at 8:53 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+> > >
+> > > > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> > > >
+> > > > gpiochip_find() is going away as it's not hot-unplug safe. This platform
+> > > > is not affected by any of the related problems as this GPIO controller
+> > > > cannot really go away but in order to finally remove this function, we
+> > > > need to convert it to using gpio_device_find() as well.
+> > > >
+> > > > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> > >
+> > > I was cleaning this one just some merge cycle ago, now it
+> > > looks even better!
+> > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> >
+> > Acked-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+> >
+> 
+> Janusz,
+> 
+> Is it fine if I take it through the GPIO tree?
 
+Works for me at least:
+
+Acked-by: Tony Lindgren <tony@atomide.com>
