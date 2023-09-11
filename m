@@ -2,60 +2,54 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E27B179C37B
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Sep 2023 04:59:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2A0A79C4CA
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Sep 2023 06:40:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240129AbjILC7u (ORCPT
+        id S229479AbjILEkH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 11 Sep 2023 22:59:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53476 "EHLO
+        Tue, 12 Sep 2023 00:40:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241188AbjILC7l (ORCPT
+        with ESMTP id S229460AbjILEkG (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 11 Sep 2023 22:59:41 -0400
-Received: from shiva.jussieu.fr (shiva.jussieu.fr [134.157.0.129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 145C6421ED
-        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Sep 2023 19:31:12 -0700 (PDT)
-Received: from mailix1.insp.jussieu.fr (mailix1.insp.jussieu.fr [134.157.37.11])
-          by shiva.jussieu.fr (8.15.2/jtpda-5.4) with ESMTP id 38BNSvQF013730
-          ; Tue, 12 Sep 2023 01:29:20 +0200 (CEST)
-X-Ids:  164
-Received: from hordix.insp.jussieu.fr (hordix.insp.jussieu.fr [134.157.37.9])
-        by mailix1.insp.jussieu.fr (Postfix-INSP-2.10.1) with ESMTPSA id 0CE08C068AB8;
-        Tue, 12 Sep 2023 01:23:36 +0200 (CEST)
-Received: from [105.112.109.164] ([105.112.109.164]) by
- webmail.insp.jussieu.fr (Horde Framework) with HTTPS; Mon, 11 Sep 2023
- 23:23:35 +0000
-Date:   Mon, 11 Sep 2023 23:23:35 +0000
-Message-ID: <20230911232335.Horde.wi6UOWvXRoTM4y7iKlSdUd_@webmail.insp.jussieu.fr>
-From:   Victoria Cleland <essaoui@insp.jussieu.fr>
-Subject: Hallo
-Reply-to: v.cleland10@aol.com
-User-Agent: Horde Application Framework 5
-Organization: Institut des NanoSciences de Paris
-X-InspUpmcSession: essaoui
-Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
+        Tue, 12 Sep 2023 00:40:06 -0400
+Received: from sanan-e.com (unknown [218.107.219.99])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5F97EB8
+        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Sep 2023 21:40:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sanan-e.com; s=dkim; h=Received:Content-Type:MIME-Version:
+        Content-Transfer-Encoding:Content-Description:Subject:To:From:
+        Date:Reply-To:Message-Id; bh=qcS40TKk7lDEkm1RQbO1KTL2NSc/wnLNi62
+        pjzED0xE=; b=YTa6uLSY0mWyID996Vf+rEaiT/e2j0iRQeQycFxkbsv7WJMOx7E
+        D/m4Gw/4Z+yDzcMd07NmnCqJKW+yMHSCZ0p9HJz76BgG9f8JU2ucEIT39IsdNEt6
+        jxPnte7LPP0h/5SQ+rasoCtwazv7la+36T6e1ZuhW6LNI+4GoquIbV8A=
+Received: from [156.96.56.92] (unknown [128.14.67.204])
+        by MailDR (Coremail) with SMTP id AQAAfwAnyv7c__5kgbCbAA--.2320S119;
+        Mon, 11 Sep 2023 20:09:34 +0800 (CST)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-Miltered: at jchkmail2.reseau.jussieu.fr with ID 64FFA2B9.002 by Joe's j-chkmail (http : // j-chkmail dot ensmp dot fr)!
-X-j-chkmail-Enveloppe: 64FFA2B9.002 from mailix1.insp.jussieu.fr/mailix1.insp.jussieu.fr/134.157.37.11/mailix1.insp.jussieu.fr/<lamya.essaoui@insp.jussieu.fr>
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Help
+To:     Recipients <olena@sanan-e.com>
+From:   olena@sanan-e.com
+Date:   Mon, 11 Sep 2023 05:09:19 -0700
+Reply-To: olenasheve73@gmail.com
+X-CM-TRANSID: AQAAfwAnyv7c__5kgbCbAA--.2320S119
+Message-Id: <64FF8056.4AF664.70031@sanan-e.com>
+Authentication-Results: MailDR; spf=neutral smtp.mail=olena@sanan-e.co
+        m;
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+        VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU
+        =
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Hi,
+I am a Ukrainian, I have funds for investment, can you please help me reloc=
+ate and invest in your country? Thank you as i possibly wait to hear from y=
+ou, =
 
-11. September 2023.
-
-Hallo,
-
-Ich möchte Ihnen einen Geschäftsvorschlag mitteilen. Für weitere  
-Details antworten Sie auf Englisch.
-
-Grüße
-Frau Victoria Cleland
-_______________________
-Sekretär: Essaoui Alan
-
+Olena.
 
