@@ -2,116 +2,95 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9137679B633
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Sep 2023 02:04:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8D5679C256
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Sep 2023 04:08:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238961AbjIKWAy (ORCPT
+        id S237275AbjILCI1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 11 Sep 2023 18:00:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39600 "EHLO
+        Mon, 11 Sep 2023 22:08:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352967AbjIKVqO (ORCPT
+        with ESMTP id S244642AbjILCHR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 11 Sep 2023 17:46:14 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 083A81DC9E;
-        Mon, 11 Sep 2023 14:18:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694467111; x=1726003111;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OvOywvaVgqf7GXCTK6i+HE3r8bZumInwL/UZ2w6I2+s=;
-  b=Ffr1y9IawzNxbrNNPNUC+BxWY2IAJOk7jVjRR9FBh5H/SMM8Cqfu2qjP
-   r2zTL0iM2+ZtzUjZnIeuZSEOpwGumE+WVGgUOQozSss2ijNJZB+638QfF
-   hWbVFjC+agmu6C4A2iKudbLxmtY0fGnC300/Ipr1CXGDjzCcup6aeUsEP
-   G8vMmPmJKwCTX3TRS9hDnamt5mYHW2pFL0ny0qgkpCqGkI+o0loMvFpZX
-   91YgjU9U2/mWKnOl9iTZNZBhKjV2u/aEWro8zEmmpLx9uAeAVEUb6Q2VP
-   gu0aXtVvjX3/kEd2NBw5eZ3PdITxoCUw7uXGbDBgD9j0dfN8S9LNoK8l8
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="409166246"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="409166246"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 14:17:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="720129941"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="720129941"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 14:17:25 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qfoHa-008QTA-1i;
-        Tue, 12 Sep 2023 00:17:22 +0300
-Date:   Tue, 12 Sep 2023 00:17:22 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        platform-driver-x86@vger.kernel.org,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Prashant Malani <pmalani@chromium.org>
-Subject: Re: [PATCH v3 1/4] platform/x86: intel_scu_ipc: Check status after
- timeout in busy_loop()
-Message-ID: <ZP+D4hlUXhAboFBJ@smile.fi.intel.com>
-References: <20230911193937.302552-1-swboyd@chromium.org>
- <20230911193937.302552-2-swboyd@chromium.org>
+        Mon, 11 Sep 2023 22:07:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DAFAE1108D1
+        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Sep 2023 18:38:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1694482681;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=bAPz8m/VkDlfUDMl2zD484Yw31orYH7HidP19B5iZ2M=;
+        b=HVS9b8qKMC6lczabx0ELXxzfxg4YtqkTXxvGpMiCov2Wfn7lFXA5ABqfv9PbJTsi790tbA
+        acbTj538EQyRlHar2UMQS/HsP+P1KYchFYPMr3/neWm7QPbkLHJmcIkkDdqBE1cUFyZDW4
+        bT45Fdl8/Azd7UtO1vV5OgQ8mYRRnx8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-398-aeZ12NPdNoKULG9PfZzQ3Q-1; Mon, 11 Sep 2023 17:09:39 -0400
+X-MC-Unique: aeZ12NPdNoKULG9PfZzQ3Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E4C5780379F;
+        Mon, 11 Sep 2023 21:09:37 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.57])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C8FA840C2064;
+        Mon, 11 Sep 2023 21:09:36 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org
+Subject: [PATCH] platform/x86: x86-android-tablets: Add a comment about x86_android_tablet_get_gpiod()
+Date:   Mon, 11 Sep 2023 23:09:28 +0200
+Message-ID: <20230911210928.264908-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230911193937.302552-2-swboyd@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Sep 11, 2023 at 12:39:33PM -0700, Stephen Boyd wrote:
-> It's possible for the polling loop in busy_loop() to get scheduled away
-> for a long time.
-> 
->   status = ipc_read_status(scu); // status = IPC_STATUS_BUSY
->   <long time scheduled away>
->   if (!(status & IPC_STATUS_BUSY))
-> 
-> If this happens, then the status bit could change while the task is
-> scheduled away and this function would never read the status again after
-> timing out. Instead, the function will return -ETIMEDOUT when it's
-> possible that scheduling didn't work out and the status bit was cleared.
-> Bit polling code should always check the bit being polled one more time
-> after the timeout in case this happens.
-> 
-> Fix this by reading the status once more after the while loop breaks.
-> The read_poll_timeout() macro implements all of this, and it is
-> shorter, so use that macro here to consolidate code and fix this.
-> 
-> There were some concerns with using read_poll_timeout() because it uses
-> timekeeping, and timekeeping isn't running early on or during the late
-> stages of system suspend or early stages of system resume, but an audit
-> of the code concluded that this code isn't called during those times so
-> it is safe to use the macro.
+Add a comment explaining why the special x86_android_tablet_get_gpiod()
+helper is necessary for some of the GPIOs used in the x86-android-tablets;
+and that for normal GPIO lookups this example should not be followed.
 
-...
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/platform/x86/x86-android-tablets/core.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-> +	err = read_poll_timeout(ipc_read_status, status, !(status & IPC_STATUS_BUSY),
-> +				100, jiffies_to_usecs(IPC_TIMEOUT), false, scu);
-
-Since "false" you probably can utilize readx_poll_timeout().
-
-> +	if (err)
-> +		return err;
->  
+diff --git a/drivers/platform/x86/x86-android-tablets/core.c b/drivers/platform/x86/x86-android-tablets/core.c
+index 8a1f22aaac00..b55957bde034 100644
+--- a/drivers/platform/x86/x86-android-tablets/core.c
++++ b/drivers/platform/x86/x86-android-tablets/core.c
+@@ -24,6 +24,21 @@
+ 
+ static struct platform_device *x86_android_tablet_device;
+ 
++/*
++ * This helper allows getting a gpio_desc *before* the actual device consuming
++ * the GPIO has been instantiated. This function _must_ only be used to handle
++ * this special case such as e.g. :
++ *
++ * 1. Getting an IRQ from a GPIO for i2c_board_info.irq which is passed to
++ * i2c_client_new() to instantiate i2c_client-s; or
++ * 2. Calling desc_to_gpio() to get an old style GPIO number for gpio_keys
++ * platform_data which still uses old style GPIO numbers.
++ *
++ * Since the consuming device has not been instatiated yet a dynamic lookup
++ * is generated using the special x86_android_tablet dev for dev_id.
++ *
++ * For normal GPIO lookups a standard static gpiod_lookup_table _must_ be used.
++ */
+ int x86_android_tablet_get_gpiod(const char *chip, int pin, const char *con_id,
+ 				 bool active_low, enum gpiod_flags dflags,
+ 				 struct gpio_desc **desc)
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.41.0
 
