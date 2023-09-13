@@ -2,177 +2,73 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E042679F3C8
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 Sep 2023 23:27:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E303079F566
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 14 Sep 2023 01:21:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232545AbjIMV1h (ORCPT
+        id S232883AbjIMXVq (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 13 Sep 2023 17:27:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38818 "EHLO
+        Wed, 13 Sep 2023 19:21:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232406AbjIMV1g (ORCPT
+        with ESMTP id S231515AbjIMXVq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 13 Sep 2023 17:27:36 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9110C1996
-        for <platform-driver-x86@vger.kernel.org>; Wed, 13 Sep 2023 14:27:31 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-51b4ef5378bso188766a12.1
-        for <platform-driver-x86@vger.kernel.org>; Wed, 13 Sep 2023 14:27:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1694640451; x=1695245251; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q/wc8HkItTPJiIGmBh6ydt0pRRoKMzvmGRq2mSNptlY=;
-        b=fF7HMN3KdU2SukU5x66c5UGp8hAb6HIIdQyYqzgs7JSV4wzNW/+ih11xKYI+iC9RLv
-         hmHT/1UIJbkD79TkZSeuIQp9aDCAMI7dUQnik+JPyuw71pXKx0+94pR/FhaISepou0Kk
-         8BxJo3bTchjg4DLgxixeA9lXn0qOZYXI20R6s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694640451; x=1695245251;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=q/wc8HkItTPJiIGmBh6ydt0pRRoKMzvmGRq2mSNptlY=;
-        b=N/pS8NFz+ygFKe7GG5KFr/bfq/CMTwt1g35w8SuEwj7Hw5gGG41ifbxp/Z6S0TStM5
-         ZdbfHU1peUYIXJI90K5KCJ9iOYnhgxxkBvFvG6TXSe6j0AaTEKh0TJHbaCNRXLtZ8SyV
-         Hs8QSTnlPv3Vwv+plS2w82koPhuLm2RtvLzfQ7Jz0N+fhdx0QCL2ACtszWGIRzwwlGkM
-         fR/8Jgr+GCMf54hnVEipFuYy1hN6Qm25FcX6GWSKyEohrUy7Bc0czoUPWUb9/uY9R1jN
-         9dSUqYEgANU3S0Rvqtz9mmqlQ7RzcLjrPPjfogJytdQ5bfhdUTSfqsXXtJuAY+5Xgm8L
-         jJwQ==
-X-Gm-Message-State: AOJu0YzsaQCma6Q2f7a97TfR34OA6Rc5T610mpAklyUpbGFKKa6Jp+pl
-        llNIhjwVLxhdbl/8DmFypgIM1w==
-X-Google-Smtp-Source: AGHT+IHm0OGkEzrdNohUUUOckuJKxRgfCh2mx2y/pIINxq8HCns3limX90AeFbPOw2bqURkm6q6NcQ==
-X-Received: by 2002:a17:90b:4a88:b0:262:f449:4497 with SMTP id lp8-20020a17090b4a8800b00262f4494497mr3595415pjb.2.1694640451077;
-        Wed, 13 Sep 2023 14:27:31 -0700 (PDT)
-Received: from smtp.gmail.com ([2620:15c:11a:201:ae97:c6dc:1d98:494f])
-        by smtp.gmail.com with ESMTPSA id a10-20020a17090ad80a00b0025bdc3454c6sm1923976pjv.8.2023.09.13.14.27.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 14:27:30 -0700 (PDT)
-From:   Stephen Boyd <swboyd@chromium.org>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        platform-driver-x86@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Prashant Malani <pmalani@chromium.org>
-Subject: [PATCH v4 4/4] platform/x86: intel_scu_ipc: Fail IPC send if still busy
-Date:   Wed, 13 Sep 2023 14:27:22 -0700
-Message-ID: <20230913212723.3055315-5-swboyd@chromium.org>
-X-Mailer: git-send-email 2.42.0.283.g2d96d420d3-goog
-In-Reply-To: <20230913212723.3055315-1-swboyd@chromium.org>
-References: <20230913212723.3055315-1-swboyd@chromium.org>
+        Wed, 13 Sep 2023 19:21:46 -0400
+X-Greylist: delayed 61 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 13 Sep 2023 16:21:42 PDT
+Received: from raptor.dennisbonke.com (vmi485017.contaboserver.net [161.97.139.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D9361BCB
+        for <platform-driver-x86@vger.kernel.org>; Wed, 13 Sep 2023 16:21:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dennisbonke.com;
+        s=default; t=1694647239;
+        bh=gVrf1iK7O9zAR8Vs1sEqbCVpvQ1ZBhNE7O1hL6GtMb0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=NdPeC2uyV4rlTcEz2B00xK9eZMJ6xaHLpL0+z0rN9A8i/CibczWWoFQ7obM16w2yJ
+         KrXXo2WZAJ3susfovuQcLmqe1VGsDTxZ/1HcdYcIoEcJ/FutMS3RKBrEH+K1ThoHQ3
+         28wzqFtxfAkSToRhD9FKE7q94hZ/IafucUVHLXhlBV5jBHsAQLahZIfiSnKy3XZ7W9
+         Hc470Me5QCg54hekzzFdoYQyn4cLqsz4NN/2Fgp2dlQnwQi2RaWnqumJGxQ5cLgilV
+         5oSzaI6oyJnwAE0zpKr6sNk1TIjv5ecgba9mqcrY374zowO68F5b65mzlN0IicjbjR
+         r5TTyqJZc5vaw==
+Received: from localhost.localdomain (050-179-172-081.dynamic.caiway.nl [81.172.179.50])
+        by raptor.dennisbonke.com (Postfix) with ESMTPSA id AF8D1A05ADA;
+        Thu, 14 Sep 2023 01:20:39 +0200 (CEST)
+From:   admin@dennisbonke.com
+To:     platform-driver-x86@vger.kernel.org
+Cc:     Dennis Bonke <admin@dennisbonke.com>
+Subject: [PATCH] platform/x86: thinkpad_acpi: Take mutex in hotkey_resume
+Date:   Thu, 14 Sep 2023 01:18:29 +0200
+Message-Id: <20230913231829.192842-1-admin@dennisbonke.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-It's possible for interrupts to get significantly delayed to the point
-that callers of intel_scu_ipc_dev_command() and friends can call the
-function once, hit a timeout, and call it again while the interrupt
-still hasn't been processed. This driver will get seriously confused if
-the interrupt is finally processed after the second IPC has been sent
-with ipc_command(). It won't know which IPC has been completed. This
-could be quite disastrous if calling code assumes something has happened
-upon return from intel_scu_ipc_dev_simple_command() when it actually
-hasn't.
+From: Dennis Bonke <admin@dennisbonke.com>
 
-Let's avoid this scenario by simply returning -EBUSY in this case.
-Hopefully higher layers will know to back off or fail gracefully when
-this happens. It's all highly unlikely anyway, but it's better to be
-correct here as we have no way to know which IPC the status register is
-telling us about if we send a second IPC while the previous IPC is still
-processing.
+hotkey_status_{set,get} expect the hotkey_mutex to be held.
+It seems like it was missed here and that gives warnings while resuming.
 
-Cc: Prashant Malani <pmalani@chromium.org>
-Cc: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Fixes: ed12f295bfd5 ("ipc: Added support for IPC interrupt mode")
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+Signed-off-by: Dennis Bonke <admin@dennisbonke.com>
 ---
- drivers/platform/x86/intel_scu_ipc.c | 40 +++++++++++++++++++---------
- 1 file changed, 28 insertions(+), 12 deletions(-)
+ drivers/platform/x86/thinkpad_acpi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/platform/x86/intel_scu_ipc.c b/drivers/platform/x86/intel_scu_ipc.c
-index 3271f81a9c00..a68df4133403 100644
---- a/drivers/platform/x86/intel_scu_ipc.c
-+++ b/drivers/platform/x86/intel_scu_ipc.c
-@@ -265,6 +265,24 @@ static int intel_scu_ipc_check_status(struct intel_scu_ipc_dev *scu)
- 	return scu->irq > 0 ? ipc_wait_for_interrupt(scu) : busy_loop(scu);
- }
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index d70c89d32534..de5859a5eb0d 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -4116,9 +4116,11 @@ static void hotkey_resume(void)
+ {
+ 	tpacpi_disable_brightness_delay();
  
-+static struct intel_scu_ipc_dev *intel_scu_ipc_get(struct intel_scu_ipc_dev *scu)
-+{
-+	u8 status;
-+
-+	if (!scu)
-+		scu = ipcdev;
-+	if (!scu)
-+		return ERR_PTR(-ENODEV);
-+
-+	status = ipc_read_status(scu);
-+	if (status & IPC_STATUS_BUSY) {
-+		dev_dbg(&scu->dev, "device is busy\n");
-+		return ERR_PTR(-EBUSY);
-+	}
-+
-+	return scu;
-+}
-+
- /* Read/Write power control(PMIC in Langwell, MSIC in PenWell) registers */
- static int pwr_reg_rdwr(struct intel_scu_ipc_dev *scu, u16 *addr, u8 *data,
- 			u32 count, u32 op, u32 id)
-@@ -278,11 +296,10 @@ static int pwr_reg_rdwr(struct intel_scu_ipc_dev *scu, u16 *addr, u8 *data,
- 	memset(cbuf, 0, sizeof(cbuf));
++	mutex_lock(&hotkey_mutex)
+ 	if (hotkey_status_set(true) < 0 ||
+ 	    hotkey_mask_set(hotkey_acpi_mask) < 0)
+ 		pr_err("error while attempting to reset the event firmware interface\n");
++	mutex_unlock(&hotkey_mutex);
  
- 	mutex_lock(&ipclock);
--	if (!scu)
--		scu = ipcdev;
--	if (!scu) {
-+	scu = intel_scu_ipc_get(scu);
-+	if (IS_ERR(scu)) {
- 		mutex_unlock(&ipclock);
--		return -ENODEV;
-+		return PTR_ERR(scu);
- 	}
- 
- 	for (nc = 0; nc < count; nc++, offset += 2) {
-@@ -437,12 +454,12 @@ int intel_scu_ipc_dev_simple_command(struct intel_scu_ipc_dev *scu, int cmd,
- 	int err;
- 
- 	mutex_lock(&ipclock);
--	if (!scu)
--		scu = ipcdev;
--	if (!scu) {
-+	scu = intel_scu_ipc_get(scu);
-+	if (IS_ERR(scu)) {
- 		mutex_unlock(&ipclock);
--		return -ENODEV;
-+		return PTR_ERR(scu);
- 	}
-+
- 	cmdval = sub << 12 | cmd;
- 	ipc_command(scu, cmdval);
- 	err = intel_scu_ipc_check_status(scu);
-@@ -482,11 +499,10 @@ int intel_scu_ipc_dev_command_with_size(struct intel_scu_ipc_dev *scu, int cmd,
- 		return -EINVAL;
- 
- 	mutex_lock(&ipclock);
--	if (!scu)
--		scu = ipcdev;
--	if (!scu) {
-+	scu = intel_scu_ipc_get(scu);
-+	if (IS_ERR(scu)) {
- 		mutex_unlock(&ipclock);
--		return -ENODEV;
-+		return PTR_ERR(scu);
- 	}
- 
- 	memcpy(inbuf, in, inlen);
+ 	tpacpi_send_radiosw_update();
+ 	tpacpi_input_send_tabletsw();
 -- 
-https://chromeos.dev
+2.40.1
 
