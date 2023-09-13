@@ -2,104 +2,193 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B307179E2C4
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 Sep 2023 10:57:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AF4879E39A
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 Sep 2023 11:27:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239149AbjIMI5Q (ORCPT
+        id S232138AbjIMJ1M (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 13 Sep 2023 04:57:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52846 "EHLO
+        Wed, 13 Sep 2023 05:27:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238884AbjIMI5P (ORCPT
+        with ESMTP id S239259AbjIMJ1L (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 13 Sep 2023 04:57:15 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14BCBE73;
-        Wed, 13 Sep 2023 01:57:12 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 258B6C433C8;
-        Wed, 13 Sep 2023 08:57:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694595431;
-        bh=llGJetdIb1dUjrzIZCcYNGwpbB9eVWan8YT4tpPq6SI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oh68BCdRZubTrl/ZMiuumqN4cN4http1sVkZ8tCPDwNPcNokpVhMfwbnQw1apVu5Z
-         fCAYZCnxdAP94Yh2lL0KmWE62tnusTgyVF5nrvSjPPdb3g2FufJh/8D3Jmx/B7C7zA
-         knujcquHlKQdnB4YTu1FYcFeTO6Rah1n3/ruwSiBWgyWqXaqvwaXAaYayxHGSF75nS
-         AshOQwcmKaDFTb+flzzrKeDwvWJ/7nYOZBOoiqhh+sSezUyUlwQaj+vzZvDcvrDGEp
-         eIN7hU6qw/dkaxSLbj8H31xF/Jc4aG84oOUmneEb+bESwvO7kmadt+v/vnMOli+2mr
-         UTjYHbI9G76gQ==
-Date:   Wed, 13 Sep 2023 10:57:07 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Andi Shyti <andi.shyti@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Vadim Pasternak <vadimp@nvidia.com>,
-        Michael Shych <michaelsh@nvidia.com>,
-        linux-i2c@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] i2c: I2C_MLXCPLD on ARM64 should depend on ACPI
-Message-ID: <ZQF5Y2crg3TuyHOn@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Vadim Pasternak <vadimp@nvidia.com>,
-        Michael Shych <michaelsh@nvidia.com>, linux-i2c@vger.kernel.org,
+        Wed, 13 Sep 2023 05:27:11 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8445199E;
+        Wed, 13 Sep 2023 02:27:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694597227; x=1726133227;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=jWur+JX9CJPEdIOhhwD8UkpAw5f715+nAiJqnxYPswY=;
+  b=CWhMvJt/BmdxMJT1BxTe6I5ZLpmsdey+f7kaN8kPU1A1GiHK/vqg/r9w
+   0jxMGDZGhqWqWahQQS1kVSJsO2f67vz1LGfa1AzHG/1Gq7UY0bK6JS7s/
+   RmacgYmw7djStn0Y7q94+V5vcO2OFc3iXvswOkznbHsuxlSVKDqvravV7
+   OFDlstJ8QHjHaWMU3YcXPNrrgZjofr/3eZroCXbvdXh6MnLaINgBVm6ZA
+   ghSQP0BuGgKdzy6aArLSwkr5FJIkMYV6kWf3xmqTGKlNSUJVMYk5pPV14
+   82z2btdfjMF8zujclpJG+dq83wWnKC/Zg/x1x+UFCUoRLpR4kW5jB4/MR
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="464979127"
+X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
+   d="scan'208";a="464979127"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 02:27:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="867717321"
+X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
+   d="scan'208";a="867717321"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga004.jf.intel.com with ESMTP; 13 Sep 2023 02:27:04 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id A3A331E5; Wed, 13 Sep 2023 12:27:03 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Pearson <mpearson-lenovo@squebb.ca>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1693828363.git.geert+renesas@glider.be>
- <71c8d6d8c2c7ef31040ff5a0266cde0a6b3cd189.1693828363.git.geert+renesas@glider.be>
+Cc:     Mark Pearson <markpearson@lenovo.com>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/2] platform/x86: think-lmi: Replace kstrdup() + strreplace() with kstrdup_and_replace()
+Date:   Wed, 13 Sep 2023 12:27:00 +0300
+Message-Id: <20230913092701.440959-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="SnrQN+jefm+egFHi"
-Content-Disposition: inline
-In-Reply-To: <71c8d6d8c2c7ef31040ff5a0266cde0a6b3cd189.1693828363.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Replace open coded functionalify of kstrdup_and_replace() with a call.
 
---SnrQN+jefm+egFHi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/platform/x86/think-lmi.c | 43 +++++++++++---------------------
+ 1 file changed, 15 insertions(+), 28 deletions(-)
 
-On Mon, Sep 04, 2023 at 02:00:36PM +0200, Geert Uytterhoeven wrote:
-> The "i2c_mlxcpld" platform device is only instantiated on X86 systems
-> (through drivers/platform/x86/mlx-platform.c), or on ARM64 systems with
-> ACPI (through drivers/platform/mellanox/nvsw-sn2201.c).  Hence further
-> restrict the dependency on ARM64 to ACPI, to prevent asking the user
-> about this driver when configuring an ARM64 kernel without ACPI support.
->=20
-> While at it, document in the Kconfig help text that the driver supports
-> ARM64/ACPI based systems, too.
->=20
-> Fixes: d7cf993f832ad2a4 ("i2c: mlxcpld: Allow driver to run on ARM64 arch=
-itecture")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+diff --git a/drivers/platform/x86/think-lmi.c b/drivers/platform/x86/think-lmi.c
+index 79346881cadb..94a3c7a74bc4 100644
+--- a/drivers/platform/x86/think-lmi.c
++++ b/drivers/platform/x86/think-lmi.c
+@@ -15,7 +15,7 @@
+ #include <linux/errno.h>
+ #include <linux/fs.h>
+ #include <linux/mutex.h>
+-#include <linux/string.h>
++#include <linux/string_helpers.h>
+ #include <linux/types.h>
+ #include <linux/dmi.h>
+ #include <linux/wmi.h>
+@@ -432,13 +432,11 @@ static ssize_t new_password_store(struct kobject *kobj,
+ 	if (!tlmi_priv.can_set_bios_password)
+ 		return -EOPNOTSUPP;
+ 
+-	new_pwd = kstrdup(buf, GFP_KERNEL);
++	/* Strip out CR if one is present, setting password won't work if it is present */
++	new_pwd = kstrdup_and_replace(buf, '\n', '\0', GFP_KERNEL);
+ 	if (!new_pwd)
+ 		return -ENOMEM;
+ 
+-	/* Strip out CR if one is present, setting password won't work if it is present */
+-	strip_cr(new_pwd);
+-
+ 	/* Use lock in case multiple WMI operations needed */
+ 	mutex_lock(&tlmi_mutex);
+ 
+@@ -709,13 +707,11 @@ static ssize_t cert_to_password_store(struct kobject *kobj,
+ 	if (!setting->signature || !setting->signature[0])
+ 		return -EACCES;
+ 
+-	passwd = kstrdup(buf, GFP_KERNEL);
++	/* Strip out CR if one is present */
++	passwd = kstrdup_and_replace(buf, '\n', '\0', GFP_KERNEL);
+ 	if (!passwd)
+ 		return -ENOMEM;
+ 
+-	/* Strip out CR if one is present */
+-	strip_cr(passwd);
+-
+ 	/* Format: 'Password,Signature' */
+ 	auth_str = kasprintf(GFP_KERNEL, "%s,%s", passwd, setting->signature);
+ 	if (!auth_str) {
+@@ -765,11 +761,10 @@ static ssize_t certificate_store(struct kobject *kobj,
+ 		return ret ?: count;
+ 	}
+ 
+-	new_cert = kstrdup(buf, GFP_KERNEL);
++	/* Strip out CR if one is present */
++	new_cert = kstrdup_and_replace(buf, '\n', '\0', GFP_KERNEL);
+ 	if (!new_cert)
+ 		return -ENOMEM;
+-	/* Strip out CR if one is present */
+-	strip_cr(new_cert);
+ 
+ 	if (setting->cert_installed) {
+ 		/* Certificate is installed so this is an update */
+@@ -817,13 +812,11 @@ static ssize_t signature_store(struct kobject *kobj,
+ 	if (!tlmi_priv.certificate_support)
+ 		return -EOPNOTSUPP;
+ 
+-	new_signature = kstrdup(buf, GFP_KERNEL);
++	/* Strip out CR if one is present */
++	new_signature = kstrdup_and_replace(buf, '\n', '\0', GFP_KERNEL);
+ 	if (!new_signature)
+ 		return -ENOMEM;
+ 
+-	/* Strip out CR if one is present */
+-	strip_cr(new_signature);
+-
+ 	/* Free any previous signature */
+ 	kfree(setting->signature);
+ 	setting->signature = new_signature;
+@@ -846,13 +839,11 @@ static ssize_t save_signature_store(struct kobject *kobj,
+ 	if (!tlmi_priv.certificate_support)
+ 		return -EOPNOTSUPP;
+ 
+-	new_signature = kstrdup(buf, GFP_KERNEL);
++	/* Strip out CR if one is present */
++	new_signature = kstrdup_and_replace(buf, '\n', '\0', GFP_KERNEL);
+ 	if (!new_signature)
+ 		return -ENOMEM;
+ 
+-	/* Strip out CR if one is present */
+-	strip_cr(new_signature);
+-
+ 	/* Free any previous signature */
+ 	kfree(setting->save_signature);
+ 	setting->save_signature = new_signature;
+@@ -985,13 +976,11 @@ static ssize_t current_value_store(struct kobject *kobj,
+ 	if (!tlmi_priv.can_set_bios_settings)
+ 		return -EOPNOTSUPP;
+ 
+-	new_setting = kstrdup(buf, GFP_KERNEL);
++	/* Strip out CR if one is present */
++	new_setting = kstrdup_and_replace(buf, '\n', '\0', GFP_KERNEL);
+ 	if (!new_setting)
+ 		return -ENOMEM;
+ 
+-	/* Strip out CR if one is present */
+-	strip_cr(new_setting);
+-
+ 	/* Use lock in case multiple WMI operations needed */
+ 	mutex_lock(&tlmi_mutex);
+ 
+@@ -1163,13 +1152,11 @@ static ssize_t debug_cmd_store(struct kobject *kobj, struct kobj_attribute *attr
+ 	if (!tlmi_priv.can_debug_cmd)
+ 		return -EOPNOTSUPP;
+ 
+-	new_setting = kstrdup(buf, GFP_KERNEL);
++	/* Strip out CR if one is present */
++	new_setting = kstrdup_and_replace(buf, '\n', '\0', GFP_KERNEL);
+ 	if (!new_setting)
+ 		return -ENOMEM;
+ 
+-	/* Strip out CR if one is present */
+-	strip_cr(new_setting);
+-
+ 	if (tlmi_priv.pwd_admin->valid && tlmi_priv.pwd_admin->password[0]) {
+ 		auth_str = kasprintf(GFP_KERNEL, "%s,%s,%s;",
+ 				tlmi_priv.pwd_admin->password,
+-- 
+2.40.0.1.gaa8946217a0b
 
-Removed Fixes tag and applied to for-current, thanks!
-
-
---SnrQN+jefm+egFHi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmUBeWMACgkQFA3kzBSg
-KbYmIA//eXo9hXtMmtePqnxWOfzUsnh8OGfXlRbKD4prbAY+1ErvPXDbq81hTrWh
-koefQSU44ey7uuoYHB9L52esYxoaUiRB437FYd7oItNeQY45QHhpSwEVSw20zRg5
-1mOkmRTkQhDnIOy2OqPp07jn81uFHX2TmS0Vd6YQGcT5lpW2R27Rbpn7oPdT1u25
-GElK9zHfKJb4/ueQouEOkb6d1alyRSqsOziibiLMqowpEQK3nNTg3gCxJHO3gM3P
-hhdqcBRrjgdFnAiVYBuubbosu0ouq7NlvjEzI4QKVtS2s5cZA9QIzrBZb7hTtQaj
-Cg+EZhBZs4BXejSM/aMTXEByAwahcFrKjNpuTiNKJoWRXfdor1X5vYCIycm1GaRc
-JT/BhUj5C29AuN6fh95lyoxCS/wNAwHo1b/VR77YJxPzwKDH0//1BzwqeUvTR4z6
-zDkzfVQSU9dvGyRqKg712ptXwSBQnlPa+qNvyNhoh0b4EG8xPIe6iUCIzGX5XfDC
-gE0LZ3cKOQ+HlXsZaKAZA/LyDyIButpfE+l4MGbEd8Rs3s0Ut2Hswb8Pcf8Fies2
-EhubuDfveb780Do1rJem0nx+lg1LIuOJu9Zp+/nH8Q2wOfLudb4e4pkkwRrCjEXD
-9CGrKwO7QSyHT1gVjkTJrQj4WU6QV0zEGoJEwi9HMknjtF9Qn54=
-=LGcb
------END PGP SIGNATURE-----
-
---SnrQN+jefm+egFHi--
