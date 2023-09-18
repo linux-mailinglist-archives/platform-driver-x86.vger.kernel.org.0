@@ -2,81 +2,63 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 574E27A4FB1
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Sep 2023 18:50:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 883BD7A4F1D
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Sep 2023 18:34:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229514AbjIRQu1 (ORCPT
+        id S229517AbjIRQeS (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 18 Sep 2023 12:50:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42688 "EHLO
+        Mon, 18 Sep 2023 12:34:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229939AbjIRQu0 (ORCPT
+        with ESMTP id S230246AbjIRQeA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 18 Sep 2023 12:50:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B948AC
-        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Sep 2023 09:49:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1695055779;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=/kD8Hdgkg/23KhJ0is3uFFvBHnrlVOJ9Vc1+AFiUAug=;
-        b=LSWTkrleR61kRA7eXsvpFIgKtITX2xrRB6cjeLhWKsPtvkrTajyP3BEyfC//+eQdTYsuIX
-        2w7hkMM85U+f+BQvc5hvqCe+oJCHVYUOe/+dgoHXxVru0aZ6iEysRJ5/uPUrpMiGbnsGpJ
-        7WYN00a7hVQKkrkHhJ8nDlbufWmrzp4=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-15-Ol2heGJ8PeSXwe_lj_lthw-1; Mon, 18 Sep 2023 09:47:12 -0400
-X-MC-Unique: Ol2heGJ8PeSXwe_lj_lthw-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9a681c3470fso315593566b.1
-        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Sep 2023 06:47:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695044830; x=1695649630;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/kD8Hdgkg/23KhJ0is3uFFvBHnrlVOJ9Vc1+AFiUAug=;
-        b=oYbNAZC4hfJoMz2HvrijNWlW545yACimoS0aTt/Adur8zfi2DLZkld+2YefWfKjTaf
-         mA2E+k8UcVw+n8wTvZHzRbZ6tkwXNO5rMZaKVaV9P/hHkzF6GwiGzCndzNUaAXfdIrVn
-         aRW5Kz6vRGFE2B+jOk7WiciK4N+qZ/WqLtoviBB74KWWYjlP2dmZG/MKS/RvadFGjCW3
-         11ASnSiQBtEhKHovoF/9qXBuCJlLzCvmyLZyNMGchQKiJpGyrBby+nR1CnJTZlnEiIkN
-         L/htTCBby8tE6O3La14xFpHYd7fv2teMsMkQBCUCJMkEzQHN47HZYt1tF4jYZ3a25uLH
-         xxpQ==
-X-Gm-Message-State: AOJu0YyQhG1vWiiVHxLwiOfM4bzf9TKeGHr38eRDU5pq1qkr5F0iQ8e3
-        NZJkRKiWcRiacmD8fq/Tsoq6IVHEok8pTnl2oDhfJUhKzJTP2uF8QLl4xaUypJNwycuvf53cUCG
-        JMaxqIEnnMymMzCtgaJMjY6DW7RSioCOqyQ==
-X-Received: by 2002:a17:906:32c4:b0:9a1:ad87:1354 with SMTP id k4-20020a17090632c400b009a1ad871354mr8539116ejk.34.1695044830654;
-        Mon, 18 Sep 2023 06:47:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHW6odOs1WnfgIZ68dHHp+WJeVMpINoYjFDNoY+y8RiXvC8b6WXCL2L9xn4yDZfuwZInteg3A==
-X-Received: by 2002:a17:906:32c4:b0:9a1:ad87:1354 with SMTP id k4-20020a17090632c400b009a1ad871354mr8539099ejk.34.1695044830362;
-        Mon, 18 Sep 2023 06:47:10 -0700 (PDT)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id m18-20020a1709066d1200b00993a37aebc5sm6474186ejr.50.2023.09.18.06.47.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Sep 2023 06:47:09 -0700 (PDT)
-Message-ID: <2c671ff0-86e7-20e7-18ad-fc2c7f20508f@redhat.com>
-Date:   Mon, 18 Sep 2023 15:47:08 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 0/7] platform/surface: Convert to platform remove callback
- returning void
-Content-Language: en-US
-To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Mon, 18 Sep 2023 12:34:00 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EE71199FE;
+        Mon, 18 Sep 2023 09:14:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695053670; x=1726589670;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=7q0+gtbfGqVgyGk+Cwd1SLXvZsiPOH5fBdOFQlGjaJU=;
+  b=PmCom6xpPlzdGH4XcSi2e1G+lx4KzaHHtp8ImZDqb1qbgSGYGFxpZVLU
+   S4+tGcHvb2MAzH8CobOpqw5MyNdzlod0ueUSitFFlCymu6AaXpsLCTevL
+   tvtHLGqkFaKv6XNk2ohzonfI0m0WoQjjHXYgH/w5lv59oY0R7xQgJzLhy
+   l6lMsZYB9j5fSHeQdHAMqxjlB/G1o9MWdqdLoXD280HH5pDaVXWLT+6vD
+   2yslC+eb232RBrBTJTS8WGUyzc6wZtwzseMR3pa+5rZrvNuVta2rb3EY9
+   3TwIRAKHOQAdPEEXbEWLl6NFijL4zmewBE5oqXKBmRodDagR6A+L3H/W1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="379564931"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="379564931"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 06:51:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="775135964"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="775135964"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga008.jf.intel.com with ESMTP; 18 Sep 2023 06:51:19 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 9699118E; Mon, 18 Sep 2023 16:51:18 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Pearson <mpearson-lenovo@squebb.ca>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Mark Pearson <markpearson@lenovo.com>,
         Mark Gross <markgross@kernel.org>,
-        Maximilian Luz <luzmaximilian@gmail.com>
-Cc:     platform-driver-x86@vger.kernel.org, kernel@pengutronix.de
-References: <20230917203805.1149595-1-u.kleine-koenig@pengutronix.de>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230917203805.1149595-1-u.kleine-koenig@pengutronix.de>
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH v2 1/2] platform/x86: think-lmi: Replace kstrdup() + strreplace() with kstrdup_and_replace()
+Date:   Mon, 18 Sep 2023 16:51:15 +0300
+Message-Id: <20230918135116.1248560-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,64 +66,138 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+Replace open coded functionalify of kstrdup_and_replace() with a call.
 
-On 9/17/23 22:37, Uwe Kleine-König wrote:
-> Hello,
-> 
-> this series converts all platform drivers below drivers/platform/surface
-> to use .remove_new. The motivation is to get rid of an integer return
-> code that is (mostly) ignored by the platform driver core. 
-> 
-> See commit 5c5a7680e67b ("platform: Provide a remove callback that
-> returns no value") for an extended explanation and the eventual goal.
-> 
-> Best regards
-> Uwe
+Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+v2: rebased on top of review-hans (Hans), added tag (Ilpo)
+ drivers/platform/x86/think-lmi.c | 43 +++++++++++---------------------
+ 1 file changed, 15 insertions(+), 28 deletions(-)
 
-Thank you for your patch-series, I've applied the series to my
-review-hans branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
-
-Note it will show up in my review-hans branch once I've pushed my
-local branch there, which might take a while.
-
-Once I've run some tests on this branch the patches there will be
-added to the platform-drivers-x86/for-next branch and eventually
-will be included in the pdx86 pull-request to Linus for the next
-merge-window.
-
-Regards,
-
-Hans
-
-
-
-> Uwe Kleine-König (7):
->   platform/surface: surface3-wmi: Convert to platform remove callback
->     returning void
->   platform/surface: acpi-notify: Convert to platform remove callback
->     returning void
->   platform/surface: aggregator-cdev: Convert to platform remove callback
->     returning void
->   platform/surface: aggregator-registry: Convert to platform remove
->     callback returning void
->   platform/surface: dtx: Convert to platform remove callback returning
->     void
->   platform/surface: gpe: Convert to platform remove callback returning
->     void
->   platform/surface: hotplug: Convert to platform remove callback
->     returning void
-> 
->  drivers/platform/surface/surface3-wmi.c                | 5 ++---
->  drivers/platform/surface/surface_acpi_notify.c         | 6 ++----
->  drivers/platform/surface/surface_aggregator_cdev.c     | 5 ++---
->  drivers/platform/surface/surface_aggregator_registry.c | 5 ++---
->  drivers/platform/surface/surface_dtx.c                 | 5 ++---
->  drivers/platform/surface/surface_gpe.c                 | 6 ++----
->  drivers/platform/surface/surface_hotplug.c             | 6 ++----
->  7 files changed, 14 insertions(+), 24 deletions(-)
-> 
-> 
-> base-commit: dfa449a58323de195773cf928d99db4130702bf7
+diff --git a/drivers/platform/x86/think-lmi.c b/drivers/platform/x86/think-lmi.c
+index f69003c30fa2..4e0d52dc3944 100644
+--- a/drivers/platform/x86/think-lmi.c
++++ b/drivers/platform/x86/think-lmi.c
+@@ -15,7 +15,7 @@
+ #include <linux/errno.h>
+ #include <linux/fs.h>
+ #include <linux/mutex.h>
+-#include <linux/string.h>
++#include <linux/string_helpers.h>
+ #include <linux/types.h>
+ #include <linux/dmi.h>
+ #include <linux/wmi.h>
+@@ -432,13 +432,11 @@ static ssize_t new_password_store(struct kobject *kobj,
+ 	if (!tlmi_priv.can_set_bios_password)
+ 		return -EOPNOTSUPP;
+ 
+-	new_pwd = kstrdup(buf, GFP_KERNEL);
++	/* Strip out CR if one is present, setting password won't work if it is present */
++	new_pwd = kstrdup_and_replace(buf, '\n', '\0', GFP_KERNEL);
+ 	if (!new_pwd)
+ 		return -ENOMEM;
+ 
+-	/* Strip out CR if one is present, setting password won't work if it is present */
+-	strip_cr(new_pwd);
+-
+ 	/* Use lock in case multiple WMI operations needed */
+ 	mutex_lock(&tlmi_mutex);
+ 
+@@ -709,13 +707,11 @@ static ssize_t cert_to_password_store(struct kobject *kobj,
+ 	if (!setting->signature || !setting->signature[0])
+ 		return -EACCES;
+ 
+-	passwd = kstrdup(buf, GFP_KERNEL);
++	/* Strip out CR if one is present */
++	passwd = kstrdup_and_replace(buf, '\n', '\0', GFP_KERNEL);
+ 	if (!passwd)
+ 		return -ENOMEM;
+ 
+-	/* Strip out CR if one is present */
+-	strip_cr(passwd);
+-
+ 	/* Format: 'Password,Signature' */
+ 	auth_str = kasprintf(GFP_KERNEL, "%s,%s", passwd, setting->signature);
+ 	if (!auth_str) {
+@@ -765,11 +761,10 @@ static ssize_t certificate_store(struct kobject *kobj,
+ 		return ret ?: count;
+ 	}
+ 
+-	new_cert = kstrdup(buf, GFP_KERNEL);
++	/* Strip out CR if one is present */
++	new_cert = kstrdup_and_replace(buf, '\n', '\0', GFP_KERNEL);
+ 	if (!new_cert)
+ 		return -ENOMEM;
+-	/* Strip out CR if one is present */
+-	strip_cr(new_cert);
+ 
+ 	if (setting->cert_installed) {
+ 		/* Certificate is installed so this is an update */
+@@ -817,13 +812,11 @@ static ssize_t signature_store(struct kobject *kobj,
+ 	if (!tlmi_priv.certificate_support)
+ 		return -EOPNOTSUPP;
+ 
+-	new_signature = kstrdup(buf, GFP_KERNEL);
++	/* Strip out CR if one is present */
++	new_signature = kstrdup_and_replace(buf, '\n', '\0', GFP_KERNEL);
+ 	if (!new_signature)
+ 		return -ENOMEM;
+ 
+-	/* Strip out CR if one is present */
+-	strip_cr(new_signature);
+-
+ 	/* Free any previous signature */
+ 	kfree(setting->signature);
+ 	setting->signature = new_signature;
+@@ -846,13 +839,11 @@ static ssize_t save_signature_store(struct kobject *kobj,
+ 	if (!tlmi_priv.certificate_support)
+ 		return -EOPNOTSUPP;
+ 
+-	new_signature = kstrdup(buf, GFP_KERNEL);
++	/* Strip out CR if one is present */
++	new_signature = kstrdup_and_replace(buf, '\n', '\0', GFP_KERNEL);
+ 	if (!new_signature)
+ 		return -ENOMEM;
+ 
+-	/* Strip out CR if one is present */
+-	strip_cr(new_signature);
+-
+ 	/* Free any previous signature */
+ 	kfree(setting->save_signature);
+ 	setting->save_signature = new_signature;
+@@ -992,13 +983,11 @@ static ssize_t current_value_store(struct kobject *kobj,
+ 	if (tlmi_priv.save_mode == TLMI_SAVE_BULK && tlmi_priv.reboot_required)
+ 		return -EPERM;
+ 
+-	new_setting = kstrdup(buf, GFP_KERNEL);
++	/* Strip out CR if one is present */
++	new_setting = kstrdup_and_replace(buf, '\n', '\0', GFP_KERNEL);
+ 	if (!new_setting)
+ 		return -ENOMEM;
+ 
+-	/* Strip out CR if one is present */
+-	strip_cr(new_setting);
+-
+ 	/* Use lock in case multiple WMI operations needed */
+ 	mutex_lock(&tlmi_mutex);
+ 
+@@ -1279,13 +1268,11 @@ static ssize_t debug_cmd_store(struct kobject *kobj, struct kobj_attribute *attr
+ 	if (!tlmi_priv.can_debug_cmd)
+ 		return -EOPNOTSUPP;
+ 
+-	new_setting = kstrdup(buf, GFP_KERNEL);
++	/* Strip out CR if one is present */
++	new_setting = kstrdup_and_replace(buf, '\n', '\0', GFP_KERNEL);
+ 	if (!new_setting)
+ 		return -ENOMEM;
+ 
+-	/* Strip out CR if one is present */
+-	strip_cr(new_setting);
+-
+ 	if (tlmi_priv.pwd_admin->valid && tlmi_priv.pwd_admin->password[0]) {
+ 		auth_str = kasprintf(GFP_KERNEL, "%s,%s,%s;",
+ 				tlmi_priv.pwd_admin->password,
+-- 
+2.40.0.1.gaa8946217a0b
 
