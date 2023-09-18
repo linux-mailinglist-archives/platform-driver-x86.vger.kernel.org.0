@@ -2,144 +2,116 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C40657A4DA8
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Sep 2023 17:57:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6B8E7A4D59
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Sep 2023 17:48:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229723AbjIRP5C (ORCPT
+        id S229702AbjIRPso (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 18 Sep 2023 11:57:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42254 "EHLO
+        Mon, 18 Sep 2023 11:48:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229633AbjIRP5B (ORCPT
+        with ESMTP id S229751AbjIRPsl (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 18 Sep 2023 11:57:01 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7A6E270B;
-        Mon, 18 Sep 2023 08:55:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695052509; x=1726588509;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=9mdSjBgak3X7CxWik+JVulIYQIwZzjIpi9uzcf4feQE=;
-  b=De/fi7BxQvmSa9hdvh/ur5YXcXK6NWnTa/xopyFAQnE433NA5REc+x7i
-   bBldD6snaG9rzkruN5nwxImGHk2T6TorLy2ccS7VXH/ph0knaaTn0Cq2Z
-   aIX8b0Oe2EagY3KMfpLhNkDr2YbwntEykCAu4hqHW6EzOOBLT72vdeYUf
-   L7dJs18sQABeZxQIYk5huaq6dewQT72Q0w3+hvaqfTeTqGUzBxHR5vMHL
-   K1gTT6J2MScuO14YWAFohQV43q7kRqPmyP5zPJD9J1H4hw1NIxZJ4urdB
-   4tQgut5UFoKAw0In/nCLh+REAC3X4b2fdjlmfzE8j1sZOe7g3jflpoIxF
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="466000301"
-X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="466000301"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 06:26:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="861064597"
-X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="861064597"
-Received: from nprotaso-mobl1.ccr.corp.intel.com ([10.252.49.156])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 06:26:43 -0700
-Date:   Mon, 18 Sep 2023 16:26:41 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-cc:     Stephen Boyd <swboyd@chromium.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mark Gross <markgross@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, patches@lists.linux.dev,
-        platform-driver-x86@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Prashant Malani <pmalani@chromium.org>
-Subject: Re: [PATCH v4 2/4] platform/x86: intel_scu_ipc: Check status upon
- timeout in ipc_wait_for_interrupt()
-In-Reply-To: <a0573057-8b93-f6f8-59eb-e8d30ac7035f@redhat.com>
-Message-ID: <f3d06f3d-1dee-54c2-88b9-f33cfb86366@linux.intel.com>
-References: <20230913212723.3055315-1-swboyd@chromium.org> <20230913212723.3055315-3-swboyd@chromium.org> <2bd9b7e2-a558-305b-bfd9-e64c28b6303d@linux.intel.com> <a0573057-8b93-f6f8-59eb-e8d30ac7035f@redhat.com>
+        Mon, 18 Sep 2023 11:48:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E127D10C8
+        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Sep 2023 08:45:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1695051729;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=4TTxQOCDOWFA0p2jwGlB97ue19qCIKfMgOp8dZqLo94=;
+        b=LxaIarUxJs1E+z6pmFZqCpD/iWcYalCklJErphGoJRFoFKu0a450NuxJHlIcCL/OdVkraU
+        OMZqBnkzEY1gpKVsOL8Dmv+JPjAOw6Kwk1YIIZwtuYzQSb7xKZyCLUPaLLUxZasZeyTHqU
+        crhu47Q2WjO3HwCHFgjKbObREcfvQ0c=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-574-BHOKmtnzN_-n-DsVFIVlwA-1; Mon, 18 Sep 2023 09:41:30 -0400
+X-MC-Unique: BHOKmtnzN_-n-DsVFIVlwA-1
+Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-2be51691dd5so55617901fa.3
+        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Sep 2023 06:41:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695044489; x=1695649289;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4TTxQOCDOWFA0p2jwGlB97ue19qCIKfMgOp8dZqLo94=;
+        b=cj6km1T2lviEKLbfvgQ3IuDcXmxH8chQFn9cdhKuT9rTf4xjZuzVPyykonFwq+Bz23
+         H6H0yf1wIuvu/vUlo/JMuwSex38+JRAIauC/Mtkgt+71nwLwbuFo79ruoQAQdwgjUmJr
+         0sqVdk4npHc5nd8hD7UiJxtzbnvuLYvM5oV8YA9kIIGAepkiAB3NM+HT/g6tVkMFfaFL
+         KYavHUSa1DgA0ZsgwDQF5ZU70rM1ufO1QXw8jWbIYM0+If7460Spm/srjoXRYs6h8b0G
+         EK3NMjo40d4FWQeOQrYKw7BvUaqNQtPDE0yLXKt/qW46XrgO4DQqck27gdX+h8zbLwMp
+         ahAQ==
+X-Gm-Message-State: AOJu0YyElprydCTy8uTUrRFCv5fxLwWSqH0ARLW/aRhhDGYeZ/etoI53
+        ozikEcjJqYIa9WdPHGGKcaCkuSydqgeMhdEds+/yVsJguTYv6R9EOjxgvPIAqoxdCn3HDpK63r9
+        tpqeknD4oKYjaxSdEzzd2Mj76XIAQyooMGQ==
+X-Received: by 2002:a2e:854e:0:b0:2bd:bc9:30aa with SMTP id u14-20020a2e854e000000b002bd0bc930aamr7755916ljj.23.1695044489207;
+        Mon, 18 Sep 2023 06:41:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEgqBmH2hwom+Lx5lEzqnk0cF22EnYtz2nqSN55UwRLMM+A4J8u3a+gcEep0pBcMiR7e0h5Gw==
+X-Received: by 2002:a2e:854e:0:b0:2bd:bc9:30aa with SMTP id u14-20020a2e854e000000b002bd0bc930aamr7755897ljj.23.1695044488880;
+        Mon, 18 Sep 2023 06:41:28 -0700 (PDT)
+Received: from [10.40.98.142] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id s7-20020a17090699c700b009adcb6c0f0dsm5133635ejn.38.2023.09.18.06.41.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Sep 2023 06:41:26 -0700 (PDT)
+Message-ID: <6a4a9acf-aa1d-dc73-b171-76654e1b9d47@redhat.com>
+Date:   Mon, 18 Sep 2023 15:41:22 +0200
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323329-543075989-1695043025=:1832"
-Content-ID: <87977fa8-8a4f-18c8-6c6-1c2f8fd622cb@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2] platform/x86: thinkpad_acpi: sysfs interface to auxmac
+Content-Language: en-US
+To:     =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Fernando Eckhardt Valle <fevalle@ipt.br>
+Cc:     Mark Pearson <mpearson-lenovo@squebb.ca>, corbet@lwn.net,
+        hmh@hmh.eng.br, markgross@kernel.org, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+References: <20230915123136.4286-1-fevalle@ipt.br>
+ <97ac516a-5d9f-f58d-2313-d7d3453f58cb@linux.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <97ac516a-5d9f-f58d-2313-d7d3453f58cb@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi,
 
---8323329-543075989-1695043025=:1832
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
-Content-ID: <d1a9ce37-d373-c568-271f-5872936c1b0@linux.intel.com>
+On 9/15/23 18:18, Ilpo JÃ¤rvinen wrote:
+> On Fri, 15 Sep 2023, Fernando Eckhardt Valle wrote:
 
-On Mon, 18 Sep 2023, Hans de Goede wrote:
-> On 9/15/23 15:49, Ilpo Järvinen wrote:
-> > On Wed, 13 Sep 2023, Stephen Boyd wrote:
-> > 
-> >> It's possible for the completion in ipc_wait_for_interrupt() to timeout,
-> >> simply because the interrupt was delayed in being processed. A timeout
-> >> in itself is not an error. This driver should check the status register
-> >> upon a timeout to ensure that scheduling or interrupt processing delays
-> >> don't affect the outcome of the IPC return value.
-> >>
-> >>  CPU0                                                   SCU
-> >>  ----                                                   ---
-> >>  ipc_wait_for_interrupt()
-> >>   wait_for_completion_timeout(&scu->cmd_complete)
-> >>   [TIMEOUT]                                             status[IPC_STATUS_BUSY]=0
-> >>
-> >> Fix this problem by reading the status bit in all cases, regardless of
-> >> the timeout. If the completion times out, we'll assume the problem was
-> >> that the IPC_STATUS_BUSY bit was still set, but if the status bit is
-> >> cleared in the meantime we know that we hit some scheduling delay and we
-> >> should just check the error bit.
-> > 
-> > Hi,
-> > 
-> > I don't understand the intent here. What prevents IPC_STATUS_BUSY from 
-> > changing right after you've read it in ipc_read_status(scu)? Doesn't that 
-> > end you exactly into the same situation where the returned value is stale 
-> > so I cannot see how this fixes anything, at best it just plays around the 
-> > race window that seems to still be there after this fix?
+<snip>
+
+>> +		goto auxmacinvalid;
+>> +	}
+>> +
+>> +	if (strncmp(obj->string.pointer + 0x8, "#", 1) != 0 ||
+>> +	    strncmp(obj->string.pointer + 0x15, "#", 1) != 0) {
 > 
-> As I understand it the problem before was that the function would
-> return -ETIMEDOUT; purely based on wait_for_completion_timeout()
-> without ever actually checking the BUSY bit:
-> 
-> Old code:
-> 
-> 	if (!wait_for_completion_timeout(&scu->cmd_complete, IPC_TIMEOUT))
-> 		return -ETIMEDOUT;
-> 
-> This allows for a scenario where when the IRQ processing got delayed
-> (on say another core) causing the timeout to trigger,
-> ipc_wait_for_interrupt() would return -ETIMEDOUT even though
-> the BUSY flag was already cleared by the SCU.
-> 
-> This patch adds an explicit check for the BUSY flag after
-> the wait_for_completion(), rather then relying on the
-> wait_for_completion() return value which implies things
-> are still busy.
+> Why use strncmp with (..., 1)? These offsets should defines above and not 
+> use literals.
 
-Oh, I see, it's because the code is waiting for the completion rather than
-the actual condition.
+Right, good point.
 
-> As for "What prevents IPC_STATUS_BUSY from 
-> changing right after you've read it in ipc_read_status(scu)?"
-> 
-> AFAICT in this code path the bit is only ever supposed to go
-> from being set (busy) to unset (not busy), not the other
-> way around since no new commands can be submitted until
-> this function has completed. So that scenario cannot happen.
+To be extra clear here, this should be replaced by != '#' statements, e.g.:
 
-This is not what I meant.
+	if (obj->string.pointer[AUXMAC_BEGIN_MARKER] != '#' ||
+	    obj->string.pointer[AUXMAC_END_MARKER] != '#') {
+		...
 
-I meant that if the code has decided to return -ETIMEDOUT, the status bit 
-still change at that point which makes the return value to not match. This 
-race is still there and given the changelog was a bit sparse on what race 
-it was fixing I ended up noticing this detail.
+Regards,
 
+Hans
 
--- 
- i.
---8323329-543075989-1695043025=:1832--
