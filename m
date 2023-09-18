@@ -2,70 +2,112 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BD6D7A4ED8
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Sep 2023 18:27:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0719C7A4EF4
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Sep 2023 18:32:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229988AbjIRQ1u convert rfc822-to-8bit (ORCPT
+        id S229955AbjIRQcH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 18 Sep 2023 12:27:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53024 "EHLO
+        Mon, 18 Sep 2023 12:32:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229865AbjIRQ1c (ORCPT
+        with ESMTP id S229960AbjIRQb4 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 18 Sep 2023 12:27:32 -0400
-X-Greylist: delayed 137 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 18 Sep 2023 09:25:11 PDT
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2100A2F2F9;
-        Mon, 18 Sep 2023 09:25:10 -0700 (PDT)
-Received: from omf08.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay07.hostedemail.com (Postfix) with ESMTP id C6BC91601B4;
-        Mon, 18 Sep 2023 16:25:08 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf08.hostedemail.com (Postfix) with ESMTPA id 64FDD2002C;
-        Mon, 18 Sep 2023 16:25:06 +0000 (UTC)
-Message-ID: <0dc5f16bf252a86dfb74649493311763780b641a.camel@perches.com>
-Subject: Re: [PATCH v2] platform/x86: think-lmi: Add bulk save feature
-From:   Joe Perches <joe@perches.com>
-To:     Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Mark Pearson <mpearson-lenovo@squebb.ca>
-Cc:     hdegoede@redhat.com, markgross@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Mon, 18 Sep 2023 09:25:05 -0700
-In-Reply-To: <ZQhX6Ynz-cl1gkNu@smile.fi.intel.com>
-References: <mpearson-lenovo@squebb.ca>
-         <20230906121328.50437-1-mpearson-lenovo@squebb.ca>
-         <ZQhXZkBHviGOEl-x@smile.fi.intel.com> <ZQhX6Ynz-cl1gkNu@smile.fi.intel.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        Mon, 18 Sep 2023 12:31:56 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EB4430F1;
+        Mon, 18 Sep 2023 09:29:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695054577; x=1726590577;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=mUsyv642lSfHpOACGU5mHLtbltxVExA86+s11mm3p3o=;
+  b=gIFbJ5VFhy+/rNqm5hU3RxtTt5l7AKlTUPHc/7/sxcKDaq7RwBX3deuF
+   FUDF0cVsAPGCf1nrhSwERcH5EdhGjoQpa4aviGNw/tpzHp8sweEJcBUXS
+   kL5K9t98X4gXNPku282/DSOYiwAA2fwSV1KcXR6G/QGg7vn46R3l970S8
+   eXsBcPtd0ZGGBuMf54tly0EtL3xPyGRTUGR8w5xeflyBdapaV6Wu6KMWg
+   UC/Yl/5Keo+umXuFkxQwoggY1Sh8J1ELK0++1sJkGZsSGEI6pRCXtova6
+   E+sLVNkKfeTCu8QBSPGqXtXBy96QWYVWKIqOXTy3AbIPrGl7FZ7D1en0/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="443784041"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="443784041"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 09:29:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="861132842"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="861132842"
+Received: from nprotaso-mobl1.ccr.corp.intel.com ([10.252.49.156])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 09:29:33 -0700
+Date:   Mon, 18 Sep 2023 19:29:31 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     "Luck, Tony" <tony.luck@intel.com>
+cc:     "Joseph, Jithu" <jithu.joseph@intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        "markgross@kernel.org" <markgross@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "Xu, Pengfei" <pengfei.xu@intel.com>
+Subject: RE: [PATCH 03/10] platform/x86/intel/ifs: Image loading for new
+ generations
+In-Reply-To: <SJ1PR11MB608304A84A2B662C78FDB677FCFBA@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Message-ID: <a02d2957-3ec4-f89c-ebe-474c3987b237@linux.intel.com>
+References: <20230913183348.1349409-1-jithu.joseph@intel.com> <20230913183348.1349409-4-jithu.joseph@intel.com> <ba753b39-1819-35ff-1248-6ce2c2824ae9@linux.intel.com> <e084652a-91a0-0c16-7acb-d51a3d2f7ed5@intel.com> <10fe57c-c926-9de4-be84-21a0f8abab6d@linux.intel.com>
+ <SJ1PR11MB6083A4237D928F180B6DB1E1FCFBA@SJ1PR11MB6083.namprd11.prod.outlook.com> <56b486ce-2a6e-c4c7-8bc5-ceeb7119ba1@linux.intel.com> <SJ1PR11MB608304A84A2B662C78FDB677FCFBA@SJ1PR11MB6083.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 64FDD2002C
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,
-        SPF_NONE,UNPARSEABLE_RELAY autolearn=no autolearn_force=no
-        version=3.4.6
-X-Stat-Signature: 9y3ss9zngu6xyc1dft7aa9ycpzeqey5f
-X-Rspamd-Server: rspamout08
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/j0U92jOb2J7H1At4KRVyZrzDskRdxT38=
-X-HE-Tag: 1695054306-681852
-X-HE-Meta: U2FsdGVkX18lb71DJPStYJ49sE4KmU2d92msDJEfCWF6jffR0htH8BJa4yOgGAT5eu2uWwqBPr+6L29c2Mdfrf60DL1daios6f1Xi3GOVEKcVkGNfGf4s2AvV0OC8ygRD8JB3gCZrhVz3b0oqd6+0aPAZpXq0Nv+Q0p1G7SHmcRAHmxg0aGcA48DSBAS1AqjK+KhOP4C/p+IukWcrsgy/ExaGW3mOGBlhP4p4rLY+AA8AhqMM9JxrTDeAY5kKnww8iS+p+70CiVD6EmxMGXwcO35GPCGz3p2LWLKqtEh3QImWwyXnspVcG17Ss/lGT/S
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, 2023-09-18 at 17:00 +0300, Andy Shevchenko wrote:
-> On Mon, Sep 18, 2023 at 04:57:58PM +0300, Andy Shevchenko wrote:
-> > On Wed, Sep 06, 2023 at 08:13:14AM -0400, Mark Pearson wrote:
-> 
-> ...
-> 
-> > > +Date:		August 2023
-> > > +KernelVersion:	6.5
-> > 
-> > This is obviously incorrect (outdated) information.
-> 
-> Joe, does checkpatch have a hook to test that (using phb-crystal-ball data)?
+On Mon, 18 Sep 2023, Luck, Tony wrote:
 
-No and I rather doubt it should.
+> > Since you replied, would you happen to have a pointer something that tells 
+> > (in writing) how the bitfields in C are allocated in case of x86_64? I 
+> > spent a bit of time trying to find something but came up nothing.
+> 
+> Search engines don't seem to be as good as they used to be (or I'm not as
+> good at finding the right query). 
+> 
+> There's a bit on page 14 of:
+> 
+> https://refspecs.linuxbase.org/elf/x86_64-abi-0.99.pdf
+> 
+> that says bit fields are allocated right to left (which is a good
+> start). But I thought there was a doc somewhere that gave
+> more detail about alignment of bitfields.
+
+Thanks, appreciated.
+
+In this case it is not just about the bitfield itself nor the bit 
+allocation order but sharing the storage unit with another member, and to 
+further complicate things, members have different alignment requirement 
+too (32-bit aligned u8 followed by u32 bitfield).
+
+The document states: "Bit-fields obey the same size and alignment rules as 
+other structure and union members." which seems to contradict my test 
+that found that the u32 bitfield won't be 32-bit aligned but gets combined 
+with the 32-bit aligned u8. Perhaps it's because the total number of bits 
+still fits to 32 bits so the bitfield doesn't cross the 32-bit boundary 
+even when combined with the preceeding u8.
+
+
+-- 
+ i.
+
