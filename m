@@ -2,123 +2,86 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 874AC7A4D77
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Sep 2023 17:50:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F6437A4CC5
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Sep 2023 17:40:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229436AbjIRPub (ORCPT
+        id S229570AbjIRPkf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 18 Sep 2023 11:50:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48804 "EHLO
+        Mon, 18 Sep 2023 11:40:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229633AbjIRPua (ORCPT
+        with ESMTP id S229472AbjIRPkb (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 18 Sep 2023 11:50:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B939CCF7
-        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Sep 2023 08:48:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1695051849;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=wGtArAeMB9GZxmO9vKCrGvuHZSz8eHSUPOKIKq8XF6o=;
-        b=cSNZBznXV78B5UF2EyJk6EpSMg/nKGgXnb8kCQ2I4T561qjqT+ZjhJjlZrRFC3LO7grRxj
-        soGqVSNdTYyoTukPsonzV9lKrO6E2y3H6lemvXLBHCORsQKvHrFx9p/rR845HEQ1a8EKvz
-        apPv4o1C4r1l76F9R9tEXJ283kHVAcw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-609-u2VcLsPRNGCHcD-_9u4mmQ-1; Mon, 18 Sep 2023 09:43:22 -0400
-X-MC-Unique: u2VcLsPRNGCHcD-_9u4mmQ-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-320004980a2so1347740f8f.1
-        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Sep 2023 06:43:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695044601; x=1695649401;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wGtArAeMB9GZxmO9vKCrGvuHZSz8eHSUPOKIKq8XF6o=;
-        b=lUbsNa1Iarq97c06TTKRBrDC0VQ81r4RYb/U9GFNSXE61519+7yBXTLKEq7CelslkU
-         YzcQKvWB9OGdtem4PqBsZDe2KNAVrmkiDhzF5BJLt6wuZb6FTmge8cQcpqDj1IQU/erm
-         8j5wIuHacYVtYZVYxXDg8Gpte/LgE8Wi5+qjtu6VFl6/C9uZOFnX4cM8dipbClJdanxf
-         q/h+vibtWf0Hl00Yv+R98ahc2frPdnhKlgc5iAp+/tzX2FW6wxWXAEzyhhfTekJrECgd
-         xrTDkNxaH53P+Vgk4MOyHRhQsKYaH0Z6eyk4RnPmsafw53+brWxcmEYW4r3PfNdGEL3C
-         M0Zw==
-X-Gm-Message-State: AOJu0YweeUkMgi7SL+s2YgUJALC/wDp4st/8X3RDV5qz0Tfq1TLctO4F
-        HURA3ULAGeGxRuSY/pgbmXIcvL0OiiTN0e+7BNO87+1iNGWiSYsecylnNw4emL4XdNjp8PVJ9e2
-        72DFWHPPnp1UBTBLCYOk2E03mjd+uYeXsvg==
-X-Received: by 2002:a5d:48c9:0:b0:313:ecd3:7167 with SMTP id p9-20020a5d48c9000000b00313ecd37167mr6698956wrs.42.1695044601456;
-        Mon, 18 Sep 2023 06:43:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGqg/YVoNOSd4z0HHkqO+SjQMAgGAGS6J7hZ/VOzR7wy7Z954+VZuQHKBJ9vaaEl52BhE9r3Q==
-X-Received: by 2002:a5d:48c9:0:b0:313:ecd3:7167 with SMTP id p9-20020a5d48c9000000b00313ecd37167mr6698943wrs.42.1695044601155;
-        Mon, 18 Sep 2023 06:43:21 -0700 (PDT)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id x7-20020a170906134700b009a0955a7ad0sm6457579ejb.128.2023.09.18.06.43.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Sep 2023 06:43:20 -0700 (PDT)
-Message-ID: <9645f22e-e580-974f-c03d-6549c6beb8f6@redhat.com>
-Date:   Mon, 18 Sep 2023 15:43:19 +0200
+        Mon, 18 Sep 2023 11:40:31 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60AF5272A;
+        Mon, 18 Sep 2023 08:40:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695051627; x=1726587627;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UJy+Gr8DwxN6Yt79AOixDnkfqZv5y9oXSAuQ2/xs+a4=;
+  b=fHsmKqPjcf6ZIhdHGgLkY5QxY12iXb/ZzZ9Rd7y/FahX0o+nAHZCDmYi
+   Yj+iDsV/duUeSJr8vDId7cGADF6DRVeK86+3voByUTXMPAH2r6txXF2gX
+   TKm8MtSprom4KxKDwO1mCU1igH6xvcHhu9hlAzVanDYHIyf/lJx3nrQYm
+   cGCQrlN1PhX5W+h/uk57n9euzlnU0s5rlDTUybnwFr5eOr+vJNfbaRCpO
+   1Lg7D1eu13SgqrD1YWLZU2mfNj63P4VmeOn6x7Dxcq6EEUNfPMlVMrxdd
+   VH7/iwn4FKSv3I5luyAPr6WUNOMGlyE3lrz7fvZcUmS9WKfCDryFe7X0P
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="376969087"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="376969087"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 06:50:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="889062962"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="889062962"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 06:49:31 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC0)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qiEdd-00000009Lhi-1iQG;
+        Mon, 18 Sep 2023 16:50:09 +0300
+Date:   Mon, 18 Sep 2023 16:50:09 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mark Pearson <mpearson-lenovo@squebb.ca>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mark Pearson <markpearson@lenovo.com>,
+        Mark Gross <markgross@kernel.org>
+Subject: Re: [PATCH v1 1/2] platform/x86: think-lmi: Replace kstrdup() +
+ strreplace() with kstrdup_and_replace()
+Message-ID: <ZQhVkb9XYvjd7GlJ@smile.fi.intel.com>
+References: <20230913092701.440959-1-andriy.shevchenko@linux.intel.com>
+ <77bde3cf-ca94-1cdb-53d8-39df22f8c551@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] platform/x86: x86-android-tablets: Fix Lenovo Yoga Tablet
- 2 830F/L vs 1050F/L detection
-Content-Language: en-US
-To:     =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>
-Cc:     platform-driver-x86@vger.kernel.org
-References: <20230915214933.62595-1-hdegoede@redhat.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230915214933.62595-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <77bde3cf-ca94-1cdb-53d8-39df22f8c551@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
-
-On 9/15/23 23:49, Hans de Goede wrote:
-> gpio_crystalcove pin 10 is already in input mode and passing GPIOD_IN
-> when requesting the GPIO changes its pull-up/-down settings causing
-> the 830F/L to get misdetected as 1050F/L.
+On Mon, Sep 18, 2023 at 02:30:28PM +0200, Hans de Goede wrote:
+> On 9/13/23 11:27, Andy Shevchenko wrote:
+> > Replace open coded functionalify of kstrdup_and_replace() with a call.
+> > 
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > 
-> Switch to using GPIOD_ASIS when requesting the GPIO to fix
-> the misdetection.
-> 
-> Fixes: 4014ae236b1d ("platform/x86: x86-android-tablets: Stop using gpiolib private APIs")
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> Thank you for the patches, but this one does not apply
+> cleanly.
 
-I've added this to my review-hans (soon to be for-next) branch now.
+`git am -C1 ...` works for me.
 
-Regards,
+> Can you please rebase the series on top of my latest review-hans branch ?
 
-Hans
+But fine, no problem, I'm about to send a v2,
 
+-- 
+With Best Regards,
+Andy Shevchenko
 
-
-> ---
->  drivers/platform/x86/x86-android-tablets/lenovo.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/x86/x86-android-tablets/lenovo.c b/drivers/platform/x86/x86-android-tablets/lenovo.c
-> index 904290526173..585f10a57810 100644
-> --- a/drivers/platform/x86/x86-android-tablets/lenovo.c
-> +++ b/drivers/platform/x86/x86-android-tablets/lenovo.c
-> @@ -454,7 +454,7 @@ static int __init lenovo_yoga_tab2_830_1050_init_touchscreen(void)
->  
->  	/* Use PMIC GPIO 10 bootstrap pin to differentiate 830 vs 1050 */
->  	ret = x86_android_tablet_get_gpiod("gpio_crystalcove", 10, "yoga_bootstrap",
-> -					   false, GPIOD_IN, &gpiod);
-> +					   false, GPIOD_ASIS, &gpiod);
->  	if (ret)
->  		return ret;
->  
 
