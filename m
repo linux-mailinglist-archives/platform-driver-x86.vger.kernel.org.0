@@ -2,148 +2,144 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 710687A4C26
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Sep 2023 17:27:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C40657A4DA8
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Sep 2023 17:57:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229379AbjIRP1V (ORCPT
+        id S229723AbjIRP5C (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 18 Sep 2023 11:27:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55510 "EHLO
+        Mon, 18 Sep 2023 11:57:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231174AbjIRP1E (ORCPT
+        with ESMTP id S229633AbjIRP5B (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 18 Sep 2023 11:27:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 319A91BD0
-        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Sep 2023 08:23:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1695050484;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZJxOEUwKq2KwnFmZk3pOWmt+ygYn9o53lf6vTBXs108=;
-        b=D4Imi09B/fF1/+JxI5wcuD68UmmMSAyj6kg2812w20HxsIDiX7iIGwn/Npj3px8kjvpmlb
-        JkqqgzNk8vTR/tJ5MdzxffiYK7LE/dXhPoFogEdcBfVyAUCIDBn3d5VTh7IUo6lAq/u7Y5
-        XvD59JF+4VuTFvw3d04yPF2UhEuUTFY=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-224-fz-Li2gYNDKVUUExHh72-w-1; Mon, 18 Sep 2023 09:21:05 -0400
-X-MC-Unique: fz-Li2gYNDKVUUExHh72-w-1
-Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-50309111618so1879221e87.0
-        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Sep 2023 06:21:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695043263; x=1695648063;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZJxOEUwKq2KwnFmZk3pOWmt+ygYn9o53lf6vTBXs108=;
-        b=iFcMPTqywl8twobR+MCC8HmDT3D7fkb+qnMRDMHSjUjkfqH/A2VQsLMN2AA3ZTdCop
-         ei+Z9cXorym581MZL3dpI8BQDdmXDnONrBDtZmsB5VOpWI9aIcxZiiBbFRgWA3Q3FnPw
-         RrDN+8ms6l6NwyMPOUVf1VmFq02Y4bAOM/aASH2p1/vIsbGXADHHEIdE8ivyurQHghO5
-         mUkcQWRLfs18X7uG7Vv/Jt7UPmMIawiXd0w7XHynvd4xt8X9oeFCr6uG9GKXvAID0ijV
-         ptNvqxCwsZAcESfMRx7eALs+vcrdhFfgEwaQVYvOkCjhrztZSk8t7IcIb12UEG/ETTJo
-         cv6A==
-X-Gm-Message-State: AOJu0Yz0EOuLkoht7EGJmOyU9wmY5haROMbMXFE1kOP1oBhUQ7v5UJVO
-        0buEepgDFnRIW5rnN49mGS6T5pHpi2ikFJ0Jp+uI8iyPv278yHkMXlnEOWlNmmjL6RmuDNeHwlw
-        1MlAGIwgQeVYidsxfOPlibbDC2eX7fgapKHe9fO7wdw==
-X-Received: by 2002:a19:7113:0:b0:500:9a45:62f with SMTP id m19-20020a197113000000b005009a45062fmr6427105lfc.8.1695043263248;
-        Mon, 18 Sep 2023 06:21:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEg3y8j6ulHCSsYRNzSopEL/zg2ePatS9CF1ypxa0pAhrRRg0cuUohYCdUZGe8vuUkbYRI1hg==
-X-Received: by 2002:a19:7113:0:b0:500:9a45:62f with SMTP id m19-20020a197113000000b005009a45062fmr6427097lfc.8.1695043262906;
-        Mon, 18 Sep 2023 06:21:02 -0700 (PDT)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id l1-20020a056402028100b0052237dfa82fsm5973258edv.64.2023.09.18.06.21.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Sep 2023 06:21:02 -0700 (PDT)
-Message-ID: <37947c4f-abd1-afeb-ed5e-54e7a3aba28b@redhat.com>
-Date:   Mon, 18 Sep 2023 15:21:01 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 1/1] MAINTAINERS: Add myself into x86 platform driver
- maintainers
-Content-Language: en-US
-To:     =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Mon, 18 Sep 2023 11:57:01 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7A6E270B;
+        Mon, 18 Sep 2023 08:55:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695052509; x=1726588509;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version:content-id;
+  bh=9mdSjBgak3X7CxWik+JVulIYQIwZzjIpi9uzcf4feQE=;
+  b=De/fi7BxQvmSa9hdvh/ur5YXcXK6NWnTa/xopyFAQnE433NA5REc+x7i
+   bBldD6snaG9rzkruN5nwxImGHk2T6TorLy2ccS7VXH/ph0knaaTn0Cq2Z
+   aIX8b0Oe2EagY3KMfpLhNkDr2YbwntEykCAu4hqHW6EzOOBLT72vdeYUf
+   L7dJs18sQABeZxQIYk5huaq6dewQT72Q0w3+hvaqfTeTqGUzBxHR5vMHL
+   K1gTT6J2MScuO14YWAFohQV43q7kRqPmyP5zPJD9J1H4hw1NIxZJ4urdB
+   4tQgut5UFoKAw0In/nCLh+REAC3X4b2fdjlmfzE8j1sZOe7g3jflpoIxF
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="466000301"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="466000301"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 06:26:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="861064597"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="861064597"
+Received: from nprotaso-mobl1.ccr.corp.intel.com ([10.252.49.156])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 06:26:43 -0700
+Date:   Mon, 18 Sep 2023 16:26:41 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+cc:     Stephen Boyd <swboyd@chromium.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
         Mark Gross <markgross@kernel.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <20230918102901.17669-1-ilpo.jarvinen@linux.intel.com>
- <20230918102901.17669-2-ilpo.jarvinen@linux.intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230918102901.17669-2-ilpo.jarvinen@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
+        LKML <linux-kernel@vger.kernel.org>, patches@lists.linux.dev,
+        platform-driver-x86@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Prashant Malani <pmalani@chromium.org>
+Subject: Re: [PATCH v4 2/4] platform/x86: intel_scu_ipc: Check status upon
+ timeout in ipc_wait_for_interrupt()
+In-Reply-To: <a0573057-8b93-f6f8-59eb-e8d30ac7035f@redhat.com>
+Message-ID: <f3d06f3d-1dee-54c2-88b9-f33cfb86366@linux.intel.com>
+References: <20230913212723.3055315-1-swboyd@chromium.org> <20230913212723.3055315-3-swboyd@chromium.org> <2bd9b7e2-a558-305b-bfd9-e64c28b6303d@linux.intel.com> <a0573057-8b93-f6f8-59eb-e8d30ac7035f@redhat.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; BOUNDARY="8323329-543075989-1695043025=:1832"
+Content-ID: <87977fa8-8a4f-18c8-6c6-1c2f8fd622cb@linux.intel.com>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On 9/18/23 12:29, Ilpo Järvinen wrote:
-> Hans has been asking for another person to help as the maintainer of
-> the x86 platform driver because Mark has not been able to find time to
-> do that. I got asked for the task and have been reviewing the relevant
-> patches for a while now but lets make it more official by adding the
-> MAINTAINERS entries.
+--8323329-543075989-1695043025=:1832
+Content-Type: text/plain; CHARSET=ISO-8859-15
+Content-Transfer-Encoding: 8BIT
+Content-ID: <d1a9ce37-d373-c568-271f-5872936c1b0@linux.intel.com>
+
+On Mon, 18 Sep 2023, Hans de Goede wrote:
+> On 9/15/23 15:49, Ilpo J�rvinen wrote:
+> > On Wed, 13 Sep 2023, Stephen Boyd wrote:
+> > 
+> >> It's possible for the completion in ipc_wait_for_interrupt() to timeout,
+> >> simply because the interrupt was delayed in being processed. A timeout
+> >> in itself is not an error. This driver should check the status register
+> >> upon a timeout to ensure that scheduling or interrupt processing delays
+> >> don't affect the outcome of the IPC return value.
+> >>
+> >>  CPU0                                                   SCU
+> >>  ----                                                   ---
+> >>  ipc_wait_for_interrupt()
+> >>   wait_for_completion_timeout(&scu->cmd_complete)
+> >>   [TIMEOUT]                                             status[IPC_STATUS_BUSY]=0
+> >>
+> >> Fix this problem by reading the status bit in all cases, regardless of
+> >> the timeout. If the completion times out, we'll assume the problem was
+> >> that the IPC_STATUS_BUSY bit was still set, but if the status bit is
+> >> cleared in the meantime we know that we hit some scheduling delay and we
+> >> should just check the error bit.
+> > 
+> > Hi,
+> > 
+> > I don't understand the intent here. What prevents IPC_STATUS_BUSY from 
+> > changing right after you've read it in ipc_read_status(scu)? Doesn't that 
+> > end you exactly into the same situation where the returned value is stale 
+> > so I cannot see how this fixes anything, at best it just plays around the 
+> > race window that seems to still be there after this fix?
 > 
-> Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-
-Thank you for your patch, I've applied this patch to my fixes
-branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=fixes
-
-Note it will show up in my fixes branch once I've pushed my
-local branch there, which might take a while.
-
-I will include this patch in my next fixes pull-req to Linus
-for the current kernel development cycle.
-
-Regards,
-
-Hans
-
-
-
-> ---
->  MAINTAINERS | 3 +++
->  1 file changed, 3 insertions(+)
+> As I understand it the problem before was that the function would
+> return -ETIMEDOUT; purely based on wait_for_completion_timeout()
+> without ever actually checking the BUSY bit:
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 90f13281d297..b04cbcec521f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13617,6 +13617,7 @@ F:	drivers/net/ethernet/mellanox/mlxfw/
->  
->  MELLANOX HARDWARE PLATFORM SUPPORT
->  M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
->  M:	Mark Gross <markgross@kernel.org>
->  M:	Vadim Pasternak <vadimp@nvidia.com>
->  L:	platform-driver-x86@vger.kernel.org
-> @@ -14211,6 +14212,7 @@ F:	drivers/platform/surface/surface_gpe.c
->  
->  MICROSOFT SURFACE HARDWARE PLATFORM SUPPORT
->  M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
->  M:	Mark Gross <markgross@kernel.org>
->  M:	Maximilian Luz <luzmaximilian@gmail.com>
->  L:	platform-driver-x86@vger.kernel.org
-> @@ -23424,6 +23426,7 @@ F:	drivers/platform/x86/x86-android-tablets/
->  
->  X86 PLATFORM DRIVERS
->  M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
->  M:	Mark Gross <markgross@kernel.org>
->  L:	platform-driver-x86@vger.kernel.org
->  S:	Maintained
+> Old code:
+> 
+> 	if (!wait_for_completion_timeout(&scu->cmd_complete, IPC_TIMEOUT))
+> 		return -ETIMEDOUT;
+> 
+> This allows for a scenario where when the IRQ processing got delayed
+> (on say another core) causing the timeout to trigger,
+> ipc_wait_for_interrupt() would return -ETIMEDOUT even though
+> the BUSY flag was already cleared by the SCU.
+> 
+> This patch adds an explicit check for the BUSY flag after
+> the wait_for_completion(), rather then relying on the
+> wait_for_completion() return value which implies things
+> are still busy.
 
+Oh, I see, it's because the code is waiting for the completion rather than
+the actual condition.
+
+> As for "What prevents IPC_STATUS_BUSY from 
+> changing right after you've read it in ipc_read_status(scu)?"
+> 
+> AFAICT in this code path the bit is only ever supposed to go
+> from being set (busy) to unset (not busy), not the other
+> way around since no new commands can be submitted until
+> this function has completed. So that scenario cannot happen.
+
+This is not what I meant.
+
+I meant that if the code has decided to return -ETIMEDOUT, the status bit 
+still change at that point which makes the return value to not match. This 
+race is still there and given the changelog was a bit sparse on what race 
+it was fixing I ended up noticing this detail.
+
+
+-- 
+ i.
+--8323329-543075989-1695043025=:1832--
