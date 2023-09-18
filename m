@@ -2,91 +2,110 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 359267A4DD6
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Sep 2023 18:01:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 764267A4B9B
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Sep 2023 17:19:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229827AbjIRQBI (ORCPT
+        id S231623AbjIRPT0 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 18 Sep 2023 12:01:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55218 "EHLO
+        Mon, 18 Sep 2023 11:19:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbjIRQBD (ORCPT
+        with ESMTP id S229816AbjIRPT0 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 18 Sep 2023 12:01:03 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47A071721;
-        Mon, 18 Sep 2023 08:56:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695052617; x=1726588617;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zIzeB2BdT2vjYKtzNJ2hkECCW7d4ci7KzVMVss7VAyM=;
-  b=J+ovU/s9kqYrZGIE1v+QMOUe/fuXR/L+YkfbaXyYOjeIi5jTTlgjTtwM
-   Z1Og0YDaYQv1QAKbxs/ajAKC8nf8UJpBZZhsw4quR48xwVKnc5NehJ07L
-   ihMErDUW2hx1JPhyRgUvtlLDkwznsm4nP92XWeIW42Ohnf1YqI0fHTkI2
-   cLLF0lIgknP5wxStGSGFzIS87rgCJKaj47gMMCUmCY5Z4/giobFK+qvGl
-   pv+prBImAa65msx/IRjKpE9l4Y+OiYvCQl75gKnXwFuAWCTRRoAa8hHSk
-   cPneKiuRApXyhWjbtuslf/SOxaKWm2/osO3RsrvhUWKEcHR7cbAIfQyM0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="466020665"
-X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="466020665"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 07:40:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="1076611132"
-X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="1076611132"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 07:39:59 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC0)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1qiFPp-0000000AyGm-0Mzp;
-        Mon, 18 Sep 2023 17:39:57 +0300
-Date:   Mon, 18 Sep 2023 17:39:56 +0300
-From:   Andy Shevchenko <andriy.shevchenko@intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Pearson <mpearson-lenovo@squebb.ca>, markgross@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] platform/x86: think-lmi: Add bulk save feature
-Message-ID: <ZQhhPJsQapKkY39v@smile.fi.intel.com>
-References: <mpearson-lenovo@squebb.ca>
- <20230906121328.50437-1-mpearson-lenovo@squebb.ca>
- <ZQhXZkBHviGOEl-x@smile.fi.intel.com>
- <878da778-e183-6ef5-61ce-3a3d059f1a1e@redhat.com>
+        Mon, 18 Sep 2023 11:19:26 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 543C2172B
+        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Sep 2023 08:18:01 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-530fa34ab80so2827227a12.0
+        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Sep 2023 08:18:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google; t=1695050279; x=1695655079; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=P9zireYzfZqPvtmuSRJPvpYJD83Rj6yAr7QXhkyH79c=;
+        b=GFFjoodceEGHsL0oPmkU3LHvjt+cOLyt7b+zW+pVfKhdcMbnznFfprwGOZvTpBzcSE
+         3Rz/q/Ygnsb4HMdM+7qmw0bRvBPjOKlgA/qd9YzaBIg/YbKP45D5H/zVpsMCf13+hf53
+         tTkBLfp7I10j/cvxgF9CJECtv2+Isp7nZHMDY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695050279; x=1695655079;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=P9zireYzfZqPvtmuSRJPvpYJD83Rj6yAr7QXhkyH79c=;
+        b=aJ9F6WHQZgHKHwiIkhinp2cG1G6P1NfZY7+VtRpqVo/Mh/Ioxjn7n7LomKUE5ThOqU
+         32LAQZBWjhOPP0tZWxKac4NQhc+C8lKz6jiyg0qAK0mAqG4FLCh7oaYKD5kYDDqinLb7
+         7ckdCBeUV78WsroYy4EO3DQHpPOKFnCEnrmRGYyfkslzUTZuaqy6DF99PjZ1RKCz/sik
+         0XDbJofaPMle0yMOgSXsPFtrXU7/CxaSrO8gF6IgRhVahB3UBuke4uBvXf/tIWQXZBmP
+         xMWuXFyoxYX0lmmwukf1zOjwIkHOm8Tj+LgAabNvIu+0vJwJjg7HrQnDPoLg1O1w7Xvk
+         VjVw==
+X-Gm-Message-State: AOJu0YyMJ40kITMg4SdaC9TvCRCrXnyQj8LPOq2rN4V3E8I55ZgkE8uQ
+        YGe/hjjDLm69m6kCw5nkVqvovvWiMj2BrP9L1w4XrA==
+X-Google-Smtp-Source: AGHT+IG85HoCQwWQ+0t5nMcdQfG4+rFMbC0pjWDcLyJx5ppNu+YRsczWqfK45z60KXWJ0QobOv5rxA==
+X-Received: by 2002:a17:906:fe4a:b0:9a1:e0b1:e919 with SMTP id wz10-20020a170906fe4a00b009a1e0b1e919mr16662172ejb.4.1695048523437;
+        Mon, 18 Sep 2023 07:48:43 -0700 (PDT)
+Received: from [172.16.11.116] ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id o15-20020a1709061d4f00b009a1e73f2b4bsm6555817ejh.48.2023.09.18.07.48.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Sep 2023 07:48:42 -0700 (PDT)
+Message-ID: <c6caae28-01fc-2354-6c7a-3f515a0e1402@rasmusvillemoes.dk>
+Date:   Mon, 18 Sep 2023 16:48:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <878da778-e183-6ef5-61ce-3a3d059f1a1e@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v1 2/2] platform/x86: think-lmi: Use strreplace() to
+ replace a character by nul
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Pearson <mpearson-lenovo@squebb.ca>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Mark Pearson <markpearson@lenovo.com>,
+        Mark Gross <markgross@kernel.org>
+References: <20230913092701.440959-1-andriy.shevchenko@linux.intel.com>
+ <20230913092701.440959-2-andriy.shevchenko@linux.intel.com>
+Content-Language: en-US, da
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+In-Reply-To: <20230913092701.440959-2-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Sep 18, 2023 at 04:07:53PM +0200, Hans de Goede wrote:
-> On 9/18/23 15:57, Andy Shevchenko wrote:
-> > On Wed, Sep 06, 2023 at 08:13:14AM -0400, Mark Pearson wrote:
+On 13/09/2023 11.27, Andy Shevchenko wrote:
 
-...
+> @@ -921,7 +913,7 @@ static ssize_t display_name_show(struct kobject *kobj, struct kobj_attribute *at
+>  static ssize_t current_value_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
+>  {
+>  	struct tlmi_attr_setting *setting = to_tlmi_attr_setting(kobj);
+> -	char *item, *value, *p;
+> +	char *item, *value;
+>  	int ret;
+>  
+>  	ret = tlmi_setting(setting->index, &item, LENOVO_BIOS_SETTING_GUID);
+> @@ -934,8 +926,7 @@ static ssize_t current_value_show(struct kobject *kobj, struct kobj_attribute *a
+>  		ret = -EINVAL;
+>  	else {
+>  		/* On Workstations remove the Options part after the value */
+> -		p = strchrnul(value, ';');
+> -		*p = '\0';
+> +		strreplace(value, ';', '\0');
 
-> >> +static const char * const save_mode_strings[] = {
-> >> +	[TLMI_SAVE_SINGLE] = "single",
-> >> +	[TLMI_SAVE_BULK] = "bulk",
-> >> +	[TLMI_SAVE_SAVE] = "save"
-> > 
-> > Missing comma.
-> 
-> Fixing this retro-actively is not really useful, if we
-> ever need an extra entry we can deal with the churn then.
+So how do you know that the string contains at most one ';'? Same for
+all the other replacements. If that's not guaranteed, this is not at all
+equivalent.
 
-I agree, but this is to give a comprehensive review as long as I went through
-the entire change.
+Or maybe the result is just used a normal string afterwards, and it
+doesn't matter at all how the content after the first ';' has been mangled?
 
-> >> +};
+It's certainly not obvious to me that this is correct, but of course I
+know nothing about this code.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
+Rasmus
 
