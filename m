@@ -2,198 +2,278 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D4E67A989F
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 21 Sep 2023 19:50:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5579D7A96A1
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 21 Sep 2023 19:11:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230094AbjIURun (ORCPT
+        id S229566AbjIUREC (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 21 Sep 2023 13:50:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37988 "EHLO
+        Thu, 21 Sep 2023 13:04:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230029AbjIURuJ (ORCPT
+        with ESMTP id S229985AbjIURDd (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 21 Sep 2023 13:50:09 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAAC354925;
-        Thu, 21 Sep 2023 10:17:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695316633; x=1726852633;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=A586LM0+gOXd/iEXjaMd75qtDywyXfu3CO1tYPaBTEU=;
-  b=EGyrJUi6MWNaAgyLgzFST1Cw8KC9HLwVF/MDSOQ1DwRqEEtMoghOcJx8
-   aBSLporeERcX2a7FzdJNv6i9tkNUQSO0E43uKg3jFHgZyND+5xO86TPOm
-   aT6RPGdn+1zAL5D6cNzUGOM/rlNhomdtuuctBKMMVgqnhjxX3ckrayL5M
-   TBCZXG4XlGkF6RAFmRCrTC+TY1DPJLLikXSztng/pwbV92B+Fhp9YNVCs
-   gPEV7+1j3eckDTE9tEn5brf2J0EEKwUaSP5CTC5NkI85EbtH4Zj5viFZY
-   G2vXiikhUY65LItYksI0n8apto+zFcMOCBFdjegAez7VmEnDwXK9Olkn3
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="444608385"
-X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
-   d="scan'208";a="444608385"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 05:21:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="862442142"
-X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
-   d="scan'208";a="862442142"
-Received: from yongliang-ubuntu20-ilbpg12.png.intel.com ([10.88.229.33])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Sep 2023 05:21:11 -0700
-From:   Choong Yong Liang <yong.liang.choong@linux.intel.com>
-To:     Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
-        David E Box <david.e.box@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Jose Abreu <Jose.Abreu@synopsys.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Wong Vee Khee <veekhee@apple.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Revanth Kumar Uppala <ruppala@nvidia.com>,
-        Shenwei Wang <shenwei.wang@nxp.com>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Jochen Henneberg <jh@henneberg-systemdesign.com>
-Cc:     David E Box <david.e.box@intel.com>,
-        Andrew Halaney <ahalaney@redhat.com>,
-        Simon Horman <simon.horman@corigine.com>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org,
-        platform-driver-x86@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        bpf@vger.kernel.org, Voon Wei Feng <weifeng.voon@intel.com>,
-        Tan Tee Min <tee.min.tan@linux.intel.com>,
-        Michael Sit Wei Hong <michael.wei.hong.sit@intel.com>,
-        Lai Peter Jun Ann <jun.ann.lai@intel.com>
-Subject: [PATCH net-next v3 5/5] stmmac: intel: Add 1G/2.5G auto-negotiation support for ADL-N
-Date:   Thu, 21 Sep 2023 20:19:46 +0800
-Message-Id: <20230921121946.3025771-6-yong.liang.choong@linux.intel.com>
+        Thu, 21 Sep 2023 13:03:33 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2134.outbound.protection.outlook.com [40.107.92.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2E011736;
+        Thu, 21 Sep 2023 10:02:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bfQdZKXUso/LPoYNWWLoNu/16059cHzbBqZ5s+ir09maYF4TDGU4vlowuso8sP2q++iXE4r1cwf4i9zJKypxVZ49uEorukXo0sIw427lSYMekYiqHjB2SALBWq6VO0SVjoWiRCqKiHEAb0jjtnGOKTBtEdUBl+kUS3hjdLcUnZfvPEH6uHl537hQUM8AfWU/fz2HD2jbIdXadDhnJdGQ4b3Ejne4gXqKUSOk2lY7dUTnzLp/1R6XphgpBD/8a1N90TdVjs5XfBiDP15qDKGstE4ns8QKf09HEyRGxh/HI5iklKtk6d01HkUd+BEmTIG73TpLGXTz5FWoj9YcrHX+Hw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UFCSvvar8qcYQV+9Cnk9e3tXoEGjn7Kfra7vk24FIyg=;
+ b=MQpr9WmTm/kEA1mvM4upWasFBNU6az0lNWp+Rle643Rch0r+q8SyebzJrYl0gZEok5Om9ryOGuuCNMaK8DiTyAXMnGNMMtnEpE9gYEgicQWWW2XmNYlmXZXHcy40FEX0W5Pje5CKgwQymQUO9l0Ha1ELBtRQ1rUL23zPkv9ign/RaVWEeIGAVi7CvrA0vIVqDaI3TP0mPRaydmV0txEmPiVnHn/5arBRnIEZ+2ISAegbah7xttj5SSbG9Ae8QjodgPiHJGEUNRywtybOI6DVdQIhCmKNYgS1B8SLUBFeXxZJcCb5thej7Y4jHRtJFw7u41I0HFxUJKQB70iavX7Lpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ipt.br; dmarc=pass action=none header.from=ipt.br; dkim=pass
+ header.d=ipt.br; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipt.br; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UFCSvvar8qcYQV+9Cnk9e3tXoEGjn7Kfra7vk24FIyg=;
+ b=RyUYbATucaxXN+ubdqk1OLXtSqOPJIjg1hp+iMwViJC4K68Cc3VLMGxpYahhJEa90bhptWSGvv0QzqQyrXbqzb2lFFPBhNn9FmVejHL5pP0tZTYbGRY3II3MeFaS5dIp5MiZql+yhJnvAWOmESxMD2fUHnkGZ3OsZYV9NG65odE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ipt.br;
+Received: from CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM (2603:10d6:103:1a4::6)
+ by CPVP152MB4863.LAMP152.PROD.OUTLOOK.COM (2603:10d6:103:152::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.21; Thu, 21 Sep
+ 2023 14:36:52 +0000
+Received: from CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
+ ([fe80::33a9:1d82:af5d:6419]) by CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
+ ([fe80::33a9:1d82:af5d:6419%6]) with mapi id 15.20.6813.017; Thu, 21 Sep 2023
+ 14:36:52 +0000
+From:   Fernando Eckhardt Valle <fevalle@ipt.br>
+To:     hdegoede@redhat.com, mpearson-lenovo@squebb.ca, corbet@lwn.net,
+        hmh@hmh.eng.br, markgross@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH v4] platform/x86: thinkpad_acpi: sysfs interface to auxmac
+Date:   Thu, 21 Sep 2023 11:36:22 -0300
+Message-Id: <20230921143622.72387-1-fevalle@ipt.br>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230921121946.3025771-1-yong.liang.choong@linux.intel.com>
-References: <20230921121946.3025771-1-yong.liang.choong@linux.intel.com>
-MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-ClientProxiedBy: CPXP152CA0015.LAMP152.PROD.OUTLOOK.COM (2603:10d6:103::27)
+ To CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM (2603:10d6:103:1a4::6)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CPVP152MB5053:EE_|CPVP152MB4863:EE_
+X-MS-Office365-Filtering-Correlation-Id: d2a51a26-9f1e-4398-836a-08dbbab0321a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VQbKix4Xzk6KP5PDogl0GsZT1sj12FqGDCpnxsPr6fSEgZj086tjTQRgeEalDGirrl+yiLPqBavOPS1jD4nabTOQ1YdjK+ZJnsKERkt+PLiqAr3rj1JXH6EVu+MwmmOtSaxmZ4WmoLOsXIyjBWtSGNCGLY137/ELz8zd8+Vzmm+vpXkDKmIEhBWayMvFIzFZJkiTQ+WaA1yqhfHpUDwR94/sqfSpB2KuIDmEClkMWmggoYx3aQQzlDyA7JrCDGRE90XSY3rGO8t31SWBsH3WKXiaGk5GZaryn+jaOuqVIq7UblnBFHzf5M4X2vRhHjKXIOkvkjgafOf3kNhk/QWys8+KL2qGfX6D+nIAaJobFoPdAzRoSSe7Hkz5WdzeTi4Et/euK382MI6B+JzKTXYSOpLTd193cLinS6Wd0zF9y5stE2V0vzU9eIM4TCG/3hD/QHbLy7kTGG56g7eF7cTXINuh8xvJCH3tm0aofuUI1whzThnLqYnJ6CUsu1cAfWM/FHP66rawazw9VOj+I3Cuzr3ektCr2l9yk/4+hZC3I7M=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(376002)(366004)(136003)(346002)(396003)(186009)(1800799009)(451199024)(41320700001)(6666004)(52116002)(6506007)(66476007)(66946007)(66556008)(478600001)(966005)(6486002)(786003)(6512007)(41300700001)(8676002)(8936002)(36756003)(2616005)(5660300002)(1076003)(86362001)(316002)(2906002)(83380400001)(38100700002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0UyBsWoi+8AlSqYbAnYwTVXaDnAtTZ8Ooj5BSlz/U2P0hhbwP5w2AFolynTQ?=
+ =?us-ascii?Q?nNgDu4PW2Uc99o9c97XJV73p4TcP+XCMKqmPCpvQn0dkVVPWpbmlfq7lITNe?=
+ =?us-ascii?Q?YQQGQ3B9aWWTagK4Hh+5h0HX8oyyl/oIh0GLaip5iBgqGBW32QwApBeN2INj?=
+ =?us-ascii?Q?LEknBYWMl4e8f+FTMcMjmEQzfbwkubsB4TBQ/K4Lh8UJTTM8UIfKW1bQ4Wi0?=
+ =?us-ascii?Q?65ceYJlgTU6CcJHSBGjZlU6D6IQwA/0LeFsm2UYYviGSW6UMjJoODGaV3l5p?=
+ =?us-ascii?Q?m9A/lz28+B2cBiL5reB2Idz8DLbaollH6o+ZsdNaKNls3tzcdnXtChzk4WLH?=
+ =?us-ascii?Q?+PMWqircrm9veHktPKAG4e0D0Wqa1Bw2wACTgpkQ2jeX7TJHYN2sRURNmGbX?=
+ =?us-ascii?Q?lm4g4jlg4c445qjxnqSHkWVLHGJMD2DI+d3Ltqe9WtgKdOG+LQKEbVdgO6uH?=
+ =?us-ascii?Q?wAwXyUXmF8OUlpUjcUICvgPEKy0/R84YEv7J9UVx4DXiQ2oI1JwQRj1/Vhq9?=
+ =?us-ascii?Q?A0D908oTAMBuR3wRUFfQz8oJfnByJf5NfxcXceh9CbjnSXUTe/NTQBX8p0UB?=
+ =?us-ascii?Q?PAMYVbf55xx/cqwstgOXVy08VMbd4EWbbQL/UP6u94KmPY457btptHZk0SSQ?=
+ =?us-ascii?Q?b9ln4kRpncxpfskye4cosIH08TiFc4k4TvVO7fqw0685D6QQ1m+RRNqLoPPa?=
+ =?us-ascii?Q?xXk9dLQAuVcwrvgXs8gdCS2onwcof/OX0vqN2yDwYJERvdiB+eVe5z48jcXH?=
+ =?us-ascii?Q?EXjmBBecsn4TJP0BUOY9LkMcQ/BLH+8mzfZmyybgDhuq+Dougyz+vTAaXAWf?=
+ =?us-ascii?Q?6Sr6ton6m/UC5/VFCnpNYxZZzYMIDM7laM2Wdsq4FcfE6c3hsFWAE4W7jKvl?=
+ =?us-ascii?Q?0MPZ0iXwbns2jDb0QmBtQoA4PYbL/isu1V/12HzpEDV5gEpDH6g/2HcLtOu3?=
+ =?us-ascii?Q?oKtV79b0yV6JRcz1KevotIlC/aRkuejnELaKpRofSdVTbLbTu/nwBjp7XeOo?=
+ =?us-ascii?Q?I+RKcz5+fSU/AwE+tAW42Gxhz5HnREj8cC9iqegfcbrQFksEIC/ODAVphFS9?=
+ =?us-ascii?Q?NB1TndTgvu03hwEjovGZSd91j5N9g52qCu+ysOEAR7yd70NBTfva68HocF8P?=
+ =?us-ascii?Q?BpWWmSBloRcbRD4NHIQR6qpuUKuW5gBZFQzpoPlkXaIHtYJYK8hpcSfCEUxV?=
+ =?us-ascii?Q?13eAdCG0l/5j+HOdKA90gqEnw1M6jbOsYzHJL8kRRfrn4Q9OILPioZRWfvkl?=
+ =?us-ascii?Q?i3eyXz2mHFjsuT19/QxMiUiWLdWKfKnhBHP85K+8vMnyUimw7oQLtUmbspsS?=
+ =?us-ascii?Q?XLdohEwbo8RWnFoKhvcZVxkgcZj9pQK3cPxxeS6I9cwbBW0KCKe089f8Naht?=
+ =?us-ascii?Q?Wpv43qNCw4ZCQPOTVTVEp/VU/hyufQyYNJ+MFW39aSe2m3d9eP0aBAeQNXIp?=
+ =?us-ascii?Q?kBx47nVXxDlp224fPLl/WWO9giTvK5CUJUzJyWZ9UD0j9uO1nCfrJTBxamZ3?=
+ =?us-ascii?Q?VXfKT8OPplne9wgxbNAmELuZlB5sng/uWZktEhFi2ThaX+leyZoTSXiV53eL?=
+ =?us-ascii?Q?hC0Vnn1zlNhc/TGe+b34Yy9Kd2Yeq/om3snTPyIbtrolRKgrGK3LK1o9SxDm?=
+ =?us-ascii?Q?5tjKPSy1EoQHTh6ARmP1VSok6gwa68+UBiwHQuFg+pOc?=
+X-OriginatorOrg: ipt.br
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2a51a26-9f1e-4398-836a-08dbbab0321a
+X-MS-Exchange-CrossTenant-AuthSource: CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2023 14:36:52.4772
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: aab57f47-5b85-4924-8047-691190100bd7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bGRqukusScgEb3rwUkS06Sm8/EkCeIWYvzzeabZ09Bdat3uZjCFZlr3ixqib4TRz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CPVP152MB4863
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add modphy register lane to have 1G/2.5G auto-negotiation support for
-ADL-N.
+Newer Thinkpads have a feature called MAC Address Pass-through.
+This patch provides a sysfs interface that userspace can use
+to get this auxiliary mac address.
 
-Signed-off-by: Michael Sit Wei Hong <michael.wei.hong.sit@intel.com>
-Signed-off-by: Choong Yong Liang <yong.liang.choong@linux.intel.com>
+Signed-off-by: Fernando Eckhardt Valle <fevalle@ipt.br>
 ---
- .../net/ethernet/stmicro/stmmac/dwmac-intel.c | 49 ++++++++++++++++++-
- .../net/ethernet/stmicro/stmmac/dwmac-intel.h |  2 +
- 2 files changed, 50 insertions(+), 1 deletion(-)
+Changes in v4:
+- strscpy() in all string copies.
+Changes in v3:
+- Added null terminator to auxmac string when copying auxiliary
+mac address value.
+Changes in v2:
+- Added documentation.
+- All handling of the auxmac value is done in the _init function.
+---
+ .../admin-guide/laptops/thinkpad-acpi.rst     | 20 +++++
+ drivers/platform/x86/thinkpad_acpi.c          | 79 +++++++++++++++++++
+ 2 files changed, 99 insertions(+)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
-index a211f42914a2..bece46faa710 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
-@@ -961,6 +961,53 @@ static int adls_sgmii_phy1_data(struct pci_dev *pdev,
- static struct stmmac_pci_info adls_sgmii1g_phy1_info = {
- 	.setup = adls_sgmii_phy1_data,
+diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+index e27a1c3f6..98d304010 100644
+--- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
++++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+@@ -53,6 +53,7 @@ detailed description):
+ 	- Lap mode sensor
+ 	- Setting keyboard language
+ 	- WWAN Antenna type
++	- Auxmac
+ 
+ A compatibility table by model and feature is maintained on the web
+ site, http://ibm-acpi.sf.net/. I appreciate any success or failure
+@@ -1511,6 +1512,25 @@ Currently 2 antenna types are supported as mentioned below:
+ The property is read-only. If the platform doesn't have support the sysfs
+ class is not created.
+ 
++Auxmac
++------
++
++sysfs: auxmac
++
++Some newer Thinkpads have a feature called MAC Address Pass-through. This
++feature is implemented by the system firmware to provide a system unique MAC,
++that can override a dock or USB ethernet dongle MAC, when connected to a
++network. This property enables user-space to easily determine the MAC address
++if the feature is enabled.
++
++The values of this auxiliary MAC are:
++
++        cat /sys/devices/platform/thinkpad_acpi/auxmac
++
++If the feature is disabled, the value will be 'disabled'.
++
++This property is read-only.
++
+ Adaptive keyboard
+ -----------------
+ 
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index d70c89d32..f430cc9ed 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -10785,6 +10785,80 @@ static struct ibm_struct dprc_driver_data = {
+ 	.name = "dprc",
  };
+ 
++/*
++ * Auxmac
++ *
++ * This auxiliary mac address is enabled in the bios through the
++ * MAC Address Pass-through feature. In most cases, there are three
++ * possibilities: Internal Mac, Second Mac, and disabled.
++ *
++ */
 +
-+static int adln_common_data(struct pci_dev *pdev,
-+			    struct plat_stmmacenet_data *plat)
++#define AUXMAC_LEN 12
++#define AUXMAC_START 9
++#define AUXMAC_STRLEN 22
++#define AUXMAC_BEGIN_MARKER 8
++#define AUXMAC_END_MARKER 21
++
++static char auxmac[AUXMAC_LEN + 1];
++
++static int auxmac_init(struct ibm_init_struct *iibm)
 +{
-+	struct intel_priv_data *intel_priv = plat->bsp_priv;
++	acpi_status status;
++	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
++	union acpi_object *obj;
 +
-+	plat->rx_queues_to_use = 6;
-+	plat->tx_queues_to_use = 4;
-+	plat->clk_ptp_rate = 204800000;
++	status = acpi_evaluate_object(NULL, "\\MACA", NULL, &buffer);
 +
-+	plat->safety_feat_cfg->tsoee = 1;
-+	plat->safety_feat_cfg->mrxpee = 0;
-+	plat->safety_feat_cfg->mestee = 1;
-+	plat->safety_feat_cfg->mrxee = 1;
-+	plat->safety_feat_cfg->mtxee = 1;
-+	plat->safety_feat_cfg->epsi = 0;
-+	plat->safety_feat_cfg->edpp = 0;
-+	plat->safety_feat_cfg->prtyen = 0;
-+	plat->safety_feat_cfg->tmouten = 0;
++	if (ACPI_FAILURE(status))
++		return -ENODEV;
 +
-+	intel_priv->tsn_lane_registers = adln_tsn_lane_registers;
-+	intel_priv->max_tsn_lane_registers = ARRAY_SIZE(adln_tsn_lane_registers);
++	obj = buffer.pointer;
 +
-+	return intel_mgbe_common_data(pdev, plat);
++	if (obj->type != ACPI_TYPE_STRING || obj->string.length != AUXMAC_STRLEN) {
++		pr_info("Invalid buffer for MAC address pass-through.\n");
++		strscpy(auxmac, "unavailable", AUXMAC_LEN);
++		goto auxmacinvalid;
++	}
++
++	if (obj->string.pointer[AUXMAC_BEGIN_MARKER] != '#' ||
++	    obj->string.pointer[AUXMAC_END_MARKER] != '#') {
++		pr_info("Invalid header for MAC address pass-through.\n");
++		strscpy(auxmac, "unavailable", AUXMAC_LEN);
++		goto auxmacinvalid;
++	}
++
++	if (strncmp(obj->string.pointer + AUXMAC_START, "XXXXXXXXXXXX", AUXMAC_LEN) != 0)
++		strscpy(auxmac, obj->string.pointer + AUXMAC_START, AUXMAC_LEN + 1);
++	else
++		strscpy(auxmac, "disabled", AUXMAC_START);
++
++auxmacinvalid:
++	kfree(obj);
++	return 0;
 +}
 +
-+static int adln_sgmii_phy0_data(struct pci_dev *pdev,
-+				struct plat_stmmacenet_data *plat)
-+{
-+	struct intel_priv_data *intel_priv = plat->bsp_priv;
-+
-+	plat->bus_id = 1;
-+	plat->phy_interface = PHY_INTERFACE_MODE_SGMII;
-+	plat->max_speed = SPEED_2500;
-+	plat->serdes_powerup = intel_serdes_powerup;
-+	plat->serdes_powerdown = intel_serdes_powerdown;
-+	plat->config_serdes = intel_config_serdes;
-+
-+	intel_priv->pid_modphy = PID_MODPHY1;
-+
-+	return adln_common_data(pdev, plat);
-+}
-+
-+static struct stmmac_pci_info adln_sgmii1g_phy0_info = {
-+	.setup = adln_sgmii_phy0_data,
++static struct ibm_struct auxmac_data = {
++	.name = "auxmac",
 +};
 +
- static const struct stmmac_pci_func_data galileo_stmmac_func_data[] = {
- 	{
- 		.func = 6,
-@@ -1343,7 +1390,7 @@ static const struct pci_device_id intel_eth_pci_id_table[] = {
- 	{ PCI_DEVICE_DATA(INTEL, TGLH_SGMII1G_1, &tgl_sgmii1g_phy1_info) },
- 	{ PCI_DEVICE_DATA(INTEL, ADLS_SGMII1G_0, &adls_sgmii1g_phy0_info) },
- 	{ PCI_DEVICE_DATA(INTEL, ADLS_SGMII1G_1, &adls_sgmii1g_phy1_info) },
--	{ PCI_DEVICE_DATA(INTEL, ADLN_SGMII1G, &tgl_sgmii1g_phy0_info) },
-+	{ PCI_DEVICE_DATA(INTEL, ADLN_SGMII1G, &adln_sgmii1g_phy0_info) },
- 	{ PCI_DEVICE_DATA(INTEL, RPLP_SGMII1G, &tgl_sgmii1g_phy0_info) },
- 	{}
- };
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.h b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.h
-index 093eed977ab0..2c6b50958988 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.h
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.h
-@@ -124,8 +124,10 @@ static const struct pmc_serdes_regs pid_modphy1_2p5g_regs[] = {
- 	{}
++static ssize_t auxmac_show(struct device *dev,
++			   struct device_attribute *attr,
++			   char *buf)
++{
++	return sysfs_emit(buf, "%s\n", auxmac);
++}
++static DEVICE_ATTR_RO(auxmac);
++
++static struct attribute *auxmac_attributes[] = {
++	&dev_attr_auxmac.attr,
++	NULL
++};
++
++static const struct attribute_group auxmac_attr_group = {
++	.attrs = auxmac_attributes,
++};
++
+ /* --------------------------------------------------------------------- */
+ 
+ static struct attribute *tpacpi_driver_attributes[] = {
+@@ -10843,6 +10917,7 @@ static const struct attribute_group *tpacpi_groups[] = {
+ 	&proxsensor_attr_group,
+ 	&kbdlang_attr_group,
+ 	&dprc_attr_group,
++	&auxmac_attr_group,
+ 	NULL,
  };
  
-+static const int adln_tsn_lane_registers[] = {6};
- static const int ehl_tsn_lane_registers[] = {7, 8, 9, 10, 11};
- #else
-+static const int adln_tsn_lane_registers[] = {};
- static const int ehl_tsn_lane_registers[] = {};
- #endif /* CONFIG_INTEL_PMC_IPC */
+@@ -11414,6 +11489,10 @@ static struct ibm_init_struct ibms_init[] __initdata = {
+ 		.init = tpacpi_dprc_init,
+ 		.data = &dprc_driver_data,
+ 	},
++	{
++		.init = auxmac_init,
++		.data = &auxmac_data,
++	},
+ };
  
+ static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
 -- 
 2.25.1
 
