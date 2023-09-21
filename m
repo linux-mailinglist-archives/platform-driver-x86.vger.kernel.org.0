@@ -2,121 +2,291 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD3E17A833B
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Sep 2023 15:24:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E36797A980A
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 21 Sep 2023 19:29:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233952AbjITNYW (ORCPT
+        id S229973AbjIUR3g (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 20 Sep 2023 09:24:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43662 "EHLO
+        Thu, 21 Sep 2023 13:29:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234869AbjITNYV (ORCPT
+        with ESMTP id S230340AbjIUR2x (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 20 Sep 2023 09:24:21 -0400
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5F89AB;
-        Wed, 20 Sep 2023 06:24:15 -0700 (PDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id C76E640E014B;
-        Wed, 20 Sep 2023 13:24:07 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-        header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-        by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id GHQ-TslXAbQ5; Wed, 20 Sep 2023 13:24:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-        t=1695216245; bh=ZMbp5HTqzRJSg8VsgOW6uuoByeuTCjNSPL9JeNv0S6o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UTsmLHl2DtuxJSHyDbZmTJPz0AY1KEpWsPP1mk+/9JpdDf8IIN6xBpLHFRlsuv52g
-         Ev3aM1pWWtuCxBdBniFMjw9TJAVd98eZOfbsW9gYWtsEaVBa3g+CPeobzpCRgJMVOF
-         N6rq4MEf5MfOAuE9ooWuOeHeV00jD6AFqENBrCRc04JW9qEZ2dkWSS2nNw0Ju8EUtj
-         yC2LKvRUw9m7+46fqEYweYzpMuVX8RBkL2QsjINodrAhRGrubpFgG0+R5EtnqGfA2m
-         0d8/wAo9HpEzrS+3wiFLxY1tgFShdy9Qazvim05PKTRn9u7u4QIU3aEm4pWwVvmNwR
-         Yz9OSvyi5XSE2tALrxmhIvOhth0yHwJELx5/K1CJzxygu6hJRIZVTEpeDrDaVp37wr
-         29PORG+0dxSuOlk2Zi6K/Eu6ijJht3Jeo3osovrus6uST080FTAWl21oIlkblwKbGm
-         YZ6zQaATvM8tUa+Imw8rIy562OopWjb38w4smXge3YnVYwpgGJg/tLlRnTlQflwZgZ
-         Id4F7RE8R2btNBqh/j1WSQS85gKDA971D2ul0s3NZ6oM4eDSVKM44/05cSgeTQmJtG
-         YBLL9MXqMlsbLjiq6cNMqpy10mpIP1lNi28HQh769RAwZmy8nWz1RXZCsgnZJ+P8yb
-         WdjpXDDej7ffqzyjjNQQSbXE=
-Received: from zn.tnic (pd953036a.dip0.t-ipconnect.de [217.83.3.106])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-        (No client certificate requested)
-        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7E78740E01A1;
-        Wed, 20 Sep 2023 13:23:48 +0000 (UTC)
-Date:   Wed, 20 Sep 2023 15:23:43 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Huibin Shi <henrys@silicom-usa.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Henry Shi <henryshi2018@gmail.com>,
-        "hbshi69@hotmail.com" <hbshi69@hotmail.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "markgross@kernel.org" <markgross@kernel.org>,
-        "jdelvare@suse.com" <jdelvare@suse.com>,
-        "linux@roeck-us.net" <linux@roeck-us.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "hb_shi2003@yahoo.com" <hb_shi2003@yahoo.com>,
-        Wen Wang <wenw@silicom-usa.com>
-Subject: Re: [PATCH v7] platform/x86: Add Silicom Platform Driver
-Message-ID: <20230920132343.GEZQryX/gCegY09+Qp@fat_crate.local>
-References: <20230919211650.25325-1-henryshi2018@gmail.com>
- <69a6279d-a191-e294-3db2-8041c4208783@redhat.com>
- <PA4PR04MB9222B2266E6D146F4CF2EE8F9AF9A@PA4PR04MB9222.eurprd04.prod.outlook.com>
+        Thu, 21 Sep 2023 13:28:53 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD06651F78;
+        Thu, 21 Sep 2023 10:17:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695316627; x=1726852627;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=R6y5ULZ42+b9n+Td0nzhf02tFYyolYBgBUdtJDkDQwc=;
+  b=AQ2vavD7J3BjyQbxfpKodl0gLS0KngsreL+wI3xurF8H1hjSpAEwApc9
+   E+bX2IbP6GI+BYUxgMCrj6iKrSnEnCa3MlI8LVR19//PogXHqte7fSgps
+   OeNug+XzAeIO0ZV0DjrM19o6Ja2chCyTXqidv7tjoV0TrdFU5qXupTTUi
+   le0L1KOjoYhhR908RzQtjDl1+fRHNpbmrunFcze2iSjIuEm1Pt/PPAIAP
+   cBP8+a9ydKg0AHW8Zd6GWN+mHlmd+/3g0LA4vurmz4aa4QhG5WnLMWZ8e
+   s21MdqOUodlW+cktJMDrHptVfReXETyNKu0XWuFvwyHREXrb0mmQiVu7L
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="444608167"
+X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
+   d="scan'208";a="444608167"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 05:20:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="862441720"
+X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
+   d="scan'208";a="862441720"
+Received: from yongliang-ubuntu20-ilbpg12.png.intel.com ([10.88.229.33])
+  by fmsmga002.fm.intel.com with ESMTP; 21 Sep 2023 05:20:26 -0700
+From:   Choong Yong Liang <yong.liang.choong@linux.intel.com>
+To:     Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
+        David E Box <david.e.box@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Jose Abreu <Jose.Abreu@synopsys.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Wong Vee Khee <veekhee@apple.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Revanth Kumar Uppala <ruppala@nvidia.com>,
+        Shenwei Wang <shenwei.wang@nxp.com>,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Jochen Henneberg <jh@henneberg-systemdesign.com>
+Cc:     David E Box <david.e.box@intel.com>,
+        Andrew Halaney <ahalaney@redhat.com>,
+        Simon Horman <simon.horman@corigine.com>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        platform-driver-x86@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        bpf@vger.kernel.org, Voon Wei Feng <weifeng.voon@intel.com>,
+        Tan Tee Min <tee.min.tan@linux.intel.com>,
+        Michael Sit Wei Hong <michael.wei.hong.sit@intel.com>,
+        Lai Peter Jun Ann <jun.ann.lai@intel.com>
+Subject: [PATCH net-next v3 1/5] arch: x86: Add IPC mailbox accessor function and add SoC register access
+Date:   Thu, 21 Sep 2023 20:19:42 +0800
+Message-Id: <20230921121946.3025771-2-yong.liang.choong@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230921121946.3025771-1-yong.liang.choong@linux.intel.com>
+References: <20230921121946.3025771-1-yong.liang.choong@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <PA4PR04MB9222B2266E6D146F4CF2EE8F9AF9A@PA4PR04MB9222.eurprd04.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Sep 20, 2023 at 11:33:59AM +0000, Huibin Shi wrote:
-> Sorry for missing your inline code comments. I will address them and
-> send out new patch soon.
+From: "David E. Box" <david.e.box@linux.intel.com>
 
-Don't send soon.
+- Exports intel_pmc_ipc() for host access to the PMC IPC mailbox
+- Add support to use IPC command allows host to access SoC registers
+through PMC firmware that are otherwise inaccessible to the host due to
+security policies.
 
-Take your time, give people a week to look at your patch and then send
-a new version. Go over the replies so that you don't miss review
-comments. Test it. Make sure you've designed it right. This is not
-a contest about who sends a new revision as quickly as possible.
+Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+Signed-off-by: Chao Qin <chao.qin@intel.com>
+Signed-off-by: Choong Yong Liang <yong.liang.choong@linux.intel.com>
+---
+ MAINTAINERS                                   |  2 +
+ arch/x86/Kconfig                              |  9 +++
+ arch/x86/platform/intel/Makefile              |  1 +
+ arch/x86/platform/intel/pmc_ipc.c             | 75 +++++++++++++++++++
+ .../linux/platform_data/x86/intel_pmc_ipc.h   | 34 +++++++++
+ 5 files changed, 121 insertions(+)
+ create mode 100644 arch/x86/platform/intel/pmc_ipc.c
+ create mode 100644 include/linux/platform_data/x86/intel_pmc_ipc.h
 
-In the meantime, read this file:
-
-From: Documentation/process/submitting-patches.rst
-
-"Don't get discouraged - or impatient
-------------------------------------
-
-After you have submitted your change, be patient and wait.  Reviewers are
-busy people and may not get to your patch right away.
-
-Once upon a time, patches used to disappear into the void without comment,
-but the development process works more smoothly than that now.  You should
-receive comments within a week or so; if that does not happen, make sure
-that you have sent your patches to the right place.  Wait for a minimum of
-one week before resubmitting or pinging reviewers - possibly longer during
-busy times like merge windows."
-
-Thanks.
-
-P.S. Do not top-post but put your reply text *under* the quoted text
-you're replying to.
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3dde038545d8..f608668fdfa6 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10730,8 +10730,10 @@ M:	Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>
+ M:	David E Box <david.e.box@intel.com>
+ L:	platform-driver-x86@vger.kernel.org
+ S:	Maintained
++F:	arch/x86/platform/intel/pmc_ipc.c
+ F:	Documentation/ABI/testing/sysfs-platform-intel-pmc
+ F:	drivers/platform/x86/intel/pmc/
++F:	linux/platform_data/x86/intel_pmc_ipc.h
+ 
+ INTEL PMIC GPIO DRIVERS
+ M:	Andy Shevchenko <andy@kernel.org>
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 982b777eadc7..31fc8ece2b46 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -666,6 +666,15 @@ config X86_AMD_PLATFORM_DEVICE
+ 	  I2C and UART depend on COMMON_CLK to set clock. GPIO driver is
+ 	  implemented under PINCTRL subsystem.
+ 
++config INTEL_PMC_IPC
++	tristate "Intel Core SoC Power Management Controller IPC mailbox"
++	depends on ACPI
++	help
++	  This option enables sideband register access support for Intel SoC
++	  power management controller IPC mailbox.
++
++	  If you don't require the option or are in doubt, say N.
++
+ config IOSF_MBI
+ 	tristate "Intel SoC IOSF Sideband support for SoC platforms"
+ 	depends on PCI
+diff --git a/arch/x86/platform/intel/Makefile b/arch/x86/platform/intel/Makefile
+index dbee3b00f9d0..470fc68de6ba 100644
+--- a/arch/x86/platform/intel/Makefile
++++ b/arch/x86/platform/intel/Makefile
+@@ -1,2 +1,3 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ obj-$(CONFIG_IOSF_MBI)			+= iosf_mbi.o
++obj-$(CONFIG_INTEL_PMC_IPC)		+= pmc_ipc.o
+\ No newline at end of file
+diff --git a/arch/x86/platform/intel/pmc_ipc.c b/arch/x86/platform/intel/pmc_ipc.c
+new file mode 100644
+index 000000000000..a96234982710
+--- /dev/null
++++ b/arch/x86/platform/intel/pmc_ipc.c
+@@ -0,0 +1,75 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Intel Core SoC Power Management Controller IPC mailbox
++ *
++ * Copyright (c) 2023, Intel Corporation.
++ * All Rights Reserved.
++ *
++ * Authors: Choong Yong Liang <yong.liang.choong@linux.intel.com>
++ *          David E. Box <david.e.box@linux.intel.com>
++ */
++#include <linux/module.h>
++#include <linux/acpi.h>
++#include <linux/platform_data/x86/intel_pmc_ipc.h>
++
++#define PMC_IPCS_PARAM_COUNT           7
++
++int intel_pmc_ipc(struct pmc_ipc_cmd *ipc_cmd, u32 *rbuf)
++{
++	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
++	union acpi_object params[PMC_IPCS_PARAM_COUNT] = {
++		{.type = ACPI_TYPE_INTEGER,},
++		{.type = ACPI_TYPE_INTEGER,},
++		{.type = ACPI_TYPE_INTEGER,},
++		{.type = ACPI_TYPE_INTEGER,},
++		{.type = ACPI_TYPE_INTEGER,},
++		{.type = ACPI_TYPE_INTEGER,},
++		{.type = ACPI_TYPE_INTEGER,},
++	};
++	struct acpi_object_list arg_list = { PMC_IPCS_PARAM_COUNT, params };
++	union acpi_object *obj;
++	int status;
++
++	if (!ipc_cmd || !rbuf)
++		return -EINVAL;
++
++	/*
++	 * 0: IPC Command
++	 * 1: IPC Sub Command
++	 * 2: Size
++	 * 3-6: Write Buffer for offset
++	 */
++	params[0].integer.value = ipc_cmd->cmd;
++	params[1].integer.value = ipc_cmd->sub_cmd;
++	params[2].integer.value = ipc_cmd->size;
++	params[3].integer.value = ipc_cmd->wbuf[0];
++	params[4].integer.value = ipc_cmd->wbuf[1];
++	params[5].integer.value = ipc_cmd->wbuf[2];
++	params[6].integer.value = ipc_cmd->wbuf[3];
++
++	status = acpi_evaluate_object(NULL, "\\IPCS", &arg_list, &buffer);
++	if (ACPI_FAILURE(status))
++		return -ENODEV;
++
++	obj = buffer.pointer;
++	/* Check if the number of elements in package is 5 */
++	if (obj && obj->type == ACPI_TYPE_PACKAGE && obj->package.count == 5) {
++		const union acpi_object *objs = obj->package.elements;
++
++		if ((u8)objs[0].integer.value != 0)
++			return -EINVAL;
++
++		rbuf[0] = objs[1].integer.value;
++		rbuf[1] = objs[2].integer.value;
++		rbuf[2] = objs[3].integer.value;
++		rbuf[3] = objs[4].integer.value;
++	} else {
++		return -EINVAL;
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL(intel_pmc_ipc);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("Intel PMC IPC Mailbox accessor");
+diff --git a/include/linux/platform_data/x86/intel_pmc_ipc.h b/include/linux/platform_data/x86/intel_pmc_ipc.h
+new file mode 100644
+index 000000000000..25ba57b8a7ea
+--- /dev/null
++++ b/include/linux/platform_data/x86/intel_pmc_ipc.h
+@@ -0,0 +1,34 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Intel Core SoC Power Management Controller Header File
++ *
++ * Copyright (c) 2023, Intel Corporation.
++ * All Rights Reserved.
++ *
++ * Authors: Choong Yong Liang <yong.liang.choong@linux.intel.com>
++ *          David E. Box <david.e.box@linux.intel.com>
++ */
++#ifndef INTEL_PMC_IPC_H
++#define INTEL_PMC_IPC_H
++
++#define IPC_SOC_REGISTER_ACCESS			0xAA
++#define IPC_SOC_SUB_CMD_READ			0x00
++#define IPC_SOC_SUB_CMD_WRITE			0x01
++
++struct pmc_ipc_cmd {
++	u32 cmd;
++	u32 sub_cmd;
++	u32 size;
++	u32 wbuf[4];
++};
++
++/**
++ * intel_pmc_core_ipc() - PMC IPC Mailbox accessor
++ * @ipc_cmd:  struct pmc_ipc_cmd prepared with input to send
++ * @rbuf:     Allocated u32[4] array for returned IPC data
++ *
++ * Return: 0 on success. Non-zero on mailbox error
++ */
++int intel_pmc_ipc(struct pmc_ipc_cmd *ipc_cmd, u32 *rbuf);
++
++#endif /* INTEL_PMC_IPC_H */
 -- 
-Regards/Gruss,
-    Boris.
+2.25.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
