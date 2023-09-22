@@ -2,71 +2,174 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F9317AB638
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Sep 2023 18:43:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D5957AB87F
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Sep 2023 19:54:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232129AbjIVQnO (ORCPT
+        id S233626AbjIVRyF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 22 Sep 2023 12:43:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44742 "EHLO
+        Fri, 22 Sep 2023 13:54:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232297AbjIVQnN (ORCPT
+        with ESMTP id S233680AbjIVRxi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 22 Sep 2023 12:43:13 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9210E122;
-        Fri, 22 Sep 2023 09:43:07 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 38AA9C433C9;
-        Fri, 22 Sep 2023 16:43:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695400987;
-        bh=fooMorcn9z1K3m7OoyLvK5ppO77hGJdYG0LZsqgMIaI=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=RSIEAhxVCoeS2j9Rzqw9jp2tHCS6UxVRNjYuRe48tjjybfyLAVUIPPKNU79SBJdPd
-         +cBfo0+TIAL3m/tSXDushBCUtSAESYaN2+s7dVa29eyxZudDGidIu+stbbYfcRv+q3
-         E+zZpviVvHtOhOL2LtoAcCHyXyhMy5ZFqAV9Er7fWUVbtwgWe1/rq4XWArnT9UZgW9
-         Jl71mv9EZ9WhfPYDt3rbwE7n+YzgyeX9rCBPXM6SF4B1zF8MGtHG5nUS1DdUtN+YUe
-         BhXMZpFtHe3MPEUD+ralyphFw69YC1TfQ5S8kcgWuTXEO4spJJmcD5Ch8g2b7EKNgi
-         cw3m/9YNWI+XA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 28BD2C04DD9;
-        Fri, 22 Sep 2023 16:43:07 +0000 (UTC)
-Subject: Re: [GIT PULL] platform-drivers-x86 for 6.6-3
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <5ffaf4a2-4359-065a-240a-fcfde68c6180@redhat.com>
-References: <5ffaf4a2-4359-065a-240a-fcfde68c6180@redhat.com>
-X-PR-Tracked-List-Id: <platform-driver-x86.vger.kernel.org>
-X-PR-Tracked-Message-Id: <5ffaf4a2-4359-065a-240a-fcfde68c6180@redhat.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-v6.6-3
-X-PR-Tracked-Commit-Id: bc3b6f59463ba9f4367a80331213db491766b5a1
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 3a457d2804d4c7e76cb4492c6787fdfb7203fc7d
-Message-Id: <169540098715.17578.8270823936737311817.pr-tracker-bot@kernel.org>
-Date:   Fri, 22 Sep 2023 16:43:07 +0000
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org,
-        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Fri, 22 Sep 2023 13:53:38 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2046.outbound.protection.outlook.com [40.107.92.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F035C1F20;
+        Fri, 22 Sep 2023 10:51:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fBgNQgcMLJC3s5Iuwv6Qa2TVTZCnLko/hcBQ/jciVMm2D850wU9OYKmHNEBC7aefFNr1/F//nWaW+A6C+hf/j8u9AaFEeDKn3VixBljEvnA+vXMXdWDdj5P9eQtjUoLhlzZ4XKnfFG+3rN61X2wYoAJGUgOBZSg1N0DCZyT20R1XGUiTeQlnQW6k4GTwpzP/5CpHn0Vi98brInYuGrA1VUM4mY4uYZrlMBrpcQHh4H4aF8RVkfQiGMnjasSVSSCIJmhacq1gSE1BWCdaBjV+FlUNcuOKJCfa9bPiPoUel8I6u3fG8zZpmGWcA/0b4BTqXL4LcuK4eaTExpova1Et6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tEHtiywUMFKmVDL5iBP/VYpcJkCDV/3GfneI/Ttnm/E=;
+ b=d9GCLfHmJNwcQ6pC8mFrtq8xKvtJh3oOOmFkiIVugsAYsao1J2S7/xPTdtEFPam27uYpAKkr8E4z7wBLr7lVBwlkGjjiZACigm7s6AOwc0IVAfmDwS/UxeJR2Y+ygKbPNddH3zz9y9JzFPlYD/zQMApAtLFaU0lQtfy+mGvhOKXOAX28/VuIyM4y00qqKexSRsa+FUVrXYZH04n1A6peSa07jlTrrAgVwLPqZsXoNjoesvAMyytFJyBJ5wBCOaUDeoyBG5YtMbHol4DtbrqIT9joTCftoNiznIjGfmL+7WBhpkcr0EwZ2fBASITECfWTj/cR6C1DbBbS12GSYUrizQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tEHtiywUMFKmVDL5iBP/VYpcJkCDV/3GfneI/Ttnm/E=;
+ b=2NlkC6w+wpkmhU1Ks8JHbLHaxVOh5hdC3nl9fxnvr6mwIEhpO27Sf/A0NTi/10SQcnkWBLgnlKRu721dXjuiAkgVNois8DvyuMJE7nlzUPbdanpzoE0CvHoT2Nxsusuh96DadZ23FETcTfOcz9xdwP9aThLvClhr2ICSJU22+VI=
+Received: from MN2PR11CA0001.namprd11.prod.outlook.com (2603:10b6:208:23b::6)
+ by IA1PR12MB6601.namprd12.prod.outlook.com (2603:10b6:208:3a3::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.21; Fri, 22 Sep
+ 2023 17:51:44 +0000
+Received: from BL02EPF0001A102.namprd05.prod.outlook.com
+ (2603:10b6:208:23b:cafe::a1) by MN2PR11CA0001.outlook.office365.com
+ (2603:10b6:208:23b::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.34 via Frontend
+ Transport; Fri, 22 Sep 2023 17:51:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL02EPF0001A102.mail.protection.outlook.com (10.167.241.134) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6792.20 via Frontend Transport; Fri, 22 Sep 2023 17:51:43 +0000
+Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 22 Sep
+ 2023 12:51:39 -0500
+From:   Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+To:     <hdegoede@redhat.com>, <markgross@kernel.org>,
+        <basavaraj.natikar@amd.com>, <jikos@kernel.org>,
+        <benjamin.tissoires@redhat.com>, <alexander.deucher@amd.com>,
+        <christian.koenig@amd.com>, <Xinhui.Pan@amd.com>,
+        <airlied@gmail.com>, <daniel@ffwll.ch>
+CC:     <Patil.Reddy@amd.com>, <mario.limonciello@amd.com>,
+        <platform-driver-x86@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
+        <dri-devel@lists.freedesktop.org>,
+        "Shyam Sundar S K" <Shyam-sundar.S-k@amd.com>
+Subject: [PATCH 00/15] Introduce PMF Smart PC Solution Builder Feature
+Date:   Fri, 22 Sep 2023 23:20:41 +0530
+Message-ID: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A102:EE_|IA1PR12MB6601:EE_
+X-MS-Office365-Filtering-Correlation-Id: d95d5345-00aa-415b-df30-08dbbb94956c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zJk0n8fCOjKNFNDXOKi9xeRz3auKJTNv5tpDqvUD7Mc+RDEh+fUc8FOeyt860OXXrU2Veo3T88YvzF447/XN2zVHeXecNqswKxzg4eWKErDgvOMNnZ84yGbyn9BCYAcI/Izk4fftLhqN0mqvo/ouK4o7Gxb2hNh0/wkUeE47DT5lnYOebOOyey7gkE++HMk4V2OXRZEzKk3tW6nSAKpjceSBOQs/SFoXN6wbmG/P5ChN4rjarKW1ZbMNPw1soLC24xN0z8ZqsXppAdHxgvW1rJLNx47dOWBbchOk1n6XsltSVOJ8W/ZDEilhRngwgAO9G86iux0olgXCit5y1tE3ej3jsnZxpr7QMm3qq9/b4L3m/o+ShaBWbr3qA1QJgCAD6LkNbqdHVHl4jsmLxKDu0R9bUoPrcyyxONI7YH48y5kM2CYV0d9yO7EunBXSfetBQxjLAK+1BErjmnAryFVyaG8GU9TmLR515hPrW4mIYgHTbfL5kmg1+AJe9QGJ5mXEk8oV1PJ3jm+NKiSwPStrqVH9yoGv3Ty28skeTmg2+FwUuFrRMX3hJapBErKBmO6RdETdfvKGDOGBwZq9a50+DPKkCcF7j2ZKp77IxCz8GX7n2ded2sAusk3FQpYrOjhi0U0KD80HqpWxuDCvMWLHf9t1SLbgGn1ezvvlYTCZGlCat8cRWzDs0glk1nxTTbOCTLV+mndI+0p7hUIglsLizO01JxhoKJD/GTD7PQjFNBsYvDxJr16JiXt3Rt6yPn9xv63dpPaB8vr8ESNoEeJJYOv1n+Izupx3z9/26xRPGiUr5V9S/6gcv+7gobAvMEHeUMnA/Vgvo8i/RsqbAWxzjg==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(376002)(136003)(396003)(39860400002)(451199024)(1800799009)(186009)(230921699003)(82310400011)(40470700004)(46966006)(36840700001)(83380400001)(7696005)(356005)(82740400003)(40480700001)(5660300002)(4326008)(7416002)(316002)(2906002)(336012)(36756003)(54906003)(8676002)(41300700001)(16526019)(6666004)(478600001)(921005)(426003)(47076005)(110136005)(2616005)(81166007)(70206006)(86362001)(70586007)(40460700003)(8936002)(26005)(1076003)(36860700001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2023 17:51:43.9082
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d95d5345-00aa-415b-df30-08dbbb94956c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A102.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6601
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The pull request you sent on Thu, 21 Sep 2023 18:26:30 +0200:
+Smart PC Solutions Builder allows for OEM to define a large number of
+custom system states to dynamically switch to. The system states are
+referred to as policies, and multiple policies can be loaded onto the
+system at any given time, however only one policy can be active at a
+given time.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-v6.6-3
+Policy is a combination of PMF input and output capabilities. The inputs
+are the incoming information from the other kernel subsystems like LID
+state, Sensor info, GPU info etc and the actions are the updating the 
+power limits of SMU etc.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/3a457d2804d4c7e76cb4492c6787fdfb7203fc7d
+The policy binary is signed and encrypted by a special key from AMD. This
+policy binary shall have the inputs and outputs which the OEMs can build
+for the platform customization that can enhance the user experience and
+system behavior.
 
-Thank you!
+This series adds the initial support for Smart PC solution to PMF driver.
+
+Note that, on platforms where CnQF and Smart PC is advertised, Smart PC
+shall have higher precedence and same applies for Auto Mode.
+
+Basavaraj Natikar (2):
+  platform/x86/amd/pmf: Add PMF-AMDSFH interface for HPD
+  platform/x86/amd/pmf: Add PMF-AMDSFH interface for ALS
+
+Shyam Sundar S K (13):
+  platform/x86/amd/pmf: Add PMF TEE interface
+  platform/x86/amd/pmf: Add support PMF-TA interaction
+  platform/x86/amd/pmf: Change signature of amd_pmf_set_dram_addr
+  platform/x86/amd/pmf: Add support for PMF Policy Binary
+  platform/x86/amd/pmf: change debugfs init sequence
+  platform/x86/amd/pmf: Add support to get inputs from other subsystems
+  platform/x86/amd/pmf: Add support update p3t limit
+  platform/x86/amd/pmf: Add support to update system state
+  platform/x86/amd/pmf: Add facility to dump TA inputs
+  platform/x86/amd/pmf: Add capability to sideload of policy binary
+  platform/x86/amd/pmf: dump policy binary data
+  platform/x86/amd/pmf: Add PMF-AMDGPU get interface
+  platform/x86/amd/pmf: Add PMF-AMDGPU set interface
+
+ Documentation/admin-guide/pmf.rst             |  24 +
+ drivers/gpu/drm/amd/amdgpu/Makefile           |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c       |  91 ++++
+ drivers/hid/amd-sfh-hid/amd_sfh_common.h      |   6 +
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c |   2 +-
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c |  17 +
+ .../amd-sfh-hid/sfh1_1/amd_sfh_interface.c    |  48 ++
+ .../amd-sfh-hid/sfh1_1/amd_sfh_interface.h    |   1 +
+ drivers/platform/x86/amd/pmf/Kconfig          |   2 +
+ drivers/platform/x86/amd/pmf/Makefile         |   3 +-
+ drivers/platform/x86/amd/pmf/acpi.c           |  37 ++
+ drivers/platform/x86/amd/pmf/core.c           |  40 +-
+ drivers/platform/x86/amd/pmf/pmf.h            | 199 +++++++
+ drivers/platform/x86/amd/pmf/spc.c            | 194 +++++++
+ drivers/platform/x86/amd/pmf/sps.c            |   2 +-
+ drivers/platform/x86/amd/pmf/tee-if.c         | 492 ++++++++++++++++++
+ include/linux/amd-pmf-io.h                    |  51 ++
+ 18 files changed, 1199 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/admin-guide/pmf.rst
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+ create mode 100644 drivers/platform/x86/amd/pmf/spc.c
+ create mode 100644 drivers/platform/x86/amd/pmf/tee-if.c
+ create mode 100644 include/linux/amd-pmf-io.h
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.25.1
+
