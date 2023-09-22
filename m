@@ -2,89 +2,81 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E0717AB85A
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Sep 2023 19:53:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1ABD97AB8AD
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Sep 2023 19:56:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233595AbjIVRxU (ORCPT
+        id S233703AbjIVR40 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 22 Sep 2023 13:53:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45982 "EHLO
+        Fri, 22 Sep 2023 13:56:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233656AbjIVRwz (ORCPT
+        with ESMTP id S233766AbjIVR4G (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 22 Sep 2023 13:52:55 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 510A31FE3
-        for <platform-driver-x86@vger.kernel.org>; Fri, 22 Sep 2023 10:51:54 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-274b45fa7a2so1725002a91.0
-        for <platform-driver-x86@vger.kernel.org>; Fri, 22 Sep 2023 10:51:54 -0700 (PDT)
+        Fri, 22 Sep 2023 13:56:06 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAD841B4
+        for <platform-driver-x86@vger.kernel.org>; Fri, 22 Sep 2023 10:54:23 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id 41be03b00d2f7-5789de5c677so1885095a12.3
+        for <platform-driver-x86@vger.kernel.org>; Fri, 22 Sep 2023 10:54:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1695405113; x=1696009913; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1695405262; x=1696010062; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZILszX4MWtz7bh2TMVWfqmp53JcjPScOVS5QC17vqfk=;
-        b=bAyFRd++MAhZa6YTQQSr2m+eyFy2ovYko+HtobZCZuNCZjliiOVQ/NWhQReL5gf1oa
-         ZAkD7N2/jup39syzqE9P6nb/aXe8KBo7EuNXIgRZ9ECwfw2/4opfKF+WTghcH1gXK5or
-         0T2fAJD3EJDLLUx0CN1qAAof6dKQ0TEzklWZM=
+        bh=1ISP2L+rvg6dxZG1wcmYnXloNsZywrTUtixv49IhJ0I=;
+        b=jIWF4/z4UcLuiRz0wCvniJrPmxP3Z9Xk2oBg1jRX5yU4wYwfGGP/1BJZg2TWhJikah
+         5clKmlgZHGFLNRHpFcSj682t3/0f1EFPjRE1yYxe3GMcAk0BgYOGVSupcP/q3lT7fST8
+         er+emuk5vVib37xngsMQ973oBiMxxSXfF65B0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695405113; x=1696009913;
+        d=1e100.net; s=20230601; t=1695405262; x=1696010062;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZILszX4MWtz7bh2TMVWfqmp53JcjPScOVS5QC17vqfk=;
-        b=riX6txkGzgTJOZXDgMpARhZZnAukuC8x0BlX5A9i4oZrLjbraMXavvxLmg67jT4FFA
-         Rr6W92fpjtSJcyQLaOoNWmQR8Ll7dy68OYEhYxVmOTYiMpt69onpYP0ZhaqU/HH1QxMI
-         ZrxQqpLRs9YKwhhpg0XMLUoV1wbTVCbJvQaUucRll/jrW4HhTYDHXPLwClPfwjqX4N6s
-         nG0rmdwDeSoPUqpbWtTEaU9Nn7TurmxdtNgRFT98ZnNOs118qgjuVAGNaauMq91QgO4e
-         QbZaqxHoB+BDNGl1QP+QwYY7D8E7upVQA7lZKPPLWfTpbVqiEax2pnyyGZYbRPubj6EQ
-         8Ouw==
-X-Gm-Message-State: AOJu0Yy0uCDOOzREhkcSBhXXRDjL0QUt0tv2nYAbwCwgNH8fa2kfMfgk
-        oiJb4eTy8ki1TKgOMoywIy9gcA==
-X-Google-Smtp-Source: AGHT+IGJyRN4d5EfONgEzWohOYEXpV8ZyHwIQaIwZgUrXnlaWap5XtP+1N7abHIvI+8NFIgf78FE5w==
-X-Received: by 2002:a17:90a:1f07:b0:277:183e:185a with SMTP id u7-20020a17090a1f0700b00277183e185amr407052pja.3.1695405113456;
-        Fri, 22 Sep 2023 10:51:53 -0700 (PDT)
+        bh=1ISP2L+rvg6dxZG1wcmYnXloNsZywrTUtixv49IhJ0I=;
+        b=Gz5YbL/euWhZBFJo5zVtLNn7mjJenEwb10vb5DDOscizFluxqIcC8ceFRl6Ia3fuGB
+         rd3qH+LLT5pZGpRRzQkownsWeAubO0kvC4Tyxwo6/ebl1A7tFoUCrF0ByxOfqrPFrWKk
+         uG07C//xvW1FoiNuFbjuYDKRjHz/Q2lVOmc4x+HyoABA+ifKv2Inyo1U1myrRezNlHiN
+         dvx2xUFPLbxYQJO8mbaFOdsE2eM66x9tU918no940NNUAyzejynN3R8szWJtXQHPM0Zx
+         1ptt39uR73KdrTLGgf96DchwXZlSevXvlgIS0JyY7TejAodloahRdSgSIs+8LpSzhFQh
+         XdCA==
+X-Gm-Message-State: AOJu0YzDvhLK4AhluEA8/uWRJL16GZCEhEaC8xBc3ltX+5K4DG+oGgqj
+        JoReomKoZE7I/ekOUdXj+bIi/w==
+X-Google-Smtp-Source: AGHT+IGxW0pO6A2XYuuil33uTylCAIbRaQSzobX5s7nUCpWCckLaGOgJJl/22O16HRisYCP+P0WYhg==
+X-Received: by 2002:a05:6a20:9499:b0:13b:a2c9:922e with SMTP id hs25-20020a056a20949900b0013ba2c9922emr268710pzb.27.1695405262686;
+        Fri, 22 Sep 2023 10:54:22 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id mv5-20020a17090b198500b0027722832498sm76944pjb.52.2023.09.22.10.51.52
+        by smtp.gmail.com with ESMTPSA id c7-20020aa78c07000000b006878cc942f1sm3457800pfd.54.2023.09.22.10.54.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Sep 2023 10:51:53 -0700 (PDT)
+        Fri, 22 Sep 2023 10:54:22 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
-To:     Steve Wahl <steve.wahl@hpe.com>
+To:     Jorge Lopez <jorge.lopez2@hp.com>
 Cc:     Kees Cook <keescook@chromium.org>,
-        Mike Travis <mike.travis@hpe.com>,
-        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-        Russ Anderson <russ.anderson@hpe.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        platform-driver-x86@vger.kernel.org,
-        Justin Ernst <justin.ernst@hpe.com>,
-        Kyle Meyer <kyle.meyer@hpe.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, linux-hardening@vger.kernel.org
-Subject: [PATCH] x86/platform/uv: Annotate struct uv_rtc_timer_head with __counted_by
-Date:   Fri, 22 Sep 2023 10:51:51 -0700
-Message-Id: <20230922175151.work.118-kees@kernel.org>
+        Tom Rix <trix@redhat.com>, platform-driver-x86@vger.kernel.org,
+        llvm@lists.linux.dev,
+        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: [PATCH] platform/x86: hp-bioscfg: Annotate struct bios_args with __counted_by
+Date:   Fri, 22 Sep 2023 10:54:21 -0700
+Message-Id: <20230922175420.work.701-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1571; i=keescook@chromium.org;
- h=from:subject:message-id; bh=k+Nu3NX5QQ2aJpVbKl87jzPBT9AwnncU9NuJ+rJwak4=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlDdQ3/IWfXym/BBCdmz9yiUCx49Gifs9/mFbU1
- fQjtBKVTPaJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZQ3UNwAKCRCJcvTf3G3A
- JqAKEACyJ4XXD0xFdoCxlx2T4B9GXHlkr0u0aIlUPFBN3pQD+P3BF5IzIJwgRcoVsqotPdlY/Rb
- wX8bNqO4HGy2JRIm67/oRWnZHaIhamlnh9HrkPLIWDE9xJOWQsvc6s/C2bSFPfQSlumNLC6yl9q
- 9yvvYdOuBn9QAX1xEWsHI+uIQ37ZUnFxvQTQ+dAnhXJRTm9T4CDNYs4Ka6Db57dB7DOOLHPiWM9
- 8/L84K0X+266nBtXX6Ux21Utcfzx7XbCCUwhJ6SypTPW/gqUiQdvyIw15WnhJoTYMwauzp+W/UT
- SHLxMwOrt8utH7z9acQen3/81bEmaxiofVy6F2ufC4O44RIwFEl7v/RsLxsfn2KSs290t7QaHBv
- WSniGI3Bl7uuhyCpRjCSYs2gppdfZKvcNu5Q0mGxEKay32lJKCjxnjr1tCV0oOBgFdPJ4RzSxqv
- l4Ssrx1TKwTYA8PavonNHCbyYrCqEeuM0wrCUbTW4vGPmRqEJDEWHln9va6TYtNMOstCSaOrIGC
- M+fyocdkfeTtnGViO++fqOgij3SKB4vu73/iBMRv7Kuzho9/d8vSqvIvaYud377MDl5h98k0tHh
- AmHt66ztgM3wW/s9CwFjN3ChnkNnds29tKewAdepJZO2OPp8hTVnD2V2l5d5YBvLTxOWsa06jET
- 52pSu6h sWAZ6zbQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1418; i=keescook@chromium.org;
+ h=from:subject:message-id; bh=kt0VlUdlEwKUKwWP1rv6tofv8fjvexz2uhyfkXWj6p8=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlDdTMfB+LYH5eKEwcBoqoFlTtLOyMMpn1kR2Sa
+ TizrkR/ooiJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZQ3UzAAKCRCJcvTf3G3A
+ JsfnD/wN2QM835WwG5VD399xvmpEfqV/waSzTryLMYZxcqIlyuTG4pL75mWspCtqsPuHkcPq/5+
+ dS56aaMDY1kiOZILGtGY/o+GWgizQ0X87eI7vpaVFKNq5aVB81SWua/rKAzQ02ogL1ld6i21Bax
+ iKS3RQ4mhGVuAyMeSzgYg6LVxU7VHCAX1MzNuZBEbxxYYc9ePrN+y0Hkr39IRDtkwVWcx2PaZr+
+ ZPLbM7Gr1c73OWGB0bhxLfHaX1rgfqmB9gXC3lJW/WyMNt2wnbyTplB/202KUySHEVGpzzl7+TK
+ 1cMerBWqiNFK3BmK1tZOZh3L/GUu6t+hXEG1zkNP3sFOGOsRItI8w2yDQEocODb2NVCQZr5t3B+
+ HELziLz9sxbCa7uWd78WEaYlS+jm4KnMPuXwIOm49XG7eeyCEqDz1zHK07JijFrG3CMQkyWttQ/
+ J92lXH7PGL8Jnme0WvdP5OUM1swG3A1kKndnO4G2vXJ464QIOn+OsvQC02MTg4EG2OF2cvXaXuz
+ V7+ZvYpLopVQKGVbWWY5H2WfbsVTdPZQHrTdnHLHVkmL6vLAD8wnzqR4fR9rDCWgCGtAzfNnpDD
+ MMUbIToTezIl9ipPdd7j5G99rxqHhdMNHOS6KM1DGgOhQzpxGIl2uXlE55Wb3yx3OZcsI/MIXov
+ dMn7rbm UmQyK2GQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -103,41 +95,36 @@ their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
 (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
 functions).
 
-As found with Coccinelle[1], add __counted_by for struct uv_rtc_timer_head.
+As found with Coccinelle[1], add __counted_by for struct bios_args.
 
 [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
 
-Cc: Steve Wahl <steve.wahl@hpe.com>
-Cc: Mike Travis <mike.travis@hpe.com>
-Cc: Dimitri Sivanich <dimitri.sivanich@hpe.com>
-Cc: Russ Anderson <russ.anderson@hpe.com>
-Cc: Darren Hart <dvhart@infradead.org>
-Cc: Andy Shevchenko <andy@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: x86@kernel.org
-Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Jorge Lopez <jorge.lopez2@hp.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Mark Gross <markgross@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Tom Rix <trix@redhat.com>
 Cc: platform-driver-x86@vger.kernel.org
+Cc: llvm@lists.linux.dev
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- arch/x86/platform/uv/uv_time.c | 2 +-
+ drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/x86/platform/uv/uv_time.c b/arch/x86/platform/uv/uv_time.c
-index 54663f3e00cb..ff5afc8a5a41 100644
---- a/arch/x86/platform/uv/uv_time.c
-+++ b/arch/x86/platform/uv/uv_time.c
-@@ -53,7 +53,7 @@ struct uv_rtc_timer_head {
- 	struct {
- 		int	lcpu;		/* systemwide logical cpu number */
- 		u64	expires;	/* next timer expiration for this cpu */
--	} cpu[];
-+	} cpu[] __counted_by(ncpus);
+diff --git a/drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c b/drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c
+index dea54f35b8b5..4da99cb7218d 100644
+--- a/drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c
++++ b/drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c
+@@ -19,7 +19,7 @@ struct bios_args {
+ 	u32 command;
+ 	u32 commandtype;
+ 	u32 datasize;
+-	u8 data[];
++	u8 data[] __counted_by(datasize);
  };
  
- /*
+ /**
 -- 
 2.34.1
 
