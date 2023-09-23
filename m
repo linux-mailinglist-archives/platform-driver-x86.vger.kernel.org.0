@@ -2,85 +2,107 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A70C7ABED0
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 23 Sep 2023 10:20:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BEAD7ABEF6
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 23 Sep 2023 10:55:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230019AbjIWIUl (ORCPT
+        id S230231AbjIWIz0 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 23 Sep 2023 04:20:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41278 "EHLO
+        Sat, 23 Sep 2023 04:55:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230164AbjIWIUk (ORCPT
+        with ESMTP id S230204AbjIWIzZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 23 Sep 2023 04:20:40 -0400
-Received: from shiva.jussieu.fr (shiva.jussieu.fr [134.157.0.129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A3418180
-        for <platform-driver-x86@vger.kernel.org>; Sat, 23 Sep 2023 01:20:34 -0700 (PDT)
-Received: from mailix1.insp.jussieu.fr (mailix1.insp.jussieu.fr [134.157.37.11])
-          by shiva.jussieu.fr (8.15.2/jtpda-5.4) with ESMTP id 38N8KUDo057497
-          ; Sat, 23 Sep 2023 10:20:30 +0200 (CEST)
-X-Ids:  168
-Received: from hordix.insp.jussieu.fr (hordix.insp.jussieu.fr [134.157.37.9])
-        by mailix1.insp.jussieu.fr (Postfix-INSP-2.10.1) with ESMTPSA id E081AC05AC60;
-        Sat, 23 Sep 2023 10:20:25 +0200 (CEST)
-Received: from [105.112.214.216] ([105.112.214.216]) by
- webmail.insp.jussieu.fr (Horde Framework) with HTTPS; Sat, 23 Sep 2023
- 08:20:25 +0000
-Date:   Sat, 23 Sep 2023 08:20:25 +0000
-Message-ID: <20230923082025.Horde.c-rxIbZEW8dk_geFx9IUyKd@webmail.insp.jussieu.fr>
-From:   Victoria Cleland <lamya.essaoui@insp.upmc.fr>
-Subject: Hallo
-Reply-to: v.cleland10@aol.com
-User-Agent: Horde Application Framework 5
-Organization: Institut des NanoSciences de Paris
-X-InspUpmcSession: essaoui
-Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
+        Sat, 23 Sep 2023 04:55:25 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 265A0136;
+        Sat, 23 Sep 2023 01:55:20 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE79BC433C7;
+        Sat, 23 Sep 2023 08:55:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695459319;
+        bh=lseakF6M2dlhTAVWNVK3bOAsavTxJDpelRRD6WFVyqM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OuhpNCZ9pA/PjelUbm7C5AC7eEHLWgQTWDcs6fnqF8fSTroxBm2WuVxfByP7lIgEI
+         W31HIc3p60iYfcgSz6Noo3GWdnDE7R6SpRKw0zb/Rj7Ds4Rrny6OEnTeOIi6W0i8Xf
+         w7pO4haVIbSFNVEq93YgfQJ2mVC/wAAyS0tw4QSeiAp3fGogE8Yrw+b8EGoVqqCGKu
+         BRzwRmQR7qchrGZC4jIMQOZmxDKvMKJu2+0i4QgQSZeNPOlBTYFhLGmp1DcLr1xp2c
+         SPG6XyJtctIOxt5YmDQgsr6/1uYCXQs+Sj19/m2XKeaYa7Wi/h0DfmPzlCPBnlLwHJ
+         tk7pZhocEtXXA==
+Date:   Sat, 23 Sep 2023 10:56:21 -0600
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Jorge Lopez <jorge.lopez2@hp.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, platform-driver-x86@vger.kernel.org,
+        llvm@lists.linux.dev,
+        Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] platform/x86: hp-bioscfg: Annotate struct bios_args with
+ __counted_by
+Message-ID: <ZQ8YtbxQnkDN1nc0@work>
+References: <20230922175420.work.701-kees@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-Miltered: at jchkmail2.reseau.jussieu.fr with ID 650E9FCE.000 by Joe's j-chkmail (http : // j-chkmail dot ensmp dot fr)!
-X-j-chkmail-Enveloppe: 650E9FCE.000 from mailix1.insp.jussieu.fr/mailix1.insp.jussieu.fr/134.157.37.11/mailix1.insp.jussieu.fr/<lamya.essaoui@insp.upmc.fr>
-X-Spam-Status: Yes, score=5.7 required=5.0 tests=BAYES_50,
-        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,MISSING_HEADERS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        REPLYTO_WITHOUT_TO_CC,SPF_HELO_NONE,SPF_PASS autolearn=no
+In-Reply-To: <20230922175420.work.701-kees@kernel.org>
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DATE_IN_FUTURE_06_12,
+        DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
-        *      DNSWL was blocked.  See
-        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-        *      for more information.
-        *      [134.157.0.129 listed in list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 RCVD_IN_MSPIKE_H3 RBL: Good reputation (+3)
-        *      [134.157.0.129 listed in wl.mailspike.net]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [v.cleland10[at]aol.com]
-        *  1.0 MISSING_HEADERS Missing To: header
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  1.6 REPLYTO_WITHOUT_TO_CC No description available.
-        *  0.0 RCVD_IN_MSPIKE_WL Mailspike good senders
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Fri, Sep 22, 2023 at 10:54:21AM -0700, Kees Cook wrote:
+> Prepare for the coming implementation by GCC and Clang of the __counted_by
+> attribute. Flexible array members annotated with __counted_by can have
+> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
+> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+> functions).
+> 
+> As found with Coccinelle[1], add __counted_by for struct bios_args.
+> 
+> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
+> 
+> Cc: Jorge Lopez <jorge.lopez2@hp.com>
+> Cc: Hans de Goede <hdegoede@redhat.com>
+> Cc: Mark Gross <markgross@kernel.org>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Tom Rix <trix@redhat.com>
+> Cc: platform-driver-x86@vger.kernel.org
+> Cc: llvm@lists.linux.dev
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-23. September 2023.
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-Hallo,
+Thanks
+--
+Gustavo
 
-Ich möchte Ihnen einen Geschäftsvorschlag mitteilen. Für weitere  
-Details antworten Sie auf Englisch.
-
-Grüße
-Frau Victoria Cleland
-_________________________
-Sekretärin: Lamya Essaoui
-
+> ---
+>  drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c b/drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c
+> index dea54f35b8b5..4da99cb7218d 100644
+> --- a/drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c
+> +++ b/drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c
+> @@ -19,7 +19,7 @@ struct bios_args {
+>  	u32 command;
+>  	u32 commandtype;
+>  	u32 datasize;
+> -	u8 data[];
+> +	u8 data[] __counted_by(datasize);
+>  };
+>  
+>  /**
+> -- 
+> 2.34.1
+> 
+> 
