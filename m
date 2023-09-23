@@ -2,206 +2,85 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F27457ABC51
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 23 Sep 2023 01:30:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A70C7ABED0
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 23 Sep 2023 10:20:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230389AbjIVXa3 (ORCPT
+        id S230019AbjIWIUl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 22 Sep 2023 19:30:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52224 "EHLO
+        Sat, 23 Sep 2023 04:20:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230326AbjIVXaX (ORCPT
+        with ESMTP id S230164AbjIWIUk (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 22 Sep 2023 19:30:23 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDAF21A6;
-        Fri, 22 Sep 2023 16:30:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695425416; x=1726961416;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=2+Jeemb14YT94QywKDuACyHIVjPi3obb4Vw18keeVVI=;
-  b=Mg74ADgiqoaUd7ekZ3i2XiOrZnu2FzdpCWVEOqWOWFbNFRa9iQCtKgw9
-   fF1VRsdL9RsII5TISXeMq27VEJ+Tz2A1mzcziYPllbcTidILDCcT5g6Db
-   k4DUsy99jba/XrHsRjzmbqQugUSkN+2TJwY2VZ2oEZCVstgHCkG7Pqp9V
-   CLpg/1C5SbSo6GFwFEc0JlrBRZKUQhMl7WyMBOMH3Dl3kLi/jY1WUD0Fb
-   NLwVPQh4U6dzIKf/iPgdkhWJqiCIIlDcDzs0HnpJfnpWrarAs8ebhoKFo
-   Jr2rKEFZ8QSS1u2itVrpbHzzKNWw+lu0FRXosWIu4TobxH3ieL8KZ0hlJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="411896998"
-X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
-   d="scan'208";a="411896998"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 16:30:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="921350856"
-X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
-   d="scan'208";a="921350856"
-Received: from jithujos.sc.intel.com ([172.25.103.66])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 16:30:14 -0700
-From:   Jithu Joseph <jithu.joseph@intel.com>
-To:     hdegoede@redhat.com, markgross@kernel.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        rostedt@goodmis.org, jithu.joseph@intel.com, ashok.raj@intel.com,
-        tony.luck@intel.com, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
-        ravi.v.shankar@intel.com, pengfei.xu@intel.com,
-        ilpo.jarvinen@linux.intel.com
-Subject: [PATCH v2 9/9] platform/x86/intel/ifs: ARRAY BIST for Sierra Forest
-Date:   Fri, 22 Sep 2023 16:26:06 -0700
-Message-Id: <20230922232606.1928026-10-jithu.joseph@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230922232606.1928026-1-jithu.joseph@intel.com>
-References: <20230913183348.1349409-1-jithu.joseph@intel.com>
- <20230922232606.1928026-1-jithu.joseph@intel.com>
+        Sat, 23 Sep 2023 04:20:40 -0400
+Received: from shiva.jussieu.fr (shiva.jussieu.fr [134.157.0.129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A3418180
+        for <platform-driver-x86@vger.kernel.org>; Sat, 23 Sep 2023 01:20:34 -0700 (PDT)
+Received: from mailix1.insp.jussieu.fr (mailix1.insp.jussieu.fr [134.157.37.11])
+          by shiva.jussieu.fr (8.15.2/jtpda-5.4) with ESMTP id 38N8KUDo057497
+          ; Sat, 23 Sep 2023 10:20:30 +0200 (CEST)
+X-Ids:  168
+Received: from hordix.insp.jussieu.fr (hordix.insp.jussieu.fr [134.157.37.9])
+        by mailix1.insp.jussieu.fr (Postfix-INSP-2.10.1) with ESMTPSA id E081AC05AC60;
+        Sat, 23 Sep 2023 10:20:25 +0200 (CEST)
+Received: from [105.112.214.216] ([105.112.214.216]) by
+ webmail.insp.jussieu.fr (Horde Framework) with HTTPS; Sat, 23 Sep 2023
+ 08:20:25 +0000
+Date:   Sat, 23 Sep 2023 08:20:25 +0000
+Message-ID: <20230923082025.Horde.c-rxIbZEW8dk_geFx9IUyKd@webmail.insp.jussieu.fr>
+From:   Victoria Cleland <lamya.essaoui@insp.upmc.fr>
+Subject: Hallo
+Reply-to: v.cleland10@aol.com
+User-Agent: Horde Application Framework 5
+Organization: Institut des NanoSciences de Paris
+X-InspUpmcSession: essaoui
+Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
 MIME-Version: 1.0
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+X-Miltered: at jchkmail2.reseau.jussieu.fr with ID 650E9FCE.000 by Joe's j-chkmail (http : // j-chkmail dot ensmp dot fr)!
+X-j-chkmail-Enveloppe: 650E9FCE.000 from mailix1.insp.jussieu.fr/mailix1.insp.jussieu.fr/134.157.37.11/mailix1.insp.jussieu.fr/<lamya.essaoui@insp.upmc.fr>
+X-Spam-Status: Yes, score=5.7 required=5.0 tests=BAYES_50,
+        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,MISSING_HEADERS,
         RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        REPLYTO_WITHOUT_TO_CC,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
+        *      DNSWL was blocked.  See
+        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+        *      for more information.
+        *      [134.157.0.129 listed in list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 RCVD_IN_MSPIKE_H3 RBL: Good reputation (+3)
+        *      [134.157.0.129 listed in wl.mailspike.net]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [v.cleland10[at]aol.com]
+        *  1.0 MISSING_HEADERS Missing To: header
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  1.6 REPLYTO_WITHOUT_TO_CC No description available.
+        *  0.0 RCVD_IN_MSPIKE_WL Mailspike good senders
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Array BIST MSR addresses, bit definition and semantics are different for
-Sierra Forest. Branch into a separate Array BIST flow on Sierra Forest
-when user invokes Array Test.
 
-Signed-off-by: Jithu Joseph <jithu.joseph@intel.com>
-Reviewed-by: Tony Luck <tony.luck@intel.com>
-Tested-by: Pengfei Xu <pengfei.xu@intel.com>
----
- drivers/platform/x86/intel/ifs/ifs.h     |  4 +++
- drivers/platform/x86/intel/ifs/core.c    | 15 +++++-----
- drivers/platform/x86/intel/ifs/runtest.c | 37 +++++++++++++++++++++++-
- 3 files changed, 48 insertions(+), 8 deletions(-)
+23. September 2023.
 
-diff --git a/drivers/platform/x86/intel/ifs/ifs.h b/drivers/platform/x86/intel/ifs/ifs.h
-index cd213b89d278..73268f5dcff1 100644
---- a/drivers/platform/x86/intel/ifs/ifs.h
-+++ b/drivers/platform/x86/intel/ifs/ifs.h
-@@ -137,6 +137,8 @@
- #define MSR_CHUNKS_AUTHENTICATION_STATUS	0x000002c5
- #define MSR_ACTIVATE_SCAN			0x000002c6
- #define MSR_SCAN_STATUS				0x000002c7
-+#define MSR_ARRAY_TRIGGER			0x000002d6
-+#define MSR_ARRAY_STATUS			0x000002d7
- #define MSR_SAF_CTRL				0x000004f0
- 
- #define SCAN_NOT_TESTED				0
-@@ -272,6 +274,7 @@ struct ifs_test_caps {
-  * @cur_batch: number indicating the currently loaded test file
-  * @generation: IFS test generation enumerated by hardware
-  * @chunk_size: size of a test chunk
-+ * @array_gen: test generation of array test
-  */
- struct ifs_data {
- 	int	loaded_version;
-@@ -283,6 +286,7 @@ struct ifs_data {
- 	u32	cur_batch;
- 	u32	generation;
- 	u32	chunk_size;
-+	u32	array_gen;
- };
- 
- struct ifs_work {
-diff --git a/drivers/platform/x86/intel/ifs/core.c b/drivers/platform/x86/intel/ifs/core.c
-index 0c8927916373..934eaf348f9d 100644
---- a/drivers/platform/x86/intel/ifs/core.c
-+++ b/drivers/platform/x86/intel/ifs/core.c
-@@ -11,16 +11,16 @@
- 
- #include "ifs.h"
- 
--#define X86_MATCH(model)				\
-+#define X86_MATCH(model, array_gen)				\
- 	X86_MATCH_VENDOR_FAM_MODEL_FEATURE(INTEL, 6,	\
--		INTEL_FAM6_##model, X86_FEATURE_CORE_CAPABILITIES, NULL)
-+		INTEL_FAM6_##model, X86_FEATURE_CORE_CAPABILITIES, array_gen)
- 
- static const struct x86_cpu_id ifs_cpu_ids[] __initconst = {
--	X86_MATCH(SAPPHIRERAPIDS_X),
--	X86_MATCH(EMERALDRAPIDS_X),
--	X86_MATCH(GRANITERAPIDS_X),
--	X86_MATCH(GRANITERAPIDS_D),
--	X86_MATCH(ATOM_CRESTMONT_X),
-+	X86_MATCH(SAPPHIRERAPIDS_X, 0),
-+	X86_MATCH(EMERALDRAPIDS_X, 0),
-+	X86_MATCH(GRANITERAPIDS_X, 0),
-+	X86_MATCH(GRANITERAPIDS_D, 0),
-+	X86_MATCH(ATOM_CRESTMONT_X, 1),
- 	{}
- };
- MODULE_DEVICE_TABLE(x86cpu, ifs_cpu_ids);
-@@ -100,6 +100,7 @@ static int __init ifs_init(void)
- 			continue;
- 		ifs_devices[i].rw_data.generation = FIELD_GET(MSR_INTEGRITY_CAPS_SAF_GEN_MASK,
- 							      msrval);
-+		ifs_devices[i].rw_data.array_gen = (u32)m->driver_data;
- 		ret = misc_register(&ifs_devices[i].misc);
- 		if (ret)
- 			goto err_exit;
-diff --git a/drivers/platform/x86/intel/ifs/runtest.c b/drivers/platform/x86/intel/ifs/runtest.c
-index a29f7b8fa48e..bf3310bedcdc 100644
---- a/drivers/platform/x86/intel/ifs/runtest.c
-+++ b/drivers/platform/x86/intel/ifs/runtest.c
-@@ -326,6 +326,38 @@ static void ifs_array_test_core(int cpu, struct device *dev)
- 		ifsd->status = SCAN_TEST_PASS;
- }
- 
-+#define ARRAY_GEN1_TEST_ALL_ARRAYS	0x0ULL
-+#define ARRAY_GEN1_STATUS_FAIL		0x1ULL
-+
-+static int do_array_test_gen1(void *status)
-+{
-+	int cpu = smp_processor_id();
-+	int first;
-+
-+	first = cpumask_first(cpu_smt_mask(cpu));
-+
-+	if (cpu == first) {
-+		wrmsrl(MSR_ARRAY_TRIGGER, ARRAY_GEN1_TEST_ALL_ARRAYS);
-+		rdmsrl(MSR_ARRAY_STATUS, *((u64 *)status));
-+	}
-+
-+	return 0;
-+}
-+
-+static void ifs_array_test_gen1(int cpu, struct device *dev)
-+{
-+	struct ifs_data *ifsd = ifs_get_data(dev);
-+	u64 status = 0;
-+
-+	stop_core_cpuslocked(cpu, do_array_test_gen1, &status);
-+	ifsd->scan_details = status;
-+
-+	if (status & ARRAY_GEN1_STATUS_FAIL)
-+		ifsd->status = SCAN_TEST_FAIL;
-+	else
-+		ifsd->status = SCAN_TEST_PASS;
-+}
-+
- /*
-  * Initiate per core test. It wakes up work queue threads on the target cpu and
-  * its sibling cpu. Once all sibling threads wake up, the scan test gets executed and
-@@ -353,7 +385,10 @@ int do_core_test(int cpu, struct device *dev)
- 		ifs_test_core(cpu, dev);
- 		break;
- 	case IFS_TYPE_ARRAY_BIST:
--		ifs_array_test_core(cpu, dev);
-+		if (ifsd->array_gen == 0)
-+			ifs_array_test_core(cpu, dev);
-+		else
-+			ifs_array_test_gen1(cpu, dev);
- 		break;
- 	default:
- 		return -EINVAL;
--- 
-2.25.1
+Hallo,
+
+Ich möchte Ihnen einen Geschäftsvorschlag mitteilen. Für weitere  
+Details antworten Sie auf Englisch.
+
+Grüße
+Frau Victoria Cleland
+_________________________
+Sekretärin: Lamya Essaoui
 
