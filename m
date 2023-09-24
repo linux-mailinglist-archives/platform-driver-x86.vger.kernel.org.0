@@ -2,50 +2,51 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D3307AC9CF
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 24 Sep 2023 15:43:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA80A7AC94F
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 24 Sep 2023 15:30:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230180AbjIXNnp (ORCPT
+        id S230477AbjIXNaL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 24 Sep 2023 09:43:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43380 "EHLO
+        Sun, 24 Sep 2023 09:30:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230104AbjIXNno (ORCPT
+        with ESMTP id S231981AbjIXNaC (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 24 Sep 2023 09:43:44 -0400
+        Sun, 24 Sep 2023 09:30:02 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07D3A2D65;
-        Sun, 24 Sep 2023 06:18:26 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94262C433A9;
-        Sun, 24 Sep 2023 13:18:25 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8483F1FEF;
+        Sun, 24 Sep 2023 06:19:22 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0626EC433BC;
+        Sun, 24 Sep 2023 13:19:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695561506;
-        bh=gszbO0Lx/8kVOY7YbEReDpylr2edA7MLpqwjKJN//SM=;
+        s=k20201202; t=1695561562;
+        bh=jts/EMPvVmTcagWfllHVmeH6jDODs4hQD1GGVQgsJsU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eDgb3StoFZD/eSBUL4bCAQAbQC1FEpWkcHJWy0cz90eXGUM8rEjL4dSJyhfhhGXz2
-         puOkBpEa9BRR2NvaXqViX03j/q+5993FSZJT9QqBBujjgQpNjiSNDQzSQs907KyFD4
-         Ufn2MziwyO66VxZdd8gQ0wPBipO+dxCxAjMPn6qoMYk6W38ktuXM31JM5P7tAiW6JM
-         dxMEltSPOTV6NcnPiAcwwS/H6LPKAhbdsdwSwKhLpULEVnwea3N1BYFFG0off44pwz
-         VNluRtWhna72PL7sq2+25yPck4tMCcwEuK8TyS2NOiUpzgU9frbdUJDPOr5ZNhMQM0
-         yrjxC8spErH8g==
+        b=H3jeZCplvRcWu9NNL61WrZg8lOR2aAbL2RBngoM0rR5S+hunZzU02nUz9yVM7yJqQ
+         cDbhQ8k36tFRPKGF5uk7DvUXoQEkP6ogmL5TpCl5pu6yT5g8+JNztvJw7NKKXX1fro
+         aHhUHxq0ZAoed09ik/YN0IzG4zJfwy2DNpCSwsIhzJiXBr81PnBI/tXZ/fBmLxj7Ap
+         mX18jwXTbluyj020f/WIMonW4H/Nz9jNemg3IeSaoMCDJXymp2mykjjmv8os9W/tJW
+         RxKZh6r9hhh3ORmdgtYNW0aNHSjbKKIeAHV+BmiBH8qU87Q9UulK2HJc9NZHMXpT+N
+         zqvNe0f0L/e/Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     "Luke D. Jones" <luke@ljones.dev>,
+Cc:     David Thompson <davthompson@nvidia.com>,
+        kernel test robot <lkp@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
         Hans de Goede <hdegoede@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, corentin.chary@gmail.com,
-        ilpo.jarvinen@linux.intel.com, markgross@kernel.org,
-        acpi4asus-user@lists.sourceforge.net,
+        Sasha Levin <sashal@kernel.org>, ilpo.jarvinen@linux.intel.com,
+        markgross@kernel.org, vadimp@nvidia.com,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 18/28] platform/x86: asus-wmi: Support 2023 ROG X16 tablet mode
-Date:   Sun, 24 Sep 2023 09:17:35 -0400
-Message-Id: <20230924131745.1275960-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 12/18] platform/mellanox: mlxbf-bootctl: add NET dependency into Kconfig
+Date:   Sun, 24 Sep 2023 09:18:49 -0400
+Message-Id: <20230924131857.1276330-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230924131745.1275960-1-sashal@kernel.org>
-References: <20230924131745.1275960-1-sashal@kernel.org>
+In-Reply-To: <20230924131857.1276330-1-sashal@kernel.org>
+References: <20230924131857.1276330-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.55
+X-stable-base: Linux 5.15.133
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
@@ -57,42 +58,38 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: "Luke D. Jones" <luke@ljones.dev>
+From: David Thompson <davthompson@nvidia.com>
 
-[ Upstream commit 4106a70ddad57ee6d8f98b81d6f036740c72762b ]
+[ Upstream commit c2dffda1d8f7511505bbbf16ba282f2079b30089 ]
 
-Add quirk for ASUS ROG X16 (GV601V, 2023 versions) Flow 2-in-1
-to enable tablet mode with lid flip (all screen rotations).
+The latest version of the mlxbf_bootctl driver utilizes
+"sysfs_format_mac", and this API is only available if
+NET is defined in the kernel configuration. This patch
+changes the mlxbf_bootctl Kconfig to depend on NET.
 
-Signed-off-by: Luke D. Jones <luke@ljones.dev>
-Link: https://lore.kernel.org/r/20230905082813.13470-1-luke@ljones.dev
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202309031058.JvwNDBKt-lkp@intel.com/
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: David Thompson <davthompson@nvidia.com>
+Link: https://lore.kernel.org/r/20230905133243.31550-1-davthompson@nvidia.com
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/platform/x86/asus-nb-wmi.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/platform/mellanox/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
-index fdf7da06af306..d85d895fee894 100644
---- a/drivers/platform/x86/asus-nb-wmi.c
-+++ b/drivers/platform/x86/asus-nb-wmi.c
-@@ -478,6 +478,15 @@ static const struct dmi_system_id asus_quirks[] = {
- 		},
- 		.driver_data = &quirk_asus_tablet_mode,
- 	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUS ROG FLOW X16",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GV601V"),
-+		},
-+		.driver_data = &quirk_asus_tablet_mode,
-+	},
- 	{
- 		.callback = dmi_matched,
- 		.ident = "ASUS VivoBook E410MA",
+diff --git a/drivers/platform/mellanox/Kconfig b/drivers/platform/mellanox/Kconfig
+index edd17e1a1f88f..a57ae5cbc00a8 100644
+--- a/drivers/platform/mellanox/Kconfig
++++ b/drivers/platform/mellanox/Kconfig
+@@ -48,6 +48,7 @@ config MLXBF_BOOTCTL
+ 	tristate "Mellanox BlueField Firmware Boot Control driver"
+ 	depends on ARM64
+ 	depends on ACPI
++	depends on NET
+ 	help
+ 	  The Mellanox BlueField firmware implements functionality to
+ 	  request swapping the primary and alternate eMMC boot partition,
 -- 
 2.40.1
 
