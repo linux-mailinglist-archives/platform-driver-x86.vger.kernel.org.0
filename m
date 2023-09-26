@@ -2,210 +2,103 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 325137AEEC1
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 26 Sep 2023 16:58:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0168E7AEF44
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 26 Sep 2023 17:14:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234928AbjIZOoR (ORCPT
+        id S235001AbjIZPAC (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 26 Sep 2023 10:44:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51190 "EHLO
+        Tue, 26 Sep 2023 11:00:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234659AbjIZOoR (ORCPT
+        with ESMTP id S234910AbjIZPAA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 26 Sep 2023 10:44:17 -0400
-X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 26 Sep 2023 07:44:10 PDT
-Received: from mgamail.intel.com (unknown [192.198.163.63])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54870E6;
-        Tue, 26 Sep 2023 07:44:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695739450; x=1727275450;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=coFPVS3IwCW4LMVf38mdpTFnzhd1Ni1jp/jusMYzufQ=;
-  b=f3oxVBZriVqZcWUmUT9ahCnqfou6FmXp8yYl13W5Dj9QFZMwCYC8iGr6
-   bwys1NOLgHrTrozdsifThYCkZhsyjfL1ONSozC/OW6vFfrihEa4DFN9Nd
-   fHJPSl9bDBRdVMzAbuvun6MTsnqtjmRiztQkdBHR/0qjWQfkxSSBRTEDF
-   FKd3AmvFinphPxyZABivQdXefxDK25Ujq508YQqlOF5+b8dMt4RSdOPoC
-   N+c8tk0zZlD7ONjnAcdlksstwxC2xsDykmsdy8fZKJJOx5EfFvUumQ3/d
-   F1m1b36hih9rs0gF2WkacqiY+MCSaIL3XWEw7EE1fQ9MWWbd2CEVGDkko
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="3163823"
-X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; 
-   d="scan'208";a="3163823"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 07:43:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="748835766"
-X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; 
-   d="scan'208";a="748835766"
-Received: from hhalmen-mobl.ger.corp.intel.com ([10.251.219.207])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 07:43:06 -0700
-Date:   Tue, 26 Sep 2023 17:43:03 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     "David E. Box" <david.e.box@linux.intel.com>
-cc:     LKML <linux-kernel@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org, rajvi.jingar@linux.intel.com
-Subject: Re: [PATCH 03/11] platform/x86/intel/pmt: Add header to struct
- intel_pmt_entry
-In-Reply-To: <20230922213032.1770590-4-david.e.box@linux.intel.com>
-Message-ID: <fb605dba-f3d3-dff2-95d5-a2b4e92ab0c5@linux.intel.com>
-References: <20230922213032.1770590-1-david.e.box@linux.intel.com> <20230922213032.1770590-4-david.e.box@linux.intel.com>
+        Tue, 26 Sep 2023 11:00:00 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBBD411D
+        for <platform-driver-x86@vger.kernel.org>; Tue, 26 Sep 2023 07:59:52 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-31c5cac3ae2so8731218f8f.3
+        for <platform-driver-x86@vger.kernel.org>; Tue, 26 Sep 2023 07:59:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1695740391; x=1696345191; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vfLYtgRnxIhfGIuZ3AuQPnmd6mF7Zk5St0BXq4vGsIQ=;
+        b=TLzw53xlfCA4B2yyekGcmN2Gow3tYsMQZDMag7APmsRKZLKRwPcuPoc7Xfm9pZ1N8A
+         i8XZ6fbmgckGNwnl/tB/4I5ppkDl4KZpStL4Xiv9ChBKbHtPW+I1ipHDcBULsm4XLdE3
+         aBu2drv72zmlMLQSx51xCIobXP2ySCWI7bFE7fqUuQCm41h1B3nTdBqVBLZk+3Wqr9TQ
+         UQcxODnyP08mnU+n1WxUthfrUHGcjCBdV14jAzYfqloN4c3Y2vLkGRyoEGR/WlHc5Kh+
+         TuNVFJ7KMX7DuFMdygi7a54VJGyS0URP4mSdyyDhwbZ4H+ipRDjnQ5o8xw/GHYglb4jt
+         R8xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695740391; x=1696345191;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vfLYtgRnxIhfGIuZ3AuQPnmd6mF7Zk5St0BXq4vGsIQ=;
+        b=qeq5j1urUo50Gb+tyIFZD5PCe9MnU7tENFM/oGeSiY28I1a9wNqsgxqV8HJCDcMYso
+         mlWEGb4HM/lq1ARqGLC63Fpdg5IbwUDI7aD1/Hkq2GO13Ne1pGF1Gf/RFMYz2FD2f/Fd
+         YWmAwrPjGXyFSz6lULbRhhWObS0GG8yCAPkYz3CX/SRSBJKRAQl5k4rtAYrkVtKltxo6
+         K0k906AIKo3XfrARJZKB7mPqnip9xt+HN2wQhmTI8INXJdDL3Mecgg7nLxVdiSdsxwLD
+         Sf0xGEkFCNwrhNVBWkeHuVDz3SlPZMB9JjP2XukXt03xbDrmMBhxnPrYgYJL8ETttrOZ
+         JtqA==
+X-Gm-Message-State: AOJu0YwDqut2n6SLm1CzxEfDIO/p5lp3mOPEd9MQ9YJJy2nhwANHyUyL
+        d8kWwWxPQ0Hz3xwaYxn8/qjUCQ==
+X-Google-Smtp-Source: AGHT+IHPHclId6kylza566id26/po9Ed756snf6AMpJqfTNPum1ErtRmJjfjJVGvOnVFQwtK5zDvsw==
+X-Received: by 2002:a5d:44ca:0:b0:31f:d52a:82af with SMTP id z10-20020a5d44ca000000b0031fd52a82afmr8678818wrr.49.1695740391015;
+        Tue, 26 Sep 2023 07:59:51 -0700 (PDT)
+Received: from brgl-uxlite.home ([2a01:cb1d:334:ac00:686:c497:30b1:d2b9])
+        by smtp.gmail.com with ESMTPSA id s2-20020a5d5102000000b0031f82743e25sm14871634wrt.67.2023.09.26.07.59.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Sep 2023 07:59:50 -0700 (PDT)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>
+Cc:     linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: [RFT PATCH 0/4] platform/x86: int3472: don't use gpiod_toggle_active_low()
+Date:   Tue, 26 Sep 2023 16:59:39 +0200
+Message-Id: <20230926145943.42814-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-681903352-1695739387=:1894"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,RDNS_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
---8323329-681903352-1695739387=:1894
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
+gpiod_toggle_active_low() is a badly designed API that should have never
+been used elsewhere then in the MMC code. And even there we should find
+a better solution.
 
-On Fri, 22 Sep 2023, David E. Box wrote:
+Replace the uses of it in the int3472 driver with the good old temporary
+lookup table trick. This is not very pretty either but it's the lesser
+evil.
 
-> The PMT header is passed to several functions. Instead, store the header in
-> struct intel_pmt_entry which is also passed to these functions and shorten
-> the argument list. This simplifies the calls in preparation for later
-> changes.
-> 
-> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
-> ---
->  drivers/platform/x86/intel/pmt/class.c     |  8 +++-----
->  drivers/platform/x86/intel/pmt/class.h     | 16 ++++++++--------
->  drivers/platform/x86/intel/pmt/crashlog.c  |  2 +-
->  drivers/platform/x86/intel/pmt/telemetry.c |  2 +-
->  4 files changed, 13 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/intel/pmt/class.c b/drivers/platform/x86/intel/pmt/class.c
-> index 32608baaa56c..142a24e3727d 100644
-> --- a/drivers/platform/x86/intel/pmt/class.c
-> +++ b/drivers/platform/x86/intel/pmt/class.c
-> @@ -159,12 +159,12 @@ static struct class intel_pmt_class = {
->  };
->  
->  static int intel_pmt_populate_entry(struct intel_pmt_entry *entry,
-> -				    struct intel_pmt_header *header,
->  				    struct intel_vsec_device *ivdev,
->  				    struct resource *disc_res)
->  {
->  	struct pci_dev *pci_dev = ivdev->pcidev;
->  	struct device *dev = &ivdev->auxdev.dev;
-> +	struct intel_pmt_header *header = &entry->header;
->  	u8 bir;
->  
->  	/*
-> @@ -313,7 +313,6 @@ int intel_pmt_dev_create(struct intel_pmt_entry *entry, struct intel_pmt_namespa
->  			 struct intel_vsec_device *intel_vsec_dev, int idx)
->  {
->  	struct device *dev = &intel_vsec_dev->auxdev.dev;
-> -	struct intel_pmt_header header;
->  	struct resource	*disc_res;
->  	int ret;
->  
-> @@ -323,16 +322,15 @@ int intel_pmt_dev_create(struct intel_pmt_entry *entry, struct intel_pmt_namespa
->  	if (IS_ERR(entry->disc_table))
->  		return PTR_ERR(entry->disc_table);
->  
-> -	ret = ns->pmt_header_decode(entry, &header, dev);
-> +	ret = ns->pmt_header_decode(entry, dev);
->  	if (ret)
->  		return ret;
->  
-> -	ret = intel_pmt_populate_entry(entry, &header, intel_vsec_dev, disc_res);
-> +	ret = intel_pmt_populate_entry(entry, intel_vsec_dev, disc_res);
->  	if (ret)
->  		return ret;
->  
->  	return intel_pmt_dev_register(entry, ns, dev);
-> -
->  }
->  EXPORT_SYMBOL_NS_GPL(intel_pmt_dev_create, INTEL_PMT);
->  
-> diff --git a/drivers/platform/x86/intel/pmt/class.h b/drivers/platform/x86/intel/pmt/class.h
-> index db11d58867ce..e477a19f6700 100644
-> --- a/drivers/platform/x86/intel/pmt/class.h
-> +++ b/drivers/platform/x86/intel/pmt/class.h
-> @@ -18,7 +18,15 @@
->  #define GET_BIR(v)		((v) & GENMASK(2, 0))
->  #define GET_ADDRESS(v)		((v) & GENMASK(31, 3))
->  
-> +struct intel_pmt_header {
-> +	u32	base_offset;
-> +	u32	size;
-> +	u32	guid;
-> +	u8	access_type;
-> +};
-> +
->  struct intel_pmt_entry {
-> +	struct intel_pmt_header	header;
->  	struct bin_attribute	pmt_bin_attr;
->  	struct kobject		*kobj;
->  	void __iomem		*disc_table;
-> @@ -29,19 +37,11 @@ struct intel_pmt_entry {
->  	int			devid;
->  };
->  
-> -struct intel_pmt_header {
-> -	u32	base_offset;
-> -	u32	size;
-> -	u32	guid;
-> -	u8	access_type;
-> -};
-> -
->  struct intel_pmt_namespace {
->  	const char *name;
->  	struct xarray *xa;
->  	const struct attribute_group *attr_grp;
->  	int (*pmt_header_decode)(struct intel_pmt_entry *entry,
-> -				 struct intel_pmt_header *header,
->  				 struct device *dev);
->  };
->  
-> diff --git a/drivers/platform/x86/intel/pmt/crashlog.c b/drivers/platform/x86/intel/pmt/crashlog.c
-> index bbb3d61d09f4..4014c02cafdb 100644
-> --- a/drivers/platform/x86/intel/pmt/crashlog.c
-> +++ b/drivers/platform/x86/intel/pmt/crashlog.c
-> @@ -223,10 +223,10 @@ static const struct attribute_group pmt_crashlog_group = {
->  };
->  
->  static int pmt_crashlog_header_decode(struct intel_pmt_entry *entry,
-> -				      struct intel_pmt_header *header,
->  				      struct device *dev)
->  {
->  	void __iomem *disc_table = entry->disc_table;
-> +	struct intel_pmt_header *header = &entry->header;
->  	struct crashlog_entry *crashlog;
->  
->  	if (!pmt_crashlog_supported(entry))
-> diff --git a/drivers/platform/x86/intel/pmt/telemetry.c b/drivers/platform/x86/intel/pmt/telemetry.c
-> index 39cbc87cc28a..f86080e8bebd 100644
-> --- a/drivers/platform/x86/intel/pmt/telemetry.c
-> +++ b/drivers/platform/x86/intel/pmt/telemetry.c
-> @@ -58,10 +58,10 @@ static bool pmt_telem_region_overlaps(struct intel_pmt_entry *entry,
->  }
->  
->  static int pmt_telem_header_decode(struct intel_pmt_entry *entry,
-> -				   struct intel_pmt_header *header,
->  				   struct device *dev)
->  {
->  	void __iomem *disc_table = entry->disc_table;
-> +	struct intel_pmt_header *header = &entry->header;
->  
->  	if (pmt_telem_region_overlaps(entry, dev))
->  		return 1;
-> 
+Bartosz Golaszewski (4):
+  platform/x86: int3472: provide a helper for getting GPIOs from lookups
+  platform/x86: int3472: led: don't use gpiod_toggle_active_low()
+  platform/x86: int3472: clk_and_regulator: use GPIO lookup tables
+  gpio: acpi: remove acpi_get_and_request_gpiod()
 
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+ drivers/gpio/gpiolib-acpi.c                   | 28 ------------------
+ .../x86/intel/int3472/clk_and_regulator.c     | 22 ++++++--------
+ drivers/platform/x86/intel/int3472/common.c   | 29 +++++++++++++++++++
+ drivers/platform/x86/intel/int3472/common.h   |  9 ++++++
+ drivers/platform/x86/intel/int3472/led.c      | 12 +++-----
+ include/linux/gpio/consumer.h                 |  8 -----
+ 6 files changed, 51 insertions(+), 57 deletions(-)
 
 -- 
- i.
+2.39.2
 
---8323329-681903352-1695739387=:1894--
