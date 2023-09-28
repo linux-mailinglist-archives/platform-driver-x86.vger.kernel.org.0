@@ -2,289 +2,181 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BCCB7B1970
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 28 Sep 2023 13:04:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEB427B18F9
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 28 Sep 2023 13:03:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232145AbjI1LEK (ORCPT
+        id S231935AbjI1LD0 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 28 Sep 2023 07:04:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56774 "EHLO
+        Thu, 28 Sep 2023 07:03:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231997AbjI1LD7 (ORCPT
+        with ESMTP id S231808AbjI1LDV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 28 Sep 2023 07:03:59 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0989DCDC;
-        Thu, 28 Sep 2023 04:03:32 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBF2CC433CD;
-        Thu, 28 Sep 2023 11:03:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695899012;
-        bh=2HU082C0O+wshN8razE9iX9Rxehg6mRJCvsU5n9rFmw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cgJqBVdgRTRGPcB9AYO9nuxbQNU/aRFlsoq2/9IfdhTUxto7jaIgTs2iK3Hh6VNmI
-         PQNGXum64iBmE5gmxTB5fzhsNqjzKt2sLpABU1iY4QR3sLG/3TAi2tRkz3bK5NdR2Q
-         5J/x2S1ciuMIVP8CxOGFxyla+hxGROy5UoKNIuzR78QFdYK0UlmPcZ7xnSW65TY0z1
-         d09jqnFZdRWx08/ZfFzae3DcpVgwGYgcj94ylvD+5VeIqKKaZOw2/kkGfhLURz1SoJ
-         LecijjrtKtsZor5I1BxBnr+8zBdASh0oRnrtfNreKI0opyGPJWi1hjF5WHyNrggNrR
-         Xz99F3TmopI2w==
-From:   Jeff Layton <jlayton@kernel.org>
-To:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        David Sterba <dsterba@suse.cz>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>, Jeremy Kerr <jk@ozlabs.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
+        Thu, 28 Sep 2023 07:03:21 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE1631A3;
+        Thu, 28 Sep 2023 04:03:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695898998; x=1727434998;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=68Uv63OTysgsKzAlmtZlN6445TXxfX8CsAF94hkyCV0=;
+  b=GNBHJUexQ0PRilvfO4rndpNtZ+r/6+txo/eqlkrtSt/d8LHUW6NvD6K/
+   ply5SnGwaUDACS7QSou79TQsdebp931kVPCXBqu2jLgvETKVfOEwybBfC
+   OJ3UdliMAIUcmOA3MpoJY17HAqLY3sxrKwPrke6a4l0h2KAlFSWIeUisU
+   klu9W0TJV9AWuiFSgL2kkmZHXfVqhON0GqKoKyRhOmQq3kRDeWBDnSuj2
+   +xJnxiFpNcaRt+XuWrxA1EQl0iwHJeVoc27Q5ODi3x75X1rRSngIvI7pv
+   x+Bav0CqUVy+bAbBRCTcE2Rc56/1MezHMBfneXVxs20BIWPbOhCMx5ufa
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="3591468"
+X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; 
+   d="scan'208";a="3591468"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 04:03:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="752926285"
+X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; 
+   d="scan'208";a="752926285"
+Received: from vshampor-mobl2.ger.corp.intel.com ([10.249.33.15])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 04:03:12 -0700
+Date:   Thu, 28 Sep 2023 14:03:10 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     =?ISO-8859-15?Q?Uwe_Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+cc:     Benson Leung <bleung@chromium.org>,
+        Tzung-Bi Shih <tzungbi@kernel.org>,
+        Prashant Malani <pmalani@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Brian Norris <briannorris@chromium.org>,
+        Zhengkang Huang <zkhuang@hust.edu.cn>,
+        Dongliang Mu <dzm91@hust.edu.cn>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Carlos Llamas <cmllamas@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Mattia Dongili <malattia@linux.it>,
-        Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>,
-        Brad Warrum <bwarrum@linux.ibm.com>,
-        Ritu Agarwal <rituagar@linux.ibm.com>,
         Hans de Goede <hdegoede@redhat.com>,
-        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
         Mark Gross <markgross@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Eric Van Hensbergen <ericvh@kernel.org>,
-        Latchesar Ionkov <lucho@ionkov.net>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Christian Schoenebeck <linux_oss@crudebyte.com>,
-        David Sterba <dsterba@suse.com>,
-        David Howells <dhowells@redhat.com>,
-        Marc Dionne <marc.dionne@auristor.com>,
-        Ian Kent <raven@themaw.net>,
-        Luis de Bethencourt <luisbg@kernel.org>,
-        Salah Triki <salah.triki@gmail.com>,
-        "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-        Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
-        Xiubo Li <xiubli@redhat.com>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,
-        Joel Becker <jlbec@evilplan.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>, Gao Xiang <xiang@kernel.org>,
-        Chao Yu <chao@kernel.org>, Yue Hu <huyue2@coolpad.com>,
-        Jeffle Xu <jefflexu@linux.alibaba.com>,
-        Namjae Jeon <linkinjeon@kernel.org>,
-        Sungjong Seo <sj1557.seo@samsung.com>,
-        Jan Kara <jack@suse.com>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-        Christoph Hellwig <hch@infradead.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Bob Peterson <rpeterso@redhat.com>,
-        Andreas Gruenbacher <agruenba@redhat.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <muchun.song@linux.dev>, Jan Kara <jack@suse.cz>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Dave Kleikamp <shaggy@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Anna Schumaker <anna@kernel.org>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        Neil Brown <neilb@suse.de>,
-        Olga Kornievskaia <kolga@netapp.com>,
-        Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        Anton Altaparmakov <anton@tuxera.com>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        Mark Fasheh <mark@fasheh.com>,
-        Joseph Qi <joseph.qi@linux.alibaba.com>,
-        Bob Copeland <me@bobcopeland.com>,
-        Mike Marshall <hubcap@omnibond.com>,
-        Martin Brandenburg <martin@omnibond.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Tony Luck <tony.luck@intel.com>,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-        Anders Larsen <al@alarsen.net>,
-        Steve French <sfrench@samba.org>,
-        Paulo Alcantara <pc@manguebit.com>,
-        Ronnie Sahlberg <lsahlber@redhat.com>,
-        Shyam Prasad N <sprasad@microsoft.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Phillip Lougher <phillip@squashfs.org.uk>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Evgeniy Dushistov <dushistov@mail.ru>,
-        Chandan Babu R <chandan.babu@oracle.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Damien Le Moal <dlemoal@kernel.org>,
-        Naohiro Aota <naohiro.aota@wdc.com>,
-        Johannes Thumshirn <jth@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>,
-        Yonghong Song <yonghong.song@linux.dev>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        Hugh Dickins <hughd@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        John Johansen <john.johansen@canonical.com>,
-        Paul Moore <paul@paul-moore.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Eric Paris <eparis@parisplace.org>
-Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-usb@vger.kernel.org, v9fs@lists.linux.dev,
-        linux-afs@lists.infradead.org, autofs@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-        codalist@coda.cs.cmu.edu, linux-efi@vger.kernel.org,
-        linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, gfs2@lists.linux.dev,
-        linux-um@lists.infradead.org, linux-mtd@lists.infradead.org,
-        jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
-        ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
-        linux-karma-devel@lists.sourceforge.net, devel@lists.orangefs.org,
-        linux-unionfs@vger.kernel.org, linux-hardening@vger.kernel.org,
-        reiserfs-devel@vger.kernel.org, linux-cifs@vger.kernel.org,
-        samba-technical@lists.samba.org,
-        linux-trace-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
-        bpf@vger.kernel.org, netdev@vger.kernel.org,
-        apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
-        selinux@vger.kernel.org
-Subject: [PATCH 01/87] fs: new accessor methods for atime and mtime
-Date:   Thu, 28 Sep 2023 07:03:00 -0400
-Message-ID: <20230928110300.32891-2-jlayton@kernel.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230928110300.32891-1-jlayton@kernel.org>
-References: <20230928110300.32891-1-jlayton@kernel.org>
+        Vadim Pasternak <vadimp@nvidia.com>,
+        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
+        Xing Tong Wu <xingtong.wu@siemens.com>,
+        Tobias Schaffner <tobias.schaffner@siemens.com>,
+        chrome-platform@lists.linux.dev,
+        LKML <linux-kernel@vger.kernel.org>,
+        platform-driver-x86@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH 00/27] platform: Convert to platform remove callback
+ returning void
+In-Reply-To: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de>
+Message-ID: <c7ab93d-fe24-da35-4581-87e3d5fe612d@linux.intel.com>
+References: <20230927081040.2198742-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/mixed; boundary="8323329-1237872873-1695898996=:1701"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Recently, we converted the ctime accesses in the kernel to use new
-accessor functions. Linus recently pointed out though that if we add
-accessors for the atime and mtime, then that would allow us to
-seamlessly change how these timestamps are stored in the inode.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Add new accessor functions for the atime and mtime that mirror the
-accessors for the ctime.
+--8323329-1237872873-1695898996=:1701
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- fs/libfs.c         | 13 +++++++++++++
- include/linux/fs.h | 42 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 55 insertions(+)
+On Wed, 27 Sep 2023, Uwe Kleine-König wrote:
 
-diff --git a/fs/libfs.c b/fs/libfs.c
-index 37f2d34ee090..f5cdc7f7f5b5 100644
---- a/fs/libfs.c
-+++ b/fs/libfs.c
-@@ -1912,3 +1912,16 @@ ssize_t direct_write_fallback(struct kiocb *iocb, struct iov_iter *iter,
- 	return direct_written + buffered_written;
- }
- EXPORT_SYMBOL_GPL(direct_write_fallback);
-+
-+/**
-+ * simple_inode_init_ts - initialize the timestamps for a new inode
-+ * @inode: inode to be initialized
-+ *
-+ * When a new inode is created, most filesystems set the timestamps to the
-+ * current time. Add a helper to do this.
-+ */
-+struct timespec64 simple_inode_init_ts(struct inode *inode);
-+{
-+	return inode->i_atime = inode->i_mtime = inode_set_ctime_current(inode);
-+}
-+EXPORT_SYMBOL(simple_inode_init_ts);
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index b528f063e8ff..12d247b82aa0 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -1553,6 +1553,48 @@ static inline struct timespec64 inode_set_ctime(struct inode *inode,
- 	return inode_set_ctime_to_ts(inode, ts);
- }
- 
-+static inline struct timespec64 inode_get_atime(const struct inode *inode)
-+{
-+	return inode->i_atime;
-+}
-+
-+static inline struct timespec64 inode_set_atime_to_ts(struct inode *inode,
-+						      struct timespec64 ts)
-+{
-+	inode->i_atime = ts;
-+	return ts;
-+}
-+
-+static inline struct timespec64 inode_set_atime(struct inode *inode,
-+						time64_t sec, long nsec)
-+{
-+	struct timespec64 ts = { .tv_sec  = sec,
-+				 .tv_nsec = nsec };
-+	return inode_set_atime_to_ts(inode, ts);
-+}
-+
-+static inline struct timespec64 inode_get_mtime(const struct inode *inode)
-+{
-+	return inode->i_mtime;
-+}
-+
-+static inline struct timespec64 inode_set_mtime_to_ts(struct inode *inode,
-+						      struct timespec64 ts)
-+{
-+	inode->i_mtime = ts;
-+	return ts;
-+}
-+
-+static inline struct timespec64 inode_set_mtime(struct inode *inode,
-+						time64_t sec, long nsec)
-+{
-+	struct timespec64 ts = { .tv_sec  = sec,
-+				 .tv_nsec = nsec };
-+	return inode_set_mtime_to_ts(inode, ts);
-+}
-+
-+struct timespec64 simple_inode_init_ts(struct inode *inode);
-+
- /*
-  * Snapshotting support.
-  */
+> Hello,
+> 
+> this series converts all platform drivers below drivers/platform to use
+> .remove_new(). The motivation is to get rid of an integer return code
+> that is (mostly) ignored by the platform driver core and error prone on
+> the driver side.
+> 
+> See commit 5c5a7680e67b ("platform: Provide a remove callback that
+> returns no value") for an extended explanation and the eventual goal.
+> 
+> As there is no single maintainer team for drivers/platform, I suggest
+> the individual maintainers to pick up "their" patches. The only
+> inter-dependency in this series is that the patches #24 - #27 depend on
+> #23. Otherwise there are no inter-dependencies, so that should work
+> fine. As there are still quite a few drivers to convert in other areas
+> than drivers/platform, I'm happy about every patch that makes it in and
+> there is no need for further coordination. So even if there is a merge
+> conflict with one patch until you apply or a subject prefix is
+> suboptimal, please don't let you stop by negative feedback for other
+> patches (unless it applies to "your" patches, too, of course).
+> 
+> Best regards and thanks for considering,
+> Uwe
+> 
+> Uwe Kleine-König (27):
+>   platform/chrome: cros_ec_chardev: Convert to platform remove callback
+>     returning void
+>   platform/chrome: cros_ec_debugfs: Convert to platform remove callback
+>     returning void
+>   platform/chrome: cros_ec_lightbar: Convert to platform remove callback
+>     returning void
+>   platform/chrome: cros_ec_lpc: Convert to platform remove callback
+>     returning void
+>   platform/chrome: cros_ec_sysfs: Convert to platform remove callback
+>     returning void
+>   platform/chrome: cros_ec_vbc: Convert to platform remove callback
+>     returning void
+>   platform/chrome: cros_typec_switch: Convert to platform remove
+>     callback returning void
+>   platform/chrome: cros_usbpd_logger: Convert to platform remove
+>     callback returning void
+>   platform/chrome: cros_usbpd_notify: Convert to platform remove
+>     callback returning void
+>   platform/chrome/wilco_ec: core: Convert to platform remove callback
+>     returning void
+>   platform/chrome/wilco_ec: debugfs: Convert to platform remove callback
+>     returning void
+>   platform/chrome/wilco_ec: telemetry: Convert to platform remove
+>     callback returning void
+>   platform/goldfish: goldfish_pipe: Convert to platform remove callback
+>     returning void
+>   platform/mellanox: mlxbf-bootctl: Convert to platform remove callback
+>     returning void
+>   platform/mellanox: mlxbf-tmfifo: Convert to platform remove callback
+>     returning void
+>   platform/mellanox: mlxreg-hotplug: Convert to platform remove callback
+>     returning void
+>   platform/mellanox: mlxreg-io: Convert to platform remove callback
+>     returning void
+>   platform/mellanox: mlxreg-lc: Convert to platform remove callback
+>     returning void
+>   platform/mellanox: nvsw-sn2201: Convert to platform remove callback
+>     returning void
+>   platform/x86/intel: bytcrc_pwrsrc: Convert to platform remove callback
+>     returning void
+>   platform/x86: mlx-platform: Convert to platform remove callback
+>     returning void
+>   platform/x86: sel3350-platform: Convert to platform remove callback
+>     returning void
+>   platform/x86/siemens: simatic-ipc-batt: Simplify
+>     simatic_ipc_batt_remove()
+>   platform/x86/siemens: simatic-ipc-batt: Convert to platform remove
+>     callback returning void
+>   platform/x86/siemens: simatic-ipc-batt-apollolake: Convert to platform
+>     remove callback returning void
+>   platform/x86/siemens: simatic-ipc-batt-elkhartlake: Convert to
+>     platform remove callback returning void
+>   platform/x86/siemens: simatic-ipc-batt-f7188x: Convert to platform
+>     remove callback returning void
+
+Thanks for the patches.
+
+I don't know if you got the auto generated thank you email as it seemed to 
+hit a character encoding problem while sending the email out.
+
+But in any case, I've applied patches 14-27 to my local review-ilpo branch 
+(they will eventually appear on the public repo too and propagate to 
+for-next).
+
+
 -- 
-2.41.0
+ i.
 
+--8323329-1237872873-1695898996=:1701--
