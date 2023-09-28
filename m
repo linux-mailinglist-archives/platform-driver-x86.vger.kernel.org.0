@@ -2,82 +2,73 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BCE87B1259
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 28 Sep 2023 08:10:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04C9A7B1985
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 28 Sep 2023 13:04:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229453AbjI1GKn (ORCPT
+        id S232018AbjI1LEn (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 28 Sep 2023 02:10:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51224 "EHLO
+        Thu, 28 Sep 2023 07:04:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjI1GKn (ORCPT
+        with ESMTP id S232019AbjI1LEa (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 28 Sep 2023 02:10:43 -0400
+        Thu, 28 Sep 2023 07:04:30 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A98099
-        for <platform-driver-x86@vger.kernel.org>; Wed, 27 Sep 2023 23:10:41 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F263DC433C9
-        for <platform-driver-x86@vger.kernel.org>; Thu, 28 Sep 2023 06:10:40 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F575CED;
+        Thu, 28 Sep 2023 04:04:20 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FC8BC433C7;
+        Thu, 28 Sep 2023 11:04:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695881441;
-        bh=ZlcHpDwBUi6TN9wx86Kjvfe7A9HNFLV7UAXLcmbaa3g=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=HQMNEFEh7id2QTIGQYnQm/fjU81QiE5TGuznaAKWb4wAAcGtv06fp67tBJvOTLSSm
-         L/pf/fBHyCh9rCdx3Rk574DZhtj39hIGesnFBUK7gIAs/G/PUxCHreDBZfQXAxdul2
-         UqFbQqIK2syGOnoqI311vAWmK7bzM+VxsJHGoONxI/sCwcrViiKApeb8+HHN35ZgTQ
-         Qa+lZeBkxeKtJN2ax3zc1/NUBv43Pofyk7N/EzGbG5aG4J/2W8v+SWege3zko94oKh
-         w9Apt4KH0NGNslp3r6h0tp2nCFvEWX9CDTLnoRiK1sxbSnfrgOnDTdR8Mgy85/tHmd
-         W/Yjp3zzfVpFw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id D1643C4332E; Thu, 28 Sep 2023 06:10:40 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     platform-driver-x86@vger.kernel.org
-Subject: [Bug 217947] WARNING at drivers/acpi/platform_profile.c:74 in
- platform_profile_show()
-Date:   Thu, 28 Sep 2023 06:10:40 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: jirislaby@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-217947-215701-rDePGqaoOZ@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217947-215701@https.bugzilla.kernel.org/>
-References: <bug-217947-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        s=k20201202; t=1695899059;
+        bh=F/2vXVnF7RSXFfWEZqx0McB1XYKZ9a+y5sHO9ziDwMc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=nPqwZD4Cy7y9WGVms+U5m6Hk04N6LpWf5Jpospahi+28gDJ/vF4Gd0fN34gydOKPu
+         /q+Ln9ktX9ZRyI8aVL97aQuJJPAkNIeoIRda2z6q7tpjFVHS/C3pGa6G2sNItKsYw9
+         e5JdgqsSnD4gtN5iO6fHdAPtuXSiOyW05wBc+SyaSTkp//stXSjoyzPqQHJmcqh6Px
+         LfYGtJyXrcA5gw0QJviu/XKptE3BYohx4HgXXOEw74sShXA1Zbro+f+vBh095sOLVu
+         /QMe9UOALNRXBMZvO/Qz6PDfTSxOoF5kUEk5VudpxKjloQyX3MepG4cXSUryYYdTgS
+         442JKz+LTgtxQ==
+From:   Jeff Layton <jlayton@kernel.org>
+To:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     platform-driver-x86@vger.kernel.org
+Subject: [PATCH 06/87] drivers/char: convert to new inode {a,m}time accessors
+Date:   Thu, 28 Sep 2023 07:02:15 -0400
+Message-ID: <20230928110413.33032-5-jlayton@kernel.org>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230928110413.33032-1-jlayton@kernel.org>
+References: <20230928110300.32891-1-jlayton@kernel.org>
+ <20230928110413.33032-1-jlayton@kernel.org>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217947
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+ drivers/char/sonypi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- Comment #8 from Jiri Slaby (jirislaby@gmail.com) ---
-(In reply to Mark Pearson from comment #7)
-> OK - so (just to be sure) with those changes it is working correctly?
+diff --git a/drivers/char/sonypi.c b/drivers/char/sonypi.c
+index 9211531689b2..22d249333f53 100644
+--- a/drivers/char/sonypi.c
++++ b/drivers/char/sonypi.c
+@@ -920,7 +920,7 @@ static ssize_t sonypi_misc_read(struct file *file, char __user *buf,
+ 
+ 	if (ret > 0) {
+ 		struct inode *inode = file_inode(file);
+-		inode->i_atime = current_time(inode);
++		inode_set_atime_to_ts(inode, current_time(inode));
+ 	}
+ 
+ 	return ret;
+-- 
+2.41.0
 
-It appears so.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
