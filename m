@@ -2,277 +2,88 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CADBA7B7D95
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Oct 2023 12:57:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 113FA7B7DAA
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Oct 2023 13:01:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233001AbjJDK5H (ORCPT
+        id S242139AbjJDLBz convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 4 Oct 2023 06:57:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44062 "EHLO
+        Wed, 4 Oct 2023 07:01:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232814AbjJDK5H (ORCPT
+        with ESMTP id S241213AbjJDLBy (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 4 Oct 2023 06:57:07 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BD04A1;
-        Wed,  4 Oct 2023 03:57:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696417024; x=1727953024;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=w1S9SFXYcA6/N0hYlCaGZhlFJFvT8WtGofUIt8qSQyg=;
-  b=Oce6aCC+g2dvIXBhkHjNJCEayTCi/ZRwoJwr8uDwW3gZuoYFUjGKdNdE
-   2B3bWuM8gKKNiaV0ixvzcu56dY6X9Vt5uR4fjoUs7/735nd1jPR3KB4iG
-   NJIDL5QTz6mi58wbQL+S1GgbflUgvB4ma+RKZq3M0iys5BpNtk3ENaEH0
-   i4rnMvxhQpq91whwBHIVviyphE7LB01fpN8ETyg3CAfNC/VXdBu2zcjpd
-   SWw88Plf6w6ZyFOlia7Y41k/g9WziyjNGNtrV3KJtSscimWIBLfwGNPhB
-   NjnSEg3DWvlDWWHCMNZCqW+OqmkGEjT2vORu3fFzNzhDUM1hxcod911CS
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="383036916"
-X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
-   d="scan'208";a="383036916"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 03:56:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="780728105"
-X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
-   d="scan'208";a="780728105"
-Received: from cyrillet-mobl.ger.corp.intel.com ([10.252.55.203])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 03:56:48 -0700
-Date:   Wed, 4 Oct 2023 13:56:46 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-cc:     Hans de Goede <hdegoede@redhat.com>, markgross@kernel.org,
-        basavaraj.natikar@amd.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
-        christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
-        daniel@ffwll.ch, Patil.Reddy@amd.com, mario.limonciello@amd.com,
-        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 02/16] platform/x86/amd/pmf: Add support PMF-TA
- interaction
-In-Reply-To: <20230930083715.2050863-3-Shyam-sundar.S-k@amd.com>
-Message-ID: <a72a3cef-b5a0-bfbb-256d-7881f7496f9@linux.intel.com>
-References: <20230930083715.2050863-1-Shyam-sundar.S-k@amd.com> <20230930083715.2050863-3-Shyam-sundar.S-k@amd.com>
+        Wed, 4 Oct 2023 07:01:54 -0400
+Received: from esa2.hc5620-63.iphmx.com (esa2.hc5620-63.iphmx.com [68.232.149.158])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9F301D7;
+        Wed,  4 Oct 2023 04:01:50 -0700 (PDT)
+X-CSE-ConnectionGUID: Ms9vSxrrTtydB0UH7QF0kA==
+X-CSE-MsgGUID: sFF3UIOLR5i58YAOjhMTBg==
+Message-Id: <bc8e20$rk8u@esa2.hc5620-63.iphmx.com>
+X-IronPort-RemoteIP: 185.225.73.120
+X-IronPort-MID: 905502
+X-IronPort-Reputation: -5.6
+X-IronPort-Listener: MailFlow
+X-IronPort-SenderGroup: RELAY_O365
+X-IronPort-MailFlowPolicy: $RELAYED
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from unknown (HELO [185.225.73.120]) ([185.225.73.120])
+  by esa2.hc5620-63.iphmx.com with ESMTP; 04 Oct 2023 07:01:42 -0400
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: REMINDER
+To:     Recipients <test@mail2world.com>
+From:   "Mr. mohd" <test@mail2world.com>
+Date:   Wed, 04 Oct 2023 04:01:36 -0700
+Reply-To: mohamedabdulahmed1950@gmail.com
+X-Spam-Status: Yes, score=6.0 required=5.0 tests=BAYES_50,FREEMAIL_FROM,
+        FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,HK_NAME_FM_MR_MRS,
+        MSGID_FROM_MTA_HEADER,RCVD_IN_DNSWL_LOW,RCVD_IN_SBL,SPF_FAIL,
+        SPF_HELO_PASS,SPOOFED_FREEMAIL,SPOOFED_FREEM_REPTO,
+        TO_EQ_FM_DOM_SPF_FAIL,TO_EQ_FM_SPF_FAIL autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.1 RCVD_IN_SBL RBL: Received via a relay in Spamhaus SBL
+        *      [185.225.73.120 listed in zen.spamhaus.org]
+        * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at https://www.dnswl.org/,
+        *       low trust
+        *      [68.232.149.158 listed in list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [test[at]mail2world.com]
+        *  0.0 SPF_FAIL SPF: sender does not match SPF record (fail)
+        *      [SPF failed: Please see http://www.openspf.org/Why?s=mfrom;id=test%40mail2world.com;ip=68.232.149.158;r=lindbergh.monkeyblade.net]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [mohamedabdulahmed1950[at]gmail.com]
+        * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+        *  1.5 HK_NAME_FM_MR_MRS No description available.
+        *  0.0 MSGID_FROM_MTA_HEADER Message-Id was added by a relay
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  0.0 TO_EQ_FM_DOM_SPF_FAIL To domain == From domain and external SPF
+        *       failed
+        *  0.0 TO_EQ_FM_SPF_FAIL To == From and external SPF failed
+        *  2.0 SPOOFED_FREEMAIL No description available.
+        *  1.0 SPOOFED_FREEM_REPTO Forged freemail sender with freemail
+        *      reply-to
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sat, 30 Sep 2023, Shyam Sundar S K wrote:
 
-> PMF TA (Trusted Application) loads via the TEE environment into the
-> AMD ASP.
-> 
-> PMF-TA supports two commands:
-> 1) Init: Initialize the TA with the PMF Smart PC policy binary and
-> start the policy engine. A policy is a combination of inputs and
-> outputs, where;
->  - the inputs are the changing dynamics of the system like the user
->    behaviour, system heuristics etc.
->  - the outputs, which are the actions to be set on the system which
->    lead to better power management and enhanced user experience.
-> 
-> PMF driver acts as a central manager in this case to supply the
-> inputs required to the TA (either by getting the information from
-> the other kernel subsystems or from userland)
-> 
-> 2) Enact: Enact the output actions from the TA. The action could be
-> applying a new thermal limit to boost/throttle the power limits or
-> change system behavior.
-> 
-> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
-> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> ---
->  drivers/platform/x86/amd/pmf/pmf.h    | 10 +++
->  drivers/platform/x86/amd/pmf/tee-if.c | 97 ++++++++++++++++++++++++++-
->  2 files changed, 106 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
-> index 02460c2a31ea..e0837799f521 100644
-> --- a/drivers/platform/x86/amd/pmf/pmf.h
-> +++ b/drivers/platform/x86/amd/pmf/pmf.h
-> @@ -59,6 +59,9 @@
->  #define ARG_NONE 0
->  #define AVG_SAMPLE_SIZE 3
->  
-> +/* TA macros */
-> +#define PMF_TA_IF_VERSION_MAJOR				1
-> +
->  /* AMD PMF BIOS interfaces */
->  struct apmf_verify_interface {
->  	u16 size;
-> @@ -184,6 +187,7 @@ struct amd_pmf_dev {
->  	struct tee_shm *fw_shm_pool;
->  	u32 session_id;
->  	void *shbuf;
-> +	struct delayed_work pb_work;
->  	bool smart_pc_enabled;
->  };
->  
-> @@ -395,6 +399,12 @@ struct apmf_dyn_slider_output {
->  	struct apmf_cnqf_power_set ps[APMF_CNQF_MAX];
->  } __packed;
->  
-> +/* cmd ids for TA communication */
-> +enum ta_pmf_command {
-> +	TA_PMF_COMMAND_POLICY_BUILDER_INITIALIZE,
-> +	TA_PMF_COMMAND_POLICY_BUILDER_ENACT_POLICIES,
-> +};
-> +
->  struct ta_pmf_shared_memory {
->  	int command_id;
->  	int resp_id;
-> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
-> index 4db80ca59a11..1b3985cd7c08 100644
-> --- a/drivers/platform/x86/amd/pmf/tee-if.c
-> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
-> @@ -13,9 +13,96 @@
->  #include "pmf.h"
->  
->  #define MAX_TEE_PARAM	4
-> +
-> +/* Policy binary actions sampling frequency (in ms) */
-> +static int pb_actions_ms = 1000;
-> +#ifdef CONFIG_AMD_PMF_DEBUG
-> +module_param(pb_actions_ms, int, 0644);
-> +MODULE_PARM_DESC(pb_actions_ms, "Policy binary actions sampling frequency (default = 1000ms)");
-> +#endif
-> +
->  static const uuid_t amd_pmf_ta_uuid = UUID_INIT(0x6fd93b77, 0x3fb8, 0x524d,
->  						0xb1, 0x2d, 0xc5, 0x29, 0xb1, 0x3d, 0x85, 0x43);
->  
-> +static void amd_pmf_prepare_args(struct amd_pmf_dev *dev, int cmd,
-> +				 struct tee_ioctl_invoke_arg *arg,
-> +				 struct tee_param *param)
-> +{
-> +	memset(arg, 0, sizeof(*arg));
-> +	memset(param, 0, MAX_TEE_PARAM * sizeof(*param));
-> +
-> +	arg->func = cmd;
-> +	arg->session = dev->session_id;
-> +	arg->num_params = MAX_TEE_PARAM;
-> +
-> +	/* Fill invoke cmd params */
-> +	param[0].u.memref.size = sizeof(struct ta_pmf_shared_memory);
-> +	param[0].attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT;
-> +	param[0].u.memref.shm = dev->fw_shm_pool;
-> +	param[0].u.memref.shm_offs = 0;
-> +}
-> +
-> +static int amd_pmf_invoke_cmd_enact(struct amd_pmf_dev *dev)
-> +{
-> +	struct ta_pmf_shared_memory *ta_sm = NULL;
-> +	struct tee_param param[MAX_TEE_PARAM];
-> +	struct tee_ioctl_invoke_arg arg;
-> +	int ret = 0;
-> +
-> +	if (!dev->tee_ctx)
-> +		return -ENODEV;
-> +
-> +	ta_sm = (struct ta_pmf_shared_memory *)dev->shbuf;
+Dear
+My name is Mohamed Abdul I have the capacity to inject a considerable
+amount of capital in any viable project 
+1,cell phone number what-sap
+2,full name
 
-Don't cast from void * to a typed pointer, it's unnecessary as compiler 
-will handle that for you.
 
-> +	memset(ta_sm, 0, sizeof(struct ta_pmf_shared_memory));
-
-sizeof(*ta_sm) to be on the safer side of things.
-
-> +	ta_sm->command_id = TA_PMF_COMMAND_POLICY_BUILDER_ENACT_POLICIES;
-> +	ta_sm->if_version = PMF_TA_IF_VERSION_MAJOR;
-> +
-> +	amd_pmf_prepare_args(dev, TA_PMF_COMMAND_POLICY_BUILDER_ENACT_POLICIES, &arg, param);
-> +
-> +	ret = tee_client_invoke_func(dev->tee_ctx, &arg, param);
-> +	if (ret < 0 || arg.ret != 0) {
-> +		dev_err(dev->dev, "TEE enact cmd failed. err: %x, ret:%x\n", arg.ret, ret);
-
--Exx code should be printed as %x
-
-> +		return -EINVAL;
-
-This overrides the original error code if ret < 0.
-
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int amd_pmf_invoke_cmd_init(struct amd_pmf_dev *dev)
-> +{
-> +	struct ta_pmf_shared_memory *ta_sm = NULL;
-> +	struct tee_param param[MAX_TEE_PARAM];
-> +	struct tee_ioctl_invoke_arg arg;
-> +	int ret = 0;
-> +
-> +	if (!dev->tee_ctx) {
-> +		dev_err(dev->dev, "Failed to get TEE context\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	ta_sm = (struct ta_pmf_shared_memory *)dev->shbuf;
-
-Unnecessary cast from void *.
-
-> +	ta_sm->command_id = TA_PMF_COMMAND_POLICY_BUILDER_INITIALIZE;
-> +	ta_sm->if_version = PMF_TA_IF_VERSION_MAJOR;
-> +
-> +	amd_pmf_prepare_args(dev, TA_PMF_COMMAND_POLICY_BUILDER_INITIALIZE, &arg, param);
-> +
-> +	ret = tee_client_invoke_func(dev->tee_ctx, &arg, param);
-> +	if (ret < 0 || arg.ret != 0) {
-> +		dev_err(dev->dev, "Failed to invoke TEE init cmd. err: %x, ret:%x\n", arg.ret, ret);
-> +		return -EINVAL;
-
-As per earlier comments (x2).
-
-> +	}
-> +
-> +	return ta_sm->pmf_result;
-> +}
-> +
-> +static void amd_pmf_invoke_cmd(struct work_struct *work)
-> +{
-> +	struct amd_pmf_dev *dev = container_of(work, struct amd_pmf_dev, pb_work.work);
-> +
-> +	amd_pmf_invoke_cmd_enact(dev);
-> +	schedule_delayed_work(&dev->pb_work, msecs_to_jiffies(pb_actions_ms));
-> +}
-> +
->  static int amd_pmf_amdtee_ta_match(struct tee_ioctl_version_data *ver, const void *data)
->  {
->  	return ver->impl_id == TEE_IMPL_ID_AMDTEE;
-> @@ -103,10 +190,18 @@ static void amd_pmf_tee_deinit(struct amd_pmf_dev *dev)
->  
->  int amd_pmf_init_smart_pc(struct amd_pmf_dev *dev)
->  {
-> -	return amd_pmf_tee_init(dev);
-> +	int ret;
-> +
-> +	ret = amd_pmf_tee_init(dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	INIT_DELAYED_WORK(&dev->pb_work, amd_pmf_invoke_cmd);
-> +	return 0;
->  }
->  
->  void amd_pmf_deinit_smart_pc(struct amd_pmf_dev *dev)
->  {
-> +	cancel_delayed_work_sync(&dev->pb_work);
->  	amd_pmf_tee_deinit(dev);
->  }
-> 
-
--- 
- i.
-
+yours truly
+Mohamed Abdul Ahmed
