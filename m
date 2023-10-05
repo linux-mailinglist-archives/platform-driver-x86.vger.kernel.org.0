@@ -2,86 +2,104 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A2057B9EA1
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Oct 2023 16:10:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77E247BA00C
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Oct 2023 16:33:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232004AbjJEOJU (ORCPT
+        id S234704AbjJEObs (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 5 Oct 2023 10:09:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33924 "EHLO
+        Thu, 5 Oct 2023 10:31:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231906AbjJEOHR (ORCPT
+        with ESMTP id S234049AbjJEO3q (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 5 Oct 2023 10:07:17 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BD9F10C1;
-        Thu,  5 Oct 2023 06:48:31 -0700 (PDT)
+        Thu, 5 Oct 2023 10:29:46 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97F631FD4
+        for <platform-driver-x86@vger.kernel.org>; Thu,  5 Oct 2023 06:50:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696513712; x=1728049712;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ov3uZERNNKNe8VXagBJx34KCc0xbHymNQE9Hhsq5WBQ=;
-  b=IpWlq0ZzAn72psRKGqfE9zs00OhuFqZzfD6hpr2cqc3tVeBksKy7xQ5i
-   +KFKteO7RxHK7mozER1AQWN9MCoBTG/OuY3PY8j5cps6mcdJKrnfDCAo2
-   kzUakwz2NRGDPn+oGzgaSjE+Ia1XkHtK697ktB7hmUmupJpkxH2XIrIGl
-   RsYSJ/jjWdE+48j2LG37r3QpGSvl+doqJwlbBQgORa/7fxPtnpK7FW7W+
-   Yf56B3nAZ7TJ3M27t5DkM7S4irvhduoZU/YWssHKA4F5ruBdv3gq6GIeE
-   WpCT/9l45AFk+T2KOzkwz4iQZGBp5Ij/sGzdYT42HNymAfAo38DgceKE8
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="469718401"
+  t=1696513803; x=1728049803;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=7m8xigl3pQ3HwPCq6e+KHKmw0CgfU0q0399/m1eEl9w=;
+  b=YXCwNX87fO5tyKwklFE4WveHdrZPKpXj7TA40rS+kfKW14gjr4rwj6Z8
+   VxVWxEICrNzII6B8FPl9zIAdrYPWCCI1Sf6Xxtzc94xWADbzVN+geE6wS
+   xORTtkXDlxYOryzS2KHUyxGIEppO97abqUYl7b3kohtJwhfqegpEwH9Ek
+   GOmGdhyaL/jIOVn0Zh/zVPnfl6ZRo7w0PwOGS9FnBbAc4vMfGQReMmowI
+   IBOI4MuUjLKUdzqog6/+Cb4WVYOu/Cr+bRtoH06ut/+8ol6X8u0JXDE8G
+   QY3HYlM/4Z7wgvVx4lGQn48GvBBihHMTG9t6n4vP9AInJtGHLnqCxx1mC
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="383361736"
 X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="469718401"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 01:59:40 -0700
+   d="scan'208";a="383361736"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 03:16:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="745375831"
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="781194818"
 X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="745375831"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 01:59:38 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC1)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qoKCl-00000002yrg-1efJ;
-        Thu, 05 Oct 2023 11:59:35 +0300
-Date:   Thu, 5 Oct 2023 11:59:35 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        markgross@kernel.org, ilpo.jarvinen@linux.intel.com,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [UPDATE][PATCH] platform/x86/intel-uncore-freq: Conditionally
- create attribute for read frequency
-Message-ID: <ZR569/9k5YWomvFB@smile.fi.intel.com>
-References: <20231004181915.1887913-1-srinivas.pandruvada@linux.intel.com>
- <e84bc80e-1fd9-f07b-526a-b4eb4780ea9b@redhat.com>
+   d="scan'208";a="781194818"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO ijarvine-mobl2.mshome.net) ([10.237.66.45])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 03:16:01 -0700
+Date:   Thu, 5 Oct 2023 13:15:55 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+cc:     markgross@kernel.org, Sanket.Goswami@amd.com,
+        mario.limonciello@amd.com, platform-driver-x86@vger.kernel.org,
+        Harsh Jain <Harsh.Jain@amd.com>
+Subject: Re: [PATCH v4 2/2] platform/x86/amd/pmc: Add dump_custom_stb module
+ parameter
+In-Reply-To: <47babe3e-052f-d816-9789-5c8ae4728e78@redhat.com>
+Message-ID: <6d9a33d-3c92-3e24-3843-1084af1f516b@linux.intel.com>
+References: <20230910142034.2967110-1-Shyam-sundar.S-k@amd.com> <20230910142034.2967110-2-Shyam-sundar.S-k@amd.com> <b3e4acdc-c031-cf00-b972-bc11e3933799@redhat.com> <ac5a328e-48ab-4e21-ad8a-72518d0952cb@amd.com> <5c6625ba-c2f0-6510-c1ea-3005a9c16e14@redhat.com>
+ <844d0ef1-a09c-4c8a-aa14-d3487e3289f9@amd.com> <47babe3e-052f-d816-9789-5c8ae4728e78@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e84bc80e-1fd9-f07b-526a-b4eb4780ea9b@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Oct 05, 2023 at 09:03:20AM +0200, Hans de Goede wrote:
-> On 10/4/23 20:19, Srinivas Pandruvada wrote:
+On Wed, 4 Oct 2023, Hans de Goede wrote:
+> On 10/4/23 14:11, Shyam Sundar S K wrote:
+> > Thank you for the detailed feedback. I will make these changes and see
+> > if that helps - will need some time do tests and come back on this.
+> > 
+> > Meanwhile, is it OK for you to take changes in v4 1/2 atleast? So that
+> > I don't need to respin it again (assuming there are no remarks for 1/2).
+> 
+> Note I have a new pdx86 co-maintainer Ilpo who is merging the patches
+> leading up to the 6.7 merge window (Ilpo and I plan to take turns for this).
+> 
+> IMHO it will be easier for Ilpo to merge the whole series in one
+> go when it is ready.
 
-…
+I can take single patches just as easily as the whole series as my tools 
+anyway explode the whole series into individual patches as an intermediate 
+step.
 
-> Can you for future updated patches please use the ususal [PATCH v2],
-> [PATCH v3], etc. prefix ?
+I'll look into it tomorrow. There seemed to be one whitespace issue in the 
+debug print but I can deal with that myself while applying but other than 
+that, 1/2 seems fine to me.
 
-Side note: the `git format-patch ...` has -vX option, where X is a version.
+(In general, I personally prefer forward progress over posting the same 
+patches over and over because something in the same serie requires more 
+work).
+
+> Note when addressing my remarks please split any fixes for the existing
+> functionality out into separate patches vs the new dump_custom_stb
+> support.
+
+Also, the kzalloc() move + ->fsize addition could be in own patch so the 
+actual dump_custom_stb patch itself becomes a lot simpler than it 
+currently is.
+
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+ i.
 
