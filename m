@@ -2,151 +2,126 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 054147BA3BD
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Oct 2023 17:59:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77C747B9ED4
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Oct 2023 16:13:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236335AbjJEP6b (ORCPT
+        id S229567AbjJEONv (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 5 Oct 2023 11:58:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50754 "EHLO
+        Thu, 5 Oct 2023 10:13:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237178AbjJEP5g (ORCPT
+        with ESMTP id S233103AbjJEOLr (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 5 Oct 2023 11:57:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60BF057EC3
-        for <platform-driver-x86@vger.kernel.org>; Thu,  5 Oct 2023 07:06:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1696514762;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=H+dL1KNRLmzSbL5JPUc0aKfIeaA78X3WrQS6IGVzbKs=;
-        b=E8dEfBpxl0qhLBZX3LLR0IY7bek8WgGA3fDVfcmdCd6k1emXNuodWfFyTKLpp+yvr2T0Ee
-        7Ragxa4J/MuRxZLQDQ1/ga3sbvtDAvgBsttdTvaFKbTsWhpl1qWtjvkm2WvpgyNTQjDWFa
-        dcSFmu9QgNJB5SYDkMw3oNHnopDmoig=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-623-cMcnZu9-MWSCZ34xaYruvg-1; Thu, 05 Oct 2023 03:03:24 -0400
-X-MC-Unique: cMcnZu9-MWSCZ34xaYruvg-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-9ae686dafedso56469066b.3
-        for <platform-driver-x86@vger.kernel.org>; Thu, 05 Oct 2023 00:03:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696489402; x=1697094202;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=H+dL1KNRLmzSbL5JPUc0aKfIeaA78X3WrQS6IGVzbKs=;
-        b=Xof8Z7OL04BjuFAcZqii24Z0mCn+OHFm7OMflxfqbQQRna7yI7Q3BgL5vDXyKnmSiB
-         9NpijoNBb9AxNboRhF6iT0HYFQIyNtUIjqNkhmySFPgPVs19Tlyk4vTLpneh+w69h7cz
-         YqXe7GFAd9Bhm0rfRByLJzLPec0Mvp5VCeotZU3fnYFG8ibBPtNBKonREell45QMiRm6
-         WK/6pSh92c10GiHB8JLgaTvDvsVEJeIrNx+shhGHTZxD2ZYQDX2OaYChFoW/huiZzjGW
-         8ToZygv4fqT8ytXmPafFRsE8pkG96LaI7UyGHetCCfS8qW39QFo3to5cxxl9+L73JCkv
-         erSg==
-X-Gm-Message-State: AOJu0YyCMFjw3lvGnZPmLVL9nxZ9nIeyzrPLjsbBVw2chH4DDfFvNdSJ
-        uVNl6wwxLI3nJJcett4eUft3dago0M9MTUan5iIMhIbfVMbIydWJPc9tCX1iu2aNYXcVY1Uz6AB
-        1KL18StZp3CoW8MPbyATst4MCDhDuXLcbZj01A/TbRw==
-X-Received: by 2002:a17:907:760f:b0:9ad:78b7:29ea with SMTP id jx15-20020a170907760f00b009ad78b729eamr4046562ejc.44.1696489402707;
-        Thu, 05 Oct 2023 00:03:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG1Rc1hKtAv9AbyjDBdjArCvg7E8aI+Ubhssmr7NRq4YBr1jS0x6lbR/m9GaK/OyCzetgeJbg==
-X-Received: by 2002:a17:907:760f:b0:9ad:78b7:29ea with SMTP id jx15-20020a170907760f00b009ad78b729eamr4046544ejc.44.1696489402388;
-        Thu, 05 Oct 2023 00:03:22 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id o6-20020a17090611c600b009ad875d12d7sm644357eja.210.2023.10.05.00.03.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Oct 2023 00:03:21 -0700 (PDT)
-Message-ID: <e84bc80e-1fd9-f07b-526a-b4eb4780ea9b@redhat.com>
-Date:   Thu, 5 Oct 2023 09:03:20 +0200
+        Thu, 5 Oct 2023 10:11:47 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on20602.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe59::602])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADD2D83DD
+        for <platform-driver-x86@vger.kernel.org>; Thu,  5 Oct 2023 00:57:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=it4TBoA8sIVb4rJWOcxzEfXI12TUpfmORn0c7crLESiM9A9FOs4ikU1RJdpCCUr952lQuj0Yepse3QwUUO/5/CRumI/C4oMr8ZySo/hj+irNxZ6rqPaGNDnS8ZXwMiCfewVHknCFs/aYApPYmvxBFqA/PXJ2nvbece8n0OieqFT6L76K2TrujGJi9FlArsC36iY1J3YHBOmyjbQPPY2Pz1xnNPbhnHCLhmmH7eKqKZx7YeLyxX9eqvk1IVP2YvOgPATNlzma6wQC8aF9e7nUlVvrir+sjxCGSH70HMs6LUW13MXojeNTXxLRfXcqReqrfaJWIk6L2OE0AqyKEXCEBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=o9x06fgqCtpATNRw5dAFG4Towo7yIj2o+Y1vJzOuH+8=;
+ b=ISUie2fSe22yHJaTDjQ/kZIBg7kWrn2SWwJGj30TdIVx+yhMLPZkFIf8ruaDOBID5igTBmKXByRrrMCISuPckNsECTwfgsNLWgOXR82MzhA7NJK6L27IFZp50dm51RpZVjYKxVORLnq2ckfsiDTFA1T8khcpNuTRQkuZtpe5NM/65n6Y9fjCQtDKpFEZBynQm067/XiIT7WhwGJhWIDXdeYg6pRw8+6pY0q/6C0sAuDRgENp1NKU9zIJwdQjEOaCqKpOVKkMtVWbkAONOUR+LHDDNTdS/thCqt1F+2xPl2qguexKUDxf7vF+nroyks6cMsJDuzxcaOa/mCBRxufCcQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o9x06fgqCtpATNRw5dAFG4Towo7yIj2o+Y1vJzOuH+8=;
+ b=pnPbCYveZ/hbrvaQlMR9md0h4OsCfsw68pdO/+eSQSEwyYhXT9SjMd806qlhq6+GmzlF808V+aOCrTsh5n7blGo7QYZ2NYybq19RYeqbBjEDwauYJvGCRaL+juQLImW2DiauUGiY+8PFYIzyCgTEC5hfn9IadfJkalpoEjurmaT/VrOFUKLOtm1GI2DqJKziqgVPntEQ4BsODdSAIEiJJFoFA1Yf/O6DyALcWoskdRTIR6c5uEm18J9wfBFeTyqHX/iUZNeIz1mXlY1UkzN55ZNf+C1zt1S4fI5HOVS0R2j+lnpgASPlcQHoCP5QF0tqlsf8EPgaO6SSLZLhNhb7KQ==
+Received: from SJ0PR05CA0152.namprd05.prod.outlook.com (2603:10b6:a03:339::7)
+ by BY5PR12MB4306.namprd12.prod.outlook.com (2603:10b6:a03:206::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.31; Thu, 5 Oct
+ 2023 07:56:52 +0000
+Received: from CO1PEPF000044EF.namprd05.prod.outlook.com
+ (2603:10b6:a03:339:cafe::11) by SJ0PR05CA0152.outlook.office365.com
+ (2603:10b6:a03:339::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.26 via Frontend
+ Transport; Thu, 5 Oct 2023 07:56:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CO1PEPF000044EF.mail.protection.outlook.com (10.167.241.69) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6838.14 via Frontend Transport; Thu, 5 Oct 2023 07:56:52 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 5 Oct 2023
+ 00:56:36 -0700
+Received: from r-build-bsp-02.mtr.labs.mlnx (10.126.231.35) by
+ rnnvmail202.nvidia.com (10.129.68.7) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.41; Thu, 5 Oct 2023 00:56:35 -0700
+From:   Vadim Pasternak <vadimp@nvidia.com>
+To:     <hdegoede@redhat.com>, <ilpo.jarvinen@linux.intel.com>
+CC:     <christophe.jaillet@wanadoo.fr>,
+        <platform-driver-x86@vger.kernel.org>,
+        Vadim Pasternak <vadimp@nvidia.com>
+Subject: [PATCH platform 0/3] platform/x86: Add fixes and amendments for init()/exit() flows
+Date:   Thu, 5 Oct 2023 07:56:13 +0000
+Message-ID: <20231005075616.42777-1-vadimp@nvidia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [UPDATE][PATCH] platform/x86/intel-uncore-freq: Conditionally
- create attribute for read frequency
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        markgross@kernel.org, ilpo.jarvinen@linux.intel.com,
-        andriy.shevchenko@linux.intel.com
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231004181915.1887913-1-srinivas.pandruvada@linux.intel.com>
-Content-Language: en-US, nl
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231004181915.1887913-1-srinivas.pandruvada@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.231.35]
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail202.nvidia.com (10.129.68.7)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044EF:EE_|BY5PR12MB4306:EE_
+X-MS-Office365-Filtering-Correlation-Id: 887b39dc-089f-440b-79fd-08dbc578a30a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9pgowr9eerg0gM1TV4Ov6VnM3fbrsmrK3DvzgPdNDvL4Ogg+yC20T+Yr7kdn/sJP87LMXg7ptu9Q7I+kexu+MELrdPCBb5rR5yrs1bBExM2u6d5rxP4PiEOSDP+9e2YYZNA36zl1sB2e5sy4t7Xml3MnI/OtYVh7WgDrH0Ji8nzniF/uN2cVhtq9iNZEafN5D1ktTxEZEuK3ozZ0dZ/aGx+B2Cb4xpbjeMjU/oXK7Bhm6eBEgRUUZ7NGVy4r81kl7Li0+lk/34nA1fy/xkDTa6ark+KxGgEVs8LpjJV3JQKClmhz9z5yM4P5tXrCIIrNSlWSoj6WIG3AjHZWlKVwBfNUgYJjihVCyMnW3IhAvu4Y/zvJfOPnMLXeLCNGDSPorNolZxZPX+Bf039O4bSrJVS7YNHA18lkr31vfv1a+nVkvUs0bkhsHnF/s6Y+Js6xUKT+JWbhlRIPBAddiq0rBlUNvISanIiA1WCivHi9Y3BseujRKasBqQRQkFMnC/PDM9K5lzqQuHOOc1pyqTR/SKlYxgGNBTaI5VaAbpVoCiXBwitVus5naVSWZNSkjiA1A00zlzsQf7czWH3sApRK2IvfDpbLHBI4Mgmvr//yws4GQV3a+T2Uzubhseo+2jO8G9A1UPROmRjDTZs+E9oXXJLEjgyZrsor3r5oFitIFmfqbKwqsaYz9Uxz1uAFg0QsKuin1DpMihbuKlcWCFqCEMmVCWc/jqIW9gTNPf3VSFo2bFFDqaltZDWtAJnYG6lb
+X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(376002)(396003)(39860400002)(346002)(136003)(230922051799003)(451199024)(64100799003)(186009)(1800799009)(82310400011)(40470700004)(46966006)(36840700001)(40460700003)(6666004)(1076003)(110136005)(83380400001)(478600001)(36860700001)(7636003)(47076005)(86362001)(82740400003)(356005)(41300700001)(2906002)(40480700001)(316002)(16526019)(26005)(336012)(8676002)(107886003)(426003)(2616005)(8936002)(36756003)(70586007)(70206006)(54906003)(5660300002)(4326008)(4744005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2023 07:56:52.4396
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 887b39dc-089f-440b-79fd-08dbc578a30a
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044EF.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4306
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_NONE,URIBL_BLOCKED
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Srinivas,
+The patchset:
+- Fixes memory leak in error handling flow.
+- Add cosmetic changes - misspelling fix, better naming/
 
-On 10/4/23 20:19, Srinivas Pandruvada wrote:
-> When the current uncore frequency can't be read, don't create attribute
-> "current_freq_khz" as any read will fail later. Some user space
-> applications like turbostat fail to continue with the failure. So, check
-> error during attribute creation.
-> 
-> Fixes: 414eef27283a ("platform/x86/intel/uncore-freq: Display uncore current frequency")
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> ---
-> Added fixes tag which added current_freq_khz. But after this
-> tag there is reorg of code, so need manual backport for some versions.
-> I will separately submit to stable trees after merge.
+Patches #1: Fixes memory leak issue.
+Patch #2: Fix misspelling.
+Patches #3: Renames few routines for better naming convention.
 
-Can you for future updated patches please use the ususal [PATCH v2],
-[PATCH v3], etc. prefix ?
+Vadim Pasternak (3):
+  platform: mellanox: Fix a resource leak in an error handling path in
+    probing flow
+  platform: mellanox: Fix misspelling error in routine name
+  platform: mellanox: Rename some init()/exit() functions for consistent
+    naming
 
-Also please document the changes per version after the cutline, e.g. :
+ drivers/platform/x86/mlx-platform.c | 29 +++++++++++++++--------------
+ 1 file changed, 15 insertions(+), 14 deletions(-)
 
-```
----
-Changes in v2:
-- Added fixes tag which added current_freq_khz. Note after this
-  tag there is reorg of code, so need manual backport for some versions.
-  I will separately submit to stable trees after merge.
-```
-
-Regards,
-
-Hans
-
-
-
-
-> 
->  .../x86/intel/uncore-frequency/uncore-frequency-common.c  | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-common.c b/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-common.c
-> index 1152deaa0078..33ab207493e3 100644
-> --- a/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-common.c
-> +++ b/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-common.c
-> @@ -176,7 +176,7 @@ show_uncore_data(initial_max_freq_khz);
->  
->  static int create_attr_group(struct uncore_data *data, char *name)
->  {
-> -	int ret, index = 0;
-> +	int ret, freq, index = 0;
->  
->  	init_attribute_rw(max_freq_khz);
->  	init_attribute_rw(min_freq_khz);
-> @@ -197,7 +197,11 @@ static int create_attr_group(struct uncore_data *data, char *name)
->  	data->uncore_attrs[index++] = &data->min_freq_khz_dev_attr.attr;
->  	data->uncore_attrs[index++] = &data->initial_min_freq_khz_dev_attr.attr;
->  	data->uncore_attrs[index++] = &data->initial_max_freq_khz_dev_attr.attr;
-> -	data->uncore_attrs[index++] = &data->current_freq_khz_dev_attr.attr;
-> +
-> +	ret = uncore_read_freq(data, &freq);
-> +	if (!ret)
-> +		data->uncore_attrs[index++] = &data->current_freq_khz_dev_attr.attr;
-> +
->  	data->uncore_attrs[index] = NULL;
->  
->  	data->uncore_attr_group.name = name;
+-- 
+2.20.1
 
