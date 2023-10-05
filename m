@@ -2,62 +2,96 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 405A67BA310
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Oct 2023 17:51:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27E657BA690
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Oct 2023 18:39:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234209AbjJEPvt (ORCPT
+        id S230047AbjJEQip (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 5 Oct 2023 11:51:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43570 "EHLO
+        Thu, 5 Oct 2023 12:38:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233852AbjJEPu5 (ORCPT
+        with ESMTP id S231499AbjJEQiS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 5 Oct 2023 11:50:57 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CFD84C1F;
-        Thu,  5 Oct 2023 07:08:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696514895; x=1728050895;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=0Tq9eA/QxMDW3W69me2+EdhY679btO9W9v2DGaUbaQ0=;
-  b=Gc6bGUI5yI1wR49tZxHGe1b9389CjxZYTl0NcxKx+94mO4ZQbg0mDwzQ
-   4j6r6j/CSQig6x1FzH+GWbw7d05W7hfTaKTjaXBDDNOk8K1cGzda/gYsZ
-   B0+wAEOuEMcoVbCMukDtpvkdTSqgK0l/JaOgKHruHVLTr2Fm3F9zgX8Qn
-   tasm/YceIAPX2B6o7ueHCQa6MEoaJFlBsyhby7oiDqSKEyJFIl8Ks2gih
-   qNcAHcnvjy25xK59GfJhlWvEFeCLY5fn77tPeo3Xqk/wOryJQIKqnawvN
-   57ZxWPbjJG8SmB96jyfb+aCdCTaZ4u7pCkfHUV7Rp1rmJoFfk4ggmT193
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="380784670"
-X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="380784670"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 07:07:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="842402965"
-X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="842402965"
-Received: from spandruv-desk1.amr.corp.intel.com ([10.212.218.87])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 07:07:59 -0700
-Message-ID: <5dda866185a286e61f949a48e04ff1ea6b3a5b03.camel@linux.intel.com>
-Subject: Re: [UPDATE][PATCH] platform/x86/intel-uncore-freq: Conditionally
- create attribute for read frequency
-From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>, markgross@kernel.org,
-        ilpo.jarvinen@linux.intel.com, andriy.shevchenko@linux.intel.com
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Thu, 05 Oct 2023 07:07:58 -0700
-In-Reply-To: <e84bc80e-1fd9-f07b-526a-b4eb4780ea9b@redhat.com>
-References: <20231004181915.1887913-1-srinivas.pandruvada@linux.intel.com>
-         <e84bc80e-1fd9-f07b-526a-b4eb4780ea9b@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        Thu, 5 Oct 2023 12:38:18 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on20600.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eae::600])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A894559A
+        for <platform-driver-x86@vger.kernel.org>; Wed,  4 Oct 2023 22:40:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K4gOJiGnHaP+oAPW2/c8IOizp2DCAN5oyQUF13xje1jlBYh8s0Ye1APObSeRotXvzwP68fzty0btww7ltIiKc6ERsQjFo8iFynEvmDK+WeGUabZQ2xXVo5Q4ESHfAZ+2DhTMzGYJMp6rdTz9ryMf5g8OE6/Zshz0BHCHljkr5WU36jRqLdc//j+uAALVx0cMhK6LJEzeKg3EUDeEYw70w7C8GpYE8IwqE61mq8Q5UJ7cIxFAALou/apoz5REtDvhGMCLsRlY1gxRUjuWzCNmaqEdzJdBDEhlEsLyau52+VKs0YmozqU75yCC5rkAdVLqaw/w3ExlqNWZDH+Bm+8J+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sxR6fAGoLEzz0oVY5RwBn9jPHVzGMOIy7wLEfJtwrEY=;
+ b=crjbpKuDVQpFysX8NwdLNJ/ntSprWZrMLWHfSL0oyPkEhV08APhXCkE6xImpfTIwvbGfX6ufN+m7v5SoTu770QFdcYk/A5uJxsnzQkrs2Dxobn14YCB4rDHw/WZnxtVb9YMAwdN763iRDfZxcioOnq6172y7uqnpHlkgHbBFj6m+RUzLOFevzLGw6SCiSVwO/e04+2KearaYn2qOxAlR/2NKjT900AL4PqiNg3XEtw/5BY2pWKxMrmFnNY+6FIaWhBXS1U1yZNHnvlnrom/tLCvJtVkxLL/OPNM23sCLfidwlWdqRRHWlpQnkx5CQN7WeN6sykUu7II1trJH7duBcg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sxR6fAGoLEzz0oVY5RwBn9jPHVzGMOIy7wLEfJtwrEY=;
+ b=trgtKqWP/P9oXm4NmEZJ60xO0YXHg8s7FMqDeBLRYauIJMx+rlWPEOKyiobkRfe2+V2g7JONo5W/cZEF6PhjUX2LNeniEvNsjmFeB+1wkXHBRV+jJ9pyD1NmtZgrPpp2OLx6gZEX49k6pq6nkyhSWh3Mktqt4U8p/nXTOE6ZM2U=
+Received: from MW4PR04CA0316.namprd04.prod.outlook.com (2603:10b6:303:82::21)
+ by DM6PR12MB4385.namprd12.prod.outlook.com (2603:10b6:5:2a6::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.33; Thu, 5 Oct
+ 2023 05:39:58 +0000
+Received: from CO1PEPF000044FA.namprd21.prod.outlook.com
+ (2603:10b6:303:82:cafe::b) by MW4PR04CA0316.outlook.office365.com
+ (2603:10b6:303:82::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.25 via Frontend
+ Transport; Thu, 5 Oct 2023 05:39:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1PEPF000044FA.mail.protection.outlook.com (10.167.241.200) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6863.20 via Frontend Transport; Thu, 5 Oct 2023 05:39:57 +0000
+Received: from amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 5 Oct
+ 2023 00:39:55 -0500
+From:   Suma Hegde <suma.hegde@amd.com>
+To:     <platform-driver-x86@vger.kernel.org>
+CC:     <ilpo.jarvinen@linux.intel.com>, <hdegoede@redhat.com>,
+        Suma Hegde <suma.hegde@amd.com>,
+        Naveen Krishna Chatradhi <nchatrad@amd.com>
+Subject: [PATCH v4 1/3] platform/x86/amd/hsmp: create plat specific struct
+Date:   Thu, 5 Oct 2023 05:39:30 +0000
+Message-ID: <20231005053932.149497-1-suma.hegde@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044FA:EE_|DM6PR12MB4385:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0ac30ec7-ceed-49e3-a704-08dbc56582c1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Podu97AgJCq+AW6ADyspyLum6ERx1jUZkZXFe2Orz8SfN9Pzax1mQ5fPYOBaASkvxsVCu07S9IVNlYOkl5kBqGI3rGi6YtmsqAxiu8h5ZCIRV8+48M2ypZf/JKTaJ884exEA8E5qAJswxVzbzBMekdrVF9QQ9xabEcGi6aGSnmI71CVlnrQ9FCKpCJwsl0gncEz2WKmwVTAveLlX8CfK4OEydepBPKu3SSaEPfgZJ3mrMdPwN3M/S9Nnd/atwB4P5s+F17u8kVAspJXcVtH3CPtPLDAqjRrWjq1dfWzykR/CsRzz4u6OQ0c9h/zM/o72iWBPtgRxjDeyn5BNFsCQIxlySGuspKYtHjL0rQ7Gm37ygTLjfhPOfbwIPpAPk1sf77GVEl4ct25s2KFw4nfzROvWs53OR2HAw78KDu+cPitIfxR2vVwtVey5LADmcdu/o6h8HfvYEXsYIil5HF5IArzDxapOnXTGtAwX9VTgggN9Erm08zGfXEK402tDNp75ibBBxRKbvrVeYw4+V02QjyNtfgeV82J3okUO/0rVNwQlLAStCsT/Xos7KEn1xfKSTRl32vpkRcG2eulK0Ts0jth+uCH/g7tXexeTpzV49n++w5pHxbBCw8rO7l5T64D4tawTmRjCV3CRzgCrVpn/N13+StuvpE+cGrWsfAz84dmMcNiVEgGIYjUMiDH6G9HI5MFrxl+7zrcA/sKhUjeMBkodMruSLhegzoDGHK8DHEkzuL8dO9QzLYE7rAGG0ecfamDkTLNojgEGeX7jd1qY4w==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(39860400002)(136003)(346002)(376002)(230922051799003)(82310400011)(186009)(64100799003)(451199024)(1800799009)(46966006)(40470700004)(36840700001)(36860700001)(16526019)(7696005)(6666004)(478600001)(26005)(83380400001)(336012)(426003)(1076003)(47076005)(2616005)(2906002)(8936002)(5660300002)(6916009)(316002)(8676002)(44832011)(70206006)(41300700001)(70586007)(54906003)(36756003)(4326008)(356005)(82740400003)(86362001)(81166007)(66899024)(40480700001)(40460700003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2023 05:39:57.7281
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ac30ec7-ceed-49e3-a704-08dbc56582c1
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044FA.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4385
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        SPF_HELO_PASS,SPF_NONE,URIBL_BLOCKED autolearn=no autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,110 +99,149 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Hans,
+Having a separate platform device structure helps in future, to
+contain platform specific variables and other data.
+
+Also, define macros for dev nodes
+
+Signed-off-by: Suma Hegde <suma.hegde@amd.com>
+Reviewed-by: Naveen Krishna Chatradhi <nchatrad@amd.com>
+---
+Changes since v1:
+1. defined HSMP_CDEV_NAME and HSMP_DEVNODE_NAME macros
+Changes since v2:
+1. moved num_sockets variable to plat_dev structure
+Changes since v3:
+1. updated commit message
 
 
-On Thu, 2023-10-05 at 09:03 +0200, Hans de Goede wrote:
-> Hi Srinivas,
->=20
-> On 10/4/23 20:19, Srinivas Pandruvada wrote:
-> > When the current uncore frequency can't be read, don't create
-> > attribute
-> > "current_freq_khz" as any read will fail later. Some user space
-> > applications like turbostat fail to continue with the failure. So,
-> > check
-> > error during attribute creation.
-> >=20
-> > Fixes: 414eef27283a ("platform/x86/intel/uncore-freq: Display
-> > uncore current frequency")
-> > Signed-off-by: Srinivas Pandruvada
-> > <srinivas.pandruvada@linux.intel.com>
-> > ---
-> > Added fixes tag which added current_freq_khz. But after this
-> > tag there is reorg of code, so need manual backport for some
-> > versions.
-> > I will separately submit to stable trees after merge.
->=20
-> Can you for future updated patches please use the ususal [PATCH v2],
-> [PATCH v3], etc. prefix ?
->=20
-Sorry about this. I usually do with code change. But will keep in mind.
+ drivers/platform/x86/amd/hsmp.c | 61 ++++++++++++++++++++-------------
+ 1 file changed, 38 insertions(+), 23 deletions(-)
 
-Thanks,
-Srinivas
-
-
-> Also please document the changes per version after the cutline, e.g.
-> :
->=20
-> ```
-> ---
-> Changes in v2:
-> - Added fixes tag which added current_freq_khz. Note after this
-> =C2=A0 tag there is reorg of code, so need manual backport for some
-> versions.
-> =C2=A0 I will separately submit to stable trees after merge.
-> ```
->=20
-> Regards,
->=20
-> Hans
->=20
->=20
->=20
->=20
-> >=20
-> > =C2=A0.../x86/intel/uncore-frequency/uncore-frequency-common.c=C2=A0 | =
-8
-> > ++++++--
-> > =C2=A01 file changed, 6 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/platform/x86/intel/uncore-frequency/uncore-
-> > frequency-common.c b/drivers/platform/x86/intel/uncore-
-> > frequency/uncore-frequency-common.c
-> > index 1152deaa0078..33ab207493e3 100644
-> > --- a/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-
-> > common.c
-> > +++ b/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-
-> > common.c
-> > @@ -176,7 +176,7 @@ show_uncore_data(initial_max_freq_khz);
-> > =C2=A0
-> > =C2=A0static int create_attr_group(struct uncore_data *data, char *name=
-)
-> > =C2=A0{
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int ret, index =3D 0;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int ret, freq, index =3D 0;
-> > =C2=A0
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0init_attribute_rw(max_f=
-req_khz);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0init_attribute_rw(min_f=
-req_khz);
-> > @@ -197,7 +197,11 @@ static int create_attr_group(struct
-> > uncore_data *data, char *name)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0data->uncore_attrs[inde=
-x++] =3D &data-
-> > >min_freq_khz_dev_attr.attr;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0data->uncore_attrs[inde=
-x++] =3D &data-
-> > >initial_min_freq_khz_dev_attr.attr;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0data->uncore_attrs[inde=
-x++] =3D &data-
-> > >initial_max_freq_khz_dev_attr.attr;
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0data->uncore_attrs[index++] =
-=3D &data-
-> > >current_freq_khz_dev_attr.attr;
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D uncore_read_freq(dat=
-a, &freq);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!ret)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0data->uncore_attrs[index++] =3D &data-
-> > >current_freq_khz_dev_attr.attr;
-> > +
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0data->uncore_attrs[inde=
-x] =3D NULL;
-> > =C2=A0
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0data->uncore_attr_group=
-.name =3D name;
->=20
+diff --git a/drivers/platform/x86/amd/hsmp.c b/drivers/platform/x86/amd/hsmp.c
+index 31382ef52efb..99727cd705cf 100644
+--- a/drivers/platform/x86/amd/hsmp.c
++++ b/drivers/platform/x86/amd/hsmp.c
+@@ -47,9 +47,22 @@
+ #define HSMP_INDEX_REG		0xc4
+ #define HSMP_DATA_REG		0xc8
+ 
+-static struct semaphore *hsmp_sem;
++#define HSMP_CDEV_NAME		"hsmp_cdev"
++#define HSMP_DEVNODE_NAME	"hsmp"
+ 
+-static struct miscdevice hsmp_device;
++struct hsmp_socket {
++	struct semaphore hsmp_sem;
++	u16 sock_ind;
++};
++
++struct hsmp_plat_device {
++	struct miscdevice hsmp_device;
++	struct hsmp_socket *sock;
++	struct device *dev;
++	u16 num_sockets;
++};
++
++static struct hsmp_plat_device plat_dev;
+ 
+ static int amd_hsmp_rdwr(struct pci_dev *root, u32 address,
+ 			 u32 *value, bool write)
+@@ -188,6 +201,7 @@ static int validate_message(struct hsmp_message *msg)
+ 
+ int hsmp_send_message(struct hsmp_message *msg)
+ {
++	struct hsmp_socket *sock = &plat_dev.sock[msg->sock_ind];
+ 	struct amd_northbridge *nb;
+ 	int ret;
+ 
+@@ -208,14 +222,13 @@ int hsmp_send_message(struct hsmp_message *msg)
+ 	 * In SMP system timeout of 100 millisecs should
+ 	 * be enough for the previous thread to finish the operation
+ 	 */
+-	ret = down_timeout(&hsmp_sem[msg->sock_ind],
+-			   msecs_to_jiffies(HSMP_MSG_TIMEOUT));
++	ret = down_timeout(&sock->hsmp_sem, msecs_to_jiffies(HSMP_MSG_TIMEOUT));
+ 	if (ret < 0)
+ 		return ret;
+ 
+ 	ret = __hsmp_send_message(nb->root, msg);
+ 
+-	up(&hsmp_sem[msg->sock_ind]);
++	up(&sock->hsmp_sem);
+ 
+ 	return ret;
+ }
+@@ -321,28 +334,31 @@ static int hsmp_pltdrv_probe(struct platform_device *pdev)
+ {
+ 	int i;
+ 
+-	hsmp_sem = devm_kzalloc(&pdev->dev,
+-				(amd_nb_num() * sizeof(struct semaphore)),
+-				GFP_KERNEL);
+-	if (!hsmp_sem)
++	plat_dev.sock = devm_kzalloc(&pdev->dev,
++				     (plat_dev.num_sockets * sizeof(struct hsmp_socket)),
++				     GFP_KERNEL);
++	if (!plat_dev.sock)
+ 		return -ENOMEM;
++	plat_dev.dev = &pdev->dev;
+ 
+-	for (i = 0; i < amd_nb_num(); i++)
+-		sema_init(&hsmp_sem[i], 1);
++	for (i = 0; i < plat_dev.num_sockets; i++) {
++		sema_init(&plat_dev.sock[i].hsmp_sem, 1);
++		plat_dev.sock[i].sock_ind = i;
++	}
+ 
+-	hsmp_device.name	= "hsmp_cdev";
+-	hsmp_device.minor	= MISC_DYNAMIC_MINOR;
+-	hsmp_device.fops	= &hsmp_fops;
+-	hsmp_device.parent	= &pdev->dev;
+-	hsmp_device.nodename	= "hsmp";
+-	hsmp_device.mode	= 0644;
++	plat_dev.hsmp_device.name	= HSMP_CDEV_NAME;
++	plat_dev.hsmp_device.minor	= MISC_DYNAMIC_MINOR;
++	plat_dev.hsmp_device.fops	= &hsmp_fops;
++	plat_dev.hsmp_device.parent	= &pdev->dev;
++	plat_dev.hsmp_device.nodename	= HSMP_DEVNODE_NAME;
++	plat_dev.hsmp_device.mode	= 0644;
+ 
+-	return misc_register(&hsmp_device);
++	return misc_register(&plat_dev.hsmp_device);
+ }
+ 
+ static void hsmp_pltdrv_remove(struct platform_device *pdev)
+ {
+-	misc_deregister(&hsmp_device);
++	misc_deregister(&plat_dev.hsmp_device);
+ }
+ 
+ static struct platform_driver amd_hsmp_driver = {
+@@ -358,7 +374,6 @@ static struct platform_device *amd_hsmp_platdev;
+ static int __init hsmp_plt_init(void)
+ {
+ 	int ret = -ENODEV;
+-	u16 num_sockets;
+ 	int i;
+ 
+ 	if (boot_cpu_data.x86_vendor != X86_VENDOR_AMD || boot_cpu_data.x86 < 0x19) {
+@@ -371,12 +386,12 @@ static int __init hsmp_plt_init(void)
+ 	 * amd_nb_num() returns number of SMN/DF interfaces present in the system
+ 	 * if we have N SMN/DF interfaces that ideally means N sockets
+ 	 */
+-	num_sockets = amd_nb_num();
+-	if (num_sockets == 0)
++	plat_dev.num_sockets = amd_nb_num();
++	if (plat_dev.num_sockets == 0)
+ 		return ret;
+ 
+ 	/* Test the hsmp interface on each socket */
+-	for (i = 0; i < num_sockets; i++) {
++	for (i = 0; i < plat_dev.num_sockets; i++) {
+ 		ret = hsmp_test(i, 0xDEADBEEF);
+ 		if (ret) {
+ 			pr_err("HSMP is not supported on Fam:%x model:%x\n",
+-- 
+2.25.1
 
