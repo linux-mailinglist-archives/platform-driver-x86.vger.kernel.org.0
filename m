@@ -2,60 +2,60 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A4D17C74DA
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Oct 2023 19:35:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53E817C751D
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Oct 2023 19:52:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347391AbjJLRfV (ORCPT
+        id S1379651AbjJLRwU (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 12 Oct 2023 13:35:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52564 "EHLO
+        Thu, 12 Oct 2023 13:52:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347392AbjJLRfL (ORCPT
+        with ESMTP id S1379624AbjJLRwT (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 12 Oct 2023 13:35:11 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D71572B4;
-        Thu, 12 Oct 2023 10:28:28 -0700 (PDT)
+        Thu, 12 Oct 2023 13:52:19 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AF3ACA;
+        Thu, 12 Oct 2023 10:52:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697131708; x=1728667708;
+  t=1697133137; x=1728669137;
   h=message-id:subject:from:reply-to:to:cc:date:in-reply-to:
    references:content-transfer-encoding:mime-version;
-  bh=4v+H0O0IXD5YGkRVSviC2erq+UMEGDFbWdbWf2xYauc=;
-  b=bZXt6ullIF4qNWO/f6u2KGhu8k9JmyCejMz3LsS+kuy3L62/a4epAPFc
-   xPRmjvBgFJkwNPBcgN4HoS5dFVYOApMemenifatMKo2U47sgZ/hsJoGQU
-   eXQzAB644MoLjshU908hvjpp3h54/pzQgUgpj25shuG3r/8B1qFmD6FDO
-   1C2ybBQB5XMbEdxRaAfST/bbbyV6n01pgdWGEvG3/MDQyJQvPw/JOkvW2
-   WCOqhSl70AAlKnDpUAW5sHSkziCavDbq1pIiBs400xZeah2ZXYqfs5fSG
-   f5jGLrc985r5ewEyaGOUXssEsQwYkjl7Vr2CDODBdx3uWEp/T13J+Jr8O
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="365249842"
+  bh=6t7X2w/3C7D9w+nEdJJDSIhuapkwmqEAdLFRUJInO9I=;
+  b=UQyVwMclxPMrcuywmSWSkuaI4Zg2bMqnG/U4NmmWKXKXEqj5k7fTPb+O
+   FfU9k/U8ULrgS0Q0CCdQsyJGoxe9mI89uSeWO6MWeuMZ6L5OGl7Mwkt6k
+   8hEyPQFTxCDI8T8dP1rirer0V12UDPAhaJuyjPSfJ9n9x5Lo0MJObFIbK
+   M8/ZyKuJHvTGoaCooZV4Tb2tPzdHZmiUZRg3v7PKqRtd3WYPR+P+dsOEz
+   Zu0NYlSnOUSYQjOdBiEd33IwrZzskccMq3h1L/DlXIbs0w21xCLJ0a1fL
+   hkvN7tYOfq25IprFTFFUyhxlHaPbkXjhzG91qtZj/VDC0CLBpMR0Fn7jA
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="451487320"
 X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="365249842"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 10:28:27 -0700
+   d="scan'208";a="451487320"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 10:52:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="731021869"
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="928092841"
 X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="731021869"
+   d="scan'208";a="928092841"
 Received: from linux.intel.com ([10.54.29.200])
-  by orsmga006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 10:28:27 -0700
+  by orsmga005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 10:52:17 -0700
 Received: from [10.54.75.156] (debox1-desk1.jf.intel.com [10.54.75.156])
-        by linux.intel.com (Postfix) with ESMTP id 77FAE5807A3;
-        Thu, 12 Oct 2023 10:28:27 -0700 (PDT)
-Message-ID: <0bd97aed259d9ec0ff4d8c95f63d5db65550b893.camel@linux.intel.com>
-Subject: Re: [PATCH V3 10/16] platform/x86/intel/pmc: Split
- pmc_core_ssram_get_pmc()
+        by linux.intel.com (Postfix) with ESMTP id D1D635807A3;
+        Thu, 12 Oct 2023 10:52:16 -0700 (PDT)
+Message-ID: <7f2fd7a054912960c6599e4a62e2095d1567aab8.camel@linux.intel.com>
+Subject: Re: [PATCH V3 09/16] platform/x86/intel/pmc: Allow
+ pmc_core_ssram_init to fail
 From:   "David E. Box" <david.e.box@linux.intel.com>
 Reply-To: david.e.box@linux.intel.com
 To:     Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
         platform-driver-x86@vger.kernel.org, rajvi.jingar@linux.intel.com
-Date:   Thu, 12 Oct 2023 10:28:27 -0700
-In-Reply-To: <c66f2061-a7e6-8df7-928-da2a14a3cb49@linux.intel.com>
+Date:   Thu, 12 Oct 2023 10:52:16 -0700
+In-Reply-To: <ac7be397-bc9-a135-9498-72dfa1fe456d@linux.intel.com>
 References: <20231012023840.3845703-1-david.e.box@linux.intel.com>
-         <20231012023840.3845703-11-david.e.box@linux.intel.com>
-         <c66f2061-a7e6-8df7-928-da2a14a3cb49@linux.intel.com>
+         <20231012023840.3845703-10-david.e.box@linux.intel.com>
+         <ac7be397-bc9-a135-9498-72dfa1fe456d@linux.intel.com>
 Organization: David E. Box
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -70,62 +70,29 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, 2023-10-12 at 18:14 +0300, Ilpo J=C3=A4rvinen wrote:
+On Thu, 2023-10-12 at 18:01 +0300, Ilpo J=C3=A4rvinen wrote:
 > On Wed, 11 Oct 2023, David E. Box wrote:
 >=20
-> > On supported hardware, each PMC may have an associated SSRAM device for
-> > accessing additional counters.=C2=A0 However, only the SSRAM of the fir=
-st
-> > (primary) PMC is discoverable as a PCI device to the OS. The remaining
-> > (secondary) devices are hidden but their BARs are still accessible and
-> > their addresses are stored in the BAR of the exposed device. Clean up t=
-he
-> > code handling the SSRAM discovery. Create two separate functions for
-> > accessing the primary and secondary SSRAM devices.
-> >=20
-> > Signed-off-by: David E. Box <david.e.box@linux.intel.com>
-> > ---
-> > V3 - New patch split from previous PATCH 2
-> > =C2=A0=C2=A0 - Update changelog
-> > =C2=A0=C2=A0 - Use cleanup.h to cleanup ioremap
-> >=20
-> > V2 - no change
-> >=20
-> > =C2=A0drivers/platform/x86/intel/pmc/core_ssram.c | 93 ++++++++++++++--=
------
-> > =C2=A01 file changed, 61 insertions(+), 32 deletions(-)
-> >=20
-> > diff --git a/drivers/platform/x86/intel/pmc/core_ssram.c
-> > b/drivers/platform/x86/intel/pmc/core_ssram.c
-> > index 815950713e25..af405d11919f 100644
-> > --- a/drivers/platform/x86/intel/pmc/core_ssram.c
-> > +++ b/drivers/platform/x86/intel/pmc/core_ssram.c
-> > @@ -8,6 +8,7 @@
-> > =C2=A0 *
-> > =C2=A0 */
-> > =C2=A0
-> > +#include <linux/cleanup.h>
-> > =C2=A0#include <linux/pci.h>
-> > =C2=A0#include <linux/io-64-nonatomic-lo-hi.h>
-> > =C2=A0
-> > @@ -21,6 +22,8 @@
-> > =C2=A0#define SSRAM_IOE_OFFSET=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A00x68
-> > =C2=A0#define SSRAM_DEVID_OFFSET=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00x70
-> > =C2=A0
-> > +DEFINE_FREE(pmc_core_iounmap, void __iomem *, iounmap(_T));
-> > +
+> > Currently, if the PMC SSRAM initialization fails, no error is returned =
+and
+> > the only indication is that a PMC device has not been created.=C2=A0 In=
+stead,
+> > allow an error to be returned and handled directly by the caller.
 >=20
-> Was it that adding
->=20
-> DEFINE_FREE(iounmap, void __iomem *, iounmap(_T));
->=20
-> into some header did not work for some reason or why this? (Perhaps=20
-> because iounmap is also defined?)
+> You might have a good reason for it but why isn't the call into=20
+> pmc_core_pmc_add() changed in this patch to take the error value into=20
+> account?
 
-No, I didn't think to add it. I'll try and send in the next version.
+Good catch. The return value of pmc_core_pmc_add() is first used in the nex=
+t
+patch but should be used here.
 
 David
 
 >=20
+> (I vaguely remember this was probably discussed in the context of some=
+=20
+> earlier patch touching this area that it was about the other code dealing=
+=20
+> with NULLs or something like that).
 
