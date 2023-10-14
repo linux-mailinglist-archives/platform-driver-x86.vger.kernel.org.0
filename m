@@ -2,210 +2,406 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 865357C9663
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 14 Oct 2023 22:54:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D85CD7C974D
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 15 Oct 2023 01:39:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233305AbjJNUyN (ORCPT
+        id S229733AbjJNXji (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 14 Oct 2023 16:54:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58034 "EHLO
+        Sat, 14 Oct 2023 19:39:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230371AbjJNUyM (ORCPT
+        with ESMTP id S229555AbjJNXji (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 14 Oct 2023 16:54:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5288DD
-        for <platform-driver-x86@vger.kernel.org>; Sat, 14 Oct 2023 13:53:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1697316804;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=nVXuRZ43Xjf843BgeSpJhYSd1chgRygz5RuSbmD9+7Q=;
-        b=GHoP/OmOhWK1VCxxwQkfi2z4OH288/6S0RpVMuBBsktRXIHiHpVu5RffsEbhJ2aVdYFUSY
-        V04qWTi9Y8bIdz58YjBqiEoJkojS/kpd+eL8/InhL0o3qqAKg2h9HZhBLndFWL6SnILwfB
-        sLWniIDpKBLV8LSdYVqdaxJ3vqvCbNQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-581-f_G26kRvMhqO5SmTNSEseQ-1; Sat, 14 Oct 2023 16:53:22 -0400
-X-MC-Unique: f_G26kRvMhqO5SmTNSEseQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DC32C185A78E;
-        Sat, 14 Oct 2023 20:53:21 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.6])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id AB1B425C0;
-        Sat, 14 Oct 2023 20:53:20 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     "Rafael J . Wysocki" <rafael@kernel.org>,
-        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Mark Brown <broonie@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-acpi@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-spi@vger.kernel.org
-Subject: [PATCH 4/4] platform/x86: x86-android-tablets: Add audio codec info for Lenovo Yoga Tab 3 Pro YT3-X90F
-Date:   Sat, 14 Oct 2023 22:53:14 +0200
-Message-ID: <20231014205314.59333-5-hdegoede@redhat.com>
-In-Reply-To: <20231014205314.59333-1-hdegoede@redhat.com>
-References: <20231014205314.59333-1-hdegoede@redhat.com>
+        Sat, 14 Oct 2023 19:39:38 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E927A9;
+        Sat, 14 Oct 2023 16:39:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1697326759; x=1697931559; i=w_armin@gmx.de;
+ bh=l0lLG2Be63Vp+UODA2JuhJ/gylJq81V3ALg9rHeYehQ=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=okFF1wmg/N/GP7ub+OhhJvorDEE2UA6UcdVGwfpsdtCwzrGqMXJTq9FhHxzfnuSEzeoDw/fgHzy
+ hM6OA85Suuj293Kt+3iNI9/eFSBvNkstygcjyFU8aTMnn3atcRmTBSJZ2q60KXR0jPm8/AVSNU3IZ
+ 2+aWKdqA5bWzrYJXTy72aM5DXoKFHlJHMhpkC49fdhy3s5ZQ/h819B/HqBm0w+l5/OU7Cgq4s6zc5
+ zMDTUtPr/M8Za/0FBGGOk07JH2BSvrbSIDe57XkzQ+V7jxKitIHOvTvYerVKh24UgfLG9dMBxy83F
+ HEa7Bmc1ivneA8IwfWMSU0xOBdina5Ma5dsg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1My36T-1rlJ601vSx-00zaZt; Sun, 15
+ Oct 2023 01:39:19 +0200
+Message-ID: <d3245372-0cd4-49ff-acbc-87ff156a00fc@gmx.de>
+Date:   Sun, 15 Oct 2023 01:39:15 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] platform/x86: support to store/show powermode value
+ for Inspur
+To:     Ai Chao <aichao@kylinos.cn>, hdegoede@redhat.com,
+        ilpo.jarvinen@linux.intel.com, markgross@kernel.org
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+References: <20231014032844.3823198-1-aichao@kylinos.cn>
+Content-Language: en-US
+From:   Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <20231014032844.3823198-1-aichao@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:yhgEJJiiKpj6ehc1+zVyv6fBzpr3wxxYWYW9x1qyMMR4ID+xC3r
+ 9c+ojstsbFjrIP3kv3ls5iWa+08YxTOTcIwnjtCFOhgxcK3xlBLVrsEB7tLJ2cnLgOnBuPO
+ FWyv4HBNmO3lY3RvG4L65aAmoXoTqii23HQG+RVaZ6WWyvMIEqY8DuD8H6THszIMoVGLPvw
+ n0zvFZPqLG7Sq0k9/Ds9g==
+UI-OutboundReport: notjunk:1;M01:P0:crr0p7Tctx8=;rB33qj3gOaRzI+P08nUJGdajj24
+ KuelCtRftrTjkpXbaInTCMgEoyzPaViZewiqJBNjeL/W3jNynAlAEdc4sIwGCTLv8tut7/WF9
+ /o+7n2MLQH9SYjKcpPc6y/jJuOwWYZlFwugXSEVPpjX15FqltyWVNbyp93ApV1F0fqYhtpRMG
+ c69PDUClXajWrLmS34A7q3OcXTswOMxQXYdoYNrL7o69W37RY8Vjjwswf7ljP5ukl4Avp/dFf
+ KBnPm/pyuGC+tP8tRGreTENk9EZQm1r5akZ9rxAdGKNIfwN3jplzumztLF/IXEH9SpogjBsRZ
+ 3TZrfxOTTINcCQMZCNOzBBI84hbxmwFww3AOWVJSkTYeNvo1QLUyWWVhrdkhLHHo5bTcy/VOL
+ bP1yeuo+pphYzfOu1kC1clqAJwqMkj2mLUdNp+27BcrzvNbdc2ebw42PdohEhRr+FHl3LFhJJ
+ 7GYSqmbTvQN5hBzRixQUCxv6BoXWnKiVlEYzsz3HVMjogRcKuTohrtSv/eJHDnpYHoto/qWeD
+ ye3ppCFncpuhPyVa00EmgzW+W0OYvwdEwWsPykRWzU1iirg1po5YuAdly12/FU70bDQA2afLK
+ KJhji080iF/oCRGJdXK9DiQiTiC1cc38HI3JyQdV9gXBSCHGRYl+mR7TPELZ/sa4YlQD7Tu6K
+ tCb9++TrDNDizzGRtMVrFRew6i4Qe3kDVTscQWQ294z3CtOR3qRO/7vuYKOJguZbNTXbs+E2V
+ xuY0wQ0cP6ueeW6QSodiIpsK9SV78dGtBxkBRgtpAMrBXlvgfXAVT2hYasz46DqBSXoHA7xxJ
+ bIytW2xEOp6gLFCS+GPQk19zhok1SAqq1VNzZ/lXFVjWshv4O243c4R5Uryv5tZ4XxQ3jhvR5
+ d8qQGsEBFOxfZeBreHV/WHba5xo14An+CyO4EvogkNSDoyF7GQ0UseiZNCy46I4uphD5hmaNN
+ Ib+5sq2ZV/+uX8pxODMcstyKSuI=
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The SPI attached WM5102 codec on the Lenovo Yoga Tab 3 Pro YT3-X90F
-is not described in the ACPI tables.
+Am 14.10.23 um 05:28 schrieb Ai Chao:
 
-Add info to instantiate the SPI device for the codec manually.
+> Support to store/show powermode value for Inspur by WMI interface.
+> This driver provides support for Inspur WMI hotkeys. User used Fn+Q to
+> change the power mode. If desktop applications receive hotkey(Fn+Q)
+> event, then it get the currently power mode and change the power mode.
+> The desktop applications modify brightness and cpufreq based on
+> power mode.
+>
+> change for v2
+> - Remove Event GUID, remove inspur_wmi_notify and inspur_wmi_notify.
+> - Add more explanation.
+>
+> Signed-off-by: Ai Chao <aichao@kylinos.cn>
+> ---
+>   drivers/platform/x86/Kconfig      |  14 ++
+>   drivers/platform/x86/Makefile     |   3 +
+>   drivers/platform/x86/inspur-wmi.c | 210 ++++++++++++++++++++++++++++++
+>   3 files changed, 227 insertions(+)
+>   create mode 100644 drivers/platform/x86/inspur-wmi.c
+>
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index 2a1070543391..fa2a4335c83d 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -988,6 +988,20 @@ config TOUCHSCREEN_DMI
+>   	  the OS-image for the device. This option supplies the missing info.
+>   	  Enable this for x86 tablets with Silead or Chipone touchscreens.
+>
+> +config INSPUR_WMI
+> +	tristate "Inspur WMI hotkeys driver"
+> +	depends on ACPI_WMI
+> +	depends on INPUT
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- .../platform/x86/x86-android-tablets/lenovo.c | 99 +++++++++++++++++++
- 1 file changed, 99 insertions(+)
+The driver does not provide a input device anymore, please remove the
+dependency on CONFIG_INPUT.
 
-diff --git a/drivers/platform/x86/x86-android-tablets/lenovo.c b/drivers/platform/x86/x86-android-tablets/lenovo.c
-index 585f10a57810..d5d815940ce1 100644
---- a/drivers/platform/x86/x86-android-tablets/lenovo.c
-+++ b/drivers/platform/x86/x86-android-tablets/lenovo.c
-@@ -12,6 +12,8 @@
- 
- #include <linux/efi.h>
- #include <linux/gpio/machine.h>
-+#include <linux/mfd/arizona/pdata.h>
-+#include <linux/mfd/arizona/registers.h>
- #include <linux/mfd/intel_soc_pmic.h>
- #include <linux/pinctrl/consumer.h>
- #include <linux/pinctrl/machine.h>
-@@ -677,6 +679,89 @@ static const struct x86_i2c_client_info lenovo_yt3_i2c_clients[] __initconst = {
- 	}
- };
- 
-+/*
-+ * The AOSP 3.5 mm Headset: Accessory Specification gives the following values:
-+ * Function A Play/Pause:           0 ohm
-+ * Function D Voice assistant:    135 ohm
-+ * Function B Volume Up           240 ohm
-+ * Function C Volume Down         470 ohm
-+ * Minimum Mic DC resistance     1000 ohm
-+ * Minimum Ear speaker impedance   16 ohm
-+ * Note the first max value below must be less then the min. speaker impedance,
-+ * to allow CTIA/OMTP detection to work. The other max values are the closest
-+ * value from extcon-arizona.c:arizona_micd_levels halfway 2 button resistances.
-+ */
-+static const struct arizona_micd_range arizona_micd_aosp_ranges[] = {
-+	{ .max =  11, .key = KEY_PLAYPAUSE },
-+	{ .max = 186, .key = KEY_VOICECOMMAND },
-+	{ .max = 348, .key = KEY_VOLUMEUP },
-+	{ .max = 752, .key = KEY_VOLUMEDOWN },
-+};
-+
-+/* YT3 WM5102 arizona_micd_config comes from Android kernel sources */
-+static struct arizona_micd_config lenovo_yt3_wm5102_micd_config[]={
-+	{ 0, 1, 0 },
-+	{ ARIZONA_ACCDET_SRC, 2, 1 },
-+};
-+
-+static struct arizona_pdata lenovo_yt3_wm5102_pdata = {
-+	.irq_flags = IRQF_TRIGGER_LOW,
-+	.micd_detect_debounce = 200,
-+	.micd_ranges = arizona_micd_aosp_ranges,
-+	.num_micd_ranges = ARRAY_SIZE(arizona_micd_aosp_ranges),
-+	.hpdet_channel = ARIZONA_ACCDET_MODE_HPL,
-+
-+	/* Below settings come from Android kernel sources */
-+	.micd_bias_start_time = 1,
-+	.micd_rate = 6,
-+	.micd_force_micbias = 1,
-+	.micd_configs = lenovo_yt3_wm5102_micd_config,
-+	.num_micd_configs = ARRAY_SIZE(lenovo_yt3_wm5102_micd_config),
-+        .micbias={
-+           [0]={ /*MICBIAS1*/
-+                 .mV =2800 ,
-+                 .ext_cap=1,
-+                 .discharge =1 ,
-+                 .soft_start =0,
-+                 .bypass =0,
-+           },
-+           [1]={ /*MICBIAS2*/
-+                 .mV =2800 ,
-+                 .ext_cap=1,
-+                 .discharge =1 ,
-+                 .soft_start =0,
-+                 .bypass =0,
-+           },
-+           [2]={ /*MICBIAS3*/
-+                 .mV =2800 ,
-+                 .ext_cap=1,
-+                 .discharge =1 ,
-+                 .soft_start =0,
-+                 .bypass =0,
-+           },
-+        },
-+};
-+
-+static const struct x86_spi_dev_info lenovo_yt3_spi_devs[] __initconst = {
-+	{
-+		/* WM5102 codec */
-+		.board_info = {
-+			.modalias = "wm5102",
-+			.platform_data = &lenovo_yt3_wm5102_pdata,
-+			.max_speed_hz = 5000000,
-+		},
-+		.ctrl_path = "\\_SB_.PCI0.SPI1",
-+		.irq_data = {
-+			.type = X86_ACPI_IRQ_TYPE_GPIOINT,
-+			.chip = "INT33FF:00",
-+			.index = 91,
-+			.trigger = ACPI_LEVEL_SENSITIVE,
-+			.polarity = ACPI_ACTIVE_LOW,
-+			.con_id = "wm5102_irq",
-+		},
-+	}
-+};
-+
- static int __init lenovo_yt3_init(void)
- {
- 	int ret;
-@@ -720,14 +805,28 @@ static struct gpiod_lookup_table lenovo_yt3_hideep_gpios = {
- 	},
- };
- 
-+static struct gpiod_lookup_table lenovo_yt3_wm5102_gpios = {
-+	.dev_id = "spi1.0",
-+	.table = {
-+		GPIO_LOOKUP("INT33FF:00", 75, "wlf,spkvdd-ena", GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP("INT33FF:00", 81, "wlf,ldoena", GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP("INT33FF:00", 82, "reset", GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP("arizona", 2, "wlf,micd-pol", GPIO_ACTIVE_HIGH),
-+		{ }
-+	},
-+};
-+
- static struct gpiod_lookup_table * const lenovo_yt3_gpios[] = {
- 	&lenovo_yt3_hideep_gpios,
-+	&lenovo_yt3_wm5102_gpios,
- 	NULL
- };
- 
- const struct x86_dev_info lenovo_yt3_info __initconst = {
- 	.i2c_client_info = lenovo_yt3_i2c_clients,
- 	.i2c_client_count = ARRAY_SIZE(lenovo_yt3_i2c_clients),
-+	.spi_dev_info = lenovo_yt3_spi_devs,
-+	.spi_dev_count = ARRAY_SIZE(lenovo_yt3_spi_devs),
- 	.gpiod_lookup_tables = lenovo_yt3_gpios,
- 	.init = lenovo_yt3_init,
- };
--- 
-2.41.0
+> +	help
+> +	This driver provides support for Inspur WMI hotkeys.
+> +	User used Fn+Q to change the power mode. If desktop applications
+> +	receive hotkeys(Fn+Q) event, then it get the currently power mode
+> +	and change the power mode. The desktop applications modify brightness
+> +	and cpufreq based on power mode.
+> +
 
+I assume the whole hotkey stuff uses the other WMI GUID, right? In this ca=
+se the
+current driver should not be called "Inspur WMI hotkeys driver", since it =
+does not
+handle those hotkey notifications. Better call it "Inspur WMI power mode d=
+river",
+and remove all references to the hotkeys.
+
+> +	To compile this driver as a module, choose M here: the module
+> +	will be called inspur-wmi.
+> +
+>   source "drivers/platform/x86/x86-android-tablets/Kconfig"
+>
+>   config FW_ATTR_CLASS
+> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefi=
+le
+> index b457de5abf7d..9285c252757e 100644
+> --- a/drivers/platform/x86/Makefile
+> +++ b/drivers/platform/x86/Makefile
+> @@ -98,6 +98,9 @@ obj-$(CONFIG_TOSHIBA_WMI)	+=3D toshiba-wmi.o
+>   # before toshiba_acpi initializes
+>   obj-$(CONFIG_ACPI_TOSHIBA)	+=3D toshiba_acpi.o
+>
+> +# Inspur
+> +obj-$(CONFIG_INSPUR_WMI)	+=3D inspur-wmi.o
+> +
+>   # Laptop drivers
+>   obj-$(CONFIG_ACPI_CMPC)		+=3D classmate-laptop.o
+>   obj-$(CONFIG_COMPAL_LAPTOP)	+=3D compal-laptop.o
+> diff --git a/drivers/platform/x86/inspur-wmi.c b/drivers/platform/x86/in=
+spur-wmi.c
+> new file mode 100644
+> index 000000000000..ef6cfd87f074
+> --- /dev/null
+> +++ b/drivers/platform/x86/inspur-wmi.c
+> @@ -0,0 +1,210 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + *  Inspur WMI hotkeys
+> + *
+> + *  Copyright (C) 2018	      Ai Chao <aichao@kylinos.cn>
+> + */
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/device.h>
+> +#include <linux/input.h>
+> +#include <linux/module.h>
+> +#include <linux/wmi.h>
+> +
+> +#define WMI_INSPUR_POWERMODE_BIOS_GUID "596C31E3-332D-43C9-AEE9-5854932=
+84F5D"
+> +
+> +enum inspur_wmi_method_ids {
+> +	INSPUR_WMI_GET_POWERMODE =3D 0x02,
+> +	INSPUR_WMI_SET_POWERMODE =3D 0x03,
+> +};
+> +
+> +struct inspur_wmi_priv {
+> +	struct input_dev *idev;
+> +	struct wmi_device *wdev;
+> +};
+> +
+> +static int inspur_wmi_perform_query(struct wmi_device *wdev,
+> +				    enum inspur_wmi_method_ids query_id,
+> +				    void *buffer, size_t insize,
+> +				    size_t outsize)
+> +{
+> +	union acpi_object *obj;
+> +	acpi_status status;
+> +	int ret =3D 0;
+> +	struct acpi_buffer input =3D { insize, buffer};
+> +	struct acpi_buffer output =3D { ACPI_ALLOCATE_BUFFER, NULL };
+
+Please order the variable declarations in a reverse xmas tree order,
+seeDocumentation/process/maintainer-netdev.rst#Local variable ordering for
+details.
+
+> +
+> +	status =3D wmidev_evaluate_method(wdev, 0, query_id, &input, &output);
+> +	if (ACPI_FAILURE(status)) {
+> +		dev_err(&wdev->dev, "EC Powermode control failed: %s\n",
+> +			acpi_format_exception(status));
+> +		return -EIO;
+> +	}
+> +
+> +	obj =3D output.pointer;
+> +	if (!obj)
+> +		return -EINVAL;
+> +
+> +	if (obj->type !=3D ACPI_TYPE_BUFFER) {
+> +		ret =3D -EINVAL;
+> +		goto out_free;
+> +	}
+> +
+> +	/* Ignore output data of zero size */
+> +	if (!outsize)
+> +		goto out_free;
+
+Since all users of this functions set outsize to something greater than ze=
+ro,
+this check is pointless. Please remove it.
+
+> +
+> +	if (obj->buffer.length !=3D outsize) {
+> +		ret =3D -EINVAL;
+> +		goto out_free;
+> +	}
+> +
+> +	memcpy(buffer, obj->buffer.pointer, obj->buffer.length);
+> +
+> +out_free:
+> +	kfree(obj);
+> +	return ret;
+> +}
+> +
+> +/**
+> + * Set Power Mode to EC RAM. If Power Mode value greater than 0x3,
+> + * return error
+> + * Method ID: 0x3
+> + * Arg: 4 Bytes
+> + * Byte [0]: Power Mode:
+> + *         0x0: Balance Mode
+> + *         0x1: Performance Mode
+> + *         0x2: Power Saver Mode
+> + * Return Value: 4 Bytes
+> + * Byte [0]: Return Code
+> + *         0x0: No Error
+> + *         0x1: Error
+> + */
+
+Now i understand what this power mode means. Why not use the platform prof=
+ile interface
+for this? All tree modes (Balance, Performance, Power Saver) would perfect=
+ly map to standard
+platform profiles (BALANCED, PERFORMANCE, LOW_POWER), and using the platfo=
+rm profile interface
+would allow userspace software to control the power mode over a standard i=
+nterface.
+
+I believe drivers/platform/surface/surface_platform_profile.c is a good ex=
+ample for such a driver,
+_except_ that it ignores the return value of platform_profile_register().
+
+> +static ssize_t powermode_store(struct device *dev,
+> +			       struct device_attribute *attr,
+> +			       const char *buf, size_t count)
+> +{
+> +	struct inspur_wmi_priv *priv =3D dev_get_drvdata(dev);
+> +	int ret;
+> +	u32 mode;
+
+Since the buffer passed to the WMI method is structured in bytes, maybe yo=
+u could use a
+byte array in those cases? This would remove the need to cast "mode" to a =
+"u8 *".
+
+> +	u8 *ret_code;
+> +
+> +	ret =3D kstrtoint(buf, 0, &mode);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret =3D inspur_wmi_perform_query(priv->wdev,
+> +				       INSPUR_WMI_SET_POWERMODE,
+> +				       &mode, sizeof(mode), sizeof(mode));
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret_code =3D (u8 *)(&mode);
+> +	if (ret_code[0])
+> +		return -EBADRQC;
+> +
+> +	return count;
+> +}
+> +
+> +/**
+> + * Get Power Mode from EC RAM, If Power Mode value greater than 0x3,
+> + * return error
+> + * Method ID: 0x2
+> + * Return Value: 4 Bytes
+> + * Byte [0]: Return Code
+> + *         0x0: No Error
+> + *         0x1: Error
+> + * Byte [1]: Power Mode
+> + *         0x0: Balance Mode
+> + *         0x1: Performance Mode
+> + *         0x2: Power Saver Mode
+> + */
+> +static ssize_t powermode_show(struct device *dev,
+> +			      struct device_attribute *attr,
+> +			      char *buf)
+> +{
+> +	struct inspur_wmi_priv *priv =3D dev_get_drvdata(dev);
+> +	u32 mode =3D 0;
+
+Same as above.
+
+> +	int ret;
+> +	u8 *ret_code;
+> +
+> +	ret =3D inspur_wmi_perform_query(priv->wdev,
+> +				       INSPUR_WMI_GET_POWERMODE,
+> +				       &mode, sizeof(mode), sizeof(mode));
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret_code =3D (u8 *)(&mode);
+> +	if (ret_code[0])
+> +		return -EBADRQC;
+> +
+> +	return sprintf(buf, "%u\n", ret_code[1]);
+> +}
+> +
+> +static DEVICE_ATTR_RW(powermode);
+> +
+> +static struct attribute *inspur_wmi_attrs[] =3D {
+> +	&dev_attr_powermode.attr,
+> +	NULL,
+> +};
+> +
+> +static const struct attribute_group inspur_wmi_group =3D {
+> +	.attrs =3D inspur_wmi_attrs,
+> +};
+> +
+> +static const struct attribute_group *inspur_wmi_groups[] =3D {
+> +	&inspur_wmi_group,
+> +	NULL,
+> +};
+> +
+> +static int inspur_wmi_input_setup(struct wmi_device *wdev)
+> +{
+> +	struct inspur_wmi_priv *priv =3D dev_get_drvdata(&wdev->dev);
+> +
+> +	priv->idev =3D devm_input_allocate_device(&wdev->dev);
+> +	if (!priv->idev)
+> +		return -ENOMEM;
+> +
+> +	priv->idev->name =3D "Inspur WMI hotkeys";
+> +	priv->idev->phys =3D "wmi/input0";
+> +	priv->idev->id.bustype =3D BUS_HOST;
+> +	priv->idev->dev.parent =3D &wdev->dev;
+> +
+> +	return input_register_device(priv->idev);
+> +}
+
+Please remove all remains of the hotkey handling.
+
+> +
+> +static int inspur_wmi_probe(struct wmi_device *wdev, const void *contex=
+t)
+> +{
+> +	struct inspur_wmi_priv *priv;
+> +
+> +	priv =3D devm_kzalloc(&wdev->dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	priv->wdev =3D wdev;
+> +	dev_set_drvdata(&wdev->dev, priv);
+> +
+> +	return inspur_wmi_input_setup(wdev);
+> +}
+> +
+> +static const struct wmi_device_id inspur_wmi_id_table[] =3D {
+> +	{ .guid_string =3D WMI_INSPUR_POWERMODE_BIOS_GUID },
+> +	{  }
+> +};
+> +
+> +static struct wmi_driver inspur_wmi_driver =3D {
+> +	.driver =3D {
+> +		.name =3D "inspur-wmi",
+> +		.dev_groups =3D inspur_wmi_groups,
+> +	},
+> +	.id_table =3D inspur_wmi_id_table,
+> +	.probe =3D inspur_wmi_probe,
+> +};
+> +
+> +module_wmi_driver(inspur_wmi_driver);
+> +
+> +MODULE_DEVICE_TABLE(wmi, inspur_wmi_id_table);
+
+Can you move this right below "inspur_wmi_id_table" please?
+
+> +MODULE_AUTHOR("Ai Chao <aichao@kylinos.cn>");
+> +MODULE_DESCRIPTION("Inspur WMI hotkeys");
+> +MODULE_LICENSE("GPL");
