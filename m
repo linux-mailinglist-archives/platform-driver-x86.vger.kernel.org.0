@@ -2,106 +2,337 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C327A7CBE7C
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 17 Oct 2023 11:08:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 976D07CBEA0
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 17 Oct 2023 11:11:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234773AbjJQJIZ (ORCPT
+        id S234145AbjJQJLx (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 17 Oct 2023 05:08:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52354 "EHLO
+        Tue, 17 Oct 2023 05:11:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234741AbjJQJIY (ORCPT
+        with ESMTP id S234773AbjJQJLw (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 17 Oct 2023 05:08:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29AF5B0
-        for <platform-driver-x86@vger.kernel.org>; Tue, 17 Oct 2023 02:07:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1697533659;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=QVLQPVmLgptKM1FBx9t7/v/z7D75KlDvepMUU5NAoOs=;
-        b=SXywEQfcXW18fvB1Kv13oHSiG4ievU7gdB2mxcezzJ5oz3r0/u4j3BrZq1CSDLCvVcKP8c
-        Uwh8jj9z6SoVmxyFvLRtFMG253voh3ck1nNmJDnNguCBI7AR4tPtouupKv5wGvk2VNuXHM
-        E6E2fsNvUOrbOGJ72RL6/IdVct7LBCk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-568-aobrOxuNMsKR1Q2CaR1WvA-1; Tue, 17 Oct 2023 05:07:37 -0400
-X-MC-Unique: aobrOxuNMsKR1Q2CaR1WvA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7AE1381C960;
-        Tue, 17 Oct 2023 09:07:36 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.193.205])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 63684492BEE;
-        Tue, 17 Oct 2023 09:07:35 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Corentin Chary <corentin.chary@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Kai Heng Feng <kai.heng.feng@canonical.com>,
-        James John <me@donjajo.com>,
-        acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Subject: [RFC 3/3] platform/x86: asus-wmi: Map 0x2a code, Ignore 0x2b and 0x2c events
-Date:   Tue, 17 Oct 2023 11:07:25 +0200
-Message-ID: <20231017090725.38163-4-hdegoede@redhat.com>
-In-Reply-To: <20231017090725.38163-1-hdegoede@redhat.com>
-References: <20231017090725.38163-1-hdegoede@redhat.com>
+        Tue, 17 Oct 2023 05:11:52 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8BAEF5;
+        Tue, 17 Oct 2023 02:11:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697533909; x=1729069909;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=sACA/TZ3E1bc6D+vqMw81MOu76YAYJwnOpJImhsrA84=;
+  b=CfuSZC8cGosBH9VwXOHZyYwsff9d9ARDKl47EmE1LZFtE/cJykjbxS4e
+   FByyyiqJ5TqGQHiqmD8FrglIvG+w4VkAzLWOL5dcGT3zNSQ46UCy7G1or
+   xuOVC6zYkq2QESjRIzqACnjOJjZtdj72eHlpjM+5tboj4Hmqvziz+02AD
+   d7mdWUHgtlpx7qtn0jj0pU9O2EioSrLL2ouXFnE9sFTuhSrF/YAsFZRCt
+   xWKPmjKaaAEFYLdQOkks3IjpqHGUMCYgBPEHr7q4mfRRZS7b2IxqLJz7p
+   k351UOQrVZUSP0cSdQT/J/Qn631ReBvZ0Bqc7TqIvABBmC5j5e7807tcr
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="452215140"
+X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
+   d="scan'208";a="452215140"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 02:11:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="872481558"
+X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
+   d="scan'208";a="872481558"
+Received: from spandruv-mobl.amr.corp.intel.com ([10.252.44.24])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 02:11:44 -0700
+Date:   Tue, 17 Oct 2023 12:11:42 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Ma Jun <Jun.Ma2@amd.com>
+cc:     amd-gfx@lists.freedesktop.org, lenb@kernel.org,
+        johannes@sipsolutions.net, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        alexander.deucher@amd.com, Lijo.Lazar@amd.com,
+        mario.limonciello@amd.com, majun@amd.com, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Evan Quan <quanliangl@hotmail.com>
+Subject: Re: [PATCH v12 4/9] wifi: mac80211: Add support for WBRF features
+In-Reply-To: <20231017025358.1773598-5-Jun.Ma2@amd.com>
+Message-ID: <e83985cc-5a82-7ece-366-7a3b1997ed90@linux.intel.com>
+References: <20231017025358.1773598-1-Jun.Ma2@amd.com> <20231017025358.1773598-5-Jun.Ma2@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Newer Asus laptops send the following new WMI event codes when some
-of the F1 - F12 "media" hotkeys are pressed:
+On Tue, 17 Oct 2023, Ma Jun wrote:
 
-0x2a Screen Capture
-0x2b PrintScreen
-0x2c CapsLock
+> From: Evan Quan <quanliangl@hotmail.com>
+> 
+> To support the WBRF mechanism, Wifi adapters utilized in the system must
+> register the frequencies in use(or unregister those frequencies no longer
+> used) via the dedicated calls. So that, other drivers responding to the
+> frequencies can take proper actions to mitigate possible interference.
+> 
+> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> Co-developed-by: Evan Quan <quanliangl@hotmail.com>
+> Signed-off-by: Evan Quan <quanliangl@hotmail.com>
+> Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
+> --
+> v1->v2:
+>   - place the new added member(`wbrf_supported`) in
+>     ieee80211_local(Johannes)
+>   - handle chandefs change scenario properly(Johannes)
+>   - some minor fixes around code sharing and possible invalid input
+>     checks(Johannes)
+> v2->v3:
+>   - drop unnecessary input checks and intermediate APIs(Mario)
+>   - Separate some mac80211 common code(Mario, Johannes)
+> v3->v4:
+>   - some minor fixes around return values(Johannes)
+> v9->v10:
+>   - get ranges_in->num_of_ranges set and passed in(Johannes)
+> v12:
+>   - use acpi_amd_wbrf_add_remove to replace the acpi_amd_wbrf_add_exclusion
+>     acpi_amd_wbrf_remove_exclusion
+> ---
+>  include/linux/ieee80211.h  |   1 +
+>  net/mac80211/Makefile      |   2 +
+>  net/mac80211/chan.c        |   9 ++++
+>  net/mac80211/ieee80211_i.h |   9 ++++
+>  net/mac80211/main.c        |   2 +
+>  net/mac80211/wbrf.c        | 105 +++++++++++++++++++++++++++++++++++++
+>  6 files changed, 128 insertions(+)
+>  create mode 100644 net/mac80211/wbrf.c
+> 
+> diff --git a/include/linux/ieee80211.h b/include/linux/ieee80211.h
+> index 4b998090898e..f995d06da87f 100644
+> --- a/include/linux/ieee80211.h
+> +++ b/include/linux/ieee80211.h
+> @@ -4335,6 +4335,7 @@ static inline int ieee80211_get_tdls_action(struct sk_buff *skb, u32 hdr_size)
+>  /* convert frequencies */
+>  #define MHZ_TO_KHZ(freq) ((freq) * 1000)
+>  #define KHZ_TO_MHZ(freq) ((freq) / 1000)
+> +#define KHZ_TO_HZ(freq)  ((freq) * 1000)
 
-Map 0x2a to KEY_SELECTIVE_SCREENSHOT mirroring how similar hotkeys
-are mapped on other laptops.
+It would be better to not add more of these per subsystem but use the 
+generic include/linux/units.h constants instead.
 
-PrintScreem and CapsLock are also reported as normal PS/2 keyboard events,
-map these event codes to KE_IGNORE to avoid "Unknown key code 0x%x\n" log
-messages.
+>  #define PR_KHZ(f) KHZ_TO_MHZ(f), f % 1000
+>  #define KHZ_F "%d.%03d"
+>  
+> diff --git a/net/mac80211/Makefile b/net/mac80211/Makefile
+> index b8de44da1fb8..d46c36f55fd3 100644
+> --- a/net/mac80211/Makefile
+> +++ b/net/mac80211/Makefile
+> @@ -65,4 +65,6 @@ rc80211_minstrel-$(CONFIG_MAC80211_DEBUGFS) += \
+>  
+>  mac80211-$(CONFIG_MAC80211_RC_MINSTREL) += $(rc80211_minstrel-y)
+>  
+> +mac80211-y += wbrf.o
+> +
+>  ccflags-y += -DDEBUG
+> diff --git a/net/mac80211/chan.c b/net/mac80211/chan.c
+> index 68952752b599..458469c224ae 100644
+> --- a/net/mac80211/chan.c
+> +++ b/net/mac80211/chan.c
+> @@ -506,11 +506,16 @@ static void _ieee80211_change_chanctx(struct ieee80211_local *local,
+>  
+>  	WARN_ON(!cfg80211_chandef_compatible(&ctx->conf.def, chandef));
+>  
+> +	ieee80211_remove_wbrf(local, &ctx->conf.def);
+> +
+>  	ctx->conf.def = *chandef;
+>  
+>  	/* check if min chanctx also changed */
+>  	changed = IEEE80211_CHANCTX_CHANGE_WIDTH |
+>  		  _ieee80211_recalc_chanctx_min_def(local, ctx, rsvd_for);
+> +
+> +	ieee80211_add_wbrf(local, &ctx->conf.def);
+> +
+>  	drv_change_chanctx(local, ctx, changed);
+>  
+>  	if (!local->use_chanctx) {
+> @@ -668,6 +673,8 @@ static int ieee80211_add_chanctx(struct ieee80211_local *local,
+>  	lockdep_assert_held(&local->mtx);
+>  	lockdep_assert_held(&local->chanctx_mtx);
+>  
+> +	ieee80211_add_wbrf(local, &ctx->conf.def);
+> +
+>  	if (!local->use_chanctx)
+>  		local->hw.conf.radar_enabled = ctx->conf.radar_enabled;
+>  
+> @@ -748,6 +755,8 @@ static void ieee80211_del_chanctx(struct ieee80211_local *local,
+>  	}
+>  
+>  	ieee80211_recalc_idle(local);
+> +
+> +	ieee80211_remove_wbrf(local, &ctx->conf.def);
+>  }
+>  
+>  static void ieee80211_free_chanctx(struct ieee80211_local *local,
+> diff --git a/net/mac80211/ieee80211_i.h b/net/mac80211/ieee80211_i.h
+> index 91633a0b723e..719f2c892132 100644
+> --- a/net/mac80211/ieee80211_i.h
+> +++ b/net/mac80211/ieee80211_i.h
+> @@ -1600,6 +1600,8 @@ struct ieee80211_local {
+>  
+>  	/* extended capabilities provided by mac80211 */
+>  	u8 ext_capa[8];
+> +
+> +	bool wbrf_supported;
+>  };
+>  
+>  static inline struct ieee80211_sub_if_data *
+> @@ -2638,4 +2640,11 @@ ieee80211_eht_cap_ie_to_sta_eht_cap(struct ieee80211_sub_if_data *sdata,
+>  				    const struct ieee80211_eht_cap_elem *eht_cap_ie_elem,
+>  				    u8 eht_cap_len,
+>  				    struct link_sta_info *link_sta);
+> +
+> +void ieee80211_check_wbrf_support(struct ieee80211_local *local);
+> +void ieee80211_add_wbrf(struct ieee80211_local *local,
+> +			struct cfg80211_chan_def *chandef);
+> +void ieee80211_remove_wbrf(struct ieee80211_local *local,
+> +			   struct cfg80211_chan_def *chandef);
+> +
+>  #endif /* IEEE80211_I_H */
+> diff --git a/net/mac80211/main.c b/net/mac80211/main.c
+> index 24315d7b3126..b20bdaac84db 100644
+> --- a/net/mac80211/main.c
+> +++ b/net/mac80211/main.c
+> @@ -1396,6 +1396,8 @@ int ieee80211_register_hw(struct ieee80211_hw *hw)
+>  	debugfs_hw_add(local);
+>  	rate_control_add_debugfs(local);
+>  
+> +	ieee80211_check_wbrf_support(local);
+> +
+>  	rtnl_lock();
+>  	wiphy_lock(hw->wiphy);
+>  
+> diff --git a/net/mac80211/wbrf.c b/net/mac80211/wbrf.c
+> new file mode 100644
+> index 000000000000..7329f554c7af
+> --- /dev/null
+> +++ b/net/mac80211/wbrf.c
+> @@ -0,0 +1,105 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Wifi Band Exclusion Interface for WLAN
+> + * Copyright (C) 2023 Advanced Micro Devices
+> + *
+> + */
+> +
+> +#include <linux/acpi_amd_wbrf.h>
+> +#include <net/cfg80211.h>
+> +#include "ieee80211_i.h"
+> +
+> +void ieee80211_check_wbrf_support(struct ieee80211_local *local)
+> +{
+> +	struct wiphy *wiphy = local->hw.wiphy;
+> +	struct device *dev;
+> +
+> +	if (!wiphy)
+> +		return;
+> +
+> +	dev = wiphy->dev.parent;
+> +	if (!dev)
+> +		return;
+> +
+> +	local->wbrf_supported = acpi_amd_wbrf_supported_producer(dev);
+> +	dev_dbg(dev, "WBRF is %s supported\n",
+> +		local->wbrf_supported ? "" : "not");
 
-Reported-by: James John <me@donjajo.com>
-Closes: https://lore.kernel.org/platform-driver-x86/a2c441fe-457e-44cf-a146-0ecd86b037cf@donjajo.com/
-Closes: https://bbs.archlinux.org/viewtopic.php?pid=2123716
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/asus-nb-wmi.c | 3 +++
- 1 file changed, 3 insertions(+)
+Add a new static inline into include/linux/string_choices.h for 
+"supported" / "not supported" and use it here.
 
-diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
-index d85d895fee89..df1db54d4e18 100644
---- a/drivers/platform/x86/asus-nb-wmi.c
-+++ b/drivers/platform/x86/asus-nb-wmi.c
-@@ -531,6 +531,9 @@ static void asus_nb_wmi_quirks(struct asus_wmi_driver *driver)
- static const struct key_entry asus_nb_wmi_keymap[] = {
- 	{ KE_KEY, ASUS_WMI_BRN_DOWN, { KEY_BRIGHTNESSDOWN } },
- 	{ KE_KEY, ASUS_WMI_BRN_UP, { KEY_BRIGHTNESSUP } },
-+	{ KE_KEY, 0x2a, { KEY_SELECTIVE_SCREENSHOT } },
-+	{ KE_IGNORE, 0x2b, }, /* PrintScreen (also send via PS/2) on newer models */
-+	{ KE_IGNORE, 0x2c, }, /* CapsLock (also send via PS/2) on newer models */
- 	{ KE_KEY, 0x30, { KEY_VOLUMEUP } },
- 	{ KE_KEY, 0x31, { KEY_VOLUMEDOWN } },
- 	{ KE_KEY, 0x32, { KEY_MUTE } },
+> +}
+> +
+> +static void get_chan_freq_boundary(u32 center_freq,
+> +				   u32 bandwidth,
+> +				   u64 *start,
+> +				   u64 *end)
+
+Use less lines.
+
+> +{
+> +	bandwidth = MHZ_TO_KHZ(bandwidth);
+> +	center_freq = MHZ_TO_KHZ(center_freq);
+> +
+> +	*start = center_freq - bandwidth / 2;
+> +	*end = center_freq + bandwidth / 2;
+> +
+> +	/* Frequency in HZ is expected */
+
+No, it's not in HZ but Hz. HZ has a special meaning in kernel.
+
 -- 
-2.41.0
+ i.
 
+> +	*start = KHZ_TO_HZ(*start);
+> +	*end = KHZ_TO_HZ(*end);
+> +}
+> +
+> +static void get_ranges_from_chandef(struct cfg80211_chan_def *chandef,
+> +				    struct wbrf_ranges_in_out *ranges_in)
+> +{
+> +	u64 start_freq1, end_freq1;
+> +	u64 start_freq2, end_freq2;
+> +	int bandwidth;
+> +
+> +	bandwidth = nl80211_chan_width_to_mhz(chandef->width);
+> +
+> +	get_chan_freq_boundary(chandef->center_freq1,
+> +			       bandwidth,
+> +			       &start_freq1,
+> +			       &end_freq1);
+> +
+> +	ranges_in->band_list[0].start = start_freq1;
+> +	ranges_in->band_list[0].end = end_freq1;
+> +	ranges_in->num_of_ranges = 1;
+> +
+> +	if (chandef->width == NL80211_CHAN_WIDTH_80P80) {
+> +		get_chan_freq_boundary(chandef->center_freq2,
+> +				       bandwidth,
+> +				       &start_freq2,
+> +				       &end_freq2);
+> +
+> +		ranges_in->band_list[1].start = start_freq2;
+> +		ranges_in->band_list[1].end = end_freq2;
+> +		ranges_in->num_of_ranges++;
+> +	}
+> +}
+> +
+> +void ieee80211_add_wbrf(struct ieee80211_local *local,
+> +			struct cfg80211_chan_def *chandef)
+> +{
+> +	struct wbrf_ranges_in_out ranges_in = {0};
+> +	struct device *dev;
+> +
+> +	if (!local->wbrf_supported)
+> +		return;
+> +
+> +	dev = local->hw.wiphy->dev.parent;
+> +
+> +	get_ranges_from_chandef(chandef, &ranges_in);
+> +
+> +	acpi_amd_wbrf_add_remove(dev, WBRF_RECORD_ADD, &ranges_in);
+> +}
+> +
+> +void ieee80211_remove_wbrf(struct ieee80211_local *local,
+> +			   struct cfg80211_chan_def *chandef)
+> +{
+> +	struct wbrf_ranges_in_out ranges_in = {0};
+> +	struct device *dev;
+> +
+> +	if (!local->wbrf_supported)
+> +		return;
+> +
+> +	dev = local->hw.wiphy->dev.parent;
+> +
+> +	get_ranges_from_chandef(chandef, &ranges_in);
+> +
+> +	acpi_amd_wbrf_add_remove(dev, WBRF_RECORD_REMOVE, &ranges_in);
+> +}
+> 
