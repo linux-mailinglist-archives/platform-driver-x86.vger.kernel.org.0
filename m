@@ -2,91 +2,181 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E65F7D998B
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Oct 2023 15:17:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 121137D99A7
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Oct 2023 15:22:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345889AbjJ0NRm (ORCPT
+        id S231305AbjJ0NW6 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 27 Oct 2023 09:17:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39320 "EHLO
+        Fri, 27 Oct 2023 09:22:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345916AbjJ0NRh (ORCPT
+        with ESMTP id S230101AbjJ0NW5 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 27 Oct 2023 09:17:37 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C0F6D7A
-        for <platform-driver-x86@vger.kernel.org>; Fri, 27 Oct 2023 06:17:24 -0700 (PDT)
+        Fri, 27 Oct 2023 09:22:57 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4EF018A;
+        Fri, 27 Oct 2023 06:22:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698412644; x=1729948644;
-  h=from:to:cc:in-reply-to:references:subject:message-id:
-   date:mime-version:content-transfer-encoding;
-  bh=RkmTOlCL9kBfe/Y3L6fYLFQ8NfWfDZp8TJllaFNhbvA=;
-  b=XiEpe7RH8hKsIFp5T9cFLAuh04bqqcYHAs8kKXvlAl6/9C1c7HEq8Tjb
-   lHEJEHqHZrHHVSpH1OWfgWpusp3aQfVDhoLG5doETeVkwPWeaiFVs4Zez
-   FiuqdvSsDAS0aELZFEW+G8u5l2Om9bkYBAjl2OUVVOp0bqEifLbZtWRQu
-   YSI2oT3h5lEHmruXuAjjoSW+xB+Ja+bzs4MYWX0SzsvE+EsI9kDEoodNN
-   V5d8iU6Bzyslf2Imje7L4AeINBcez+zS4N7fCGEnbDxfX+ndzYElQbTL9
-   coFVkWhBPJ3Z6ZTrz+y84beWuKrEL+02R35Hug5sZG8G0Zh21Fsul9xKG
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="474012375"
+  t=1698412974; x=1729948974;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=q8RbtznGdq3XlcFBNcvALLjajiJQ2HwAxFk8qehsygo=;
+  b=IfRV4Fs/Sy0Y5al1t5SFe2sfQUeefQg7pLhAW5xk6tfPRemC1c3YpLee
+   VJ4tCMZa7mABt9zyQZ5HEe4OMMOFEdSeYSGbhTdYhIGGMMyGHbmDZKTFe
+   Vpno6b0Z/fTduLlav5QKpfutQSbs7505F5oJ6d9RjOhi2Xy8vsGfeM+yy
+   sgC0+zWvCUybIKlD9T2gDvFE6uFQhjKw0TKj1p6a2cHwQ8fNGIriYMJW9
+   chx4SmfZWBMP9zAD+JJSkoa6DkEwqiQuaWcue6WjSgKZV1OPgMvT3YS17
+   A70uZc91z03l4pSLT/lOPh8ODVGQunY/LrP0mxp39CHMvrmA0v+jrxzab
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="418883580"
 X-IronPort-AV: E=Sophos;i="6.03,256,1694761200"; 
-   d="scan'208";a="474012375"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 06:17:23 -0700
+   d="scan'208";a="418883580"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 06:22:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="1090924271"
 X-IronPort-AV: E=Sophos;i="6.03,256,1694761200"; 
-   d="scan'208";a="1090924271"
-Received: from amyachev-mobl3.ccr.corp.intel.com (HELO localhost) ([10.252.49.46])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 06:17:20 -0700
-From:   =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Olli Asikainen <olli.asikainen@gmail.com>
-Cc:     ibm-acpi-devel@lists.sourceforge.net,
+   d="scan'208";a="7228162"
+Received: from scoltan-mobl.ger.corp.intel.com ([10.252.33.159])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 06:21:22 -0700
+Date:   Fri, 27 Oct 2023 16:22:42 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Ai Chao <aichao@kylinos.cn>
+cc:     Hans de Goede <hdegoede@redhat.com>, markgross@kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
         platform-driver-x86@vger.kernel.org
-In-Reply-To: <20231024190922.2742-1-olli.asikainen@gmail.com>
-References: <20231024190922.2742-1-olli.asikainen@gmail.com>
-Subject: Re: [PATCH] platform/x86: thinkpad_acpi: Add battery quirk for
- Thinkpad X120e
-Message-Id: <169841262967.11233.13412167476769105831.b4-ty@linux.intel.com>
-Date:   Fri, 27 Oct 2023 16:17:09 +0300
+Subject: Re: [PATCH v5] platform/x86: inspur-platform-profile: Add platform
+ profile support
+In-Reply-To: <20231020024007.1677962-1-aichao@kylinos.cn>
+Message-ID: <a6dc9391-26c9-cb25-44ed-3aab4d528f0@linux.intel.com>
+References: <20231020024007.1677962-1-aichao@kylinos.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.3
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, 24 Oct 2023 22:09:21 +0300, Olli Asikainen wrote:
+On Fri, 20 Oct 2023, Ai Chao wrote:
 
-> Thinkpad X120e also needs this battery quirk.
+> Add support for Inspur platforms to used the platform profile feature.
 > 
+> This will allow users to determine and control the platform modes
+> between low-power, balanced and performance modes.
 > 
+> Signed-off-by: Ai Chao <aichao@kylinos.cn>
+> ---
+> 
+> v5: Rename inspur-wmi to inspur_platform_profile
+> v4: Add select ACPI_PLATFORM_PROFILE
+> v3: Remove input device, using the platform profile interface
+> v2: Remove Event GUID, remove inspur_wmi_notify and inspur_wmi_notify.
+> 
+>  drivers/platform/x86/Kconfig                  |  11 +
+>  drivers/platform/x86/Makefile                 |   3 +
+>  .../platform/x86/inspur_platform_profile.c    | 216 ++++++++++++++++++
+>  3 files changed, 230 insertions(+)
+>  create mode 100644 drivers/platform/x86/inspur_platform_profile.c
+> 
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index 2a1070543391..7e69fdaccdd5 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -988,6 +988,17 @@ config TOUCHSCREEN_DMI
+>  	  the OS-image for the device. This option supplies the missing info.
+>  	  Enable this for x86 tablets with Silead or Chipone touchscreens.
+>  
+> +config INSPUR_PLATFORM_PROFILE
+> +	tristate "Inspur WMI platform profile driver"
+> +	depends on ACPI_WMI
+> +	select ACPI_PLATFORM_PROFILE
+> +	help
+> +	This will allow users to determine and control the platform modes
+> +	between low-power, balanced and performance modes.
+> +
+> +	To compile this driver as a module, choose M here: the module
+> +	will be called inspur-platform-profile.
+> +
+>  source "drivers/platform/x86/x86-android-tablets/Kconfig"
+>  
+>  config FW_ATTR_CLASS
+> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+> index b457de5abf7d..c7a18e95ad8c 100644
+> --- a/drivers/platform/x86/Makefile
+> +++ b/drivers/platform/x86/Makefile
+> @@ -98,6 +98,9 @@ obj-$(CONFIG_TOSHIBA_WMI)	+= toshiba-wmi.o
+>  # before toshiba_acpi initializes
+>  obj-$(CONFIG_ACPI_TOSHIBA)	+= toshiba_acpi.o
+>  
+> +# Inspur
+> +obj-$(CONFIG_INSPUR_PLATFORM_PROFILE)	+= inspur_platform_profile.o
+> +
+>  # Laptop drivers
+>  obj-$(CONFIG_ACPI_CMPC)		+= classmate-laptop.o
+>  obj-$(CONFIG_COMPAL_LAPTOP)	+= compal-laptop.o
+> diff --git a/drivers/platform/x86/inspur_platform_profile.c b/drivers/platform/x86/inspur_platform_profile.c
+> new file mode 100644
+> index 000000000000..6e376cb6d47e
+> --- /dev/null
+> +++ b/drivers/platform/x86/inspur_platform_profile.c
 
+> +/**
+> + * Power Mode:
+> + *           0x0: Balance Mode
+> + *           0x1: Performance Mode
+> + *           0x2: Power Saver Mode
+> + */
+> +enum inspur_tmp_profile {
+> +	INSPUR_TMP_PROFILE_BALANCE	= 0,
+> +	INSPUR_TMP_PROFILE_PERFORMANCE	= 1,
+> +	INSPUR_TMP_PROFILE_POWERSAVE	= 2,
+> +};
 
-Thank you for your contribution, it has been applied to my local
-review-ilpo branch. Note it will show up in the public
-platform-drivers-x86/review-ilpo branch only once I've pushed my
-local branch there, which might take a while.
+> +/**
+> + * Set Power Mode to EC RAM. If Power Mode value greater than 0x3,
+> + * return error
+> + * Method ID: 0x3
+> + * Arg: 4 Bytes
+> + * Byte [0]: Power Mode:
+> + *         0x0: Balance Mode
+> + *         0x1: Performance Mode
+> + *         0x2: Power Saver Mode
+> + * Return Value: 4 Bytes
+> + * Byte [0]: Return Code
+> + *         0x0: No Error
+> + *         0x1: Error
+> + */
+> +static int inspur_platform_profile_set(struct platform_profile_handler *pprof,
+> +				       enum platform_profile_option profile)
+> +{
 
-Once I've run some tests on the review-ilpo branch the patches
-there will be added to the platform-drivers-x86/for-next branch
-and eventually will be included in the pdx86 pull-request to
-Linus for the next merge-window.
+> +/**
+> + * Get Power Mode from EC RAM, If Power Mode value greater than 0x3,
+> + * return error
+> + * Method ID: 0x2
+> + * Return Value: 4 Bytes
+> + * Byte [0]: Return Code
+> + *         0x0: No Error
+> + *         0x1: Error
+> + * Byte [1]: Power Mode
+> + *         0x0: Balance Mode
+> + *         0x1: Performance Mode
+> + *         0x2: Power Saver Mode
+> + */
+> +static int inspur_platform_profile_get(struct platform_profile_handler *pprof,
+> +				       enum platform_profile_option *profile)
+> +{
 
-The list of commits applied:
-[1/1] platform/x86: thinkpad_acpi: Add battery quirk for Thinkpad X120e
-      commit: 916646758aea81a143ce89103910f715ed923346
+Applied to review-ilpo.
 
---
+I had to remove the kerneldoc markers as the comments above are not 
+consistent with what kerneldoc expects and it triggered a warning.
+
+-- 
  i.
 
