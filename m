@@ -2,181 +2,130 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 121137D99A7
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Oct 2023 15:22:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C78187D9C48
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Oct 2023 16:55:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231305AbjJ0NW6 (ORCPT
+        id S1345833AbjJ0Oz6 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 27 Oct 2023 09:22:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37034 "EHLO
+        Fri, 27 Oct 2023 10:55:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230101AbjJ0NW5 (ORCPT
+        with ESMTP id S1345845AbjJ0Oz5 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 27 Oct 2023 09:22:57 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4EF018A;
-        Fri, 27 Oct 2023 06:22:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698412974; x=1729948974;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=q8RbtznGdq3XlcFBNcvALLjajiJQ2HwAxFk8qehsygo=;
-  b=IfRV4Fs/Sy0Y5al1t5SFe2sfQUeefQg7pLhAW5xk6tfPRemC1c3YpLee
-   VJ4tCMZa7mABt9zyQZ5HEe4OMMOFEdSeYSGbhTdYhIGGMMyGHbmDZKTFe
-   Vpno6b0Z/fTduLlav5QKpfutQSbs7505F5oJ6d9RjOhi2Xy8vsGfeM+yy
-   sgC0+zWvCUybIKlD9T2gDvFE6uFQhjKw0TKj1p6a2cHwQ8fNGIriYMJW9
-   chx4SmfZWBMP9zAD+JJSkoa6DkEwqiQuaWcue6WjSgKZV1OPgMvT3YS17
-   A70uZc91z03l4pSLT/lOPh8ODVGQunY/LrP0mxp39CHMvrmA0v+jrxzab
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="418883580"
-X-IronPort-AV: E=Sophos;i="6.03,256,1694761200"; 
-   d="scan'208";a="418883580"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 06:22:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,256,1694761200"; 
-   d="scan'208";a="7228162"
-Received: from scoltan-mobl.ger.corp.intel.com ([10.252.33.159])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 06:21:22 -0700
-Date:   Fri, 27 Oct 2023 16:22:42 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Ai Chao <aichao@kylinos.cn>
-cc:     Hans de Goede <hdegoede@redhat.com>, markgross@kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v5] platform/x86: inspur-platform-profile: Add platform
- profile support
-In-Reply-To: <20231020024007.1677962-1-aichao@kylinos.cn>
-Message-ID: <a6dc9391-26c9-cb25-44ed-3aab4d528f0@linux.intel.com>
-References: <20231020024007.1677962-1-aichao@kylinos.cn>
+        Fri, 27 Oct 2023 10:55:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7102110E
+        for <platform-driver-x86@vger.kernel.org>; Fri, 27 Oct 2023 07:55:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1698418513;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=7GcgtRljqp8I6+SbcnMUmqHUR4tncRi9vmDfTIxBtlw=;
+        b=XFEbk2vSTA6RPgiuF6r2OOnvLbh3HJZ9QATpk/COrp03skGQVBBs7D331YMiQ3qOVQwSOa
+        uu0xZ7KjucqYVguy+b4Rb1XWcerZPFprmeGCyElTfZH/wbBbZY6C2fDoD8UbryW5pGfCmr
+        LLNzy5X+hW4Si/Pi9mYASbxvWF9kGkU=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-202-xKjEKA2oP12fI4AefV6NHA-1; Fri, 27 Oct 2023 10:55:12 -0400
+X-MC-Unique: xKjEKA2oP12fI4AefV6NHA-1
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-53e26bbbc63so1615262a12.3
+        for <platform-driver-x86@vger.kernel.org>; Fri, 27 Oct 2023 07:55:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698418511; x=1699023311;
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=7GcgtRljqp8I6+SbcnMUmqHUR4tncRi9vmDfTIxBtlw=;
+        b=F+WcDXtFiG9sBjx/jgynDy11yskdKGu2H60duqmoc0C9Hb2DQNTP3CB1slGkMlEPIy
+         VClK8OLqjE+eesBQj8QEeQuoLayiB/rWYY6G96QUkjXin/ykaQRyUuO88etSo5rUj07p
+         nOJfBy4dOEjhW4M6DLopNUJEe72UfcEQeB1MSGTHOu7sVpWH7IO0g71DczMWHWmY/PiO
+         a2PaJRPAPUZ/9MtaHHwKU/SLVT0iaaggfqoANnimI3RJcjsDCS44V4Z6xcg6XOEsgie+
+         6yjVUOE/ty/swvWMC4WyluYgjb0drTBgBw/VYi1vQPOl0iBix+jOmfC6eRTDwfEPcPTD
+         rBEw==
+X-Gm-Message-State: AOJu0Yw7WRfv8tHtu9zAzm67YryVbj5DYy2eUInMSWmpzl00AjT0II3D
+        S2bX531SuYY2ddhNTZgMbVTAue1/4/ccqD/Gnyr5b1Io9U76MmuIBA//trapsnA9AGda3CiJWRi
+        21khTDjiOw3bQkSVlaQWTIWxTVpO6OJiXmQ==
+X-Received: by 2002:a17:907:7f8c:b0:9b8:b683:5854 with SMTP id qk12-20020a1709077f8c00b009b8b6835854mr3108900ejc.61.1698418510939;
+        Fri, 27 Oct 2023 07:55:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEBLB+7mAs+KwOKlv3cy3r8ss/FeYSMLZK3aFqu+TIHhymj+Pn9FNh4CszMk/hjBCRVHuAd9A==
+X-Received: by 2002:a17:907:7f8c:b0:9b8:b683:5854 with SMTP id qk12-20020a1709077f8c00b009b8b6835854mr3108887ejc.61.1698418510654;
+        Fri, 27 Oct 2023 07:55:10 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id u27-20020a1709063b9b00b0099bcb44493fsm1325920ejf.147.2023.10.27.07.55.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Oct 2023 07:55:10 -0700 (PDT)
+Message-ID: <00ebd650-72c1-0901-27bc-ae18867ed4b4@redhat.com>
+Date:   Fri, 27 Oct 2023 16:55:09 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+From:   Hans de Goede <hdegoede@redhat.com>
+Subject: [GIT PULL] platform-drivers-x86 for 6.6-6
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        platform-driver-x86@vger.kernel.org,
+        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        David Lazar <dlazar@gmail.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Mark Pearson <mpearson-lenovo@squebb.ca>
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, 20 Oct 2023, Ai Chao wrote:
+Hi Linus,
 
-> Add support for Inspur platforms to used the platform profile feature.
-> 
-> This will allow users to determine and control the platform modes
-> between low-power, balanced and performance modes.
-> 
-> Signed-off-by: Ai Chao <aichao@kylinos.cn>
-> ---
-> 
-> v5: Rename inspur-wmi to inspur_platform_profile
-> v4: Add select ACPI_PLATFORM_PROFILE
-> v3: Remove input device, using the platform profile interface
-> v2: Remove Event GUID, remove inspur_wmi_notify and inspur_wmi_notify.
-> 
->  drivers/platform/x86/Kconfig                  |  11 +
->  drivers/platform/x86/Makefile                 |   3 +
->  .../platform/x86/inspur_platform_profile.c    | 216 ++++++++++++++++++
->  3 files changed, 230 insertions(+)
->  create mode 100644 drivers/platform/x86/inspur_platform_profile.c
-> 
-> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> index 2a1070543391..7e69fdaccdd5 100644
-> --- a/drivers/platform/x86/Kconfig
-> +++ b/drivers/platform/x86/Kconfig
-> @@ -988,6 +988,17 @@ config TOUCHSCREEN_DMI
->  	  the OS-image for the device. This option supplies the missing info.
->  	  Enable this for x86 tablets with Silead or Chipone touchscreens.
->  
-> +config INSPUR_PLATFORM_PROFILE
-> +	tristate "Inspur WMI platform profile driver"
-> +	depends on ACPI_WMI
-> +	select ACPI_PLATFORM_PROFILE
-> +	help
-> +	This will allow users to determine and control the platform modes
-> +	between low-power, balanced and performance modes.
-> +
-> +	To compile this driver as a module, choose M here: the module
-> +	will be called inspur-platform-profile.
-> +
->  source "drivers/platform/x86/x86-android-tablets/Kconfig"
->  
->  config FW_ATTR_CLASS
-> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-> index b457de5abf7d..c7a18e95ad8c 100644
-> --- a/drivers/platform/x86/Makefile
-> +++ b/drivers/platform/x86/Makefile
-> @@ -98,6 +98,9 @@ obj-$(CONFIG_TOSHIBA_WMI)	+= toshiba-wmi.o
->  # before toshiba_acpi initializes
->  obj-$(CONFIG_ACPI_TOSHIBA)	+= toshiba_acpi.o
->  
-> +# Inspur
-> +obj-$(CONFIG_INSPUR_PLATFORM_PROFILE)	+= inspur_platform_profile.o
-> +
->  # Laptop drivers
->  obj-$(CONFIG_ACPI_CMPC)		+= classmate-laptop.o
->  obj-$(CONFIG_COMPAL_LAPTOP)	+= compal-laptop.o
-> diff --git a/drivers/platform/x86/inspur_platform_profile.c b/drivers/platform/x86/inspur_platform_profile.c
-> new file mode 100644
-> index 000000000000..6e376cb6d47e
-> --- /dev/null
-> +++ b/drivers/platform/x86/inspur_platform_profile.c
+Sorry for the somewhat last minute pull-request. This pull contains
+a single patch to extend the AMD PMC driver DMI quirk list for laptops
+which need special handling to avoid NVME s2idle suspend/resume errors.
 
-> +/**
-> + * Power Mode:
-> + *           0x0: Balance Mode
-> + *           0x1: Performance Mode
-> + *           0x2: Power Saver Mode
-> + */
-> +enum inspur_tmp_profile {
-> +	INSPUR_TMP_PROFILE_BALANCE	= 0,
-> +	INSPUR_TMP_PROFILE_PERFORMANCE	= 1,
-> +	INSPUR_TMP_PROFILE_POWERSAVE	= 2,
-> +};
+The chance of this causing regressions should be close to 0 since it
+just extends a list of DMI quirks.
 
-> +/**
-> + * Set Power Mode to EC RAM. If Power Mode value greater than 0x3,
-> + * return error
-> + * Method ID: 0x3
-> + * Arg: 4 Bytes
-> + * Byte [0]: Power Mode:
-> + *         0x0: Balance Mode
-> + *         0x1: Performance Mode
-> + *         0x2: Power Saver Mode
-> + * Return Value: 4 Bytes
-> + * Byte [0]: Return Code
-> + *         0x0: No Error
-> + *         0x1: Error
-> + */
-> +static int inspur_platform_profile_set(struct platform_profile_handler *pprof,
-> +				       enum platform_profile_option profile)
-> +{
+I decided to send this in at the last minute because together with
+"x86/i8259: Skip probing when ACPI/MADT advertises PCAT compatibility"
+which is pending in tip x86/urgent this fixes a whole group of 9 Lenovo
+AMD Mendocino Soc based laptop models from being unusable with Linux
+to them working fine with Linux.
 
-> +/**
-> + * Get Power Mode from EC RAM, If Power Mode value greater than 0x3,
-> + * return error
-> + * Method ID: 0x2
-> + * Return Value: 4 Bytes
-> + * Byte [0]: Return Code
-> + *         0x0: No Error
-> + *         0x1: Error
-> + * Byte [1]: Power Mode
-> + *         0x0: Balance Mode
-> + *         0x1: Performance Mode
-> + *         0x2: Power Saver Mode
-> + */
-> +static int inspur_platform_profile_get(struct platform_profile_handler *pprof,
-> +				       enum platform_profile_option *profile)
-> +{
+Regards,
 
-Applied to review-ilpo.
+Hans
 
-I had to remove the kerneldoc markers as the comments above are not 
-consistent with what kerneldoc expects and it triggered a warning.
 
--- 
- i.
+
+The following changes since commit 99c09c985e5973c8f0ad976ebae069548dd86f12:
+
+  platform/mellanox: mlxbf-tmfifo: Fix a warning message (2023-10-18 15:38:09 +0200)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-v6.6-6
+
+for you to fetch changes up to 3bde7ec13c971445faade32172cb0b4370b841d9:
+
+  platform/x86: Add s2idle quirk for more Lenovo laptops (2023-10-27 16:42:12 +0200)
+
+----------------------------------------------------------------
+platform-drivers-x86 for v6.6-6
+
+A single patch to extend the AMD PMC driver DMI quirk list for laptops
+which need special handling to avoid NVME s2idle suspend/resume errors.
+
+----------------------------------------------------------------
+David Lazar (1):
+      platform/x86: Add s2idle quirk for more Lenovo laptops
+
+ drivers/platform/x86/amd/pmc/pmc-quirks.c | 73 +++++++++++++++++++++++++++++++
+ 1 file changed, 73 insertions(+)
 
