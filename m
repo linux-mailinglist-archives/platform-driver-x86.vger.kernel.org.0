@@ -2,72 +2,50 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EADD07DAE0E
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 29 Oct 2023 20:52:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A4DF67DB106
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 30 Oct 2023 00:28:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229533AbjJ2Twh (ORCPT
+        id S232418AbjJ2X2Z (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 29 Oct 2023 15:52:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37122 "EHLO
+        Sun, 29 Oct 2023 19:28:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbjJ2Twg (ORCPT
+        with ESMTP id S232107AbjJ2X2I (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 29 Oct 2023 15:52:36 -0400
-Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E0CEBA
-        for <platform-driver-x86@vger.kernel.org>; Sun, 29 Oct 2023 12:52:33 -0700 (PDT)
-Received: by mail-vs1-xe2d.google.com with SMTP id ada2fe7eead31-457e9088d7aso1485831137.1
-        for <platform-driver-x86@vger.kernel.org>; Sun, 29 Oct 2023 12:52:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698609152; x=1699213952; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wbpqTi1FkkB/3AX4bK+SRdELnkkSvhXMMY9b/E7EG4k=;
-        b=jsK3+JDXrErZhV8DCzo4ksiyRAfvnKe9DLgjKABZGaKkjLiRAy253YmvQA6F/XPS/1
-         AILuImAf2c8A6kk1jD3ytIy8FfIADvJFBhCa6WPITDU8o0l2VHujF1iBlbjrCBQBGt+p
-         1IYW5M0nl/i2byfK7KUncQlWxleX9oAjI0CEBr4vpNF+C1L9XCnggeYi+3t1oYy/kUI3
-         Jo4IbNmgi1vhynbP1CB2TK5AFv3oKKGAoNIW0sZB+KZlDJ08jlQ8N5lXBqNEWEqC6QK5
-         MdnOxiPfD8CILW36POo4CA2r9qilDgyZaYWcjoNm9b+HF+6kvzvXbi7FYutFewRGUISu
-         Pedg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698609152; x=1699213952;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wbpqTi1FkkB/3AX4bK+SRdELnkkSvhXMMY9b/E7EG4k=;
-        b=OOgDCi7xQClcvWNS/Khy38fz0rZ1LY0yV/XPPjOTqdxJuH15H7ugL0kPZXqdNEdm01
-         8YI5XIB6AAxcw1Zyton2PSKgtjPs9NVKrA5+xS2JpIKpHjFUwi8cFbZfcUChQz3wGCqT
-         cV0qu/2tFYc8vxITDclP0+4DNprPeGqDWD5BCYOLpfbfmGUUM+QUmFWXIi1KiwZwCpMH
-         bUnJISHi1IrShJMPfinnxt0iLDPeKPlDxE/4FNosHrrkV4vG0gpmD3q/SYsBu8K3v0rV
-         WygZz3gQkQPIH3Eb0+aKYa5CUaTqYQi+bP9XVsNnFprpu14iyjuI3jdfHAukHIx4/Jy+
-         MZNA==
-X-Gm-Message-State: AOJu0Yy7ehZY0tPBKPAawz8eAdwym/jtYhy5vBxEdHfGwskx3fo/TLSX
-        r54selOZ6QeThr9YxBQrPFkUwHIZ6Vr0bQ==
-X-Google-Smtp-Source: AGHT+IE8cibWpJQxAHWCzOR407fRTsVRSf/E38aj0lySwAXECpxJr6RX0VJkdPQcXYoJZlOFHo2NdQ==
-X-Received: by 2002:a67:b70e:0:b0:450:8e58:2de4 with SMTP id h14-20020a67b70e000000b004508e582de4mr6516096vsf.7.1698609152559;
-        Sun, 29 Oct 2023 12:52:32 -0700 (PDT)
-Received: from ?IPV6:2607:fea8:4adc:dd40::2ca5? ([2607:fea8:4adc:dd40::2ca5])
-        by smtp.gmail.com with ESMTPSA id dd9-20020ad45809000000b0066d12d1351fsm2756360qvb.143.2023.10.29.12.52.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 29 Oct 2023 12:52:32 -0700 (PDT)
-Message-ID: <c6402969-a372-44ad-a540-79d4ee60e190@gmail.com>
-Date:   Sun, 29 Oct 2023 15:52:30 -0400
+        Sun, 29 Oct 2023 19:28:08 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13AE53A97;
+        Sun, 29 Oct 2023 15:57:42 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EB78C433BA;
+        Sun, 29 Oct 2023 22:56:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1698620210;
+        bh=+fquCF2L/2oZkAaBOfHHvRsQJQ6bsGAbQLrcRdEpmqI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=FVrHYJ5ndc3hj9IVybMvgIvmZoD4KGUsQ6jzpZ1HzJUfUTgnjJcuOWRYWXt9CwRxG
+         PV2YPWUsoibXiN8/MO3eUX4/O6hUD5rtBtwaVEx8nAHTtcHyQFZBXn8WWclClHrcjt
+         vjj6nzHjVdDmm31M7Gu3d8vJKxQE2hpG1isJlpILjdtD4GILnB/iejJZKJ1uqloERY
+         SUkY6BGD9hxr0DSTR7P6BptJnGwCGdBeU3WyrYYEC4FNFAz5HSrvi3fDk0ZY/KsqlU
+         jhYozaWL4fyZER4hDh4tAyE2P4swIppU2TV4L0OGEakYggCsBKnHeVxLnqfa4F7OVb
+         /r89RKwCV+fGw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Hans de Goede <hdegoede@redhat.com>, James John <me@donjajo.com>,
+        Sasha Levin <sashal@kernel.org>, ilpo.jarvinen@linux.intel.com,
+        markgross@kernel.org, platform-driver-x86@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.5 44/52] platform/x86: asus-wmi: Change ASUS_WMI_BRN_DOWN code from 0x20 to 0x2e
+Date:   Sun, 29 Oct 2023 18:53:31 -0400
+Message-ID: <20231029225441.789781-44-sashal@kernel.org>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231029225441.789781-1-sashal@kernel.org>
+References: <20231029225441.789781-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Bug Report] intel/vbtn: Dell Inspiron 7352 has unreliable
- tablet-mode switch
-To:     AceLan Kao <acelan.kao@canonical.com>
-Cc:     platform-driver-x86@vger.kernel.org
-References: <87271a74-c831-4eec-b7a4-1371d0e42471@gmail.com>
- <CAFv23Qm+-p7U5N8JpJmqNxHnN7bTT3fxQJ5O0ainRrqnvrmB7g@mail.gmail.com>
-Content-Language: en-US
-From:   Arnold Gozum <arngozum@gmail.com>
-In-Reply-To: <CAFv23Qm+-p7U5N8JpJmqNxHnN7bTT3fxQJ5O0ainRrqnvrmB7g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.5.9
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -76,63 +54,69 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi, sorry for the delayed reply. Your patch doesn't seem to work, I
-still have the issue where the switch is in the wrong state after
-suspend/resume.
+From: Hans de Goede <hdegoede@redhat.com>
 
-And yes, it's been a while, and I believe the issues did exist during
-that time however it was easy to ignore/forget since I'm on X11 where
-libinput doesn't respond to tablet mode switches, so I neglected to
-report the issue for a while. Also, about the BIOS, I'm a little
-hesistant to update it since I don't have a battery. I have version A11
-and the newest is A15, but Dell's update notes only mention security
-fixes, so maybe it doesn't matter.
+[ Upstream commit f37cc2fc277b371fc491890afb7d8a26e36bb3a1 ]
 
-On 2023-10-17 22:05, AceLan Kao wrote:
-> Arnold Gozum <arngozum@gmail.com> 於 2023年10月18日 週三 上午8:53寫道：
->>
->> Hi,
->>
->> In Linux 5.11, Dell Inspiron 7352 was added to the
->> dmi_switches_allow_list as it is a 2-in-1 which reports a chassis type
->> 10 (actually it was me who submitted the patch).
->>
->> However, the tablet mode switch can be unreliable. Randomly, switch
->> events stop being reported and SW_TABLET_MODE will by stuck at 1 or 0,
->> which I have tested by running evtest while flipping the device to and
->> from tablet mode. This is fixed after a reboot, or a suspend followed by
->> unloading and reloading the intel-vbtn module. It can also sometimes be
->> the case that upon resume, SW_TABLET_MODE does not reflect the actual
->> state of the device, which is fixed by physically flipping the screen
->> back and forth to update the state.
->>
->> Because of these issues, I think this model should be removed from the
->> allow list, unless more investigation should be done.
-> Hi Arnold,
-> 
-> It's been a long time since you submitted the patch. Did those issues
-> not occur during that time?
-> Have you tried updating the BIOS to see if it helps?
-> 
-> From your description, I think calling VBDL might reset the status.
-> You might want to try it below.
-> 
-> diff --git a/drivers/platform/x86/intel/vbtn.c
-> b/drivers/platform/x86/intel/vbtn.c
-> index 6fa1735ad7a49..681650f52ff22 100644
-> --- a/drivers/platform/x86/intel/vbtn.c
-> +++ b/drivers/platform/x86/intel/vbtn.c
-> @@ -198,6 +198,8 @@ static void notify_handler(acpi_handle handle, u32
-> event, void *context)
->        autorelease = val && (!ke_rel || ke_rel->type == KE_IGNORE);
-> 
->        sparse_keymap_report_event(input_dev, event, val, autorelease);
-> +
-> +       acpi_evaluate_object(handle, "VBDL", NULL, NULL);
-> }
-> 
-> /*
-> 
->>
->> Thanks,
->> Arnold
+Older Asus laptops change the backlight level themselves and then send
+WMI events with different codes for different backlight levels.
+
+The asus-wmi.c code maps the entire range of codes reported on
+brightness down keypresses to an internal ASUS_WMI_BRN_DOWN code:
+
+define NOTIFY_BRNUP_MIN                0x11
+define NOTIFY_BRNUP_MAX                0x1f
+define NOTIFY_BRNDOWN_MIN              0x20
+define NOTIFY_BRNDOWN_MAX              0x2e
+
+        if (code >= NOTIFY_BRNUP_MIN && code <= NOTIFY_BRNUP_MAX)
+                code = ASUS_WMI_BRN_UP;
+        else if (code >= NOTIFY_BRNDOWN_MIN && code <= NOTIFY_BRNDOWN_MAX)
+                code = ASUS_WMI_BRN_DOWN;
+
+Before this commit all the NOTIFY_BRNDOWN_MIN - NOTIFY_BRNDOWN_MAX
+aka 0x20 - 0x2e events were mapped to 0x20.
+
+This mapping is causing issues on new laptop models which actually
+send 0x2b events for printscreen presses and 0x2c events for
+capslock presses, which get translated into spurious brightness-down
+presses.
+
+The plan is disable the 0x11-0x2e special mapping on laptops
+where asus-wmi does not register a backlight-device to avoid
+the spurious brightness-down keypresses. New laptops always send
+0x2e for brightness-down presses, change the special internal
+ASUS_WMI_BRN_DOWN value from 0x20 to 0x2e to match this in
+preparation for fixing the spurious brightness-down presses.
+
+This change does not have any functional impact since all
+of 0x20 - 0x2e is mapped to ASUS_WMI_BRN_DOWN first and only
+then checked against the keymap code and the new 0x2e
+value is still in the 0x20 - 0x2e range.
+
+Reported-by: James John <me@donjajo.com>
+Closes: https://lore.kernel.org/platform-driver-x86/a2c441fe-457e-44cf-a146-0ecd86b037cf@donjajo.com/
+Closes: https://bbs.archlinux.org/viewtopic.php?pid=2123716
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://lore.kernel.org/r/20231017090725.38163-2-hdegoede@redhat.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/platform/x86/asus-wmi.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/platform/x86/asus-wmi.h b/drivers/platform/x86/asus-wmi.h
+index a478ebfd34dfa..fc41d1b1bb7f8 100644
+--- a/drivers/platform/x86/asus-wmi.h
++++ b/drivers/platform/x86/asus-wmi.h
+@@ -18,7 +18,7 @@
+ #include <linux/i8042.h>
+ 
+ #define ASUS_WMI_KEY_IGNORE (-1)
+-#define ASUS_WMI_BRN_DOWN	0x20
++#define ASUS_WMI_BRN_DOWN	0x2e
+ #define ASUS_WMI_BRN_UP		0x2f
+ 
+ struct module;
+-- 
+2.42.0
+
