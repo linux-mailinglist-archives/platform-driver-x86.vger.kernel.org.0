@@ -2,39 +2,39 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DF457DF7EE
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Nov 2023 17:48:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D2DA7DF910
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Nov 2023 18:46:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229822AbjKBQsm (ORCPT
+        id S233694AbjKBRqI (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 2 Nov 2023 12:48:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49214 "EHLO
+        Thu, 2 Nov 2023 13:46:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbjKBQsm (ORCPT
+        with ESMTP id S229534AbjKBRqG (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 2 Nov 2023 12:48:42 -0400
+        Thu, 2 Nov 2023 13:46:06 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D091C128
-        for <platform-driver-x86@vger.kernel.org>; Thu,  2 Nov 2023 09:48:39 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 767F9C433C9
-        for <platform-driver-x86@vger.kernel.org>; Thu,  2 Nov 2023 16:48:39 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD234188
+        for <platform-driver-x86@vger.kernel.org>; Thu,  2 Nov 2023 10:46:04 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6852DC433C7
+        for <platform-driver-x86@vger.kernel.org>; Thu,  2 Nov 2023 17:46:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698943719;
-        bh=vOphEPwpzB2nfF9finSM35jl34xOrH1ZAnjEOHvjCrc=;
+        s=k20201202; t=1698947164;
+        bh=niOG2CgLhPKWKGpAD8dERSr9tsPDlOTQBk6RfMWoz7M=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=Uk44ZxCcS4fxjMldpvQ/SV7N8ltIMKSR9oC6S1EjHqd8fRSD/GsCjyJi4fg+ifK8o
-         tk8qSGH+T0qyYq9nZ8W7gSLWrGvcOvg7fMIkBXh4g+1WhZe9M31eD9CJd8xmnFbkzD
-         iBiGS9DW2zF+0Axj1j/vCm8aKIaqdnjsxkqv8+Dy9FQ7mjITt4iECpkF9F3Xx2M1dh
-         HkKvwAxYYmxylldoo2H5bU0MP6zsO/YJFLjWV7NWAVu30I0u6A36RmduvSLDY7NXLa
-         qIgVoaOUTloi6hbOAXz3qU38ATKXNSvIvH1okK0saVFMmd7EpWQLKCwDxzBZkTbpuX
-         B2zTSYpObmcPw==
+        b=puA36gnhbCafGDDnqtKWzJN4Qvn6ivk5VsUUmd8+XbqpfR+LScQAkWHf0fAkYs8d5
+         l5TUBhuYRL60KlO1KhJ2N98E2lKbz5LsKgDC3WPg2Xo+KGrbrZ/cK+GbpgSJ8evd6K
+         L4Lp1bV9grLgDUlfm1IgqwWn8l05cw0icNzPhUIvEbitsZOLtIBOkdAEeLn1wm3qN/
+         UbMPnTADSVYhnvgvMCfMxGU8IvTpQgL02EOuqeonOzoTxQvmthjFX9ToOde/sWOLcr
+         x/Oh6Vsogx9Bx9v2Md1Zu4xcRc6Fvqq7TVly2mLA891B08KITB/JZI86cqL/VvGR1a
+         E79RS2g9dTwJg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 61006C53BC6; Thu,  2 Nov 2023 16:48:39 +0000 (UTC)
+        id 4BB26C4332E; Thu,  2 Nov 2023 17:46:04 +0000 (UTC)
 From:   bugzilla-daemon@kernel.org
 To:     platform-driver-x86@vger.kernel.org
 Subject: [Bug 218092] Laptop hanging on black screen, when suspended and woke
  up!
-Date:   Thu, 02 Nov 2023 16:48:39 +0000
+Date:   Thu, 02 Nov 2023 17:46:04 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
@@ -43,14 +43,14 @@ X-Bugzilla-Component: Platform_x86
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mario.limonciello@amd.com
+X-Bugzilla-Who: ertugruluyar.personal@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-218092-215701-Q7tBDj3ocl@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-218092-215701-2ro2ESCAK2@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-218092-215701@https.bugzilla.kernel.org/>
 References: <bug-218092-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -58,10 +58,10 @@ Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -70,10 +70,12 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218092
 
---- Comment #40 from Mario Limonciello (AMD) (mario.limonciello@amd.com) ---
-Created attachment 305348
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D305348&action=3Dedit
-fixed up config
+--- Comment #41 from Ertugrul Uyar (ertugruluyar.personal@gmail.com) ---
+(In reply to Mario Limonciello (AMD) from comment #40)
+> Created attachment 305348 [details]
+> fixed up config
+
+I am gonna try with this.
 
 --=20
 You may reply to this email to add a comment.
