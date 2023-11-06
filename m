@@ -2,71 +2,89 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14F9B7E1A60
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 Nov 2023 07:44:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E64C7E214C
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 Nov 2023 13:25:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231190AbjKFGos (ORCPT
+        id S231634AbjKFMZj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 6 Nov 2023 01:44:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34734 "EHLO
+        Mon, 6 Nov 2023 07:25:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231142AbjKFGok (ORCPT
+        with ESMTP id S230284AbjKFMZi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 6 Nov 2023 01:44:40 -0500
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F6DF1B2;
-        Sun,  5 Nov 2023 22:44:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-        t=1699253049; x=1699857849; i=w_armin@gmx.de;
-        bh=MQPUERicBJJRDMF4W/kXlZC+dzTUoedRndJooh1HUbk=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
-         References;
-        b=J4HuOsqdHF/vIBRM/3wblGBlL1EAFbmHZ+g+a73lmXweU7RyCMHB/mBLhSAVPP+s
-         OCK/o2LZtvrRGYzyOeoQlOIp11kD9zOPJ8PsiZBLENYQyZk11dk2z6lGfwOmlcIQ+
-         tpdX08JlnWvRMLmyl/BhyS1LB33UhP4faq/Dz+PKSVuAyGhl3Ql2TO8xLb0McUeX+
-         f4JHy7pu9fU3FDgpDYl2v7gVP6Hl6W4a2yYUWo58oIlY7iVNK1M3iIRpSu+P64KK5
-         XY/R5FaYLO75LYTPB8Kl5vLdp7HcNftAOYosuJ3S7C8c8+nVO0xW5hxJ0pSdq8kd7
-         zCNsORWO2qU7t8pwzw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from mx-amd-b650.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
- (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 1MFKGZ-1rBCvg0Ua9-00Fmtx; Mon, 06 Nov 2023 07:44:09 +0100
-From:   Armin Wolf <W_Armin@gmx.de>
-To:     pali@kernel.org
-Cc:     hdegoede@redhat.com, markgross@kernel.org,
-        ilpo.jarvinen@linux.intel.com, jdelvare@suse.com,
-        linux@roeck-us.net, platform-driver-x86@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 9/9] hwmon: (dell-smm) Add Optiplex 7000 to fan control whitelist
-Date:   Mon,  6 Nov 2023 07:43:51 +0100
-Message-Id: <20231106064351.42347-10-W_Armin@gmx.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231106064351.42347-1-W_Armin@gmx.de>
-References: <20231106064351.42347-1-W_Armin@gmx.de>
+        Mon, 6 Nov 2023 07:25:38 -0500
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6308A97;
+        Mon,  6 Nov 2023 04:25:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699273536; x=1730809536;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=2pR8X4BMVcOGKWPNkgcioekUqSx5/pk8Jhwvb4ict+4=;
+  b=i1ILJryameQME2wCRiiRbVH+TQb/wd1dauLPCNARzBp00uPXWi8Scw5z
+   1PKdTA9jabyoy9/DLJWxDsU7i/1t6mIraTua7+YHkF1YFmd08tQG/YkQV
+   6kFQqMUsV1QpBQWl/sZQgBvOhG9I/lKWHAE7A9q3mHG+T2H5qxzphMs9n
+   oh6mFO4jU8hLWO/cUJbHw+mKEi5KH1u9gGVexCfS6s5eh05rAz9nATEK5
+   XY4U9JB6/7PRs+pryVjUn0EXe3hOFhEAAgMNFLY2XjPWxuDS4s+2QGZyn
+   voVw4s1RDMdkqSQd8ObwX6ioj8qAPohuGbclSgHI6FrqzVTsVcTLA1e58
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="420376184"
+X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
+   d="scan'208";a="420376184"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 04:25:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="828193825"
+X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
+   d="scan'208";a="828193825"
+Received: from rmstoi-mobl.ger.corp.intel.com ([10.251.216.76])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 04:25:27 -0800
+Date:   Mon, 6 Nov 2023 14:25:24 +0200 (EET)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Mario Limonciello <mario.limonciello@amd.com>
+cc:     Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Danilo Krummrich <dakr@redhat.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Xinhui Pan <Xinhui.Pan@amd.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Mark Gross <markgross@kernel.org>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        =?ISO-8859-15?Q?Pali_Roh=E1r?= <pali@kernel.org>,
+        =?ISO-8859-15?Q?Marek_Beh=FAn?= <kabel@kernel.org>,
+        "Maciej W . Rozycki" <macro@orcam.me.uk>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS" 
+        <dri-devel@lists.freedesktop.org>,
+        "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS" 
+        <nouveau@lists.freedesktop.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:RADEON and AMDGPU DRM DRIVERS" 
+        <amd-gfx@lists.freedesktop.org>,
+        "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+        "open list:ACPI" <linux-acpi@vger.kernel.org>,
+        "open list:X86 PLATFORM DRIVERS" 
+        <platform-driver-x86@vger.kernel.org>,
+        "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH v2 1/9] drm/nouveau: Switch from pci_is_thunderbolt_attached()
+ to dev_is_removable()
+In-Reply-To: <20231103190758.82911-2-mario.limonciello@amd.com>
+Message-ID: <55563d57-60c3-1789-1e7c-5e618fbd6253@linux.intel.com>
+References: <20231103190758.82911-1-mario.limonciello@amd.com> <20231103190758.82911-2-mario.limonciello@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:0+stoqEg4cHrsuc3kz9u/+7T39UEgTwIiB8neexhZoByMR4Iikv
- Ex+2vFKgMsbgbvC2B94xzktGQtapi9fmW3SEOhbfC/vewxpEz5R8Z4r8/+IESlLdEL5a6yL
- XXgPJKiu3VtbDP6/WnzPXdwgUJynxr5qgPIdt1yNvQ5weWGX++lUULxJbTIwgItXwjEmP65
- Kd9rGnRQ/9LcHe8XkU0hg==
-UI-OutboundReport: notjunk:1;M01:P0:O+MY/XD7LjU=;Sy9o4ocLhD3A0k8rT0wasikLI9e
- Y6QeJYe0fk91VSztEwZqq8bp5vMdElSEefTUvlIFK7GtkjN2ViG9392bzjjL+cNJkJWv2+uYe
- dZfs2Nzi7iDZcqqAoh8+AJSkjTA4W/jpuRQszOT5OA+BrLV+udy8ZmaXJq9oMGRD4RomlK2gg
- gwDXbbm8MZEJTOFw/e4zKRhOjkWn25SegNLaNe+qQut76PUOfaZ1uG5q+8qQ/nvD+BNKLoz/j
- YtFwGobRzO3dT/CyrAZQmGTA8312ltKxhiJPBlpJ34Lb9vq8znzMDe4QRRj5MfYs0mAaxqHtU
- zEEM4YLtZ9lSb2ZdccWmPONjlLUaPYbcM5RoPixaf0GHhGDf3o5RwNSEoDBPsK62YypOlllSI
- ZCzqlocu+fZwbLtrc5KHzbSH32lwIjxEdid1de002DzgZoX/GDOv86lazQz8/7zgyv3B547pt
- v7SE0ZT2STOdSLL8BR89MFwG4wFJyEbR1JlnoO9u3adrXftnsVaYKRRGQ2mulWudgNt3wnWgs
- nEmPeVNMNeVOjhLX+gnGE/iVA5QGcZ441xyc75Sgl21jaJuZ6vU2ShATDExrbLspUWYvv5hbl
- UHYF1BJMNNiTHlTFniEZW1hRJBkX7tnSkguRWOIyS8iV0/xysoW50wnZADU/udJqj0+2cZRO7
- zXv4RtNhjH6sIU7WKN7Sb6ZiXDPu5Y8XCwILXJNAUEZjYsMJ9Uno9P6v2JR7dY7mN+PXHvB5E
- SFvAEMbtkQANa7rnvgEl/1K3UzxwQ62KKNKLf3ChnoW409hfF4GBctjf9c/sK/+6ugigvPvDy
- m4ngzAaplwd2JbgDEdgw5uwaH/Qw/oOQkcWBHvEPnxC98J8stgf/+8rnQCA0ehfeCtoEmsjqR
- Ou8PjKOOUGz+MajF0kCDwfHnla38NPI9iuGs3QjaA95ZZqw1DjeJKYEZtjOtAIQE/e1uDMhSM
- ow+2Dh4AM0XcV6CiaanN4G0XBFE=
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,36 +92,46 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-A user reported that on this machine, disabling BIOS fan control
-is necessary in order to change the fan speed.
+On Fri, 3 Nov 2023, Mario Limonciello wrote:
 
-Tested-by: <serverror@serverror.com>
-Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-=2D--
- drivers/hwmon/dell-smm-hwmon.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+> pci_is_thunderbolt_attached() only works for Intel TBT devices. Switch to
+> using dev_is_removable() to be able to detect USB4 devices as well.
 
-diff --git a/drivers/hwmon/dell-smm-hwmon.c b/drivers/hwmon/dell-smm-hwmon=
-.c
-index d1bcfd447bb0..bacd71043a16 100644
-=2D-- a/drivers/hwmon/dell-smm-hwmon.c
-+++ b/drivers/hwmon/dell-smm-hwmon.c
-@@ -1508,6 +1508,14 @@ static const struct dmi_system_id i8k_whitelist_fan=
-_control[] __initconst =3D {
- 		},
- 		.driver_data =3D (void *)&i8k_fan_control_data[I8K_FAN_34A3_35A3],
- 	},
-+	{
-+		.ident =3D "Dell Optiplex 7000",
-+		.matches =3D {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "OptiPlex 7000"),
-+		},
-+		.driver_data =3D (void *)&i8k_fan_control_data[I8K_FAN_34A3_35A3],
-+	},
- 	{ }
- };
+Please extend this with more details. I had to lookup the TBT change to 
+be able to make any guess why you're doing this (and it's still a guess 
+at best).
 
-=2D-
-2.39.2
+-- 
+ i.
 
+
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_vga.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_vga.c b/drivers/gpu/drm/nouveau/nouveau_vga.c
+> index f8bf0ec26844..14215b7ca187 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_vga.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_vga.c
+> @@ -94,8 +94,8 @@ nouveau_vga_init(struct nouveau_drm *drm)
+>  
+>  	vga_client_register(pdev, nouveau_vga_set_decode);
+>  
+> -	/* don't register Thunderbolt eGPU with vga_switcheroo */
+> -	if (pci_is_thunderbolt_attached(pdev))
+> +	/* don't register USB4/Thunderbolt eGPU with vga_switcheroo */
+> +	if (dev_is_removable(&pdev->dev))
+>  		return;
+>  
+>  	vga_switcheroo_register_client(pdev, &nouveau_switcheroo_ops, runtime);
+> @@ -118,7 +118,7 @@ nouveau_vga_fini(struct nouveau_drm *drm)
+>  
+>  	vga_client_unregister(pdev);
+>  
+> -	if (pci_is_thunderbolt_attached(pdev))
+> +	if (dev_is_removable(&pdev->dev))
+>  		return;
+>  
+>  	vga_switcheroo_unregister_client(pdev);
+> 
