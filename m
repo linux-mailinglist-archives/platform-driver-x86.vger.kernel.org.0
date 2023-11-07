@@ -2,55 +2,46 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 509FD7E3CEE
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 Nov 2023 13:23:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54AB77E41F6
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 Nov 2023 15:40:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234281AbjKGMXc (ORCPT
+        id S234680AbjKGOkB (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 7 Nov 2023 07:23:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36410 "EHLO
+        Tue, 7 Nov 2023 09:40:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234227AbjKGMXZ (ORCPT
+        with ESMTP id S234459AbjKGOkA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 7 Nov 2023 07:23:25 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0906955BA;
-        Tue,  7 Nov 2023 04:13:33 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FC7FC433C7;
-        Tue,  7 Nov 2023 12:13:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699359213;
-        bh=UF/VdBLL5Hc/J0WxM8jVJGZ96p9jJc/1orUc9GaTdNk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GdnyJNtcQCiAgT+eC+W0XyV19fDgTKuU7nhrtEBnUks7OhAUaSeQGFRFiQnl/i8gO
-         ViuKGZqQxa8ue6oJQwiuLfWRynh5LlDclAVD5ytgfiBE3V52BICIYgJn5U3Rfqi85d
-         bpx8LLaJrLM4yovJoMgk+xNRv6DvXPe5ALIk1ncDWNrrvsabvKvM1+igQeuIgWNS8G
-         361S55apMSUZNDuDf4KFY4NLx5YePJrNw+Vf9mz2so02nxt7R0Wz1KgduA1/CBHG+h
-         4ASgdON2eMQyMwv67iA4p0tMeZsMZSVVr2IKAyYO4nE7udGuhGQ0pfcMMwJeZT8xLB
-         JMlBoep/IHdMQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Olli Asikainen <olli.asikainen@gmail.com>,
-        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>, hmh@hmh.eng.br,
-        hdegoede@redhat.com, markgross@kernel.org,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 7/7] platform/x86: thinkpad_acpi: Add battery quirk for Thinkpad X120e
-Date:   Tue,  7 Nov 2023 07:13:15 -0500
-Message-ID: <20231107121318.3759058-7-sashal@kernel.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231107121318.3759058-1-sashal@kernel.org>
-References: <20231107121318.3759058-1-sashal@kernel.org>
+        Tue, 7 Nov 2023 09:40:00 -0500
+X-Greylist: delayed 6287 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 07 Nov 2023 06:39:54 PST
+Received: from orange.safe-mail.net (orange.safe-mail.net [212.29.227.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46795120
+        for <platform-driver-x86@vger.kernel.org>; Tue,  7 Nov 2023 06:39:54 -0800 (PST)
+Received: by orange.safe-mail.net with Safe-mail (Exim 4.84_2)
+        (envelope-from <supermagasin@Safe-mail.net>)
+        id 1r0Lbh-0000wS-Hp; Tue, 07 Nov 2023 07:55:01 -0500
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws;
+        s=N1-0105; d=Safe-mail.net;
+        b=w8pZZyeDOndWVYVho6rcp7acD5x5S5nx69nqzQ+6kcne3Q5RcrY1rRbRi/fS5m4Y
+        fVp/ZPTNzG44PZRAbYGaefgPLIC6pNwCBc3PR79DjXnlGwXfAwEeLa2rN8lgbG6s
+        hhWpZhoIuW0Wq9dEfFaFAokiQNrIbvTj+F+BEoHgzZ4=;
+Received: from pc ([102.67.203.97]) by Safe-mail.net with https
+Subject: Partnership
+Date:   Tue, 7 Nov 2023 07:55:01 -0500
+From:   supermagasin@Safe-mail.net
+To:     astrid@vda.be
+X-SMType: Regular
+X-SMRef: N1O-aYy_NveYI4
+Message-Id: <N1O-aYy_NveYI4@Safe-mail.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.297
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-SMSignature: G/X7/tpDI3+Fv3iqRgR002HocW1NOrL92FcqCdKWdf6gUPBEyWY6RTwKrrUFFqE9
+        UIfIONgzRb8qYVbg9hUi50XebPZ8VmQuWlz0CxJN0rC/c4zaAnYAHzGsKUS2xwaq
+        scFYWCb43xSZAHW8CmNGtMv7qVNA6cIKNYmaBpmOQBY=
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,33 +49,27 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Olli Asikainen <olli.asikainen@gmail.com>
+Hello Sir,
 
-[ Upstream commit 916646758aea81a143ce89103910f715ed923346 ]
+PERDIS SUPER U is one of the biggest multi-national retailer in France with numerous shops and retail outlets in France.
 
-Thinkpad X120e also needs this battery quirk.
+After going through your company's profile and products, we ' re interested in your products and would like to build up a long partnership with your company as well.
 
-Signed-off-by: Olli Asikainen <olli.asikainen@gmail.com>
-Link: https://lore.kernel.org/r/20231024190922.2742-1-olli.asikainen@gmail.com
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/thinkpad_acpi.c | 1 +
- 1 file changed, 1 insertion(+)
+Could you send us through email your Catalog or your website to enable us learn more about your products and their prices to be able to place some orders with your company and start a long-term beneficial partnership.
 
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 912ce5cb2f084..1036ec368ddac 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -9699,6 +9699,7 @@ static const struct tpacpi_quirk battery_quirk_table[] __initconst = {
- 	 * Individual addressing is broken on models that expose the
- 	 * primary battery as BAT1.
- 	 */
-+	TPACPI_Q_LNV('8', 'F', true),       /* Thinkpad X120e */
- 	TPACPI_Q_LNV('J', '7', true),       /* B5400 */
- 	TPACPI_Q_LNV('J', 'I', true),       /* Thinkpad 11e */
- 	TPACPI_Q_LNV3('R', '0', 'B', true), /* Thinkpad 11e gen 3 */
--- 
-2.42.0
+Please note that, our Payment term is by swift payment 14 days after delivery.
 
+Look forward to hearing from you at your earliest convenience.
+
+Best regards
+
+Dominique Schelcher
+Director
+
+PERDIS SUPER U
+RUE DE SAVOIE
+45600 SAINT-PERE-SUR-LOIRE
+VAT Number : FR65380071464
+Tel : +33 185149419
+Email:PERDISSuperU@net-shopping.com
+Website: http://www.magasins-u.com
