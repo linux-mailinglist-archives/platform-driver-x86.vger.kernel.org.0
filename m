@@ -2,120 +2,184 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CF1D7E4C14
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 Nov 2023 23:56:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 640E57E5B0A
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Nov 2023 17:21:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235150AbjKGW4y (ORCPT
+        id S231948AbjKHQVK (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 7 Nov 2023 17:56:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38832 "EHLO
+        Wed, 8 Nov 2023 11:21:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232452AbjKGW4x (ORCPT
+        with ESMTP id S231967AbjKHQVH (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 7 Nov 2023 17:56:53 -0500
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70C7018C
-        for <platform-driver-x86@vger.kernel.org>; Tue,  7 Nov 2023 14:56:51 -0800 (PST)
-Received: by mail-vs1-xe30.google.com with SMTP id ada2fe7eead31-45f0e332d6bso1502421137.2
-        for <platform-driver-x86@vger.kernel.org>; Tue, 07 Nov 2023 14:56:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699397810; x=1700002610; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=r9aQpGnlHg5gEiLB2/yPrIgqrIEgRmUzLWSaf61mYkw=;
-        b=g4MUCpDHPIJdXuFIahiUFhK+QhqshXutHpMEZ6eVsxjZZ1vrdX6WexTILtQA/SLzzr
-         0F34uhY6d3NRjb/staxgbICGwqmyUAeIhKPG3E15rA8zgpazYjMT1Tzo7afpaNdb5WjJ
-         OWPkPxqB8gNKG7GBge87UufOwHZ8LwbZBiEBk5C/4oVgygzSZkbathrkgAlQbc4pF5ur
-         BLAe9aR05mrwUVwEZ7xRNlpqqtLb/My7Qlo7NRORoqn0OunIjeZFrma0N6FUrRgUKW45
-         fp6UIBScTCSfihJ79g90zsc7KARqCowwMF2mvd78rbnryXUo4ibhUXRQYXmnzAIoomP+
-         W0cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699397810; x=1700002610;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=r9aQpGnlHg5gEiLB2/yPrIgqrIEgRmUzLWSaf61mYkw=;
-        b=NoiYqkyKdG2uKLsUNC0pnkNO45qgUGEhbI0Mv2ePyqM+3IekVUngwZkW5WjCC8FMh0
-         CftztPqcBK81ofM69d6vYFqAtvlFMnhK8nhtP8373YhxPa+QaqkDR8B9deDQs0ryeW0H
-         7U84uXyZ/1RZlUPhXxZH4/edPsqMddrOvFWwAwD0C+iqw/teHB0m7xoEDua72kMHQMT/
-         LP9YM9uOSzxRru3L5/ZxGpvj7euVBDgXo18CIBDgIStVBMhVZ++JqT35P1BkGkcwHi9U
-         T9qw1NVB9Q/cYxgG393YpHR8sy7vq+Bm2B9MOew74reT3Iq0uih1C3rr/0OgKgesvC5N
-         7pXw==
-X-Gm-Message-State: AOJu0YwcYmq6GKDS7NK2+ceQ9neV4oE76VyUE3dKbFvcwWvYN7BVflr+
-        xVGXaool2kKxVigESvZu5d5QeqoHOnymak/nmFY=
-X-Google-Smtp-Source: AGHT+IGEd9upds8eC57I4hoXHgoZrOD40d9Sftp3y5r2Jeoy03SI8I3LEKwb73P57QjwL2kLFE4stE2bUPLVODH0UXg=
-X-Received: by 2002:a67:b802:0:b0:45f:4acb:d50c with SMTP id
- i2-20020a67b802000000b0045f4acbd50cmr139444vsf.0.1699397810156; Tue, 07 Nov
- 2023 14:56:50 -0800 (PST)
+        Wed, 8 Nov 2023 11:21:07 -0500
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15A4D1FFB;
+        Wed,  8 Nov 2023 08:21:05 -0800 (PST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id 5CAF75C00F9;
+        Wed,  8 Nov 2023 11:21:04 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Wed, 08 Nov 2023 11:21:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+        :cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm1; t=1699460464; x=
+        1699546864; bh=MHBKZb/Eb46RKR9/QfWhwBcQvG49YjnUa+IvbejXnzo=; b=G
+        yKlRsubJZaomH/up5+5/ObUmHa6LlwILPlaK0e4KqAJQgHU5jeIM8m3VDth28PHf
+        t+lyhLbAC3i3SLowA5tkJEKdyTbEY1eL1k33TCceLProoi2hIvT0hPBq7Jgc8mi7
+        eC+HfSTT2HP/ShYGqmrOJzAiGtDfqASbw6zMgzgiLW1tbt+KSpMdyZYcysesBU/m
+        XKRUAFkIrNQI2jtzGYa4FnEaawjJZ4wNE4yqvfqvxYo46qy9CdSQjus4FaUjG/Ea
+        3PRiN6V9+jOA6kdI4ZPAXNb+mSLysrYkvNPW8CMTn6TDZA+UxFVuGfyZo+QkBHKQ
+        uNcjurRMVu0a6uUKdFBqQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1699460464; x=
+        1699546864; bh=MHBKZb/Eb46RKR9/QfWhwBcQvG49YjnUa+IvbejXnzo=; b=X
+        ONCtQ4u0FyaXbXScunTSJsFbvexF3Wl8N+/UB/SsD3lsbG3Bp+lPj0oeWWZqESny
+        C9UCDIyTZVnYS5JG32WZgcS2oeKvGFnGA9Q1Y7AoRHC1I1LC5f7GVReLrsQnrAD5
+        y/IOWJBI1uBBKbMrwt0Rke13kU3nTTOs3wYk5zPHwqHFJGP5xGBZpepJZoWgnv+G
+        M/LmaUFouSxOs2NC1NqiihXYxirv7XqDrJGSdq5YpUEkHXuCq/0gVZiyIr4S6A+J
+        J0+lnhfTHMhvXzUpFQYSo96XntrLuwBC853ar+WsKd7aYGV26uX6mMFP4rMtwkSK
+        uHBthKMTZbQOv9NuRL4+w==
+X-ME-Sender: <xms:cLVLZSRptmhRY_c5H1gmcwV5nYCwDTR1oPuR4LE9l7UqGbXq8zpuvg>
+    <xme:cLVLZXw4R-VB9HmsToZPZjr8snq8C_o8oRC16-BJlR0YVcpEDxz_erdpGhxAu48P3
+    lh3fxAPBJEPWohtDhE>
+X-ME-Received: <xmr:cLVLZf3Mwi0liN9c4ClyZGIV3ZZ_FGrW1nETrzewyXyoxlZTYR2YylYJSKPqPQwpHWYaKg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudduledgkeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucgoteeftdduqddtudculdduhedmnecujfgurhephf
+    fvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrrhhkucfrvggrrhhs
+    ohhnuceomhhpvggrrhhsohhnqdhlvghnohhvohesshhquhgvsggsrdgtrgeqnecuggftrf
+    grthhtvghrnhepfedtvdejfeelffevhffgjeejheduteetieeguefgkefhhfegjeduueet
+    hefgvdffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epmhhpvggrrhhsohhnqdhlvghnohhvohesshhquhgvsggsrdgtrg
+X-ME-Proxy: <xmx:cLVLZeABPCR9pvbqc5S_sHhu6vbmiCXCPf00pujBIgiPkaaXazg1xQ>
+    <xmx:cLVLZbjQ_43no8nHAn5_vesDNfZS3x8PQLJz-39_pR6hyG5rX6RuBQ>
+    <xmx:cLVLZarK98VN0CVKMb5wMqI7ZMFRLUHmCzoTmcAQuX9yXvWATtiC-A>
+    <xmx:cLVLZbc7MRDha1567CNDgdmirPrwXJK3Q30-k7YvH6ZVbo1nOLlTsg>
+Feedback-ID: ibe194615:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 8 Nov 2023 11:21:03 -0500 (EST)
+From:   Mark Pearson <mpearson-lenovo@squebb.ca>
+To:     mpearson-lenovo@squebb.ca
+Cc:     platform-driver-x86@vger.kernel.org, hdegoede@redhat.com,
+        ibm-acpi-devel@lists.sourceforge.net, mario.limonciello@amd.com,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] platform/x86: Add support for improved performance mode
+Date:   Wed,  8 Nov 2023 11:20:26 -0500
+Message-ID: <20231108162039.13737-1-mpearson-lenovo@squebb.ca>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <mpearson-lenovo@squebb.ca>
+References: <mpearson-lenovo@squebb.ca>
 MIME-Version: 1.0
-Received: by 2002:a59:b671:0:b0:415:12af:8b7a with HTTP; Tue, 7 Nov 2023
- 14:56:49 -0800 (PST)
-Reply-To: mrslittlebrunel888@gmail.com
-From:   Brunel Brunel <bbrunel584@gmail.com>
-Date:   Tue, 7 Nov 2023 14:56:49 -0800
-Message-ID: <CADSsQCD80FkVXZ4Pq+MGhBeB_xH+8nz7SCsMm_1sxhPcnOm4og@mail.gmail.com>
-Subject: DEAREST SIR /MADAM
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-DEAREST IN CHRIST.
+Some new Thinkpads have a new improved performance mode available.
+Add support to make this mode usable.
 
+To avoid having to create a new profile, just use the improved performance
+mode in place of the existing performance mode, when available.
 
+Tested on T14 AMD G4 AMD.
 
+Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+---
+ drivers/platform/x86/thinkpad_acpi.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index ad460417f901..eba701ab340e 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -10136,6 +10136,7 @@ static struct ibm_struct proxsensor_driver_data = {
+ 
+ #define DYTC_CMD_SET          1 /* To enable/disable IC function mode */
+ #define DYTC_CMD_MMC_GET      8 /* To get current MMC function and mode */
++#define DYTC_CMD_UP_CAP     0xA /* To get Ultra-performance capability */
+ #define DYTC_CMD_RESET    0x1ff /* To reset back to default */
+ 
+ #define DYTC_CMD_FUNC_CAP     3 /* To get DYTC capabilities */
+@@ -10152,6 +10153,7 @@ static struct ibm_struct proxsensor_driver_data = {
+ 
+ #define DYTC_FUNCTION_STD     0  /* Function = 0, standard mode */
+ #define DYTC_FUNCTION_CQL     1  /* Function = 1, lap mode */
++#define DYTC_FUNCTION_TMS     9  /* Function = 9, TMS mode */
+ #define DYTC_FUNCTION_MMC     11 /* Function = 11, MMC mode */
+ #define DYTC_FUNCTION_PSC     13 /* Function = 13, PSC mode */
+ #define DYTC_FUNCTION_AMT     15 /* Function = 15, AMT mode */
+@@ -10163,11 +10165,14 @@ static struct ibm_struct proxsensor_driver_data = {
+ #define DYTC_MODE_MMC_LOWPOWER 3  /* Low power mode */
+ #define DYTC_MODE_MMC_BALANCE  0xF  /* Default mode aka balanced */
+ #define DYTC_MODE_MMC_DEFAULT  0  /* Default mode from MMC_GET, aka balanced */
++#define DYTC_NOMODE            0xF  /* When Function does not have a mode */
+ 
+ #define DYTC_MODE_PSC_LOWPOWER 3  /* Low power mode */
+ #define DYTC_MODE_PSC_BALANCE  5  /* Default mode aka balanced */
+ #define DYTC_MODE_PSC_PERFORM  7  /* High power mode aka performance */
+ 
++#define DYTC_UP_SUPPORT_BIT    8  /* Bit 8 - 1 = supported, 0 = not */
++
+ #define DYTC_ERR_MASK       0xF  /* Bits 0-3 in cmd result are the error result */
+ #define DYTC_ERR_SUCCESS      1  /* CMD completed successful */
+ 
+@@ -10185,6 +10190,7 @@ static enum platform_profile_option dytc_current_profile;
+ static atomic_t dytc_ignore_event = ATOMIC_INIT(0);
+ static DEFINE_MUTEX(dytc_mutex);
+ static int dytc_capabilities;
++static bool dytc_ultraperf_cap; /* ultra performance capable */
+ static bool dytc_mmc_get_available;
+ static int profile_force;
+ 
+@@ -10355,6 +10361,17 @@ static int dytc_profile_set(struct platform_profile_handler *pprof,
+ 	if (err)
+ 		goto unlock;
+ 
++	/* Set TMS mode appropriately (enable for performance), if available */
++	if (dytc_ultraperf_cap) {
++		int cmd;
++
++		cmd = DYTC_SET_COMMAND(DYTC_FUNCTION_TMS, DYTC_NOMODE,
++				       profile == PLATFORM_PROFILE_PERFORMANCE);
++		err = dytc_command(cmd, &output);
++		if (err)
++			return err;
++	}
++
+ 	if (dytc_capabilities & BIT(DYTC_FC_MMC)) {
+ 		if (profile == PLATFORM_PROFILE_BALANCED) {
+ 			/*
+@@ -10429,6 +10446,7 @@ static struct platform_profile_handler dytc_profile = {
+ static int tpacpi_dytc_profile_init(struct ibm_init_struct *iibm)
+ {
+ 	int err, output;
++	int cmd;
+ 
+ 	/* Setup supported modes */
+ 	set_bit(PLATFORM_PROFILE_LOW_POWER, dytc_profile.choices);
+@@ -10484,6 +10502,16 @@ static int tpacpi_dytc_profile_init(struct ibm_init_struct *iibm)
+ 		dbg_printk(TPACPI_DBG_INIT, "No DYTC support available\n");
+ 		return -ENODEV;
+ 	}
++	err = dytc_command(DYTC_CMD_UP_CAP, &output);
++	dytc_ultraperf_cap = output & BIT(DYTC_UP_SUPPORT_BIT) ? true : false;
++	if (dytc_ultraperf_cap) {
++		pr_debug("TMS is supported\n");
++		/* Disable TMS by default - only use with performance mode */
++		cmd = DYTC_SET_COMMAND(DYTC_FUNCTION_TMS, DYTC_NOMODE, 0);
++		err = dytc_command(cmd, &output);
++		if (err)
++			return err;
++	}
+ 
+ 	dbg_printk(TPACPI_DBG_INIT,
+ 			"DYTC version %d: thermal mode available\n", dytc_version);
+-- 
+2.41.0
 
-
-
-
-My name is Mrs. Marit A. Brunel I am a Norway Citizen who is living in
-Burkina Faso, I am married to Mr. Brunel Patrice, a politician who
-owns a small Gold company in Burkina Faso; He died of Leprosy and
-Radesyge, in the year DECEMBER 2001, During his lifetime he deposited
-the sum of =C2=A0$18.5 Million Dollars ) EIGHTEEN Million, Five hundred tho=
-usand
-Dollars in a bank in Ouagadougou the capital city of Burkina Faso in
-West Africa. The money was from the sale of his company and death
-benefits payment and entitlements of my deceased husband by his
-company.
-
-I am sending you this message with heavy tears in my eyes and great
-sorrow in my heart, and also praying that it will reach you in good
-health because I am not in good health, I sleep every night without
-knowing if I may be alive to see the next day. I am suffering from
-=C2=A0long time cancer and presently I am partially suffering from Leprosy,
-which has become difficult for me to move around. I was married to my
-=C2=A0late husband for more than 6 years without having a child and my
-doctor confided that I have less chance to live, having to know when
-the cup of death will come, I decided to contact you to claim the fund
-=C2=A0since I don't have any relation I grew up from an orphanage home.
-
-I have decided to donate this money for the support of helping
-Motherless babies/Less privileged/Widows and churches also to build
-the house of God because I am dying and diagnosed with cancer for
-about 3 years ago. I have decided to donate from what I have inherited
-from my late husband to you for the good work of Almighty God; I will
-be going in for an operation surgery soon.
-
-Now I want you to stand as my next of kin to claim the funds for
-charity purposes. Because of this money remains unclaimed after my
-death, the bank executives or the government will take the money as
-unclaimed fund and maybe use it for selfishness and worthless
-ventures, I need a very honest person who can claim this money and use
-=C2=A0it for Charity works, for orphanages, widows and also build schools
-and churches for less privilege that will be named after my late
-husband and my name.
-
-I need your urgent answer to know if you will be able to execute this
-project, and I will give you more information on how the fund will be
-transferred to your bank account or online banking.
-
-
-Thanks
-Mrs. Marit A. Brunel
-
-
-Email Address >mrslittlebrunel888@gmail.com
