@@ -2,158 +2,153 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3C317E8159
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 10 Nov 2023 19:27:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5E087E7F80
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 10 Nov 2023 18:54:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345226AbjKJS11 (ORCPT
+        id S234556AbjKJRyt (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 10 Nov 2023 13:27:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34162 "EHLO
+        Fri, 10 Nov 2023 12:54:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346107AbjKJS0I (ORCPT
+        with ESMTP id S229942AbjKJRx3 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 10 Nov 2023 13:26:08 -0500
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6BE8371E8;
-        Fri, 10 Nov 2023 05:15:46 -0800 (PST)
+        Fri, 10 Nov 2023 12:53:29 -0500
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CB1EA7515;
+        Fri, 10 Nov 2023 05:22:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699622146; x=1731158146;
+  t=1699622535; x=1731158535;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=9XeZedIwQg8ZXfkQPaf33QRQVLu2yfGJUNSa/st/kWU=;
-  b=MNbB2egm4dCHBRz825N0yMpxKimatmZafvjm4ZZLW+XEaLfP0Odpel2G
-   sqgrP5V0196Q36uTbYADo6Qa/DSrEP7aX++FjpWBL37ruSHf0318qMe99
-   LLdUx6XyGyfZk5icS6+cDF1/srkziboaLfV18q4QRx3j9QMPopcu36HV0
-   NxFwINm64AHd/xZalsjk8SeTw+kDhyzBq8e5X3hNj8eafkaA35xTGxYw5
-   9LfWdNqhjiOjO3aTJo6YyuxEIvzH1fsFYJaKU/UwFg4asPN2Oal37+5+S
-   BIGj3OO3idcTRRBkmz5HcHym5qMC5iNp2Qf3H3pIKK+y6eGdZMfh626zz
+  bh=uDZGP2f6h/WZzzSya/mjS46j44Y1shWREjmM3+7CtIE=;
+  b=GCp8w7kTSWVtfpgx19/FFHdjFSmyKIjEu1O0eNqgMllvHXn8nJzCUrSE
+   tdKCvpJrzw8dLxtNMcV6WhZgWDj0JwumT37BglyiPMh0hTnv5RsfU2+mN
+   aNfqPFSaf1C06BbtP42zx7p1Mo/ICQRsVL/CXLX5XoWlSE33TA8DCaJf9
+   1J3yQzfcW8IWluUSP0wqV1hPT49ysI4IAUrXytPvbbGEEMreW5mMCwsiB
+   Nh8Ea61/ihu9dp4TeRKY8EwytaeoSdiEHh5CnaKMYjLmf3mp/aHxikA4y
+   Ivseo6BIafvxJjxE/Ym0WrutD7NmBWyNKNTPcl2eCPDMDWg6rHaxI7tO5
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="456680773"
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="3168021"
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="456680773"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 05:15:45 -0800
+   d="scan'208";a="3168021"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 05:22:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="792854238"
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="792854238"
+   d="scan'208";a="11869178"
 Received: from joudin-mobl2.ger.corp.intel.com ([10.252.38.36])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 05:15:42 -0800
-Date:   Fri, 10 Nov 2023 15:15:40 +0200 (EET)
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 05:22:13 -0800
+Date:   Fri, 10 Nov 2023 15:22:10 +0200 (EET)
 From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-cc:     Jorge Lopez <jorge.lopez2@hp.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>,
-        platform-driver-x86@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, dan.carpenter@linaro.org,
-        kernel-janitors@vger.kernel.org, error27@gmail.com,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] platform/x86: hp-bioscfg: Fix error handling in
- hp_add_other_attributes()
-In-Reply-To: <20231110090408.3383881-1-harshit.m.mogalapalli@oracle.com>
-Message-ID: <e8f9ec8d-8920-2334-62d9-bb522f5e3a63@linux.intel.com>
-References: <20231110090408.3383881-1-harshit.m.mogalapalli@oracle.com>
+To:     =?ISO-2022-JP?Q?=1B$BghD6=1B=28J?= <aichao@kylinos.cn>
+cc:     Hans de Goede <hdegoede@redhat.com>,
+        markgross <markgross@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        platform-driver-x86 <platform-driver-x86@vger.kernel.org>
+Subject: Re: Re: [PATCH v6] platform/x86: inspur-platform-profile: Add platform
+ profile support
+In-Reply-To: <12tjevo53d-12w3aii8qy@nsmail7.0.0--kylin--1>
+Message-ID: <207247d-ffd0-2d22-48f-fcbfe12b1d1c@linux.intel.com>
+References: fad13328-4246-3659-a887-2dd5ead262f2@linux.intel.com <12tjevo53d-12w3aii8qy@nsmail7.0.0--kylin--1>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: multipart/mixed; boundary="8323329-215195145-1699622534=:1596"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, 10 Nov 2023, Harshit Mogalapalli wrote:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-> 1. acpi_object *obj is unused in this function, so delete it, also
->    delete a unnecessary kfree(obj);
-> 2. Fix a memory leak of 'attr_name_kobj' in the error handling path.
-> 3. When kobject_init_and_add() fails on every subsequent error path call
->    kobject_put() to cleanup.
+--8323329-215195145-1699622534=:1596
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+
+On Fri, 10 Nov 2023, 艾超 wrote:
+
+>     I'm sorry, receive a mail from  kernel test robot<lkp@intel.com> , that:
+>
+> > kernel test robot noticed the following build warnings:
 > 
-> Fixes: a34fc329b189 ("platform/x86: hp-bioscfg: bioscfg")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <error27@gmail.com>
-> Closes: https://lore.kernel.org/r/202309201412.on0VXJGo-lkp@intel.com/
-> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-> ---
-> This is only compile tested, based on static analysis.
-> ---
->  drivers/platform/x86/hp/hp-bioscfg/bioscfg.c | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
+> > [auto build test WARNING on linus/master]
+> > [also build test WARNING on v6.6]
+> > [cannot apply to next-20231102]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+
+I'm aware of those, which is why I fixed those /** -> /* while I applied 
+your patch so that problem has already been taken care of!
+
+> > If you fix the issue in a separate patch/commit (i.e. not just a new
+> version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot
+> > | Closes:
+> https://lore.kernel.org/oe-kbuild-all/202311021547.KTmJVY2O-lkp@intel.com/
 > 
-> diff --git a/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c b/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
-> index 5798b49ddaba..b28e52b64690 100644
-> --- a/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
-> +++ b/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
-> @@ -588,7 +588,6 @@ static void release_attributes_data(void)
->  static int hp_add_other_attributes(int attr_type)
->  {
->  	struct kobject *attr_name_kobj;
-> -	union acpi_object *obj = NULL;
->  	int ret;
->  	char *attr_name;
->  
-> @@ -596,8 +595,8 @@ static int hp_add_other_attributes(int attr_type)
->  
->  	attr_name_kobj = kzalloc(sizeof(*attr_name_kobj), GFP_KERNEL);
->  	if (!attr_name_kobj) {
-> -		ret = -ENOMEM;
-> -		goto err_other_attr_init;
-> +		mutex_unlock(&bioscfg_drv.mutex);
-
-I don't understand why this has to be inside the mutex at all, cannot 
-you just move it outside of the mutex and then there's no need to unlock?
-
-> +		return -ENOMEM;
->  	}
->  
->  	/* Check if attribute type is supported */
-> @@ -614,15 +613,15 @@ static int hp_add_other_attributes(int attr_type)
->  
->  	default:
->  		pr_err("Error: Unknown attr_type: %d\n", attr_type);
-> -		ret = -EINVAL;
-> -		goto err_other_attr_init;
-> +		kfree(attr_name_kobj);
-> +		mutex_unlock(&bioscfg_drv.mutex);
-> +		return -EINVAL;
-
-Add a new label for unlock and goto to it instead.
-
->  	}
->  
->  	ret = kobject_init_and_add(attr_name_kobj, &attr_name_ktype,
->  				   NULL, "%s", attr_name);
->  	if (ret) {
->  		pr_err("Error encountered [%d]\n", ret);
-> -		kobject_put(attr_name_kobj);
->  		goto err_other_attr_init;
->  	}
->  
-> @@ -647,10 +646,9 @@ static int hp_add_other_attributes(int attr_type)
->  
->  	mutex_unlock(&bioscfg_drv.mutex);
->  	return 0;
-> -
->  err_other_attr_init:
-> +	kobject_put(attr_name_kobj);
-
-unlock:
-
->  	mutex_unlock(&bioscfg_drv.mutex);
-> -	kfree(obj);
->  	return ret;
->  }
->  
+>  
 > 
+> > All warnings (new ones prefixed by >>):
+> 
+> > >  drivers/platform/x86/inspur_platform_profile.c:27: warning: cannot
+> understand function prototype: 'enum  inspur_tmp_profile '
+> > drivers/platform/x86/inspur_platform_profile.c:74: warning: This comment
+> starts with '/**', but isn't a kernel-doc comment. Refer
+> Documentation/doc-guide/kernel-doc.rst
+> > * Set Power Mode to EC RAM. If Power Mode value greater than 0x3,
+> > drivers/platform/x86/inspur_platform_profile.c:123: warning: This comment
+> starts with '/**', but isn't a kernel-doc comment. Refer
+> Documentation/doc-guide/kernel-doc.rst
+> >  * Get Power Mode from EC RAM, If Power Mode value greater than 0x3,
+> 
+> >  vim +27 drivers/platform/x86/inspur_platform_profile.c
+> 
+>  
+> 
+>  And I forget to add "Reported-by: kernel test robot" in this patch.
 
+I know the message from lkp sounds like that (and it is slightly 
+confusing) but it is to be added only when you're fixing code that has 
+already made into a maintainer tree.
+
+If one is submitting entirely new code and lkp finds and issue, one is not 
+supposed to add that reported by even if the message tells you to do so. I 
+hope this clears any confusion you might have about when it's needed.
 
 -- 
  i.
 
+> On Thu, 9 Nov 2023, Ai Chao wrote:
+> 
+> > Add support for Inspur platforms to used the platform profile feature.
+> >
+> > This will allow users to determine and control the platform modes
+> > between low-power, balanced and performance modes.
+> >
+> > Signed-off-by: Ai Chao
+> > ---
+> >
+> > v6: Remove comment for inspur_tmp_profile
+> > v5: Rename inspur-wmi to inspur_platform_profile
+> > v4: Add select ACPI_PLATFORM_PROFILE
+> > v3: Remove input device, using the platform profile interface
+> > v2: Remove Event GUID, remove inspur_wmi_notify and inspur_wmi_notify.
+> 
+> Hi,
+> 
+> I already took your v5 and it has since made also into Linus' tree.
+> 
+> If you want to make further changes to the driver, place them as
+> incremental changes on top of what's already included, thank you.
+> 
+> --
+> i.
+> 
+> 
+> 
+--8323329-215195145-1699622534=:1596--
