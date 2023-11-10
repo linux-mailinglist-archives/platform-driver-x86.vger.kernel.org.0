@@ -2,45 +2,45 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1DCE7E7FA6
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 10 Nov 2023 18:57:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76E107E806F
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 10 Nov 2023 19:11:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229532AbjKJR4q (ORCPT
+        id S1345950AbjKJSLf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 10 Nov 2023 12:56:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50716 "EHLO
+        Fri, 10 Nov 2023 13:11:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229899AbjKJR4P (ORCPT
+        with ESMTP id S1344541AbjKJSI6 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 10 Nov 2023 12:56:15 -0500
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 250A338EBF;
-        Fri, 10 Nov 2023 06:35:13 -0800 (PST)
+        Fri, 10 Nov 2023 13:08:58 -0500
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 604153977C;
+        Fri, 10 Nov 2023 06:44:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699626913; x=1731162913;
+  t=1699627480; x=1731163480;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=uo06VXUB/vf5aOi2Yd+6utwASdeGhe7osoEmsxnb6cM=;
-  b=TpK99T54Gk6MrDn9+6PrQKX7Z5gvV8gMgQA2ycn243zcFyXq5AilwFzc
-   Bqu80dqzbQshq1vMA5IJXCP7Zgzi91Qjm1IQUqQjSj2wqKuxt7lOTGL5h
-   F+cK7cu8QV6HBN9quLWZF9ZoNKtd6yuOQ5oi4AUXzF72r5csMPpsXve/e
-   Kf1hQ6q2zuXM2KPaGthmeFKDB7iTbtfxEYCFMzvx7fJK4DXp30zX9JbaO
-   sLKYX2r/tP9lP88Pwkc/mtDa4C/FsOq94XhoB0NH0ym251fjnpE8iEoJR
-   cGZBYZpdjlITqJZmsHVEux5fs3qdiqaR0VpFwiwFNqCcnTn8zaiDP6OKh
+  bh=bV43aLPjrxwe5O0bAyLScnB53oCXIL/eFT1glV9PnHc=;
+  b=H209Sdhjs06AB1REfl0pssZ2UPp3SL9pVg5ls5BpsGjWB8AFvyhnkpXU
+   kWocvChtPGnSXYd0Bd8UmxJn1mgErNhyPz90PW+rS38Td26Yubqz5mXbT
+   dGxxv25eBkM/pl0gXObYsZWr9pU8WCUsYIG/HarKgxvQ0PsQSovPu7Pwf
+   z4Vrxl3Pu3qlyB88/EavnCrFHPDpo1wBiNHNyeF3xy8LALk/7xDzwFGaC
+   CezDjv07syF336RxrFQCykXUujKdaNCnkaDKT6a4OI4QLH+l9+RlZhz6v
+   GPVVkwER6qliItz3YvlDIhDeGNDLSif1bLDstUJV99sE1E5DNV2UufGVO
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="11739533"
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="394096646"
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="11739533"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 06:35:13 -0800
+   d="scan'208";a="394096646"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 06:44:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="880979315"
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="1010965647"
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="880979315"
-Received: from joudin-mobl2.ger.corp.intel.com (HELO mciobota-mobl.ger.corp.intel.com) ([10.252.38.36])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 06:35:09 -0800
-Date:   Fri, 10 Nov 2023 16:35:07 +0200 (EET)
+   d="scan'208";a="1010965647"
+Received: from joudin-mobl2.ger.corp.intel.com ([10.252.38.36])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 06:44:36 -0800
+Date:   Fri, 10 Nov 2023 16:44:33 +0200 (EET)
 From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To:     Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
 cc:     Jorge Lopez <jorge.lopez2@hp.com>,
@@ -50,62 +50,69 @@ cc:     Jorge Lopez <jorge.lopez2@hp.com>,
         platform-driver-x86@vger.kernel.org,
         LKML <linux-kernel@vger.kernel.org>, dan.carpenter@linaro.org,
         kernel-janitors@vger.kernel.org, error27@gmail.com,
-        vegard.nossum@oracle.com, darren.kenny@oracle.com
-Subject: Re: [PATCH v2 3/4] platform/x86: hp-bioscfg: move mutex_lock down
- in hp_add_other_attributes()
-In-Reply-To: <20231110142921.3398072-3-harshit.m.mogalapalli@oracle.com>
-Message-ID: <8ebcdb8-e1a-11ce-c42b-e73bdf55a58@linux.intel.com>
-References: <20231110142921.3398072-1-harshit.m.mogalapalli@oracle.com> <20231110142921.3398072-3-harshit.m.mogalapalli@oracle.com>
+        vegard.nossum@oracle.com, darren.kenny@oracle.com,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v2 4/4] platform/x86: hp-bioscfg: Fix error handling in
+ hp_add_other_attributes()
+In-Reply-To: <20231110142921.3398072-4-harshit.m.mogalapalli@oracle.com>
+Message-ID: <211e6c1e-9bfa-ac29-b6ba-e198c4f36688@linux.intel.com>
+References: <20231110142921.3398072-1-harshit.m.mogalapalli@oracle.com> <20231110142921.3398072-4-harshit.m.mogalapalli@oracle.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-782047625-1699626912=:1596"
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323329-782047625-1699626912=:1596
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-
 On Fri, 10 Nov 2023, Harshit Mogalapalli wrote:
 
-> attr_name_kobj's memory allocation is done with mutex_lock held, this
+This changelog needs to be rewritten, it contains multiple errors. I 
+suppose even this patch could be split into two but I'll not be too picky 
+here if you insist on fixing them in the same patch.
 
-Please use () with function names.
+> We have two issues:
+> 1. Memory leak of 'attr_name_kobj' in the error handling path.
 
-> probably is not needed.
+True, but not specific enough to be useful.
 
-Just remove probably.
+> 2. When kobject_init_and_add() fails on every subsequent error path call
+>    kobject_put() to cleanup.
 
-> Move the mutex_lock downward so we need not unlock when allocation
-> fails.
+This makes no sense. The only case when there old code had no issue is 
+"when kobject_init_and_add() fails" but now your wording claims it to be 
+source of problem. Please rephrase this.
 
-Move allocation outside of mutex_lock() so unlock is not needed when
-allocation fails.
+> Both of these issues will be fixed when we add kobject_put() in the goto
+> label, as kfree() is already part of kobject_put().
 
-The code change looks fine.
+No, you're fixing a problem in the patch which is not covered by moving 
+kobject_put()!
 
 -- 
  i.
 
-> Suggested-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+> Fixes: a34fc329b189 ("platform/x86: hp-bioscfg: bioscfg")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <error27@gmail.com>
+> Closes: https://lore.kernel.org/r/202309201412.on0VXJGo-lkp@intel.com/
 > Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
 > ---
->  drivers/platform/x86/hp/hp-bioscfg/bioscfg.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
+> Only compile tested, based on static analysis
+> v1-> v2: Split this into mutliple patches doing one thing in a patch.
+> ---
+>  drivers/platform/x86/hp/hp-bioscfg/bioscfg.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c b/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
-> index 3b735b071a01..351d782f3e96 100644
+> index 351d782f3e96..8c9f4f3227fc 100644
 > --- a/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
 > +++ b/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
-> @@ -575,77 +575,75 @@ static void release_attributes_data(void)
+> @@ -575,75 +575,77 @@ static void release_attributes_data(void)
 >  /**
 >   * hp_add_other_attributes() - Initialize HP custom attributes not
 >   * reported by BIOS and required to support Secure Platform and Sure
@@ -125,17 +132,11 @@ The code change looks fine.
 >  	int ret;
 >  	char *attr_name;
 >  
-> -	mutex_lock(&bioscfg_drv.mutex);
-> -
 >  	attr_name_kobj = kzalloc(sizeof(*attr_name_kobj), GFP_KERNEL);
-> -	if (!attr_name_kobj) {
-> -		ret = -ENOMEM;
-> -		goto err_other_attr_init;
-> -	}
-> +	if (!attr_name_kobj)
-> +		return -ENOMEM;
-> +
-> +	mutex_lock(&bioscfg_drv.mutex);
+>  	if (!attr_name_kobj)
+>  		return -ENOMEM;
+>  
+>  	mutex_lock(&bioscfg_drv.mutex);
 >  
 >  	/* Check if attribute type is supported */
 >  	switch (attr_type) {
@@ -152,14 +153,16 @@ The code change looks fine.
 >  	default:
 >  		pr_err("Error: Unknown attr_type: %d\n", attr_type);
 >  		ret = -EINVAL;
->  		goto err_other_attr_init;
+> -		goto err_other_attr_init;
+> +		kfree(attr_name_kobj);
+> +		goto unlock_drv_mutex;
 >  	}
 >  
 >  	ret = kobject_init_and_add(attr_name_kobj, &attr_name_ktype,
 >  				   NULL, "%s", attr_name);
 >  	if (ret) {
 >  		pr_err("Error encountered [%d]\n", ret);
->  		kobject_put(attr_name_kobj);
+> -		kobject_put(attr_name_kobj);
 >  		goto err_other_attr_init;
 >  	}
 >  
@@ -184,8 +187,9 @@ The code change looks fine.
 >  	return 0;
 >  
 >  err_other_attr_init:
+> +	kobject_put(attr_name_kobj);
+> +unlock_drv_mutex:
 >  	mutex_unlock(&bioscfg_drv.mutex);
 >  	return ret;
 >  }
 > 
---8323329-782047625-1699626912=:1596--
