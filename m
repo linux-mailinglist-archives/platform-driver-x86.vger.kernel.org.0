@@ -2,94 +2,145 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16A187EA353
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Nov 2023 20:11:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8ECA7EA413
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Nov 2023 20:56:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231543AbjKMTLN (ORCPT
+        id S230023AbjKMT4b (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 13 Nov 2023 14:11:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47662 "EHLO
+        Mon, 13 Nov 2023 14:56:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbjKMTLM (ORCPT
+        with ESMTP id S229816AbjKMT4a (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 13 Nov 2023 14:11:12 -0500
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5371B10D0;
-        Mon, 13 Nov 2023 11:11:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699902670; x=1731438670;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=FvnxEpuq/W9dHqKhcK5kdN3paQbY4rspDuNs7x8zG/k=;
-  b=Dsa5LZ8g0con66Cb90ADVmuZTdcUeYwMGhVSwyzw6pfHLq1OTWFqV/ed
-   cosdavXymanXdrgPQhqjVlcrtGUgiQFKDvQIKUN81Ca5KNxVqi8LOowuQ
-   ZQD9VEZK4jlDcUYiwNUodm49CIhJeeA5kVafUWqoc8qLGa5ua+a4GpJkU
-   51A6AstUmpHXW588yxcdGm17fDpjZmREk6JCtlypLQ8wDqbB8Mo8IoMIH
-   HDPvszY3QzxR0bPfZEYyILE2QLy9jD4Ytgg9xvNWGlc5V6Hsd43SSqstg
-   iIU2ibHtzbfljrUAt4JmaZrfGXWRnf3YpyH1Yc/Bm/MOXhlvwL8UfmPRQ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="369833678"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
-   d="scan'208";a="369833678"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 11:11:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="799274307"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
-   d="scan'208";a="799274307"
-Received: from alexdsou-mobl3.gar.corp.intel.com ([10.249.44.83])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 11:11:05 -0800
-Date:   Mon, 13 Nov 2023 21:11:03 +0200 (EET)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-cc:     Jorge Lopez <jorge.lopez2@hp.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Mark Gross <markgross@kernel.org>,
-        =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
-        error27@gmail.com, vegard.nossum@oracle.com,
-        darren.kenny@oracle.com
-Subject: Re: [PATCH v3 2/4] platform/x86: hp-bioscfg: move mutex_lock() down
- in hp_add_other_attributes()
-In-Reply-To: <20231113185852.3579970-2-harshit.m.mogalapalli@oracle.com>
-Message-ID: <682889a3-2f6e-5141-1f5d-1150119ad1fb@linux.intel.com>
-References: <20231113185852.3579970-1-harshit.m.mogalapalli@oracle.com> <20231113185852.3579970-2-harshit.m.mogalapalli@oracle.com>
+        Mon, 13 Nov 2023 14:56:30 -0500
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB67891;
+        Mon, 13 Nov 2023 11:56:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+        t=1699905361; x=1700510161; i=w_armin@gmx.de;
+        bh=R/McC+8zGagwUqETW9j+WDUL2rgHuTQeczIJx7hGop0=;
+        h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:
+         In-Reply-To;
+        b=AKEDv/xMoi4zaIt6+ECnHD10umNCcR1dLkhnOteGJX7q1JoyNj58Cxj3ETjoWq/U
+         HICLHcsE3CruNj6gnrlI7WgAY/MWKOM1KKkXtkgzrAKXPi++6lS1q0ihrS7v+5r8y
+         g5Tf/qqkemrue7IGSDVh7Kyh8l+3SCTHKdRsLiPPo1bkQpXqx0287t874NPv5zN2S
+         aBAkhSnSluQrq9oB/TyBQ78QUzorqmxvqyv5WHqfTG0eq0SJeQY4cvyTgbyODNaod
+         FHORpbbpgEUKIzawkB4Z3/byM3Br7Op4+ON102mhYm206cSPdRUVRIiCnXqIoSsei
+         yjVN28jGIqDLbCMFqg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MfYPY-1rZjrd0oie-00fwQS; Mon, 13
+ Nov 2023 20:56:01 +0100
+Message-ID: <3ec0496d-3b89-46f5-9faf-9fcce78f6b38@gmx.de>
+Date:   Mon, 13 Nov 2023 20:55:59 +0100
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1437471784-1699902669=:1867"
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/9] hwmon: (dell-smm) Add support for WMI SMM
+ interface
+From:   Armin Wolf <W_Armin@gmx.de>
+To:     pali@kernel.org
+Cc:     hdegoede@redhat.com, markgross@kernel.org,
+        ilpo.jarvinen@linux.intel.com, jdelvare@suse.com,
+        linux@roeck-us.net, platform-driver-x86@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231106064351.42347-1-W_Armin@gmx.de>
+Content-Language: en-US
+In-Reply-To: <20231106064351.42347-1-W_Armin@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:hxVtjv83rr/y2l01CxT5Q6pSgn/sqRp6T29u+JIiayf78gYaf0q
+ X85RZ3XnU+tH90AW4mLrasevvn59At6dKkX6Jlilc+8L+bNaU82fRhW8TtG0Sw23H+jmzon
+ KzA41UjcDIqfjFpeNzoHBCWWJvdJIFu1BPwABvf3ffSlS0KlYn4xHRzjJ9Fu8hPhBsUREoN
+ Y0c+gntYwJOOCijAQv7jA==
+UI-OutboundReport: notjunk:1;M01:P0:Cz4ETvqxTGY=;nkTYKUrj/aD6knQDwm2Q/3bst9Z
+ w03P/zKhpACvAkJUyRGo2yJQVJaR19QShRfjueZUh44UQjaq//s4fGSoEDO3avFg0GdQaBPY0
+ lp0hJ1VKIMw8cPaSqTkfR2mfVlxXpFGNVmL4uIQTGsqULrnW2vd3v+BJwxyUQpNqDMWxh1Tqm
+ mMEcba5E1zlBn3wzDFfzIHvPBuOBv6xf9lovlmx0OZKrsd9AH319UcO4Djqr8WZRUpZZJNXus
+ gjLudJ/pPkt7QHZUWDzIDElCu2Q/v2XC+ngQ7YYTpy7t3DdjYMKs4oYZ7ybW92RZAqXwp33lK
+ fqzQMKdsY/Hqt0OLd9zpqTZU1A86xNlzIpY33CPgVF80r5m1FsXNjDnoQuOvJ7pifZh56GZxO
+ DseTBpiJBQlYzkewLUCGeRO5sgSJE2f+HkaA1toKiSnZ11zqJy1oejg2FYY1sDck+AoeYNpe1
+ Tizp2G1yOpL8Na6R52geE67AyaJGjdqu8C69DH1weVYQH/Xvf226xZTm0zqOnZhsObFt7VaVY
+ s9ujzY1z+e0LGuGVRFh3BssWPd48xDJ+BBa54Vs2Hy0HoMv0kVnXhPMatgqkWjBXOYB16zoq+
+ XaZF3uyncCpJ33qF16k7gEdS2H2BTBO7B9Wxyfx7WrwTLYPe4lm3vlS3GioHzpYrIdF4nm7Yk
+ feI8n81esvcUmt17J/ymqL9jAfRe1qz0vP655YBaQxcofeIBfgmPI+ELDamMyK1PgV50FFlpI
+ oyPQt6fSx2BULfm0Zdv1eSVZj3VDmaHeUn5D2E/nSch3lAutgeM4Su9XRuiblJgif3ywDdDFn
+ ztrDbMTVM+091O2oPaut0Ck5DG2cOuUE2NsgZA6Bl2PwSng0oy2Ivw0EXmqvQXPxfjuDi/CBH
+ /SKjI/4ePLsuDkttrwFw8XtZm0SoEN3dkNcpYtswRQPLoSThZoFsZcczh5u18UuFlo4m9KBs0
+ 26qR9Z1qQ7f6APbnk6DHQY7XrGw=
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Am 06.11.23 um 07:43 schrieb Armin Wolf:
 
---8323329-1437471784-1699902669=:1867
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+> This patch series adds support for an alternative SMM calling
+> backend to the dell-smm-hwmon driver. The reason for this is
+> that on some modern machines, the legacy SMM calling interface
+> does not work anymore and the SMM handler can be called over
+> ACPI WMI instead.
+>
+> The first four patches prepare the driver by allowing to
+> specify different SMM calling backends, and by moving most of
+> the DMI handling into i8k_init() so that the DMI tables can
+> keep their __initconst attributes (the WMI SMM backend driver
+> does not probe at module init time). The fifth patch does some
+> minor cleanup, while the next three patches implement the new
+> WMI SMM calling backend. The last patch adds the machine of
+> the user who requested and tested the changes to the fan control
+> whitelist.
+>
+> If the driver does not detect the legacy SMM interface, either
+> because the machine is not whitelisted or because the SMM handler
+> does not react, it registers an WMI driver which will then bound
+> to the WMI SMM interface and do the remaining initialization.
+>
+> The deprecated procfs interface is not supported when using the
+> WMI SMM calling backend for the following reason: the WMI driver
+> can potentially be instantiated multiple times while the deprectated
+> procfs interface cannot. This should not cause any regressions
+> because on machines supporting only the WMI SMM interface, the
+> driver would, until now, not load anyway.
+>
+> All patches where tested on a Dell Inspiron 3505 and a Dell
+> OptiPlex 7000.
 
-On Mon, 13 Nov 2023, Harshit Mogalapalli wrote:
+Any thoughts on this?
 
-> attr_name_kobj's memory allocation is done with mutex_lock() held, this
-> is not needed.
-> 
-> Move allocation outside of mutex_lock() so unlock is not needed when
-> allocation fails.
-> 
-> Suggested-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+Armin Wolf
 
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-
--- 
- i.
-
---8323329-1437471784-1699902669=:1867--
+>
+> Changes since v2:
+> - Rework WMI response parsing
+> - Use #define for method number
+>
+> Changes since v1:
+> - Cc platform driver maintainers
+> - Fix formating inside documentation
+>
+> Armin Wolf (9):
+>    hwmon: (dell-smm) Prepare for multiple SMM calling backends
+>    hwmon: (dell-smm) Move blacklist handling to module init
+>    hwmon: (dell-smm) Move whitelist handling to module init
+>    hwmon: (dell-smm) Move DMI config handling to module init
+>    hwmon: (dell-smm) Move config entries out of i8k_dmi_table
+>    hwmon: (dell-smm) Introduce helper function for data init
+>    hwmon: (dell-smm) Add support for WMI SMM interface
+>    hwmon: (dell-smm) Document the WMI SMM interface
+>    hwmon: (dell-smm) Add Optiplex 7000 to fan control whitelist
+>
+>   Documentation/hwmon/dell-smm-hwmon.rst |  38 +-
+>   drivers/hwmon/Kconfig                  |   1 +
+>   drivers/hwmon/dell-smm-hwmon.c         | 603 +++++++++++++++++--------
+>   drivers/platform/x86/wmi.c             |   1 +
+>   4 files changed, 453 insertions(+), 190 deletions(-)
+>
+> --
+> 2.39.2
+>
