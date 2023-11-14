@@ -2,107 +2,126 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C18267EAF5E
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Nov 2023 12:41:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 688167EAF7A
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Nov 2023 12:47:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232752AbjKNLlr (ORCPT
+        id S232085AbjKNLrz (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 14 Nov 2023 06:41:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54784 "EHLO
+        Tue, 14 Nov 2023 06:47:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232748AbjKNLlh (ORCPT
+        with ESMTP id S229441AbjKNLry (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 14 Nov 2023 06:41:37 -0500
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA5841AC;
-        Tue, 14 Nov 2023 03:32:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699961535; x=1731497535;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=JTzcwCtdnMiga/o5pFKTO6FZ9pdO84nmnA+h3IRlPOg=;
-  b=KFRNe8YNLdwG2ZO54UwlCsQHW8VCrWQl6X/U6zGCmsqih4v6lcyV8CZR
-   KuPMyVQ7+o0a0VOF1MD0jqkVvFc3bs6XvcScY+YlY7yruaII5qnPwXNot
-   815pj4ymPXgmve+4RF4iyKXPsiwnmXfCItP4LpDc6ZwQ8OsGHLYt+qsOn
-   3jc0H+zE8Fjkaz6u9QkNL5PeqCNTJT5uLP7wMhOpMgeEE0AVWfrhWAsoa
-   XSJJwdRw7+fn+QmItA82ON4tSdLOyPkg0DCKXziXX5afQFRCQ0tv6R6ma
-   xUq6km09PbrCsBPw/LppOPlimN9P+BQcNr/fpVXk2h9rKjpgumCbQBVqd
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="3696837"
-X-IronPort-AV: E=Sophos;i="6.03,301,1694761200"; 
-   d="scan'208";a="3696837"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 03:32:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="938052041"
-X-IronPort-AV: E=Sophos;i="6.03,301,1694761200"; 
-   d="scan'208";a="938052041"
-Received: from rauhjoha-mobl2.ger.corp.intel.com ([10.251.217.194])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 03:32:05 -0800
-Date:   Tue, 14 Nov 2023 13:32:03 +0200 (EET)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Steve Wahl <steve.wahl@hpe.com>
-cc:     Andrew Cooper <andrew.cooper3@citrix.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Justin Ernst <justin.ernst@hpe.com>,
-        Kyle Meyer <kyle.meyer@hpe.com>,
-        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-        Russ Anderson <russ.anderson@hpe.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>,
-        Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-pci@vger.kernel.org
-Subject: Re: [PATCH 3/3] x86/apic: Drop struct local_apic
-In-Reply-To: <ZUVVJkpGg4hoF/Hs@swahl-home.5wahls.com>
-Message-ID: <e427fc2a-1b4-9cbc-636-9790406199d9@linux.intel.com>
-References: <20231102-x86-apic-v1-0-bf049a2a0ed6@citrix.com> <20231102-x86-apic-v1-3-bf049a2a0ed6@citrix.com> <ZUVVJkpGg4hoF/Hs@swahl-home.5wahls.com>
+        Tue, 14 Nov 2023 06:47:54 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2F2BE8;
+        Tue, 14 Nov 2023 03:47:51 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-32da7ac5c4fso3489296f8f.1;
+        Tue, 14 Nov 2023 03:47:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699962470; x=1700567270; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0hu5vq24I9HjUM0WRdZZtyBTXIAl9KFFFfWHDwaNX2E=;
+        b=knMJs3MZ+BgvY8+6q0WeLfmi7uUaDZNTjuxdXbDHc7bIc4xgMGbwEjuxnC7NB2DjFu
+         2YiBjEg+pcZLcnXJbkGbO+o3Ql84ASfNgE4SpIi0TGj6kZfU1A+z9vU6j9YYECrNWEWO
+         QMzHcrRorJHLxU2pXztMOvG2S2Y8UWY0V+lJTYQNHPi67DRbl1/I/qNX/y1h+qH/czns
+         WAqQaV1SEuxHO9GQHu4ilFdgI/Lp2ZJTZ5K6YvHD58A5iCCWeQnpk6Ev9/UZ0Sg8p5wC
+         BdUfFK2E5R0gKpJLNycC0+Fj78Sumx8ZApIyQOj/J36Bz/fTqrRT48bSdM4hSBuuuGIW
+         nOQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699962470; x=1700567270;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0hu5vq24I9HjUM0WRdZZtyBTXIAl9KFFFfWHDwaNX2E=;
+        b=VfDwIGHUUrcuNZrmE6oKWkFr+ACh8xeE3bo1nKE6aCEYXWHrKHWXT42owIkwQC6n4E
+         pU3RIrPfB9I06kgnr8t7W15ghPxb/ao/s91fdfDbmlOGwFme27Ozqk0JidUjRK8NNw/u
+         YSB2vCjMJHPBZ2u/4GjIjutLiX4gtOw2K8WqRad2FGKwzPwiKnBeopPUQowwFbEP8SZt
+         JEJZk1OWri5jWNvbjR4T352hCUJ+WWLAOp0CskgEhuwiUURgWTDy22o2YCQN9fK32YG/
+         VL26L1HZgwe1aWrD/tyzguCHOtkS5FUczjXsFDFrxwPNFWd1AGIVaiJPbm+UsCyaE610
+         j3gA==
+X-Gm-Message-State: AOJu0Yx5Fb4Pii2am/FTF2zr2b4s4hB5lr2Ccj4vQu2UWV4HQodvW1yt
+        Opb5w328iZFs6h5/Oal0VnYH2iSfAXcQBg==
+X-Google-Smtp-Source: AGHT+IHEXwCzVTnk45oIZFh5O1og+XH+srcD5DBeMWWurI7hJDH2hur7wR+yXMTvjmt9Ge8duCv7gg==
+X-Received: by 2002:a5d:6d82:0:b0:331:34c1:771 with SMTP id l2-20020a5d6d82000000b0033134c10771mr8300212wrs.50.1699962469636;
+        Tue, 14 Nov 2023 03:47:49 -0800 (PST)
+Received: from localhost.localdomain ([109.175.193.89])
+        by smtp.gmail.com with ESMTPSA id t16-20020adfe450000000b0032dbf6bf7a2sm7628958wrm.97.2023.11.14.03.47.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Nov 2023 03:47:49 -0800 (PST)
+From:   Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+To:     platform-driver-x86@vger.kernel.org
+Cc:     Stuart Hayhurst <stuart.a.hayhurst@gmail.com>,
+        linux-kernel@vger.kernel.org, Mark Gross <markgross@kernel.org>,
+        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Ike Panhc <ike.pan@canonical.com>, stable@vger.kernel.org
+Subject: [PATCH v2] platform/x86: ideapad-laptop: Set max_brightness before using it
+Date:   Tue, 14 Nov 2023 11:38:08 +0000
+Message-ID: <20231114114055.6220-2-stuart.a.hayhurst@gmail.com>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <9f46c613-63c2-4bc7-b938-7c9ea862a55e@linux.intel.com>
+References: <9f46c613-63c2-4bc7-b938-7c9ea862a55e@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, 3 Nov 2023, Steve Wahl wrote:
+max_brightness is used in ideapad_kbd_bl_brightness_get() before it's set,
+causing ideapad_kbd_bl_brightness_get() to return -EINVAL sometimes
 
-> On Thu, Nov 02, 2023 at 12:26:21PM +0000, Andrew Cooper wrote:
-> > This type predates recorded history in tglx/history.git, making it older
-> > than Feb 5th 2002.
-> > 
-> > This structure is literally old enough to drink in most juristictions in
-> > the world, and has not been used once in that time.
-> > 
-> > Lay it to rest in /dev/null.
-> > 
-> > Signed-off-by: Andrew Cooper <andrew.cooper3@citrix.com>
-> > ---
-> > There is perhaps something to be said for the longevity of the comment.
-> > "Not terribly well tested" certainly hasn't bitrotted in all this time.
-> 
->    :-)  !!!
-> 
-> Reveiewed-by: Steve Wahl <steve.wahl@hpe.com>
+Fixes: ecaa1867b524 ("platform/x86: ideapad-laptop: Add support for keyboard backlights using KBLC ACPI symbol")
+Signed-off-by: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+Cc: stable@vger.kernel.org
+---
 
-There's a typo in your tag (and it was copy-pasted to all patches of this
-series).
+Sorry if I messed up the stable cc bit, I have no idea how that process works
 
+v1 -> v2:
+ - Fix commit message
+ - Add missing tags
+
+---
+ drivers/platform/x86/ideapad-laptop.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
+index ac037540acfc..88eefccb6ed2 100644
+--- a/drivers/platform/x86/ideapad-laptop.c
++++ b/drivers/platform/x86/ideapad-laptop.c
+@@ -1425,18 +1425,17 @@ static int ideapad_kbd_bl_init(struct ideapad_private *priv)
+ 	if (WARN_ON(priv->kbd_bl.initialized))
+ 		return -EEXIST;
+ 
+-	brightness = ideapad_kbd_bl_brightness_get(priv);
+-	if (brightness < 0)
+-		return brightness;
+-
+-	priv->kbd_bl.last_brightness = brightness;
+-
+ 	if (ideapad_kbd_bl_check_tristate(priv->kbd_bl.type)) {
+ 		priv->kbd_bl.led.max_brightness = 2;
+ 	} else {
+ 		priv->kbd_bl.led.max_brightness = 1;
+ 	}
+ 
++	brightness = ideapad_kbd_bl_brightness_get(priv);
++	if (brightness < 0)
++		return brightness;
++
++	priv->kbd_bl.last_brightness = brightness;
+ 	priv->kbd_bl.led.name                    = "platform::" LED_FUNCTION_KBD_BACKLIGHT;
+ 	priv->kbd_bl.led.brightness_get          = ideapad_kbd_bl_led_cdev_brightness_get;
+ 	priv->kbd_bl.led.brightness_set_blocking = ideapad_kbd_bl_led_cdev_brightness_set;
 -- 
- i.
+2.42.0
 
