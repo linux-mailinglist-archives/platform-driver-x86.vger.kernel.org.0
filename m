@@ -1,44 +1,44 @@
-Return-Path: <platform-driver-x86+bounces-62-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-63-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873AB7F8C2D
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 25 Nov 2023 16:52:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E0677F8C94
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 25 Nov 2023 18:00:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 41E2C2812E1
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 25 Nov 2023 15:52:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BDFD528127B
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 25 Nov 2023 17:00:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC1F128E28;
-	Sat, 25 Nov 2023 15:52:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42C8428E27;
+	Sat, 25 Nov 2023 17:00:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KLGUsZ43"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ursCBdUP"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6B8B65C
-	for <platform-driver-x86@vger.kernel.org>; Sat, 25 Nov 2023 15:52:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2D596C433C8
-	for <platform-driver-x86@vger.kernel.org>; Sat, 25 Nov 2023 15:52:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23FC0D30A
+	for <platform-driver-x86@vger.kernel.org>; Sat, 25 Nov 2023 17:00:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 88BB9C433C7
+	for <platform-driver-x86@vger.kernel.org>; Sat, 25 Nov 2023 17:00:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700927562;
-	bh=AefTbXFJcjDzURQpKctYLCZo43Y2QwSDlaAIr6iyoMU=;
+	s=k20201202; t=1700931626;
+	bh=X2vR0kwOyg28WIQmseZTrYqkxmQ4XrfOUlzk2y6aSJg=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=KLGUsZ43PF2FN/ly/bvVo1RhpX1WNAJh8isJBumurDwo6kzYANtDMnxumhtJEe7z/
-	 uU3DTe3tSQr+dviTubwrZ5JWUem9tNFNGy3z/W56y7WHo14t2I5IgGVOfCCxsFcVFN
-	 ucS+usbqM3+PTQMIs4/DlXbUAacPZRplNBqVRTFGyUqP8BKiclfnjnRqd313FIOrmb
-	 Am1q9uK+nF0UzaXUEd/VLInH/O2qo7MDXuggUA44hxwvAbmemERAZMwLc9GsDgXEw3
-	 Yjpg/tXmPlveCxz2nPAe4LlIjyO0cCYkRBBThfdewyes1DetK3pCg7wSUndQXB6RTG
-	 PnKGroyoPAvDA==
+	b=ursCBdUP6L6U6SmLWBQ2w+H3UL67PWrjty/SwoZGejf1fEIPhnpGFHO/8a6e/jFBj
+	 cfkmh8JY6sCbBPUaSrVx64wsg+MSrARmfNWtIi9YkXMen4BiunLTPiPWbopsrABQh1
+	 ifZDAFJ5gQefVYsxkMYG2jQKj/qqqR7/NdGVT4lBLNeTGJVQq+MdFZIEg27ZhEAacR
+	 97pRPcma2/nV/4O5aNbIgp03VMS7ZRejpiou0veAD0XwTkZPHr7YC8YbNLd7e+1LmX
+	 wLFteF6d9MmtMFYIsuvtqa/f2H8Dwd6n3QRHeqLzPw4oa2tVFhXQzWIbc/6udZkicD
+	 mfz6HO9ya3Fmw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 15E35C53BD0; Sat, 25 Nov 2023 15:52:42 +0000 (UTC)
+	id 6C1A0C4332E; Sat, 25 Nov 2023 17:00:26 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: platform-driver-x86@vger.kernel.org
 Subject: [Bug 218188] hp_wmi_sensors: probe of
  8F1F6435-9F42-42C8-BADC-0E9424F20C9A failed with error -61
-Date: Sat, 25 Nov 2023 15:52:41 +0000
+Date: Sat, 25 Nov 2023 17:00:26 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
@@ -47,14 +47,14 @@ X-Bugzilla-Component: Platform_x86
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: high
-X-Bugzilla-Who: W_Armin@gmx.de
+X-Bugzilla-Who: alexbelm48@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-218188-215701-LboOIWCnXZ@https.bugzilla.kernel.org/>
+Message-ID: <bug-218188-215701-Vp6AFcwuH8@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-218188-215701@https.bugzilla.kernel.org/>
 References: <bug-218188-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -70,47 +70,32 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218188
 
---- Comment #2 from Armin Wolf (W_Armin@gmx.de) ---
-Can you check if the following patch makes the WMI device with the GUID
-8F1F6435-9F42-42C8-BADC-0E9424F20C9A disappear:
+--- Comment #3 from Alexis Belmonte (alexbelm48@gmail.com) ---
+I still have the same error printed out when manually inserting hp_wmi_sens=
+ors
+-- I also noticed that wmi_bus complains about WQ00 not being there:
 
-From 19edb8bd7368c7ca93268f60d17ee60125354356 Mon Sep 17 00:00:00 2001
-From: Armin Wolf <W_Armin@gmx.de>
-Date: Sat, 25 Nov 2023 16:46:06 +0100
-Subject: [PATCH] platform/x86: wmi: Skip blocks with zero instances
+# dmesg|grep wmi
+[    2.074660] wmi_bus wmi_bus-PNP0C14:00: WQ00 data block query control me=
+thod
+not found
+[   30.175458] hp-wmi-sensors: probe of 8F1F6435-9F42-42C8-BADC-0E9424F20C9A
+failed with error -61
 
-Some machines like the HP Omen 17 ck2000nf contain
-WMI blocks with zero instances, so any WMI driver
-which tries to handle the associated WMI device will
-fail.
-Skip such WMI blocks to avoid confusing any WMI drivers.
+I can confirm that the situation did not change, I made sure that I didn't =
+do
+something wrong by executing the following command to clean, build & install
+the kernel:
 
-Signed-off-by: Armin Wolf <W_Armin@gmx.de>
----
- drivers/platform/x86/wmi.c | 5 +++++
- 1 file changed, 5 insertions(+)
+$ make -j64 clean && make -j64 all modules bzImage && sudo make -j64
+modules_install && sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-linux-=
+next
+&& sudo mkinitcpio -p linux-next && sudo grub-mkconfig -o /boot/grub/grub.c=
+fg
 
-diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
-index 5c27b4aa9690..f3d38b910e15 100644
---- a/drivers/platform/x86/wmi.c
-+++ b/drivers/platform/x86/wmi.c
-@@ -1340,6 +1340,11 @@ static int parse_wdg(struct device *wmi_bus_dev, str=
-uct
-platform_device *pdev)
-                if (debug_dump_wdg)
-                        wmi_dump_wdg(&gblock[i]);
-
-+               if (!gblock->instance_count) {
-+                       dev_info(wmi_bus_dev, FW_INFO "%pUL has zero
-instances\n", &gblock[i].guid);
-+                       continue;
-+               }
-+
-                if (guid_already_parsed_for_legacy(device, &gblock[i].guid))
-                        continue;
-
---=20
-2.39.2
+For your information, I integrated next-20231124 in my working source tree;=
+ let
+me know if you want me to test this on the mainline codebase instead.
 
 --=20
 You may reply to this email to add a comment.
