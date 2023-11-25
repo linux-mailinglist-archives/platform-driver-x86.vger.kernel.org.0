@@ -1,46 +1,46 @@
-Return-Path: <platform-driver-x86+bounces-58-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-59-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E89F7F8AF7
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 25 Nov 2023 13:54:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7F57F8B22
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 25 Nov 2023 14:40:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4EF9A1C20AEC
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 25 Nov 2023 12:54:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F5291C20B14
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 25 Nov 2023 13:40:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7672FC00;
-	Sat, 25 Nov 2023 12:54:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AA7111189;
+	Sat, 25 Nov 2023 13:40:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CIPO2tW4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C+dtaCBg"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DAC1F9FE
-	for <platform-driver-x86@vger.kernel.org>; Sat, 25 Nov 2023 12:54:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0DC2BC433C7
-	for <platform-driver-x86@vger.kernel.org>; Sat, 25 Nov 2023 12:54:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C06263BD
+	for <platform-driver-x86@vger.kernel.org>; Sat, 25 Nov 2023 13:40:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 21C25C433C7
+	for <platform-driver-x86@vger.kernel.org>; Sat, 25 Nov 2023 13:40:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700916886;
-	bh=DU6Pw9dwX8W2ECC4dqx4WHNsbfeQ1+Jz19aim5docUc=;
-	h=From:To:Subject:Date:From;
-	b=CIPO2tW4b/e5zMXsuqWQSNggHoaW3TgTomOQLajHVv+BObrBfGfkInA/T31BsDmJo
-	 8l5moAt924FQgcUl1TRqRjHkwwZyBa9nK+WXLBAmyAPbtRoxOC/L+cM073/DChvKVh
-	 K6nLZ34Gir2v0GX+o6L8dlVmt+EJ1qzfnBxoL7KpTT+pZ/zNgDwPmVq/mJmlNq3Z+T
-	 F+kAizUnEiHCm2sQRP+NjO7hjeZXuaWen4FjT3t6KvvQhClotXplcd6vUEHAkMnUHW
-	 dsFU/0RPsHIoZntIkvO65QW8zKPhDIEUTiZ/nmo6z6Kq2MZiLH3TM74f37frUmsTtq
-	 VGXmdPfSharbQ==
+	s=k20201202; t=1700919642;
+	bh=ce7hA6hfRX6uIa1BOQsTi1ncAjpzvlTsvNPwJBWgjRo=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=C+dtaCBg5zhivXxbKsFa4hWX4P4RsSzmcJg1EGwekAAANEwq54TAxYbcoFFH26eSt
+	 fEY4B3chash+OYs2f3TqwR7H9svGaV+wocniImaAYWxACJK17D/IjRb5EkUf4M+84z
+	 IQQJB2yDsf7tHYT29I9gIOxKRrRJzhnLGZmnRhnLSLBb1wf+Zg3Bq7ShBcgL0NNnkN
+	 sZBHsEortS1SwMK0XsTvh8GVxQ1cdDO6wBM8fLrZEQ6Ezx0dx6xo33NhCb43dbuPln
+	 yqmiPTlX5rbtE9UjRJEvVzUew7Qevg0xItBpbZouZePBAdem+mG5VA0ZMKhQuHXleY
+	 6T1wtkEpU0w4A==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id E5E6EC4332E; Sat, 25 Nov 2023 12:54:45 +0000 (UTC)
+	id 0476CC4332E; Sat, 25 Nov 2023 13:40:41 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: platform-driver-x86@vger.kernel.org
-Subject: [Bug 218188] New: hp_wmi_sensors: probe of
+Subject: [Bug 218188] hp_wmi_sensors: probe of
  8F1F6435-9F42-42C8-BADC-0E9424F20C9A failed with error -61
-Date: Sat, 25 Nov 2023 12:54:45 +0000
+Date: Sat, 25 Nov 2023 13:40:41 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Platform_x86
@@ -53,10 +53,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression attachments.created
-Message-ID: <bug-218188-215701@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-218188-215701-vN7czJKFX5@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218188-215701@https.bugzilla.kernel.org/>
+References: <bug-218188-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -70,73 +70,11 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218188
 
-            Bug ID: 218188
-           Summary: hp_wmi_sensors: probe of
-                    8F1F6435-9F42-42C8-BADC-0E9424F20C9A failed with error
-                    -61
-           Product: Drivers
-           Version: 2.5
-          Hardware: Intel
-                OS: Linux
-            Status: NEW
-          Severity: high
-          Priority: P3
-         Component: Platform_x86
-          Assignee: drivers_platform_x86@kernel-bugs.osdl.org
-          Reporter: alexbelm48@gmail.com
-        Regression: No
+Alexis Belmonte (alexbelm48@gmail.com) changed:
 
-Created attachment 305470
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D305470&action=3Dedit
-ACPI dump & disassembly + BMOF and MOF files from the ck2000nf (8BAD) board
-
-I've installed ArchLinux on my HP Omen 17 ck2000nf laptop, and I've noticed
-that the hp_wmi_sensors module isn't loaded automatically by the kernel.
-
-Modprobing manually, the hp-wmi-sensors module fails to load with a -61
-(ENODATA) error:
-[  350.834728] hp-wmi-sensors: probe of 8F1F6435-9F42-42C8-BADC-0E9424F20C9A
-failed with error -61
-
-Peeking at the MOF files after dumping them with bmf2mof, the WMI
-HPBIOS_BIOSNumericSensor object is defined as expected:
-
-#pragma namespace("\\\\.\\root\\HP\\InstrumentedBIOS")=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-#pragma classflags("forceupdate")=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20
-[WMI, Dynamic, Provider("Provider_BIOSInterface"), Description("Class Sensor
-Data"), GUID("{8F1F6435-9F42-42c8-BADC-0E9424F20C9A}")]
-class HPBIOS_BIOSNumericSensor : HP_BIOSNumericSensor {=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-  [key, read] string InstanceName;=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20
-  [read] boolean Active;=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-  [WmiDataId(7), read] string PossibleStates[3];=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-};
-
-The only thing that's odd is that there's a lowercase 'c' in the GUID strin=
-g,
-but *maybe* it's just an issue with the bmf2mof tool. Could it be the sourc=
-e of
-the problem?
-
-I run linux-next kernel 6.7.0-rc2-next-20231124-00403-g4bdf9e948c23, as I h=
-ave
-modified hp-wmi to add my board (8BAD) to the list of supported
-omen_thermal_profile_boards, so that my CPU isn't power limited by my embed=
-ded
-controller.
-
-The issue is also observable with mainline 6.6.2-arch1-1.
-
-I'm also dropping in my full set of raw/dumped MOF and ACPI files in the
-attachment, if that can help troubleshoot the issue.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|                            |6.6.2-arch1-1
 
 --=20
 You may reply to this email to add a comment.
