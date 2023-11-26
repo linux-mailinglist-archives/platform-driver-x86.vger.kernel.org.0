@@ -1,44 +1,44 @@
-Return-Path: <platform-driver-x86+bounces-73-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-74-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09EF27F9364
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 26 Nov 2023 16:38:33 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 555A77F93B2
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 26 Nov 2023 17:16:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6AE8C281178
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 26 Nov 2023 15:38:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F3305B20D7B
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 26 Nov 2023 16:16:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8166AD26C;
-	Sun, 26 Nov 2023 15:38:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CCDEDDBA;
+	Sun, 26 Nov 2023 16:16:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gkHE+Zug"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vCjb3rHh"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6468920FA
-	for <platform-driver-x86@vger.kernel.org>; Sun, 26 Nov 2023 15:38:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CC48AC433C9
-	for <platform-driver-x86@vger.kernel.org>; Sun, 26 Nov 2023 15:38:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57163EC2
+	for <platform-driver-x86@vger.kernel.org>; Sun, 26 Nov 2023 16:16:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C7242C433C8
+	for <platform-driver-x86@vger.kernel.org>; Sun, 26 Nov 2023 16:16:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701013107;
-	bh=retoFWnj4E7qdb5NjjMcZeQo99+Q7xxFL4w4xMgoiNw=;
+	s=k20201202; t=1701015381;
+	bh=NXs/iW8Q+VQ6iCzN81Kyhw4G3/KrIN5McZyiUuH5oa8=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=gkHE+Zug4i7qrLiCUcYXnh2dUaizWbHL0LmeBBaQ5dy+FN9V6jtBbAqIcFPDL5OV7
-	 Ob/i6mEZ3oPBByVCYAscojjjgaHl/HusPZ1LNdPAt0eZg2iOvtInNMynYT5O5BrH6w
-	 v+8yGFvID+icAAQo/bmn9ZayUVvMjTNSZrpXLp3/ASCHKrfBFQfHQPmXs3ywZZ7vfE
-	 FNsH2702FNhu25+unXhAx9LHIF0yaTwrW9s75MTqgM1W9naDIHlzew+/o2nrXhC+oL
-	 exDosbbc9qcN6imSyL59kd+Xc/c8dGrp6/pUX5655EM/azUA24xbqie5jZcCDY1rot
-	 W3GFymiwpu5KA==
+	b=vCjb3rHh4Vwxw+t0XrxyH3hk8UfLd5Hvtf3SiMhI86ZD0MODdDMOSfLyQ8jSlWbLz
+	 xe5Jaqgh9rWPaTMvFhu+OuOvfUo+aeNDinBkVJuGEmWedraMqYxVzHGfDijy3vbwdP
+	 enknOtnY6xskQF5GADFWKTuJRAGgTycSQoHTkyHBs5iD3DlcGwUA0VYKWXg6C1QKe3
+	 d0s/yGxykXDaPS9wiBVeN65NtdIg2th3TpfeLj4Jf4RmRQVY7W418lVvMO+G0TAk6E
+	 oahueaz9Hl63K1Emx06j/cZBOFTtfBV0YWSIhSS2i88nXZJOktY3f+dC5PqpFu/I/Z
+	 V9UmLY4LYBTqw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id AF982C4332E; Sun, 26 Nov 2023 15:38:27 +0000 (UTC)
+	id 9C21AC4332E; Sun, 26 Nov 2023 16:16:21 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: platform-driver-x86@vger.kernel.org
 Subject: [Bug 218188] hp_wmi_sensors: probe of
  8F1F6435-9F42-42C8-BADC-0E9424F20C9A failed with error -61
-Date: Sun, 26 Nov 2023 15:38:27 +0000
+Date: Sun, 26 Nov 2023 16:16:21 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
@@ -54,7 +54,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-218188-215701-pP7h3E8q4I@https.bugzilla.kernel.org/>
+Message-ID: <bug-218188-215701-P4OXMXa5aR@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-218188-215701@https.bugzilla.kernel.org/>
 References: <bug-218188-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -70,20 +70,10 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218188
 
---- Comment #12 from Alexis Belmonte (alexbelm48@gmail.com) ---
-It seems that there's some regressions that I'm observing now regarding the
-stability of the system with the custom built kerenl:
-
-- My Elan touchpad no longer works
-- The Nvidia driver randomly freezes (maybe not related, but still adding it
-here just in case)
-
-I'll try to do two things:
-
-- Use the default kernel config and rebuild everything
-- Remove the patch that you've provided me
-
-I'll send the results once that's done.
+--- Comment #13 from Alexis Belmonte (alexbelm48@gmail.com) ---
+I also wanted to add that the /sys/firmware/acpi/platform_profile bug is not
+reproducible on the mainline kernel without my hp-wmi patch, so there's
+definitely something that needs to be done here as well.. :=C2=A7
 
 --=20
 You may reply to this email to add a comment.
