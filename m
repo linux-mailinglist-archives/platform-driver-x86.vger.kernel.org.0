@@ -1,44 +1,44 @@
-Return-Path: <platform-driver-x86+bounces-108-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-109-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F6467FB27F
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Nov 2023 08:17:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F437FB288
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Nov 2023 08:17:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B68D3B20A10
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Nov 2023 07:17:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 31E121C2031E
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Nov 2023 07:17:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 679DC12B79;
-	Tue, 28 Nov 2023 07:17:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0F4012E43;
+	Tue, 28 Nov 2023 07:17:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EdqMDcKx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IwfM7vS4"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FAEE540
-	for <platform-driver-x86@vger.kernel.org>; Tue, 28 Nov 2023 07:17:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B36A9C433C8
-	for <platform-driver-x86@vger.kernel.org>; Tue, 28 Nov 2023 07:17:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95356CA73
+	for <platform-driver-x86@vger.kernel.org>; Tue, 28 Nov 2023 07:17:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 22393C433C7
+	for <platform-driver-x86@vger.kernel.org>; Tue, 28 Nov 2023 07:17:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701155834;
-	bh=6ROZubIbMstj4IxzPKVO6GKNxlbUVNr9mkvRPtchRTw=;
+	s=k20201202; t=1701155871;
+	bh=yE69W6PcLk9wP+4PuZpkBG7sU5ow4L0rJeQhOkFCfR8=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=EdqMDcKxuCqJOau0UHygSN+E1mK0CKKlewa8T5g74gcNypC9gKlVjAi8LE3Yh/+sD
-	 FA1wI9rFY4CgMsuhhTRW1x9zjvGWwhDadpR+sIFxOI/BSOUvgZcx5PSgTFxXBAet1I
-	 mh4Wa0jQHSNHUiNHNppAfRBKy26ykSlS59me7+JE6q8tvJ+fnXVg4sUPG54v7DJK8m
-	 ELYmD9tvXZDk9TKwBWkBvVhck2ET8O8kQs1MxcElRGFxUsZKaLT1fjWGp6e0F5nnlS
-	 l409VIQbGN12hgh/eUZcxodXR0lU7z6sPbYrDvh0OPQBLrCdTHqxy7F3E6/lnBVs35
-	 sf6tQxTJmDmiQ==
+	b=IwfM7vS4BbOiCrkVQLiq/bont2ftSshWIVBPXnz5BjRnZABVGAxxHfn5PL1Dw/cnv
+	 IOWPrp1NKiLqN4nJO/zJHRm0EgxhNna5qIXluK3Mnhl5VGIQ52qKrDBdYrTyRH1Z63
+	 2o6fKHkw9i2npeSGX3XE3KB0TIuozRGkv4CCpc+wmATp1MhnYnjMWp8+aNlQ2sCGIP
+	 LKF0e01Btru39zh4bhJzQOF3cghYSmqPHZ2UHBtf4mVDacPnGV9730KX/QI2mM0rLU
+	 gPDDbwo1okqZc/fAUmD9caXSWO1UVtUVpvJV0sWlecbT6DmHs4VOo+kF7H304zb5Xl
+	 PO2Sb7JgQJChQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 97221C4332E; Tue, 28 Nov 2023 07:17:14 +0000 (UTC)
+	id 1284CC4332E; Tue, 28 Nov 2023 07:17:51 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: platform-driver-x86@vger.kernel.org
 Subject: [Bug 218188] hp_wmi_sensors: probe of
  8F1F6435-9F42-42C8-BADC-0E9424F20C9A failed with error -61
-Date: Tue, 28 Nov 2023 07:17:14 +0000
+Date: Tue, 28 Nov 2023 07:17:50 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
@@ -54,7 +54,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-218188-215701-1v3jDq6BPJ@https.bugzilla.kernel.org/>
+Message-ID: <bug-218188-215701-Q5FvY3zcKn@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-218188-215701@https.bugzilla.kernel.org/>
 References: <bug-218188-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -70,8 +70,8 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218188
 
---- Comment #20 from Alexis Belmonte (alexbelm48@gmail.com) ---
-Removing the acpi_osi parameter didn't help.
+--- Comment #21 from Alexis Belmonte (alexbelm48@gmail.com) ---
+And PINCTRL_INTEL_PLATFORM makes my system stuck on initramfs... :[
 
 --=20
 You may reply to this email to add a comment.
