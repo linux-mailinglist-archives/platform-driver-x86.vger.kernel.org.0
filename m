@@ -1,37 +1,37 @@
-Return-Path: <platform-driver-x86+bounces-124-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-125-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79A4C7FC727
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Nov 2023 22:08:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EC557FC74F
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Nov 2023 22:09:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 340392876DA
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Nov 2023 21:08:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 289C82880BA
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Nov 2023 21:09:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AFBF44C74;
-	Tue, 28 Nov 2023 21:08:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DC3D44C82;
+	Tue, 28 Nov 2023 21:08:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b8iJUyBN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tmwWt6oZ"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E118F44379;
-	Tue, 28 Nov 2023 21:08:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97D6CC4166B;
-	Tue, 28 Nov 2023 21:08:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8008142A8E;
+	Tue, 28 Nov 2023 21:08:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4198DC433BA;
+	Tue, 28 Nov 2023 21:08:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701205703;
+	s=k20201202; t=1701205738;
 	bh=zSwLFu7OtLy2Zn+0zDwtDj7975oDWp+IIFJU4t6gJi4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=b8iJUyBNYVIKjKRFzJWlyGn5CDUtIx5Q/sWqWwea/4usulyZAMhswl8VFMezYSKwb
-	 nKyV4E91phpQqWkkovPPQUIV+KA3W4ojRMs9/dFlSr2Qt5XZELzvqOyKZPLMYWUTSI
-	 Q6c+LPw9WQR4o+zgSr4SRo8CsBSw+X/TcaEZZMTGQ4NWbEuh714YgFeyjpWrA92ZD2
-	 N6rrkbOIAeVRoXxQVueMOxuKWv9MsDtHgvRo9LLj1s0Ux1Cb+bCVq15yoIjKmtnO0t
-	 MUWk8GX+VdBDP/oJCsF5sNDadDYkVRGKSLRKEhsh91T+W5pSScwT5o2TskJ3EfwwuM
-	 ttvQfY4aZkw1g==
+	b=tmwWt6oZug6md8kzk4a78u9tmL4LroZPZvYcCoPKoT5Ak4QQ2Ffs8K/rAmomzMOR3
+	 ZXAhExUtj6qjO35zIuYZt6g00VVfnsPZYQcef7Pne3mMXo6fbOVXLglxriFPSvq7La
+	 9QHCOTyC+eUU3xVEjOZfMyrMgB0u9yEBujdsOIh0jJS40596HgcR9GNXIfoTS3qGbN
+	 ObuMr84/fK3mrXvY0W7dVd6EWXh3Nq5JYM6DIjp34TA2dasmUAWg4tzlelsEBBGHEh
+	 1eAxXlMhNhgGSo8axtCZqX+dy1jAJTjcyL/uluiAG4SfTD355naWIlewAkocob58et
+	 qmdTMR0HV+WSg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -43,12 +43,12 @@ Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	david.e.box@linux.intel.com,
 	hdegoede@redhat.com,
 	platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 17/25] platform/x86: intel_telemetry: Fix kernel doc descriptions
-Date: Tue, 28 Nov 2023 16:07:33 -0500
-Message-ID: <20231128210750.875945-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 09/15] platform/x86: intel_telemetry: Fix kernel doc descriptions
+Date: Tue, 28 Nov 2023 16:08:30 -0500
+Message-ID: <20231128210843.876493-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231128210750.875945-1-sashal@kernel.org>
-References: <20231128210750.875945-1-sashal@kernel.org>
+In-Reply-To: <20231128210843.876493-1-sashal@kernel.org>
+References: <20231128210843.876493-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -58,7 +58,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.64
+X-stable-base: Linux 5.15.140
 Content-Transfer-Encoding: 8bit
 
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
