@@ -1,61 +1,38 @@
-Return-Path: <platform-driver-x86+bounces-118-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-121-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1400D7FC3C9
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Nov 2023 19:56:46 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 905817FC470
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Nov 2023 20:49:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D0021C20E4C
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Nov 2023 18:56:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EC84AB2150D
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Nov 2023 19:49:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70CFF4F1F5;
-	Tue, 28 Nov 2023 18:56:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NtUHHhxU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AA4735273;
+	Tue, 28 Nov 2023 19:49:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A51FD66;
-	Tue, 28 Nov 2023 10:56:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701197798; x=1732733798;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=1pNFwhaQkt5Pu4db/V5DAQvelVmx0K7YX68rjlEEwvY=;
-  b=NtUHHhxULCK1/NTMlmHIQyHuKzDSv03+xWvYf3noWxJO+NPv42JM9h32
-   b/d67PhF989kLZz9CYlzUlxdEWhVvMi9QymoxUTOGUWNeYM06mS5dd8tw
-   +FPhC1Jm56bQ/8sohGIPLwx37YTR8WCoOzTeWf9QhQAN8oUJUpB7NHrZX
-   DdfHIAmqZMNrpmeCT1aHsIA8IadMkdfJJrwxmtyYZW4pCcXk9shJEEpwN
-   ixN+syF4TGdRNiM4dtlOGIyZt4IBghmVMARkF/CWcP7cVkvmzH2bHLbMk
-   qZ7oTe9+Q1fhVM7Vzc2b6hXLmg9NiVuQV2ulXnOUg3XYVzuVP+jB0+pAq
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="372366986"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="372366986"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 10:56:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="892165785"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="892165785"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.14])
-  by orsmga004.jf.intel.com with ESMTP; 28 Nov 2023 10:56:11 -0800
-From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To: hdegoede@redhat.com,
-	markgross@kernel.org,
-	ilpo.jarvinen@linux.intel.com,
-	andriy.shevchenko@linux.intel.com
-Cc: platform-driver-x86@vger.kernel.org,
+Received: from mail11.truemail.it (mail11.truemail.it [IPv6:2001:4b7e:0:8::81])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27C1510F0;
+	Tue, 28 Nov 2023 11:49:45 -0800 (PST)
+Received: from francesco-nb.toradex.int (31-10-194-107.static.upc.ch [31.10.194.107])
+	by mail11.truemail.it (Postfix) with ESMTPA id 47FC0206FC;
+	Tue, 28 Nov 2023 20:49:42 +0100 (CET)
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Maximilian Luz <luzmaximilian@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Mark Gross <markgross@kernel.org>
+Cc: Francesco Dolcini <francesco.dolcini@toradex.com>,
+	platform-driver-x86@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH 6/6] platform/x86/intel-uncore-freq: Process read/write blocked feature status
-Date: Tue, 28 Nov 2023 10:56:05 -0800
-Message-Id: <20231128185605.3027653-7-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231128185605.3027653-1-srinivas.pandruvada@linux.intel.com>
-References: <20231128185605.3027653-1-srinivas.pandruvada@linux.intel.com>
+	stable@vger.kernel.org
+Subject: [PATCH v1] platform/surface: aggregator: fix recv_buf() return value
+Date: Tue, 28 Nov 2023 20:49:35 +0100
+Message-Id: <20231128194935.11350-1-francesco@dolcini.it>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -64,70 +41,43 @@ List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When a feature is read blocked, don't continue to read uncore information
-and register with uncore core.
+From: Francesco Dolcini <francesco.dolcini@toradex.com>
 
-When the feature is write blocked, continue to offer read interface but
-block setting uncore limits.
+Serdev recv_buf() callback is supposed to return the amount of bytes
+consumed, therefore an int in between 0 and count.
 
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Do not return negative number in case of issue, when
+ssam_controller_receive_buf() returns ESHUTDOWN just returns 0, e.g. no
+bytes consumed, this keep the exact same behavior as it was before.
+
+This fixes a potential WARN in serdev-ttyport.c:ttyport_receive_buf().
+
+Cc: <stable@vger.kernel.org>
+Fixes: c167b9c7e3d6 ("platform/surface: Add Surface Aggregator subsystem")
+Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
 ---
- .../uncore-frequency/uncore-frequency-tpmi.c      | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ drivers/platform/surface/aggregator/core.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-tpmi.c b/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-tpmi.c
-index 4fb790552c47..de5db49a9afe 100644
---- a/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-tpmi.c
-+++ b/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-tpmi.c
-@@ -66,6 +66,7 @@ struct tpmi_uncore_struct {
- 	int min_ratio;
- 	struct tpmi_uncore_power_domain_info *pd_info;
- 	struct tpmi_uncore_cluster_info root_cluster;
-+	bool write_blocked;
- };
- 
- #define UNCORE_GENMASK_MIN_RATIO	GENMASK_ULL(21, 15)
-@@ -157,6 +158,9 @@ static int uncore_write_control_freq(struct uncore_data *data, unsigned int inpu
- 	cluster_info = container_of(data, struct tpmi_uncore_cluster_info, uncore_data);
- 	uncore_root = cluster_info->uncore_root;
- 
-+	if (uncore_root->write_blocked)
-+		return -EPERM;
-+
- 	/* Update each cluster in a package */
- 	if (cluster_info->root_domain) {
- 		struct tpmi_uncore_struct *uncore_root = cluster_info->uncore_root;
-@@ -233,11 +237,21 @@ static void remove_cluster_entries(struct tpmi_uncore_struct *tpmi_uncore)
- 
- static int uncore_probe(struct auxiliary_device *auxdev, const struct auxiliary_device_id *id)
+diff --git a/drivers/platform/surface/aggregator/core.c b/drivers/platform/surface/aggregator/core.c
+index 1a6373dea109..6152be38398c 100644
+--- a/drivers/platform/surface/aggregator/core.c
++++ b/drivers/platform/surface/aggregator/core.c
+@@ -231,9 +231,12 @@ static int ssam_receive_buf(struct serdev_device *dev, const unsigned char *buf,
+ 			    size_t n)
  {
-+	int read_blocked = 0, write_blocked = 0;
- 	struct intel_tpmi_plat_info *plat_info;
- 	struct tpmi_uncore_struct *tpmi_uncore;
- 	int ret, i, pkg = 0;
- 	int num_resources;
+ 	struct ssam_controller *ctrl;
++	int ret;
  
-+	ret = tpmi_get_feature_status(auxdev, TPMI_ID_UNCORE, &read_blocked, &write_blocked);
-+	if (ret)
-+		dev_info(&auxdev->dev, "Can't read feature status: ignoring blocked status\n");
+ 	ctrl = serdev_device_get_drvdata(dev);
+-	return ssam_controller_receive_buf(ctrl, buf, n);
++	ret = ssam_controller_receive_buf(ctrl, buf, n);
 +
-+	if (read_blocked) {
-+		dev_info(&auxdev->dev, "Firmware has blocked reads, exiting\n");
-+		return -ENODEV;
-+	}
-+
- 	/* Get number of power domains, which is equal to number of resources */
- 	num_resources = tpmi_get_resource_count(auxdev);
- 	if (!num_resources)
-@@ -266,6 +280,7 @@ static int uncore_probe(struct auxiliary_device *auxdev, const struct auxiliary_
- 	}
++	return ret < 0 ? 0 : ret;
+ }
  
- 	tpmi_uncore->power_domain_count = num_resources;
-+	tpmi_uncore->write_blocked = write_blocked;
- 
- 	/* Get the package ID from the TPMI core */
- 	plat_info = tpmi_get_platform_data(auxdev);
+ static void ssam_write_wakeup(struct serdev_device *dev)
 -- 
-2.41.0
+2.25.1
 
 
