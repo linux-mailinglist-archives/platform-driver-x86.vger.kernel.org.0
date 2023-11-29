@@ -1,109 +1,131 @@
-Return-Path: <platform-driver-x86+bounces-150-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-155-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB46B7FDF30
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 29 Nov 2023 19:17:16 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14DF57FE2E7
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 29 Nov 2023 23:21:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7DBECB20FD9
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 29 Nov 2023 18:17:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C4A69282206
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 29 Nov 2023 22:21:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E69245C3DE;
-	Wed, 29 Nov 2023 18:17:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0EC73B180;
+	Wed, 29 Nov 2023 22:21:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="UsWayn0H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="II4ttN9E"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6593B9;
-	Wed, 29 Nov 2023 10:17:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-	t=1701281817; x=1701886617; i=w_armin@gmx.de;
-	bh=SkykkrdVMyo+wYmWI6AvKsqQ/Fs+Iqad5hnFwSp9bDk=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=UsWayn0HDDWIqHwAFeST8UwvF+omAcvkAw85MDwwW0xDewCRhmpiFkhmdPm5t1MY
-	 tbrqSz7I2BvBtg2hf9So0QIkj/0YMZNB3HJcQLYwFRncKSppyDFW7KatJw5GUZ8rb
-	 Dq2E36l3A6S7QzjFh+LCC3xhAc62pEQrRQSRnmzUPig+4PuKSBAh/kUvX1XK8ptuG
-	 VQv5TEGk2FPavfxqbtVxhILUd68ZAeHYC4vEX3hny+aJMj3VGnBlPGBWGcITTEdMq
-	 aB3ZmsE/Ewvjm25No7b/4HAsiUJIqYuLYarIukneglmfTyrgzQCuXIIYNxanIVyT4
-	 0TatbiMOna024jCUrA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from mx-amd-b650.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
- (mrgmx104 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1MlNtF-1rZXTI2uzN-00ln8L; Wed, 29 Nov 2023 19:16:57 +0100
-From: Armin Wolf <W_Armin@gmx.de>
-To: hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com
-Cc: platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] platform/x86: wmi: Skip blocks with zero instances
-Date: Wed, 29 Nov 2023 19:16:54 +0100
-Message-Id: <20231129181654.5800-1-W_Armin@gmx.de>
-X-Mailer: git-send-email 2.39.2
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39EB4A3;
+	Wed, 29 Nov 2023 14:21:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701296500; x=1732832500;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Z/lRb6jOKcLVvakdgQeZU82qUclb1WEH9r84F28valY=;
+  b=II4ttN9EUOYaQmBOD2V6Q30RFJsJ+ytTATYUt46B7GcOOjZAH2Ti/RE7
+   xiKVT7lsuogEMW58yN3fEq5xvT5WuxkpCMY4MKxe9ABuTJegZziXjvRZR
+   1lP+JQHcJw6TT2o4AOBhz94Kdq/riJP4G/gOCm31z/5wgvgoNF0A3Ly0s
+   ubmXMkAL/IHQVaoIiVBWSYR3RHuZZxFFYKSoz1wDyssz2tRkwPHNMtwi/
+   TBBw17m8jv+u9vtiuwcZcq3kg+D1RmLLC5Hhe87hgA05AAFgSetzIXZKY
+   x/VJTDpYAcPQA0+MsSjxSv93k1WjwhSEiK79VpAlIM/I274KmmhB3IjIp
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="11936992"
+X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
+   d="scan'208";a="11936992"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 14:21:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="798070406"
+X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
+   d="scan'208";a="798070406"
+Received: from linux.intel.com ([10.54.29.200])
+  by orsmga008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 14:21:32 -0800
+Received: from debox1-desk4.lan (unknown [10.209.108.167])
+	by linux.intel.com (Postfix) with ESMTP id 8D51B5807E2;
+	Wed, 29 Nov 2023 14:21:32 -0800 (PST)
+From: "David E. Box" <david.e.box@linux.intel.com>
+To: linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	ilpo.jarvinen@linux.intel.com,
+	rajvi.jingar@linux.intel.com
+Subject: [PATCH V6 00/20] intel_pmc: Add telemetry API to read counters
+Date: Wed, 29 Nov 2023 14:21:12 -0800
+Message-Id: <20231129222132.2331261-1-david.e.box@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:+NBnaTf+YFwq+J7+NUSzfy6sIp2qeoca0FjRagB64jV2JaaEM8z
- j0MrzkGBG8YLJeXnrhsspmKTAxuO+04jJJg4Qqxmz8N2yioVa9zGTu2rT+ybyiIRMEmNCQP
- T6QQp7Oqah1I/AyNUmAos5SEOXNDudfjFV9CUikh8Iv2Vh3TrWv059+uZRYlB2c//TV2uHA
- QQUaATXThtsnUgLjIEw2g==
-UI-OutboundReport: notjunk:1;M01:P0:+26yQg5Xt+A=;eDNGmFqhrDPmadpeJ2urwSOuS8y
- q6QemUkR6BSvVtgPhqsvQJhf76ZGzZAjqzZcR4UOn9AypIZO79sQD4kULD4TzYmwpk5eZt80I
- xoUsCqA97g9Lwq8qNjCtq5cNWF0xWzh46K95O38e1APlPyAQY7mCUmDBjgyz18D8ZsivQC8cT
- k/3VQcgPDKsQXUh6wVfe42dVQ/z1PpdlYlJV0ttckGu5HrwMVhM8H4zN7qw6uRMj7dyO7J73h
- g4fNL585W5VrkpbgEIbpchMwmCtzoMZVwzz1DqRwyU+NWU75Dfto8kuvxbffd524MXfjW8aUP
- eyIReWDfARiMDY1QN0cmW0EJvd6dS+qxlmJnsNwN8TIjCU/ijRvYz8161jBOJLsUAFN5PjP/k
- HY1Idu3h4stYGU9F7cyN06YiiFHKIDB2+2QWfYtAOYTu3OHQ26OFpGX7D2StIRL/+1zQUQboE
- FK6Xr/sdxX6EKkZvqVP3WPgIBHQtrp/IIQtHROjP8ZgIQB7q+Mq93kLB42rTQdMckVIetwiq2
- jXpzJInTBKTfvJcrPmKUn99b92iQCsbT7k/BDRK+91b9EnTv3u1HfN4LisxZts0hNP0ArYV79
- P4BCoU0cLhggleQf2B2tGJJhKwUri1lEfghk7TRdqRB3BhhhBcDTVLGGN6KnszzIU7342SC6f
- j3y+w/BwAUDax44Kl9f4IqwIq0OGCoOnnVdgRnZnfLsOH0hD3d1gjLVCJhhLr87pWiwXwf2ai
- X8fIV4DBSdbZWzN4HKgt7GB+p81yThkHugbB4NXYfnBqTMD3Aj8O8YDygl8DvAInBjxJtY1lF
- 1oxcfYqZ2dYdQgZg6OlIqssF2XiB6K/RcWeGjGKhUSBBPMQlp+Q4s50WyCb8xVC6Ii9RG7dFV
- axgfz6I2hamv3i/K0gy+rLZP/R4yZhhP64Y+EgGAd+3WBpWL/DRvT/S77E4KnzW7zEXFSEKNo
- JnTqv660c8PiMEkBhEvSEAB0iF0=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Some machines like the HP Omen 17 ck2000nf contain WMI blocks
-with zero instances, so any WMI driver which tries to handle the
-associated WMI device will fail.
-Skip such WMI blocks to avoid confusing any WMI drivers.
+On newer Intel silicon, more IP counters are being added in Intel Platform
+Monitoring Technology (PMT) telemetry spaces hosted in MMIO.  There is a
+need for the intel_pmc_core driver and other drivers to access PMT hosted
+telemetry in the kernel using an API. This patchset adds driver APIs to
+allow registering and reading telemetry entries. It makes changes to the
+intel_pmc_core driver to use these interfaces to access the low power mode
+counters that are now exclusively available from PMT.
 
-Reported-by: Alexis Belmonte <alexbelm48@gmail.com>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=3D218188
-Fixes: bff431e49ff5 ("ACPI: WMI: Add ACPI-WMI mapping driver")
-Tested-by: Alexis Belmonte <alexbelm48@gmail.com>
-Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-=2D--
-Changes since v2:
-- add Fixes tag
-=2D--
- drivers/platform/x86/wmi.c | 5 +++++
- 1 file changed, 5 insertions(+)
+David E. Box (15):
+  platform/x86/intel/vsec: Fix xa_alloc memory leak
+  platform/x86/intel/vsec: Remove unnecessary return
+  platform/x86/intel/vsec: Move structures to header
+  platform/x86/intel/vsec: remove platform_info from vsec device
+    structure
+  platform/x86/intel/vsec: Use cleanup.h
+  platform/x86/intel/vsec: Assign auxdev parent by argument
+  platform/x86/intel/vsec: Add base address field
+  platform/x86/intel/pmt: Add header to struct intel_pmt_entry
+  platform/x86/intel/pmt: telemetry: Export API to read telemetry
+  platform/x86/intel/pmc: Allow pmc_core_ssram_init to fail
+  platform/x86/intel/pmc: Cleanup SSRAM discovery
+  platform/x86/intel/pmc/mtl: Use return value from
+    pmc_core_ssram_init()
+  platform/x86/intel/pmc: Find and register PMC telemetry entries
+  platform/x86/intel/pmc: Add debug attribute for Die C6 counter
+  platform/x86/intel/pmc: Show Die C6 counter on Meteor Lake
 
-diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
-index cb7e74f2b009..4f94e4b117f1 100644
-=2D-- a/drivers/platform/x86/wmi.c
-+++ b/drivers/platform/x86/wmi.c
-@@ -1346,6 +1346,11 @@ static int parse_wdg(struct device *wmi_bus_dev, st=
-ruct platform_device *pdev)
- 		if (debug_dump_wdg)
- 			wmi_dump_wdg(&gblock[i]);
+Gayatri Kammela (1):
+  platform/x86/intel/vsec: Add intel_vsec_register
 
-+		if (!gblock[i].instance_count) {
-+			dev_info(wmi_bus_dev, FW_INFO "%pUL has zero instances\n", &gblock[i].=
-guid);
-+			continue;
-+		}
-+
- 		if (guid_already_parsed_for_legacy(device, &gblock[i].guid))
- 			continue;
+Rajvi Jingar (1):
+  platform/x86/intel/pmc: Display LPM requirements for multiple PMCs
 
-=2D-
-2.39.2
+Xi Pardee (3):
+  platform/x86:intel/pmc: Call pmc_get_low_power_modes from platform
+    init
+  platform/x86/intel/pmc: Retrieve LPM information using Intel PMT
+  platform/x86/intel/pmc: Read low power mode requirements for MTL-M and
+    MTL-P
+
+ drivers/platform/x86/intel/pmc/Kconfig      |   1 +
+ drivers/platform/x86/intel/pmc/adl.c        |   2 +
+ drivers/platform/x86/intel/pmc/cnp.c        |   2 +
+ drivers/platform/x86/intel/pmc/core.c       | 185 +++++++++-----
+ drivers/platform/x86/intel/pmc/core.h       |  10 +-
+ drivers/platform/x86/intel/pmc/core_ssram.c | 265 +++++++++++++++++---
+ drivers/platform/x86/intel/pmc/icl.c        |  10 +-
+ drivers/platform/x86/intel/pmc/mtl.c        |  87 ++++++-
+ drivers/platform/x86/intel/pmc/spt.c        |  10 +-
+ drivers/platform/x86/intel/pmc/tgl.c        |   1 +
+ drivers/platform/x86/intel/pmt/class.c      |  43 +++-
+ drivers/platform/x86/intel/pmt/class.h      |  30 ++-
+ drivers/platform/x86/intel/pmt/crashlog.c   |   2 +-
+ drivers/platform/x86/intel/pmt/telemetry.c  | 193 +++++++++++++-
+ drivers/platform/x86/intel/pmt/telemetry.h  | 126 ++++++++++
+ drivers/platform/x86/intel/vsec.c           | 131 +++++-----
+ drivers/platform/x86/intel/vsec.h           |  45 +++-
+ 17 files changed, 939 insertions(+), 204 deletions(-)
+ create mode 100644 drivers/platform/x86/intel/pmt/telemetry.h
+
+
+base-commit: b85ea95d086471afb4ad062012a4d73cd328fa86
+-- 
+2.34.1
 
 
