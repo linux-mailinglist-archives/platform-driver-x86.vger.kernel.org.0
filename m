@@ -1,44 +1,44 @@
-Return-Path: <platform-driver-x86+bounces-216-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-217-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C48E680297A
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Dec 2023 01:33:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CABBA80297C
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Dec 2023 01:33:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4C65C1F20F3C
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Dec 2023 00:33:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F53F1F20F41
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Dec 2023 00:33:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C68E38B;
-	Mon,  4 Dec 2023 00:32:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA43C38D;
+	Mon,  4 Dec 2023 00:33:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=dividebyzero.it header.i=@dividebyzero.it header.b="ijkYWrED"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=dividebyzero.it header.i=@dividebyzero.it header.b="ezmf7HZ1"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from ar2.dbzero.it (unknown [IPv6:2a00:6d41:10:195b::1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C096DB;
-	Sun,  3 Dec 2023 16:32:45 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 615CEF3;
+	Sun,  3 Dec 2023 16:33:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=dividebyzero.it; s=20160415; h=Message-ID:References:In-Reply-To:Cc:To:
 	Subject:From:Content-Transfer-Encoding:Content-Type:Date:MIME-Version:Sender:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=KCX/z8/d+lmUhr6gwHmo5sCy0U2X1rU51q6fT7ETS9k=; b=ijkYWrEDezvvp14LvOzLBVn5kt
-	CO+UYeKqtibIo/ynFbkDYNNuCP5F3lPtPPrTkAf/+MtCc422J35WJmIoJ28sYkQgLs3PmEIuDsk1S
-	yNQP1uWYgJh+84ujIpeVPyNijpb/OxXITHTtrr0E94lgeTOg2aHE6mO+HQfJWeloAYPg=;
+	bh=KCX/z8/d+lmUhr6gwHmo5sCy0U2X1rU51q6fT7ETS9k=; b=ezmf7HZ1uRm2IUqYJDsHM2VvIx
+	8HReDV+5BQXNqH3n4RPHqf+ZOTl0NH89ZJiqihUb3inDKwdv0py6E2VC1/0Ufe9FARS/0HZmBRwo+
+	VugYNM1hnjLLQglR87wxz6RCVKs67qQdZBk8dUYdtN513MSPztZ7yBKfIEE4lz8p6cLo=;
 Received:  by ar2.dbzero.it with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(Authenticated user: juri@dividebyzero.it)
 	(envelope-from <juri@dividebyzero.it>)
-	id 1r9wsq-0002ZB-8X; Mon, 04 Dec 2023 01:32:24 +0100
+	id 1r9wtP-0002Zd-E5; Mon, 04 Dec 2023 01:32:59 +0100
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 04 Dec 2023 00:32:22 +0000
+Date: Mon, 04 Dec 2023 00:32:56 +0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 From: juri@dividebyzero.it
@@ -57,8 +57,8 @@ References: <a2c441fe-457e-44cf-a146-0ecd86b037cf@donjajo.com>
  <024c4ad4-1a73-8c24-5e6f-f8c9f2f7b98f@redhat.com>
  <1884918.tdWV9SEqCh@dividebyzero.it>
  <77b3eed7-825d-41c5-a802-ea891a16f992@redhat.com>
-Message-ID: <29cfa375a005b4f3d695815d845c0406cc34845f@dividebyzero.it>
-X-Original-Message-ID: <29cfa375a005b4f3d695815d845c0406cc34845f@dividebyzero.it>
+Message-ID: <07b057618b72f301142585844ccdcaab75a716fe@dividebyzero.it>
+X-Original-Message-ID: <07b057618b72f301142585844ccdcaab75a716fe@dividebyzero.it>
 
 Thank you for the reply, and sorry for the delay.
 
