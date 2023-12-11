@@ -1,222 +1,68 @@
-Return-Path: <platform-driver-x86+bounces-355-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-357-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A6AE80C3CB
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 11 Dec 2023 09:59:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F6A80C41B
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 11 Dec 2023 10:14:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CAB7F280CC8
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 11 Dec 2023 08:59:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A490A1C208FB
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 11 Dec 2023 09:14:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54A00210F6;
-	Mon, 11 Dec 2023 08:59:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62DDD21107;
+	Mon, 11 Dec 2023 09:14:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HXGskcKc"
+	dkim=pass (2048-bit key) header.d=kasaioranje.com header.i=@kasaioranje.com header.b="vK3sxI/z"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0F27DB
-	for <platform-driver-x86@vger.kernel.org>; Mon, 11 Dec 2023 00:59:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1702285173;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CffctwSCWq8WSoGnn4F9pl5V4m8l/OPODOnSyJ0+fcY=;
-	b=HXGskcKcvqCnTqsl+65emob76D7ck1SoyHuhCy40wT5qe+RXVn8/hT9+zsQkteOlsd/zvl
-	+7daTpV/q63AozAA3OnnUPzWxScO0g9ufPhYoc9JRLyQnXttfj8Lp/Z441SdiYGSXAXqU2
-	13YfY3DfjspKbXiDYqh3HrwTdSG4LQM=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-612-2d9TFY4-NiOp6q-VLVLXyA-1; Mon, 11 Dec 2023 03:59:30 -0500
-X-MC-Unique: 2d9TFY4-NiOp6q-VLVLXyA-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a1da829c653so262212566b.3
-        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Dec 2023 00:59:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702285169; x=1702889969;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CffctwSCWq8WSoGnn4F9pl5V4m8l/OPODOnSyJ0+fcY=;
-        b=TJuixZ/zExsNyfUlzdkr8t6bQXaXKbyfDQWplAX4afr8dvwhCmrexAS3zMF057F7wo
-         AMJck18wCQvj/IcLUhjQ4caAjdWc8zezfhLQbkogPvZ8u7rAqDBVaTGPnQR3w8P+EM/k
-         Nf3HnTdB/A/vAzn41C8KohnmJK7HRS7C7G71nadtjiVt5RrIsgtTtcOBdIDLxeP1gLfE
-         Imk9gvWIYSN1uio6vEn/OQWAe+zKO9U4al4croMO1MZpUflWmqf9apMp/tQ6jvx0zX5A
-         0LGVc8DYPp5wclYBS4vdW5M7Z6gEjXgdyP5ytdKfQzXAL+1cY/nFueGH57dJeNm3uLEt
-         euPA==
-X-Gm-Message-State: AOJu0Yzs4MMLMncxQDF01LCsbUlQ+6Ov4K5Qcwbl/g4+7zX2QSBtD5VN
-	kkVg624R7plbAJacA5Ac0t8eOMjgK26ltUvvqIRIwrCRveoc6X0dM0Sb4AOVF82ADb9liA/4f3Y
-	TkkZ9YLDZxg7fpQGccRGrP7wfTJiB1n8dkQ==
-X-Received: by 2002:a17:906:de:b0:a19:a1ba:bada with SMTP id 30-20020a17090600de00b00a19a1babadamr1187343eji.128.1702285169783;
-        Mon, 11 Dec 2023 00:59:29 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFZNKDh9WMDonZ7Txgjs2xciajtNM+d4zE3nleQ9RJ5Zh1MG2eQXSO4+InvYcnpfqXdfoMeSQ==
-X-Received: by 2002:a17:906:de:b0:a19:a1ba:bada with SMTP id 30-20020a17090600de00b00a19a1babadamr1187339eji.128.1702285169450;
-        Mon, 11 Dec 2023 00:59:29 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id wb2-20020a170907d50200b00a19084099a4sm4524692ejc.16.2023.12.11.00.59.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Dec 2023 00:59:29 -0800 (PST)
-Message-ID: <a24a0460-333a-4eef-825f-3e614b936973@redhat.com>
-Date: Mon, 11 Dec 2023 09:59:28 +0100
+X-Greylist: delayed 522 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 11 Dec 2023 01:14:36 PST
+Received: from mail.kasaioranje.com (mail.kasaioranje.com [135.125.203.239])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEA0EFF
+	for <platform-driver-x86@vger.kernel.org>; Mon, 11 Dec 2023 01:14:36 -0800 (PST)
+Received: by mail.kasaioranje.com (Postfix, from userid 1002)
+	id 504FEA2B1A; Mon, 11 Dec 2023 09:05:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kasaioranje.com;
+	s=mail; t=1702285552;
+	bh=M9k2lPRvhlCI3aV1pBXwlT5gBaDEgRBSrVeWasDDZ3M=;
+	h=Date:From:To:Subject:From;
+	b=vK3sxI/zxjKWQgh0BwnSdBCBE6sFwYxye/84QOuacq3WTyOe+a+PykDXiUSfey/nw
+	 xa8riQuN2Kp5tSoRypvRvyheTa6aT+AMjaQlXjqmjXXPxu8MBn6bzSCNUd9kew7m35
+	 YAkOwDZVf3mBdyJ4afeonSW/ZgrUuQ6/F6RQirK4aA+hgsxdD5+ks4+N1mNhbpQ0ic
+	 YD3CK9xAQKLelFREIggQDuN2DHey3Qi+h6d/vLYEWYHrq4ZEDPynyKNpQ5EBqzy8Rx
+	 dLPdGaAuETcEzveWWHlaErRx+iMVaSwuHhZSuEVBX9QlBgByIFRRPUzz8YdCLqJBj2
+	 OthMlAfwRJ7dQ==
+Received: by mail.kasaioranje.com for <platform-driver-x86@vger.kernel.org>; Mon, 11 Dec 2023 09:05:46 GMT
+Message-ID: <20231211074500-0.1.aq.111xq.0.skid280lgc@kasaioranje.com>
+Date: Mon, 11 Dec 2023 09:05:46 GMT
+From: =?UTF-8?Q?"Stanislav_Kov=C3=A1=C4=8D"?= <stanislav.kovac@kasaioranje.com>
+To: <platform-driver-x86@vger.kernel.org>
+Subject: New parts in stock/offering
+X-Mailer: mail.kasaioranje.com
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 11/15] platform/x86/amd/pmf: Add capability to sideload
- of policy binary
-Content-Language: en-US, nl
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, markgross@kernel.org,
- ilpo.jarvinen@linux.intel.com, basavaraj.natikar@amd.com, jikos@kernel.org,
- benjamin.tissoires@redhat.com
-Cc: Patil.Reddy@amd.com, mario.limonciello@amd.com,
- platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
-References: <20231204101548.1458499-1-Shyam-sundar.S-k@amd.com>
- <20231204101548.1458499-12-Shyam-sundar.S-k@amd.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231204101548.1458499-12-Shyam-sundar.S-k@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-On 12/4/23 11:15, Shyam Sundar S K wrote:
-> A policy binary is OS agnostic, and the same policies are expected to work
-> across the OSes.  At times it becomes difficult to debug when the policies
-> inside the policy binaries starts to misbehave. Add a way to sideload such
-> policies independently to debug them via a debugfs entry.
-> 
-> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
-> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> ---
->  drivers/platform/x86/amd/pmf/pmf.h    |  1 +
->  drivers/platform/x86/amd/pmf/tee-if.c | 54 +++++++++++++++++++++++++++
->  2 files changed, 55 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
-> index 593930519039..8712299ad52b 100644
-> --- a/drivers/platform/x86/amd/pmf/pmf.h
-> +++ b/drivers/platform/x86/amd/pmf/pmf.h
-> @@ -219,6 +219,7 @@ struct amd_pmf_dev {
->  	bool cnqf_supported;
->  	struct notifier_block pwr_src_notifier;
->  	/* Smart PC solution builder */
-> +	struct dentry *esbin;
->  	unsigned char *policy_buf;
->  	u32 policy_sz;
->  	struct tee_context *tee_ctx;
-> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
-> index 5f10e5c6335e..f73663c629fe 100644
-> --- a/drivers/platform/x86/amd/pmf/tee-if.c
-> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
-> @@ -8,6 +8,7 @@
->   * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->   */
->  
-> +#include <linux/debugfs.h>
->  #include <linux/tee_drv.h>
->  #include <linux/uuid.h>
->  #include "pmf.h"
-> @@ -16,9 +17,14 @@
->  
->  /* Policy binary actions sampling frequency (in ms) */
->  static int pb_actions_ms = MSEC_PER_SEC;
-> +/* Sideload policy binaries to debug policy failures */
-> +static bool pb_side_load;
-> +
->  #ifdef CONFIG_AMD_PMF_DEBUG
->  module_param(pb_actions_ms, int, 0644);
->  MODULE_PARM_DESC(pb_actions_ms, "Policy binary actions sampling frequency (default = 1000ms)");
-> +module_param(pb_side_load, bool, 0444);
-> +MODULE_PARM_DESC(pb_side_load, "Sideload policy binaries debug policy failures");
->  #endif
->  
->  static const uuid_t amd_pmf_ta_uuid = UUID_INIT(0x6fd93b77, 0x3fb8, 0x524d,
-> @@ -269,6 +275,48 @@ static int amd_pmf_start_policy_engine(struct amd_pmf_dev *dev)
->  	return 0;
->  }
->  
-> +#ifdef CONFIG_AMD_PMF_DEBUG
-> +static ssize_t amd_pmf_get_pb_data(struct file *filp, const char __user *buf,
-> +				   size_t length, loff_t *pos)
-> +{
-> +	struct amd_pmf_dev *dev = filp->private_data;
-> +	int ret;
-> +
-> +	/* Policy binary size cannot exceed POLICY_BUF_MAX_SZ */
-> +	if (length > POLICY_BUF_MAX_SZ || length == 0)
-> +		return -EINVAL;
-> +
-> +	dev->policy_sz = length;
-> +	if (copy_from_user(dev->policy_buf, buf, dev->policy_sz))
-> +		return -EFAULT;
+We are interested in collaborating with your company.
 
-dev->policy_buf = allocated in amd_pmf_get_bios_buffer() to
-be of the original dev->policy_sz. So this needs to re-alloc
-dev->policy_buf to make sure it is large enough.
+I am writing to you because we supply high-quality metal parts for sports=
+ cars to wholesalers and distribution networks worldwide, which could enr=
+ich your offerings.
 
-Regards,
+Whether you need engine components, suspension systems, body modification=
+ kits, or interior enhancements, we offer a wide range of products that c=
+an meet your customers' needs.
 
-Hans
+Let us know if you're interested in additional profit while maintaining c=
+ompetitive prices and attractive margins.
 
 
-
-
-> +
-> +	ret = amd_pmf_start_policy_engine(dev);
-> +	if (ret)
-> +		return -EINVAL;
-> +
-> +	return length;
-> +}
-> +
-> +static const struct file_operations pb_fops = {
-> +	.write = amd_pmf_get_pb_data,
-> +	.open = simple_open,
-> +};
-> +
-> +static void amd_pmf_open_pb(struct amd_pmf_dev *dev, struct dentry *debugfs_root)
-> +{
-> +	dev->esbin = debugfs_create_dir("pb", debugfs_root);
-> +	debugfs_create_file("update_policy", 0644, dev->esbin, dev, &pb_fops);
-> +}
-> +
-> +static void amd_pmf_remove_pb(struct amd_pmf_dev *dev)
-> +{
-> +	debugfs_remove_recursive(dev->esbin);
-> +}
-> +#else
-> +static void amd_pmf_open_pb(struct amd_pmf_dev *dev, struct dentry *debugfs_root) {}
-> +static void amd_pmf_remove_pb(struct amd_pmf_dev *dev) {}
-> +#endif
-> +
->  static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
->  {
->  	dev->policy_buf = kzalloc(dev->policy_sz, GFP_KERNEL);
-> @@ -281,6 +329,9 @@ static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
->  
->  	memcpy(dev->policy_buf, dev->policy_base, dev->policy_sz);
->  
-> +	if (pb_side_load)
-> +		amd_pmf_open_pb(dev, dev->dbgfs_dir);
-> +
->  	return amd_pmf_start_policy_engine(dev);
->  }
->  
-> @@ -382,6 +433,9 @@ int amd_pmf_init_smart_pc(struct amd_pmf_dev *dev)
->  
->  void amd_pmf_deinit_smart_pc(struct amd_pmf_dev *dev)
->  {
-> +	if (pb_side_load)
-> +		amd_pmf_remove_pb(dev);
-> +
->  	kfree(dev->prev_data);
->  	kfree(dev->policy_buf);
->  	cancel_delayed_work_sync(&dev->pb_work);
-
+Best regards
+Stanislav Kov=C3=A1=C4=8D
 
