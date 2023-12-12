@@ -1,48 +1,47 @@
-Return-Path: <platform-driver-x86+bounces-412-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-410-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03FC880E949
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Dec 2023 11:39:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A2ED80E943
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Dec 2023 11:39:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8EB02B20BFD
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Dec 2023 10:39:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DFC9F1F218F7
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Dec 2023 10:39:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 287735C8EA;
-	Tue, 12 Dec 2023 10:39:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8D8D5C08E;
+	Tue, 12 Dec 2023 10:39:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="H3c8wsGk"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Pb1nPf4h"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2068.outbound.protection.outlook.com [40.107.93.68])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 788C1AC
-	for <platform-driver-x86@vger.kernel.org>; Tue, 12 Dec 2023 02:39:01 -0800 (PST)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2070.outbound.protection.outlook.com [40.107.243.70])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A987A7
+	for <platform-driver-x86@vger.kernel.org>; Tue, 12 Dec 2023 02:38:59 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Qw4/jGpPfqY+z3wjTPhQvGyJOXGAlCXUcTn8MKMnoopVUzqIoM1xQbfvYV/pzRZx0PKV/e19oSYTO12GYWnQ3OWeOUEUOHIoOkFWVo8+f8OkBXKdmQtg77PkrVdd40QIc15FVvkjRBUb2Kaz5AzenMbqxbLdHyYujMiqvhPUZf5ch024JOlsF0yRigqjK9W20ud/yQg1v+LLOKyVfx96QOqTp1bW++3e+Zc8Odj/0i0U7/03Lf/BfegRo9U3OlUKUFEnigk0SEbg/s57DLGFLcvfrk4muPxBZ2jVXJ3COEAKhvpWNsPbb4QqedeMt7BF/4tSiufdeeyQ6XsZgd4hug==
+ b=UqObomHi8juW/dWoiceowgyjxrJTLFGsBeNQfLOGoSsmz0YTN2n15JnxX7aCWveQblrRY94x175TqZJsnnBUBgSqVTWCRomWFdwD/h2O7yfocUZ0vpMycfphay+nA7f9Rf1UrR+ssQE4cQgpQS+ZtZ1VAZEJW+1N5s42Y5CUOO30n4sMpJBcU/VusXuuLIOE3SKzSkVuVlF8s9dY0k2ZlMTeykrjPZq6qgfNI+32BHnzPZl4G/+8K6juGX0RDhR+hUAi4OKyAZhS53Jiar5Fx+bODC/rIUpEod5ZX7sNakO4gMoV8LmshjMiNdO0ErWjmMdvP+PwYftc1lVVotxrQA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p0RdTmrBKYP28EXXuoYkGqs2CxWd7khMarlFoNMH9TQ=;
- b=cONzG1HO5XfGaCVcav1bSVIVm34Br6SCl5bfocW3u8pZ6gvShP7j84XxfKIWDF0xAam9QiY9SIhuhJ9UPaC8U9sxcQYPUF05MYPw4f0dvceOsfi8qytfZPAnjtM7ZEn6CP+7kbD9S4dkuarkVR0eg07e5hb4NARaX57YijwUAHJ0T6v7PuvUSidXVVbFK6JkHgwLlIqxKzkCA5qDseP7Q9IYKb67j9SubtpenYZefanQeA2Wd34buC51zCpHJlOnSS5occJkC6zSy9N+Bi4Ep7O6JbgyXXL92q5AJR1+DBRKrF9dK5v57i1WHFic24nRNseqok5C5t2M0B89e1oFmg==
+ bh=hBshEIKabNvKeNpsup35CUV8g2X8p4hN2OMHJmgK6ns=;
+ b=HcIrjq2lkFx0z4LpwMmIa1iFW+KBmbEgvHhrRzR7PKgphgrcG35stDS53kaU339kFn55jkTquzoVSyCLoiotBfmlj+1S35tp/VIFAzy7vqpylFSy3Ur85I8l6i1/FiQWClHEbA4KM/xJQKtjqRm2ltDQbSqImnUxBZM9HN+okVD+JdOPHaXxkeHrwdROGdjsPH3hXzsMfbRNA1F0he7buMI5n+Ashd8mVXr8/UkCzoPnhm1i+jrgQ3MmNeNGNfgyURWqZr3UwtB5pDKmel5MooU0w3BTMuyttCM8kRqGWKJ0flusfQVkvmKOfOlx+QhHChxoaeWvkVZt1vG9YF2wQA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p0RdTmrBKYP28EXXuoYkGqs2CxWd7khMarlFoNMH9TQ=;
- b=H3c8wsGkMQKUEXOaN28TTzFweWvBrnAQfw2k6STa4fSlp+PSovFunbOq+v5J88mokQbpiNxxzw74EaSAsQgpQXW4PCUvdwidVB8QsGA0TGgWkcc1Nx/F/g1VbDxhdNY8Fh7vnXHR8O+d3jGHpx87kTjqyoD8n9z0xwuC+rFZG6M=
-Received: from CYZPR11CA0018.namprd11.prod.outlook.com (2603:10b6:930:8d::27)
- by SA3PR12MB7901.namprd12.prod.outlook.com (2603:10b6:806:306::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.33; Tue, 12 Dec
- 2023 10:38:57 +0000
-Received: from CY4PEPF0000EE3A.namprd03.prod.outlook.com
- (2603:10b6:930:8d:cafe::71) by CYZPR11CA0018.outlook.office365.com
- (2603:10b6:930:8d::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.26 via Frontend
- Transport; Tue, 12 Dec 2023 10:38:56 +0000
+ bh=hBshEIKabNvKeNpsup35CUV8g2X8p4hN2OMHJmgK6ns=;
+ b=Pb1nPf4hxBUC54U/nWtC4c9gLoV26UReK1gdMpMgf3QtSKzgM0qHQVV5j5K4oFqAFSx9ung0gpuMQPxmMSf7cCH9BcT7xe6bRJWb8t3c7UfWjFlkbL6QDrx+8uMQRsfhKV7GxeJVkwdTomFJdEqV0z4Wz/NzkEvuh7avWA7raDE=
+Received: from DM5PR07CA0113.namprd07.prod.outlook.com (2603:10b6:4:ae::42) by
+ DM6PR12MB4896.namprd12.prod.outlook.com (2603:10b6:5:1b6::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7091.26; Tue, 12 Dec 2023 10:38:57 +0000
+Received: from CY4PEPF0000EE3C.namprd03.prod.outlook.com
+ (2603:10b6:4:ae:cafe::14) by DM5PR07CA0113.outlook.office365.com
+ (2603:10b6:4:ae::42) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.33 via Frontend
+ Transport; Tue, 12 Dec 2023 10:38:57 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,21 +49,21 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000EE3A.mail.protection.outlook.com (10.167.242.14) with Microsoft
+ CY4PEPF0000EE3C.mail.protection.outlook.com (10.167.242.16) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7091.18 via Frontend Transport; Tue, 12 Dec 2023 10:38:56 +0000
+ 15.20.7091.26 via Frontend Transport; Tue, 12 Dec 2023 10:38:56 +0000
 Received: from amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Tue, 12 Dec
- 2023 04:38:38 -0600
+ 2023 04:38:40 -0600
 From: Suma Hegde <suma.hegde@amd.com>
 To: <platform-driver-x86@vger.kernel.org>
 CC: <hdegoede@redhat.com>, <ilpo.jarvinen@linux.intel.com>, Suma Hegde
 	<suma.hegde@amd.com>, Naveen Krishna Chatradhi
 	<naveenkrishna.chatradhi@amd.com>
-Subject: [PATCH 4/7] platform/x86: Define a struct to hold mailbox regs
-Date: Tue, 12 Dec 2023 10:36:41 +0000
-Message-ID: <20231212103644.768460-5-suma.hegde@amd.com>
+Subject: [PATCH 5/7] platform/x86: Move dev from platdev to hsmp_socket
+Date: Tue, 12 Dec 2023 10:36:42 +0000
+Message-ID: <20231212103644.768460-6-suma.hegde@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231212103644.768460-1-suma.hegde@amd.com>
 References: <20231212103644.768460-1-suma.hegde@amd.com>
@@ -80,214 +79,195 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE3A:EE_|SA3PR12MB7901:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9a5c7060-1270-4c5b-fbca-08dbfafe8b43
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE3C:EE_|DM6PR12MB4896:EE_
+X-MS-Office365-Filtering-Correlation-Id: ddde69f7-8c79-4691-f871-08dbfafe8b67
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	nFM/nmkqof1WdxmTgibaB1un4eHf1apsaMtIb9nXDtExK4Qb25z9eEE6G9ctUA7gwmrIsbnKlSuu33kxM1sEQ1so019uRS8q34QwA/0AfLCEiCN8+qlARDeh8a3ADKHQNa+h+U2nHL79vm36BJYG+e4QPxJyjJmfSqZTx+E6Vya7PrLXRPnd95T+zI08HBSCYdX5N4XjqA60oOSOc4e98bE8EcN8uR2QQRgXhqY0lSP5wi7u6RWLLYW+587/WwhCcEPvQbrHXzSUklWNOqcld6R6XSYSAg7tzeupGsawM5JkQGtoWwaLDDHkJm0VKkSKqOK2I31N16EPfy+8y70PouiPvVs8CzNdibJo5h7mXrO8WY7JtoZ0CtfYzzwCvYra/aC/a8wZLndoX7DFQkovACTZ2+3s3Fo5yevGCxULgMPu23MicIvCkMlMiY5y6uG1SoaGkYWv5KFUiycuomyI535IDQnJiItssxRJpP7UxCi4l5tIf/1gb6/Jyafd5OkJJetFQUg1V1fktx5pDri65ZyEb8ZwJLhgbSj8IwQeRC2vJHoBP0cmhTETZdCG5+N97YTYBCpQv6S2UABlY5Pl4fBrtY6VLThwcOVr/E/d/8MWf9Ts7ssGEOH/9yQQLZd2M4P/brCSbcIupsZFFqr+GzzXWLv1uM3q/s+8muAUduaZENRCNaxWySeCJho3+7SnQQNeMzDsDdYGHIkSJbS1nwUvuyNG+V0iIXn29JVfSR0v7A0F3HVOFBDRBL0NdJvGYWY96J8JbQr+NwfOi2jdMA==
+	5EPsbZJwsXW+ZzGuozNU80Q4URP4dK0wlcr5ur7rKK/pkiPtEDBYCFSp7qxPH3Bu7w4GayOEycGFwFWnTE31xkDFs32KCgkNLikf7O0XG1YMxjsMfVhT3eH7LO46oMmDUia90+2njYc/iKFuonzfa2l7btedP1K9osQcF7mx2+BGFt7DaQzxqPInlByXT3VT8CmWF4UwBHATJEuV4c5yfMHV2qd2VrfNuwqc/tstU5XmTihAbZzjahWhX/Entgsbhd2XE18v3Txf0oe8eKuig9xP5HqH721YodXhZVq9CEcHmlm8zTcf+pb5daZdnkymBxpqQfoHSpUhNIJWOdzfrfweUSHt+iMCaZvy0ILMgc5JyBzGUuvwJBE/9eFvx6UHbOZnreGhpa32lixpzAc5pMzbgvmkpCfxQK10I1j6FaDIrn5sloDDOnKNMaJ8oqazM4ruSkAQfBXECNiWguz3/nUNWtZaqKjOZKhP3DEQMu6NYcl+8y+MgAMYDLQiFwsTTyF1/9DxasSTUudTADPyYpWVUD2GitlWSfx5/sed262QuklXvEUuopfTzFDZFdPDL4/5h4WLDBSf3ABa9MhClfEkNfnEnRQqSSObd2RhGHY0Vyt5H8/d2on19F0AzBS84O0wZ8ICzTwv30/nUriYfnsvL3Wc+0bOnk8HYlL/zbcQCTpmE1eRSdawE76zMTwBUuA1Lk3VeNpVc+rumpACXr59PEOGE+rg4Oss0tvrjgTP9ylEXe3Y4tPAdPHbx3TR89O/JBnWw6W2GiY2kjljeQ==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(396003)(136003)(39860400002)(376002)(230922051799003)(64100799003)(1800799012)(82310400011)(451199024)(186009)(40470700004)(46966006)(36840700001)(6666004)(7696005)(2906002)(54906003)(70206006)(70586007)(81166007)(356005)(86362001)(36756003)(6916009)(15650500001)(8676002)(8936002)(4326008)(316002)(44832011)(5660300002)(40460700003)(478600001)(40480700001)(41300700001)(36860700001)(26005)(82740400003)(16526019)(1076003)(2616005)(336012)(83380400001)(426003)(47076005)(36900700001);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(136003)(39860400002)(376002)(346002)(230922051799003)(82310400011)(186009)(64100799003)(451199024)(1800799012)(36840700001)(40470700004)(46966006)(40480700001)(40460700003)(70586007)(70206006)(82740400003)(81166007)(356005)(86362001)(36756003)(36860700001)(47076005)(83380400001)(26005)(336012)(426003)(16526019)(1076003)(2616005)(7696005)(2906002)(316002)(54906003)(6916009)(478600001)(5660300002)(4326008)(8936002)(8676002)(44832011)(41300700001)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2023 10:38:56.7245
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2023 10:38:56.9447
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a5c7060-1270-4c5b-fbca-08dbfafe8b43
+X-MS-Exchange-CrossTenant-Network-Message-Id: ddde69f7-8c79-4691-f871-08dbfafe8b67
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000EE3A.namprd03.prod.outlook.com
+	CY4PEPF0000EE3C.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7901
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4896
 
-Define struct hsmp_mbaddr_info with register offsets and populate
-them during probe, which avoids the usage of macros in core functions.
+On an ACPI enabled platforms the probe is called for each socket
+and the struct dev is different for each socket. This change
+will help in handling both ACPI and non-ACPI platforms.
 
-During ACPI probe, the same fields can be populated from ACPI table.
-
-Also move plat dev init to a static function.
+Also change pr_err to dev_err API.
 
 Signed-off-by: Suma Hegde <suma.hegde@amd.com>
 Co-developed-by: Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
 Signed-off-by: Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
 ---
- drivers/platform/x86/amd/hsmp.c | 80 ++++++++++++++++++++++-----------
- 1 file changed, 54 insertions(+), 26 deletions(-)
+ drivers/platform/x86/amd/hsmp.c | 42 +++++++++++++++++----------------
+ 1 file changed, 22 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/platform/x86/amd/hsmp.c b/drivers/platform/x86/amd/hsmp.c
-index f0db7a480ace..44b15c1fab6a 100644
+index 44b15c1fab6a..87af1ad5c645 100644
 --- a/drivers/platform/x86/amd/hsmp.c
 +++ b/drivers/platform/x86/amd/hsmp.c
-@@ -40,9 +40,10 @@
-  * register into the SMN_INDEX register, and reads/writes the SMN_DATA reg.
-  * Below are required SMN address for HSMP Mailbox register offsets in SMU address space
-  */
--#define SMN_HSMP_MSG_ID		0x3B10534
--#define SMN_HSMP_MSG_RESP	0x3B10980
--#define SMN_HSMP_MSG_DATA	0x3B109E0
-+#define SMN_HSMP_BASE		0x3B00000
-+#define SMN_HSMP_MSG_ID		0x0010534
-+#define SMN_HSMP_MSG_RESP	0x0010980
-+#define SMN_HSMP_MSG_DATA	0x00109E0
- 
- #define HSMP_INDEX_REG		0xc4
- #define HSMP_DATA_REG		0xc8
-@@ -53,8 +54,17 @@
- 
- #define HSMP_ATTR_GRP_NAME_SIZE	10
- 
-+struct hsmp_mbaddr_info {
-+	u32 base_addr;
-+	u32 msg_id_off;
-+	u32 msg_resp_off;
-+	u32 msg_arg_off;
-+	u32 size;
-+};
-+
- struct hsmp_socket {
- 	struct bin_attribute hsmp_attr;
-+	struct hsmp_mbaddr_info mbinfo;
- 	void __iomem *metric_tbl_addr;
+@@ -69,13 +69,13 @@ struct hsmp_socket {
  	struct semaphore hsmp_sem;
  	char name[HSMP_ATTR_GRP_NAME_SIZE];
-@@ -72,7 +82,7 @@ struct hsmp_plat_device {
+ 	struct pci_dev *root;
++	struct device *dev;
+ 	u16 sock_ind;
+ };
  
- static struct hsmp_plat_device plat_dev;
+ struct hsmp_plat_device {
+ 	struct miscdevice hsmp_device;
+ 	struct hsmp_socket *sock;
+-	struct device *dev;
+ 	u32 proto_ver;
+ 	u16 num_sockets;
+ };
+@@ -279,8 +279,9 @@ static int hsmp_test(u16 sock_ind, u32 value)
  
--static int amd_hsmp_rdwr(struct hsmp_socket *sock, u32 address,
-+static int amd_hsmp_rdwr(struct hsmp_socket *sock, u32 offset,
- 			 u32 *value, bool write)
- {
- 	int ret;
-@@ -80,7 +90,8 @@ static int amd_hsmp_rdwr(struct hsmp_socket *sock, u32 address,
- 	if (!sock->root)
- 		return -ENODEV;
- 
--	ret = pci_write_config_dword(sock->root, HSMP_INDEX_REG, address);
-+	ret = pci_write_config_dword(sock->root, HSMP_INDEX_REG,
-+				     sock->mbinfo.base_addr + offset);
- 	if (ret)
- 		return ret;
- 
-@@ -101,14 +112,17 @@ static int amd_hsmp_rdwr(struct hsmp_socket *sock, u32 address,
-  */
- static int __hsmp_send_message(struct hsmp_socket *sock, struct hsmp_message *msg)
- {
-+	struct hsmp_mbaddr_info *mbinfo;
- 	unsigned long timeout, short_sleep;
- 	u32 mbox_status;
- 	u32 index;
- 	int ret;
- 
-+	mbinfo = &sock->mbinfo;
-+
- 	/* Clear the status register */
- 	mbox_status = HSMP_STATUS_NOT_READY;
--	ret = amd_hsmp_rdwr(sock, SMN_HSMP_MSG_RESP, &mbox_status, HSMP_WR);
-+	ret = amd_hsmp_rdwr(sock, mbinfo->msg_resp_off, &mbox_status, HSMP_WR);
- 	if (ret) {
- 		pr_err("Error %d clearing mailbox status register\n", ret);
- 		return ret;
-@@ -117,7 +131,7 @@ static int __hsmp_send_message(struct hsmp_socket *sock, struct hsmp_message *ms
- 	index = 0;
- 	/* Write any message arguments */
- 	while (index < msg->num_args) {
--		ret = amd_hsmp_rdwr(sock, SMN_HSMP_MSG_DATA + (index << 2),
-+		ret = amd_hsmp_rdwr(sock, mbinfo->msg_arg_off + (index << 2),
- 				    &msg->args[index], HSMP_WR);
- 		if (ret) {
- 			pr_err("Error %d writing message argument %d\n", ret, index);
-@@ -127,7 +141,7 @@ static int __hsmp_send_message(struct hsmp_socket *sock, struct hsmp_message *ms
+ 	/* Check the response value */
+ 	if (msg.args[0] != (value + 1)) {
+-		pr_err("Socket %d test message failed, Expected 0x%08X, received 0x%08X\n",
+-		       sock_ind, (value + 1), msg.args[0]);
++		dev_err(plat_dev.sock[sock_ind].dev,
++			"Socket %d test message failed, Expected 0x%08X, received 0x%08X\n",
++			sock_ind, (value + 1), msg.args[0]);
+ 		return -EBADE;
  	}
  
- 	/* Write the message ID which starts the operation */
--	ret = amd_hsmp_rdwr(sock, SMN_HSMP_MSG_ID, &msg->msg_id, HSMP_WR);
-+	ret = amd_hsmp_rdwr(sock, mbinfo->msg_id_off, &msg->msg_id, HSMP_WR);
- 	if (ret) {
- 		pr_err("Error %d writing message ID %u\n", ret, msg->msg_id);
- 		return ret;
-@@ -144,7 +158,7 @@ static int __hsmp_send_message(struct hsmp_socket *sock, struct hsmp_message *ms
- 	timeout	= jiffies + msecs_to_jiffies(HSMP_MSG_TIMEOUT);
+@@ -359,12 +360,12 @@ static ssize_t hsmp_metric_tbl_read(struct file *filp, struct kobject *kobj,
  
- 	while (time_before(jiffies, timeout)) {
--		ret = amd_hsmp_rdwr(sock, SMN_HSMP_MSG_RESP, &mbox_status, HSMP_RD);
-+		ret = amd_hsmp_rdwr(sock, mbinfo->msg_resp_off, &mbox_status, HSMP_RD);
- 		if (ret) {
- 			pr_err("Error %d reading mailbox status\n", ret);
- 			return ret;
-@@ -179,7 +193,7 @@ static int __hsmp_send_message(struct hsmp_socket *sock, struct hsmp_message *ms
+ 	/* Do not support lseek(), reads entire metric table */
+ 	if (count < bin_attr->size) {
+-		dev_err(plat_dev.dev, "Wrong buffer size\n");
++		dev_err(sock->dev, "Wrong buffer size\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (!sock) {
+-		dev_err(plat_dev.dev, "Failed to read attribute private data\n");
++		dev_err(sock->dev, "Failed to read attribute private data\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -400,13 +401,13 @@ static int hsmp_get_tbl_dram_base(u16 sock_ind)
  	 */
- 	index = 0;
- 	while (index < msg->response_sz) {
--		ret = amd_hsmp_rdwr(sock, SMN_HSMP_MSG_DATA + (index << 2),
-+		ret = amd_hsmp_rdwr(sock, mbinfo->msg_arg_off + (index << 2),
- 				    &msg->args[index], HSMP_RD);
- 		if (ret) {
- 			pr_err("Error %d reading response %u for message ID:%u\n",
-@@ -488,9 +502,28 @@ static int hsmp_cache_proto_ver(void)
+ 	dram_addr = msg.args[0] | ((u64)(msg.args[1]) << 32);
+ 	if (!dram_addr) {
+-		dev_err(plat_dev.dev, "Invalid DRAM address for metric table\n");
++		dev_err(sock->dev, "Invalid DRAM address for metric table\n");
+ 		return -ENOMEM;
+ 	}
+-	sock->metric_tbl_addr = devm_ioremap(plat_dev.dev, dram_addr,
++	sock->metric_tbl_addr = devm_ioremap(sock->dev, dram_addr,
+ 					     sizeof(struct hsmp_metric_table));
+ 	if (!sock->metric_tbl_addr) {
+-		dev_err(plat_dev.dev, "Failed to ioremap metric table addr\n");
++		dev_err(sock->dev, "Failed to ioremap metric table addr\n");
+ 		return -ENOMEM;
+ 	}
+ 	return 0;
+@@ -454,14 +455,15 @@ static int hsmp_create_sysfs_interface(void)
+ 	if (WARN_ON(plat_dev.num_sockets > U8_MAX))
+ 		return -ERANGE;
+ 
+-	hsmp_attr_grps = devm_kzalloc(plat_dev.dev, sizeof(struct attribute_group *) *
++	hsmp_attr_grps = devm_kzalloc(plat_dev.sock[0].dev, sizeof(struct attribute_group *) *
+ 				      (plat_dev.num_sockets + 1), GFP_KERNEL);
+ 	if (!hsmp_attr_grps)
+ 		return -ENOMEM;
+ 
+ 	/* Create a sysfs directory for each socket */
+ 	for (i = 0; i < plat_dev.num_sockets; i++) {
+-		attr_grp = devm_kzalloc(plat_dev.dev, sizeof(struct attribute_group), GFP_KERNEL);
++		attr_grp = devm_kzalloc(plat_dev.sock[i].dev, sizeof(struct attribute_group),
++					GFP_KERNEL);
+ 		if (!attr_grp)
+ 			return -ENOMEM;
+ 
+@@ -469,7 +471,7 @@ static int hsmp_create_sysfs_interface(void)
+ 		attr_grp->name = plat_dev.sock[i].name;
+ 
+ 		/* Null terminated list of attributes */
+-		hsmp_bin_attrs = devm_kzalloc(plat_dev.dev, sizeof(struct bin_attribute *) *
++		hsmp_bin_attrs = devm_kzalloc(plat_dev.sock[i].dev, sizeof(struct bin_attribute *) *
+ 					      (NUM_HSMP_ATTRS + 1), GFP_KERNEL);
+ 		if (!hsmp_bin_attrs)
+ 			return -ENOMEM;
+@@ -483,7 +485,7 @@ static int hsmp_create_sysfs_interface(void)
+ 		if (ret)
+ 			return ret;
+ 	}
+-	return devm_device_add_groups(plat_dev.dev, hsmp_attr_grps);
++	return devm_device_add_groups(plat_dev.sock[0].dev, hsmp_attr_grps);
+ }
+ 
+ static int hsmp_cache_proto_ver(void)
+@@ -502,7 +504,7 @@ static int hsmp_cache_proto_ver(void)
  	return ret;
  }
  
-+static int initialize_platdev(void)
-+{
-+	int i;
-+
-+	for (i = 0; i < plat_dev.num_sockets; i++) {
-+		if (!node_to_amd_nb(i))
-+			return -ENODEV;
-+		plat_dev.sock[i].root			= node_to_amd_nb(i)->root;
-+		plat_dev.sock[i].sock_ind		= i;
-+		plat_dev.sock[i].mbinfo.base_addr	= SMN_HSMP_BASE;
-+		plat_dev.sock[i].mbinfo.msg_id_off	= SMN_HSMP_MSG_ID;
-+		plat_dev.sock[i].mbinfo.msg_resp_off    = SMN_HSMP_MSG_RESP;
-+		plat_dev.sock[i].mbinfo.msg_arg_off     = SMN_HSMP_MSG_DATA;
-+		sema_init(&plat_dev.sock[i].hsmp_sem, 1);
-+	}
-+
-+	return 0;
-+}
-+
- static int hsmp_pltdrv_probe(struct platform_device *pdev)
+-static int initialize_platdev(void)
++static int initialize_platdev(struct device *dev)
  {
--	int ret, i;
-+	int ret;
+ 	int i;
  
- 	plat_dev.sock = devm_kzalloc(&pdev->dev,
- 				     (plat_dev.num_sockets * sizeof(struct hsmp_socket)),
-@@ -499,22 +532,17 @@ static int hsmp_pltdrv_probe(struct platform_device *pdev)
+@@ -511,6 +513,7 @@ static int initialize_platdev(void)
+ 			return -ENODEV;
+ 		plat_dev.sock[i].root			= node_to_amd_nb(i)->root;
+ 		plat_dev.sock[i].sock_ind		= i;
++		plat_dev.sock[i].dev			= dev;
+ 		plat_dev.sock[i].mbinfo.base_addr	= SMN_HSMP_BASE;
+ 		plat_dev.sock[i].mbinfo.msg_id_off	= SMN_HSMP_MSG_ID;
+ 		plat_dev.sock[i].mbinfo.msg_resp_off    = SMN_HSMP_MSG_RESP;
+@@ -530,18 +533,17 @@ static int hsmp_pltdrv_probe(struct platform_device *pdev)
+ 				     GFP_KERNEL);
+ 	if (!plat_dev.sock)
  		return -ENOMEM;
- 	plat_dev.dev = &pdev->dev;
+-	plat_dev.dev = &pdev->dev;
  
--	for (i = 0; i < plat_dev.num_sockets; i++) {
--		sema_init(&plat_dev.sock[i].hsmp_sem, 1);
--		plat_dev.sock[i].sock_ind = i;
--
--		if (!node_to_amd_nb(i))
--			return -ENODEV;
--		plat_dev.sock[i].root = node_to_amd_nb(i)->root;
-+	ret = initialize_platdev();
-+	if (ret)
-+		return ret;
+-	ret = initialize_platdev();
++	ret = initialize_platdev(&pdev->dev);
+ 	if (ret)
+ 		return ret;
  
--		/* Test the hsmp interface on each socket */
--		ret = hsmp_test(i, 0xDEADBEEF);
--		if (ret) {
--			pr_err("HSMP test message failed on Fam:%x model:%x\n",
--			       boot_cpu_data.x86, boot_cpu_data.x86_model);
--			pr_err("Is HSMP disabled in BIOS ?\n");
--			return ret;
--		}
-+	/* Test the hsmp interface */
-+	ret = hsmp_test(0, 0xDEADBEEF);
-+	if (ret) {
-+		pr_err("HSMP test message failed on Fam:%x model:%x\n",
-+		       boot_cpu_data.x86, boot_cpu_data.x86_model);
-+		pr_err("Is HSMP disabled in BIOS ?\n");
-+		return ret;
+ 	/* Test the hsmp interface */
+ 	ret = hsmp_test(0, 0xDEADBEEF);
+ 	if (ret) {
+-		pr_err("HSMP test message failed on Fam:%x model:%x\n",
+-		       boot_cpu_data.x86, boot_cpu_data.x86_model);
+-		pr_err("Is HSMP disabled in BIOS ?\n");
++		dev_err(&pdev->dev, "HSMP test message failed on Fam:%x model:%x\n",
++			boot_cpu_data.x86, boot_cpu_data.x86_model);
++		dev_err(&pdev->dev, "Is HSMP disabled in BIOS ?\n");
+ 		return ret;
  	}
  
- 	plat_dev.hsmp_device.name	= HSMP_CDEV_NAME;
+@@ -554,13 +556,13 @@ static int hsmp_pltdrv_probe(struct platform_device *pdev)
+ 
+ 	ret = hsmp_cache_proto_ver();
+ 	if (ret) {
+-		dev_err(plat_dev.dev, "Failed to read HSMP protocol version\n");
++		dev_err(&pdev->dev, "Failed to read HSMP protocol version\n");
+ 		return ret;
+ 	}
+ 
+ 	ret = hsmp_create_sysfs_interface();
+ 	if (ret)
+-		dev_err(plat_dev.dev, "Failed to create HSMP sysfs interface\n");
++		dev_err(&pdev->dev, "Failed to create HSMP sysfs interface\n");
+ 
+ 	return misc_register(&plat_dev.hsmp_device);
+ }
 -- 
 2.25.1
 
