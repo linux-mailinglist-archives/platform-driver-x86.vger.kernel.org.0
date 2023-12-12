@@ -1,48 +1,48 @@
-Return-Path: <platform-driver-x86+bounces-403-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-417-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 729CD80E113
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Dec 2023 02:48:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 729FE80EFCA
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Dec 2023 16:13:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F28831F21B79
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Dec 2023 01:48:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A1B3D1C20B24
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Dec 2023 15:13:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DDB72104;
-	Tue, 12 Dec 2023 01:48:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C11B075416;
+	Tue, 12 Dec 2023 15:13:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="UB7s+ixW"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0C7X86Rj"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2041.outbound.protection.outlook.com [40.107.244.41])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8CAFCF;
-	Mon, 11 Dec 2023 17:48:32 -0800 (PST)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2079.outbound.protection.outlook.com [40.107.220.79])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79618DB
+	for <platform-driver-x86@vger.kernel.org>; Tue, 12 Dec 2023 07:13:40 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YUopxZ3FF9wnCn4pUSbkwZNhapdLtaOS9ji/0WUhiwY2bRoYxezdcidxqJ6vhu7WRFrgAlT/HB4PNjaxvBUkgPLMlbAou+or2aZ+RMKWzf5B+x2qprIdjftCH5tmwlSqyfF8M1TBC9sag6m67ogvhFZWbgKasV2TOhYb2tgOYPP8/Kf/OTvQSmvuajpdA8JK8f9nvP6T47iUJtA+pXtscEdphJ9R2z1W69+uhxk5NYwJ8uKSd6E3uB9krxXkWqIUL/S/0yijNShsJf/UTarj/4nM1P+Mpjju4MHGUN10X70q27KTr9jQ4DW6cd88Gj0798zehZaVduZbz7IA245fGw==
+ b=QiRUYGAbkWmMDEH87qmvBNUtRA33gGxiZeebHLKaoqmCf6w6EeU/KPFx7MeVYtUlWdcZcS/eA3xQ2JGwIvWYRISmfpFm3j34Jg4TqMAU/IOVm6Ljmwwwxj710C3G4duuHuqmAHpjS+wqQWu1g+HjEt2L8a14kX9LtJFTc1DR2PyR5KL7wn/bxwrf2QaM7KwjZug5ENwAiiLdfjF1vQvq1lbfUX/DU8K1QC1okwjlDaH62ZRreFLXXAeNUbtO48+Ellis7h4IS0f0SOttj7vrLTbwuCOzT1TyGssG6MS8mbVWvWInpLpXh0e43UZkk+yQJN4D+Ru+5hOquBaCgvtk9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2T6paaQkVopXsVw2oQkEhI2WAq/Zg7f1IYVEUyZUcIs=;
- b=IICoDqILUkx6ZhI289n2lIMGfec7FZ151gCE1jdxtEft0vPQ43oGjTfkUrdH6MJ2tx6qrXnAhhlE5Jq4UUk+7shYRJP/T5uW1TdeY5qqU/HjfF4pt1XqfL/aDtUQ0juVTfiLqw73z2R5obBffT/4of27/mOX6dK6BlVkCmMz4PUGwvXMtd/f5aTc9BGBqd+yqzMjlzGh2uPqRhKVENC9aNNUby4c71v6OdvFvh1p+o2IexPY1niXv7b+5NFRam199JYWi4847B4L2VHNlh+Fdwd4auTOwSj4voYpO2plKshyoGFaWwn2JZOdKSHlqzhDrBJ63ZNaq2yOIYflTaK1mg==
+ bh=ktXks/oqsGxhT1nkxlQXt1yFLr88qz3ZUo4Unqc2B88=;
+ b=FDTEQ86K8vY4p9KyHbvf35bQiUIYRxMJYqDeNcFLJdsYtwjysygq79/BasOZ0tUjHyfKRG4bwxRjViePvhVxzI0TglBOI54ZjOZ9gjpgG/IhXcrKtQvrEdUylix9TdS2g4NDfJwALXI/cxyvzg+Hg2vrcJzMsoUh0diP5nP4vVHNC8qfxEs2mBsDuNxJrdxaMVheTGyHTVTCAxclyBRns+IvWbUgcM791BTQVEo9mWFG+gFiOXUNDyfwmAWkYMCIfKubxz5XzlT1COK8rpwszmNHEUI7qKCB+xPWZyWdCHp4mmx1n7Irv/TnGLrr8OV74Ar4ucFieqUpaZoqZgFZyA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2T6paaQkVopXsVw2oQkEhI2WAq/Zg7f1IYVEUyZUcIs=;
- b=UB7s+ixWMutRCwWMFfoIuaHZ+/lZSprXoWxhdyTrQ/EQQKWUemMcnmG7vWf3nrikQFm9lE/9slVI13NJqwY/zP7/Xfw0tW2tOkiuwmrNFvAnSX2ny1pAMAcGdjp3DJJNX9bWFlayPuIZqVr/AhXWrQxuwoL39sw0VcChOCht4/I=
-Received: from CY8P220CA0023.NAMP220.PROD.OUTLOOK.COM (2603:10b6:930:46::13)
- by DS0PR12MB7972.namprd12.prod.outlook.com (2603:10b6:8:14f::6) with
+ bh=ktXks/oqsGxhT1nkxlQXt1yFLr88qz3ZUo4Unqc2B88=;
+ b=0C7X86Rje5y1Hf4Kpid4fpj/O35iSoL4LTKhopHs3H1P9I+w7C27cH9xmYjW7vw/5FCbkWqhmxXLmeWBp6ta0gVSXYokRIx1G74o+C8EKB9bYNEs8fPqK2FYlHBMYkRcZ+59uVEH34MTMELlY2YZhO8shdPr/KfLedfEvsMLjxM=
+Received: from DM5PR07CA0119.namprd07.prod.outlook.com (2603:10b6:4:ae::48) by
+ LV8PR12MB9271.namprd12.prod.outlook.com (2603:10b6:408:1ff::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.33; Tue, 12 Dec
- 2023 01:48:30 +0000
-Received: from CY4PEPF0000FCBF.namprd03.prod.outlook.com
- (2603:10b6:930:46:cafe::2a) by CY8P220CA0023.outlook.office365.com
- (2603:10b6:930:46::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.33 via Frontend
- Transport; Tue, 12 Dec 2023 01:48:30 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.26; Tue, 12 Dec
+ 2023 15:13:37 +0000
+Received: from DS1PEPF00017093.namprd03.prod.outlook.com
+ (2603:10b6:4:ae:cafe::53) by DM5PR07CA0119.outlook.office365.com
+ (2603:10b6:4:ae::48) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.26 via Frontend
+ Transport; Tue, 12 Dec 2023 15:13:37 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,114 +50,77 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000FCBF.mail.protection.outlook.com (10.167.242.101) with Microsoft
+ DS1PEPF00017093.mail.protection.outlook.com (10.167.17.136) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7091.18 via Frontend Transport; Tue, 12 Dec 2023 01:48:30 +0000
-Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ 15.20.7091.26 via Frontend Transport; Tue, 12 Dec 2023 15:13:37 +0000
+Received: from AUS-P9-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Mon, 11 Dec
- 2023 19:48:26 -0600
-From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-To: <hdegoede@redhat.com>, <markgross@kernel.org>,
-	<ilpo.jarvinen@linux.intel.com>, <basavaraj.natikar@amd.com>,
-	<jikos@kernel.org>, <benjamin.tissoires@redhat.com>
-CC: <Patil.Reddy@amd.com>, <mario.limonciello@amd.com>,
-	<platform-driver-x86@vger.kernel.org>, <linux-input@vger.kernel.org>, "Shyam
- Sundar S K" <Shyam-sundar.S-k@amd.com>
-Subject: [PATCH v7 12/12] platform/x86/amd/pmf: dump policy binary data
-Date: Tue, 12 Dec 2023 07:17:05 +0530
-Message-ID: <20231212014705.2017474-13-Shyam-sundar.S-k@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231212014705.2017474-1-Shyam-sundar.S-k@amd.com>
-References: <20231212014705.2017474-1-Shyam-sundar.S-k@amd.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Tue, 12 Dec
+ 2023 09:13:34 -0600
+From: Mario Limonciello <mario.limonciello@amd.com>
+To: Hans de Goede <hdegoede@redhat.com>, =?UTF-8?q?Ilpo=20J=C3=A4rvinen?=
+	<ilpo.jarvinen@linux.intel.com>
+CC: "open list:X86 PLATFORM DRIVERS" <platform-driver-x86@vger.kernel.org>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Goswami Sanket
+	<Sanket.Goswami@amd.com>, Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH 0/4] Add a workaround for Framework 13 spurious IRQ1
+Date: Mon, 11 Dec 2023 22:50:02 -0600
+Message-ID: <20231212045006.97581-1-mario.limonciello@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCBF:EE_|DS0PR12MB7972:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f9de861-c177-435a-8bc9-08dbfab47130
+X-MS-TrafficTypeDiagnostic: DS1PEPF00017093:EE_|LV8PR12MB9271:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5e21ab65-fde5-4899-dc56-08dbfb24ea6b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	aC54jwzYF4HWUsV7/PZO0fPDd5nzMy0HFdZC4YGzlzHOoItZz/oyeIBYwpwHMQ2QsZXpmwHIwuN87w2sDw1OrDm++IiEc7KPuB2vDrKndgLN0nSi/p9k4UELRxyYPN9lflPUos+M2ABhccVQkY5qYB9bV0VGxXa+rupbsPrqVKlMxJYNxUVcatC5oIiW7s6GTrZjSRlfxB40s9n24uAiDQ8ktTvnGzXfiNlU9Do4hjxjaWp866UBio0lGv7vzbGdkzM45+ozgmFa9VCZhcMcUQ3ZMSK5MtoIz1ytZMelo3B2SUdwZce/9/BtkHn+PvHI71tvOmgvlt5LILQqwT8+HkTH2W4t3tHgrVr+zVBua02rASLFrEpN86RpWcfsjd3jqwjmZMvat1nHp1tuRwb7AESXg/iNYaPs2eIQMlATJN6yS87IFdR1HqkQtxkVEZB8d9IiuF9dEWB5SzF1rMwXEZr6xQOF9GoJPmRlCeKr+Xab61jQH4G1GqrC4UjAZHzN2qKmgHo+5ILN0xWgO4rcWGCC1iSpoZjdAf3UpYX7lvT/Q6awgsZd5696IPK9MX+kM9paGhhFG0eRckPEjGYA68rRlPRDzdFPXLx/zt4m1cnwx7iyAqHd+qLoqZJA0a8c6N/2hItJNDXu6+eZIBB1DxMDvOhwItaCOqAp7WQewdfVSeaAIZwp8WbDUO4CtcDklLWAXQ4BSUs9UiIezEUf+tJ9T7ZXsoqOjPtFZe6AC/C4GsBlegq9KYHsxul7fcCYjHWTGRFQZQu7oU66MqXLjA==
+	VRKZ8ueHE6MxoTOofJM0iUxNocuqNEJzppeUDvBQH/UFcow85+1ooT9WOz2GNmc+XI5/MOMOqFlTUJ6UX4PzxEE6LPAEu1ahVGL9F2VBtYu7rMuqnTiMVc42r/fjIT5UXLvnW5W58H7rrAo2M97Avuo6tjv3RKlrTgM/mhkyt0XkUqHZXRmEtHszev6WFvaFMh0IJogv1ajC/znc4BFSYqPT1h2bM3INHezZuC+F1dMIlPF+mGLtBkO7PizpO0fS5URKxhS5EEXbYykhg98aDHlExrr0f0RhsmH8Uk1HY5YxQwVsagg4GzpvZyznbxMVQBT6jdYjQ0x2IuCdfXGoYdrhiDgn14e0IopFopTZR118h3JF6weRSui5xwA/y71XTc+Jzc5z8quU6hKUfsz0vR++vQ7T9NbIyTrJOhyscImojRUUCCh/iK2qZOABlzLeAiAwjUy5ovfUT0vqA4M3jU5es2XEfj3TZE0WbjML5SQ6Da5SN1IGUbQ1M0UwiA73NX76+Avw+My/ovdso4HiOBFrBoNbBjgT4C2RxcyWRATfWdPuf7wQpcQLvsiRlz4RcPf/YpcR/ZaBpYukFGzIA9AyTyPj5W86xKWZ+6ZnQzRVb1MBJhYpTpZimcye7ubX+bvaIw2biZgF6i48F2kJz9b9cqur4K5xXEw+S73088u7+FDWrdygRIjxT2DqTjNzklFfRreoW4Qf6Tz+O3qJeL4ZROrLexWHUCCru3EqPiZ75ebB+Olz9qQlPmxQ/84avidWGgkyrAbwtmT+EMcjxw==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(396003)(346002)(39860400002)(376002)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(82310400011)(40470700004)(46966006)(36840700001)(40460700003)(40480700001)(336012)(26005)(2616005)(7696005)(16526019)(6666004)(478600001)(1076003)(47076005)(81166007)(82740400003)(86362001)(36756003)(356005)(2906002)(5660300002)(70586007)(70206006)(54906003)(41300700001)(426003)(36860700001)(8676002)(8936002)(110136005)(316002)(4326008)(36900700001);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(396003)(376002)(346002)(39860400002)(230922051799003)(82310400011)(186009)(64100799003)(451199024)(1800799012)(36840700001)(46966006)(40470700004)(40480700001)(40460700003)(110136005)(70206006)(70586007)(82740400003)(81166007)(356005)(86362001)(36756003)(36860700001)(47076005)(83380400001)(16526019)(336012)(426003)(2616005)(1076003)(7696005)(6666004)(2906002)(4744005)(54906003)(316002)(478600001)(5660300002)(8936002)(8676002)(4326008)(44832011)(41300700001)(26005)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2023 01:48:30.2183
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2023 15:13:37.2607
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f9de861-c177-435a-8bc9-08dbfab47130
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e21ab65-fde5-4899-dc56-08dbfb24ea6b
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000FCBF.namprd03.prod.outlook.com
+	DS1PEPF00017093.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7972
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9271
 
-Sometimes policy binary retrieved from the BIOS maybe incorrect that can
-end up in failing to enable the Smart PC solution feature.
+The 13" Framework laptop EC emits a spurious keyboard interrupt on every
+resume from hardware sleep.  When a user closes the lid on an already
+suspended system this causes the system to wake up.
 
-Use print_hex_dump_debug() to dump the policy binary in hex, so that we
-debug the issues related to the binary even before sending that to TA.
+This series adjusts the previous Cezanne quirk (which has a much different
+root cause) to be able to apply to other systems too. The Framework 13"
+system is added to the list it will apply to.
 
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
----
- drivers/platform/x86/amd/pmf/tee-if.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Mario Limonciello (4):
+  platform/x86/amd/pmc: Move platform defines to header
+  platform/x86/amd/pmc: Only run IRQ1 firmware version check on Cezanne
+  platform/x86/amd/pmc: Move keyboard wakeup disablement detection to
+    pmc-quirks
+  platform/x86/amd/pmc: Disable keyboard wakeup on AMD Framework 13
 
-diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
-index cf95251741c7..9a4757f4f521 100644
---- a/drivers/platform/x86/amd/pmf/tee-if.c
-+++ b/drivers/platform/x86/amd/pmf/tee-if.c
-@@ -276,6 +276,12 @@ static int amd_pmf_start_policy_engine(struct amd_pmf_dev *dev)
- }
- 
- #ifdef CONFIG_AMD_PMF_DEBUG
-+static void amd_pmf_hex_dump_pb(struct amd_pmf_dev *dev)
-+{
-+	print_hex_dump_debug("(pb):  ", DUMP_PREFIX_OFFSET, 16, 1, dev->policy_buf,
-+			     dev->policy_sz, false);
-+}
-+
- static ssize_t amd_pmf_get_pb_data(struct file *filp, const char __user *buf,
- 				   size_t length, loff_t *pos)
- {
-@@ -296,6 +302,7 @@ static ssize_t amd_pmf_get_pb_data(struct file *filp, const char __user *buf,
- 	if (copy_from_user(dev->policy_buf, buf, dev->policy_sz))
- 		return -EFAULT;
- 
-+	amd_pmf_hex_dump_pb(dev);
- 	ret = amd_pmf_start_policy_engine(dev);
- 	if (ret)
- 		return -EINVAL;
-@@ -321,6 +328,7 @@ static void amd_pmf_remove_pb(struct amd_pmf_dev *dev)
- #else
- static void amd_pmf_open_pb(struct amd_pmf_dev *dev, struct dentry *debugfs_root) {}
- static void amd_pmf_remove_pb(struct amd_pmf_dev *dev) {}
-+static void amd_pmf_hex_dump_pb(struct amd_pmf_dev *dev) {}
- #endif
- 
- static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
-@@ -335,6 +343,7 @@ static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
- 
- 	memcpy(dev->policy_buf, dev->policy_base, dev->policy_sz);
- 
-+	amd_pmf_hex_dump_pb(dev);
- 	if (pb_side_load)
- 		amd_pmf_open_pb(dev, dev->dbgfs_dir);
- 
+ drivers/platform/x86/amd/pmc/pmc-quirks.c | 20 ++++++++++++++
+ drivers/platform/x86/amd/pmc/pmc.c        | 33 +++++++++--------------
+ drivers/platform/x86/amd/pmc/pmc.h        | 12 +++++++++
+ 3 files changed, 45 insertions(+), 20 deletions(-)
+
 -- 
-2.25.1
+2.34.1
 
 
