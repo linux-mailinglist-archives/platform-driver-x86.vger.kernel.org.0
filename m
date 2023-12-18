@@ -1,137 +1,103 @@
-Return-Path: <platform-driver-x86+bounces-519-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-521-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA625817B79
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Dec 2023 20:56:59 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD728817BAA
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Dec 2023 21:19:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2B0DD1F23603
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Dec 2023 19:56:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C92CFB23B08
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Dec 2023 20:19:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F6397207B;
-	Mon, 18 Dec 2023 19:55:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6EDD72047;
+	Mon, 18 Dec 2023 20:19:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="jbBqZXc9"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="t9D//caF"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613BB740B4;
-	Mon, 18 Dec 2023 19:55:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF714239A;
+	Mon, 18 Dec 2023 20:19:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-	t=1702929344; x=1703534144; i=w_armin@gmx.de;
-	bh=8xcRS4toKnQj2X27ThuiST1cF613b/lRiEqma2uezJw=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
-	 References;
-	b=jbBqZXc9Fm79pEyNs39kyQOUq7iV1cgb3v6jxexwGyeiTscBEi1bOcDP3UXeLJRS
-	 dY+tIHWI+ikGrZt+MmT/WjGZNC9ieOvvSmRKAbzllsQcA9ZeVEUG9NRUY1ASIxhGO
-	 V1I0Zd5yM0w4EcnEsPJgq3+qJkOoWbHa2FXPF8jwTYGD7nVt7Bsup6aiwOAynFIjW
-	 jJkEAe31nxDISQXV//XFTloO9of5DHVtTw+7FF+Ms1jrQsXOOmWPVI3RDlE0WM45n
-	 6KuDmCzwONZPddEyvPPMis2hKnHD/DDUdeYeJjkricAU7gT2Ujo6whItjSPnW451B
-	 u3IrODDU70qziUyGpw==
+	t=1702930743; x=1703535543; i=w_armin@gmx.de;
+	bh=q9wL0sOP60Ja7H4IQatHbqL5WFADfzE9WTyOrzpo5n4=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=t9D//caF0Yy3sAnH6zA4ICqi0afZWMWlc/IrLDM46nuVhKQOfqYUNJkQyJ+Yx3qU
+	 F3pASgnk6HOb0ajNSPoqaBFn5pDBziwZFI9rxdo3VnogPdudCS8cwpuKp++JhxRa0
+	 T4q5ymddC+NuZqg6ocEPcZLOvVL6xTh0Nd33zLhqVoPWKB9H+U/aBQzkQ5uI+Qb+3
+	 WA4v2BPQEj+GBnO+HntWrmbF/FEOXtKGpWhi9MXo0KH+TM4V18mNg6u2+JxFMaC86
+	 EnYoXfocPLjTCIS24nDZuef5uJ8xlIejzRhp9Dplh7PG7qDbprG2WHMBjEKkrzsM7
+	 mRRw0tiSgKnZLr9P6Q==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from mx-amd-b650.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
- (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 1MfHAH-1qnQcd12N9-00gtMg; Mon, 18 Dec 2023 20:55:44 +0100
+ (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
+ 1M6Daq-1rLvmZ2vgO-006ehp; Mon, 18 Dec 2023 21:19:03 +0100
 From: Armin Wolf <W_Armin@gmx.de>
 To: hdegoede@redhat.com,
 	ilpo.jarvinen@linux.intel.com
 Cc: platform-driver-x86@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 6/6] platform/x86: wmi: Simplify get_subobj_info()
-Date: Mon, 18 Dec 2023 20:55:31 +0100
-Message-Id: <20231218195531.311179-7-W_Armin@gmx.de>
+Subject: [PATCH RESEND v2 0/6] platform/x86: wmi: ACPI improvements
+Date: Mon, 18 Dec 2023 21:18:39 +0100
+Message-Id: <20231218201844.2860-1-W_Armin@gmx.de>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231218195531.311179-1-W_Armin@gmx.de>
-References: <20231218195531.311179-1-W_Armin@gmx.de>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:y/Bdzz5LQ5l5DH6SFsP2N/veEnWbKrmkgn6CIDbxPduIi6hazLh
- UuiTS1T+DL5GydIrKi57aoR9hruokDMtH2VKiyVtJGZzIhfxul8fIbcSbt3EMbWRd/W8UVJ
- 5MpzSdJsCRvtaSwdi+VXG0dUbqfipewjIdfR1v9U3/U5z2u8zDn0FRWBXVh/taVRTq46L3E
- QgCvZlqMUvTE7Z5rLo1yg==
+X-Provags-ID: V03:K1:1HKcbLmgC/4UC4x94Q3rYinHRyvyZBup2IskAZUhduSzecLUxX5
+ OWBQO9gg3fDL95xfd8ve+gOCWeEg/DaISOnINt28MIfxwPZWzWe8mS5jgIsEMfxcqy2U6j5
+ xBF9R7cPKAKZYjM2Og1Q0X1DCbm1rN31ikuEl+NZmkEYwCNIyPOxcC3EgtBIhjK/zqDFmGC
+ +KIC6stijwNk/embzgRTA==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:HbMWm1LXyxI=;ZMhIXv2exx6aSMr9mmjEsbuvd0Q
- oeY+A/3BgWhQ6uyTAvqYSlHnBXcouVqEz74re3YguoqtaP30RKceTuSVxoo3EPh+mROJ7XS7D
- /kV6OuTWMfnslAojWuQaZTg++/Pn/PmTeq1bbQhWpj22HhqxsYN/roSQQEyZpiwSqIVBb2gFz
- LOJbH3ow0FZ8LSOIiI+J6KGwmu1Ag5stc3Sw9iZdaHNvFZvJAzqAC8LTVMN0S8P9rJb597XQY
- S3z+p7vpsNxxYLEKgS1DCFDSn655zg230UAs6qaPX8vvp5mByUIV5B0b778QDSwqAtwRnTFaJ
- 5wROdlo3LnOHnJHDvVLIG2d27Yr+8zRrGcYzb9QB4zpbJWbE4pqvWa1TTF2Ld0FMKzw3fCvfs
- dPd8B8bnR6FTlkmnFRu3lBOjJE0IARP0KPB5v0aAUAoihtQ64WN9/FzpnVcShvWYQAB+eyFEM
- 6Px8X4Az84qDocwC/KUWGhkSMO7M9TusWS+3rsVl3B19ra0OamG35frpzD+NS00UJ+jSSLypJ
- L6R7VEGJJ/t+9BQsL2XNiIJGuX8rGhCiNLobV5d8zRoQPgVdzeGfjsr1ke1w7kV5PexQ/RPN4
- nXwFtTw2VIsdt12UiyknyfWgir+jKKV6q3e6qBQxoK33XJnAqGKUkzKROxNgFUf43N7OGXCIh
- MURmClzMCbZjHjw4mqYoASC50OOJ67qnSnYE9foI20oyJm/5+eRXueVxC+eo4Wuav9jl/pCSy
- bEx7YH19Bx/2sZqdrOnpT+xFbmO3vjdgKVw92SJTN5E+B0wBz9WJ3yL4FoeOBSjUtpLl/2P0w
- IgVrfectfMbSkb3xaZw6/9QlZ2oXo0L9vZ0+uNuiL0pIIrAGj7uLVUHdWt99CoAM6cFkj7mBZ
- lZMM3ScpD8W6D/oY2/TSwDeGAhn1+gwqbY3xELOP8iabRJdyviJ4DaGmEOAk/m+esmc/CEknL
- O1pffGWm/FSARtS/pXhLyZyi6SM=
+UI-OutboundReport: notjunk:1;M01:P0:cGTfvJ2G2JE=;Cn7C5n3bmHcGeVxB6LnsoT5IkGm
+ nY5kJ66wrSR4Y6m44ZLbVRx4CaIromJaMkUjRI3hovkuRXB+T9/1TxIDB0i3w04n7C2bacZEJ
+ /fkUlurU6j5JD5R2GskxcUOEGm164w3naDUwoy7j9so8OIM51CBd4NinAqEp7xc3x/lZeCBcn
+ lIg6sRMZcDaHSWGuEm/gcIUhvZY0jfq33g/7mnU/JNqGD3FNWXWgx492/Ougv16pnNbqmYub5
+ RXag4iAy+mDVgkEBeqLKlmo8boUGoGZjDat6aR30UNMXLlz30dpTSm6oHjhs8MMlPrF7McFp3
+ 668hF8mwOCoLwaD149qeH3CdGHyzjmJKPZeD1aZCwcHe2la6yQj/KSCZNSqcfaOF/qlTTEy6l
+ T0YsA8wVYh6ODQVCoegh9DPxS1fb8imXBydNnHjTG6LAflRIve2Jhp4YcIsAB0VhCBQK/u2eT
+ //sjGODVPLhuNfsNxIdcomLyEgbeRCK67oXP1juGcGQ/wr4HwtWEV+e9CTm5AkhrMc9I90QGS
+ WgCYUhmKNnKe5HthRhUW75gzEdi/UGwfI3CDFSp50iM+gP/LByytlE1ArFwcqxVLCN2d2eRFG
+ 8asUgR7qsohStSt89O8Cy8WaOEDtddVJAGroK4Z9bztM5jLfmEh9QZVxPFIO5b9FjoHW6NvxN
+ cj36ni2DnYwJhUFY2si7ya4pvMAYD8Vu7X7h073SGcw1t+OKW7XYeec+8gs7K+O1cHqxJd2gr
+ ifyl4mk0xldt4R+LDzazrL58kBZYhzpXmv0D5uxu/osLAf7kiz1ODR2T42dd5w6ShW0E2rCuV
+ tAj9Na8XIr7VEGeDJeDjnfFTnq7yM43QRAKkUJs7ix/jeN4eapUkgyRKhZ9n1/qLiwQVkMMpk
+ 7XwJ0zmpalXc3TLKd3vi4gJkWzghdMEyg/jbBfQ99fnkmvck+WuvRMCWKeWZgEaezbO/VP2Ko
+ 77DuKtYUCGPv9sghlutJ+xCVJiE=
 
-All callers who call get_subobj_info() with **info being NULL
-should better use acpi_has_method() instead.
-Convert the only caller who does this to acpi_has_method()
-to drop the dummy info handling.
+This patch series improves the ACPI handling inside the ACPI WMI driver.
+The first patch removes an unused variable, while the second patch
+changes the order in which the ACPI handlers are removed on shutdown.
+The third patch simplifies the error handling during probe by using
+devres to manage devie resources, while the next two patches decouple
+the ACPI notify handler from the wmi_block_list. The last patch
+simplifies yet another ACPI-related function.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-=2D--
- drivers/platform/x86/wmi.c | 16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
+All patches have been tested on a Dell Inspiron 3505 and appear to work.
 
-diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
-index 559a99ebc624..a7cfcbf92432 100644
-=2D-- a/drivers/platform/x86/wmi.c
-+++ b/drivers/platform/x86/wmi.c
-@@ -132,23 +132,19 @@ static const void *find_guid_context(struct wmi_bloc=
-k *wblock,
- static int get_subobj_info(acpi_handle handle, const char *pathname,
- 			   struct acpi_device_info **info)
- {
--	struct acpi_device_info *dummy_info, **info_ptr;
- 	acpi_handle subobj_handle;
- 	acpi_status status;
+Changes since v1:
+- fix ACPI handler devres ordering
 
--	status =3D acpi_get_handle(handle, (char *)pathname, &subobj_handle);
-+	status =3D acpi_get_handle(handle, pathname, &subobj_handle);
- 	if (status =3D=3D AE_NOT_FOUND)
- 		return -ENOENT;
--	else if (ACPI_FAILURE(status))
--		return -EIO;
+Armin Wolf (6):
+  platform/x86: wmi: Remove unused variable in address space handler
+  platform/x86: wmi: Remove ACPI handlers after WMI devices
+  platform/x86: wmi: Use devres for resource handling
+  platform/x86: wmi: Create WMI bus device first
+  platform/x86: wmi: Decouple ACPI notify handler from wmi_block_list
+  platform/x86: wmi: Simplify get_subobj_info()
 
--	info_ptr =3D info ? info : &dummy_info;
--	status =3D acpi_get_object_info(subobj_handle, info_ptr);
- 	if (ACPI_FAILURE(status))
- 		return -EIO;
+ drivers/platform/x86/wmi.c | 143 ++++++++++++++++++-------------------
+ 1 file changed, 71 insertions(+), 72 deletions(-)
 
--	if (!info)
--		kfree(dummy_info);
-+	status =3D acpi_get_object_info(subobj_handle, info);
-+	if (ACPI_FAILURE(status))
-+		return -EIO;
-
- 	return 0;
- }
-@@ -998,9 +994,7 @@ static int wmi_create_device(struct device *wmi_bus_de=
-v,
- 	kfree(info);
-
- 	get_acpi_method_name(wblock, 'S', method);
--	result =3D get_subobj_info(device->handle, method, NULL);
--
--	if (result =3D=3D 0)
-+	if (acpi_has_method(device->handle, method))
- 		wblock->dev.setable =3D true;
-
-  out_init:
 =2D-
 2.39.2
 
