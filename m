@@ -1,70 +1,70 @@
-Return-Path: <platform-driver-x86+bounces-495-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-497-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08778817078
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Dec 2023 14:28:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 631C48170D7
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Dec 2023 14:51:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 63CDEB225FD
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Dec 2023 13:28:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DC0EE1F23D6C
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Dec 2023 13:51:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BF611D157;
-	Mon, 18 Dec 2023 13:25:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5C4515AC0;
+	Mon, 18 Dec 2023 13:51:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Wn10zjlL"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dyi5FK+q"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6468E129EC7
-	for <platform-driver-x86@vger.kernel.org>; Mon, 18 Dec 2023 13:25:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8077114F63
+	for <platform-driver-x86@vger.kernel.org>; Mon, 18 Dec 2023 13:51:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1702905908;
+	s=mimecast20190719; t=1702907466;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1bx5TR2TZDBtKHEftLcZg6JazOkuYcSQtbdrdj3CQRc=;
-	b=Wn10zjlLxUgIx0vjO9Y42s+g4OtQPry5wHrB2kNlsJHHdaQRdeZ6UYpk+AiQZmZefGbyWj
-	B0vSNffMeCvsSJqqt2rvV03uF9HFnDevpKV69clUb/aeFBcHRlaLhVSkDpWUyiRIqtb8xe
-	PjrNj09e4CHa11AD9AAi9fThIHzbAMc=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=C0IIG4uM93l8rTtXr9++HE6Nb11VQoEXQ0E2WhIPe74=;
+	b=dyi5FK+qYRF6co9wAU4AgPTlUByfdfV0itVfTQpkoDtKEVr+bIhRvuhZl7zhtzOQimtz//
+	EQg28cIjYgOdGsy7DUbd2gg3Nj3ORhBt3YzcGIWeJR9AgnXMVJP8219rsUVmcJH7cFrgP9
+	AGnelqAq3c6YdseGlDrM2jleXXcoEoM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-681-Z5DuI5AKOCaNPrMTPSSsEQ-1; Mon, 18 Dec 2023 08:25:06 -0500
-X-MC-Unique: Z5DuI5AKOCaNPrMTPSSsEQ-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a2336545b23so80821766b.2
-        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Dec 2023 05:25:06 -0800 (PST)
+ us-mta-504-421lxvXBM6q6YlrsrPX2qw-1; Mon, 18 Dec 2023 08:51:05 -0500
+X-MC-Unique: 421lxvXBM6q6YlrsrPX2qw-1
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-336695c701eso518603f8f.0
+        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Dec 2023 05:51:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702905906; x=1703510706;
+        d=1e100.net; s=20230601; t=1702907464; x=1703512264;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1bx5TR2TZDBtKHEftLcZg6JazOkuYcSQtbdrdj3CQRc=;
-        b=YvupQC5A3lrCQkG9M9zc166hRnHMu7PcUTdYBIUFfGA/H8+hn9rCsUK48Kt6W4CB5r
-         bBK42TVyp4hdibgemN4ObCKh396xTYTzXlIcrjpmWyaXfh4W8NxfhjVrHyDAGULgDiJh
-         chuYtEKQsHGhOp46f4JBL1DhomsX09+vMgM3HSvGGM3Lww+xzXhnFuwmx7EhzpbTx53o
-         JgG4UJ5Vjg5fdq+3OoYa21McXS2+1o73KyPGa+Wrzs+TacuEvvKpK12vW+xGGvX+MXlV
-         KpGWDbnntccJ2n5KEpQgRPlF3sF29qAxUEXBkvVfFv2IvvicPtDu0x/Xc1z+XLqgqvfd
-         6ozQ==
-X-Gm-Message-State: AOJu0Ywf2I8btIMCDG/O7iSamVP2X9hlJmhU8TISOejqXR3wmRQhqZwo
-	dQj8S/xqCfM3fyCxpIEnpJQ/We/Z19P9eIBOgFPeFzGf4IsDoFs8QFAEJ2+uF0jErR3HTKNXA5T
-	ACbSowjXj/K92CufNiYWVCf78U7e2azgszw==
-X-Received: by 2002:a17:907:9815:b0:a1e:5ea5:c5db with SMTP id ji21-20020a170907981500b00a1e5ea5c5dbmr9845983ejc.83.1702905905901;
-        Mon, 18 Dec 2023 05:25:05 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFr7+vH+Wal3dISxtzhvvr7u055L190DsuLC0oKFlQZqffbMY6iUxzeGedasy3DLOoPJqGzGA==
-X-Received: by 2002:a17:907:9815:b0:a1e:5ea5:c5db with SMTP id ji21-20020a170907981500b00a1e5ea5c5dbmr9845952ejc.83.1702905905486;
-        Mon, 18 Dec 2023 05:25:05 -0800 (PST)
+        bh=C0IIG4uM93l8rTtXr9++HE6Nb11VQoEXQ0E2WhIPe74=;
+        b=dE/9auE18fATfAjcxJsRuPjh5oQPzD1bz5NJN8etyiRpyaFAW4cyqJMCmj3jGbbUSz
+         vogWqEaFiT2yoLagDdvcwnco9BDv9oFaSdzM1ga1I6JyqjQFI6UeXtoJP10uJv0P1dBY
+         EwZcUri7UbaFPAqCwbPfKqjgXp+wOj0Zwo3WKhYSFzRhBgyAkZ79fjOGbCkplChbpF8M
+         IJgmHhfYlB6IUxq/mNAcIabG7bOlTxfwD6bjMNWe3zlHyUCvWgKfthpW1+TrLpPnBpCp
+         hDIAutKtxDqKpNvOuxHYuxP7TfvQBv/yhEdZgcBQUdXQwEnEDDWNkvtP5KK2CD05ts8q
+         VfHg==
+X-Gm-Message-State: AOJu0YxaFkToEtZeN6/9m6AWL+y0DP+oVmB4GB9Go1FYwxaR5DNbMWrW
+	i9w31+c+DgB/+7IuHiNAvOElYccl4wckX8PeNbFu+kD1YGkVMI+E2hYdlakuRd3lMggwfl7m8in
+	kO18mqZSKHyRovm9EqnwesULjhEoPvFV2s15uy9CDTg==
+X-Received: by 2002:a5d:5264:0:b0:333:3ffe:dbcf with SMTP id l4-20020a5d5264000000b003333ffedbcfmr8271448wrc.101.1702907463830;
+        Mon, 18 Dec 2023 05:51:03 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEvK+q9XXTFnPXRG5D0HATNAXTAU6la5Zg96mrrCixp/qG5h0/AU7/8xCh3q+uKTHizwv9GRQ==
+X-Received: by 2002:a50:cc0b:0:b0:543:5c2f:e0e6 with SMTP id m11-20020a50cc0b000000b005435c2fe0e6mr9473741edi.17.1702906169995;
+        Mon, 18 Dec 2023 05:29:29 -0800 (PST)
 Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id l22-20020a1709061c5600b00a236cf1e4d0sm48526ejg.167.2023.12.18.05.25.04
+        by smtp.gmail.com with ESMTPSA id q24-20020a056402041800b00553165eb4f7sm1949159edv.17.2023.12.18.05.29.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Dec 2023 05:25:04 -0800 (PST)
-Message-ID: <f15e0ea0-a928-4e5c-8147-b4af49f0395e@redhat.com>
-Date: Mon, 18 Dec 2023 14:25:03 +0100
+        Mon, 18 Dec 2023 05:29:29 -0800 (PST)
+Message-ID: <9950a6ac-3cc8-41bb-b93c-bb2e8af1f1a0@redhat.com>
+Date: Mon, 18 Dec 2023 14:29:28 +0100
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -72,76 +72,94 @@ List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] Add a workaround for Framework 13 spurious IRQ1
+Subject: Re: [PATCH 3/7] platform/x86: Create static func to handle platdev
 Content-Language: en-US
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
- Mario Limonciello <mario.limonciello@amd.com>,
- "open list:X86 PLATFORM DRIVERS" <platform-driver-x86@vger.kernel.org>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Goswami Sanket <Sanket.Goswami@amd.com>
-References: <20231212045006.97581-1-mario.limonciello@amd.com>
- <85397fdb-b093-4c03-8613-3815352f2b2c@t-8ch.de>
- <53d6933e-e5e8-4db1-b2e3-b931dc8bf0bd@redhat.com>
- <0d3fb62-b5e8-228a-dfa9-55ae63089db@linux.intel.com>
+To: Suma Hegde <suma.hegde@amd.com>, platform-driver-x86@vger.kernel.org
+Cc: ilpo.jarvinen@linux.intel.com,
+ Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
+References: <20231212103644.768460-1-suma.hegde@amd.com>
+ <20231212103644.768460-4-suma.hegde@amd.com>
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <0d3fb62-b5e8-228a-dfa9-55ae63089db@linux.intel.com>
+In-Reply-To: <20231212103644.768460-4-suma.hegde@amd.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 12/18/23 13:42, Ilpo Järvinen wrote:
-> On Mon, 18 Dec 2023, Hans de Goede wrote:
->> On 12/12/23 21:19, Thomas Weißschuh wrote:
->>> On 2023-12-11 22:50:02-0600, Mario Limonciello wrote:
->>>> The 13" Framework laptop EC emits a spurious keyboard interrupt on every
->>>> resume from hardware sleep.  When a user closes the lid on an already
->>>> suspended system this causes the system to wake up.
->>>>
->>>> This series adjusts the previous Cezanne quirk (which has a much different
->>>> root cause) to be able to apply to other systems too. The Framework 13"
->>>> system is added to the list it will apply to.
->>>>
->>>> Mario Limonciello (4):
->>>>   platform/x86/amd/pmc: Move platform defines to header
->>>>   platform/x86/amd/pmc: Only run IRQ1 firmware version check on Cezanne
->>>>   platform/x86/amd/pmc: Move keyboard wakeup disablement detection to
->>>>     pmc-quirks
->>>>   platform/x86/amd/pmc: Disable keyboard wakeup on AMD Framework 13
->>>>
->>>>  drivers/platform/x86/amd/pmc/pmc-quirks.c | 20 ++++++++++++++
->>>>  drivers/platform/x86/amd/pmc/pmc.c        | 33 +++++++++--------------
->>>>  drivers/platform/x86/amd/pmc/pmc.h        | 12 +++++++++
->>>>  3 files changed, 45 insertions(+), 20 deletions(-)
->>>
->>> For the full series:
->>>
->>> Reviewed-by: Thomas Weißschuh <linux@weissschuh.net>
->>> Tested-by: Thomas Weißschuh <linux@weissschuh.net> # on AMD Framework 13
->>>
->>> The device now only wakes up when opening the lid.
->>
->> Thomas, thank you for the review and testing.
->>
->> The series looks good to me too:
->>
->> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
->>
->> Ilpo, do you plan on sending out one more fixes pull-req for 6.7
->> and if yes, can you add this series to that; or shall I merge
->> this into for-next so that it gets included in 6.8-rc1 ?
+On 12/12/23 11:36, Suma Hegde wrote:
+> Create a static function and call platform device alloc and add device,
+> which will simplify handling acpi and plat device probing.
 > 
-> I was thinking not to but that was because I for some reason had missed 
-> this series in the pending queue over the entire last week.
+> Signed-off-by: Suma Hegde <suma.hegde@amd.com>
+> Co-developed-by: Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
+> Signed-off-by: Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
+> ---
+>  drivers/platform/x86/amd/hsmp.c | 33 ++++++++++++++++++---------------
+>  1 file changed, 18 insertions(+), 15 deletions(-)
 > 
-> So I'll make make more pr taking this series, the thinkpad fan thing and 
-> 1/2 intel pmc fix, 2/2 intel pmc is for material that is in next only. 
+> diff --git a/drivers/platform/x86/amd/hsmp.c b/drivers/platform/x86/amd/hsmp.c
+> index 62a274c84f25..f0db7a480ace 100644
+> --- a/drivers/platform/x86/amd/hsmp.c
+> +++ b/drivers/platform/x86/amd/hsmp.c
+> @@ -552,6 +552,21 @@ static struct platform_driver amd_hsmp_driver = {
+>  
+>  static struct platform_device *amd_hsmp_platdev;
+>  
+> +static int hsmp_plat_dev_register(void)
+> +{
+> +	int ret;
+> +
+> +	amd_hsmp_platdev = platform_device_alloc(DRIVER_NAME, -1);
 
-Great, thank you. I'll pick up the 2/2 pmc fix.
+Please use  PLATFORM_DEVID_NONE instead of -1, like the code
+you are replacing did.
+
+With that fixed this is:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
 Regards,
 
 Hans
+
+> +	if (!amd_hsmp_platdev)
+> +		return -ENOMEM;
+> +
+> +	ret = platform_device_add(amd_hsmp_platdev);
+> +	if (ret)
+> +		platform_device_put(amd_hsmp_platdev);
+> +
+> +	return ret;
+> +}
+> +
+>  static int __init hsmp_plt_init(void)
+>  {
+>  	int ret = -ENODEV;
+> @@ -574,22 +589,10 @@ static int __init hsmp_plt_init(void)
+>  	if (ret)
+>  		return ret;
+>  
+> -	amd_hsmp_platdev = platform_device_alloc(DRIVER_NAME, PLATFORM_DEVID_NONE);
+> -	if (!amd_hsmp_platdev) {
+> -		ret = -ENOMEM;
+> -		goto drv_unregister;
+> -	}
+> -
+> -	ret = platform_device_add(amd_hsmp_platdev);
+> -	if (ret) {
+> -		platform_device_put(amd_hsmp_platdev);
+> -		goto drv_unregister;
+> -	}
+> -
+> -	return 0;
+> +	ret = hsmp_plat_dev_register();
+> +	if (ret)
+> +		platform_driver_unregister(&amd_hsmp_driver);
+>  
+> -drv_unregister:
+> -	platform_driver_unregister(&amd_hsmp_driver);
+>  	return ret;
+>  }
+>  
 
 
