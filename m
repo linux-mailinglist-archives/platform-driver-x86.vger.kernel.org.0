@@ -1,98 +1,112 @@
-Return-Path: <platform-driver-x86+bounces-596-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-598-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7280D81CEAB
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Dec 2023 20:11:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E02AF81CF54
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Dec 2023 21:40:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 900E3B2421C
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Dec 2023 19:11:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B52EBB21DB3
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Dec 2023 20:40:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34B012C849;
-	Fri, 22 Dec 2023 19:11:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 076891DDDE;
+	Fri, 22 Dec 2023 20:40:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WN0C8Mbj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aT95kgm5"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3853F2C844;
-	Fri, 22 Dec 2023 19:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=FnUWXUKDiEF2aBrjIZkaYhL1kHnmdseYDG2uP7w8EAo=; b=WN0C8MbjR8jyiZpRe/AHwfToER
-	KIVeQq/EUjfNAADrnV7UtCMWActJONXUYbSFlLKidtUrPdwDHMOaO64oPtMRm1BQp6mEeOqlEJhcb
-	cxMA1qYrrC0NKylCb9vQdiHCpp3qiZl2d/6rphoEXTh2CGDuP5jWh85cPU2Q5wOcDX88qHsXWNplU
-	FCvPO3onuEXfJn4saUw/Zj6Q7ONgZRnloPNE60W8/b+5/tiY8n1YXh9n95VizPh8PteBMStUE+l8Q
-	AEivnfHeVegS+zEFNKna9paZP+snTm8iZ8yDoHSHlhRg+3SV+ALoHJ9/1RGBSf+BRIKf+xtsyjnvs
-	HROi++Pg==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGkvg-006gN7-27;
-	Fri, 22 Dec 2023 19:11:28 +0000
-Message-ID: <70679be0-d77d-48e8-8b30-027a05e38917@infradead.org>
-Date: Fri, 22 Dec 2023 11:11:28 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D1F2E82B;
+	Fri, 22 Dec 2023 20:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703277614; x=1734813614;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=fEg5cKMOZSm2asfB3R+VUwmJw7TuMxUbOGYVfUqxYKM=;
+  b=aT95kgm5A1hWe1ONC4Rus+Xo1UdoujiPlnYLmqjsCESgA4NgasWtk3RN
+   ob93eDENYAmpcvJIjJp9cWs6RMned0Z7XQKfSXgwRkXhPz9miHbELG3hP
+   LB5R9FEGUS1vpT6SMGrAkt+5KEUtlsXvEIQlt7uBgSs5KblsT77FyZ6aE
+   Qiuechi1la5v3hZ2pbVSRjRGy3ccAJsc44226Vj7UU6wI4KLIbZMoXu5x
+   BuiHhciIOpmdOsFUG75hKUt7ae6x4IVSKmzw1k8bVxhlNxWc+utXATD0J
+   RwUUf2SEiztj6B54CtJ1Bt4wtrJiVASOt72hBUnLy1Pzw9UA3xyzDvTAg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="2978266"
+X-IronPort-AV: E=Sophos;i="6.04,297,1695711600"; 
+   d="scan'208";a="2978266"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 12:40:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,297,1695711600"; 
+   d="scan'208";a="19128631"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.14])
+  by fmviesa001.fm.intel.com with ESMTP; 22 Dec 2023 12:40:05 -0800
+From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To: hdegoede@redhat.com,
+	markgross@kernel.org,
+	ilpo.jarvinen@linux.intel.com,
+	andriy.shevchenko@linux.intel.com
+Cc: platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH] platform/x86: intel-uncore-freq: Add additional client processors
+Date: Fri, 22 Dec 2023 12:39:57 -0800
+Message-Id: <20231222203957.1348043-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] Documentation: move driver-api/isapnp to
- userspace-api/
-Content-Language: en-US
-To: Vegard Nossum <vegard.nossum@oracle.com>, Jonathan Corbet
- <corbet@lwn.net>, Jaroslav Kysela <perex@perex.cz>,
- Stuart Hayes <stuart.w.hayes@gmail.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- platform-driver-x86@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-References: <20231221124816.2978000-1-vegard.nossum@oracle.com>
- <20231221124816.2978000-2-vegard.nossum@oracle.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20231221124816.2978000-2-vegard.nossum@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Add support for client processors starting from Kaby Lake.
 
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+---
+Rebased on top of review-hans branch. The processors are ordered based
+on their release similiar to intel-family.h.
 
-On 12/21/23 04:48, Vegard Nossum wrote:
-> driver-api/isapnp documents /proc interfaces for interfacing directly
-> with ISA Plug & Play devices, not any kind of API for kernel developers,
-> and should thus also live under userspace-api/.
-> 
-> Also fix a few issues while we're at it.
-> 
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+ .../x86/intel/uncore-frequency/uncore-frequency.c   | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
-
-> ---
->  Documentation/driver-api/index.rst                     | 1 -
->  Documentation/userspace-api/index.rst                  | 1 +
->  Documentation/{driver-api => userspace-api}/isapnp.rst | 8 ++++----
->  MAINTAINERS                                            | 2 +-
->  drivers/pnp/isapnp/Kconfig                             | 2 +-
->  5 files changed, 7 insertions(+), 7 deletions(-)
->  rename Documentation/{driver-api => userspace-api}/isapnp.rst (51%)
-> 
-
+diff --git a/drivers/platform/x86/intel/uncore-frequency/uncore-frequency.c b/drivers/platform/x86/intel/uncore-frequency/uncore-frequency.c
+index a3b25253b6fd..a5e0f5c22179 100644
+--- a/drivers/platform/x86/intel/uncore-frequency/uncore-frequency.c
++++ b/drivers/platform/x86/intel/uncore-frequency/uncore-frequency.c
+@@ -205,6 +205,16 @@ static const struct x86_cpu_id intel_uncore_cpu_ids[] = {
+ 	X86_MATCH_INTEL_FAM6_MODEL(ICELAKE_D,	NULL),
+ 	X86_MATCH_INTEL_FAM6_MODEL(SAPPHIRERAPIDS_X, NULL),
+ 	X86_MATCH_INTEL_FAM6_MODEL(EMERALDRAPIDS_X, NULL),
++	X86_MATCH_INTEL_FAM6_MODEL(KABYLAKE, NULL),
++	X86_MATCH_INTEL_FAM6_MODEL(KABYLAKE_L, NULL),
++	X86_MATCH_INTEL_FAM6_MODEL(COMETLAKE, NULL),
++	X86_MATCH_INTEL_FAM6_MODEL(COMETLAKE_L, NULL),
++	X86_MATCH_INTEL_FAM6_MODEL(CANNONLAKE_L, NULL),
++	X86_MATCH_INTEL_FAM6_MODEL(ICELAKE, NULL),
++	X86_MATCH_INTEL_FAM6_MODEL(ICELAKE_L, NULL),
++	X86_MATCH_INTEL_FAM6_MODEL(ROCKETLAKE, NULL),
++	X86_MATCH_INTEL_FAM6_MODEL(TIGERLAKE, NULL),
++	X86_MATCH_INTEL_FAM6_MODEL(TIGERLAKE_L, NULL),
+ 	X86_MATCH_INTEL_FAM6_MODEL(ALDERLAKE, NULL),
+ 	X86_MATCH_INTEL_FAM6_MODEL(ALDERLAKE_L, NULL),
+ 	X86_MATCH_INTEL_FAM6_MODEL(RAPTORLAKE, NULL),
+@@ -212,6 +222,9 @@ static const struct x86_cpu_id intel_uncore_cpu_ids[] = {
+ 	X86_MATCH_INTEL_FAM6_MODEL(RAPTORLAKE_S, NULL),
+ 	X86_MATCH_INTEL_FAM6_MODEL(METEORLAKE, NULL),
+ 	X86_MATCH_INTEL_FAM6_MODEL(METEORLAKE_L, NULL),
++	X86_MATCH_INTEL_FAM6_MODEL(ARROWLAKE, NULL),
++	X86_MATCH_INTEL_FAM6_MODEL(ARROWLAKE_H, NULL),
++	X86_MATCH_INTEL_FAM6_MODEL(LUNARLAKE_M, NULL),
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(x86cpu, intel_uncore_cpu_ids);
 -- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+2.40.1
+
 
