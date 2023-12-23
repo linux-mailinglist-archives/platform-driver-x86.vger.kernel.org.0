@@ -1,98 +1,87 @@
-Return-Path: <platform-driver-x86+bounces-605-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-608-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC54E81D1DF
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 23 Dec 2023 04:26:37 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DDC181D25D
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 23 Dec 2023 06:07:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8D82286486
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 23 Dec 2023 03:26:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D171B1F23BEF
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 23 Dec 2023 05:07:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9440E63C1;
-	Sat, 23 Dec 2023 03:25:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CE602117;
+	Sat, 23 Dec 2023 05:06:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fxdFA/Vt"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iJbC/nHq"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292CC4437;
-	Sat, 23 Dec 2023 03:25:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703301955; x=1734837955;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=f+dh5rZALXl/p24n8Vz32jakt6X6ur63JdX+9WjZny0=;
-  b=fxdFA/VtFi3pjv5hWWtRlVFdPPZWpIzJ+eD+ugyaax44SIE0pkUyJ4RS
-   4a5owJLBWuHxkaA8PvBjjEiDHfFNnX3q+S9VUnUAashhOkMAMzu1/+pBM
-   NQpwFRA5UErRjT1IyUI+LDLvEiC333erHXX85pHDOOvtNv5IkfwRSnTaE
-   4SqavUxZyEd2/w8Zu0Zw91q+LHVvkdyIBF5cOgKYOnq4I/pDcye/oM5yg
-   iIMWHvcsepLJBBXx9ppe1E8uqGM0RPb2rv4mnLmVS1sm4zf3d97JgfdJi
-   5JnomIi/PpYIAi1Q4W4Z4o5X6NK35N7xH6uRy/HhrrbZ5h0UmyF3alPGC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="462619296"
-X-IronPort-AV: E=Sophos;i="6.04,298,1695711600"; 
-   d="scan'208";a="462619296"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 19:25:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="811534587"
-X-IronPort-AV: E=Sophos;i="6.04,298,1695711600"; 
-   d="scan'208";a="811534587"
-Received: from linux.intel.com ([10.54.29.200])
-  by orsmga001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 19:25:53 -0800
-Received: from debox1-desk4.intel.com (unknown [10.209.86.110])
-	by linux.intel.com (Postfix) with ESMTP id C84C3580CC6;
-	Fri, 22 Dec 2023 19:25:52 -0800 (PST)
-From: "David E. Box" <david.e.box@linux.intel.com>
-To: david.e.box@linux.intel.com,
-	hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	rajvi.jingar@linux.intel.com,
-	platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 8/8] platform/x86/intel/pmc: Add missing extern
-Date: Fri, 22 Dec 2023 19:25:48 -0800
-Message-Id: <20231223032548.1680738-9-david.e.box@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231223032548.1680738-1-david.e.box@linux.intel.com>
-References: <20231223032548.1680738-1-david.e.box@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB54D270;
+	Sat, 23 Dec 2023 05:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=0IQ6eY5t7H4CQgzSB2rccly8JDANanOLav3vAFYUpa8=; b=iJbC/nHq48kzd602Cpsynv12sd
+	m8RRjJpv0aNtdCYj4NQK/L1ZaXdeEeBF3O5qAAmQv4ljkFQq2GwHEezpzLMLnhVdG0hPOAuRqfY2d
+	45z03FdOfrZszkUSAurI/nAAtqZ9ksjSt3SDns+o/2kqLzBqdwodhw4BYhA+3+Xn3mEhzWthqXOQg
+	cePmfj9M3O58+eWmySxWkRxTEf1n+xzO6X90+C869DgRJI4IHDzVrKo+jFRlJ741uhVMISI+GbgvC
+	viWxjZabNAN+9Ge3DQlF1nIaSj0LidGiLlaLCSUX7GuR1RAnw000tpa34qbOzu6l1SHxYjWYuPg3U
+	sF33+WeQ==;
+Received: from [50.53.46.231] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rGuDw-007Opp-2L;
+	Sat, 23 Dec 2023 05:06:56 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Armin Wolf <W_Armin@gmx.de>,
+	Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	platform-driver-x86@vger.kernel.org
+Subject: [PATCH] platform/x86: wmi: linux/wmi.h: fix Excess kernel-doc description warning
+Date: Fri, 22 Dec 2023 21:06:55 -0800
+Message-ID: <20231223050656.14068-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add missing extern for tgl_h_reg_map. Fixes sparse warning:
+Remove the "private:" comment to prevent the kernel-doc warning:
 
-  drivers/platform/x86/intel/pmc/tgl.c:213:26: warning: symbol 'tgl_h_reg_map' was not declared. Should it be static?
+include/linux/wmi.h:27: warning: Excess struct member 'setable' description in 'wmi_device'
 
-Fixes: 544f7b7f651c ("platform/x86/intel/pmc: Add regmap for Tiger Lake H PCH")
-Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+Either a struct member is documented (via kernel-doc) or it's private,
+but not both.
+
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Armin Wolf <W_Armin@gmx.de>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Cc: platform-driver-x86@vger.kernel.org
 ---
- drivers/platform/x86/intel/pmc/core.h | 1 +
- 1 file changed, 1 insertion(+)
+ include/linux/wmi.h |    2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/platform/x86/intel/pmc/core.h b/drivers/platform/x86/intel/pmc/core.h
-index ce7b1cd2b194..2a797fccf5e6 100644
---- a/drivers/platform/x86/intel/pmc/core.h
-+++ b/drivers/platform/x86/intel/pmc/core.h
-@@ -452,6 +452,7 @@ extern const struct pmc_bit_map tgl_vnn_misc_status_map[];
- extern const struct pmc_bit_map tgl_signal_status_map[];
- extern const struct pmc_bit_map *tgl_lpm_maps[];
- extern const struct pmc_reg_map tgl_reg_map;
-+extern const struct pmc_reg_map tgl_h_reg_map;
- extern const struct pmc_bit_map adl_pfear_map[];
- extern const struct pmc_bit_map *ext_adl_pfear_map[];
- extern const struct pmc_bit_map adl_ltr_show_map[];
--- 
-2.34.1
-
+diff -- a/include/linux/wmi.h b/include/linux/wmi.h
+--- a/include/linux/wmi.h
++++ b/include/linux/wmi.h
+@@ -21,8 +21,6 @@
+  */
+ struct wmi_device {
+ 	struct device dev;
+-
+-	/* private: used by the WMI driver core */
+ 	bool setable;
+ };
+ 
 
