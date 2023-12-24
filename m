@@ -1,44 +1,44 @@
-Return-Path: <platform-driver-x86+bounces-615-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-616-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C15681DB02
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 24 Dec 2023 16:03:41 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FFA581DB06
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 24 Dec 2023 16:12:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4A1A91C20B2C
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 24 Dec 2023 15:03:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 29977281D2F
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 24 Dec 2023 15:12:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FA305672;
-	Sun, 24 Dec 2023 15:03:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9540568D;
+	Sun, 24 Dec 2023 15:12:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qfIu51we"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ow7XqMKi"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C39566B
-	for <platform-driver-x86@vger.kernel.org>; Sun, 24 Dec 2023 15:03:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 708ECC433C8
-	for <platform-driver-x86@vger.kernel.org>; Sun, 24 Dec 2023 15:03:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE32E63B2
+	for <platform-driver-x86@vger.kernel.org>; Sun, 24 Dec 2023 15:12:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 416FAC433C9
+	for <platform-driver-x86@vger.kernel.org>; Sun, 24 Dec 2023 15:12:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703430216;
-	bh=j6sVRfHbE+l1p/bsGALCQr8RREpxLzWSovPEId295kE=;
+	s=k20201202; t=1703430767;
+	bh=YnhnAqKjFMDKIYytO0sMM1369L3Cme+5cj/bMaaHDUs=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=qfIu51weS/czpCIbhjLGhADpocxGs1UrG/zlYiCVE9gzCx2+P+R4Cx7Ni5MEHXC6d
-	 EAwjs+a3Xfe9b4giUSLsWkP3hiYS1Jspk8yovkll5H6mtqO1vZ29XFM4FPo2rqhd50
-	 Wo+qcNXkmN1vl+huUQnk2d7jWEzdRtH06Cttuz0eos9ExOH6pPy57wLpBdZELbuh1d
-	 cU2eNJV+Vnl/At4vAdCCfbETjEzD2S72RvUmsgVe3aS0JpFewTJGKcUC4Zw8Spv8Of
-	 q7ZKnZZIbCLSrWatLu+2htTOdte9ZkYO3Pa4caYuxcRwDXT+llxqx4HOBUUBugKcu9
-	 /ZBKiubH6NJvQ==
+	b=Ow7XqMKi4JSVDwAMRd1y7oZjrsfwDc2ZrVFNMposf7qpEQ9P/FQIwLDinLOP+gLkH
+	 NyZYwg3kHlAxEGZ4XrxW7K8F/ibDMgoZ/xvxMFbjRCMpkkf5JAUeGWTN6hzGrA6n99
+	 bVrvYrj8gS19dWTRLzo0GxEKvBpukc6ELuvkhTcRMZ61U4xZNVGkZNJ+QzsHY/yrcD
+	 vvGkqzsumGn0nZMnGQrviUMmDlgax6QCpG3mT4+5b40gvN7eKr/gSKLuRByTPA17V2
+	 922jMhch09J1T2ymmjwAuV3U8SiP1cM5C+xIoPu4VKuODzqKm6SXNa5D4icxQOkcDT
+	 ymvzEQrsaZIyw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 54FD1C4332E; Sun, 24 Dec 2023 15:03:36 +0000 (UTC)
+	id 21C5FC4332E; Sun, 24 Dec 2023 15:12:47 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: platform-driver-x86@vger.kernel.org
 Subject: [Bug 218305] Ryzen 7 7840HS gets stuck at 544MHz frequency after a
  random number of suspend/resume cycles
-Date: Sun, 24 Dec 2023 15:03:36 +0000
+Date: Sun, 24 Dec 2023 15:12:47 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
@@ -47,14 +47,14 @@ X-Bugzilla-Component: Platform_x86
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: W_Armin@gmx.de
+X-Bugzilla-Who: aros@gmx.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-218305-215701-Oti2sZ6Gmb@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-218305-215701-XePPptQMfC@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-218305-215701@https.bugzilla.kernel.org/>
 References: <bug-218305-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -70,14 +70,87 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218305
 
-Armin Wolf (W_Armin@gmx.de) changed:
+--- Comment #3 from Artem S. Tashkinov (aros@gmx.com) ---
+(In reply to Armin Wolf from comment #2)
+> Does the issue also happen if you dont use ryzenadj?
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |W_Armin@gmx.de
+Yes, today a single suspend resume cycle has been enough to trigger this bu=
+g.
 
---- Comment #2 from Armin Wolf (W_Armin@gmx.de) ---
-Does the issue also happen if you dont use ryzenadj?
+This is the result of this bug (no settings have been altered prior):
+
+ryzenadj -i
+CPU Family: Phoenix
+SMU_SERVICE REQ_ID:0x3
+SMU_SERVICE REQ: arg0: 0x0, arg1:0x0, arg2:0x0, arg3:0x0, arg4: 0x0, arg5: =
+0x0
+SMU_SERVICE REP: REP: 0x1, arg0: 0xe, arg1:0x0, arg2:0x0, arg3:0x0, arg4: 0=
+x0,
+arg5: 0x0
+SMU BIOS Interface Version: 14
+Version: v0.14.0=20
+init_table
+SMU_SERVICE REQ_ID:0x6
+SMU_SERVICE REQ: arg0: 0x0, arg1:0x0, arg2:0x0, arg3:0x0, arg4: 0x0, arg5: =
+0x0
+SMU_SERVICE REP: REP: 0x1, arg0: 0x4c0008, arg1:0x0, arg2:0x0, arg3:0x0, ar=
+g4:
+0x0, arg5: 0x0
+SMU_SERVICE REQ_ID:0x66
+SMU_SERVICE REQ: arg0: 0x0, arg1:0x0, arg2:0x0, arg3:0x0, arg4: 0x0, arg5: =
+0x0
+SMU_SERVICE REP: REP: 0x1, arg0: 0x9e300000, arg1:0x7, arg2:0x0, arg3:0x0,
+arg4: 0x0, arg5: 0x0
+SMU_SERVICE REQ_ID:0x65
+SMU_SERVICE REQ: arg0: 0x0, arg1:0x0, arg2:0x0, arg3:0x0, arg4: 0x0, arg5: =
+0x0
+SMU_SERVICE REP: REP: 0xfd, arg0: 0x0, arg1:0x0, arg2:0x0, arg3:0x0, arg4: =
+0x0,
+arg5: 0x0
+SMU_SERVICE REQ_ID:0x65
+SMU_SERVICE REQ: arg0: 0x0, arg1:0x0, arg2:0x0, arg3:0x0, arg4: 0x0, arg5: =
+0x0
+SMU_SERVICE REP: REP: 0x1, arg0: 0x0, arg1:0x0, arg2:0x0, arg3:0x0, arg4: 0=
+x0,
+arg5: 0x0
+PM Table Version: 4c0008
+SMU_SERVICE REQ_ID:0x65
+SMU_SERVICE REQ: arg0: 0x0, arg1:0x0, arg2:0x0, arg3:0x0, arg4: 0x0, arg5: =
+0x0
+SMU_SERVICE REP: REP: 0x1, arg0: 0x0, arg1:0x0, arg2:0x0, arg3:0x0, arg4: 0=
+x0,
+arg5: 0x0
+|        Name         |   Value   |     Parameter      |
+|---------------------|-----------|--------------------|
+| STAPM LIMIT         |    51.000 | stapm-limit        |
+| STAPM VALUE         |     4.150 |                    |
+| PPT LIMIT FAST      |    51.000 | fast-limit         |
+| PPT VALUE FAST      |     6.040 |                    |
+| PPT LIMIT SLOW      |    41.000 | slow-limit         |
+| PPT VALUE SLOW      |     4.056 |                    |
+| StapmTimeConst      |       nan | stapm-time         |
+| SlowPPTTimeConst    |       nan | slow-time          |
+| PPT LIMIT APU       |       nan | apu-slow-limit     |
+| PPT VALUE APU       |       nan |                    |
+| TDC LIMIT VDD       |       nan | vrm-current        |
+| TDC VALUE VDD       |       nan |                    |
+| TDC LIMIT SOC       |       nan | vrmsoc-current     |
+| TDC VALUE SOC       |       nan |                    |
+| EDC LIMIT VDD       |       nan | vrmmax-current     |
+| EDC VALUE VDD       |       nan |                    |
+| EDC LIMIT SOC       |       nan | vrmsocmax-current  |
+| EDC VALUE SOC       |       nan |                    |
+| THM LIMIT CORE      |       nan | tctl-temp          |
+| THM VALUE CORE      |       nan |                    |
+| STT LIMIT APU       |       nan | apu-skin-temp      |
+| STT VALUE APU       |       nan |                    |
+| STT LIMIT dGPU      |       nan | dgpu-skin-temp     |
+| STT VALUE dGPU      |       nan |                    |
+| CCLK Boost SETPOINT |       nan | power-saving /     |
+| CCLK BUSY VALUE     |       nan | max-performance    |
+
+
+STAMP, PPT FAST and PPT SLOW all have broken values.
 
 --=20
 You may reply to this email to add a comment.
