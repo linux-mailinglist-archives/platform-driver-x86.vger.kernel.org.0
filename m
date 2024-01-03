@@ -1,274 +1,127 @@
-Return-Path: <platform-driver-x86+bounces-732-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-736-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CD7482358A
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  3 Jan 2024 20:27:54 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 478E78235A7
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  3 Jan 2024 20:36:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EE3D51C23577
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  3 Jan 2024 19:27:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A77E9B21168
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  3 Jan 2024 19:36:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2B4E1CAAE;
-	Wed,  3 Jan 2024 19:27:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A61AE1CAAF;
+	Wed,  3 Jan 2024 19:35:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="EYAcQcz6"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="qrTZQ+EK"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 082AA1CA9F;
-	Wed,  3 Jan 2024 19:27:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8DD1D521
+	for <platform-driver-x86@vger.kernel.org>; Wed,  3 Jan 2024 19:35:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-	t=1704310051; x=1704914851; i=w_armin@gmx.de;
-	bh=mIHX7j8fEUd+Bx6DEm5FMjslE50yqHiQ75c9lG7NPSc=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
-	 References;
-	b=EYAcQcz68YHbGTvNWR0jkLo0zxNjzOR1Dojd1mo7u9HsuAUbZY+ychRQzSKdnvF8
-	 L1eCy//+OCMiduw54zwJXodrMMe9JSmjLy1DMgwv/IcSldCJXlhGWHa3rFjw9IUEL
-	 KyeZdVYf4g9fwsyo7CQei+BYtWw2/8lBwA4pMXdAqboPIL3E4t6QrM3zGelr1e1SI
-	 2stQ17cNUT21N2/hk/mPAgol8Ish4f5ru9dkbF/QhH9dykwPDk0u7GLp//egbfPt7
-	 HXgBovDlNUQuxzZRVu59uTuwQnC1CLAbfu6rXBm3uICrf7Umovp0/wbh/GfgEg7wc
-	 GIp4nx+ThnjvgFkSAw==
+	t=1704310533; x=1704915333; i=w_armin@gmx.de;
+	bh=4aOPEgYdvI2YtsRamc8qxwrUn0JFFoMkITvR+rpFGWg=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=qrTZQ+EKgJOkzkKVAD+3KLmoIbD/yA4hzAuzRXxGycpHCH30JoqG0QkLEALJMF1g
+	 bHtrwUKKu9Cr3hGyEaDE9V1MEzyKukwEvVK5TenJlq5Zjq2khaNJQpf1ft2ps1mGd
+	 VizOmvMJ/cm+yiQxGTXIxlL4m+Fq48vyzKPDEZZdrN/SB7Qq13tSxIAhT13E+nW7U
+	 9x7+fgJYi+ELYAgXl62gDyqZE8U8sj3hbCdw7b8kgAx4Yh/ylh/ZBjlHy1RaFrVUZ
+	 ACGZqMAZSd7HR+vYgBjJ4L/O3ZnQl5m8lX9JZZTpiWh6DJLU54M5QEkPYMFX3jwYO
+	 BC2J9v+N9ak7op4izQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from mx-amd-b650.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
- (mrgmx004 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 1M3DO3-1rLwFT45PB-003eUr; Wed, 03 Jan 2024 20:27:31 +0100
-From: Armin Wolf <W_Armin@gmx.de>
-To: hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com
-Cc: platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] platform/x86: wmi: Fix notify callback locking
-Date: Wed,  3 Jan 2024 20:27:07 +0100
-Message-Id: <20240103192707.115512-5-W_Armin@gmx.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240103192707.115512-1-W_Armin@gmx.de>
-References: <20240103192707.115512-1-W_Armin@gmx.de>
+Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N2V4P-1rDaR81183-013vNq; Wed, 03
+ Jan 2024 20:35:33 +0100
+Message-ID: <13fad62a-c82c-45b6-bd78-ad51232dbe14@gmx.de>
+Date: Wed, 3 Jan 2024 20:35:32 +0100
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: ERROR: Writing to dgpu_disable cause Input/Output error
+Content-Language: en-US
+To: Athul Krishna <athul.krishna.kr@protonmail.com>,
+ "corentin.chary@gmail.com" <corentin.chary@gmail.com>
+Cc: "acpi4asus-user@lists.sourceforge.net"
+ <acpi4asus-user@lists.sourceforge.net>,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
+References: <GuvjyxvIK4bJrayfrvuGPORpcPhPT9WFxxtQ1nqeEyamn_po0WuVInoXQVRmpwBQkW9K0CCwDqSg6kXPEI9YTlU0LQ_FtIMmpxluOirycpw=@protonmail.com>
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <GuvjyxvIK4bJrayfrvuGPORpcPhPT9WFxxtQ1nqeEyamn_po0WuVInoXQVRmpwBQkW9K0CCwDqSg6kXPEI9YTlU0LQ_FtIMmpxluOirycpw=@protonmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Ezw9sfKGvnBuc/nJwB1N5aPeICUYOeqsx2POT4RLIZN1+qslB+o
- EoZMjnTrOknTA5R66AUypebL1gB0RlYq8ErFAu5C5G+wDC32hVWrP5131mSwgWciHfQQ2SZ
- 5odyMguMYQrYqRj1ZjhnSYL6vu6Yl7Nk0WftTZQOWj0vlqC1DOFqFK9yz8JdkTJuX9v4e97
- 5r/TmF8RKDnK76i0xitMQ==
+X-Provags-ID: V03:K1:f93Urp/xupwYL5Vjl1nYypYm7PUxSdgnae63kdJqrGHe4b19hGK
+ 2gIRuBYVKZ/2FJoVsfqQHZHKawN4ju2Ln4sx2gKzjRh+CUhWBkoLHSA8GpJVWtby3NcHGht
+ w4v3cH43xJIa4h7k1dk/kV/U3zW0o0ik5WHgrsElHhn5CK0s5HIwmK/QKzPq0kJwAadl776
+ MqAdwObQQsORdzCTrzF3A==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:YsK1EHBHo34=;1OmhmvCDOjzZ/OQ/bkuQMBsWwip
- 1Q6mcoSJLP9URaISfHpYiWL0m1/PdXhLnRDYS93CTmtkWO/dO5oSen7dLLBS3nL4/8Hy2kkBr
- 2us0QNh/Ie8TWyF/PZg8zPteFVJ9F1o8mC0VB2YZVvAnpgU5LEDAwgLok4C3aUZkbmceiLdYj
- xbDVSODKpC0RVUCy811WKMobHHIMek6EpCtqOFKUZYLqG0fJ3ivG0oUw1+kLTWl72tR8gMfWw
- P5042PuE72ONWdOz8OQ+z+acpR/UUCLgfazzLFTsByd3H6zMG1vgs0Ak7NWZezFpocB0XYwwY
- 2Stt54ellOJ45DnbOb6aTJI+36tHUkXxgd/Zsy7hiCJfu/COWpQOe8CKYre0l4pSnEiepU75U
- Z+CILvqu3jo6tPBMO3NHK8bwPr/7eq1pSQgdOKUMbJjaAZvXa/klTG2ht6XyoJ9f34UMM8t1p
- qmL5KRlDBmLLOQ99EvNJ3HxS5e5yL84VgiDQh8hSll+C3lnvBJaIrbqPlQmkB4g5sMVYC8NoI
- 7VflSP2gEAGtQMxtqNIyaPRrg9/z+djYOpL276lxcffKWCQ3H5MmHbI2ZOOAKBMXP4zK/m6De
- ANF0z70XSmgA1HAynm6KFnN5rz00VtYrZK+DanFTi9IPoKXwFDXgfuYAEcDXYjHfTRm1N5TTk
- 5D10Ai8/Y2mJA/LzUZt8RVxMAYxp6ygjnWHW7Q5TNrTw3Bo3ES48r6b/h5oRyoL5A/QiUDz6t
- NAx+BPt0AP7GjuncxPFIGRXjSMnwVQgO0VAnG3DYHInErqBB3o8cRotDxyz9IQ+Fc/JpK1lAY
- GNEWYzO3f0XIYKEWnXvAAprej5ZYEkWaorMPO5Mt/vSlR0AzjDgIw03vBuJFDKYVHmwD5tZw/
- Zz0hNwP0oQNR4KZ1ioJMC7l6RL3+xT5PFqZZ2HjHABeqXulwkOoWuQdVHvWq7YZMj9hycBkv5
- FUp8H+dtmqzNhWFlkNT9A5rr2ls=
+UI-OutboundReport: notjunk:1;M01:P0:21DVU553YWc=;BfDrSeUbCgYwpgV2Z7c8Oxv/pBC
+ r2rLai4GJ47XC3NYwmxjoogy0i5PmASSU8BVC31vVbfh+8WCaYhrF+D49/0+uei5jzHM5XeYm
+ hT6A6rA/HqcHQxhgchtQihlK57lRLVx51umcTO2MOHh2SW+p3exmzdUHkYB6bynEURbYi9GN3
+ O0bWTR8fa9Y0MMqJ3GV4NcXgRN8r4raYjI1AiMXgttjF8wOMvZXPBjuS1SBJIBAYLNvFlhcxv
+ Vq/b4JorAWTb52H0lMTZHy/whKntE/AKI6F6LKzcX2ytp0LGvSPMS/OrxC1pjMozGBQS/fHkw
+ g3esgWEK0zx+EXgPr5hlRVN5eCHK3xl0EbrfI4TRfOGPFF0GvrEjNQgPxjAIlyiyNyZG8GDil
+ 69nGR5rWJXSJ3NvSgL9gjYAqWKsVs3iQT4cf1QBDFsuaYHImajQ1ZTVv7c7zUlV6bR/Sgi2hV
+ QICSW2RnpiJsitIvO6FEuEVEmQKpY3BEuzu3ONG0DMwMnurEencwK2PFHZfMXZT5F6iJ0G7sR
+ ViBUA3dSxAstjq7wIjL6wKf2p2lO4WFrZXGcNxlWAbW6RGH4Fltl46ql3GpzfWsBTAzwfSopa
+ FZGtyoWi75P2e2nTmUQ/M870RB6+IM0c/w2IA5wX6wJdfflKt3TT8xlo0enRxt0wkgg+EUykT
+ fB51qQ863fngbgq1B3b/oiX0ncOm0R6OU8lFyneKGvj0FVPsp2oKRBIW7Gr4dBqlBedIMQ1IC
+ ufN2UmX4Uke9cPOuwmw7mvW44GB9LEkt2umTZAufCyt7NluxisfFhMMrWA+daEJLokJR1RiLI
+ 08bJOssEaa4ATGJkV/v85myJDL4LcXxEWHW5HK+R6mzr9n9fTrSWjcN9cAkyPiKRPqReCPmjy
+ VwPXQFio3BtGGJ7cENO8X4mOOMDUJJfneGQ4Q6a+hwfcJtuqK5XaJUSWcuePtxLHH3e/vCtK1
+ 7rbzsj53b2zlKM4MF5mSNzdEiX0=
 
-When an legacy WMI event handler is removed, an WMI event could
-have called the handler just before it was removed, meaning the
-handler could still be running after wmi_remove_notify_handler()
-returns.
-Something similar could also happens when using the WMI bus, as
-the WMI core might still call the notify() callback from an WMI
-driver even if its remove() callback was just called.
+Am 03.01.24 um 19:51 schrieb Athul Krishna:
 
-Fix this by introducing a rw semaphore which ensures that the
-event state of a WMI device does not change while the WMI core
-is handling an event for it.
+> Hello,
+> This is my first time reporting an issue in the kernel.
+>
+> *Device Details*:
+>
+>   * Asus Zephyrus G14 (||||||*GA402RJ*)
+>   * Latest BIOS
+>   * Arch_x86_64
+>   * Kernel: 6.6.9
+>   * Minimal install=E2=80=8B=E2=80=8B using archinstall
+>
+>
+> *ISSUE*: Using /dgpu_disable /provided by _asus-nb-wmi _to disable and
+> enable dedicated gpu,
+> causes system crash and reboots, randomly.
+> =C2=A09/10 times writing 0 to dgpu_disable will produce an Input/Output
+> error, but the value will be changed to 0, half the time system will
+> crash and reboot. While writing 1 to it doesn't produce an error, I
+> have observed system crash twice just after that.
+>
+> *Steps to Reproduce:*
+>
+>   * Remove dpgu: echo 1 | sudo tee ../remove (dgpu path)
+>   * echo 1 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
+>   * echo 0 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
+>
+>   * echo 1 | sudo tee /sys/bus/pci/rescan
+>
+>
+> After writing 0 to dgpu_disable, there's an entry in journal about an
+> ACPI bug.
+> Output of 'journalctl -p 3' and lspci is attached.
 
-Tested on a Dell Inspiron 3505 and a Acer Aspire E1-731.
+Hi,
 
-Fixes: 1686f5444546 ("platform/x86: wmi: Incorporate acpi_install_notify_h=
-andler")
-Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-=2D--
- drivers/platform/x86/wmi.c | 71 +++++++++++++++++++++++++-------------
- 1 file changed, 47 insertions(+), 24 deletions(-)
+Can you share the output of "acpidump" and the content of "/sys/bus/wmi/de=
+vices/05901221-D566-11D1-B2F0-00A0C9062910[-X]/bmof"?
+The bmof files contain a description of the WMI interfaces of your machine=
+, which might be important for diagnosing the error.
 
-diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
-index 6a886635689a..1aa097d34690 100644
-=2D-- a/drivers/platform/x86/wmi.c
-+++ b/drivers/platform/x86/wmi.c
-@@ -25,6 +25,7 @@
- #include <linux/list.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-+#include <linux/rwsem.h>
- #include <linux/slab.h>
- #include <linux/sysfs.h>
- #include <linux/types.h>
-@@ -56,7 +57,6 @@ static_assert(__alignof__(struct guid_block) =3D=3D 1);
-
- enum {	/* wmi_block flags */
- 	WMI_READ_TAKES_NO_ARGS,
--	WMI_PROBED,
- };
-
- struct wmi_block {
-@@ -64,8 +64,10 @@ struct wmi_block {
- 	struct list_head list;
- 	struct guid_block gblock;
- 	struct acpi_device *acpi_device;
-+	struct rw_semaphore notify_lock;	/* Protects notify callback add/remove =
-*/
- 	wmi_notify_handler handler;
- 	void *handler_data;
-+	bool driver_ready;
- 	unsigned long flags;
- };
-
-@@ -602,6 +604,8 @@ acpi_status wmi_install_notify_handler(const char *gui=
-d,
- 		return AE_ERROR;
-
- 	wblock =3D container_of(wdev, struct wmi_block, dev);
-+
-+	down_write(&wblock->notify_lock);
- 	if (wblock->handler) {
- 		status =3D AE_ALREADY_ACQUIRED;
- 	} else {
-@@ -613,6 +617,7 @@ acpi_status wmi_install_notify_handler(const char *gui=
-d,
-
- 		status =3D AE_OK;
- 	}
-+	up_write(&wblock->notify_lock);
-
- 	wmi_device_put(wdev);
-
-@@ -639,6 +644,8 @@ acpi_status wmi_remove_notify_handler(const char *guid=
-)
- 		return AE_ERROR;
-
- 	wblock =3D container_of(wdev, struct wmi_block, dev);
-+
-+	down_write(&wblock->notify_lock);
- 	if (!wblock->handler) {
- 		status =3D AE_NULL_ENTRY;
- 	} else {
-@@ -650,6 +657,7 @@ acpi_status wmi_remove_notify_handler(const char *guid=
-)
-
- 		status =3D AE_OK;
- 	}
-+	up_write(&wblock->notify_lock);
-
- 	wmi_device_put(wdev);
-
-@@ -895,7 +903,9 @@ static int wmi_dev_probe(struct device *dev)
- 		}
- 	}
-
--	set_bit(WMI_PROBED, &wblock->flags);
-+	down_write(&wblock->notify_lock);
-+	wblock->driver_ready =3D true;
-+	up_write(&wblock->notify_lock);
-
- 	return 0;
- }
-@@ -905,7 +915,9 @@ static void wmi_dev_remove(struct device *dev)
- 	struct wmi_block *wblock =3D dev_to_wblock(dev);
- 	struct wmi_driver *wdriver =3D drv_to_wdrv(dev->driver);
-
--	clear_bit(WMI_PROBED, &wblock->flags);
-+	down_write(&wblock->notify_lock);
-+	wblock->driver_ready =3D false;
-+	up_write(&wblock->notify_lock);
-
- 	if (wdriver->remove)
- 		wdriver->remove(dev_to_wdev(dev));
-@@ -1018,6 +1030,8 @@ static int wmi_create_device(struct device *wmi_bus_=
-dev,
- 		wblock->dev.setable =3D true;
-
-  out_init:
-+	init_rwsem(&wblock->notify_lock);
-+	wblock->driver_ready =3D false;
- 	wblock->dev.dev.bus =3D &wmi_bus_type;
- 	wblock->dev.dev.parent =3D wmi_bus_dev;
-
-@@ -1190,6 +1204,26 @@ acpi_wmi_ec_space_handler(u32 function, acpi_physic=
-al_address address,
- 	}
- }
-
-+static void wmi_notify_driver(struct wmi_block *wblock)
-+{
-+	struct wmi_driver *driver =3D drv_to_wdrv(wblock->dev.dev.driver);
-+	struct acpi_buffer data =3D { ACPI_ALLOCATE_BUFFER, NULL };
-+	acpi_status status;
-+
-+	if (!driver->no_notify_data) {
-+		status =3D get_event_data(wblock, &data);
-+		if (ACPI_FAILURE(status)) {
-+			dev_warn(&wblock->dev.dev, "Failed to get event data\n");
-+			return;
-+		}
-+	}
-+
-+	if (driver->notify)
-+		driver->notify(&wblock->dev, data.pointer);
-+
-+	kfree(data.pointer);
-+}
-+
- static int wmi_notify_device(struct device *dev, void *data)
- {
- 	struct wmi_block *wblock =3D dev_to_wblock(dev);
-@@ -1198,28 +1232,17 @@ static int wmi_notify_device(struct device *dev, v=
-oid *data)
- 	if (!(wblock->gblock.flags & ACPI_WMI_EVENT && wblock->gblock.notify_id =
-=3D=3D *event))
- 		return 0;
-
--	/* If a driver is bound, then notify the driver. */
--	if (test_bit(WMI_PROBED, &wblock->flags) && wblock->dev.dev.driver) {
--		struct wmi_driver *driver =3D drv_to_wdrv(wblock->dev.dev.driver);
--		struct acpi_buffer evdata =3D { ACPI_ALLOCATE_BUFFER, NULL };
--		acpi_status status;
--
--		if (!driver->no_notify_data) {
--			status =3D get_event_data(wblock, &evdata);
--			if (ACPI_FAILURE(status)) {
--				dev_warn(&wblock->dev.dev, "failed to get event data\n");
--				return -EIO;
--			}
--		}
--
--		if (driver->notify)
--			driver->notify(&wblock->dev, evdata.pointer);
--
--		kfree(evdata.pointer);
--	} else if (wblock->handler) {
--		/* Legacy handler */
--		wblock->handler(*event, wblock->handler_data);
-+	down_read(&wblock->notify_lock);
-+	/* The WMI driver notify handler conflicts with the legacy WMI handler.
-+	 * Because of this the WMI driver notify handler takes precedence.
-+	 */
-+	if (wblock->dev.dev.driver && wblock->driver_ready) {
-+		wmi_notify_driver(wblock);
-+	} else {
-+		if (wblock->handler)
-+			wblock->handler(*event, wblock->handler_data);
- 	}
-+	up_read(&wblock->notify_lock);
-
- 	acpi_bus_generate_netlink_event(wblock->acpi_device->pnp.device_class,
- 					dev_name(&wblock->dev.dev), *event, 0);
-=2D-
-2.39.2
+Thanks,
+Armin Wolf
 
 
