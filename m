@@ -1,51 +1,51 @@
-Return-Path: <platform-driver-x86+bounces-859-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-863-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11D34826F29
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Jan 2024 14:03:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FDBB826F32
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Jan 2024 14:03:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 40EAB1C2281B
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Jan 2024 13:03:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 631A01C22784
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Jan 2024 13:03:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3DA741229;
-	Mon,  8 Jan 2024 13:02:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9757341215;
+	Mon,  8 Jan 2024 13:03:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dPCylrb8"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="g65SwyyA"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2305541226
-	for <platform-driver-x86@vger.kernel.org>; Mon,  8 Jan 2024 13:02:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DDD640C1B
+	for <platform-driver-x86@vger.kernel.org>; Mon,  8 Jan 2024 13:03:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704718967;
+	s=mimecast20190719; t=1704718989;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8CTzeLq5UY/1OvWIJuxseZGoQrZ+HB1rfwOl+DYaY4U=;
-	b=dPCylrb8v1DNleuseze7//CZPv+AKrOqCXakgM3NsNt60cVTSSHPHbmyU4p2UCI+d49Bui
-	tk4T6T2MXHI/NY4MSVSutYwgte2zHL2ytvgnLHZ8x1/nMv9HuvOnrVoZ5gTYywCuQf2syG
-	ojJMA9I4MASCyHThOtRH5P1CvIwFyPQ=
+	bh=9XcEZtVlWJbYKm9+7v5nWl09Pma1pqjIHTzB6rryUDo=;
+	b=g65SwyyAutJ3LHgBT2OOmsdHD5NG5b1ibqUFi+Aka9tYB8ABrGvhjlUaA+A0mQ4gVlD+BL
+	hmE0dpw/RxZQJFWOtZFNVQqVyfzyoicLO7SLHj03vxa7CEEeg04rKARMyIg4t7sX/5PT+L
+	o5UQ0rJ/iYDQqnTYg6cIkhKZ1SrqY/8=
 Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
  by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-284-n7nOq_g9OM2RfuHrkU3yzg-1; Mon,
- 08 Jan 2024 08:02:46 -0500
-X-MC-Unique: n7nOq_g9OM2RfuHrkU3yzg-1
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-509-5uJmH4lkOfGH4zLP4AdeuQ-1; Mon,
+ 08 Jan 2024 08:03:04 -0500
+X-MC-Unique: 5uJmH4lkOfGH4zLP4AdeuQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D017C3806704;
-	Mon,  8 Jan 2024 13:02:45 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4BFF329AC01C;
+	Mon,  8 Jan 2024 13:02:48 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.194.88])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 4386D502C;
-	Mon,  8 Jan 2024 13:02:43 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0D44F5190;
+	Mon,  8 Jan 2024 13:02:45 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Johannes Stezenbach <js@sig21.net>,
 	Takashi Iwai <tiwai@suse.de>,
@@ -62,9 +62,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	platform-driver-x86@vger.kernel.org,
 	x86@kernel.org,
 	linux-clk@vger.kernel.org
-Subject: [PATCH v3 1/5] clk: x86: Move clk-pmc-atom register defines to include/linux/platform_data/x86/pmc_atom.h
-Date: Mon,  8 Jan 2024 14:02:34 +0100
-Message-ID: <20240108130238.540794-2-hdegoede@redhat.com>
+Subject: [PATCH v3 2/5] platform/x86: pmc_atom: Annotate d3_sts register bit defines
+Date: Mon,  8 Jan 2024 14:02:35 +0100
+Message-ID: <20240108130238.540794-3-hdegoede@redhat.com>
 In-Reply-To: <20240108130238.540794-1-hdegoede@redhat.com>
 References: <20240108130238.540794-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -73,84 +73,48 @@ List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 
-Move the register defines for the Atom (Bay Trail, Cherry Trail) PMC
-clocks to include/linux/platform_data/x86/pmc_atom.h.
+The include/linux/platform_data/x86/pmc_atom.h d3_sts register bit defines
+are named after how these bits are used on Bay Trail devices.
 
-This is a preparation patch to extend the S0i3 readiness checks
-in drivers/platform/x86/pmc_atom.c with checking that the PMC
-clocks are off on suspend entry.
+On Cherry Trail (CHT) devices some of these bits have a different meaning
+according to the datasheet.
 
-Note these are added to include/linux/platform_data/x86/pmc_atom.h rather
-then to include/linux/platform_data/x86/clk-pmc-atom.h because the former
-already has all the other Atom PMC register defines.
+At a comment to the defines for bits which have a different meaning
+on Cherry Trail devices.
 
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
-Changes in v2:
-- This is a new patch in v2 of this series
----
- drivers/clk/x86/clk-pmc-atom.c             | 13 +------------
- include/linux/platform_data/x86/pmc_atom.h | 13 +++++++++++++
- 2 files changed, 14 insertions(+), 12 deletions(-)
+ include/linux/platform_data/x86/pmc_atom.h | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/clk/x86/clk-pmc-atom.c b/drivers/clk/x86/clk-pmc-atom.c
-index 2974dd0ec6f4..5ec9255e33fa 100644
---- a/drivers/clk/x86/clk-pmc-atom.c
-+++ b/drivers/clk/x86/clk-pmc-atom.c
-@@ -11,23 +11,12 @@
- #include <linux/err.h>
- #include <linux/io.h>
- #include <linux/platform_data/x86/clk-pmc-atom.h>
-+#include <linux/platform_data/x86/pmc_atom.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
- 
- #define PLT_CLK_NAME_BASE	"pmc_plt_clk"
- 
--#define PMC_CLK_CTL_OFFSET		0x60
--#define PMC_CLK_CTL_SIZE		4
--#define PMC_CLK_NUM			6
--#define PMC_CLK_CTL_GATED_ON_D3		0x0
--#define PMC_CLK_CTL_FORCE_ON		0x1
--#define PMC_CLK_CTL_FORCE_OFF		0x2
--#define PMC_CLK_CTL_RESERVED		0x3
--#define PMC_MASK_CLK_CTL		GENMASK(1, 0)
--#define PMC_MASK_CLK_FREQ		BIT(2)
--#define PMC_CLK_FREQ_XTAL		(0 << 2)	/* 25 MHz */
--#define PMC_CLK_FREQ_PLL		(1 << 2)	/* 19.2 MHz */
--
- struct clk_plt_fixed {
- 	struct clk_hw *clk;
- 	struct clk_lookup *lookup;
 diff --git a/include/linux/platform_data/x86/pmc_atom.h b/include/linux/platform_data/x86/pmc_atom.h
-index b8a701c77fd0..557622ef0390 100644
+index 557622ef0390..161e4bc1c9ee 100644
 --- a/include/linux/platform_data/x86/pmc_atom.h
 +++ b/include/linux/platform_data/x86/pmc_atom.h
-@@ -43,6 +43,19 @@
- 				BIT_ORED_DEDICATED_IRQ_GPSC | \
- 				BIT_SHARED_IRQ_GPSS)
- 
-+/* External clk generator settings */
-+#define PMC_CLK_CTL_OFFSET		0x60
-+#define PMC_CLK_CTL_SIZE		4
-+#define PMC_CLK_NUM			6
-+#define PMC_CLK_CTL_GATED_ON_D3		0x0
-+#define PMC_CLK_CTL_FORCE_ON		0x1
-+#define PMC_CLK_CTL_FORCE_OFF		0x2
-+#define PMC_CLK_CTL_RESERVED		0x3
-+#define PMC_MASK_CLK_CTL		GENMASK(1, 0)
-+#define PMC_MASK_CLK_FREQ		BIT(2)
-+#define PMC_CLK_FREQ_XTAL		(0 << 2)	/* 25 MHz */
-+#define PMC_CLK_FREQ_PLL		(1 << 2)	/* 19.2 MHz */
-+
- /* The timers accumulate time spent in sleep state */
- #define	PMC_S0IR_TMR		0x80
- #define	PMC_S0I1_TMR		0x84
+@@ -117,14 +117,14 @@
+ #define	BIT_SCC_SDIO		BIT(9)
+ #define	BIT_SCC_SDCARD		BIT(10)
+ #define	BIT_SCC_MIPI		BIT(11)
+-#define	BIT_HDA			BIT(12)
++#define	BIT_HDA			BIT(12) /* CHT datasheet: reserved */
+ #define	BIT_LPE			BIT(13)
+ #define	BIT_OTG			BIT(14)
+-#define	BIT_USH			BIT(15)
+-#define	BIT_GBE			BIT(16)
+-#define	BIT_SATA		BIT(17)
+-#define	BIT_USB_EHCI		BIT(18)
+-#define	BIT_SEC			BIT(19)
++#define	BIT_USH			BIT(15) /* CHT datasheet: reserved */
++#define	BIT_GBE			BIT(16) /* CHT datasheet: reserved */
++#define	BIT_SATA		BIT(17) /* CHT datasheet: reserved */
++#define	BIT_USB_EHCI		BIT(18) /* CHT datasheet: XHCI!    */
++#define	BIT_SEC			BIT(19) /* BYT datasheet: reserved */
+ #define	BIT_PCIE_PORT0		BIT(20)
+ #define	BIT_PCIE_PORT1		BIT(21)
+ #define	BIT_PCIE_PORT2		BIT(22)
 -- 
 2.43.0
 
