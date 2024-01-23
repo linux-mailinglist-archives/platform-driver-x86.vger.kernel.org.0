@@ -1,154 +1,220 @@
-Return-Path: <platform-driver-x86+bounces-961-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-963-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B60E983911F
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Jan 2024 15:17:06 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54724839142
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Jan 2024 15:22:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5E0452878DE
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Jan 2024 14:17:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D83821F2ABA0
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Jan 2024 14:22:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 484D35F868;
-	Tue, 23 Jan 2024 14:15:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C1125F86F;
+	Tue, 23 Jan 2024 14:22:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="af1nx1xe"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="emgZWZfG"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2086.outbound.protection.outlook.com [40.107.220.86])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B00F35F861
-	for <platform-driver-x86@vger.kernel.org>; Tue, 23 Jan 2024 14:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.86
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706019346; cv=fail; b=uP/kXUax+oy+bc006MmAZzoJhbAjzWHuAngkYdwkl5J0Vdqs7NK2Tqo7TCkf/GI2Dg/ni8AoFS0+lUY5PQtJ2VINblKwpYmAyoMw/NEE6AYOCV0A72icmhXlzTjunushoS4r4CHY1beA6pstfJGB+KgMET2BmNDqJ63Y8AJof8U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706019346; c=relaxed/simple;
-	bh=7YXSBUjQ3dMUT1Ptkt+nyxzmgIu/zduGrUGp5Hme6+g=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lgWanz0SEefAuPSjf0zwLMwSR/cy8UvS7GvW3ZVodazIiDv2EcT+mad+KonRC8LsjyD0taqm0yVySLsnz8LmRfoNdBAbcwx5jS7GHfwuPYq8A8MzSki+WVWChPK3NzQBVSMCq2RnIWK05E4WIsjyQ1Ehg0LCrPvIwY41XRGGyJ4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=af1nx1xe; arc=fail smtp.client-ip=40.107.220.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=johNJeU1mcEYx+l38Ow4/EPdnwZrYTFC+7MFgFHn8qChqV5GykjnXir63cr5zt0tSyZZAWJGteokgDd2Cxf4ey5QFaVAuTQMcU01zVIFRblePRhsdjT9jWoQZrsz32YXb2wyjRr3GeTwuphuYe+cRL15R6Ab31Tpsy3jzMkJb0RHDuhcMpz2/gCW8qldk9PGqFymLhVFXBKWwIVa0y9IhqYgLWQofbSP3l4p56DpsduqyyEpVF0car8/LTUrsmJp0qCCKtYZAlzeZDlY+Q8bHBOzFRZRJw3Ixb61myOiTwj+pabDEgKpyrz8gL8Rq0fYppPgJ4y27CixTaEXOahTBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=91wY/S1vR0sT+f0kqK2WRdOjII3S23732r2mtV4Nd28=;
- b=BIZxmTLXRCLeiERrQCz/Q1vgQyntPm3CpW5ziDJuZte08DphvWpOlgtB03WsikFjJYYZvcV6JSob/+HaW2V1TCeAvEVztrFCtdbSM19n13ATLWpb7Evcaxwh7ggyisEhYOIYE8kI916abvfI7XM5nqET8AuRIk3K/9ol6jRAO6QC4AA9xmchlMbLf8GG5uB7uCstHtwVfJcJVDIBEmJQGmg0st8mpBseXCEyTAmaUT29iwhX6LzQtT3Oaw/NNfGAthVs9MMWgac1901FCZmD5MqjDpMRbQbagS/MHF+6VavB4ns1eYF4vQOHuadMW1b9HXFoLNpo8i4E7ByG2jMrJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=91wY/S1vR0sT+f0kqK2WRdOjII3S23732r2mtV4Nd28=;
- b=af1nx1xeQ2BVWEjjNjVBLTodzvqaUBJszTjsIcjYMArsPT+HAqovPCXN5exjfqHjO4xTY7Mq/DNbebWAjusn9igITfyVkmLd/1Do0UsTQUAKNJBv4/B06SE/Zk+guScR6ahy3jEb8rZDwqxiiET1cF2XFyfJ6yNaOn1zixfXG+Q=
-Received: from CYXPR02CA0040.namprd02.prod.outlook.com (2603:10b6:930:cc::25)
- by SA0PR12MB4511.namprd12.prod.outlook.com (2603:10b6:806:95::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.22; Tue, 23 Jan
- 2024 14:15:42 +0000
-Received: from CY4PEPF0000EE37.namprd05.prod.outlook.com
- (2603:10b6:930:cc:cafe::ce) by CYXPR02CA0040.outlook.office365.com
- (2603:10b6:930:cc::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.22 via Frontend
- Transport; Tue, 23 Jan 2024 14:15:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000EE37.mail.protection.outlook.com (10.167.242.43) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7202.16 via Frontend Transport; Tue, 23 Jan 2024 14:15:42 +0000
-Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Tue, 23 Jan
- 2024 08:15:39 -0600
-From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-To: <hdegoede@redhat.com>, <ilpo.jarvinen@linux.intel.com>
-CC: <platform-driver-x86@vger.kernel.org>, <Patil.Reddy@amd.com>,
-	<mario.limonciello@amd.com>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Subject: [PATCH 2/2] platform/x86/amd/pmf: Get Human presence information from AMD SFH driver
-Date: Tue, 23 Jan 2024 19:44:58 +0530
-Message-ID: <20240123141458.3715211-2-Shyam-sundar.S-k@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240123141458.3715211-1-Shyam-sundar.S-k@amd.com>
-References: <20240123141458.3715211-1-Shyam-sundar.S-k@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 233675F867
+	for <platform-driver-x86@vger.kernel.org>; Tue, 23 Jan 2024 14:22:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706019751; cv=none; b=YWuDB4GwpJ3eZc0RX/UHNE7enOanadUUsdJRgMPLi6aFEGs5jGSzwQuEi8vPa3s56S1VvggdmDW8JY7tmK+vcfn04ovsIq+0Je3AHsfGEKtLVvVFYOoNhAwHq7D5Z3OabrruFprYT8aqb1aGCnBBu+vCrUAzc0AXuXxNUryOZOI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706019751; c=relaxed/simple;
+	bh=uSokptJl5tS3jwtfYFQD8Rq0udhFm6/aFuMrm3bBRUo=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ktY0M1mPcKmuOeELx4DswpBQC7F01RiMbo9zMUY6YdG1GNADRvSvVrMUYBoHGKVpkjlm2C+n0D8snFCeHf7Att2DFoJ9odFbKKnzxij5AF2fm4c+puJrJoFRFQmTDa/UIjf8Ym1ZYf/dvR0z9mM5YgJ9NhwCOK8rIyUI7zoCEVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=emgZWZfG; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+	t=1706019741; x=1706624541; i=w_armin@gmx.de;
+	bh=uSokptJl5tS3jwtfYFQD8Rq0udhFm6/aFuMrm3bBRUo=;
+	h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:
+	 In-Reply-To;
+	b=emgZWZfG4W3KGulB5S5ifz5xXPfS/Rc/8X2flK71QdioUD/PsteJXlvXQptK1Lj8
+	 Nmb/0e3J9cpo+/uBylU9B/WVydf1M0IKXB4P4hj4UrVN/a4w1Gv1HzapbxtmRVnmS
+	 HrLMItiy6X9Kf9WYrqS47LuB6GsJT71Iw4viRXLpeo+mTvw8mznn9wrPrPheuP1i1
+	 xULc5GxcckYs45gPduWt3Qitg7qAmsDyXQDHHJPfwzFNiGoSX/VBOS+y1aUcRQHyM
+	 NkFIRFupD5lZPV/c7gkmQivIZqh95N6qEwJZqBY4V7AJ5LduPazVTPzQsncUmOVn3
+	 Pv6QqMRcPXIKOH2L4w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [172.16.63.142] ([141.76.179.248]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MzhnH-1rEcSi0iLB-00vdtb; Tue, 23
+ Jan 2024 15:22:21 +0100
+Message-ID: <3e517aa3-4020-4b29-b7b3-85271503d03d@gmx.de>
+Date: Tue, 23 Jan 2024 15:22:18 +0100
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE37:EE_|SA0PR12MB4511:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2015db3e-db82-4e4a-1858-08dc1c1dc8a8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	T2jS59SVG5iQkR/0TfK9J6vseb6TKBzz5DtmgEChSWfjseqyt+rX/SJJ9YUFaVYjAXBnMUh4ta9YYX4XKEnh0gAToidGxYspZyuTgt5Ldw+H2Hvn6Nt3nqiTJg6yK8Z499fkK9XT6LiOY/ZHhS5wL5V1HcRVIwFqfTd8PMh9uXKlwKF2sCS5u6lwc6sPgGYMZAB6C+0Z5vjLRmAMsUXG6XnfLIyuPPcTQuw1wsjp0ScbOC8X7tyBKnWRlAl8GXgyTJ2jkwsTBLLDlbpyIB1DVjGmN2KBcFkTQ9Zhx0riioh8hgnbh0n1FfKHCUzc2NS7krL2s6q+nbGQcwX5V1HhaKtYM1VQ5fdFrSVhHQy92AU/6PH+HZl8JTnOh/gcbnoMCzFF0ZCXHOQD87lEoE2RuOln9xbEHLSxrEsQ+EZRqFz8PA5HDuBbfYzRxpOEVd9MNUGV7w1WoqojWBpuPB7op/R4l+zfKAK8ueIpfRiYHyQSA74E8WA2N+9jQiX+x76UpCamHQFHXsex93CHKhdWaDx2gFKGoyhGZLpWUZvfMk9ZpfcAAKypGeJeZhVUusHJOf7Gzx4wwtp7AAYGXUcII4orPI4KLYoBvtX8aH4IeVHl9eLN2VRMjmj6RU+SiqOPNxJ9/8zQdaAdi2Lj+GsHTe80QyMx0pbHu/KSjyZ9jLiS9B7nhyvpb6VWn8VJXi2TW5eji45Z+JtJVHLTua5iYX3qy4YiDb4PhelLiYi4excOP36iK7HvTS2euYvToXBdJT2ssTvHeoFDVj7aQAhMdw==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(136003)(346002)(376002)(39860400002)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(82310400011)(46966006)(40470700004)(36840700001)(26005)(16526019)(36860700001)(426003)(336012)(356005)(7696005)(6666004)(41300700001)(36756003)(2616005)(478600001)(110136005)(70586007)(5660300002)(54906003)(316002)(70206006)(8676002)(8936002)(4326008)(82740400003)(81166007)(2906002)(86362001)(1076003)(83380400001)(40460700003)(40480700001)(47076005)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2024 14:15:42.4606
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2015db3e-db82-4e4a-1858-08dc1c1dc8a8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000EE37.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4511
+User-Agent: Mozilla Thunderbird
+Subject: Re: hp-wmi: info hotkey has no keycode or scancode
+From: Armin Wolf <W_Armin@gmx.de>
+To: Dennis Nezic <dennisn@dennisn.mooo.com>
+Cc: platform-driver-x86@vger.kernel.org
+References: <ZawX2mquuTCv0tuF@panther>
+ <a8fa0308-0998-48e4-a104-c2b57ee9bd8e@gmx.de> <Zaw9mnfEL65B5r4O@panther>
+ <e97ae805-d006-4f0c-96c0-976385772bb7@gmx.de> <Za4T0RwClHOoCPCy@panther>
+ <cd86386a-653e-401c-9b70-0860d2e1906a@gmx.de> <Za8xL39m1X22f2Bb@panther>
+ <Za9DQdLg2d_CnrZG@panther> <3e574768-8d5b-465b-9860-567d0845d3fb@gmx.de>
+Content-Language: en-US
+In-Reply-To: <3e574768-8d5b-465b-9860-567d0845d3fb@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Tq1H8rYYrTjOGSNaBvsSKqfPF6u6tfm/70H2A32GPgrIWUvAIHy
+ UQ1GSKlBan/eAi7JKtKX5txmUUUyxDX7BozOCcplATbwRDBOvPefqzOa1N5mAC7+5Vohahm
+ VI5Y2EMWBoFJEdM96oIpyXHU1nsPKbhQUyxatuKW3WzedoYlaOr6P3euQT4tJ+PocWkl5SQ
+ XwTrNLGxcB4tjq4Y4lo4A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:dAiFpe8PBDE=;VXkApG2EMocZCisvmyTvXN20Xc5
+ UBNvZo3p0rR7gmeJQIW21HWRUsjga7826AENO9eJU3N4DcqRSo6fTop2IBADzEmF1bamzx0Y9
+ 7z3RgE1HgQmkbdEx4e2IWsA2lpZ7/NyEgHuZT0IU2MjkU+DlOu3mjHN1zTidqvwE2836qr3Uu
+ x3i98+uuHqthrt1SolKUmXfoJ4RbJ8fQ/J99VJkysoNeBFTwrHTqA5cHQEjF9MZzZcZH7Ahrv
+ DmJfvJVe+E+x0LqN+aBCvU8LWm7RJ3cPelnhhgMxKNoZTdKmTQ/qM32lwNx/gZ+Ehb/9ubzQ9
+ ylRxeB5vYqjxFvfa/hI4+gCicsO0nwhIN+rGVhxrPzKa6+jjZS1lMBHcP8i1MefYaepLwDho6
+ ObsaGfVz3VP9z+UKhZfy1tr3unYLtwtr8vg8h4M/j1+xet1r0MPFtf7jFluVFWgvF0e3As7wx
+ xd2m63Q1wPu13vo5rNZSCPw/DtWddaa4K9/xDLSQspGWScg80x3l9QtoD5quuZtOB/OXYOSx2
+ k4V0Jw1dONRK1Oz9SpvOpF/z3ADMQFFaT8tjl1F9qJgYbhYYh1B1qCjv4b+UPkeb0pqacbej/
+ ag0bEQ8MHSsn/4dpqx9EeQHbXtzHBicbIbJmlVUkleigHwf4bp1ZKCye1FA3LMHz7xkHuUg2v
+ gdUYDGdiEdKz0OyJ9NFh1Zvv19aFhqbEVYQ7CLLquOk56fltsoS5w1Kjsw8raSxFaq5WJEaOF
+ N5IfyAeQvWH0wqa/09JvOX1O44ql3FAToRrSg3drasrOWspcBDrZxxMYKlexRMzxjWn6Eik11
+ CvzhE7u/3vIVolSMLD8x+3mHpL2VyNUhgeWuONy4NkxM+mj1irDEvBgM4iCSLws1owBc1lP5H
+ 3E6pFp7v7op2BAvqLJthREB42FhP0InH3+wQ4OHyyiKBQGfY3EIwFN7QyyAnLUnVcwl3urQ0u
+ KX6C3oKLQFhXGUWUggfSuRDjb9o2alrqkZUNx+Jeu5/CB1txclXNkxJmEChvZG18ZjKrKA==
 
-AMD SFH driver has APIs defined to export the ambient light information;
-use this within the PMF driver to send inputs to the PMF TA, so that PMF
-driver can enact to the actions coming from the TA.
+Am 23.01.24 um 09:58 schrieb Armin Wolf:
 
-Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
----
- drivers/platform/x86/amd/pmf/spc.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+> Am 23.01.24 um 05:40 schrieb Dennis Nezic:
+>
+>> On 22 Jan 22:23, Dennis Nezic wrote:
+>>> On 22 Jan 11:44, Armin Wolf wrote:
+>>>> Am 22.01.24 um 08:05 schrieb Dennis Nezic:
+>>>>
+>>>>> On 21 Jan 16:16, Armin Wolf wrote:
+>>>>>> Am 20.01.24 um 22:39 schrieb Dennis Nezic:
+>>>>>>
+>>>>>>> On 20 Jan 21:52, Armin Wolf wrote:
+>>>>>>>> Am 20.01.24 um 19:58 schrieb Dennis Nezic:
+>>>>>>>>
+>>>>>>>>> Guys, the "info" illuminated touch-key (hotkey?) on my laptop
+>>>>>>>>> "doesn't
+>>>>>>>>> work", showkey doesn't report any keycode or scancode. I don't
+>>>>>>>>> see any
+>>>>>>>>> wmi related error messages from dmesg. All the other illuminated
+>>>>>>>>> "hotkeys" work fine, although confusingly evtest and "libinput
+>>>>>>>>> debug-events" report that they're coming through the event
+>>>>>>>>> interface
+>>>>>>>>> associated with "AT Translated Set 2 keyboard" instead of "HP WM=
+I
+>>>>>>>>> hotkeys", but hey, as long as I receive them I'm okay :p.
+>>>>>>>>>
+>>>>>>>>> hp-wmi.c does seem to reference it:
+>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { KE_KEY, 0x213b,=C2=A0 { KEY_INF=
+O } },
+>>>>>>>>>
+>>>>>>>>> How can I go about troubleshooting this? (I'm using kernel 6.6.8=
+)
+>>>>>>>> it can be possible that your machine does not use hp-wmi to
+>>>>>>>> deliver keycodes
+>>>>>>>> to the operating system, but instead emulates a standard
+>>>>>>>> keyboard controller.
+>>>>>>>>
+>>>>>>>> Can you check with "kacpimon" that events concerning a PNP0C14
+>>>>>>>> device are being
+>>>>>>>> received?
+>>>>>>> Very possible indeed. "kacpimon" doesn't show anything when I
+>>>>>>> press that
+>>>>>>> touchkey, but it does when I press all the other touchkeys. (I
+>>>>>>> do get
+>>>>>>> lots of accelerometer noise.)
+>>>>>>>
+>>>>>> Interesting, can you please share the output of:
+>>>>>> - "kacpimon" while you where pressing the buttons
+>>>>>> - "acpidump"
+>>>>> ...
+>>>>> Input Layer:=C2=A0 Type: 1=C2=A0 Code: 325=C2=A0 Value: 1
+>>>>> Input Layer:=C2=A0 Type: 1=C2=A0 Code: 330=C2=A0 Value: 1
+>>>>> Input Layer:=C2=A0 Type: 1=C2=A0 Code: 330=C2=A0 Value: 0
+>>>>> Input Layer:=C2=A0 Type: 1=C2=A0 Code: 325=C2=A0 Value: 0
+>>>> Those events are touchscreen events, maybe your mouse is
+>>>> responsible for them.
+>>> Right, of course, woops, these must have been the touchpad press
+>>> events,
+>>> as I was moving the mouse around :P
+>>>
+>>>> Instead they look like this:
+>>>>
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0netlink:=C2=A0 9DBB5994-A997- 000000d0 000000=
+00
+>>> I'm definitely not seeing anything like that, just "^Input Layer:
+>>> Type"'s
+>>>
+>>>> Can you try to use kacpimon again but without root privileges? This
+>>>> way only netlink events show up.
+>>>> You might also stop acpid while you are using kacpimon.
+>>> 0 output from/with netlink, even though kacpimon said:
+>>>
+>>> Netlink ACPI Family ID: 24
+>>> Netlink ACPI Multicast Group ID: 5
+>>> netlink opened successfully
+>>>
+>>> Remember all my other fancy hotkeys "work", but they appear as regular
+>>> keypress events from an "AT Translated Set 2 keyboard".
+>>>
+>>>> If you still cannot receive any netlink events, then i might need
+>>>> to take a look at your ACPI tables
+>>>> via acpidump.
+>>> https://dennisn.mooo.com/stuff/dump.txt
+>>>
+>>>> Thanks,
+>>>> Armin Wolf
+>>> Thank you again sir!
+>> I'm not sure if this is helpful,=C2=A0 "dmesg | grep -i wmi" ...
+>>
+>> [=C2=A0=C2=A0=C2=A0 0.352634] wmi_bus wmi_bus-PNP0C14:00: [Firmware Inf=
+o]:
+>> A1799AC3-9429-4529-927E-DFE13736EEBA has zero instances
+>> [=C2=A0=C2=A0=C2=A0 0.352634] wmi_bus wmi_bus-PNP0C14:00: [Firmware Inf=
+o]: A1799AC5-9429-4529-927E-DFE13736EEBA has zero instances
+>> [=C2=A0=C2=A0=C2=A0 0.352634] wmi_bus wmi_bus-PNP0C14:00: [Firmware Inf=
+o]: A1799ACA-9429-4529-927E-DFE13736EEBA has zero instances
+>> [=C2=A0=C2=A0=C2=A0 0.352634] wmi_bus wmi_bus-PNP0C14:01: [Firmware Inf=
+o]:
+>> 8232DE3D-663D-4327-A8F4-E293ADB9BF05 has zero instances
+>> [=C2=A0=C2=A0=C2=A0 0.352634] wmi_bus wmi_bus-PNP0C14:01: [Firmware Inf=
+o]:
+>> 8F1F6436-9F42-42C8-BADC-0E9424F20C9A has zero instances
+>> [=C2=A0=C2=A0=C2=A0 0.352634] wmi_bus wmi_bus-PNP0C14:01: [Firmware Inf=
+o]:
+>> 8F1F6435-9F42-42C8-BADC-0E9424F20C9A has zero instances
+>> [=C2=A0=C2=A0=C2=A0 2.573231] input: HP WMI hotkeys as /devices/virtual=
+/input/input14
+>>
+>> (Btw that "info" key does get illuminated when I touch/press it, even
+>> though no codes are seen.)
+>
+> These warnings in dmesg are harmless, they are informing you that some
+> WMI devices are unavailable.
+>
+> I took a look at your ACPI tables and it seems that the WMI device
+> used by hp-wmi is indeed unused.
+> What is the model name of your HP notebook?
+>
+> Armin Wolf
+>
+>
+Also i just noted that you notebook might contain a PNP0C32 quickstart but=
+ton device.
+Can you tell me the output of "cat /sys/bus/acpi/devices/PNP0C32\:00/statu=
+s"?
 
-diff --git a/drivers/platform/x86/amd/pmf/spc.c b/drivers/platform/x86/amd/pmf/spc.c
-index 87ae7c41c9f8..a3dec14c3004 100644
---- a/drivers/platform/x86/amd/pmf/spc.c
-+++ b/drivers/platform/x86/amd/pmf/spc.c
-@@ -46,6 +46,7 @@ void amd_pmf_dump_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *
- 	dev_dbg(dev->dev, "GFX Busy: %u\n", in->ev_info.gfx_busy);
- 	dev_dbg(dev->dev, "LID State: %s\n", in->ev_info.lid_state ? "close" : "open");
- 	dev_dbg(dev->dev, "User Presence: %s\n", in->ev_info.user_present ? "Present" : "Away");
-+	dev_dbg(dev->dev, "Ambient Light: %d\n", in->ev_info.ambient_light);
- 	dev_dbg(dev->dev, "==== TA inputs END ====\n");
- }
- #else
-@@ -154,6 +155,13 @@ static int amd_pmf_get_sensor_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_
- 	struct amd_sfh_info sfh_info;
- 	int ret;
- 
-+	/* Get ALS data */
-+	ret = amd_get_sfh_info(&sfh_info, MT_ALS);
-+	if (!ret)
-+		in->ev_info.ambient_light = sfh_info.ambient_light;
-+	else
-+		return ret;
-+
- 	/* get HPD data */
- 	ret = amd_get_sfh_info(&sfh_info, MT_HPD);
- 	if (ret)
--- 
-2.25.1
+Armin Wolf
 
 
