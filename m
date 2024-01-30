@@ -1,173 +1,161 @@
-Return-Path: <platform-driver-x86+bounces-1066-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-1068-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67F968418F1
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Jan 2024 03:15:09 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D251C8419DF
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Jan 2024 04:06:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 174311F27102
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Jan 2024 02:15:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 48E911F24DB0
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Jan 2024 03:06:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02243374DD;
-	Tue, 30 Jan 2024 02:10:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8653A374F2;
+	Tue, 30 Jan 2024 03:06:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="pRFCUjJP"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="hjdEk9Jx"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698E036B17;
-	Tue, 30 Jan 2024 02:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CCB23715F;
+	Tue, 30 Jan 2024 03:06:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706580628; cv=none; b=oNgqyrrOoZfPE6Yinl/UabT1GeJkPn4DzJMfpsq/nUt0WRHHeNSKJtyXUYZB6XxzVymEDJx+bM2be2c1mwNRHB3o0cY7NkiSXwh8Yo606iFB/dRuno45CkS2Nx+tAzggu1Xj4a0WiHpF+e6rKd14bee/SdmaLgiOQ/a++rLPas4=
+	t=1706583978; cv=none; b=iwPvgY0ewWW22YJkmrVbVhHMaY00wIVLVYRZrh1UPcU5vnmuZxDP7bnGd/mGpls5XXiB2ejAeHe7CRzPRziXKISas2OeLDKZsz3dkTY7yto5xiSyDOqSYYyXIxV/oxK6JnFdIocckalcyHN7ItIVO9f36O2jb9bo6JS6TIclqDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706580628; c=relaxed/simple;
-	bh=0/cwgNa5o769hb9lpc9VV/AxqGX0ocJpOERw1kajrw8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EERsYQCmft/1v2PEwg1+pn+hEYdxPEAjOW+jXQ1/PzJm90MfTMR5mO1xr8z2xmHYRdKOWHzs3+7vCFc5VbN4AnQrBGHWqNo43amG26AqiTfmqwlyHyDWpqpjsCp30esvtaXHHqXmTAbX2C6H4vjkX4n9zqbz6EHlVQG/aBbGs5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=pRFCUjJP; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-	t=1706580614; x=1707185414; i=w_armin@gmx.de;
-	bh=0/cwgNa5o769hb9lpc9VV/AxqGX0ocJpOERw1kajrw8=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=pRFCUjJPeqe4td44n1KnIYlalMBaFyajWbI/Q7Sv4Dt2mPmp50A1oK7fz+VvYEbr
-	 ++oqvV4DJBNzpPIDCtB61w8em+jZR7jll+pJ2A1GQkBhCkGEpB4HsmxIfEYcms6pm
-	 lAS9uPFP9i5iBkO4SEqLYq9Wi9j4SMIaT5xNbDv/H0FK+ZnwOHUD9PZCk7hcHhJef
-	 oGsMhhM6z19IWIVFrKr23Z6mIt1lv37R+I9aarvQEpcM74VlWNOaqXA/r4SduiTaE
-	 i0ff8qdBzWKqFcCXSC4bIoq/JDRhcKIF/2fxTI9J7wXlGtSt6ubXRRZKPBg2I5GEi
-	 aEOzipdYRqJK8KcGYQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.2.35] ([91.137.126.34]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MHXBp-1rHjQF0RaD-00DVBk; Tue, 30
- Jan 2024 03:10:14 +0100
-Message-ID: <62a9942f-97b2-4237-b99f-131535368c68@gmx.de>
-Date: Tue, 30 Jan 2024 03:10:13 +0100
+	s=arc-20240116; t=1706583978; c=relaxed/simple;
+	bh=TpFGPtLON7jGs4kAqQFeETmjHlS5R4uqx/XXd34jKhs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=V81aXiZAHQNENMpF+K28K463SU6PqTFmdY16fJcTcTGW47gBpXznlqe8XiXLDnLal/WCzD9wdiXphzW+2aNYBUcM4o8O+L3mKhr8Jr2QXW1HBBSe3FHZ/xYvTXvYgGHPEeh3MbO/GFtvztAjBvKpyw6RDs1k6Y93D6GTYs23MZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=hjdEk9Jx; arc=none smtp.client-ip=115.124.30.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1706583967; h=From:To:Subject:Date:Message-Id:MIME-Version;
+	bh=i7H1e1h0ThqkOkneFCDnfocnYVEAg1d5gx5A0zimKdU=;
+	b=hjdEk9Jx8/j40QuY5kndoalZFDwtaL/Owqxr0X/LgAbAdg8EdbTXYwYk1qWlMWPQ5JwImuvlSsOs8tQZi5rAIEOteVnNHv98/+6s9RmflCi5RW6/OxaMpg4zi2AuDfksYHZ7lbMulsi56R0wAN9aaLljfIle86bIJ8bBneROQdg=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045170;MF=xuanzhuo@linux.alibaba.com;NM=1;PH=DS;RN=37;SR=0;TI=SMTPD_---0W.eZo9q_1706583965;
+Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com fp:SMTPD_---0W.eZo9q_1706583965)
+          by smtp.aliyun-inc.com;
+          Tue, 30 Jan 2024 11:06:06 +0800
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+To: virtualization@lists.linux.dev
+Cc: Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Vadim Pasternak <vadimp@nvidia.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Cornelia Huck <cohuck@redhat.com>,
+	Halil Pasic <pasic@linux.ibm.com>,
+	Eric Farman <farman@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Benjamin Berg <benjamin.berg@intel.com>,
+	Yang Li <yang.lee@linux.alibaba.com>,
+	linux-um@lists.infradead.org,
+	netdev@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	kvm@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: [PATCH vhost 00/14] virtio remove dma info for premapped mode
+Date: Tue, 30 Jan 2024 11:05:50 +0800
+Message-Id: <20240130030604.108463-1-xuanzhuo@linux.alibaba.com>
+X-Mailer: git-send-email 2.32.0.3.g01195cf9f
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] platform/x86: wmi: Initialize ACPI device class
-Content-Language: en-US
-To: "Rafael J. Wysocki" <rafael@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>
-Cc: ilpo.jarvinen@linux.intel.com, platform-driver-x86@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240124190732.4795-1-W_Armin@gmx.de>
- <9ccc3b9d-d71a-451c-80f5-3da62108d983@redhat.com>
- <CAJZ5v0j1qvJYXqo96eMmtD4JnGh4Mu2ESdri5cGAqL-4bK0geA@mail.gmail.com>
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <CAJZ5v0j1qvJYXqo96eMmtD4JnGh4Mu2ESdri5cGAqL-4bK0geA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:3AcF5tU6qZdcanOaB+BEwiaiDr7kkNZpMdcLmHblUJzPxiYgAW+
- Cgb2wsPCa6AxP+A+J8eYEbI9sYa6UXghJvtHu9vxAG0/+k8sPB7kOQvzicju2EC/+rDePMS
- Vcf9Jz3MkFBMdbC3dSQbotFmCAI3XMiX+NgKhq0vdvXGLww9smW2HRfOGVZfT47xdFrGGsh
- S1n3ayqWSGtvZqJjKgRew==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:I16w7xej370=;uenX3LDeC7aNEOKXROGVY5gDNwB
- O6MQUB6zZR+uEaHxxNVH0H/lChElc45luCiGn3YXBRRSOx600YW7si4gN96HhhYT2i9c0hJcs
- akGBjDD/JuGjdOIfuBYxu9VMB/JJ1TuB7jjMNGk9D7KVdZ+i2bST+p+ocfNrIWRZdfQlXu0xf
- wBiSW/d1RXxrykP49uduaHXoiHTSUDEUCF1LaGrDAtVbbbsTRUQ/lUMFlfxcG9+FL5QpifW0v
- s0dYx2Bu8fxFFY2mqUg+URyym7s6XsrV9bFWZk/RsFFrqPSftnfmpCm8gazlGt68vMhuz7JRj
- Y/hCIzqs5l5B2yS4JwY3frkdE+owFDB3+Omk0lbnUo2f2a6LZKThUhHNHlVjPcxDu1lFAf+8+
- Dca7oqsTWtZbXr7JUB7x2ToZDYcNLn8i9KI4LjIDv9rbEltDIxfcx4B35qJ8z8kFBRlPWVwRy
- ZHdgdR32o7Rqcachy4S6pO0hzO8oIwnDCy1SusNrbdbP7wY1vyyemIgUfTNZjMsVdbYG/W23L
- E6Q/RS0KmEoJvT4FGLdVXm01TJmb9BKAuVwdwcy9rgS4XpK/LG+25HxdZmICfKeptPMRRkhFg
- VDt/liSHEae73ts7ZBecvP8/IiOZsTXInOZOHWS4vxLuLm3bccS9+zmI6pcNSWzScV6F7BvhL
- yoDTiKQq81/HWyN+N9+qxswA4/TNaeoWJt0Z98K/FqX2jZ7gsryaeVJt5+cho648HgCRMfi53
- CWPXXPi9Nt1f8ynaCxIApZ+yUya1RGogjHiJrqZMV02xCHIRdoBgTgGR2UggK7A0zTZMxb//G
- BnlkHpnhgBJd6pTRXm3g4m0dOBDhcYqz5/TKdvj4Bw7hLO3kLTcyqtsIPGAQnEM2e3lF6V4Ks
- sBc9YN6f3HccE7WNw5y9ajzjWWYLxPUzFgxAId3x7oC5z9k4M2T13nCzbVcYcmpJfUFG7jpt6
- GnDAfA==
+X-Git-Hash: ce068f9b825d
+Content-Transfer-Encoding: 8bit
 
-Am 29.01.24 um 14:08 schrieb Rafael J. Wysocki:
+As discussed:
+http://lore.kernel.org/all/CACGkMEvq0No8QGC46U4mGsMtuD44fD_cfLcPaVmJ3rHYqRZxYg@mail.gmail.com
 
-> On Mon, Jan 29, 2024 at 1:51=E2=80=AFPM Hans de Goede <hdegoede@redhat.c=
-om> wrote:
->> Hi,
->>
->> On 1/24/24 20:07, Armin Wolf wrote:
->>> When an ACPI netlink event is received by acpid, the ACPI device
->>> class is passed as its first argument. But since the class string
->>> is not initialized, an empty string is being passed:
->>>
->>>        netlink:  PNP0C14:01 000000d0 00000000
->>>
->>> Fix this by initializing the ACPI device class during probe.
->>>
->>> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
->>> ---
->>> Note: This patch is based on commit 3f399b5d7189 ("platform/x86: wmi: =
-Use ACPI device name in netlink event")
->>> ---
->>>   drivers/platform/x86/wmi.c | 6 +++++-
->>>   1 file changed, 5 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
->>> index 7ef1e82dc61c..b92425c30a50 100644
->>> --- a/drivers/platform/x86/wmi.c
->>> +++ b/drivers/platform/x86/wmi.c
->>> @@ -32,6 +32,8 @@
->>>   #include <linux/wmi.h>
->>>   #include <linux/fs.h>
->>>
->>> +#define ACPI_WMI_DEVICE_CLASS        "wmi"
->>> +
->>>   MODULE_AUTHOR("Carlos Corbacho");
->>>   MODULE_DESCRIPTION("ACPI-WMI Mapping Driver");
->>>   MODULE_LICENSE("GPL");
->>> @@ -1202,7 +1204,7 @@ static int wmi_notify_device(struct device *dev,=
- void *data)
->>>                wblock->handler(*event, wblock->handler_data);
->>>        }
->>>
->>> -     acpi_bus_generate_netlink_event(wblock->acpi_device->pnp.device_=
-class,
->>> +     acpi_bus_generate_netlink_event(acpi_device_class(wblock->acpi_d=
-evice),
->>>                                        acpi_dev_name(wblock->acpi_devi=
-ce), *event, 0);
->>>
->>>        return -EBUSY;
->>> @@ -1267,6 +1269,8 @@ static int acpi_wmi_probe(struct platform_device=
- *device)
->>>                return -ENODEV;
->>>        }
->>>
->>> +     strscpy(acpi_device_class(acpi_device), ACPI_WMI_DEVICE_CLASS, s=
-izeof(acpi_device_class));
->>> +
->> Hmm, I'm not sure if you are supposed to do this when you are not an
->> acpi_driver's add() function.
-> You aren't.
+If the virtio is premapped mode, the driver should manage the dma info by self.
+So the virtio core should not store the dma info.
+So we can release the memory used to store the dma info.
 
-I believed otherwise, as the ACPI AC driver (which is a platform_driver) d=
-oes the same thing.
-Seems i was wrong on that.
+But if the desc_extra has not dma info, we face a new question,
+it is hard to get the dma info of the desc with indirect flag.
+For split mode, that is easy from desc, but for the packed mode,
+it is hard to get the dma info from the desc. And for hardening
+the dma unmap is saft, we should store the dma info of indirect
+descs.
 
->
->> Rafael, do you have any comments on this ?
-> I'm not quite sure why this is done here.
+So I introduce the "structure the indirect desc table" to
+allocate space to store dma info with the desc table.
 
-The initialization of the ACPI device class is being done to access this v=
-alue later when sending an
-ACPI netlink event like other ACPI drivers do.
+On the other side, we mix the descs with indirect flag
+with other descs together to share the unmap api. That
+is complex. I found if we we distinguish the descs with
+VRING_DESC_F_INDIRECT before unmap, thing will be clearer.
 
-However since you clarified that doing this outside of an acpi_driver's ad=
-d() function is forbidden
-i think it would indeed be better to just pass the value directly without =
-touching the ACPI device class.
+Because of the dma array is allocated in the find_vqs(),
+so I introduce a new parameter to find_vqs().
 
-Thanks,
-Armin Wolf
+Please review.
+
+Thanks
+
+Xuan Zhuo (14):
+  virtio_ring: introduce vring_need_unmap_buffer
+  virtio_ring: packed: remove double check of the unmap ops
+  virtio_ring: packed: structure the indirect desc table
+  virtio_ring: split: remove double check of the unmap ops
+  virtio_ring: split: structure the indirect desc table
+  virtio_ring: no store dma info when unmap is not needed
+  virtio_ring: introduce dma map api for page
+  virtio: find_vqs introduce premapped parameter
+  virtio_ring: export premapped to driver by struct virtqueue
+  virtio_net: set premapped mode by find_vqs()
+  virtio_ring: remove api of setting vq premapped
+  virtio_net: unify the code for recycling the xmit ptr
+  virtio_net: rename free_old_xmit_skbs to free_old_xmit
+  virtio_net: sq support premapped mode
+
+ arch/um/drivers/virtio_uml.c             |   5 +-
+ drivers/net/virtio_net.c                 | 291 +++++++++----
+ drivers/platform/mellanox/mlxbf-tmfifo.c |   3 +-
+ drivers/remoteproc/remoteproc_virtio.c   |   9 +-
+ drivers/s390/virtio/virtio_ccw.c         |   8 +-
+ drivers/virtio/virtio_mmio.c             |   8 +-
+ drivers/virtio/virtio_pci_common.c       |  15 +-
+ drivers/virtio/virtio_pci_common.h       |   2 +
+ drivers/virtio/virtio_pci_legacy.c       |   3 +-
+ drivers/virtio/virtio_pci_modern.c       |   6 +-
+ drivers/virtio/virtio_ring.c             | 511 +++++++++++++----------
+ drivers/virtio/virtio_vdpa.c             |   6 +-
+ include/linux/virtio.h                   |  10 +-
+ include/linux/virtio_config.h            |  19 +-
+ include/linux/virtio_ring.h              |   3 +
+ tools/virtio/linux/virtio.h              |   1 +
+ tools/virtio/virtio_test.c               |   2 +-
+ tools/virtio/vringh_test.c               |  10 +-
+ 18 files changed, 585 insertions(+), 327 deletions(-)
+
+--
+2.32.0.3.g01195cf9f
 
 
