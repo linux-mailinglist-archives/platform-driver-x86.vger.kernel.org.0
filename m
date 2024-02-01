@@ -1,213 +1,137 @@
-Return-Path: <platform-driver-x86+bounces-1164-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-1167-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D05844E66
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  1 Feb 2024 02:10:11 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B39C3844F21
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  1 Feb 2024 03:24:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C7221F293D8
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  1 Feb 2024 01:10:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5AE5A28B720
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  1 Feb 2024 02:24:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C714F3B290;
-	Thu,  1 Feb 2024 01:07:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99C67210E0;
+	Thu,  1 Feb 2024 02:24:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LTnaoViN"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="xzMyHymm"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC341A27C;
-	Thu,  1 Feb 2024 01:07:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5168617554;
+	Thu,  1 Feb 2024 02:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706749674; cv=none; b=Cpi2uoHiHI62yLGAqLIwuUnaoy40fl26DbGzsvCbAPtDSgEgLQSTJ5qIjlwspMLz6kau1v5J8hG2zBwE1AoXvtZ3qN+zlZAfM8d2hpm2K734YMScw8DnXkiLg6gePKb2SE6WhtoudXQ0hIPkPMLjA8FD5ogyajr9hB+JNFST8WQ=
+	t=1706754287; cv=none; b=VXX5Or6XmoeHCwcxzFxl9U6+TWoOKuBwoNYnwjPqQ8rQhuL+EBVT/ATH6tC5odcxOuQ5VmsLqnLrL0Hwt7+yHocEb2ze/4oV72NTGWMUbwUB28GkBG6EpjyH5PVbYT1g1uaZ+CL+15BVdzbiSeb0wwVTM2Y+u6UGr6Zh/H3Ings=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706749674; c=relaxed/simple;
-	bh=4WsWv00onasp48d72sbpBjqQmJ37YOowYHi4hbk2FQg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=lw2/+/imtUYNYsK40hv8IZUsm/ruRAKxDyY+gKE+o45ZROcCiCrxtSlEhVCaEpyUBiGjRlwSTh8aLgbjze0AsDiyzeHpKSDhooalLUNecLBJ3tf5gq2k7xdgcrngl1P1oRoawqs6EFiJLpmtlEIaPsp36lNyCzL2gNwWP/YMc3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LTnaoViN; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706749673; x=1738285673;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=4WsWv00onasp48d72sbpBjqQmJ37YOowYHi4hbk2FQg=;
-  b=LTnaoViNbPtUE6o6pHTOyj5Oe3N52/I/rvVudQkO0hkyJB1Pe6L+2VUd
-   ktExJfxO9kxxAOoEMn2lrDAQP6OJPXIp14ZSkMlu8zWlfqNJmFZXlvdH6
-   Iain2QAJqJkzd74TeaSBdNZfBND5yjNTVHhJhtje/3ITDfTVKpPkWWxwc
-   ByfKa7TTCAYhXq1tqgdOV109cX/tPQEKNKbYcSAz2XuKqNveuZOauioNk
-   OHYvcmCMyHRi99eiV9dszi12lr/ugxZFTKMH8Qu9Jw2iVxlMHYvjmZgYE
-   Xh6KJtHHeTn/Hrd2JLN7CRS0Po+W9sp6wlqdqhAlGrBmXHDJnhvzkP+32
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10533017"
-X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
-   d="scan'208";a="10533017"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 17:07:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
-   d="scan'208";a="4265165"
-Received: from linux.intel.com ([10.54.29.200])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 17:07:50 -0800
-Received: from debox1-desk4.lan (unknown [10.212.205.115])
-	by linux.intel.com (Postfix) with ESMTP id B3099580201;
-	Wed, 31 Jan 2024 17:07:49 -0800 (PST)
-From: "David E. Box" <david.e.box@linux.intel.com>
-To: netdev@vger.kernel.org,
-	ilpo.jarvinen@linux.intel.com,
-	david.e.box@linux.intel.com,
-	sathyanarayanan.kuppuswamy@linux.intel.com
-Cc: linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org
-Subject: [PATCH 8/8] tools: intel_sdsi: Add current meter support
-Date: Wed, 31 Jan 2024 17:07:47 -0800
-Message-Id: <20240201010747.471141-9-david.e.box@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240201010747.471141-1-david.e.box@linux.intel.com>
-References: <20240201010747.471141-1-david.e.box@linux.intel.com>
+	s=arc-20240116; t=1706754287; c=relaxed/simple;
+	bh=JRicf2YLFT9kvYkR1O+/05/ONpzCairi+jAAGATbK2A=;
+	h=Message-ID:Subject:Date:From:To:Cc:References:In-Reply-To; b=nsf7rrYKKm8UhaibWH06wwzxO3aBXfPgTXVviSC0pPXxn1a1+bpHoYJ+kHvzkWo6EH8G9tYRKRedcEC2N8d6ynhYrQzt/BhA18gLip+fBVoeR4LmeYiNPABVrHGgxZ3YE7a1yDvtMZb2pYttT6xs4H0jqmfEiWjBgA80XTEw5AY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=xzMyHymm; arc=none smtp.client-ip=115.124.30.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1706754282; h=Message-ID:Subject:Date:From:To;
+	bh=lp6gnz0UerLEf+61GoJAoC7KepGxnJDRWTzE7Fmg8w8=;
+	b=xzMyHymmEOi178o4u16V0ldnZrIgb2AOsKvx+wOvAzmQp3tByVaA5TP6YS7KRDIsGO8nXMuWTSTmUjZbAfcHjDXvLAYu/wAgi7tc76O0T0rDqUGykPqeCo65k39dXs5OtxzA1kr383BplRSYfTyimv39C8/PxbFCjahm3bu7n6g=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045168;MF=xuanzhuo@linux.alibaba.com;NM=1;PH=DS;RN=36;SR=0;TI=SMTPD_---0W.lS.oy_1706754279;
+Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com fp:SMTPD_---0W.lS.oy_1706754279)
+          by smtp.aliyun-inc.com;
+          Thu, 01 Feb 2024 10:24:40 +0800
+Message-ID: <1706754257.289654-2-xuanzhuo@linux.alibaba.com>
+Subject: Re: [PATCH vhost 08/17] virtio: vring_new_virtqueue(): pass struct instead of multi parameters
+Date: Thu, 1 Feb 2024 10:24:17 +0800
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+To: =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: virtualization@lists.linux.dev,
+ Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Vadim Pasternak <vadimp@nvidia.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>,
+ Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Benjamin Berg <benjamin.berg@intel.com>,
+ Yang Li <yang.lee@linux.alibaba.com>,
+ linux-um@lists.infradead.org,
+ Netdev <netdev@vger.kernel.org>,
+ platform-driver-x86@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org,
+ linux-s390@vger.kernel.org,
+ kvm@vger.kernel.org,
+ bpf@vger.kernel.org
+References: <20240130114224.86536-1-xuanzhuo@linux.alibaba.com>
+ <20240130114224.86536-9-xuanzhuo@linux.alibaba.com>
+ <bcd0e35e-e9a3-48b5-fc0a-117ba997439a@linux.intel.com>
+In-Reply-To: <bcd0e35e-e9a3-48b5-fc0a-117ba997439a@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Add support to read the 'meter_current' file. The display is the same as
-the 'meter_certificate', but will show the current snapshot of the
-counters.
+On Wed, 31 Jan 2024 13:03:04 +0200 (EET), =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com> wrote:
+> On Tue, 30 Jan 2024, Xuan Zhuo wrote:
+>
+> > Just like find_vqs(), it is time to refactor the
+> > vring_new_virtqueue(). We pass the similar struct to
+> > vring_new_virtqueue.
+> >
+> > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> > ---
+>
+> > diff --git a/tools/virtio/vringh_test.c b/tools/virtio/vringh_test.c
+> > index 98ff808d6f0c..37f8c5d34285 100644
+> > --- a/tools/virtio/vringh_test.c
+> > +++ b/tools/virtio/vringh_test.c
+>
+> > @@ -391,7 +391,7 @@ static int parallel_test(u64 features,
+> >  				/* Swallow all notifies at once. */
+> >  				if (read(to_guest[0], buf, sizeof(buf)) < 1)
+> >  					break;
+> > -
+> > +
+> >  				receives++;
+> >  				virtqueue_disable_cb(vq);
+> >  				continue;
+> > @@ -424,7 +424,7 @@ static int parallel_test(u64 features,
+> >  				continue;
+> >  			if (read(to_guest[0], buf, sizeof(buf)) < 1)
+> >  				break;
+> > -
+> > +
+>
+> Two unrelated space changes. Please remove them from this patch.
 
-Signed-off-by: David E. Box <david.e.box@linux.intel.com>
----
- tools/arch/x86/intel_sdsi/intel_sdsi.c | 48 +++++++++++++++++---------
- 1 file changed, 31 insertions(+), 17 deletions(-)
 
-diff --git a/tools/arch/x86/intel_sdsi/intel_sdsi.c b/tools/arch/x86/intel_sdsi/intel_sdsi.c
-index a8fb6d17405f..c9b3e457885d 100644
---- a/tools/arch/x86/intel_sdsi/intel_sdsi.c
-+++ b/tools/arch/x86/intel_sdsi/intel_sdsi.c
-@@ -182,6 +182,7 @@ struct sdsi_dev {
- enum command {
- 	CMD_SOCKET_INFO,
- 	CMD_METER_CERT,
-+	CMD_METER_CURRENT_CERT,
- 	CMD_STATE_CERT,
- 	CMD_PROV_AKC,
- 	CMD_PROV_CAP,
-@@ -329,7 +330,7 @@ static void get_feature(uint32_t encoding, char *feature)
- 	feature[0] = name[3];
- }
- 
--static int sdsi_meter_cert_show(struct sdsi_dev *s)
-+static int sdsi_meter_cert_show(struct sdsi_dev *s, bool show_current)
- {
- 	char buf[METER_CERT_MAX_SIZE] = {0};
- 	struct bundle_encoding_counter *bec;
-@@ -360,7 +361,11 @@ static int sdsi_meter_cert_show(struct sdsi_dev *s)
- 		return ret;
- 	}
- 
--	cert_ptr = fopen("meter_certificate", "r");
-+	if (!show_current)
-+		cert_ptr = fopen("meter_certificate", "r");
-+	else
-+		cert_ptr = fopen("meter_current", "r");
-+
- 	if (!cert_ptr) {
- 		perror("Could not open 'meter_certificate' file");
- 		return -1;
-@@ -368,7 +373,8 @@ static int sdsi_meter_cert_show(struct sdsi_dev *s)
- 
- 	size = fread(buf, 1, sizeof(buf), cert_ptr);
- 	if (!size) {
--		fprintf(stderr, "Could not read 'meter_certificate' file\n");
-+		fprintf(stderr, "Could not read '%s' file\n",
-+			show_current ? "meter_current" : "meter_certificate");
- 		fclose(cert_ptr);
- 		return -1;
- 	}
-@@ -734,7 +740,7 @@ static void sdsi_free_dev(struct sdsi_dev *s)
- 
- static void usage(char *prog)
- {
--	printf("Usage: %s [-l] [-d DEVNO [-i] [-s] [-m] [-a FILE] [-c FILE]]\n", prog);
-+	printf("Usage: %s [-l] [-d DEVNO [-i] [-s] [-m | -C] [-a FILE] [-c FILE]\n", prog);
- }
- 
- static void show_help(void)
-@@ -743,8 +749,9 @@ static void show_help(void)
- 	printf("  %-18s\t%s\n", "-l, --list",           "list available On Demand devices");
- 	printf("  %-18s\t%s\n", "-d, --devno DEVNO",    "On Demand device number");
- 	printf("  %-18s\t%s\n", "-i, --info",           "show socket information");
--	printf("  %-18s\t%s\n", "-s, --state",          "show state certificate");
--	printf("  %-18s\t%s\n", "-m, --meter",          "show meter certificate");
-+	printf("  %-18s\t%s\n", "-s, --state",          "show state certificate data");
-+	printf("  %-18s\t%s\n", "-m, --meter",          "show meter certificate data");
-+	printf("  %-18s\t%s\n", "-C, --meter_current",  "show live unattested meter data");
- 	printf("  %-18s\t%s\n", "-a, --akc FILE",       "provision socket with AKC FILE");
- 	printf("  %-18s\t%s\n", "-c, --cap FILE>",      "provision socket with CAP FILE");
- }
-@@ -760,21 +767,22 @@ int main(int argc, char *argv[])
- 	int option_index = 0;
- 
- 	static struct option long_options[] = {
--		{"akc",		required_argument,	0, 'a'},
--		{"cap",		required_argument,	0, 'c'},
--		{"devno",	required_argument,	0, 'd'},
--		{"help",	no_argument,		0, 'h'},
--		{"info",	no_argument,		0, 'i'},
--		{"list",	no_argument,		0, 'l'},
--		{"meter",	no_argument,		0, 'm'},
--		{"state",	no_argument,		0, 's'},
--		{0,		0,			0, 0 }
-+		{"akc",			required_argument,	0, 'a'},
-+		{"cap",			required_argument,	0, 'c'},
-+		{"devno",		required_argument,	0, 'd'},
-+		{"help",		no_argument,		0, 'h'},
-+		{"info",		no_argument,		0, 'i'},
-+		{"list",		no_argument,		0, 'l'},
-+		{"meter",		no_argument,		0, 'm'},
-+		{"meter_current",	no_argument,		0, 'C'},
-+		{"state",		no_argument,		0, 's'},
-+		{0,			0,			0, 0 }
- 	};
- 
- 
- 	progname = argv[0];
- 
--	while ((opt = getopt_long_only(argc, argv, "+a:c:d:hilms", long_options,
-+	while ((opt = getopt_long_only(argc, argv, "+a:c:d:hilmCs", long_options,
- 			&option_index)) != -1) {
- 		switch (opt) {
- 		case 'd':
-@@ -790,6 +798,9 @@ int main(int argc, char *argv[])
- 		case 'm':
- 			command = CMD_METER_CERT;
- 			break;
-+		case 'C':
-+			command = CMD_METER_CURRENT_CERT;
-+			break;
- 		case 's':
- 			command = CMD_STATE_CERT;
- 			break;
-@@ -828,7 +839,10 @@ int main(int argc, char *argv[])
- 			ret = sdsi_read_reg(s);
- 			break;
- 		case CMD_METER_CERT:
--			ret = sdsi_meter_cert_show(s);
-+			ret = sdsi_meter_cert_show(s, false);
-+			break;
-+		case CMD_METER_CURRENT_CERT:
-+			ret = sdsi_meter_cert_show(s, true);
- 			break;
- 		case CMD_STATE_CERT:
- 			ret = sdsi_state_cert_show(s);
--- 
-2.34.1
+Will fix in next version.
 
+Thanks.
+
+
+>
+>
+> --
+>  i.
+>
 
