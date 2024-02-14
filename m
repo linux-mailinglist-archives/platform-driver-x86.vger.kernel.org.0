@@ -1,258 +1,122 @@
-Return-Path: <platform-driver-x86+bounces-1347-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-1349-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F0F85425F
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 14 Feb 2024 06:31:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30865854338
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 14 Feb 2024 08:05:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 75F06B27987
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 14 Feb 2024 05:31:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8F851F291E3
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 14 Feb 2024 07:04:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E59E9C153;
-	Wed, 14 Feb 2024 05:31:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 860BA1170A;
+	Wed, 14 Feb 2024 07:04:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hH/AQDwg"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="D3neLMNN"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD3B10A01;
-	Wed, 14 Feb 2024 05:31:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03FF0111B0;
+	Wed, 14 Feb 2024 07:04:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707888674; cv=none; b=NrwTXvogmcPDtrYpTrlihvikKnT/AZgA9px6NhYJfJRHrteLOQ4oMByH2fhom5ivoSFyc6rkZjusx99Jj/oXptvd1nivdBYVgVun6hZTuFk+7uNZCAFS++tqkn5kgR7nUgs1jKlXApWhw8AZsDXioJ013yfU+OSLG8ZnQT86LRg=
+	t=1707894293; cv=none; b=gsAx7nExisVCN8cl+QLLF1NtOD8Fsjc0pH9DN3u/Gq65ZdIGnzlVgAWxRapl+mhsSTZgdiEQyLEpHJg6OFZMkJ238yTcIXRgscYOSsJn/q85FWbjukSvgO3YLWnbBgLsnxPHBnQIdqhxh4lacbaE93FHnXoGCwga3gDM4VVvta0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707888674; c=relaxed/simple;
-	bh=B60+RecEuLd6rhxCQ8CG0rd8kX29GYsT4px2gp3B5Fw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=PPlOS2f9lp5fQ8bP0DAJtnTXTzwHjXy+OouR6sd0wuEEJKBU0v13RHbxTb+gKa0XSBjAoMF9HEAuUAHPPIjstyBuQCZF/ZdV/2TD/ChCEC/d/Tf6CEsXqMl1jgwr5JDf34q8MBeL1CcDrFa9vT1RZr9tPHby++PZdwjNhb7gBc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hH/AQDwg; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5ce2aada130so4345361a12.1;
-        Tue, 13 Feb 2024 21:31:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707888672; x=1708493472; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J1bhCKGDvBVOs9ngY7YgSkummluoNzAr0v78tY3BsCw=;
-        b=hH/AQDwgKkt/pTMNfkHb8iRy84o+KEc9tkX7BP8sWzft9quZY/HZWRbCf7jOoVwNJV
-         oQlh9+yBVcjIo97i5M1bTO0QA+A7sLeNe8Cj1gPpUGpGfM/LU9+XEWxsqE9m+MnCr2Au
-         d/VAiD10g0zsgdMZ1LN5Avu50KtU3glSSTwm7s/hXvUYrU8LpHoRSTDi56lOypcZSP6F
-         KoeGpAPZYe8XstHWxBwg39jABwyw2p08hLQaW/mTHi8fcQ6MbjbEHZ5yTIL141Vb8Li7
-         tdQiyw5GUpe+f0bKSGRy76dD26fpNhbfOIbM46KVGrztbsDcNiu728pFuS6oaI/BCfJz
-         DNmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707888672; x=1708493472;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J1bhCKGDvBVOs9ngY7YgSkummluoNzAr0v78tY3BsCw=;
-        b=YD7ObxjxTg3vdY9pF874PbvQfKlKzn+pu+d/72pn5xEk1j3Xsuh5i4n18RUbaEu96H
-         Em/lKVDInDmIElcC7p3PO2geaLZuoy5ATDeh4TAqCoGYPciLyzp+qMOZbgb9mjOkNrXJ
-         ol91rdsOTUlBFYfzN8mZyPKvnX5rUmOyvdhowrMczh/QF+9Ffm9oZutzg4JHz94HluBO
-         2WOFPiYG6FV4DFLU+03+kNmSv4rIyJjB3K3ou2k8HK8J4zfXiz8G7ELMee71jwPwn7uF
-         GVS8mwC4RQ81yU8y4M6J/QlOlfLkUBkMtqs0Nz/x9r75vAjZk/r/JNgrBQnBZomvyvqJ
-         Ncbw==
-X-Forwarded-Encrypted: i=1; AJvYcCVzruwWW+Y/SAV2d4aZjpo7Tz1AnkkvW/rjJ/AuexRMpN0zSoZth4dKTJQFIz6Aghjac9PrgTg3Ge3ANteJBW1z49YknGl/sWAxuulC
-X-Gm-Message-State: AOJu0Yw5L5SOAEf585JxmS5MslSrMK9Z3QtoFSQErPL3a7p3+F9xeOC1
-	89KtNvaVsqISaoeJp/3VLpbWJDzmK1jhfRR/iuDfQRFncByRTgxs
-X-Google-Smtp-Source: AGHT+IG6Ax5PUpSuixTzpakqKtXTvoLIZnbalklzBvOXb72/Zmq+RRJsUONzQoWNYMglfZkyyiz+gA==
-X-Received: by 2002:a17:90a:b311:b0:297:15f7:2ba2 with SMTP id d17-20020a17090ab31100b0029715f72ba2mr1628297pjr.28.1707888672415;
-        Tue, 13 Feb 2024 21:31:12 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWVAAX9B9wlxdTwmOImJEajfeNjqI+/pqIlA3edOqtsp6WSNMy0zPPoprUmA2ewVbMiSCGYFSQvGJb76exLR+TFZeOghEKD3bw+ESzJ96pzMDARHbRbjfubo4QuePXkRVO57vwYq/dL9vCjS/DJ3JlaCZ/x14tOK/us1HUcPbY7P3PhQoIh7VjbQG6/ZPZyP8hoDhlVFREDUXRohHfs3gw7AeQqXRdy9nkmXv+uFWfK
-Received: from ares2-ThinkPad-L13-Yoga-Gen-2.. ([2400:2410:b9a0:8400:93ae:f463:289c:d6c5])
-        by smtp.googlemail.com with ESMTPSA id ll5-20020a170903090500b001da186aa72csm2921904plb.17.2024.02.13.21.31.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Feb 2024 21:31:12 -0800 (PST)
-From: Vishnu Sankar <vishnuocv@gmail.com>
-To: hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com
-Cc: platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mpearson-lenovo@squebb.ca,
-	vsankar@lenovo.com,
-	Vishnu Sankar <vishnuocv@gmail.com>
-Subject: [PATCH 2/2] platform/x86: thinkpad_acpi: Fix to correct wrong temp reporting on some ThinkPads
-Date: Wed, 14 Feb 2024 14:29:59 +0900
-Message-Id: <20240214052959.8550-2-vishnuocv@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240214052959.8550-1-vishnuocv@gmail.com>
-References: <20240214052959.8550-1-vishnuocv@gmail.com>
+	s=arc-20240116; t=1707894293; c=relaxed/simple;
+	bh=9WF497N0mP5INdxam/s7jjMx5qgKT8n8tqzrHlsYhq0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uFvKZOWjS7vkaHkKUHO2LJoLEqRKnJFUKvh9NPQGcBzbl+UlqgNET8fpolV5DOu92PuZ5wkr3pAm9UPl5qNIY4LWXrSDpKWqe6abCMFM6xXKMzECTJYLeGg9/Y3ccd+PTLEUVmoZYIGhv+dQ6re5bVm2ToO2iFtFaDhzBAZUYp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=D3neLMNN; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+	t=1707894277; x=1708499077; i=w_armin@gmx.de;
+	bh=9WF497N0mP5INdxam/s7jjMx5qgKT8n8tqzrHlsYhq0=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=D3neLMNNjJTeXH1Fc63ssXErJ4oxyExeEKPP99SMC0MdHz6vxuZhK6MzYRNnkXEU
+	 M6D6M3dFACptbZgRD79YiAIjMP/XLsEOCGBUL9n3KPD66Go69IhJm3elZ/+WUhz4/
+	 pyKy7NQtKx3MQ8jzrWr4PUYFMC5bWf6l/TwXVEWG6A+fdYAVQxKFvu/Bdh3X0nYmy
+	 pMa5IYJaKhQMyse0AWaPrRo8XtH51x+OWFYgVfATuWraoU7BbqDExsyEZtS9bT22P
+	 GodeOizafUmCOr1oeHXvdbdv7oysefqxPlkFLahdx0MU+PHK5CJdyu7QtR+QtG/WH
+	 I5vz5GRtw2ESwM3I0g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from mx-amd-b650.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
+ (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
+ 1MxDp4-1qleEn0EEy-00xbZ6; Wed, 14 Feb 2024 08:04:37 +0100
+From: Armin Wolf <W_Armin@gmx.de>
+To: corentin.chary@gmail.com,
+	luke@ljones.dev
+Cc: hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] platform/x86: wmi: Fixes for event data handling
+Date: Wed, 14 Feb 2024 08:04:28 +0100
+Message-Id: <20240214070433.2677-1-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:kHHTIzpSa5Q/YMCYAMtpResv8URGHXtnxQMel96xS29hKHkQ2Ly
+ 3odIg0dyrr3zojRqi4gU2xBsEviCN35cLfD3rL5c8nxQyDzxzGCCcCQQ/ZR9dBHJtM/wgiE
+ 2/lmpYDlKnzjP7VyJuQxzAhV4a0uMw6e8ppistgTURq5yZM0lkJZ7BRAomFnknnnc/dCRY6
+ oCA9O7bgJ2QKZORWR9Z8Q==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:19Gueatd4H0=;F0AOFIW/7F6yBKwWzIYmqqJHyA9
+ +H/vlHfkTXzVzwBN7JQJ8qtmKRQfzP6uV67zhUf9SFlbs4alHxcKpqzHCNV9KdaX6YmnGh6BY
+ fylye4tVSsTQixEwkdQG1+6YfaVHt6Ipib2+KtyVV7kTCzJifLmpve+EdaPxZ/eKACWW4goY9
+ tqzjZ3h1WO5J9bkCMdF3dcDOGi5VwiammBrCEhWGHRmD/3a1XWLpUxQ7zhBEzpd8Y7O+06pf3
+ QIaYAzeSI4uOgCu/TbSFmTkh3D3Sra/RP3zStGUR/Zl5jcv7ImJDBVcApq6dNw0tTvNxq3UM2
+ m4vSisHzL9h9mUkvZVzYSxc8rg8LrASvWqMh6BbndIsToDfSpwWQC3jOKKi2Kc/jlDOvEMADV
+ C28rVLpPIxD+iFe+9W+U0pn0yD9DOhA8QOmAwiAuPjjVFxqkVOj8iumSoE2guIJqdq0f2UrZA
+ qgEk7D0gEqjFbMRIXj7WNWQd8SJC7W0hUsBkTuYVZwzUp8lbjPHPrhvarpbjvV4tGOFHjQm30
+ 7ExcHkaE7s4SzJqeUiRLXlD7n1E3KSVA9k7pb1+yMXgPy2AmatEsSOrmZ6w+UKuK2TtzbdLLl
+ Vr2p9OUQNXXZFhXsW436ByWVykQWg4KtaXz/tNU6wrXVLvI+mAx4epzET8gvslhalUvLT+1mb
+ iWndfssKYwohpzsa3EHArUtRoKuaZN0QZKbW+qTe2CY1Ux1DFnjVIDPD3NiogLydNpmSzQ/fa
+ EahAXeML8MCEIab4yMd+ksAUbqAaQo0GOkLTvOCoN3N9uAPVIGlEeRr0KhS3WXZ3ofoHVw7k/
+ z3AWl9AIPo5udeG+r2vXjanlV2fypVJFXAlQcmqpVNH1A=
 
-Added non-standard thermal register support for some ThinkPads.
+This patch series contains fixes for the handling of WMI event data
+when receiving WMI events.
 
-Some of the Thinkpads use a non-standard ECFW which use different
-thermal register addresses.
-This is a fix to correct the wrong temperature reporting on
-those systems.
+The first patch aims to prevent WMI event drivers depending on WMI
+event data support from binding to a WMI device which does not
+support the retrieval of additional WMI event data.
 
-Tested on Lenovo ThinkPad L13 Yoga Gen2
+The second patch makes sure that the WMI core not only checks that
+evaluating the ACPI control method used for retrieving additional
+event data (_WED) succeeded, but that it also returned any data.
 
-Suggested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
----
--Improvements as requested.
--Improved the readability in case TPACPI_THERMAL_TPEC_12.
--idx < 8 from idx idx <=7 to match idx = 8
--KILO used from linux/units.h instead of 1000.
----
----
- drivers/platform/x86/thinkpad_acpi.c | 74 +++++++++++++++++++++++++---
- 1 file changed, 68 insertions(+), 6 deletions(-)
+The third patch fixes an compatibility issue with the ACPI firmware
+of some ASUS notebooks. This issue was "fixed" inside asus-wmi by
+manually retrieving event data items, sidestepping the WMI core.
 
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 2428c8bd0fa2..9be114572f17 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -69,6 +69,7 @@
- #include <linux/sysfs.h>
- #include <linux/types.h>
- #include <linux/uaccess.h>
-+#include <linux/units.h>
- #include <linux/workqueue.h>
- 
- #include <acpi/battery.h>
-@@ -6126,12 +6127,15 @@ enum thermal_access_mode {
- 	TPACPI_THERMAL_ACPI_TMP07,	/* Use ACPI TMP0-7 */
- 	TPACPI_THERMAL_ACPI_UPDT,	/* Use ACPI TMP0-7 with UPDT */
- 	TPACPI_THERMAL_TPEC_8,		/* Use ACPI EC regs, 8 sensors */
-+	TPACPI_THERMAL_TPEC_12,		/* Use ACPI EC regs, 12 sensors */
- 	TPACPI_THERMAL_TPEC_16,		/* Use ACPI EC regs, 16 sensors */
- };
- 
- enum { /* TPACPI_THERMAL_TPEC_* */
- 	TP_EC_THERMAL_TMP0 = 0x78,	/* ACPI EC regs TMP 0..7 */
- 	TP_EC_THERMAL_TMP8 = 0xC0,	/* ACPI EC regs TMP 8..15 */
-+	TP_EC_THERMAL_TMP0_NS = 0xA8,	/* ACPI EC Non-Standard regs TMP 0..7 */
-+	TP_EC_THERMAL_TMP8_NS = 0xB8,	/* ACPI EC Non-standard regs TMP 8..11 */
- 	TP_EC_FUNCREV      = 0xEF,      /* ACPI EC Functional revision */
- 	TP_EC_THERMAL_TMP_NA = -128,	/* ACPI EC sensor not available */
- 
-@@ -6144,8 +6148,22 @@ struct ibm_thermal_sensors_struct {
- 	s32 temp[TPACPI_MAX_THERMAL_SENSORS];
- };
- 
-+static const struct tpacpi_quirk thermal_quirk_table[] __initconst = {
-+	/* Non-standard address for thermal registers on some ThinkPads */
-+	TPACPI_Q_LNV3('R', '1', 'F', true),	/* L13 Yoga Gen 2 */
-+	TPACPI_Q_LNV3('N', '2', 'U', true),	/* X13 Yoga Gen 2*/
-+	TPACPI_Q_LNV3('R', '0', 'R', true),	/* L380 */
-+	TPACPI_Q_LNV3('R', '1', '5', true),	/* L13 Yoga Gen 1*/
-+	TPACPI_Q_LNV3('R', '1', '0', true),	/* L390 */
-+	TPACPI_Q_LNV3('N', '2', 'L', true),	/* X13 Yoga Gen 1*/
-+	TPACPI_Q_LNV3('R', '0', 'T', true),	/* 11e Gen5 GL*/
-+	TPACPI_Q_LNV3('R', '1', 'D', true),	/* 11e Gen5 GL-R*/
-+	TPACPI_Q_LNV3('R', '0', 'V', true),	/* 11e Gen5 KL-Y*/
-+};
-+
- static enum thermal_access_mode thermal_read_mode;
- static bool thermal_use_labels;
-+static bool thermal_with_ns_address;	/*Non-standard thermal reg address*/
- 
- /* Function to check thermal read mode */
- static enum thermal_access_mode thermal_read_mode_check(void)
-@@ -6168,6 +6186,16 @@ static enum thermal_access_mode thermal_read_mode_check(void)
- 		if (!acpi_ec_read(TP_EC_FUNCREV, &ver))
- 			pr_warn("Thinkpad ACPI EC unable to access EC version\n");
- 
-+		/* Quirks to check non-standard EC */
-+		thermal_with_ns_address = tpacpi_check_quirks(thermal_quirk_table,
-+							ARRAY_SIZE(thermal_quirk_table));
-+
-+		/* Support for Thinkpads with non-standard address */
-+		if (thermal_with_ns_address) {
-+			pr_info("ECFW with non-standard thermal registers found\n");
-+			return TPACPI_THERMAL_TPEC_12;
-+		}
-+
- 		ta1 = ta2 = 0;
- 		for (i = 0; i < 8; i++) {
- 			if (acpi_ec_read(TP_EC_THERMAL_TMP0 + i, &t)) {
-@@ -6239,6 +6267,20 @@ static int thermal_get_sensor(int idx, s32 *value)
- 		}
- 		break;
- 
-+	/* The Non-standard EC uses 12 Thermal areas */
-+	case TPACPI_THERMAL_TPEC_12:
-+		if (idx >= 12)
-+			return -EINVAL;
-+
-+		t = idx < 8 ? TP_EC_THERMAL_TMP0_NS + idx :
-+				TP_EC_THERMAL_TMP8_NS + (idx - 8);
-+
-+		if (!acpi_ec_read(t, &tmp))
-+			return -EIO;
-+
-+		*value = tmp * KILO;
-+		return 0;
-+
- 	case TPACPI_THERMAL_ACPI_UPDT:
- 		if (idx <= 7) {
- 			snprintf(tmpi, sizeof(tmpi), "TMP%c", '0' + idx);
-@@ -6284,6 +6326,8 @@ static int thermal_get_sensors(struct ibm_thermal_sensors_struct *s)
- 
- 	if (thermal_read_mode == TPACPI_THERMAL_TPEC_16)
- 		n = 16;
-+	else if (thermal_read_mode == TPACPI_THERMAL_TPEC_12)
-+		n = 12;
- 
- 	for (i = 0 ; i < n; i++) {
- 		res = thermal_get_sensor(i, &s->temp[i]);
-@@ -6382,18 +6426,36 @@ static struct attribute *thermal_temp_input_attr[] = {
- 	NULL
- };
- 
-+#define to_dev_attr(_attr) container_of(_attr, struct device_attribute, attr)
-+
- static umode_t thermal_attr_is_visible(struct kobject *kobj,
- 				       struct attribute *attr, int n)
- {
--	if (thermal_read_mode == TPACPI_THERMAL_NONE)
-+	struct device_attribute *dev_attr = to_dev_attr(attr);
-+	struct sensor_device_attribute *sensor_attr =
-+					to_sensor_dev_attr(dev_attr);
-+
-+	int idx = sensor_attr->index;
-+
-+	switch (thermal_read_mode) {
-+	case TPACPI_THERMAL_NONE:
- 		return 0;
- 
--	if (attr == THERMAL_ATTRS(8) || attr == THERMAL_ATTRS(9) ||
--	    attr == THERMAL_ATTRS(10) || attr == THERMAL_ATTRS(11) ||
--	    attr == THERMAL_ATTRS(12) || attr == THERMAL_ATTRS(13) ||
--	    attr == THERMAL_ATTRS(14) || attr == THERMAL_ATTRS(15)) {
--		if (thermal_read_mode != TPACPI_THERMAL_TPEC_16)
-+	case TPACPI_THERMAL_ACPI_TMP07:
-+	case TPACPI_THERMAL_ACPI_UPDT:
-+	case TPACPI_THERMAL_TPEC_8:
-+		if (idx >= 8)
- 			return 0;
-+		break;
-+
-+	case TPACPI_THERMAL_TPEC_12:
-+		if (idx >= 12)
-+			return 0;
-+		break;
-+
-+	default:
-+		break;
-+
- 	}
- 
- 	return attr->mode;
--- 
-2.34.1
+The last patch reverts this hacky fixup, as the underlying issue is
+now handled inside the WMI core itself.
+
+All patches where tested on a Dell Inspiron 3505 and a ASUS Prime
+B650-Plus motherboard. However the last patch should be tested on an
+actual ASUS notebook which is affected by the workaround.
+
+Armin Wolf (5):
+  platform/x86: wmi: Prevent incompatible event driver from probing
+  platform/x86: wmi: Check if event data is not NULL
+  platform/x86: wmi: Always evaluate _WED when receiving an event
+  platform/x86: wmi: Update documentation regarding _WED
+  Revert "platform/x86: asus-wmi: Support WMI event queue"
+
+ Documentation/wmi/acpi-interface.rst |  5 +-
+ drivers/platform/x86/asus-wmi.c      | 71 ++------------------------
+ drivers/platform/x86/wmi.c           | 74 +++++++++++++++++++++++-----
+ include/linux/wmi.h                  |  2 +-
+ 4 files changed, 71 insertions(+), 81 deletions(-)
+
+=2D-
+2.39.2
 
 
