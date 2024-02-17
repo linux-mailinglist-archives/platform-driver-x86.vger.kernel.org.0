@@ -1,255 +1,134 @@
-Return-Path: <platform-driver-x86+bounces-1458-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-1460-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2078E859696
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 18 Feb 2024 12:01:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E06D5859754
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 18 Feb 2024 15:11:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 889181F21429
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 18 Feb 2024 11:01:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 339A8281A46
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 18 Feb 2024 14:11:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 668A54EB58;
-	Sun, 18 Feb 2024 11:01:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD8656BFB8;
+	Sun, 18 Feb 2024 14:11:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Y2e/Eg05"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="HUpc3Guu"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2065.outbound.protection.outlook.com [40.107.101.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D341E526
-	for <platform-driver-x86@vger.kernel.org>; Sun, 18 Feb 2024 11:01:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708254112; cv=none; b=S9VPeWuu6tFEQx5ObWNKHMESrWVZpEjegQzB60tg9YO13GQb6kmsL1PSmgIr5LBqr57dP5Jv4XM2ZLC1rMiNm0VSWMHFB57qdZe9kR8IA3MLbriC5HkyPnK4CXTd8jMI2Y4NZEi5VVbZuqADcSf0r2XO/AS/kMy8b/Y2bUKOHJI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708254112; c=relaxed/simple;
-	bh=M/AHIi+x/jiF/PThKbMOMo4JXa4L1ccApc8Jqc9khAM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OeXF5+PH+s+JA55rMnzbjTP6OF+Q7HOzul4FvNwKyKGvmU5/i6Mz2iM9fAlqbt+h4dKNYqXO3rNpXqcPzEnmARBbBquHmxYbc0h3PJjBRYRx1U5VlC6A5kUb9fHJF3GMZJk4Ldr+SzUrzczP6H6UMGzoZ94wb/j1eDPOHHmUDQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Y2e/Eg05; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1708254109;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PhzxOa+tdV5tT3KRjUp/wlDOXFfnB7vhxjSt9woYKnQ=;
-	b=Y2e/Eg05z6b8S2RUnKocadJlmTKE8HHGsXTBFVc5mLBnJ8JHpFc3O8jML4xtbZJ3Rrj2ry
-	J/V9aDexeqUzebiGa71EJWBrHqul5NWRPO14dGIJJ9N0Gec9sdcxmNfNh1U8rPyqxce94q
-	A5OjD/64ZGK3RItIQU1Jqf0fFHg3dhk=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-623-flLzEjpMOe-6lwBkjSvTmg-1; Sun, 18 Feb 2024 06:01:47 -0500
-X-MC-Unique: flLzEjpMOe-6lwBkjSvTmg-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a3e7f805eccso8061266b.2
-        for <platform-driver-x86@vger.kernel.org>; Sun, 18 Feb 2024 03:01:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708254106; x=1708858906;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PhzxOa+tdV5tT3KRjUp/wlDOXFfnB7vhxjSt9woYKnQ=;
-        b=KxlkDASgHiSBiNyhU7Y2OvGt/kalqTGVMeOLZ3W6AEAzt5DaSI1pPuyCZ6QgZx1lKt
-         NqIesoN3lBc3m6eO/0ry1/ehlgE+cfO29Ruj7l/XWLb9yyA69gLar7tXT7rUMbfDKUov
-         xdBhFWPIJWa0kq766d0xpEesbq5KaWD2+fRs0eT9+/0L5UVHUac+G8HX4c7aYKgGlE0g
-         ziwFdn3TRK8gSnLYkg9BUJUKQgvEU5jIymFDmfX4I3JrgOAZvdVvnGqzotZdt0GhE+SP
-         KldJ8jK7L8oyyAgs3Eb7DyVcJW4x4Briyg+ut7VbYw7twP+Mt6cOdQCrFVOLf+F1NaNq
-         k4EA==
-X-Gm-Message-State: AOJu0YyhBrY8MgkGPx7gEX59lQv+SHGY3AG0eigfXrQyZ28TEuT4fY2B
-	xlKx2nCaJJeKk9bppQIm8xeuJPJxzb7fRoUT2hwWqkjxgxM28ZjmkgrM9L5mo2/1N4wESFHwtmI
-	jhdawIuttvhmTtA+XdnZ+0BkmqAEIhBeb7bb+auuo238d/WZ4rYPg8zBcmRbdQuDXtgxpK64=
-X-Received: by 2002:a17:906:d86:b0:a3d:7559:6ed1 with SMTP id m6-20020a1709060d8600b00a3d75596ed1mr6557324eji.4.1708254106153;
-        Sun, 18 Feb 2024 03:01:46 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHTOitH7IczymutN2VoJo3b5YCAFLZzH9xYmmAjNuVWwzt/z1AW3C5zjADbe1Ig+jJdPvmwug==
-X-Received: by 2002:a17:906:d86:b0:a3d:7559:6ed1 with SMTP id m6-20020a1709060d8600b00a3d75596ed1mr6557311eji.4.1708254105844;
-        Sun, 18 Feb 2024 03:01:45 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id vo5-20020a170907a80500b00a3d559c6113sm1819579ejc.204.2024.02.18.03.01.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 Feb 2024 03:01:45 -0800 (PST)
-Message-ID: <7260ca36-fd92-4bf5-86b1-fb91393ad064@redhat.com>
-Date: Sun, 18 Feb 2024 12:01:44 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C302565BAA;
+	Sun, 18 Feb 2024 14:11:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.65
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708265487; cv=fail; b=AT3L/rXo2PzXIuT2xlRklx4DjH4ch2Lv1ItWoxge/mZj2p/7GfNrYrjiDfaRzU5DC9HA2MNT4lzMiqAHI0xKEl/yzSb1MzFckM6gUTQu2l8Aj0T5oLJqlIlWPFHHKynVXnJr1ImhIyRTPYSWgG18Twz1MLcGwjjflAg64KRD/hw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708265487; c=relaxed/simple;
+	bh=rz2u5OHT6uBSB1+HFQiee+s2yo6HxI3sQ7AeCiItP8E=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Z2tSiLX4pPNVa+c+K01OZPgc5s3SDHHE0DESrKKipMpzyDtnj5KEdYQwGsa9WXU1/EzfPhfsQ0AsSWftNHa3XtbMN0GWW9p5Xvl4LOAozeUeV0M2oi8Q45aNVCxSC+mr7Q622Tk1MyXCSFcAlBizXQN4AbIL8Nv/aVQeJBps4fQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=HUpc3Guu; arc=fail smtp.client-ip=40.107.101.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=H/JYRhVOGN9DhgsnoaVHuH61Vk4YQ3r7gt0Y++7SjWJsPpOKUFdMhVd83HG+rYwmgBs5Vl0KfY3ZdID1NdenbkOpDYLJulgyX6FgDgS0INB5E0HXNgr0j0M9aY+zVhgjxhDHlqKhUj1CERu+Gc7N4+xVxj14gqV/tqXBlt2ZqpVvD7O5f25cAuUIelDM3XH5JhDe0SIViJ9BZ9Fd/JcrN7wHW3EGZ07RBXKcifgnHf6V8ycxJFV18/rt2T5jbCiM8xNIKb5A2L66GLLhqWsrpuMIZNqldVhXQ0BUWzAprejQOYWThUTUhlfpDIoWJf6DSAW9WVXWgkWmXDHfi1znfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PK+mTiCi5IygO4feRyggpgzh4AL3bx6jjq+muCTGn1I=;
+ b=Zg30Ox9dV9sQBbRvFkKgbtXUbwOni7COiSb/QpVurNKUsC6xKoZT3wjsfPkcVorNK7PwyGLH2SZlH+YhUGGBEMfEfLl9wMQO6hL2IEVAbYmXm4chRIJpxgzYEfGV53yEtVmU1A6gJG/hDPsLD7SH9MeJpqQLlvXFsDW0dcccyJtfsqTximDk041NTXJd+6LqY1ofNeJm+9ublI/g6Hts9+FF5oDZrKE506PNtTQPM9DKMQfyRoep8Mai8qM84DIPw5V5vJ201kQdYc/9cKvrr8XYSIrHZCFi01R5Dq6lmNdefgsJVKJkxKHmSVQz+GQ+rw0LbLiO15p/x2JDCGg0Og==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PK+mTiCi5IygO4feRyggpgzh4AL3bx6jjq+muCTGn1I=;
+ b=HUpc3GuuV2fy6Xm3V5uctYWQWzX8gCtelnSsvFp6zIwkunbXAZNr9lgeWmaKd1j9mXHjBqvxYHGicA+eiCPIN7JpIU23oKpPSMR6r/qJgP4p12EjwvVL+uOWXBrngmFdmUoICM7JLXovqf5DsYZDYm1qThaMTYGCLdGxVqkGO0I=
+Received: from BN0PR04CA0079.namprd04.prod.outlook.com (2603:10b6:408:ea::24)
+ by SA1PR12MB6871.namprd12.prod.outlook.com (2603:10b6:806:25f::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.19; Sun, 18 Feb
+ 2024 14:11:22 +0000
+Received: from BN3PEPF0000B069.namprd21.prod.outlook.com
+ (2603:10b6:408:ea:cafe::a4) by BN0PR04CA0079.outlook.office365.com
+ (2603:10b6:408:ea::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.34 via Frontend
+ Transport; Sun, 18 Feb 2024 14:11:21 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN3PEPF0000B069.mail.protection.outlook.com (10.167.243.68) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7339.0 via Frontend Transport; Sun, 18 Feb 2024 14:11:21 +0000
+Received: from AUS-P9-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Sun, 18 Feb
+ 2024 08:11:21 -0600
+From: Mario Limonciello <mario.limonciello@amd.com>
+To: <Shyam-sundar.S-k@amd.com>, <hdegoede@redhat.com>
+CC: <platform-driver-x86@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH v2 0/2] AMD PMF Smart PC error handling cleanups
+Date: Fri, 16 Feb 2024 19:41:05 -0600
+Message-ID: <20240217014107.113749-1-mario.limonciello@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] platform/x86/amd/pmf: Fixup error handling for
- amd_pmf_init_smart_pc()
-Content-Language: en-US, nl
-To: Mario Limonciello <mario.limonciello@amd.com>, Shyam-sundar.S-k@amd.com
-Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
- Linux regressions mailing list <regressions@lists.linux.dev>
-References: <20240217012205.113614-1-mario.limonciello@amd.com>
- <20240217012205.113614-3-mario.limonciello@amd.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240217012205.113614-3-mario.limonciello@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B069:EE_|SA1PR12MB6871:EE_
+X-MS-Office365-Filtering-Correlation-Id: cd54ae36-e6d4-404b-4336-08dc308b7be6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	iYP67EF0tTojuRisIsi3fnBnKaaQaDJpApw9daoSQA2fzysUj9LJZ/Mn5vDHFVShPSPGbVCYKaYjjBQV+gzez5p94oEUvh54e0yl9Mf6TqrJ4LduhX4BqiTmL6bVUw+tDgcLn04HaqeRV+oMybbveVXkFkrJzGGeqwBss7ESl+AFzOHnwEdG5H2qjcyl7EmMFRzBWPp6ZOQc/wMIMRH2o+mJGJWtnHJtcCizPcOb0Q/vrsOd3i8yYD/pu4lfe8VgGsuRdqCyFsonzc1nvewQpvkT3BFZzKwNaP8OsVU4m0SeEbXVALeSDiT2+yiLYqCO36+si0b1KmurEPMs8wZkOwe9cxN8ajQ7ApvKXvWFw2YQQvecGXQcDCTgP1JdncNzG71Ue6RIvuZl4Z2Zm38FgB7rrSJ92QwzHodmQJnYSP5L0wIBPWZTB0+orz6RrUdIiNlTYsq9eNLdQEPzGPYE66EPbHmJiw0jO/XxtDxGsEAU/5vxRsJfjdb/DB0+/EFagSedl78BHcpwBrHHzMyUBDHFtD70wljz6fPZHqnDR9gp2CCINC2GOz82hFWdWAnrcrWNA/cjKmHNIl0MQ3AGRTTuFLcJ0y12rr4j6lfHRVUWH8k+Pgg1beolVdD4dMqIBuL2jr8nyPmfl4/zS2djKIPzglFebNhM2C+ZBfls0XU=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(346002)(396003)(376002)(136003)(230922051799003)(64100799003)(451199024)(1800799012)(186009)(36860700004)(82310400011)(40470700004)(46966006)(4744005)(44832011)(2906002)(5660300002)(36756003)(2616005)(41300700001)(26005)(1076003)(478600001)(16526019)(356005)(82740400003)(81166007)(83380400001)(426003)(336012)(86362001)(4326008)(8936002)(8676002)(70586007)(70206006)(7696005)(54906003)(6666004)(316002)(110136005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2024 14:11:21.6730
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd54ae36-e6d4-404b-4336-08dc308b7be6
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF0000B069.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6871
 
-Hi Mario,
+While debugging the suspend issue for amd-pmf the initial bisect result
+pointed at red herrings of cleanup flow problems for
+amd_pmf_init_smart_pc().  The actual issue wasn't in this code, but still
+a lot of memory is allocated and not immediately released if any of the
+error branches are taken.
 
-Thank you for your patches.
+This series cleans that up so that every step is cleaned up. I believe
+this actually fixes driver bugs that "could" occur if a BIOS advertisd
+Smart PC as well as ITS auto or CNQF but didn't include a policy in the
+BIOS.
 
-On 2/17/24 02:22, Mario Limonciello wrote:
-> amd_pmf_init_smart_pc() calls out to amd_pmf_get_bios_buffer() but
-> the error handling flow doesn't clean everything up all allocated
-> memory.
-> 
-> As amd_pmf_get_bios_buffer() is only called by amd_pmf_init_smart_pc(),
-> fold it into the function and add labels to clean up any step that
-> can fail along the way.
-> 
-> Fixes: 7c45534afa44 ("platform/x86/amd/pmf: Add support for PMF Policy Binary")
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> ---
->  drivers/platform/x86/amd/pmf/tee-if.c | 67 ++++++++++++++++++---------
->  1 file changed, 44 insertions(+), 23 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
-> index 1359ab340f7c..feb9dfafea30 100644
-> --- a/drivers/platform/x86/amd/pmf/tee-if.c
-> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
-> @@ -338,25 +338,6 @@ static void amd_pmf_remove_pb(struct amd_pmf_dev *dev) {}
->  static void amd_pmf_hex_dump_pb(struct amd_pmf_dev *dev) {}
->  #endif
->  
-> -static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
-> -{
-> -	dev->policy_buf = kzalloc(dev->policy_sz, GFP_KERNEL);
-> -	if (!dev->policy_buf)
-> -		return -ENOMEM;
-> -
-> -	dev->policy_base = devm_ioremap(dev->dev, dev->policy_addr, dev->policy_sz);
-> -	if (!dev->policy_base)
-> -		return -ENOMEM;
-> -
-> -	memcpy(dev->policy_buf, dev->policy_base, dev->policy_sz);
-> -
-> -	amd_pmf_hex_dump_pb(dev);
-> -	if (pb_side_load)
-> -		amd_pmf_open_pb(dev, dev->dbgfs_dir);
-> -
-> -	return amd_pmf_start_policy_engine(dev);
-> -}
-> -
->  static int amd_pmf_amdtee_ta_match(struct tee_ioctl_version_data *ver, const void *data)
->  {
->  	return ver->impl_id == TEE_IMPL_ID_AMDTEE;
-> @@ -454,14 +435,54 @@ int amd_pmf_init_smart_pc(struct amd_pmf_dev *dev)
->  	if (ret)
->  		return ret;
->  
-> +	ret = amd_pmf_set_dram_addr(dev, true);
-> +	if (ret)
-> +		goto out_dram;
-> +
-> +	dev->policy_base = devm_ioremap(dev->dev, dev->policy_addr, dev->policy_sz);
-> +	if (!dev->policy_base) {
-> +		ret = -ENOMEM;
-> +		goto out_policy_base;
-> +	}
-> +
-> +	dev->policy_buf = kzalloc(dev->policy_sz, GFP_KERNEL);
-> +	if (!dev->policy_buf) {
-> +		ret = -ENOMEM;
-> +		goto out_policy_buf;
-> +	}
-> +
-> +	memcpy(dev->policy_buf, dev->policy_base, dev->policy_sz);
-> +
-> +	amd_pmf_hex_dump_pb(dev);
-> +	if (pb_side_load)
-> +		amd_pmf_open_pb(dev, dev->dbgfs_dir);
-> +
->  	INIT_DELAYED_WORK(&dev->pb_work, amd_pmf_invoke_cmd);
-> -	amd_pmf_set_dram_addr(dev, true);
-> -	amd_pmf_get_bios_buffer(dev);
-> +
-> +	ret = amd_pmf_start_policy_engine(dev);
-> +	if (ret)
-> +		goto out_start_engine;
-> +
->  	dev->prev_data = kzalloc(sizeof(*dev->prev_data), GFP_KERNEL);
->  	if (!dev->prev_data)
+Mario Limonciello (2):
+  platform/x86/amd/pmf: Add debugging message for missing policy data
+  platform/x86/amd/pmf: Fixup error handling for amd_pmf_init_smart_pc()
 
-I just checked and dev->prev_data gets used by dev->pb_work
-which gets queued by amd_pmf_start_policy_engine() so there
-is a (pre-existing) race here and dev->prev_data should be allocated
-before amd_pmf_start_policy_engine().
+ drivers/platform/x86/amd/pmf/tee-if.c | 69 +++++++++++++++++----------
+ 1 file changed, 43 insertions(+), 26 deletions(-)
 
-Note kfree(NULL) is a no-op as is cancel_delayed_work_sync()
-on a non-queued work.
-
-So I think you can just use a single error_exit: label 
-(or any other label-name you like) and do:
-
-error_exit:
-	cancel_delayed_work_sync(&dev->pb_work);
-	kfree(dev->prev_data);
-	dev->prev_data = NULL;
-	kfree(dev->policy_buf);
-	dev->policy_buf = NULL;
-	kfree(dev->buf);
-	dev->buf = NULL;
-	amd_pmf_tee_deinit(dev);
-	return ret;
-
-There as long as you do the INIT_DELAYED_WORK() before
-any of the code which may fail with a goto error_exit.
-
-Note I also added clearing of the pointers after freeing
-them, at least for dev->buf this is important because
-that also gets used in non smart-pc paths and those
-count on it either being NULL or a valid pointer.
-
-Regards,
-
-Hans
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-> -		return -ENOMEM;
-> +		goto out_prev_data;
-> +
-> +	return 0;
->  
-> -	return dev->smart_pc_enabled;
-> +out_prev_data:
-> +	cancel_delayed_work_sync(&dev->pb_work);
-> +
-> +out_start_engine:
-> +	kfree(dev->policy_buf);
-> +
-> +out_policy_buf:
-> +out_policy_base:
-> +	kfree(dev->buf);
-> +
-> +out_dram:
-> +	amd_pmf_tee_deinit(dev);
-> +
-> +	return ret;
->  }
->  
->  void amd_pmf_deinit_smart_pc(struct amd_pmf_dev *dev)
+-- 
+2.34.1
 
 
