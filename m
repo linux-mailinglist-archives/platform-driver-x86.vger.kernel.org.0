@@ -1,79 +1,103 @@
-Return-Path: <platform-driver-x86+bounces-1531-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-1533-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100F3860339
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 22 Feb 2024 20:51:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB50286042A
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 22 Feb 2024 21:58:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A4E0C1F2ABF5
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 22 Feb 2024 19:51:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6AA9A1F25BAD
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 22 Feb 2024 20:58:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9FBD6AF8B;
-	Thu, 22 Feb 2024 19:51:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB01471755;
+	Thu, 22 Feb 2024 20:58:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nY1m26yR"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YbJuNAE9"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14A85491B;
-	Thu, 22 Feb 2024 19:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3CA6E617
+	for <platform-driver-x86@vger.kernel.org>; Thu, 22 Feb 2024 20:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708631485; cv=none; b=F3XI/zdJAKvVAH8Ehxj6AxsxYU3xF8mPbiJz6X39ChU6GQ1/BPdYWrrez1No/yWv70iIs4WL6CO2S7wy4IspeW4qc0F8mcvnaZcbsZ727o/vvIYUwfvanYGPvKFPR2w2sdtQQkonadR7N3yFw1t2dnByk7gn7zhWUMLTcV9/tJs=
+	t=1708635484; cv=none; b=Tpiu30OZ4lAw54SRJss1ylSsS5rbwvPxPnqh0fP6S3Q+BVaDG0A/N/b/xHTG8iSQem7ah2vRBPz4JYuEl9+wQcQ7kBLG8VpjTqc58yOByem1VYtp6QvnvKT4BlxeFg0/LlQJsb7Y4L5zC7D0dUqbqMwqNI/nZfiz7Qe43XlKlng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708631485; c=relaxed/simple;
-	bh=eZ4iIJtV4LjYkW49xR3Skc8t8FF7LhGrp9QOOC8AqQU=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=S1foo2NNVo2ncVylhHhCgsQ3aq0IfoV/JVxV0QIBjVrpj6NPAnMu6Zd+U7lkbARoC4f157YRQVP7eeZgO6guQPR1uctrcNe0YqGSeZOB1KdEPmn73oDRZAANYNJr9KDZgHIpDeO3N18gRDp7qj5vaG1Rs9qzEMRokWM2M3J+GGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nY1m26yR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8061BC43390;
-	Thu, 22 Feb 2024 19:51:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708631485;
-	bh=eZ4iIJtV4LjYkW49xR3Skc8t8FF7LhGrp9QOOC8AqQU=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=nY1m26yRQdmOyv5Zf4MD4YrUqBAvbm1ISI0zOSCwEdIpPFxBtntlengGBdL4FMk09
-	 lJil5N9fhsppCdyFQUbfg00Qbgd70ThQ4wnFewgF7vCD1aGoa2wHv3jkpAFTjy+q6B
-	 hB5RwfrB7iA454FDE0/1+vc5+9JfIiTFWZi7AAi8d8TxN+lMvOppGUp7Ju2AXXbNCu
-	 5yNLg7Ev6eED05oL1sIwt+8AbDGAp+iJKV0Xnz3KrO7inprB0BhTdZSa8h2rxUMrAo
-	 mKZ8DgoLAskVkALGWXedde3nbG/tSr1nVgn2onqjEGiV6+LXPikTHjhXZmN38qt+Zb
-	 ClhC/XsTwyA7g==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6E2CFC395F1;
-	Thu, 22 Feb 2024 19:51:25 +0000 (UTC)
-Subject: Re: [GIT PULL] platform-drivers-x86 for 6.8-3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <2b496ce8-4711-48cd-b1da-d70522bc0580@redhat.com>
-References: <2b496ce8-4711-48cd-b1da-d70522bc0580@redhat.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <2b496ce8-4711-48cd-b1da-d70522bc0580@redhat.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-v6.8-3
-X-PR-Tracked-Commit-Id: 427c70dec738318b7f71e1b9d829ff0e9771d493
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: c7138f7a354df7cadccda31173617a7f30c8b6c6
-Message-Id: <170863148544.11658.13967952660084009980.pr-tracker-bot@kernel.org>
-Date: Thu, 22 Feb 2024 19:51:25 +0000
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, platform-driver-x86@vger.kernel.org, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+	s=arc-20240116; t=1708635484; c=relaxed/simple;
+	bh=KO17FxZqGQUTkWpzYZMY3Yy4KQM5Bz9Xy9i+eEsb9uU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FSlvcfLryRi6Qu5M6t+pPryaMxfLDt8WFWZ3Zg6DmZOW5wfxsBjpoRjhIYKYx953dyg+ViZ0xjaU5l7QUDb5BjENw+rLjvxNki7ulOcocfFZkTRz2iedbVcY2VFWfdjYo9HREjNLNrUZvFHW/eKo78GKzdWa45gAbJ+TAxC6Hvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YbJuNAE9; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1708635482;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=uQNCPPxOXSIi1YvPzBU8stcQQepKpFfnl3c3A7lEn1w=;
+	b=YbJuNAE9WZkNm02AAbMSlKkubE9k16ffYmbvHh6Awn2Q7fdWU3SBCGvRTfydpxQN5PnUAV
+	SmSFmUMM+KMHUNg3KRVJBGDGGKXo7Oyh3wpA/VBav/7W5kRuxSajIXxG5ew12MwGAcRxnj
+	gn8CKhQqBHr+dt2lzkf5z2odTJw8LZo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-640-iPvArl2jNXObXjSmQJpj3Q-1; Thu, 22 Feb 2024 15:57:58 -0500
+X-MC-Unique: iPvArl2jNXObXjSmQJpj3Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 43454890F64;
+	Thu, 22 Feb 2024 20:57:58 +0000 (UTC)
+Received: from ibm-p8-16-fsp.mgmt.pnr.lab.eng.rdu2.redhat.com (unknown [10.22.8.53])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id EC3EB10802;
+	Thu, 22 Feb 2024 20:57:56 +0000 (UTC)
+From: Luiz Capitulino <luizcap@redhat.com>
+To: ilpo.jarvinen@linux.intel.com,
+	shravankr@nvidia.com
+Cc: davthompson@nvidia.com,
+	ndalvi@redhat.com,
+	linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	Luiz Capitulino <luizcap@redhat.com>
+Subject: [PATCH 0/2] platform/mellanox: mlxbf-pmc: Fix module loading
+Date: Thu, 22 Feb 2024 15:57:28 -0500
+Message-ID: <cover.1708635408.git.luizcap@redhat.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 
-The pull request you sent on Thu, 22 Feb 2024 14:52:46 +0100:
+Hi,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-v6.8-3
+The mlxbf-pmc driver fails to load when the firmware reports a new but not
+yet implemented performance block. I can reproduce this today with a
+Bluefield-3 card and UEFI version 4.6.0-18-g7d063bb-BId13035, since this
+reports the new clock_measure performance block.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/c7138f7a354df7cadccda31173617a7f30c8b6c6
+This[1] patch from Shravan implements the clock_measure support and will
+solve the issue. But this series avoids the situation by ignoring and
+logging unsupported performance blocks.
 
-Thank you!
+NOTE: This series is based on latest linux-next which contains new changes
+to mlxbf-pmc.
+
+[1] https://lore.kernel.org/lkml/1c2f1b6da51523fe0f338f9ddce9e3903148f604.1707808180.git.shravankr@nvidia.com/
+
+Luiz Capitulino (2):
+  platform/mellanox: mlxbf-pmc: mlxbf_pmc_event_list(): make size ptr
+    optional
+  platform/mellanox: mlxbf-pmc: Ignore unsupported performance blocks
+
+ drivers/platform/mellanox/mlxbf-pmc.c | 56 +++++++++++++++++----------
+ 1 file changed, 36 insertions(+), 20 deletions(-)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.43.1
+
 
