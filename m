@@ -1,122 +1,152 @@
-Return-Path: <platform-driver-x86+bounces-1569-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-1571-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F91861826
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 23 Feb 2024 17:39:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A4F1861FD1
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 23 Feb 2024 23:32:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 90F13282265
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 23 Feb 2024 16:39:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BE6C11F2365B
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 23 Feb 2024 22:32:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F991129A87;
-	Fri, 23 Feb 2024 16:39:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 964F218EB0;
+	Fri, 23 Feb 2024 22:32:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="Fz5UPeMu"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KDiQaAq1"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0715C82D74;
-	Fri, 23 Feb 2024 16:39:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9C91119B;
+	Fri, 23 Feb 2024 22:32:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708706359; cv=none; b=MK72e0ocHaIY4fXKj1xVfxLnS1deeoMYxP2JapMxxP50XS6JuLgxsthyBRa9DCkxEe+W2IzZRkd7EHdkDhBsN57UoEgw6QHzIybmbdSrNg2D4m5NzOQ/NHN+MCtWeNA8z8Eq06lxqsakfgW259IZgREMBcY3CuJCXMB2uCtl5Jc=
+	t=1708727560; cv=none; b=hPKTGyp9TTFIlorEqLeq4lHOJ5RvYGWezT5ICmEyFMCU2zS5ZS/FybDQ/390fwDaZdf+Fg1WHUKIBvcaFhpTIX7yjgHFK9wxlz02epxXfNuMibG6LWiH7Z9PuoJ9Tbi2JxTbh4KbgiV3YhY2Xag/eBYMuWoa/L5OqsRcB/5LyQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708706359; c=relaxed/simple;
-	bh=Tp+JT9YYfHOzAPbMml4VpkAxfEnq7R4BcbZtIE6tpTw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ZbWF+rFdcq3J1OnGmG+DkrITshtWUDuL5jgB2KXUIQFKWF+SW+oNvLz7pAmUeUQfpm9ZcIaapm99+uSpOSI0Yp4/45z4pQe236lG3qLmy4KZGcq1LYqrKQsbRCgx7QGLDyR5UPfjOplQiminfuLdVVwxtd3exrFJx8OWNl99j0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=Fz5UPeMu; arc=none smtp.client-ip=212.227.17.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-	t=1708706347; x=1709311147; i=w_armin@gmx.de;
-	bh=Tp+JT9YYfHOzAPbMml4VpkAxfEnq7R4BcbZtIE6tpTw=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
-	 References;
-	b=Fz5UPeMuXNv5QzNDMfJu4x4KNgOMzSN4Vf+BmJ6usglyr2bIVcVKMWjpOWkpCks0
-	 fI1b9G6AayYpueC56lRyIDukxB5s6REyzi5E0aqmsP19xnNeHE+29W+xz0c3D0z9E
-	 EwUEsPPYPUEWWzjOZ5tTq5kcTWXALp7qoGNPatudUSaSJg1xvAC6cgTeKEZ2KalZH
-	 7EXm1123v5yDqYBShezn7fuJWeOocNi4vPdmvZkpESInm7bn8Iw3qEK38GZF7Qen4
-	 fBXIkGcv/UB8ljb0SlAookmEeIjV6TKgbn3MwTbLgRsKqjdF9pbIHsF0jC7Um/hga
-	 nwja84hPH/dVz2m3FQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from mx-amd-b650.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
- (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1MvsEx-1qoTzY1EyF-00sxUm; Fri, 23 Feb 2024 17:39:07 +0100
-From: Armin Wolf <W_Armin@gmx.de>
-To: Shyam-sundar.S-k@amd.com,
-	mika.westerberg@linux.intel.com
-Cc: sathyanarayanan.kuppuswamy@linux.intel.com,
-	hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] platform/x86: intel_scu_ipcutil: Make scu static
-Date: Fri, 23 Feb 2024 17:39:01 +0100
-Message-Id: <20240223163901.13504-3-W_Armin@gmx.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240223163901.13504-1-W_Armin@gmx.de>
-References: <20240223163901.13504-1-W_Armin@gmx.de>
+	s=arc-20240116; t=1708727560; c=relaxed/simple;
+	bh=PSs1k4yhOaJo0FhDXl1IC/61LVXaUjlUC3glDlqHR+s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fO0i7LcyLgV2PN8k2kNf4G+io1RPmdLHzF9IQ04Xf4avyN9+QBeeFErwQIGmPER7ymxqGw0jIhKNKwYLczls4FHS8lLrIeYYHldIDDpTwGnDsuTfF/ykp1n6ur4A+slfNXuSIVZNewnS19oNZkHtA31iBJmC8M6pHSnOMKnURUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KDiQaAq1; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1708727554;
+	bh=PSs1k4yhOaJo0FhDXl1IC/61LVXaUjlUC3glDlqHR+s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KDiQaAq1lyRcjhTQW47KCHDEbmn5dw4W0sqCeown0uhw6TzmHSV93fpjvZU7swVkI
+	 +KXHOAjYoD/aE5QDrVnCfbI2k1hOSE7EDK9EM59hbVqhXqYj0345NiO/75as3pQJdr
+	 zGONe1b+drG4lF1T8vkB/mewsMfc8XJmd0VKY1POhpnut9rDJ/qF5uGj96+k5eBxFY
+	 G4Bu1fgzzbHkFsPjhWljBjV+hgUPexoljU9qGO9YTfzrHmjqq33JMir2C46wM/em+E
+	 X+6cxY3dC5gCPfR8z5zl72ZmyVpfxeTZTNUGUJPVxKHVMLZ741ADY3cO42YAMTllGK
+	 ADnx4v9lvELjA==
+Received: from mercury (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sre)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id CB97C3780627;
+	Fri, 23 Feb 2024 22:32:34 +0000 (UTC)
+Received: by mercury (Postfix, from userid 1000)
+	id 4818D1060C95; Fri, 23 Feb 2024 23:32:34 +0100 (CET)
+Date: Fri, 23 Feb 2024 23:32:34 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Nikita Travkin <nikita@trvn.ru>
+Cc: Hans de Goede <hdegoede@redhat.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	cros-qcom-dts-watchers@chromium.org, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Rob Herring <robh@kernel.org>, linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] power: supply: Add Acer Aspire 1 embedded
+ controller driver
+Message-ID: <wr4awfmyip3fe5y4xpv6xajigsvc4qftawonkolrtsamr3pumb@aio2ishg3o7c>
+References: <20240220-aspire1-ec-v3-0-02cb139a4931@trvn.ru>
+ <20240220-aspire1-ec-v3-2-02cb139a4931@trvn.ru>
+ <qoidm5wujjbeoc2hlraky26wuwmuaxi2atyl6ehovhvffdbfeh@g5gunqdei45m>
+ <7c429d2110dbac68d0c82c8fb8bfb742@trvn.ru>
+ <xelebhoitnwguhewahw26xopl5btjo5ezznjjaeb2zfyy2bpcr@7pmclezshwck>
+ <6e3fb1080c54cfc38dc3c3e79e32a53d@trvn.ru>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="x3dnrs6dj67zatrw"
+Content-Disposition: inline
+In-Reply-To: <6e3fb1080c54cfc38dc3c3e79e32a53d@trvn.ru>
+
+
+--x3dnrs6dj67zatrw
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:lTG5s8N4IywScvenWJgM5TMMrBm9ZKnIeQN06JuVGNny2sW8kex
- kWoqwXNAWyFVl+CPrC5FrHxJ16MxancwqIfVx0jcbgO2VZLiQTqxVM2X/25xvsQ+Vh87gJj
- P+AOc4ZytxvkRl7/eKq6ePewBL7xIZz/1+XqDgl5AjSkcFTk3wK6hT2GGD+Mg3QbKQUaYer
- DHy+BaoPrSJ+vSCC8he7g==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:kE0PH3YImSY=;+aTDFTGVvwEGGX00nQM22OmknxE
- MgbFC2VaFcSUlCbkvtz+EIhWQyx8IGfjDyIIB54BuDgEHlk+N6jClQnvbW6JHm398WFztdElm
- AsQXmC380Mo99lxUpx/vZI+aL/dvMoJRB57TV/72ze3FN05agFr5gfcPAMFMDkh6w7imXMuas
- E7VqE1JRzFzC6MVreFbFqgFQcYWpPPp/GTiKnYCp0yffecaU3kVQKE/v4J9RbB764ZrULsnEI
- bJu3CKhZstdz0RG2ezgMkLmeXbpYLAOE8uLiWfyEuxFSVyh1dtN6ygGEU5Ah5iCoBpHy2bZ9T
- s5CBIr7OFIpjmpAzpJi0WCLvllXmTd1Q8Hf8ICVjTH2Hiuj8NLP1vKu9WP8hNCbqf3zAuijjI
- 62gmsO9Ro1nywLTSTQMaC39AojvCsy2KNitysm+CrTjqJo+eIWNTq9b38jUFAP5U84yfMoFoF
- Z6SpgjJf9C3edIctcd3q1a1/8mg5rBo4xKxT92ejzNPCKj9vyA9bhuo2o40mSrT8i/cWWuDbC
- ieBRVOh8m9n15Ju5r9HLCEoys1rz3vCdo/XtOC6Bi6TDAqhCQysmrCJoHXDf8Bjp11BbBF8Kc
- nV8B+0uIUD6GogbGFw72ipK6iJNNYXZydnSi/D4gXIDlei0Kln4YboymSV57oSA4MxkaxXoOg
- J0KNw2YEwfoZ4ZKfeTxur5EALLjd8MMpsJ53jw2z/WaC2dd2ZfIKbc/Np5uwR5CHtuG8CJMa6
- 5zMhguwQgJV8Nv2rhQ+aj3/wIQVHP1NUa5fjNANk9K7X2Bx8rJgPOyT2fs5F46Ac+bnmx0pkP
- Uq4xwvJhDKQanZRGwGIOocScA+WSpQy3o3/Aj+hHxaUL0=
 
-The variable is only used internally and has no external users,
-so it should me made static.
+Hi,
 
-Compile-tested only.
+On Fri, Feb 23, 2024 at 08:34:29PM +0500, Nikita Travkin wrote:
+> Sebastian Reichel =D0=BF=D0=B8=D1=81=D0=B0=D0=BB(=D0=B0) 23.02.2024 20:04:
+> > On Fri, Feb 23, 2024 at 07:32:17PM +0500, Nikita Travkin wrote:
+> >> >> + This driver provides battery and AC status support for the mentio=
+ned
+> >> > I did not see any AC status bits?
+> >>
+> >> I was referring to whatever ACPI spec calls "AC Adapter" but I guess
+> >> I should have used the word "charger" instead... Will reword this.
+> >=20
+> > But you only register a power-supply device for the battery and not
+> > for the AC adapter/charger. When you write "and AC status support" I
+> > would have expected something similar to this (that's from ACPI AC
+> > adapter driver):
+> >=20
+> > $ cat /sys/class/power_supply/AC/uevent
+> > POWER_SUPPLY_NAME=3DAC
+> > POWER_SUPPLY_TYPE=3DMains
+> > POWER_SUPPLY_ONLINE=3D1
+>=20
+> Ah, I see... Yeah looking at it one more time, I mistakenly assumed the
+> acpi ac code uses the same data fields as the battery but seems like it
+> reads the single online flag from a different place. I don't think there
+> is really a point on implementing that field since we can still easily
+> track the battery charging/discharging status so I will probably omit it
+> for now. Will reword the help text to not mention charger/ac adapter.
 
-Reviewed-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.=
-intel.com>
-Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-=2D--
-Changes since v1:
-- remove Fixes tag
-- add Reviewed-by tag
-=2D--
- drivers/platform/x86/intel_scu_ipcutil.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+If you have the information easily available, it's a good plan to
+expose it.
 
-diff --git a/drivers/platform/x86/intel_scu_ipcutil.c b/drivers/platform/x=
-86/intel_scu_ipcutil.c
-index b7c10c15a3d6..7d87cbd4b9c6 100644
-=2D-- a/drivers/platform/x86/intel_scu_ipcutil.c
-+++ b/drivers/platform/x86/intel_scu_ipcutil.c
-@@ -22,7 +22,7 @@
+Without a charger reporting online status at least the kernel's
+power_supply_is_system_supplied() will return false (which is e.g.
+used by AMD GPU driver to select power profile).
 
- static int major;
+Generic userspace (i.e. upower) probably behaves similar, since
+battery status is not the same as AC connceted. A system might
+not charge the battery but still run from AC itself.
 
--struct intel_scu_ipc_dev *scu;
-+static struct intel_scu_ipc_dev *scu;
- static DEFINE_MUTEX(scu_lock);
+-- Sebastian
 
- /* IOCTL commands */
-=2D-
-2.39.2
+--x3dnrs6dj67zatrw
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmXZHPcACgkQ2O7X88g7
++ppExA/6Ay7wM3uN5mNgDtWxq1XLrsykjXSgSsYKJzByjQuageupwDlF6Rx6lKXQ
+X8UjL4r8YlEaGyce2L8uYaoH9KN0ge45v/CiEKZo2PJyCBpQGW8rbO1rNlZampi+
+y2jSurRj8aUrbgToM0Q2tiZQWU3CLJzu0TsFZ0/7sfgEzaEzFurQ0k3nvTNYARLN
+ayqnP6NIDb18AFwToW5jdoe8c+MweBK4XhjNNZeiFAsnCe4LgKSjr0aHdeGwJh1F
+AGffLuHnc/TSWecDaKQG8NaZV9KIjzYHZwULTWFQwvIaFnMSNFJLyaZX91NGV4Sc
+R7HZVdSm/3Q60PvKQ9ZkseRbLSHHRJQTvj8akX5sLfD4L7CMe19tPqcaDB50jIUi
+VJdqCrq9lZLJVfbJDKVysLHfTNHBrm948FxOdFgd/chETFCDODrRJZ+W96+rb7uC
+m/CoGtow7mSP1Tm183JktlamMk7c+D2qj2xF6mfRJMIT1816qA7hfZNB6YQyky++
+pw8kRos46RCCOrhRInZqJGy5DBz3JDZqqMWJFDQYdxQaZM0m7J2PST/auCUhK14v
+Uo8bjWdbR7BBFLB5FXAGONH/bdihhnD8er1H5LIDzPmxv8ASQxC924BEozSya/4J
+aEox1XhdHHsQpCByVX7kL2afGt574rkvnyOwT9WLf8RA2KCjROg=
+=gazE
+-----END PGP SIGNATURE-----
+
+--x3dnrs6dj67zatrw--
 
