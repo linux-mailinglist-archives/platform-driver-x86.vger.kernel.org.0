@@ -1,270 +1,288 @@
-Return-Path: <platform-driver-x86+bounces-1664-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-1666-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF2186A1C9
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 27 Feb 2024 22:40:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD98086A236
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 27 Feb 2024 23:12:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6AC7E281E22
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 27 Feb 2024 21:40:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 73DD8287D88
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 27 Feb 2024 22:12:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2570814EFDB;
-	Tue, 27 Feb 2024 21:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RRbPdEru"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4341215098B;
+	Tue, 27 Feb 2024 22:11:59 +0000 (UTC)
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from server.atrad.com.au (server.atrad.com.au [150.101.241.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2C622EE0;
-	Tue, 27 Feb 2024 21:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FEE214E2CD;
+	Tue, 27 Feb 2024 22:11:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.101.241.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709070015; cv=none; b=t0RJ4sPCMQUBvYsoSVqI5Sp4TTosQ33sbvaZsiqfW40w0ZC7ENHD8ytkZEdO/pVlX7owhUkFQO0+J3sZy5a2Rw6uDciMjDhVqyzryC1VaPloIMNV2daNH7imamZDd9oSHuoMdcxwG7zOegCgdek2QozCMun6GQlxDpPsfKMhWqM=
+	t=1709071919; cv=none; b=XfNaqKW9fqNRF8SJwtyMmtSRNTApQAPevb26uWLJV6YAsGQY8UwHbdsKjzoA4nxP+aVTyxAqYJ9zWZ5oAU3aDJxXaFfpuNnTSIJm10UGXp/TtQmJ3BHah7lqE42pBC7DOPUuT9m/q1qtOBw45TkY0VXZyHgK0nX/UN+zCTJZ8/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709070015; c=relaxed/simple;
-	bh=NGzOCJdgpsKsw64/9C8ilMbFNlJMq/bziAr5AqU1y5A=;
+	s=arc-20240116; t=1709071919; c=relaxed/simple;
+	bh=qlimsLQ+9Ek9hizCvvfjMdet2Jw8BlNGeDYxx3D5tiI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QUVAFsWPduWmeCTUhzf81ZIiNJEZXE/1CqF8Siws3nZ497LTDARVc+qPa5BnvGfjz99+aTLOVZtX1akcrQGCrG9qR67Ossf8+vbexL60ZhVlB/Fe+2y9f/84VV0vRzeQRa2OpfRCt7uwhJdpVKHqpug/3J7j+IvyP20XiLHnlYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RRbPdEru; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F517C433C7;
-	Tue, 27 Feb 2024 21:40:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709070014;
-	bh=NGzOCJdgpsKsw64/9C8ilMbFNlJMq/bziAr5AqU1y5A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RRbPdErucO9OKyz9CrarRCGDKcsn4HGN+y9/59V2ojcEiyU0ygILlCsmhmZtFzlfX
-	 Ou/bbRoizH8xm3t5nyeX9viQ5zRtjmvIJwEAc+LSYtaScR1thX/PzHRRHgYvI3useR
-	 2ieScgDF5k5fGd4q4y5P+gTM5zhAuFklgTt3hUYWn5KGiABrIIwU6bS5KbQFAnztne
-	 hD48FKnoSReVK8X3H5IJWlCfa8wUdlg+0+tiHcFoUVUtxdTplHYMjVhhoWel0H0gjU
-	 R1L+iZGTVTsqCglldFBaa/4lC/cpXBRXvwC4zCHYZp2rlZjVdaXDcyG1rsl5d9xm21
-	 CtM5ZqapRDx4Q==
-Received: by pali.im (Postfix)
-	id 4C69C828; Tue, 27 Feb 2024 22:40:11 +0100 (CET)
-Date: Tue, 27 Feb 2024 22:40:11 +0100
-From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Jean Delvare <jdelvare@suse.de>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Paul Menzel <pmenzel@molgen.mpg.de>,
-	Andi Shyti <andi.shyti@kernel.org>, eric.piel@tremplin-utc.net,
-	Marius Hoch <mail@mariushoch.de>, Dell.Client.Kernel@dell.com,
-	Kai Heng Feng <kai.heng.feng@canonical.com>,
-	platform-driver-x86@vger.kernel.org, Wolfram Sang <wsa@kernel.org>,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v2 2/6] platform/x86: dell-smo8800: Move instantiation of
- lis3lv02d i2c_client from i2c-i801 to dell-smo8800
-Message-ID: <20240227214011.xeys7rtukn6hksdw@pali>
-References: <20240106160935.45487-1-hdegoede@redhat.com>
- <20240106160935.45487-3-hdegoede@redhat.com>
- <20240107171055.ac7jtwhu2kbalaou@pali>
- <20240213173050.0cf4a58f@endymion.delvare>
- <3e5b47ce-29a9-43a3-92bc-599a9a716fbb@redhat.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=OQHtAfAzIaAKDUMncK/ZjI7dQQLT89yyJjju+4E1duM0oLmUffSTIQ6LUWlZZ17TAmW9abZ7kcogrdaPc44hNS8U/iyUrrxgpzsHXEj5ZGKLurOS/PTPqgAUQO08Ylgia9f5/KMrC+w2hNKZ0dGWxmJ7w3CHL2PPL3pBNVma4nI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=just42.net; spf=pass smtp.mailfrom=just42.net; arc=none smtp.client-ip=150.101.241.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=just42.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=just42.net
+Received: from marvin.atrad.com.au (marvin.atrad.com.au [192.168.0.2])
+	by server.atrad.com.au (8.18.1/8.18.1) with ESMTPS id 41RLlJS0007032
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Wed, 28 Feb 2024 08:17:20 +1030
+Date: Wed, 28 Feb 2024 08:17:19 +1030
+From: Jonathan Woithe <jwoithe@just42.net>
+To: Szilard Fabian <szfabian@bluemarch.art>
+Cc: linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com, W_Armin@gmx.de
+Subject: Re: [PATCH v5] platform/x86/fujitsu-laptop: Add battery charge
+ control support
+Message-ID: <Zd5YZ9Gnt9GaipN4@marvin.atrad.com.au>
+References: <20240129163502.161409-2-szfabian@bluemarch.art>
+ <20240129175714.164326-2-szfabian@bluemarch.art>
+ <20240207023031.56805-2-szfabian@bluemarch.art>
+ <20240215203012.228758-2-szfabian@bluemarch.art>
+ <20240227120435.429687-2-szfabian@bluemarch.art>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3e5b47ce-29a9-43a3-92bc-599a9a716fbb@redhat.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20240227120435.429687-2-szfabian@bluemarch.art>
+X-MIMEDefang-action: accept
+X-Scanned-By: MIMEDefang 2.86 on 192.168.0.1
 
-On Saturday 17 February 2024 11:33:21 Hans de Goede wrote:
-> Hi Jean,
+On Tue, Feb 27, 2024 at 12:05:45PM +0000, Szilard Fabian wrote:
+> This patch adds battery charge control support on Fujitsu notebooks
+> via the S006 method of the FUJ02E3 ACPI device. With this method it's
+> possible to set charge_control_end_threshold between 50 and 100%.
 > 
-> On 2/13/24 17:30, Jean Delvare wrote:
-> > Hi Pali, Hans,
-> > 
-> > On Sun, 7 Jan 2024 18:10:55 +0100, Pali Rohár wrote:
-> >> On Saturday 06 January 2024 17:09:29 Hans de Goede wrote:
-> >>> It is not necessary to handle the Dell specific instantiation of
-> >>> i2c_client-s for SMO8xxx ACPI devices without an ACPI I2cResource
-> >>> inside the generic i801 I2C adapter driver.
-> >>>
-> >>> The kernel already instantiates platform_device-s for these ACPI devices
-> >>> and the drivers/platform/x86/dell/dell-smo8800.c driver binds to these
-> >>> platform drivers.
-> >>>
-> >>> Move the i2c_client instantiation from the generic i2c-i801 driver to
-> >>> the Dell specific dell-smo8800 driver.
-> >>>
-> >>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >>> ---
-> >>> Changes in v2:
-> >>> - Use a pci_device_id table to check for IDF (non main) i2c-i801 SMBusses
-> >>> - Add a comment documenting the IDF PCI device ids
-> >>> ---
-> >>>  drivers/i2c/busses/i2c-i801.c            | 126 +----------------------
-> >>>  drivers/platform/x86/dell/dell-smo8800.c | 121 +++++++++++++++++++++-
-> >>>  2 files changed, 123 insertions(+), 124 deletions(-)  
-> >>
-> >> I'm looking at this change again and I'm not not sure if it is a good
-> >> direction to do this movement. (...)
-> > 
-> > Same feeling here. Having to lookup the parent i2c bus, which may or
-> > may not be present yet, doesn't feel good.
-> > 
-> > I wouldn't object if everybody was happy with the move and moving the
-> > code was solving an actual issue, but that doesn't seem to be the case.
+> Tested on Lifebook E5411 and Lifebook U728. Sadly I can't test this
+> patch on a dual battery one, but I didn't find any clue about
+> independent battery charge control on dual battery Fujitsu notebooks
+> either. And by that I mean checking the DSDT table of various Lifebook
+> notebooks and reverse engineering FUJ02E3.dll.
 > 
-> I thought you would actually like getting this somewhat clunky code
-> which basically works around the hw not being properly described in
-> the ACPI tables out of the generic i2c-i801 code.
+> Signed-off-by: Szilard Fabian <szfabian@bluemarch.art>
+
+Acked-by: Jonathan Woithe <jwoithe@just42.net>
+
+> v5:
+> * add ACPI_BATTERY dependency into Kconfig
 > 
-> I didn't get around to answer's Pali's concerns yet, so let me
-> start by addressing those since you indicate that you share Pali's
-> concerns:
+> v4:
+> * formatting fixes
+> * replaced sprintf() with sysfs_emit()
 > 
-> Pali wrote:
-> > Now after looking at this change again I see there a problem. If i2c-801
-> > driver initialize i2c-801 device after this smo8800 is called then
-> > accelerometer i2c device would not happen.
+> v3:
+> * added additional error handling
+> * removed if statement with device_create_file(), just returning that
+>   function instead
+> * added bool charge_control_supported into struct fujitsu_laptop
+> * added a 'charge_control_add' and 'charge_control_remove' function to be
+>   called from acpi_fujitsu_laptop_add() and acpi_fujitsu_laptop_remove()
+> * moved FUJ02E3 S006 probing logic from the ACPI battery hooks to the new
+>   'charge_control_*' functions
 > 
-> That is a good point (which Jean also points out). But this can simply
-> be fixed by making the dell-smo8800's probe() method return -EPROBE_DEFER
-> if the i2c-i801 i2c-bus is not present yet (all designs using the
-> dell-smo8800 driver will have an i2c-bus so waiting for this to show
-> up should not cause regressions).
-
-Adding EPROBE_DEFER just complicates the dependency and state model.
-I would really suggest to come up with a simpler solution, not too
-complicated where it is required to think a lot if is is correct and if
-all edge-cases are handled.
-
-> If we can agree to move forward this series I'll fix this.
+> v2:
+> Forgot to sign-off the original commit. Fixed, sorry for the
+> inconvenience.
+> ---
+>  drivers/platform/x86/Kconfig          |   1 +
+>  drivers/platform/x86/fujitsu-laptop.c | 125 ++++++++++++++++++++++++++
+>  2 files changed, 126 insertions(+)
 > 
-> Pali wrote:
-> > Also it has same problem if PCI i801 device is reloaded or reset.
-> 
-> The i801 device is not hotplugable, so normally this will never
-> happen. If the user manually unbinds + rebinds the i2c-i801 driver
-> them the i2c_client for the smo88xx device will indeed get removed
-> and not re-added. But this will normally never happen and if
-> a user is manually poking things then the user can also unbind +
-> rebind the dell-mso8800 driver after the i2c-i801 rebind.
-> So I don't really see this as an issue.
-
-Well, rmmod & modprobe is not the rare cases. Whatever developers say
-about rmmod (or modprobe -r or whatever is the way for unloading
-modules), this is something which is used by a lot of users and would be
-used. 
-
-> With those remarks addressed let me try to explain why I think
-> that moving this to the dell-smo8800 code is a good idea:
-> 
-> 1. It is a SMO88xx ACPI device specific kludge and as such IMHO
-> thus belongs in the driver for the SMO88xx ACPI platform_device.
-
-I'm not sure if it belongs to "SMO88xx ACPI platform_device" but for
-sure I agree with you that it does not belong to i801 code. I would say
-that it belongs to some SMO8800 glue code -- because it is not the
-classic ACPI driver too. But I'm not against to have SMO glue code and
-SMO ACPI driver in one file (maybe it is even better to have it).
-
-> The i2c-i801 driver gets loaded on every x86 system and it is
-> undesirable to have this extra code and the DMI table in RAM
-> on all those other systems.
-
-I think we can take an assumption that ACPI SMO device does not change
-it existence or ACPI enabled/disabled state during runtime. So we can
-scan for ACPI SMO device just once in function stored in __init section
-called during the kernel/module initialization and cache the result
-(bool if device was found + its i2c address). After function marked as
-__init finish its job then together with DMI tables can be discarded
-from RAM. With this way it does take extra memory on every x86 system.
-Also we can combine this with an SMO config option, so the whole code
-"glue" code would not be compiled when SMO driver is not enabled via
-Kconfig.
-
-> 2. Further changes in this series, like adding support for
-> probing for the i2c address of the lis3lv02d device on models
-> not yet in the DMI table, will add a bunch of more code specific
-> to SMO88xx ACPI devices. Making the problem of having SMO88xx
-> specific code in the generic i2c-i801 driver even bigger.
-> The current amount of SMO88xx specific code in the
-> generic i2c-i801 driver might be considered acceptable but I'm
-> afraid that the amount of code after this series will not be
-> acceptable.
-
-I think alternative approach which I described in the other email in
-this thread could be useful for this issue too (to move SMO code from
-i2c-i801.c source file). Together with above __init section approach it
-can also decrease memory usage.
-
-> 3. Some of the changes in this series are harder to implement inside
-> the i2c-i801 code, like optionally instantiating an i2c_client for
-> the IIO st_accel driver (*) so that the accelerometer gets presented
-> to userspace as a standard IIO device like all modern accelerometer
-> drivers do.
-
-This is something about which I'm not very convinced. IIO st_accel
-driver does not support freefall interface (or any other for signalling
-hard disk falls, which is used by userspace) and in dell systems, this
-hard disk protection is the primary usage of the accelerometer.
-
-In last two months I talked with two people, users of the accelerometers
-axis on dell and thinkpad machines. They were using it in games which
-were joystick-based (one game was tuxracer, second I do not remember
-name).
-
-So I'm not sure that replacing joystick driver by some new API would be
-really useful for users of accelerometer axis.
-
-Before such change I would propose to teach IIO st_accel driver (or what
-would be the replacement) to support joystick API for userspace.
-
-> This requires setting i2c_client.irq and that IRQ comes from
-> the SMO88xx ACPI device. So this would require the i2c-i801 code
-> to lookup the ACPI device and get the IRQ from there. Where as
-> in the SMO88xx ACPI platform_device driver the IRQ is readily
-> available.
-
-I understand this problem.
-
-But I would like to ask a question: WHY it is needed at all?
-The IRQ represents the free fall / hard disk fall event, which is
-slightly different thing than reporting accelerometer axis.
-Why IIO st_accel (or lis3lv02d) needs free fall IRQ?
-
-Hard disk fall interrupt on Dell machines can be handled by separate
-driver, not related to ACPI SMO8800 device.
-
-It would be much more easier to split these two different
-functionalities (reporting axes; and reporting hard disk fall event)
-into two separate drivers. And it would simplify whole logic related to
-instantiating free fall hard disk driver and accelerometer axes driver
-(either IIO st_accel or lis3lv02d or some other...).
-
-So from my side, I do not see a reason to "inject" IRQ number into
-driver which reads accelerometer axes.
-
-> TL;DR: IMHO all this SMO88xx quirk/glue handling belongs in
-> the SMO88xx specific dell-smo8800 driver rather then in
-> the generic i2c-i801 code.
-
-I agree, that it does not belong to the i2c-i801.c source file. And I
-also would like to see movement. That is why I proposed alternative and
-simpler solution.
-
-> Regards,
-> 
-> Hans
-> 
-> 
-> *) Instead of an i2c_client for the somewhat weird (but still
-> default for backward compat) drivers/misc/lis3lv02d/lis3lv02d.c
-> driver
-> 
-> 
-> 
-> 
-> 
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index bdd302274b9a..945295f98560 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -374,6 +374,7 @@ config FUJITSU_LAPTOP
+>  	depends on ACPI
+>  	depends on INPUT
+>  	depends on BACKLIGHT_CLASS_DEVICE
+> +	depends on ACPI_BATTERY
+>  	depends on ACPI_VIDEO || ACPI_VIDEO = n
+>  	select INPUT_SPARSEKMAP
+>  	select NEW_LEDS
+> diff --git a/drivers/platform/x86/fujitsu-laptop.c b/drivers/platform/x86/fujitsu-laptop.c
+> index 085e044e888e..69f9730bb14a 100644
+> --- a/drivers/platform/x86/fujitsu-laptop.c
+> +++ b/drivers/platform/x86/fujitsu-laptop.c
+> @@ -49,6 +49,8 @@
+>  #include <linux/kfifo.h>
+>  #include <linux/leds.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/power_supply.h>
+> +#include <acpi/battery.h>
+>  #include <acpi/video.h>
+>  
+>  #define FUJITSU_DRIVER_VERSION		"0.6.0"
+> @@ -97,6 +99,10 @@
+>  #define BACKLIGHT_OFF			(BIT(0) | BIT(1))
+>  #define BACKLIGHT_ON			0
+>  
+> +/* FUNC interface - battery control interface */
+> +#define FUNC_S006_METHOD		0x1006
+> +#define CHARGE_CONTROL_RW		0x21
+> +
+>  /* Scancodes read from the GIRB register */
+>  #define KEY1_CODE			0x410
+>  #define KEY2_CODE			0x411
+> @@ -132,6 +138,7 @@ struct fujitsu_laptop {
+>  	spinlock_t fifo_lock;
+>  	int flags_supported;
+>  	int flags_state;
+> +	bool charge_control_supported;
+>  };
+>  
+>  static struct acpi_device *fext;
+> @@ -164,6 +171,118 @@ static int call_fext_func(struct acpi_device *device,
+>  	return value;
+>  }
+>  
+> +/* Battery charge control code */
+> +static ssize_t charge_control_end_threshold_store(struct device *dev,
+> +				struct device_attribute *attr,
+> +				const char *buf, size_t count)
+> +{
+> +	int value, ret;
+> +
+> +	ret = kstrtouint(buf, 10, &value);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (value < 50 || value > 100)
+> +		return -EINVAL;
+> +
+> +	int cc_end_value, s006_cc_return;
+> +
+> +	cc_end_value = value * 0x100 + 0x20;
+> +	s006_cc_return = call_fext_func(fext, FUNC_S006_METHOD,
+> +					CHARGE_CONTROL_RW, cc_end_value, 0x0);
+> +
+> +	if (s006_cc_return < 0)
+> +		return s006_cc_return;
+> +
+> +	/*
+> +	 * The S006 0x21 method returns 0x00 in case the provided value
+> +	 * is invalid.
+> +	 */
+> +	if (s006_cc_return == 0x00)
+> +		return -EINVAL;
+> +
+> +	return count;
+> +}
+> +
+> +static ssize_t charge_control_end_threshold_show(struct device *dev,
+> +				struct device_attribute *attr,
+> +				char *buf)
+> +{
+> +	int status;
+> +
+> +	status = call_fext_func(fext, FUNC_S006_METHOD,
+> +				CHARGE_CONTROL_RW, 0x21, 0x0);
+> +
+> +	if (status < 0)
+> +		return status;
+> +
+> +	return sysfs_emit(buf, "%d\n", status);
+> +}
+> +
+> +static DEVICE_ATTR_RW(charge_control_end_threshold);
+> +
+> +/* ACPI battery hook */
+> +static int fujitsu_battery_add_hook(struct power_supply *battery,
+> +			       struct acpi_battery_hook *hook)
+> +{
+> +	return device_create_file(&battery->dev,
+> +				  &dev_attr_charge_control_end_threshold);
+> +}
+> +
+> +static int fujitsu_battery_remove_hook(struct power_supply *battery,
+> +				  struct acpi_battery_hook *hook)
+> +{
+> +	device_remove_file(&battery->dev,
+> +			   &dev_attr_charge_control_end_threshold);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct acpi_battery_hook battery_hook = {
+> +	.add_battery = fujitsu_battery_add_hook,
+> +	.remove_battery = fujitsu_battery_remove_hook,
+> +	.name = "Fujitsu Battery Extension",
+> +};
+> +
+> +/*
+> + * These functions are intended to be called from acpi_fujitsu_laptop_add and
+> + * acpi_fujitsu_laptop_remove.
+> + */
+> +static int fujitsu_battery_charge_control_add(struct acpi_device *device)
+> +{
+> +	struct fujitsu_laptop *priv = acpi_driver_data(device);
+> +
+> +	priv->charge_control_supported = false;
+> +
+> +	/*
+> +	 * Check if the S006 0x21 method exists by trying to get the current
+> +	 * battery charge limit.
+> +	 */
+> +	int s006_cc_return;
+> +
+> +	s006_cc_return = call_fext_func(fext, FUNC_S006_METHOD,
+> +					CHARGE_CONTROL_RW, 0x21, 0x0);
+> +
+> +	if (s006_cc_return < 0)
+> +		return s006_cc_return;
+> +
+> +	if (s006_cc_return == UNSUPPORTED_CMD)
+> +		return -ENODEV;
+> +
+> +	priv->charge_control_supported = true;
+> +	battery_hook_register(&battery_hook);
+> +
+> +	return 0;
+> +}
+> +
+> +static void fujitsu_battery_charge_control_remove(struct acpi_device *device)
+> +{
+> +	struct fujitsu_laptop *priv = acpi_driver_data(device);
+> +
+> +	if (priv->charge_control_supported)
+> +		battery_hook_unregister(&battery_hook);
+> +}
+> +
+>  /* Hardware access for LCD brightness control */
+>  
+>  static int set_lcd_level(struct acpi_device *device, int level)
+> @@ -839,6 +958,10 @@ static int acpi_fujitsu_laptop_add(struct acpi_device *device)
+>  	if (ret)
+>  		goto err_free_fifo;
+>  
+> +	ret = fujitsu_battery_charge_control_add(device);
+> +	if (ret < 0)
+> +		pr_warn("Unable to register battery charge control: %d\n", ret);
+> +
+>  	return 0;
+>  
+>  err_free_fifo:
+> @@ -851,6 +974,8 @@ static void acpi_fujitsu_laptop_remove(struct acpi_device *device)
+>  {
+>  	struct fujitsu_laptop *priv = acpi_driver_data(device);
+>  
+> +	fujitsu_battery_charge_control_remove(device);
+> +
+>  	fujitsu_laptop_platform_remove(device);
+>  
+>  	kfifo_free(&priv->fifo);
+> -- 
+> 2.44.0
 > 
 > 
 
