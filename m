@@ -1,61 +1,61 @@
-Return-Path: <platform-driver-x86+bounces-1756-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-1753-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB1186C7AA
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 29 Feb 2024 12:03:16 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E5886C7A3
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 29 Feb 2024 12:01:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D864AB21F8D
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 29 Feb 2024 11:03:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F09228A399
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 29 Feb 2024 11:01:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4070F7AE46;
-	Thu, 29 Feb 2024 11:03:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03DFA7A72A;
+	Thu, 29 Feb 2024 11:01:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="PFarVpmC"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="cxSKQf1S"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2050.outbound.protection.outlook.com [40.107.100.50])
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2040.outbound.protection.outlook.com [40.107.100.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 954566351C
-	for <platform-driver-x86@vger.kernel.org>; Thu, 29 Feb 2024 11:03:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468767AE54
+	for <platform-driver-x86@vger.kernel.org>; Thu, 29 Feb 2024 11:01:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.40
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709204585; cv=fail; b=R6igVlZOmhYNehAzMz1z/bjQsX6IcQ+QjLEIn+lnrmc2nSkI6vovRDc1jTlXCKaXMhFPbFA3r2iUsw/UM1XU0aJG2vWecVcdwgkzKo1PqxnJPKy8aOey+gh/smTfyXamWe4SrpjY9VcOpBWhRbgiERWqXhvB/uEM78ZkernqLDY=
+	t=1709204479; cv=fail; b=VFz0fGHg061QhxCQfLqOJ+EOoxDy8UlaH1WlWxgpBWITIv8I72RpUBvC7rPSncYp5O6Ue+05bJMwU2eGu41HF9NB93IRM9png0GP1A8/T+cZ3I91qqVhqfljEpDsKURm/+30MQztFab7hOfN9jV7QLnOYL4g/7lI57wd6ajTugU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709204585; c=relaxed/simple;
-	bh=VkuBDPfl0mrvDsu4wliRIEKfo6vqRbJbI8fShW/RECg=;
+	s=arc-20240116; t=1709204479; c=relaxed/simple;
+	bh=CcjLFYAGsnjTF24Z8aLae+s6YnTYSBKEncipSigZJds=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=R2IKRO7kb38wQdGqCJR3hIgjzcRZjxAQvO7iV6fxdBAhTWXpuOb0QYn6AMMEcdgosLG5XEE94qpxx3Lu2BoGZkNszGPRsaw3zaIAqTvhBtbCojB0T2/m/bgxJJC78gJkIZP8krvJBD575S3NNaOwWUlQh7fFBFQMvmF1lqYLvh4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=PFarVpmC; arc=fail smtp.client-ip=40.107.100.50
+	 MIME-Version:Content-Type; b=FeNyl49dZlM+FVTRQAHIcZ8retAB2WF9fb8Mc8fYm0k0uSEcmh4Rp1PzH/8Ye4Ucx1n+UDJaQCH1cN52L3Ma6l5inagTXmhEqkZelrjIapAU2IpihQN5BXX0B04iHaJINe/pMfl+dgcYLk7aoAOzbUJqRunsnpBysOXLZcZLDZM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=cxSKQf1S; arc=fail smtp.client-ip=40.107.100.40
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ex89Es5pe/UCshv1zWq9qII+05JYfqK90eB54AANRSHt0jlnE+jabAabITiJ8HnZKINveplq8htTYri+nji9ZVR/1GAsZM6fpjm5fb+tSy+PbYWJEWjXBefG8ZeR0UP9wMFrtP3feRwAQPbkF9eaESV9Ot5ZiX+JJYUuYvkYg/Dw2pJMx4v43KJpWlQ+VZH57Op9TPfRSnkEueIj5bx41KJoAsR0dyYAOmLKKB2ymB5WXbqKGNNsmflQ2EQv58+GlBkfluNp2w2dtd0vPr2CL+pggnlluEPtY2pcdf5OfFScD3eesRLmOcRJQWcTDrZ1c4X+Gq1CI9U+FXoQv4iawA==
+ b=ESeNzpZFww5r70St0CuzJsLRjsWP3mPy9530ILLmSwHwyHUhWHoeEM9SFMcoxeqkvrY2lQNUuZ5oYIrQVNmY+vGzPXNzfm6yveeSN3vQCEo8A9W4FsIoWKkezu74yKRtoUtnbVtYPtHoJgumsDhFM1oXXx4xUMRDXjCb6OE9KC4e5GZw4GLUpmUri2GP4OiXNdi7h3VuO+gqSlnD7VP+4HDH4HUAWt76vybW7gqIxf9MouLmQDhWY+6MGKlaCDDo4VJ6L32zOJqkMEoWJcsFvkAIG4tn6gTJv0DFxzal2sdwcDrXvVGvRCthJSa4O3Wjxbg4I6/2WLHU7sT7y8yx5w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h9UeoSho8L6gBBpuA1IO1ksF9eB1d/J0aWgbxnz+35E=;
- b=Si5tPcwrLOcBqMCa33FvKRieIo54R6YbyT4R5inLGxyGzCbftc4s3TKk+3ijEkH7DiETHpDbcwWoaYAcx7pFGH8nXA5+1Z1eNEEqoy/tamiwVAKCVqrYal29iODnUWimkSmWUMXuGn6WllcMHtkxjc1DElCZT+VWMtGZLMxt8lzeuaZNXZ6B1jKHL6Y4uqhwQ82xrQj9LooHGde0kw4qFieZOxeuoc8Tq/XzG/TPt+STtT4mQ6x80mIC88TeFfmsub17ClsE57bX5t4dh8Q5e5cqav1E81KXYulMfsEKZnCZfwKLeUf15p3XXxY37fGR7LVHFQD+C3oLZdMJPULDIA==
+ bh=MsHqzKrdKy5c1HTQUUE677ojkD29pktUNtetjI3LEC0=;
+ b=Tjop6dfx7duDiVSizXRAm6rH02NZoZnQnuL2TSnKyKeJhkHBqenLPR80ITIFB1+KqWhttaky+6jtRIlkPJ89+9CBSpXb67k0YMqY4Es9eioYv5M380ofOTcs/7Q9OqFT1+Qm/Xkv+/zQXu2pBNTUB2ZLJysO47e6OkZMjVbTieucofx3vcaIF9RXTQa60fpKo+44w8QwJpymCENW0Yay7FJP/tnLlN4pK4HOMBDvYlZ8pchNDrcVLFUIY9i3TCJOG4VS8QLarkAgCqfIQ5GBm3dNDiQeTKy7cxp+md18QTr8ICLG6tp/+XyqhoPQ/RimXYdqf9acADDcXTcOnBN9pA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h9UeoSho8L6gBBpuA1IO1ksF9eB1d/J0aWgbxnz+35E=;
- b=PFarVpmC5dAq9V0L1uS+mTcuk0OIcFAOKIcb3UDs0zvHYM6x9ljUIDj6HdnuaQ/zWUsPxk1qGBXPfhyGAT/SClBCyML1+P5fbhV+CYBGn2rPQllBQQjl65MbKOqyGQf4pMAtTVLX9m3Z45+05sJPfEa3P4OM0K6bPum9ZcTtIvg=
-Received: from SJ0PR13CA0180.namprd13.prod.outlook.com (2603:10b6:a03:2c7::35)
- by SN7PR12MB7936.namprd12.prod.outlook.com (2603:10b6:806:347::20) with
+ bh=MsHqzKrdKy5c1HTQUUE677ojkD29pktUNtetjI3LEC0=;
+ b=cxSKQf1SbNSx2FzA4m8voBHXfky2BlJ052SuUjHgxGZ4oOAeHsJoQ+EaQ3+Si42rCDNLTZEko7m4+cE8wP4UE/mifQJMa8AIRM4yQp/tZj6gHV1sGFRG7TNUTgQZPdYnSTDb5RfTjLEeCZxC9cld0o33HtfnbrNiG9CbkLHHOmM=
+Received: from CYXPR02CA0009.namprd02.prod.outlook.com (2603:10b6:930:cf::17)
+ by SA1PR12MB8947.namprd12.prod.outlook.com (2603:10b6:806:386::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.33; Thu, 29 Feb
- 2024 11:02:59 +0000
-Received: from CO1PEPF000044F5.namprd05.prod.outlook.com
- (2603:10b6:a03:2c7:cafe::80) by SJ0PR13CA0180.outlook.office365.com
- (2603:10b6:a03:2c7::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.15 via Frontend
- Transport; Thu, 29 Feb 2024 11:02:58 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.41; Thu, 29 Feb
+ 2024 11:01:15 +0000
+Received: from CY4PEPF0000E9D5.namprd05.prod.outlook.com
+ (2603:10b6:930:cf:cafe::ac) by CYXPR02CA0009.outlook.office365.com
+ (2603:10b6:930:cf::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.30 via Frontend
+ Transport; Thu, 29 Feb 2024 11:01:14 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -63,20 +63,20 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF000044F5.mail.protection.outlook.com (10.167.241.75) with Microsoft
+ CY4PEPF0000E9D5.mail.protection.outlook.com (10.167.241.76) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7292.25 via Frontend Transport; Thu, 29 Feb 2024 11:01:16 +0000
+ 15.20.7292.25 via Frontend Transport; Thu, 29 Feb 2024 11:01:09 +0000
 Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 29 Feb
- 2024 04:59:56 -0600
+ 2024 04:59:58 -0600
 From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 To: <hdegoede@redhat.com>, <ilpo.jarvinen@linux.intel.com>
 CC: <platform-driver-x86@vger.kernel.org>, <Patil.Reddy@amd.com>, "Shyam
  Sundar S K" <Shyam-sundar.S-k@amd.com>
-Subject: [PATCH RESEND v2 2/7] platform/x86/amd/pmf: Disable debugfs support for querying power thermals
-Date: Thu, 29 Feb 2024 16:28:56 +0530
-Message-ID: <20240229105901.455467-3-Shyam-sundar.S-k@amd.com>
+Subject: [PATCH RESEND v2 3/7] platform/x86/amd/pmf: Add support to get sbios requests in PMF driver
+Date: Thu, 29 Feb 2024 16:28:57 +0530
+Message-ID: <20240229105901.455467-4-Shyam-sundar.S-k@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240229105901.455467-1-Shyam-sundar.S-k@amd.com>
 References: <20240229105901.455467-1-Shyam-sundar.S-k@amd.com>
@@ -92,68 +92,86 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044F5:EE_|SN7PR12MB7936:EE_
-X-MS-Office365-Filtering-Correlation-Id: fb3a54af-e46c-409c-faf8-08dc3915fd60
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D5:EE_|SA1PR12MB8947:EE_
+X-MS-Office365-Filtering-Correlation-Id: 231c8995-58a4-482e-9979-08dc3915bf7b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	Ju62ghH1vA+RIIBiJrhavKkNIbeAoBS9FEfxNVzfyOG9UaQx0zbWXGQ3/LpuAusieN0Pq1Z/sIWuIVDUZaC0jxaUqClGQrZqolP4esfclkJCw+YXtFUlMsDV5bKBRJ6FfAD+6X2TbL2U6t0YjGSpz9OEDMoQ8FaH8uKRl9iZCFedUj6duyLPgdpFvK8wWtf4eOTND8UjVAllmCn6LRNK/c0o11kBqDnTGyQLsG00joKBfs6F76C0s1rnaeu0e4IQo8IAdGxGSiibNG7CSVKoLoH0gtYCmzuXiiYRfM/p509FxnWhYHEUWMOqnMxtEOWtCkvl9i0d/k/YDZvqADhwmdH/5xjhN49JhUsJzN5UtOwXanhbN5FoDtw1tl5x6K3lfHrJ9yqdQ7ILrI3k+K4cN9KFp7ZBqdZ/FVB3WCHggD1f1K2Fiv5c1CvZ0cXbXmJt1UJJJm6XLAb297q7Ga/Yb9xuiuDS7zoXXoNUlTqinaDF8GajqBuITTj32DkZxcCSdbgmN506OdqaFbsGyZGHArNCNpjT+1V8bMAh0AYKd7Op8ANM6OKmxsDuwIx6VyzlgY6KAuXFZREAPD8fijRQoQTv+WSeIxLiA3OFReuDVqJ/mRJ1p7irWNM1dbC9fxvzdmN+reoOF9HnroPh6wiL/eRMbpfjH/szilyJOXMRFQqJ25/F32ldll5HywqG2ynemPe5Z4nQnE/IESluJewwMTBRwvvDM5mKGMfltQOnMns9qoYVq+xbblBAmSNd64DI
+	P6BidDd5v0pLknMzTFuwjTtwcct4dlk1Fygtmc3zOm0bBfdWXqDakPXpQWuGifmNILYSy/T6g8LPVyA2AKnmE8vnBfoc1hjihtpHbLhQ6vpDioxOsY7zeZhOarki0OCpYLApJdgmBTPdzhD0bszZVfE5RkOclefXl/rtnxL6NeXY3fkdyKA6+zwhPAB3JB5IMS/pE7DDsJTWyv81X4czlNWTe/eQPYxSihlvvadjA76lx6pppNywknC+ZhoLos02X9ALcju28AgC8RF2OBxC2vS69dxEACqpcXrdxPRnfFBiXeOyzn7Gf6+f3wq9hH13A1RC+pf6M3qEXyCMvaRWOFajTJ1muq9/K2gam3lyPqvwSHyZ9n83uzzgxjNRmMGebpO7VH96T8iAIubgemlLDR4moO9OpQwYnszznlRSVsQJgR7Qek3P5MQzeJElbqDk944unau+ohilqhimV2n9UA9Xr9YBwxdHcX7K/7H7uMLLRKXziQqsQO8b3IqvC6KLCzAj3+mG7TexDG0asDxXGSbQkmcBFmXtptbY9Pmoa82sr/JIrkNsNUPY4bWJ8Z4KCUGqV/iqQT7aolIB9BMqwh1Rch+q4ZDCsyUz0X1FFGskOm/y8A/UGW7yZYInHVYgwVw8VgH5mPzsehSfh7YmKSoEY7HcLnUxhVRIVRc1aKjVCG5TH0/o3A6iHckuSBiaxESpwcb0GTW//NFrZAV9xScL+ywrvb1kMk2Q6Sh7GbxTrowHu4zmTHHj1otYe7wo
 X-Forefront-Antispam-Report:
 	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(36860700004)(82310400014);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Feb 2024 11:01:16.9571
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Feb 2024 11:01:09.4256
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb3a54af-e46c-409c-faf8-08dc3915fd60
+X-MS-Exchange-CrossTenant-Network-Message-Id: 231c8995-58a4-482e-9979-08dc3915bf7b
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CO1PEPF000044F5.namprd05.prod.outlook.com
+	CY4PEPF0000E9D5.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7936
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8947
 
-The GET interface to receive the active power thermal information from
-the PMFW has been depricated. Hence drop the debugfs support from
-version2 onwards.
+Update the APMF function index 2 for family 1Ah, that gets the
+information of SBIOS requests (like the pending requests from BIOS,
+custom notifications, updation of power limits etc).
 
 Co-developed-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
 Signed-off-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
 Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 ---
- drivers/platform/x86/amd/pmf/core.c | 5 +++--
- drivers/platform/x86/amd/pmf/pmf.h  | 2 ++
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ drivers/platform/x86/amd/pmf/acpi.c |  5 +++++
+ drivers/platform/x86/amd/pmf/pmf.h  | 13 +++++++++++++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/drivers/platform/x86/amd/pmf/core.c b/drivers/platform/x86/amd/pmf/core.c
-index 4f734e049f4a..2230bc2b1f59 100644
---- a/drivers/platform/x86/amd/pmf/core.c
-+++ b/drivers/platform/x86/amd/pmf/core.c
-@@ -113,8 +113,9 @@ static void amd_pmf_dbgfs_unregister(struct amd_pmf_dev *dev)
- static void amd_pmf_dbgfs_register(struct amd_pmf_dev *dev)
- {
- 	dev->dbgfs_dir = debugfs_create_dir("amd_pmf", NULL);
--	debugfs_create_file("current_power_limits", 0644, dev->dbgfs_dir, dev,
--			    &current_power_limits_fops);
-+	if (dev->pmf_if_version == PMF_IF_V1)
-+		debugfs_create_file("current_power_limits", 0644, dev->dbgfs_dir, dev,
-+				    &current_power_limits_fops);
+diff --git a/drivers/platform/x86/amd/pmf/acpi.c b/drivers/platform/x86/amd/pmf/acpi.c
+index 1f287a147c57..13af83b187ac 100644
+--- a/drivers/platform/x86/amd/pmf/acpi.c
++++ b/drivers/platform/x86/amd/pmf/acpi.c
+@@ -166,6 +166,11 @@ int apmf_get_auto_mode_def(struct amd_pmf_dev *pdev, struct apmf_auto_mode *data
+ 	return apmf_if_call_store_buffer(pdev, APMF_FUNC_AUTO_MODE, data, sizeof(*data));
  }
  
- int amd_pmf_get_power_source(void)
++int apmf_get_sbios_requests_v2(struct amd_pmf_dev *pdev, struct apmf_sbios_req_v2 *req)
++{
++	return apmf_if_call_store_buffer(pdev, APMF_FUNC_SBIOS_REQUESTS, req, sizeof(*req));
++}
++
+ int apmf_get_sbios_requests(struct amd_pmf_dev *pdev, struct apmf_sbios_req *req)
+ {
+ 	return apmf_if_call_store_buffer(pdev, APMF_FUNC_SBIOS_REQUESTS,
 diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
-index e51ac981af73..4364af72a7a3 100644
+index 4364af72a7a3..f11d2a348696 100644
 --- a/drivers/platform/x86/amd/pmf/pmf.h
 +++ b/drivers/platform/x86/amd/pmf/pmf.h
-@@ -83,6 +83,8 @@
- #define TA_OUTPUT_RESERVED_MEM				906
- #define MAX_OPERATION_PARAMS					4
+@@ -116,6 +116,18 @@ struct apmf_sbios_req {
+ 	u8 skin_temp_hs2;
+ } __packed;
  
-+#define PMF_IF_V1		1
++struct apmf_sbios_req_v2 {
++	u16 size;
++	u32 pending_req;
++	u8 rsvd;
++	u32 update_ppt_pmf;
++	u32 update_ppt_pmf_apu_only;
++	u32 update_stt_min;
++	u8 update_stt_apu;
++	u8 update_stt_hs2;
++	u32 custom_policy[10];
++} __packed;
 +
- /* AMD PMF BIOS interfaces */
- struct apmf_verify_interface {
+ struct apmf_fan_idx {
  	u16 size;
+ 	u8 fan_ctl_mode;
+@@ -612,6 +624,7 @@ void amd_pmf_init_auto_mode(struct amd_pmf_dev *dev);
+ void amd_pmf_deinit_auto_mode(struct amd_pmf_dev *dev);
+ void amd_pmf_trans_automode(struct amd_pmf_dev *dev, int socket_power, ktime_t time_elapsed_ms);
+ int apmf_get_sbios_requests(struct amd_pmf_dev *pdev, struct apmf_sbios_req *req);
++int apmf_get_sbios_requests_v2(struct amd_pmf_dev *pdev, struct apmf_sbios_req_v2 *req);
+ 
+ void amd_pmf_update_2_cql(struct amd_pmf_dev *dev, bool is_cql_event);
+ int amd_pmf_reset_amt(struct amd_pmf_dev *dev);
 -- 
 2.25.1
 
