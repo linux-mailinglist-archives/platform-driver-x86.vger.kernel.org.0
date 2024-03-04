@@ -1,376 +1,212 @@
-Return-Path: <platform-driver-x86+bounces-1805-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-1807-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC888700B4
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Mar 2024 12:48:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AB658700FF
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Mar 2024 13:13:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7B7AA1F2475A
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Mar 2024 11:48:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E5421C21468
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Mar 2024 12:13:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D9E63C492;
-	Mon,  4 Mar 2024 11:47:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F7613B299;
+	Mon,  4 Mar 2024 12:13:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="dxunb1tg"
+	dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="FLWeHiuL";
+	dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="nU86KIzP"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
+Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2F73A8D8;
-	Mon,  4 Mar 2024 11:47:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709552853; cv=none; b=pdYIWbLxT48ZwvL7bLPenF2twcVbvNvJAVLt3+bQvCw/rG8mu9cASUmFXxwv7fV23sIrwkkRLJ0IMmkRLfIG0qKZXPOo4w7qUzPl+aH4meiDPn84Tui8D0SCR35wqVW5gFnD1jv+lXTQn1P3eF7Z34sAgPxMGs928mCrW/oVEyI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709552853; c=relaxed/simple;
-	bh=mnfECoRhxOUr5hq+aTQH146GAEbMcFSwTqK664QF1ug=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=a+LngPslT2dVbWHiBOFAS7mKGKpIe1t2mr0shh3vWFG+kYa9/9vAV2LNIt8XYmpBeypcFXhJvUzRZUEHelInwhhoJO0+W1iSMGRo7iXWowXInwE5U5p74up4touMCV0GmRFRRL9jvbbTKbP2NdLVEfoxk0qitg394TGG2bh07wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=dxunb1tg; arc=none smtp.client-ip=115.124.30.113
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1709552848; h=From:To:Subject:Date:Message-Id:MIME-Version;
-	bh=kjSYAVfiWOD4MW886BySgZ+l1WsXmtRdOaa62X5lOi4=;
-	b=dxunb1tgo0h+D1wdrDBlmygDNY3R9xlRVnkK5I6qYCaUUx+YmVUEV35JXQMx9Igc3x2buzySty1ZsgZ6QnjzBxk8DKFdgwr9L+7BDRGprTib/G1LAISsn7zvbmND7i3Ztd+xu7L2kNLv81iT/LenBOGRMfZMe/fCqDsn0SE1E5M=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=xuanzhuo@linux.alibaba.com;NM=1;PH=DS;RN=25;SR=0;TI=SMTPD_---0W1ouiCo_1709552845;
-Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com fp:SMTPD_---0W1ouiCo_1709552845)
-          by smtp.aliyun-inc.com;
-          Mon, 04 Mar 2024 19:47:26 +0800
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-To: virtualization@lists.linux.dev
-Cc: Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Vadim Pasternak <vadimp@nvidia.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Cornelia Huck <cohuck@redhat.com>,
-	Halil Pasic <pasic@linux.ibm.com>,
-	Eric Farman <farman@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	linux-um@lists.infradead.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	kvm@vger.kernel.org
-Subject: [PATCH vhost 4/4] virtio_ring: simplify the parameters of the funcs related to vring_create/new_virtqueue()
-Date: Mon,  4 Mar 2024 19:47:19 +0800
-Message-Id: <20240304114719.3710-5-xuanzhuo@linux.alibaba.com>
-X-Mailer: git-send-email 2.32.0.3.g01195cf9f
-In-Reply-To: <20240304114719.3710-1-xuanzhuo@linux.alibaba.com>
-References: <20240304114719.3710-1-xuanzhuo@linux.alibaba.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE426224DF;
+	Mon,  4 Mar 2024 12:13:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=68.232.143.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709554409; cv=fail; b=LcQecvD2r14MZ63grWRaGdmxT9BphbW9q15XR8d2JXOh19hFV+oGGemczy5yUejVK+TxDtE9+0XqwAm3Mrq5E6A5tYUfRVM6Zrdd1tB/uMMmWuJXSZ5ODOE0LImLyhYIvFd6ga4x/olZMtghlZaa2DzycrYPNNBDg3m0lX4m4mY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709554409; c=relaxed/simple;
+	bh=8Wmb4/SDHtpglGifqngIn0k4mCv6v/VAILbYiMc7Eh0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=eVxZ+/So80vFy1KgvDY/gsek/Ba+fgZQzzlTWIYCvBeEBz23bKOmVMNn7sjC7NCO/2LQ0jG53Vkumtoyxc78LA57EnVs0BjmZpKMoKxm6cUVHI6dYUIYOJO2icEjflbNjXPP96Pua8AmzLas1LQadX1nwGHdEAvNY/vE4H36giM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com; spf=pass smtp.mailfrom=wdc.com; dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b=FLWeHiuL; dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b=nU86KIzP; arc=fail smtp.client-ip=68.232.143.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1709554407; x=1741090407;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=8Wmb4/SDHtpglGifqngIn0k4mCv6v/VAILbYiMc7Eh0=;
+  b=FLWeHiuLwzfgX6O2AHMfoJQHIEwwUQNTfLZk0EUYZb5C7JroB2khOTZ1
+   3evbaISZOBBcSIqG+htSBtmnyoau4vXnnSSyXnmb7vEctClQLijKyCaDM
+   mzNEVn4odGoCjE9tR1cpUQSDgrnB7ETE4iID8YoCF/74v4Xv3upyZt7a7
+   nAg8bViIPSlV1XV4vTCRkp+d5UUSj0Ux+kSXWN9IjPQN0kksxHWw/joH+
+   ArHyBxGzT3OUc1IE8ImyYVGHuV37I/Mnz+5Sj0xDuaQLY7bbT9tJXoIj9
+   9fCRDCydWvGomnf55wJ7ina9qmQRVrbXTlrdgg4rzJuLLUQl7ntj9SZNx
+   Q==;
+X-CSE-ConnectionGUID: bb66REfdQQqW5mlffuChJg==
+X-CSE-MsgGUID: 5grDp1dtQO66GHsuCHZ7Cw==
+X-IronPort-AV: E=Sophos;i="6.06,203,1705334400"; 
+   d="scan'208";a="10721704"
+Received: from mail-co1nam11lp2168.outbound.protection.outlook.com (HELO NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.168])
+  by ob1.hgst.iphmx.com with ESMTP; 04 Mar 2024 20:13:19 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kaxJJGJ0R/01VlV8vFRTHkFYkNU1gtdA9rNVktNT3Ofn8ZM+s7XRW3odECvzXo4vhCHuXPZTXcIDrpyevCuPzmpNK71owr+XhHlnT1piVYONW9kkEppcrrrQix8foiG9QAYcr32irZ8mKAIYT4WRxqx8o+t9QcBIJrxFPa8W9rWrvESvkh6txcsi1qz86OWeyhSuPiMd4dN1YePGm+svuV/CD4/Uwi6gI4IkWEgZdMnEe7rFZpRGGeXQT+z1K5tE7cvqE8m1LxBJcnFHmoBbmhCJG5LJoIBqlq7eJVcOqOMJDA2NBPkFjILpFtGwAxhfCmIThBjF2h2t/rmn+AOGTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ygJtFPAkFBsLY/lOONsZ8N7pjSaeG1bLQm4+EfP3l8g=;
+ b=DY77e+R11KDvO95rf38mFPZIT3Lb0dj8WNX7DOMeOR329TE8hWchAH3hmtmOi2Bli7RK34gpzuQfiSgMBr6TQF1CYTvcKrXqYCwI78E5+TooYhHxmGrCOUPiKV61ahZN4THjiXcd7SkK8gcYaD/mm9VX5wkq2rJbZPjgl+7tR/XR3wunr+onVA6Yu+g3nglqCrY2QEhZoPRu6fupzBl7F8+Pb7bszd5UKA7a8+VrqOdDHKl0olo9C/U6+JlxyoigI09z3fkUKHlS1K4LPIQklHoVVdbWZCYnEaxL/KYbAmP/5hrV7zkOZnrpy4D2Avwz6uo14OVSzCaSfqBLc2moMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ygJtFPAkFBsLY/lOONsZ8N7pjSaeG1bLQm4+EfP3l8g=;
+ b=nU86KIzPGHMSWoQT233/6rlObFcejd+fkdRfG7n8cSJJZkBNHkfkrBhOelZVO/S0+IBpkGJhTP9a7milnQBT2ACR6udTZzLr8co9vGuS7m07oaM8KMfOPsHKMN4L1hLnaQIxuyispzXtgLPrxJQJqyHFsnI2Hxq/P7abUMJOjtk=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ PH0PR04MB7287.namprd04.prod.outlook.com (2603:10b6:510:1c::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7339.38; Mon, 4 Mar 2024 12:13:17 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::c9e3:b196:e5ea:909b]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::c9e3:b196:e5ea:909b%4]) with mapi id 15.20.7339.035; Mon, 4 Mar 2024
+ 12:13:17 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Hans de Goede <hdegoede@redhat.com>
+CC: "platform-driver-x86@vger.kernel.org"
+	<platform-driver-x86@vger.kernel.org>, =?iso-8859-1?Q?Ilpo_J=E4rvinen?=
+	<ilpo.jarvinen@linux.intel.com>, Andy Shevchenko
+	<andriy.shevchenko@linux.intel.com>, "danilrybakov249@gmail.com"
+	<danilrybakov249@gmail.com>, Lukas Wunner <lukas@wunner.de>, Klara Modin
+	<klarasmodin@gmail.com>, "linux-pci@vger.kernel.org"
+	<linux-pci@vger.kernel.org>
+Subject: Re: [PATCH v2] platform/x86: p2sb: Defer P2SB device scan when P2SB
+ device has func 0
+Thread-Topic: [PATCH v2] platform/x86: p2sb: Defer P2SB device scan when P2SB
+ device has func 0
+Thread-Index:
+ AQHabEDqvjYLP9d8aESjxeYsLpcDnLEkDfgAgABHMYCAAMeNAIABToyAgACBqICAAG6vAIAAE0MAgAATTgA=
+Date: Mon, 4 Mar 2024 12:13:17 +0000
+Message-ID: <2c3gyhvwncqgfa6t3tb6fj3fk3nkbzpmlgfyzwjgwmmlnhxssu@d25ihdnpwado>
+References: <20240302012813.2011111-1-shinichiro.kawasaki@wdc.com>
+ <gl7rsalwdwdo4rdes6akcnd7llrz75jjje2hchy5cdvzse6vei@367ddi3u6n2e>
+ <a26554d3-bee9-4030-a06c-f886ba2fffb0@redhat.com>
+ <r6ezdjqb5hz5jvvaj2beyulr2adwht2sonxw3bhcjdvwduyt66@2hlsmnppfsk2>
+ <7935add6-a643-43dd-82a8-b7bcfb94d297@redhat.com>
+ <6sbllfapnclmu5sjdtjcs4tyzkkr76ipg3i3rtqyyj7syhtkwd@d2l6zq2co7zt>
+ <a5dac02b-c16a-45d1-8157-0dae1b034418@redhat.com>
+ <d6a95bd9-dac2-4464-af84-9394a36b7090@redhat.com>
+In-Reply-To: <d6a95bd9-dac2-4464-af84-9394a36b7090@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|PH0PR04MB7287:EE_
+x-ms-office365-filtering-correlation-id: 059eef5d-d14c-46e5-a58b-08dc3c44796e
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ 1+1laZBL0R4c1+l2rJdQoSWbF5cVBeRkuR4arQ7NlBIbqRY9UsPhnke0dj7PpwoaIvqhxJbVBSnVHMhac5bTilIzawPHMkiM7JezgDPfkO2zll6bliGOTuaNwqzUdVNq9EOX0aVq4NyhXykL71MgHFanhyYDw7GlOwRMiLBH+HWnBLOyM+vnuMkOSSu3eSBLtaQlhXPwXraAKJKMXdFasrRDVOOpAue+FWzlp2kwcLquKIK5BsF5ExqP6NaGW0IpfJELoKv9xOljGXaqxEtZ04CDQV92lAiZnDGSE1KJAawpoLMlZI2Ux8f7nMt5D2UtNCMcpe5VtwcrXXzvTArvbibF1bOuA0mHpyQb9UpyuV0YCTpG5KMcmNu11c+c1H1Q8/FgGe7fvvYXtKOFG2klOiKLvNBLP8nw4R9aNQmhSMEeiTNcHLlU9BF3Q60J6vceg9/4cjYZMrGygGa735B8IyYPYwbZmjnNV4WbZfKL4U8Hhwte3OEvvNwrK/B7ysQtIE0M6XhJZZrM1TImh6AdTg87HFFaUhWTc4ta9aziAqFLuA5easb2ocRYlsdVmHE+rfqMHAWfDGH7hXHeJPODcXTjMBLoRHL1uTe+LALvkihOUiSBK+JVWlaVpxSA34ksIuwQCUR0aIfdlLs3bgfMD12iwdMLJHULOXGlHUrf73aQXCssO1LIJxbxDqUqWGu6cKKpYANMX22j74SahRNs1Q==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?t5qvOB5z+UJihCCnBSNYqubAHLcDwBtLphWHZOSWwEd/HU8ZNPzKXgpFEJ?=
+ =?iso-8859-1?Q?Q3zTGYENx3imvbwePTveO/ZlWf7lw8CSE+PpHtaRYS3vBhVEyV46Hwsrvy?=
+ =?iso-8859-1?Q?oHdpyCJGURGyZunCvbOruNfyT69H8822NrjaZ5CIqMJvBDCpRW3HkwEReo?=
+ =?iso-8859-1?Q?GwJXaNHa75lfrrfBMX8tLkSyhGMaczdZM876DI3iTkS1epNBN7EZYYuKh9?=
+ =?iso-8859-1?Q?o087br8zat96FwNPX25Ti+NOnRxAxF2ADk6PaGBCypMHXrIEDVRaIJQueD?=
+ =?iso-8859-1?Q?htzAo5jZWfCkANaFx5+jFY0oruLdbTRyY73mwb5YuBn4NACM76bMGTuibZ?=
+ =?iso-8859-1?Q?brIidQ3ydN5JVoVW1pLjRkM1HSeB59WUGdJsWP0s2ad+56fDAMTQAO0W8P?=
+ =?iso-8859-1?Q?2frkeOy7YaZh04bP9le6g62205Ugn9efuYvo9Thtek4IB9LRr1MgcBS3EN?=
+ =?iso-8859-1?Q?eUbj8qzLvprOygt2P0DXTDN18gMK4UZsnPFVcco2F7/6rr86ZYwbQD8w/m?=
+ =?iso-8859-1?Q?sjn3wb7ItQXAKXwnVp3nvLFQU63tbC6iHnVztH9oHxYETmyasUe8ntuTCN?=
+ =?iso-8859-1?Q?nX5zd4EUtfnSSZBryCjUeTwYnj5D1WZjVtnro6tWmB5hpB8R0kkjhJrn+7?=
+ =?iso-8859-1?Q?YXC3V5b37Z5RJRV4WLvITLnrspY1KPFPFVr4HYGagYF0j1sQ6exNwpguwt?=
+ =?iso-8859-1?Q?64GngrYOVcYrOghq2uvg7ycnBZkIgomN6NRM9FHhGp1GslnH4mcb88qmYr?=
+ =?iso-8859-1?Q?6g3Fcvsx0Jp/aMtDa0hITKSTX+8phIFg5zB01TmXJ2UvvhIyccZiFM2/uV?=
+ =?iso-8859-1?Q?yeAm0O/3IxfFrdYvLl4+nkTfctm4Yi+PAv3m/jv1jnLFwqpkh+XRH6ns5p?=
+ =?iso-8859-1?Q?UrScaYsmoY2fKaDoqb8GV0MsF0/8GjMrr0EtRnt3JOG6wb1fA1gDz0Dc7I?=
+ =?iso-8859-1?Q?QnreKhVoyp7fX5mQAUW02dG2IJvK5OuxEtUk741cajvgmxCZbeLHY7H2OE?=
+ =?iso-8859-1?Q?Yqzrt8a/Psn+qrWnXxH26lzuHy48GCCNoSN3p+x/2HLLq15P+58xieHuWC?=
+ =?iso-8859-1?Q?yOripY9GiZrnj4Y85xroOWNqgY+wpSUw6zP8zJpnT9Vw/HCxQC24+ozjW4?=
+ =?iso-8859-1?Q?xW3HWd5joOadAgCLngnVf1fY8zRvi0wIOTStf6OFzKVtchjJdIFJ/z48GH?=
+ =?iso-8859-1?Q?bBQUGmVg3y9JpI98j52XuoJKetvXhl1DLVHbXvCwwFm3gD5I1l/DkzlJ9o?=
+ =?iso-8859-1?Q?hScddsjdflOExzTRF8QatEPcczAf4bCd3g3uGWQ8rLHvegXHapfuaWI61R?=
+ =?iso-8859-1?Q?ySPGYxf4YHm54vAFl1AVb8J1XqcLG39T+2Q41fivduOTUP5gpvpQGIGbQc?=
+ =?iso-8859-1?Q?Kgbb2FRkP6rVkF8S/Stpjw1i4RKTBfTUMrMGcJAUjP2J4rvJcRgP/9LkJN?=
+ =?iso-8859-1?Q?NHg539nbsL8K4xbsUKpE3F1PKa/bavW4g5t772YcW3Em/kto8ZcMhPk5HM?=
+ =?iso-8859-1?Q?UpK8J5WcrZzzGe7COnzUY32WVyuIUJszeoPJfvVQdy6KG68ltkn5YrOk9+?=
+ =?iso-8859-1?Q?LCqi8Pv/3FwLQcxZs1kS+XSt+VFE1fyHHVbYzdHGlsyGAiyzzg3cn4T3ov?=
+ =?iso-8859-1?Q?asAXRiX3pmb4yzK9SGPJ3vQAdSMh/ejhqJfy7w0iW4YQqCxV38AT4WRjb/?=
+ =?iso-8859-1?Q?fhHVOw8eNMkZbGVk5KU=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <A885EF2E9925B04BAD860A1E59630782@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Git-Hash: f8834711b783
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	ZwDF+C4RMCOsALxKc9rZMo+Kysg/jNTXzFvevQh0VybH5ARl0jW9uPJ3+jPFxwk1qFMMe/NVraSrOPC/dIVClxZE4RODrls59W64+vrjEWKpuOzCx9MPX7yw6bCDzLM69X3S9CGStKwTdnEVINJ0d1XZ4GnciuJg+CtJXFeVMH3zCKcJF3xqca58PgJwa3s6lnWqih1EfCvjoraC11bby4bnFZWPrg2s5auRgeGdVDGZ5OtSeNhw+yQU605yLRamztjO4iRhpureIbefUg1Shh8Xg9FwJ2Jcc7SBGJThWwOUeXtjpPgxQOAUYdCEErQHmtn8d09jZc7LqS5waoFyraVzU7igtZhE6YOsrzrGgUx5rRLgRnPq4UlilerKlpALSkygMfeYm1xE3mgbaFNCEwScXH/H2U5cYtAtUfqigGFfQzPwzoOzppqMO2FUWHm5ylUIBficpbkTG4Xar5Gv1lUlEOsBW3Dwbi8yUDbUmcy4VoV9iUbqbcJO1+erPZq/dx3rTERRDmYYiecnZHGML3bPSwh1WZD/rk8iSx0szMbCia7MuUQTV3Ufjegrh/nnpagYFO+/Bn/dKgNZX/Ss9BgeTrhrk/DUcnDbzQY7TBzQNJEHEqu3rqIHD24YMqhW
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 059eef5d-d14c-46e5-a58b-08dc3c44796e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Mar 2024 12:13:17.1966
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: uBngqHgNXrb/8LUyv0EojI6bTaIfqseV4N3kXyL6GoClakr/8aPYgUFkzML2mj3OmdWP5iXLcMoyBPxBeXtfEKQ05qWzeeaiZyb+Z2KTkX0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR04MB7287
 
-As the refactor of find_vqs()/vring_new_virtqueue()/vring_create_virtqueue
-the struct cfg/tp_cfg are passed to vring.
+On Mar 04, 2024 / 12:04, Hans de Goede wrote:
+...
+> So the p2sb_bar(devfn=3D0) call actually only happens on Goldmont from:
+>=20
+> 3) mfd/lpc_ich for pinctrl    devfn =3D 0
+>=20
+> and then only when the ACPI tables fail to properly describe the GPIO
+> controllers as ACPI devices, if the GPIO controllers are described
+> in ACPI, which they are on the ASUS VivoBook D540NV-GQ065T then that
+> call gets skipped.
+>=20
+> So on the ASUS VivoBook D540NV-GQ065T p2sb_bar(devfn=3D0) gets never
+> called. Which explains why not caching it fixes things. I assume that thi=
+s
+> laptop just seems not likes the P2SB is touched at all and by not caching
+> the BAR for the P2SB it ends up not getting touched at all.
 
-This patch refactors the vring by these structures. This can simplify
-the code.
+Thanks for sharing the insights.
 
-Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
----
- drivers/virtio/virtio_ring.c | 157 +++++++++++------------------------
- 1 file changed, 50 insertions(+), 107 deletions(-)
+>=20
+> This also means that likely the P2SB devfn itself generally speaking is
+> often not touched on Goldmont platforms. So we can avoid the lockdep
+> issue on PCI bus rescan there by caching the SPI controller
+> PCI_DEVFN(13, 2) devfn from fs_initcall(), since that will be the only
+> devfn for which p2sb_bar() will get called (except on hw with the
+> GPIO controller missing from the ACPI tables which should be rare).
 
-diff --git a/drivers/virtio/virtio_ring.c b/drivers/virtio/virtio_ring.c
-index 03687800d8ff..94c442ba844f 100644
---- a/drivers/virtio/virtio_ring.c
-+++ b/drivers/virtio/virtio_ring.c
-@@ -223,15 +223,11 @@ struct vring_virtqueue {
- #endif
- };
- 
--static struct virtqueue *__vring_new_virtqueue(unsigned int index,
-+static struct virtqueue *__vring_new_virtqueue(struct virtio_device *vdev,
-+					       unsigned int index,
- 					       struct vring_virtqueue_split *vring_split,
--					       struct virtio_device *vdev,
--					       bool weak_barriers,
--					       bool context,
--					       bool (*notify)(struct virtqueue *),
--					       void (*callback)(struct virtqueue *),
--					       const char *name,
--					       struct device *dma_dev);
-+					       struct vq_transport_config *tp_cfg,
-+					       struct virtio_vq_config *cfg);
- static struct vring_desc_extra *vring_alloc_desc_extra(unsigned int num);
- static void vring_free(struct virtqueue *_vq);
- 
-@@ -240,6 +236,8 @@ static void vring_free(struct virtqueue *_vq);
-  */
- 
- #define to_vvq(_vq) container_of_const(_vq, struct vring_virtqueue, vq)
-+#define cfg_vq_val(cfg, key) (cfg->key[cfg->cfg_idx])
-+#define cfg_vq_get(cfg, key) (cfg->key ? cfg_vq_val(cfg, key) : false)
- 
- static bool virtqueue_use_indirect(const struct vring_virtqueue *vq,
- 				   unsigned int total_sg)
-@@ -1138,32 +1136,28 @@ static int vring_alloc_queue_split(struct vring_virtqueue_split *vring_split,
- 	return 0;
- }
- 
--static struct virtqueue *vring_create_virtqueue_split(
--	unsigned int index,
--	unsigned int num,
--	unsigned int vring_align,
--	struct virtio_device *vdev,
--	bool weak_barriers,
--	bool may_reduce_num,
--	bool context,
--	bool (*notify)(struct virtqueue *),
--	void (*callback)(struct virtqueue *),
--	const char *name,
--	struct device *dma_dev)
-+static struct virtqueue *vring_create_virtqueue_split(struct virtio_device *vdev,
-+						      unsigned int index,
-+						      struct vq_transport_config *tp_cfg,
-+						      struct virtio_vq_config *cfg)
- {
- 	struct vring_virtqueue_split vring_split = {};
- 	struct virtqueue *vq;
- 	int err;
- 
--	err = vring_alloc_queue_split(&vring_split, vdev, num, vring_align,
--				      may_reduce_num, dma_dev);
-+	tp_cfg->dma_dev = tp_cfg->dma_dev ? : vdev->dev.parent;
-+
-+	err = vring_alloc_queue_split(&vring_split, vdev,
-+				      tp_cfg->num,
-+				      tp_cfg->vring_align,
-+				      tp_cfg->may_reduce_num,
-+				      tp_cfg->dma_dev);
- 	if (err)
- 		return NULL;
- 
--	vq = __vring_new_virtqueue(index, &vring_split, vdev, weak_barriers,
--				   context, notify, callback, name, dma_dev);
-+	vq = __vring_new_virtqueue(vdev, index, &vring_split, tp_cfg, cfg);
- 	if (!vq) {
--		vring_free_split(&vring_split, vdev, dma_dev);
-+		vring_free_split(&vring_split, vdev, tp_cfg->dma_dev);
- 		return NULL;
- 	}
- 
-@@ -2050,38 +2044,33 @@ static void virtqueue_reinit_packed(struct vring_virtqueue *vq)
- 	virtqueue_vring_init_packed(&vq->packed, !!vq->vq.callback);
- }
- 
--static struct virtqueue *vring_create_virtqueue_packed(
--	unsigned int index,
--	unsigned int num,
--	unsigned int vring_align,
--	struct virtio_device *vdev,
--	bool weak_barriers,
--	bool may_reduce_num,
--	bool context,
--	bool (*notify)(struct virtqueue *),
--	void (*callback)(struct virtqueue *),
--	const char *name,
--	struct device *dma_dev)
-+static struct virtqueue *vring_create_virtqueue_packed(struct virtio_device *vdev,
-+						       unsigned int index,
-+						       struct vq_transport_config *tp_cfg,
-+						       struct virtio_vq_config *cfg)
- {
- 	struct vring_virtqueue_packed vring_packed = {};
- 	struct vring_virtqueue *vq;
-+	struct device *dma_dev;
- 	int err;
- 
--	if (vring_alloc_queue_packed(&vring_packed, vdev, num, dma_dev))
-+	dma_dev = tp_cfg->dma_dev ? : vdev->dev.parent;
-+
-+	if (vring_alloc_queue_packed(&vring_packed, vdev, tp_cfg->num, dma_dev))
- 		goto err_ring;
- 
- 	vq = kmalloc(sizeof(*vq), GFP_KERNEL);
- 	if (!vq)
- 		goto err_vq;
- 
--	vq->vq.callback = callback;
-+	vq->vq.callback = cfg_vq_val(cfg, callbacks);
- 	vq->vq.vdev = vdev;
--	vq->vq.name = name;
-+	vq->vq.name = cfg_vq_val(cfg, names);
- 	vq->vq.index = index;
- 	vq->vq.reset = false;
- 	vq->we_own_ring = true;
--	vq->notify = notify;
--	vq->weak_barriers = weak_barriers;
-+	vq->notify = tp_cfg->notify;
-+	vq->weak_barriers = tp_cfg->weak_barriers;
- #ifdef CONFIG_VIRTIO_HARDEN_NOTIFICATION
- 	vq->broken = true;
- #else
-@@ -2094,7 +2083,7 @@ static struct virtqueue *vring_create_virtqueue_packed(
- 	vq->do_unmap = vq->use_dma_api;
- 
- 	vq->indirect = virtio_has_feature(vdev, VIRTIO_RING_F_INDIRECT_DESC) &&
--		!context;
-+		!cfg_vq_get(cfg, ctx);
- 	vq->event = virtio_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX);
- 
- 	if (virtio_has_feature(vdev, VIRTIO_F_ORDER_PLATFORM))
-@@ -2104,9 +2093,9 @@ static struct virtqueue *vring_create_virtqueue_packed(
- 	if (err)
- 		goto err_state_extra;
- 
--	virtqueue_vring_init_packed(&vring_packed, !!callback);
-+	virtqueue_vring_init_packed(&vring_packed, !!cfg_vq_val(cfg, callbacks));
- 
--	virtqueue_init(vq, num);
-+	virtqueue_init(vq, tp_cfg->num);
- 	virtqueue_vring_attach_packed(vq, &vring_packed);
- 
- 	spin_lock(&vdev->vqs_list_lock);
-@@ -2599,15 +2588,11 @@ irqreturn_t vring_interrupt(int irq, void *_vq)
- EXPORT_SYMBOL_GPL(vring_interrupt);
- 
- /* Only available for split ring */
--static struct virtqueue *__vring_new_virtqueue(unsigned int index,
-+static struct virtqueue *__vring_new_virtqueue(struct virtio_device *vdev,
-+					       unsigned int index,
- 					       struct vring_virtqueue_split *vring_split,
--					       struct virtio_device *vdev,
--					       bool weak_barriers,
--					       bool context,
--					       bool (*notify)(struct virtqueue *),
--					       void (*callback)(struct virtqueue *),
--					       const char *name,
--					       struct device *dma_dev)
-+					       struct vq_transport_config *tp_cfg,
-+					       struct virtio_vq_config *cfg)
- {
- 	struct vring_virtqueue *vq;
- 	int err;
-@@ -2620,26 +2605,26 @@ static struct virtqueue *__vring_new_virtqueue(unsigned int index,
- 		return NULL;
- 
- 	vq->packed_ring = false;
--	vq->vq.callback = callback;
-+	vq->vq.callback = cfg_vq_val(cfg, callbacks);
- 	vq->vq.vdev = vdev;
--	vq->vq.name = name;
-+	vq->vq.name = cfg_vq_val(cfg, names);
- 	vq->vq.index = index;
- 	vq->vq.reset = false;
- 	vq->we_own_ring = false;
--	vq->notify = notify;
--	vq->weak_barriers = weak_barriers;
-+	vq->notify = tp_cfg->notify;
-+	vq->weak_barriers = tp_cfg->weak_barriers;
- #ifdef CONFIG_VIRTIO_HARDEN_NOTIFICATION
- 	vq->broken = true;
- #else
- 	vq->broken = false;
- #endif
--	vq->dma_dev = dma_dev;
-+	vq->dma_dev = tp_cfg->dma_dev;
- 	vq->use_dma_api = vring_use_dma_api(vdev);
- 	vq->premapped = false;
- 	vq->do_unmap = vq->use_dma_api;
- 
- 	vq->indirect = virtio_has_feature(vdev, VIRTIO_RING_F_INDIRECT_DESC) &&
--		!context;
-+		!cfg_vq_get(cfg, ctx);
- 	vq->event = virtio_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX);
- 
- 	if (virtio_has_feature(vdev, VIRTIO_F_ORDER_PLATFORM))
-@@ -2667,36 +2652,10 @@ struct virtqueue *vring_create_virtqueue(struct virtio_device *vdev,
- 					 struct vq_transport_config *tp_cfg,
- 					 struct virtio_vq_config *cfg)
- {
--	struct device *dma_dev;
--	unsigned int num;
--	unsigned int vring_align;
--	bool weak_barriers;
--	bool may_reduce_num;
--	bool context;
--	bool (*notify)(struct virtqueue *_);
--	void (*callback)(struct virtqueue *_);
--	const char *name;
--
--	dma_dev = tp_cfg->dma_dev ? : vdev->dev.parent;
--
--	num            = tp_cfg->num;
--	vring_align    = tp_cfg->vring_align;
--	weak_barriers  = tp_cfg->weak_barriers;
--	may_reduce_num = tp_cfg->may_reduce_num;
--	notify         = tp_cfg->notify;
--
--	name     = cfg->names[cfg->cfg_idx];
--	callback = cfg->callbacks[cfg->cfg_idx];
--	context  = cfg->ctx ? cfg->ctx[cfg->cfg_idx] : false;
--
- 	if (virtio_has_feature(vdev, VIRTIO_F_RING_PACKED))
--		return vring_create_virtqueue_packed(index, num, vring_align,
--				vdev, weak_barriers, may_reduce_num,
--				context, notify, callback, name, dma_dev);
-+		return vring_create_virtqueue_packed(vdev, index, tp_cfg, cfg);
- 
--	return vring_create_virtqueue_split(index, num, vring_align,
--			vdev, weak_barriers, may_reduce_num,
--			context, notify, callback, name, dma_dev);
-+	return vring_create_virtqueue_split(vdev, index, tp_cfg, cfg);
- }
- EXPORT_SYMBOL_GPL(vring_create_virtqueue);
- 
-@@ -2842,30 +2801,14 @@ struct virtqueue *vring_new_virtqueue(struct virtio_device *vdev,
- 				      struct virtio_vq_config *cfg)
- {
- 	struct vring_virtqueue_split vring_split = {};
--	unsigned int num;
--	unsigned int vring_align;
--	bool weak_barriers;
--	bool context;
--	bool (*notify)(struct virtqueue *_);
--	void (*callback)(struct virtqueue *_);
--	const char *name;
--
--	num            = tp_cfg->num;
--	vring_align    = tp_cfg->vring_align;
--	weak_barriers  = tp_cfg->weak_barriers;
--	notify         = tp_cfg->notify;
--
--	name     = cfg->names[cfg->cfg_idx];
--	callback = cfg->callbacks[cfg->cfg_idx];
--	context  = cfg->ctx ? cfg->ctx[cfg->cfg_idx] : false;
- 
- 	if (virtio_has_feature(vdev, VIRTIO_F_RING_PACKED))
- 		return NULL;
- 
--	vring_init(&vring_split.vring, num, pages, vring_align);
--	return __vring_new_virtqueue(index, &vring_split, vdev, weak_barriers,
--				     context, notify, callback, name,
--				     vdev->dev.parent);
-+	tp_cfg->dma_dev = vdev->dev.parent;
-+
-+	vring_init(&vring_split.vring, tp_cfg->num, pages, tp_cfg->vring_align);
-+	return __vring_new_virtqueue(vdev, index, &vring_split, tp_cfg, cfg);
- }
- EXPORT_SYMBOL_GPL(vring_new_virtqueue);
- 
--- 
-2.32.0.3.g01195cf9f
+Oh, this sounds a great idea.
 
+>=20
+> I have prepared a follow up patch to your v3 to cache the
+> SPI controller devfn instead of the P2SB devfn at fs_initcall()
+> time. I'll post this shortly and I'll also ask the bug reporter
+> to test the combination of our 2 patches.
+
+Thanks a lot. Looking forward to the results.=
 
