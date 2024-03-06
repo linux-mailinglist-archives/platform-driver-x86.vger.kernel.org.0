@@ -1,99 +1,153 @@
-Return-Path: <platform-driver-x86+bounces-1890-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-1892-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CBD5873368
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Mar 2024 11:00:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13FC487342B
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Mar 2024 11:28:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7A483B2902D
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Mar 2024 10:00:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 85C79B2E9F0
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Mar 2024 10:20:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E32EF5EE6F;
-	Wed,  6 Mar 2024 09:59:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC4885FB95;
+	Wed,  6 Mar 2024 10:19:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dKRDO6V1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fd3Y3to5"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5A85E085
-	for <platform-driver-x86@vger.kernel.org>; Wed,  6 Mar 2024 09:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14795F861;
+	Wed,  6 Mar 2024 10:19:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709719179; cv=none; b=m8eoZdeaRxL0114twa6gHrsEh0RqO1faGJ/0iiRR8o870ZgZHCy9Ek9PC36Cy48y8LfMvH82gFBkrQZ/nxx+/U2okU3zgZHFpFj6jCrayo/FzpvfbUtj+PaaTbSXnE7mCB0LSZnT1G/pM2OfkWG52M0ghrnqWEFnVZQnYrfTAsI=
+	t=1709720378; cv=none; b=ajk9kCrVxeG0Pl3DCOEa2z/62jeiOTPHCa3rCiIzrjH5wS9a/EuWzxPcXOtnDEeRsKdlRek9xCeN2N6HePH+ztjhNPGODRdiF8sspVDtuNhAHaLdljIi7ZM9/Nz1VtqpyRVCOBklQ4xBtagtncwoQu6QZRYUVR/uc/FaH4jRiNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709719179; c=relaxed/simple;
-	bh=iWRSkNSWXOig1i0ZQ5/KDK71nvFN9gl30QZPTj0Zmvc=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FAteRSzCSy9kGOSOhRspkthGUotgjZq6Sqawcx6ur63zOW+j9GNmK3CCf7vY8WNTOZ+xbAJunXdL1lgle943ebs7sLtn07yYchC5shTTpjaRNZR2z5bhOdK5WDM21OWPNKI4Njcw6OSOy6PmZUU8yDUfCQQ1hBBQm5jQUIz3qa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dKRDO6V1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 51B6AC433F1
-	for <platform-driver-x86@vger.kernel.org>; Wed,  6 Mar 2024 09:59:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709719179;
-	bh=iWRSkNSWXOig1i0ZQ5/KDK71nvFN9gl30QZPTj0Zmvc=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=dKRDO6V1R2q580lTsbDzyVMiWKB55MK9YKIjsWEkvm1tNy284ihY8WBGYeFjnPrkc
-	 YzHspWTDmsX8W5VStF7BA48LdmsQhakQ/H97NNggg602b9IPK/WsC2OzPcxIlqtbmW
-	 pqcclG88fWCZ5eVaTz5quMmpDSTLLLTj23bTiwPECEB/qIIvzgvPWnenp9egm7ZL7P
-	 uDuNXJtnz1f4nmDhL/1sI3E8gafhHAFkE3/ZIq/QgnhNM7LJxzLA5GGlVdf5sYC78y
-	 WMKYb83vADXi8XpatkquJzxDxSMmwlM1/OhATg6WsCuuAOZ/s8J9NcQMSMvstT6hwJ
-	 +zJJ2+XwdEnLA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 37F09C4332E; Wed,  6 Mar 2024 09:59:39 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: platform-driver-x86@vger.kernel.org
-Subject: [Bug 218305] Ryzen 7 7840HS gets stuck at 544MHz frequency after a
- random number of suspend/resume cycles
-Date: Wed, 06 Mar 2024 09:59:39 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-218305-215701-eq0XYGigKO@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-218305-215701@https.bugzilla.kernel.org/>
-References: <bug-218305-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	s=arc-20240116; t=1709720378; c=relaxed/simple;
+	bh=iJyCSdmI3E/9sHsRKQ+LNQH2aEW+pw+M2g+wGJ3g80k=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=WDjked7B+s+MQYyc/HgkbEOqPl9mWUe5YHBuMeTlKSDiZJGLeIEYrhJHjYRdmNXS/O5mcdOQINOKZLyB280HcMv4Kf6eqQeWa/sra5Iq7apjeEYGVMIu8uj/2XLR81qS+3JaBbnVY9nN2BvEZ0hU1vL/NoKwPhxxmSrLnZougTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fd3Y3to5; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709720377; x=1741256377;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=iJyCSdmI3E/9sHsRKQ+LNQH2aEW+pw+M2g+wGJ3g80k=;
+  b=fd3Y3to5Hr2lfywO5vbUV2314jvjlaWpCEHe8e4Z6rIQuIJW3rplhWCk
+   t2mnbUq6u8dCP8/sjnJVLp/yvSM1zCu6YJnfjTpAZjzbGVwY9EG/rFwHR
+   aq8oPiRJd76hsIq5uM4hxfTFVEio+I7STFb/ypbIlujKZz1HyYI7mGShD
+   vGr95MggJ684+bSwn8jNB0MG0PbVpx3cslwQh7WN0AC0iNYYYf1NgBTsc
+   +UlPh11LfpddWMwAKjKflBK85cF8jT+mbcDEYVaS5OfipwcOiLpnw3jqG
+   Em9RTBBlBs0sz2mGFYN6GP62gsTzk1KB+b/a9kKksRKPUCsHFTw/yiENa
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="14974856"
+X-IronPort-AV: E=Sophos;i="6.06,208,1705392000"; 
+   d="scan'208";a="14974856"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2024 02:19:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,208,1705392000"; 
+   d="scan'208";a="14368247"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.244.146])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2024 02:19:34 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Wed, 6 Mar 2024 12:19:30 +0200 (EET)
+To: Armin Wolf <W_Armin@gmx.de>
+cc: Hans de Goede <hdegoede@redhat.com>, platform-driver-x86@vger.kernel.org, 
+    LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] platform/x86: wmi: Support reading/writing 16 bit
+ EC values
+In-Reply-To: <20240304221732.39272-1-W_Armin@gmx.de>
+Message-ID: <ffb87c8f-3d6d-c96c-71e9-2abccfe68405@linux.intel.com>
+References: <20240304221732.39272-1-W_Armin@gmx.de>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218305
+On Mon, 4 Mar 2024, Armin Wolf wrote:
 
---- Comment #28 from Artem S. Tashkinov (aros@gmx.com) ---
-> For the first issue, Artem can you update to 6.8-rc7, make sure you've ad=
-ded
-> the TEE firmware for the amd-pmf driver from linux-firmware and see if you
-> can still reproduce it?
+> The ACPI EC address space handler currently only supports
+> reading/writing 8 bit values. Some firmware implementations however
+> want to access for example 16 bit values, which is prefectly legal
+> according to the ACPI spec.
+> 
+> Add support for reading/writing such values.
+> 
+> Tested on a Dell Inspiron 3505 and a Asus Prime B650-Plus.
+> 
+> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+> ---
+>  drivers/platform/x86/wmi.c | 44 +++++++++++++++++++++++++++++---------
+>  1 file changed, 34 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
+> index 1920e115da89..900e0e52a5fa 100644
+> --- a/drivers/platform/x86/wmi.c
+> +++ b/drivers/platform/x86/wmi.c
+> @@ -1153,6 +1153,32 @@ static int parse_wdg(struct device *wmi_bus_dev, struct platform_device *pdev)
+>  	return 0;
+>  }
+> 
+> +static int ec_read_multiple(u8 address, u8 *buffer, size_t bytes)
+> +{
+> +	int i, ret;
+> +
+> +	for (i = 0; i < bytes; i++) {
+> +		ret = ec_read(address + i, &buffer[i]);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int ec_write_multiple(u8 address, u8 *buffer, size_t bytes)
+> +{
+> +	int i, ret;
+> +
+> +	for (i = 0; i < bytes; i++) {
+> +		ret = ec_write(address + i, buffer[i]);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /*
+>   * WMI can have EmbeddedControl access regions. In which case, we just want to
+>   * hand these off to the EC driver.
+> @@ -1162,27 +1188,25 @@ acpi_wmi_ec_space_handler(u32 function, acpi_physical_address address,
+>  			  u32 bits, u64 *value,
+>  			  void *handler_context, void *region_context)
+>  {
+> -	int result = 0;
+> -	u8 temp = 0;
+> +	int bytes = bits / 8;
 
-I've just added the firmware file, "773bd96f-b83f-4d52-b12dc529b13d8543.bin"
-(what a weird name) and I will test 6.8 as soon as it gets released. It's
-coming pretty soon.
+I'm a quite hesitant about this. IMO, it should do DIV_ROUND_UP(bits, 
+BITS_PER_BYTE) or return AE_BAD_PARAMETER when bits is not divisable by 8. 
+And if you choose the round up approach, I'm not sure what the write 
+should do with the excess bits.
 
-Thanks.
+In any case, 8 -> BITS_PER_BYTE.
 
---=20
-You may reply to this email to add a comment.
+> +	int ret;
+> 
+> -	if ((address > 0xFF) || !value)
+> +	if (address > 0xFF || !value)
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+This should takes bytes into account to not overflow the u8 address?
+
+-- 
+ i.
+
 
