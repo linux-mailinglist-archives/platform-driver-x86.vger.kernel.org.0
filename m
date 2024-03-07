@@ -1,298 +1,222 @@
-Return-Path: <platform-driver-x86+bounces-1937-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-1940-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A89874956
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 Mar 2024 09:16:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B90A874AAD
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 Mar 2024 10:21:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 35F23B21AD2
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 Mar 2024 08:16:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A00BBB2323D
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 Mar 2024 09:21:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC5BB634F2;
-	Thu,  7 Mar 2024 08:15:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="O5eaitda"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0491A839EC;
+	Thu,  7 Mar 2024 09:21:05 +0000 (UTC)
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C5E633EC;
-	Thu,  7 Mar 2024 08:15:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5BD823BF;
+	Thu,  7 Mar 2024 09:21:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709799346; cv=none; b=nxeuEbBOUtebeZTDOormmftUKT+wYsAwZ0HW12cfE7MSG1N15bU8rNMwnWE4EysUh4hvck9/1ph/KLtBg7DrWDG8Sp3YE8GAXvZJ7LiNUIguqHq7pDVRLbndUNuvlBuxMVNieRQiJnWEa4E8hVvEOa5Yw1IkVQC/tVGy1/lx7oU=
+	t=1709803264; cv=none; b=RpU/040Oj73pvxEZrTDEqrVctJaj1K8SKO9NUTqP1J/tVbLRCDFZJ7V9XBKmRtGPmjp+R+bKJDscNV7bfme/ry+mULwpGXIwnGbS/GGz++S52PRaNo1WZ0qC88hbd3hmW8qEK6egJJ7HFyFN+cgCzGD4mKjcmemdHUipob1poxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709799346; c=relaxed/simple;
-	bh=qn4XlrCB0/U0FkhSoivYtFw9BAhWHViJJmb7sOeaNCI=;
-	h=Message-ID:Subject:Date:From:To:Cc:References:In-Reply-To:
-	 Content-Type; b=nLI54+ClbWpIk2ubPiVJHkunGQNFBLuRVcHprfXcXFra7hBfM2x8hio1mSLVlqaaMTHZU4TJZcYxRgiWN90u4p/WoVUT5n4e71Mo9meQ1BuH1MTshQiuTzcv3okom0A59P2A5Msb2BKwvsL/vGbLnw3hk8vfQNOqex7bz+Q5JDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=O5eaitda; arc=none smtp.client-ip=115.124.30.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1709799335; h=Message-ID:Subject:Date:From:To:Content-Type;
-	bh=18OSYGa/SGkgZJEOI3rLdiQkYGsKgGpvPail2nzxpk8=;
-	b=O5eaitdakZcCcTp3OC8XXthP+6TQBcnEoa8br0cX3GmDyNy9Zxr72fXvfhC6fd68lsPTxwmlxGEBBC4jm5eUWquJysSgCIlyuBHLJ80wK4bdLAxOcaiqlmYjx0JMbhWCwcHBuHRAPGB2LVEGpT0I9UpkmPbs7yZX6HJabxAURE0=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=xuanzhuo@linux.alibaba.com;NM=1;PH=DS;RN=34;SR=0;TI=SMTPD_---0W2-19Np_1709799332;
-Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com fp:SMTPD_---0W2-19Np_1709799332)
-          by smtp.aliyun-inc.com;
-          Thu, 07 Mar 2024 16:15:33 +0800
-Message-ID: <1709798771.2564156-2-xuanzhuo@linux.alibaba.com>
-Subject: Re: [PATCH vhost v3 00/19] virtio: drivers maintain dma info for premapped vq
-Date: Thu, 7 Mar 2024 16:06:11 +0800
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- virtualization@lists.linux.dev,
- Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Vadim Pasternak <vadimp@nvidia.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>,
- Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>,
- linux-um@lists.infradead.org,
- netdev@vger.kernel.org,
- platform-driver-x86@vger.kernel.org,
- linux-remoteproc@vger.kernel.org,
- linux-s390@vger.kernel.org,
- kvm@vger.kernel.org,
- bpf@vger.kernel.org
-References: <20240229072044.77388-1-xuanzhuo@linux.alibaba.com>
- <20240229031755-mutt-send-email-mst@kernel.org>
- <1709197357.626784-1-xuanzhuo@linux.alibaba.com>
- <20240229043238-mutt-send-email-mst@kernel.org>
- <1709718889.4420547-1-xuanzhuo@linux.alibaba.com>
- <CACGkMEu5=DKJfXsvOoXDDH7KJ-DWt83jj=vf8GoRnq-9zUeOOg@mail.gmail.com>
-In-Reply-To: <CACGkMEu5=DKJfXsvOoXDDH7KJ-DWt83jj=vf8GoRnq-9zUeOOg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1709803264; c=relaxed/simple;
+	bh=r3/myK4/ZpKNlUkLE94ZeTlMFLlsx33jDPOvRo6U2a8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NDQ9JQl6QOzd09D76QXsCZi/L7petlNHcnazrtMS4H6Pb3kk+rSVtBN7PRkGXM0/IxbTeRmoykbnTRaUZfsl7VsSN6JJY9iE6GtwCNNfi4BW5Bjo/keiTVc8dbSaCCu/grLgesgqvzVN52xCK8VGrvxEI4JI65y9RtBF7i8SItM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 3607b475cb7d4278aab10ffaaee8bd0e-20240307
+X-CID-O-RULE: Release_Ham
+X-CID-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.37,REQID:e8ea706b-495e-4725-a2f2-38442837f5a6,IP:10,
+	URL:0,TC:0,Content:-25,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,AC
+	TION:release,TS:-30
+X-CID-INFO: VERSION:1.1.37,REQID:e8ea706b-495e-4725-a2f2-38442837f5a6,IP:10,UR
+	L:0,TC:0,Content:-25,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+	ON:release,TS:-30
+X-CID-META: VersionHash:6f543d0,CLOUDID:d65a9eff-c16b-4159-a099-3b9d0558e447,B
+	ulkID:240307163618P7UYFQLJ,BulkQuantity:1,Recheck:0,SF:24|17|19|44|66|38|1
+	02,TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:41,QS:nil,BEC:
+	nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_FSI,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
+X-UUID: 3607b475cb7d4278aab10ffaaee8bd0e-20240307
+X-User: aichao@kylinos.cn
+Received: from localhost.localdomain [(112.64.161.44)] by mailgw
+	(envelope-from <aichao@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1393049069; Thu, 07 Mar 2024 16:59:41 +0800
+From: Ai Chao <aichao@kylinos.cn>
+To: hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Cc: Ai Chao <aichao@kylinos.cn>
+Subject: [PATCH v5] platform/x86: add lenovo wmi camera button driver
+Date: Thu,  7 Mar 2024 16:59:39 +0800
+Message-Id: <20240307085939.668881-1-aichao@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, 7 Mar 2024 13:28:27 +0800, Jason Wang <jasowang@redhat.com> wrote:
-> On Wed, Mar 6, 2024 at 6:01=E2=80=AFPM Xuan Zhuo <xuanzhuo@linux.alibaba.=
-com> wrote:
-> >
-> > On Thu, 29 Feb 2024 04:34:20 -0500, "Michael S. Tsirkin" <mst@redhat.co=
-m> wrote:
-> > > On Thu, Feb 29, 2024 at 05:02:37PM +0800, Xuan Zhuo wrote:
-> > > > On Thu, 29 Feb 2024 03:21:14 -0500, "Michael S. Tsirkin" <mst@redha=
-t.com> wrote:
-> > > > > On Thu, Feb 29, 2024 at 03:20:25PM +0800, Xuan Zhuo wrote:
-> > > > > > As discussed:
-> > > > > > http://lore.kernel.org/all/CACGkMEvq0No8QGC46U4mGsMtuD44fD_cfLc=
-PaVmJ3rHYqRZxYg@mail.gmail.com
-> > > > > >
-> > > > > > If the virtio is premapped mode, the driver should manage the d=
-ma info by self.
-> > > > > > So the virtio core should not store the dma info.
-> > > > > > So we can release the memory used to store the dma info.
-> > > > > >
-> > > > > > But if the desc_extra has not dma info, we face a new question,
-> > > > > > it is hard to get the dma info of the desc with indirect flag.
-> > > > > > For split mode, that is easy from desc, but for the packed mode,
-> > > > > > it is hard to get the dma info from the desc. And for hardening
-> > > > > > the dma unmap is saft, we should store the dma info of indirect
-> > > > > > descs.
-> > > > > >
-> > > > > > So I introduce the "structure the indirect desc table" to
-> > > > > > allocate space to store dma info with the desc table.
-> > > > > >
-> > > > > > On the other side, we mix the descs with indirect flag
-> > > > > > with other descs together to share the unmap api. That
-> > > > > > is complex. I found if we we distinguish the descs with
-> > > > > > VRING_DESC_F_INDIRECT before unmap, thing will be clearer.
-> > > > > >
-> > > > > > Because of the dma array is allocated in the find_vqs(),
-> > > > > > so I introduce a new parameter to find_vqs().
-> > > > > >
-> > > > > > Note:
-> > > > > >     this is on the top of
-> > > > > >         [PATCH vhost v1] virtio: packed: fix unmap leak for ind=
-irect desc table
-> > > > > >         http://lore.kernel.org/all/20240223071833.26095-1-xuanz=
-huo@linux.alibaba.com
-> > > > > >
-> > > > > > Please review.
-> > > > > >
-> > > > > > Thanks
-> > > > > >
-> > > > > > v3:
-> > > > > >     1. fix the conflict with the vp_modern_create_avq().
-> > > > >
-> > > > > Okay but are you going to address huge memory waste all this is c=
-ausing for
-> > > > > - people who never do zero copy
-> > > > > - systems where dma unmap is a nop
-> > > > >
-> > > > > ?
-> > > > >
-> > > > > You should address all comments when you post a new version, not =
-just
-> > > > > what was expedient, or alternatively tag patch as RFC and explain
-> > > > > in commit log that you plan to do it later.
-> > > >
-> > > >
-> > > > Do you miss this one?
-> > > > http://lore.kernel.org/all/1708997579.5613105-1-xuanzhuo@linux.alib=
-aba.com
-> > >
-> > >
-> > > I did. The answer is that no, you don't get to regress memory usage
-> > > for lots of people then fix it up.
-> > > So the patchset is big, I guess it will take a couple of cycles to
-> > > merge gradually.
-> >
-> > Hi @Michael
-> >
-> > So, how about this patch set?
-> >
-> > I do not think they (dma maintainers) will agree the API dma_can_skip_u=
-nmap().
-> >
-> > If you think sq wastes too much memory using pre-mapped dma mode, how a=
-bout
-> > we only enable it when xsk is bond?
-> >
-> > Could you give me some advice?
->
-> I think we have some discussion, one possible solution is:
->
-> when pre mapping is enabled, virtio core won't store dma metadatas.
->
-> Then it makes virtio-net align with other NIC.
+Add lenovo generic wmi driver to support camera button.
+The Camera button is a GPIO device. This driver receives ACPI notifyi
+when the camera button is switched on/off. This driver is used in
+Lenovo A70, it is a Computer integrated machine.
 
+Signed-off-by: Ai Chao <aichao@kylinos.cn>
+---
+v5: Remove camera button groups, modify KEY_CAMERA to SW_CAMERA_LENS_COVER.
+v4: Remove lenovo_wmi_input_setup, move camera_mode into struct lenovo_wmi_priv.
+v3: Remove lenovo_wmi_remove function.
+v2: Adjust GPL v2 to GPL, adjust sprintf to sysfs_emit.
 
-YES.
+ drivers/platform/x86/Kconfig             | 12 ++++
+ drivers/platform/x86/Makefile            |  1 +
+ drivers/platform/x86/lenovo-wmi-camera.c | 89 ++++++++++++++++++++++++
+ 3 files changed, 102 insertions(+)
+ create mode 100644 drivers/platform/x86/lenovo-wmi-camera.c
 
-This patch set works as this.
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index bdd302274b9a..9506a455b547 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -1001,6 +1001,18 @@ config INSPUR_PLATFORM_PROFILE
+ 	To compile this driver as a module, choose M here: the module
+ 	will be called inspur-platform-profile.
+ 
++config LENOVO_WMI_CAMERA
++	tristate "Lenovo WMI Camera Button driver"
++	depends on ACPI_WMI
++	depends on INPUT
++	help
++	  This driver provides support for Lenovo camera button. The Camera
++	  button is a GPIO device. This driver receives ACPI notify when the
++	  camera button is switched on/off.
++
++	  To compile this driver as a module, choose M here: the module
++	  will be called lenovo-wmi-camera.
++
+ source "drivers/platform/x86/x86-android-tablets/Kconfig"
+ 
+ config FW_ATTR_CLASS
+diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+index 1de432e8861e..217e94d7c877 100644
+--- a/drivers/platform/x86/Makefile
++++ b/drivers/platform/x86/Makefile
+@@ -66,6 +66,7 @@ obj-$(CONFIG_SENSORS_HDAPS)	+= hdaps.o
+ obj-$(CONFIG_THINKPAD_ACPI)	+= thinkpad_acpi.o
+ obj-$(CONFIG_THINKPAD_LMI)	+= think-lmi.o
+ obj-$(CONFIG_YOGABOOK)		+= lenovo-yogabook.o
++obj-$(CONFIG_LENOVO_WMI_CAMERA)	+= lenovo-wmi-camera.o
+ 
+ # Intel
+ obj-y				+= intel/
+diff --git a/drivers/platform/x86/lenovo-wmi-camera.c b/drivers/platform/x86/lenovo-wmi-camera.c
+new file mode 100644
+index 000000000000..571d67ade8ac
+--- /dev/null
++++ b/drivers/platform/x86/lenovo-wmi-camera.c
+@@ -0,0 +1,89 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Lenovo WMI Camera Button Driver
++ *
++ * Author: Ai Chao <aichao@kylinos.cn>
++ * Copyright (C) 2024 KylinSoft Corporation.
++ */
++
++#include <linux/acpi.h>
++#include <linux/device.h>
++#include <linux/input.h>
++#include <linux/module.h>
++#include <linux/wmi.h>
++
++#define WMI_LENOVO_CAMERABUTTON_EVENT_GUID "50C76F1F-D8E4-D895-0A3D-62F4EA400013"
++
++struct lenovo_wmi_priv {
++	struct input_dev *idev;
++	struct device *dev;
++};
++
++enum {
++	SW_CAMERA_OFF	= 0,
++	SW_CAMERA_ON	= 1,
++};
++
++static void lenovo_wmi_notify(struct wmi_device *wdev, union acpi_object *obj)
++{
++	struct lenovo_wmi_priv *priv = dev_get_drvdata(&wdev->dev);
++
++	if (obj->type == ACPI_TYPE_BUFFER &&
++	    obj->buffer.pointer[0] <= SW_CAMERA_ON) {
++		/* obj->buffer.pointer[0] is camera mode:
++		 *      0 camera close
++		 *      1 camera open
++		 */
++		input_report_switch(priv->idev, SW_CAMERA_LENS_COVER,
++				    obj->buffer.pointer[0]);
++		input_sync(priv->idev);
++	} else {
++		dev_dbg(&wdev->dev, "Bad response type %d\n", obj->type);
++	}
++}
++
++static int lenovo_wmi_probe(struct wmi_device *wdev, const void *context)
++{
++	struct lenovo_wmi_priv *priv;
++
++	priv = devm_kzalloc(&wdev->dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	dev_set_drvdata(&wdev->dev, priv);
++
++	priv->idev = devm_input_allocate_device(&wdev->dev);
++	if (!priv->idev)
++		return -ENOMEM;
++
++	priv->idev->name = "Lenovo WMI Camera Button";
++	priv->idev->phys = "wmi/input0";
++	priv->idev->id.bustype = BUS_HOST;
++	priv->idev->dev.parent = &wdev->dev;
++	input_set_capability(priv->idev, EV_SW, SW_CAMERA_LENS_COVER);
++
++	return input_register_device(priv->idev);
++}
++
++static const struct wmi_device_id lenovo_wmi_id_table[] = {
++	{ .guid_string = WMI_LENOVO_CAMERABUTTON_EVENT_GUID },
++	{  }
++};
++
++static struct wmi_driver lenovo_wmi_driver = {
++	.driver = {
++		.name = "lenovo-wmi-camera",
++		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
++	},
++	.id_table = lenovo_wmi_id_table,
++	.no_singleton = true,
++	.probe = lenovo_wmi_probe,
++	.notify = lenovo_wmi_notify,
++};
++
++module_wmi_driver(lenovo_wmi_driver);
++
++MODULE_DEVICE_TABLE(wmi, lenovo_wmi_id_table);
++MODULE_AUTHOR("Ai Chao <aichao@kylinos.cn>");
++MODULE_DESCRIPTION("Lenovo WMI Camera Button Driver");
++MODULE_LICENSE("GPL");
+-- 
+2.25.1
 
-But the virtio-net must allocate too much memory to store dma and len.
-
-num =3D queue size * 19
-
-Michael thinks that waste too much memory.
-	http://lore.kernel.org/all/20240225032330-mutt-send-email-mst@kernel.org
-
-So we try this:
-	http://lore.kernel.org/all/20240301071918.64631-1-xuanzhuo@linux.alibaba.c=
-om
-
-But I think that is difficult to be accepted by the  DMA maintainers.
-
-So I have two advices:
-
-1. virtio-net sq works without indirect.
-	- that more like other NIC
-	- the num of the memory to store the dma info is queue_size
-
-2. The default mode of virtio-net sq is no-premapped
-	- we just switch the mode when binding xsk
-
-Thanks.
-
-
->
-> Thanks
->
-> >
-> > Thanks.
-> >
-> >
-> > >
-> > > > I asked you. But I didnot recv your answer.
-> > > >
-> > > > Thanks.
-> > > >
-> > > >
-> > > > >
-> > > > > > v2:
-> > > > > >     1. change the dma item of virtio-net, every item have MAX_S=
-KB_FRAGS + 2
-> > > > > >         addr + len pairs.
-> > > > > >     2. introduce virtnet_sq_free_stats for __free_old_xmit
-> > > > > >
-> > > > > > v1:
-> > > > > >     1. rename transport_vq_config to vq_transport_config
-> > > > > >     2. virtio-net set dma meta number to (ring-size + 1)(MAX_SK=
-B_FRGAS +2)
-> > > > > >     3. introduce virtqueue_dma_map_sg_attrs
-> > > > > >     4. separate vring_create_virtqueue to an independent commit
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > > > Xuan Zhuo (19):
-> > > > > >   virtio_ring: introduce vring_need_unmap_buffer
-> > > > > >   virtio_ring: packed: remove double check of the unmap ops
-> > > > > >   virtio_ring: packed: structure the indirect desc table
-> > > > > >   virtio_ring: split: remove double check of the unmap ops
-> > > > > >   virtio_ring: split: structure the indirect desc table
-> > > > > >   virtio_ring: no store dma info when unmap is not needed
-> > > > > >   virtio: find_vqs: pass struct instead of multi parameters
-> > > > > >   virtio: vring_create_virtqueue: pass struct instead of multi
-> > > > > >     parameters
-> > > > > >   virtio: vring_new_virtqueue(): pass struct instead of multi p=
-arameters
-> > > > > >   virtio_ring: simplify the parameters of the funcs related to
-> > > > > >     vring_create/new_virtqueue()
-> > > > > >   virtio: find_vqs: add new parameter premapped
-> > > > > >   virtio_ring: export premapped to driver by struct virtqueue
-> > > > > >   virtio_net: set premapped mode by find_vqs()
-> > > > > >   virtio_ring: remove api of setting vq premapped
-> > > > > >   virtio_ring: introduce dma map api for page
-> > > > > >   virtio_ring: introduce virtqueue_dma_map_sg_attrs
-> > > > > >   virtio_net: unify the code for recycling the xmit ptr
-> > > > > >   virtio_net: rename free_old_xmit_skbs to free_old_xmit
-> > > > > >   virtio_net: sq support premapped mode
-> > > > > >
-> > > > > >  arch/um/drivers/virtio_uml.c             |  31 +-
-> > > > > >  drivers/net/virtio_net.c                 | 283 ++++++---
-> > > > > >  drivers/platform/mellanox/mlxbf-tmfifo.c |  24 +-
-> > > > > >  drivers/remoteproc/remoteproc_virtio.c   |  31 +-
-> > > > > >  drivers/s390/virtio/virtio_ccw.c         |  33 +-
-> > > > > >  drivers/virtio/virtio_mmio.c             |  30 +-
-> > > > > >  drivers/virtio/virtio_pci_common.c       |  59 +-
-> > > > > >  drivers/virtio/virtio_pci_common.h       |   9 +-
-> > > > > >  drivers/virtio/virtio_pci_legacy.c       |  16 +-
-> > > > > >  drivers/virtio/virtio_pci_modern.c       |  38 +-
-> > > > > >  drivers/virtio/virtio_ring.c             | 698 ++++++++++++---=
---------
-> > > > > >  drivers/virtio/virtio_vdpa.c             |  45 +-
-> > > > > >  include/linux/virtio.h                   |  13 +-
-> > > > > >  include/linux/virtio_config.h            |  48 +-
-> > > > > >  include/linux/virtio_ring.h              |  82 +--
-> > > > > >  tools/virtio/virtio_test.c               |   4 +-
-> > > > > >  tools/virtio/vringh_test.c               |  28 +-
-> > > > > >  17 files changed, 847 insertions(+), 625 deletions(-)
-> > > > > >
-> > > > > > --
-> > > > > > 2.32.0.3.g01195cf9f
-> > > > >
-> > >
-> >
->
 
