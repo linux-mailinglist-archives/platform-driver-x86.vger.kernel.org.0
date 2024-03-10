@@ -1,101 +1,204 @@
-Return-Path: <platform-driver-x86+bounces-1996-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-1998-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A495287764E
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 10 Mar 2024 12:32:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8143B8777EC
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 10 Mar 2024 19:15:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FB44281919
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 10 Mar 2024 11:32:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1FED41F20B64
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 10 Mar 2024 18:15:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44322200D2;
-	Sun, 10 Mar 2024 11:32:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B420E39AD5;
+	Sun, 10 Mar 2024 18:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iktKiwLc"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from irl.hu (irl.hu [95.85.9.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D331EB42;
-	Sun, 10 Mar 2024 11:32:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44563984A;
+	Sun, 10 Mar 2024 18:15:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710070325; cv=none; b=M46LF/x4xKFwZbe+ZBrmrOqTgsxHcJjP3V0jjylNoiRN2mlZ9oRlhVQsgeLpX5RXLTyu4f1dEn/Zv2agU9j/gSgmUnnIdiAP6OtKnesoT63g3+3Je7lxKmda+BBOWcLJygIjFvXAj440+Grc89c1SoqqqA3bJIMNTvgiCKvkPz4=
+	t=1710094510; cv=none; b=MLkVxHbilMRNXhk2JXVOjR23rreCUkOnsCBvjnE1GQd0dGbUS/TVqB7wD1OK6mXSpalgd8Ve6EKxDRRm1WlZdxbuoKAVw27hZSnt+xOae7CWTMorwU+JjjofXC8eQxUZNXGfs/FED0t9v878qcfYTyu9QtVJPZq24EdeeWnW+cQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710070325; c=relaxed/simple;
-	bh=ahQ+dUubnLbuzl1m1Uxd3EFT/dTYsu0b9bYX0mThnAg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=fIye4yllWiE6rxRp9vykyXAm83RzYkkLqKHTSLIJt4YbF5IUlZOI0O5XsNJc2SW/udSUwxpCrci4nBTJrhzGnRZSklD4D2iPL21Iw7HfNnRymIJ/7eu9EpqYvJditoX2aHVIQrjG7sS+m3IIXKe3Ij/bhPjaRofiYv5QOtFpTRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
-Received: from fedori.lan (51b693e7.dsl.pool.telekom.hu [::ffff:81.182.147.231])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 0000000000076A0E.0000000065ED9A2C.0020EFD7; Sun, 10 Mar 2024 12:31:55 +0100
-From: Gergo Koteles <soyer@irl.hu>
-To: Ike Panhc <ike.pan@canonical.com>,
-  Hans de Goede <hdegoede@redhat.com>,
-  =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-  Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: platform-driver-x86@vger.kernel.org,
-  linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-  Gergo Koteles <soyer@irl.hu>
-Subject: [PATCH v2 2/2] platform/x86: ideapad-laptop: map Fn + R key to KEY_REFRESH_RATE_TOGGLE
-Date: Sun, 10 Mar 2024 12:31:42 +0100
-Message-ID: <8fd36f0f016dde700396d8afaba1979d5dbc30a1.1710065750.git.soyer@irl.hu>
+	s=arc-20240116; t=1710094510; c=relaxed/simple;
+	bh=Me3N+aSp63v2aYhLt7RwblPyj0XJZ9M2diakZOyTOpg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CLrFM85mVGfHQm2+by2bAeL/8MdTDIqgXxZyMhPD4nqHG9sISUeIvpT3/HP2457bnO5gJN29baNpEueYwmFESZ9fLwA9vyLlHBVNlQR3KMgYJFmScpjJxhtRDzVpS4vKHKR5U88aPkLYOwbYDcDFmXBLBFK2oNZdW8UNq315qwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iktKiwLc; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-566e869f631so4196793a12.0;
+        Sun, 10 Mar 2024 11:15:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710094507; x=1710699307; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=32GqZb86xdl8pl2R+sWsYTtlYRodKHkoyREXR2fj+vQ=;
+        b=iktKiwLcxruXDZY8htSPjOuT2hL/bFezTottJbJB7X0sLnptrE36DPLhUiYZD/6kOX
+         UBkNSW8sQfe1PpBWhKILj63EakOfU49BmCfpzNmZUYLjEz5CxTJpTAwW3iTnLcOj8eRY
+         gdkvk4jxGWBDI+TCxfiKBUpsDn5944wY/mTF3Kk/PM7CM0J67XB4OkciZS28uS9oJUic
+         mjMvPpkJh9tdies8DiFFuvaflIvmnpOHXeuwMF9IKrf1DJablY6nLXF7n/P41ey+lIxV
+         cb/XwJ0K3pWAozs+2BzaIpBzNXwa7Y4EAxYd/c5iX51Mp3mKAJb3fcfNnAjRjr2dUnsf
+         2oPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710094507; x=1710699307;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=32GqZb86xdl8pl2R+sWsYTtlYRodKHkoyREXR2fj+vQ=;
+        b=g6W4o4CSlO1bBTc0cP7p4ygSQCdKKMtFfBqnRgaEX/8HTleuLZsTE8+Za3ILj1WMO2
+         baeNWcplTmq5id24YG6z9MK3bE01q+O2i/Fdrylwt1jsOnxyMXVCiYy1SLp4Pbqbrm7r
+         WTzzezraZyEHDj9hDJ4BJDQk1SU3g+sMfyTRiWbzE5sovcJMzOjIDL71Kc0m7CWX/rtn
+         7df1O200W/7v55WoU+72X6DGl7yhnfdS8BBP7ycU6zZOGnlyhrS2X/y3ScqrPrjEwgqV
+         fFWscUIQuRrnf8MVQBun7Wf51BBGBDmYFklA5lSvmfcy78O9TsbxRJuqD8OxvVn08ySZ
+         JYCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXp/hCeRTGMRoFNEKokwzjy8xjo8LIOpdAI2B56XjyQHQAQVygjb75fdrT37tntP0e8LEHy5Tv3H1K6sLionzed+5WLGsN/BS33ctpdwKmbfMarSl3KVEVumcIpWco+rQPS61gQSNbxqtIbIjeR9Ld/bKPGJZHNxVzakd7Be8zFFyppFc5GZBAk+7CM0DMVwHsUReQWyEHEu6xAW77SeVbpYGmxv5m9CgH5Fw==
+X-Gm-Message-State: AOJu0Yw0KIXoIjmY3d7H2x+NaxaEWvwI1diGF6YBsBxeIeCnm8L7XQWo
+	GUPxqKsU65zi6ENTGMjlHqD3hhaQ+tqqHKfypEX8LT/YXvbUYD/0
+X-Google-Smtp-Source: AGHT+IFx68n6jNr1zIKBJD/BxfVjafadWsECNhDnTljRKjxnWDsHpA1I845YqQzdNSKFCj15Rpztgw==
+X-Received: by 2002:a50:cd18:0:b0:566:ef8:93f6 with SMTP id z24-20020a50cd18000000b005660ef893f6mr3556714edi.0.1710094506863;
+        Sun, 10 Mar 2024 11:15:06 -0700 (PDT)
+Received: from localhost.localdomain ([94.120.90.19])
+        by smtp.gmail.com with ESMTPSA id q17-20020a056402033100b00566d6e30f1fsm2074601edw.31.2024.03.10.11.15.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Mar 2024 11:15:06 -0700 (PDT)
+From: mustafa <mustafa.eskieksi@gmail.com>
+To: hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	mustafa.eskieksi@gmail.com,
+	jdelvare@suse.com,
+	linux@roeck-us.net,
+	linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	pavel@ucw.cz,
+	lee@kernel.org,
+	linux-leds@vger.kernel.org
+Cc: rishitbansal0@gmail.com
+Subject: [PATCH v3 0/1] platform/x86: Add wmi driver for Casper Excalibur laptops
+Date: Sun, 10 Mar 2024 21:14:28 +0300
+Message-ID: <20240310181429.59451-1-mustafa.eskieksi@gmail.com>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <cover.1710065750.git.soyer@irl.hu>
-References: <cover.1710065750.git.soyer@irl.hu>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Newer Lenovo Yogas and Legions with 60Hz/90Hz displays send a wmi event
-when Fn + R is pressed. This is intended for use to switch between the
-two refresh rates.
+From: Mustafa Ekşi <mustafa.eskieksi@gmail.com>
 
-The Fn + R key was incorrectly assigned to KEY_DISPLAYTOGGLE because it
-is used to toggle the display on and off.
+Hi,
+I apologize for the delay. I submitted v2 in a hurry and it was
+catastrophic (especially the subject), so I didn't want the same thing to
+happen in v3.
 
-Map Fn + R key to the KEY_REFRESH_RATE_TOGGLE event code.
+On 23.02.2024 13:14, Ilpo Järvinen wrote:
+> However, I still suspect this is wrong way to do RGB leds and the multi_*
+> sysfs interface is the way you should use.
+I was skeptical about using multicolor because it said it wasn't a good
+fit for rgb drivers in drivers/leds/TODO but after I read the thread about
+hp omen backlight driver support, I changed my mind. Hp omen's keyboard
+backlight is very similar to Casper's keyboard backlight. And probably
+TODO file meant "per key rgb"s and not zoned rgbs.
+I think Rishit's' driver didn't get into mainline but I still liked the
+API he used so I decided to use the same API.
+Driver creates 4 different led_classdev_mc devices:
+> casper::kbd_zoned_backlight-right/
+> casper::kbd_zoned_backlight-middle/
+> casper::kbd_zoned_backlight-left/
+> casper::kbd_zoned_backlight-corners/
+right, middle, and left leds share the same brightness but the corners
+led doesn't.
+I found a way to get the brightness level from the hardware, so it shows
+the correct brightness when it is changed via keyboard shortcut. But
+still, there's most likely no way to get color data from firmware,
+Windows driver uses a Windows registry (as a cache) for same reason.
 
-This commit depends on "platform/x86: ideapad-laptop: support Fn+R
-dual-function key"
+I seek your advice on how to support "led modes". It is very different
+from led_pattern. It is not possible to change the interval, or anything.
+This version has an enum called casper_led_mode:
+> enum casper_led_mode {
+>        LED_NORMAL = 0x10,
+>        LED_BLINK = 0x20,
+>        LED_FADE = 0x30,
+>        LED_HEARTBEAT = 0x40,
+>        LED_REPEAT = 0x50,
+>        LED_RANDOM = 0x60
+> };
+For example, random mode assigns random colors to leds every second. Fade
+mode slowly fades out brightness and then fades in. I thought of creating
+an attribute but working with multiple leds seemed uneasy.
 
-Signed-off-by: Gergo Koteles <soyer@irl.hu>
----
- drivers/platform/x86/ideapad-laptop.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+And also this multicolor approach doesn't include a way to set all
+keyboard leds all at once (like Rishit's driver). This can create long
+delays when a userspace program (like OpenRGB) sets all keyboard leds
+to user configuration.
 
-diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
-index 4c130957f80d..901849810ce2 100644
---- a/drivers/platform/x86/ideapad-laptop.c
-+++ b/drivers/platform/x86/ideapad-laptop.c
-@@ -1092,7 +1092,7 @@ static const struct key_entry ideapad_keymap[] = {
- 	{ KE_KEY,	0x0e | IDEAPAD_WMI_KEY, { KEY_PICKUP_PHONE } },
- 	{ KE_KEY,	0x0f | IDEAPAD_WMI_KEY, { KEY_HANGUP_PHONE } },
- 	/* Refresh Rate Toggle (Fn+R) */
--	{ KE_KEY,	0x10 | IDEAPAD_WMI_KEY, { KEY_DISPLAYTOGGLE } },
-+	{ KE_KEY,	0x10 | IDEAPAD_WMI_KEY, { KEY_REFRESH_RATE_TOGGLE } },
- 	/* Dark mode toggle */
- 	{ KE_KEY,	0x13 | IDEAPAD_WMI_KEY, { KEY_PROG1 } },
- 	/* Sound profile switch */
-@@ -1102,7 +1102,7 @@ static const struct key_entry ideapad_keymap[] = {
- 	/* Lenovo Support */
- 	{ KE_KEY,	0x27 | IDEAPAD_WMI_KEY, { KEY_HELP } },
- 	/* Refresh Rate Toggle */
--	{ KE_KEY,	0x0a | IDEAPAD_WMI_KEY, { KEY_DISPLAYTOGGLE } },
-+	{ KE_KEY,	0x0a | IDEAPAD_WMI_KEY, { KEY_REFRESH_RATE_TOGGLE } },
- 
- 	{ KE_END },
- };
+On 23.02.2024 03:13, Guenter Roeck wrote:
+>> +        return -ENODEV;
+>> +    hwmon_dev = devm_hwmon_device_register_with_info(&wdev->dev,
+>> +                        "casper_wmi", wdev,
+>> +                        &casper_wmi_hwmon_chip_info,
+>> +                        NULL);
+>> +    return PTR_ERR_OR_ZERO(hwmon_dev);
+>
+> Why use devm_hwmon_device_register_with_info() but not
+> devm_led_classdev_register() ?
+I use devm for everything now, and I think it unregisters them if probe
+returns -ENODEV, I tested it with hwmon and it didn't crash and
+unregistered successfully.
+
+On 23.02.2024 05:54, Kuppuswamy Sathyanarayanan wrote:
+>> +static umode_t casper_wmi_hwmon_is_visible(const void *drvdata,
+>> +					   enum hwmon_sensor_types type,
+>> +					   u32 attr, int channel)
+>> +{
+>> +	switch (type) {
+>> +	case hwmon_fan:
+>> +		return 0444;
+>
+> How about S_IRUSR | S_IRGRP | S_IROTH ?
+checkpatch.pl suggests me to not use those macros:
+> SYMBOLIC_PERMS: Symbolic permissions 'S_IRUSR | S_IRGRP | S_IROTH'
+> are not preferred. Consider using octal permissions '0444'.
+So I think it is better to use octal permissions.
+
+On 23.02.2024 13:14, Ilpo Järvinen wrote:
+> v1 -> v2 changelog is missing from here!
+I added both v2 and v3 changelog in this patch.
+
+On 23.02.2024 13:14, Ilpo Järvinen wrote:
+>> +	acpi_status ret = wmidev_block_set(wdev, 0, &input);
+> Put the declaration separately into the declarations block:
+>
+> 	acpi_status ret;
+>
+> 	ret = wmidev_block_set(wdev, 0, &input);
+I followed this except with to_wmi_device and container_of because
+you also put to_wmi_device in the declaration block.
+
+Link to Rishit Bansal's thread:
+https://lore.kernel.org/lkml/20230131235027.36304-1-rishitbansal0@gmail.com/
+
+Thanks for your reviews and patience,
+Mustafa Ekşi
+
+Mustafa Ekşi (1):
+  platform/x86: Add wmi driver for Casper Excalibur laptops
+
+ MAINTAINERS                       |   6 +
+ drivers/platform/x86/Kconfig      |  14 +
+ drivers/platform/x86/Makefile     |   1 +
+ drivers/platform/x86/casper-wmi.c | 639 ++++++++++++++++++++++++++++++
+ 4 files changed, 660 insertions(+)
+ create mode 100644 drivers/platform/x86/casper-wmi.c
+
 -- 
 2.44.0
 
