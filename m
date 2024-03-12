@@ -1,209 +1,136 @@
-Return-Path: <platform-driver-x86+bounces-2027-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-2031-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75A6878B5F
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Mar 2024 00:05:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A14878CD7
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Mar 2024 03:10:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 20B97B210FB
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 11 Mar 2024 23:05:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A9E31282727
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Mar 2024 02:10:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 013F458AA6;
-	Mon, 11 Mar 2024 23:05:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2B928F6D;
+	Tue, 12 Mar 2024 02:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="B+cUXyME"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from fgw20-7.mail.saunalahti.fi (fgw20-7.mail.saunalahti.fi [62.142.5.81])
+Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C03F58217
-	for <platform-driver-x86@vger.kernel.org>; Mon, 11 Mar 2024 23:05:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3414D6FB9;
+	Tue, 12 Mar 2024 02:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710198344; cv=none; b=qCfJ8wpOm9m4T4fWQ8D3ZCSgbjYEFjzy/GvBqJvca3MkF1PqT/7J+5M0Y58vB/3moLDVFy0XE3Re4SDghc2hdNJyZlXCm1IX4LHnvQ65VTL7APnuAXw0ZsvXBgFnkiBw2p615jKIvPIoQd4QuaCMushUlHebFdFoDZRj4Rv1oEA=
+	t=1710209425; cv=none; b=qCvFsIFkZsrBXy8WcoVAEqcA4DoQqMN0LFuju9K1FuY6y4ofTxP9PSWLItNLl7AQb8sbde+x+px8BmWVPIA8q74cCDuW+JSbXmhFYX0ucJty3nc5lrGQBoVCW2nMiXVyasw9oIQaFFhK3FMPzsxZEXh6DpBVpIwaV6bkNbSSiok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710198344; c=relaxed/simple;
-	bh=D28VkHywendSNSCG6I4rhALl2afA4LvcbwFoYAoHrL0=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h/NeYL3X4o5qCe9J6Kqus0q71l6w83SJUoq/0xFBzEIJEZwrPpUIMViC5H5ksuMrIpJxtpogfFJiUZqf0UItwvGF0k6KfATxet2lAftA6lEdH5xC+yW7YICZlUg7wBqtnRSI8LVpx0qgj67EOMIGZjOGynVKcDg58J8LT2rr2Js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
-Received: from localhost (88-113-26-217.elisa-laajakaista.fi [88.113.26.217])
-	by fgw20.mail.saunalahti.fi (Halon) with ESMTP
-	id b8425178-dffb-11ee-b3cf-005056bd6ce9;
-	Tue, 12 Mar 2024 01:04:32 +0200 (EET)
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 12 Mar 2024 01:04:31 +0200
-To: Kate Hsuan <hpa@redhat.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+	s=arc-20240116; t=1710209425; c=relaxed/simple;
+	bh=7sM4it/sLlFJgMn6vXgBs9cjjyYlwmbxnWNAQnNS6to=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fO0kdCoPewrWmzeNFmjpxdcZpDe91Qu39BiEaxHtyzC8VjFH5B8riONx12fNlddUy7j87WSQuu9R/pM2e07VjbK9IxCnkELU1E4LgmM3wemUtLYBdUdZ7PMCuemL5gepuT+skz9Pxdd5Pl3onC8G6qGAdPkg5mO0BcSelLtQmrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=B+cUXyME; arc=none smtp.client-ip=115.124.30.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1710209415; h=From:To:Subject:Date:Message-Id:MIME-Version;
+	bh=93N4BPytBZxlC/Q2oeD9Rd8EctJjuaPCcnJKvMa7iTk=;
+	b=B+cUXyMEIbHlJuKhgv5FhbA9dv85kXWxnl4dNBmU08iaAii7xROrlkXHDgOgQnrfNLcBnSrpVLiqyHpalg4TqqnyMWz4v0RtIbR/kUWBxe9LDbpnbQ45YcTc3ix73C+vE1AMXTDh/ti8LU5why8oTHSj05ztjm44TpCACESVphY=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R811e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=xuanzhuo@linux.alibaba.com;NM=1;PH=DS;RN=25;SR=0;TI=SMTPD_---0W2JwVQv_1710209413;
+Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com fp:SMTPD_---0W2JwVQv_1710209413)
+          by smtp.aliyun-inc.com;
+          Tue, 12 Mar 2024 10:10:14 +0800
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+To: virtualization@lists.linux.dev
+Cc: Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
 	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] leds: rgb: leds-ktd202x: Get device properties
- through fwnode to support ACPI
-Message-ID: <Ze-N_y5Tbjc93aRp@surfacebook.localdomain>
-References: <20240306025801.8814-1-hpa@redhat.com>
- <20240306025801.8814-3-hpa@redhat.com>
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Vadim Pasternak <vadimp@nvidia.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Cornelia Huck <cohuck@redhat.com>,
+	Halil Pasic <pasic@linux.ibm.com>,
+	Eric Farman <farman@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	linux-um@lists.infradead.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	kvm@vger.kernel.org
+Subject: [PATCH vhost v3 0/4] refactor the params of find_vqs()
+Date: Tue, 12 Mar 2024 10:10:09 +0800
+Message-Id: <20240312021013.88656-1-xuanzhuo@linux.alibaba.com>
+X-Mailer: git-send-email 2.32.0.3.g01195cf9f
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240306025801.8814-3-hpa@redhat.com>
+X-Git-Hash: 8d1a4cfe2924
+Content-Transfer-Encoding: 8bit
 
-Wed, Mar 06, 2024 at 10:58:01AM +0800, Kate Hsuan kirjoitti:
-> This LED controller also installed on a Xiaomi pad2 and it is a x86
-> platform. The original driver is based on device tree and can't be
-> used for this ACPI based system. This patch migrated the driver to
-> use fwnode to access the properties. Moreover, the fwnode API
-> supports device tree so this work won't effect the original
-> implementations.
+This pathset is splited from the
 
-...
+     http://lore.kernel.org/all/20240229072044.77388-1-xuanzhuo@linux.alibaba.com
 
-> +	fwnode_for_each_available_child_node(np, child) {
+That may needs some cycles to discuss. But that notifies too many people.
 
-Please, rename np to fwnode to avoid confusion.
+But just the four commits need to notify so many people.
+And four commits are independent. So I split that patch set,
+let us review these first.
 
-> +		num_channels++;
-> +	}
+The patch set try to  refactor the params of find_vqs().
+Then we can just change the structure, when introducing new
+features.
 
-...
+Thanks.
 
-> -	for_each_available_child_of_node(np, child) {
-> +	fwnode_for_each_available_child_node(np, child) {
->  		u32 mono_color;
->  		u32 reg;
->  		int ret;
->  
-> -		ret = of_property_read_u32(child, "reg", &reg);
-> +		ret = fwnode_property_read_u32(child, "reg", &reg);
->  		if (ret != 0 || reg >= chip->num_leds) {
->  			dev_err(chip->dev, "invalid 'reg' of %pOFn\n", child);
+v3:
+  1. fix the bug: "assignment of read-only location '*cfg.names'"
 
-Must be %pfw now.
+v2:
+  1. add kerneldoc for "struct vq_transport_config" @ilpo.jarvinen
 
-> -			of_node_put(child);
-> +			fwnode_handle_put(child);
+v1:
+  1. fix some comments from ilpo.jarvinen@linux.intel.com
 
->  			return -EINVAL;
 
-Side note: This shouldn't shadow error code when ret != 0.
 
->  		}
+Xuan Zhuo (4):
+  virtio: find_vqs: pass struct instead of multi parameters
+  virtio: vring_create_virtqueue: pass struct instead of multi
+    parameters
+  virtio: vring_new_virtqueue(): pass struct instead of multi parameters
+  virtio_ring: simplify the parameters of the funcs related to
+    vring_create/new_virtqueue()
 
-...
+ arch/um/drivers/virtio_uml.c             |  31 ++--
+ drivers/platform/mellanox/mlxbf-tmfifo.c |  24 ++--
+ drivers/remoteproc/remoteproc_virtio.c   |  31 ++--
+ drivers/s390/virtio/virtio_ccw.c         |  33 ++---
+ drivers/virtio/virtio_mmio.c             |  30 ++--
+ drivers/virtio/virtio_pci_common.c       |  60 ++++----
+ drivers/virtio/virtio_pci_common.h       |   9 +-
+ drivers/virtio/virtio_pci_legacy.c       |  16 ++-
+ drivers/virtio/virtio_pci_modern.c       |  38 +++--
+ drivers/virtio/virtio_ring.c             | 173 ++++++++---------------
+ drivers/virtio/virtio_vdpa.c             |  45 +++---
+ include/linux/virtio_config.h            |  85 ++++++++---
+ include/linux/virtio_ring.h              |  93 +++++++-----
+ tools/virtio/virtio_test.c               |   4 +-
+ tools/virtio/vringh_test.c               |  28 ++--
+ 15 files changed, 363 insertions(+), 337 deletions(-)
 
-> -		ret = of_property_read_u32(child, "color", &mono_color);
-> +		ret = fwnode_property_read_u32(child, "color", &mono_color);
->  		if (ret < 0 && ret != -EINVAL) {
->  			dev_err(chip->dev, "failed to parse 'color' of %pOF\n", child);
-
-Must be %pfw now.
-
-> -			of_node_put(child);
-> +			fwnode_handle_put(child);
->  			return ret;
->  		}
-
-...
-
-> -	ret = of_property_read_u32(np, "reg", &reg);
-> +	ret = fwnode_property_read_u32(np, "reg", &reg);
->  	if (ret != 0 || reg >= chip->num_leds) {
->  		dev_err(chip->dev, "invalid 'reg' of %pOFn\n", np);
-
-Must be %pfw now.
-
->  		return -EINVAL;
-
->  	/* Color property is optional in single color case */
-> -	ret = of_property_read_u32(np, "color", &color);
-> +	ret = fwnode_property_read_u32(np, "color", &color);
->  	if (ret < 0 && ret != -EINVAL) {
->  		dev_err(chip->dev, "failed to parse 'color' of %pOF\n", np);
-
-Must be %pfw now.
-
->  		return ret;
->  	}
-
-...
-
-> +	struct fwnode_handle *child, *np;
-
-Do not use np for sturct fwnode_handle. It will be quite confusing.
-
-...
-
-> -	chip->num_leds = (int)(unsigned long)of_device_get_match_data(chip->dev);
-> +	count = device_get_child_node_count(dev);
-
->  
-
-Redundant blank line.
-
-> -	count = of_get_available_child_count(np);
->  	if (!count || count > chip->num_leds)
->  		return -EINVAL;
-
-...
-
-> +	chip->num_leds = (unsigned long)i2c_get_match_data(client);
-
-No warnings during compilation?
-
-...
-
-> +static const struct i2c_device_id ktd202x_id[] = {
-> +	{"ktd2026", KTD2026_NUM_LEDS},
-> +	{"ktd2027", KTD2027_NUM_LEDS},
-> +	{},
-
-N ocomma for the terminator entry.
-
-> +};
-> +MODULE_DEVICE_TABLE(i2c, ktd202x_id);
-
-...
-
-> +#ifndef CONFIG_ACPI
-
-Please, no. Drop them.
-
->  static const struct of_device_id ktd202x_match_table[] = {
->  	{ .compatible = "kinetic,ktd2026", .data = (void *)KTD2026_NUM_LEDS },
->  	{ .compatible = "kinetic,ktd2027", .data = (void *)KTD2027_NUM_LEDS },
->  	{},
->  };
->  MODULE_DEVICE_TABLE(of, ktd202x_match_table);
-> +#endif
->  
->  static struct i2c_driver ktd202x_driver = {
->  	.driver = {
->  		.name = "leds-ktd202x",
-> +#ifndef CONFIG_ACPI
->  		.of_match_table = ktd202x_match_table,
-> +#endif
-
-This is quite unusual besides being ugly.
-
->  	},
->  	.probe = ktd202x_probe,
->  	.remove = ktd202x_remove,
->  	.shutdown = ktd202x_shutdown,
-> +	.id_table = ktd202x_id,
->  };
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+--
+2.32.0.3.g01195cf9f
 
 
