@@ -1,180 +1,164 @@
-Return-Path: <platform-driver-x86+bounces-2033-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-2038-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74915879008
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Mar 2024 09:52:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0DE6879239
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Mar 2024 11:36:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EDAB6B21370
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Mar 2024 08:52:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F31231C209EA
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Mar 2024 10:36:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AF6377F12;
-	Tue, 12 Mar 2024 08:52:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C385E58AD4;
+	Tue, 12 Mar 2024 10:35:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=trvn.ru header.i=@trvn.ru header.b="HmpIIgtn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OJkPSNeC"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from box.trvn.ru (box.trvn.ru [194.87.146.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC9177F06;
-	Tue, 12 Mar 2024 08:52:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.87.146.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DAFD41C89;
+	Tue, 12 Mar 2024 10:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710233549; cv=none; b=eEn1lrbq876FzgqAhwcD/qRzpvVAdMMrA2vcK11hHWMYXKz/FVZuHBq/IjSPigGnO7/AuUomBg0pBeBl769IzfYgDy2+sYYP3F5uM/M4YJCj0eWc2lHGKEV0X/uFKojL5J93vPN7e4SkcbYqSKnHYOiq/boCfUiXv8iyr7takHc=
+	t=1710239747; cv=none; b=HqJGFvWQYSqhpZajF4LsgC1W3+jxEiMqQcn8ONLnDox4VUdcVdJoyKW1JITI/tE0YKGf/mryxCf/vuDvWZwmq3d/jUZ7Ou9xXFZ6JwwQKtTUDZaz83VRSjYpdC3tFFjAiT3vXSj4lfCH++Il7C8AWKDLmurZq997t0PzP0MMgRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710233549; c=relaxed/simple;
-	bh=3SdRLYZ3Z+9SbuVBto4NNdKldL11u55/Rfex0dOOF1E=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZvWX9q6myz+IUjVSszqWJl9pXGRbiguy5TBS9fv6NwWGYrN5qA2EQnhI2ximkA8nJavtoBRTst78TzqaxdcUv2dRBLCl2qErmLjON8nvy7M5qgp8qEPyxsrd1eD3hmzzACcwjbI0FClSKSrcWbZleAyGsITpg01JxqlndWkDUeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=trvn.ru; spf=pass smtp.mailfrom=trvn.ru; dkim=pass (2048-bit key) header.d=trvn.ru header.i=@trvn.ru header.b=HmpIIgtn; arc=none smtp.client-ip=194.87.146.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=trvn.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trvn.ru
-Received: from authenticated-user (box.trvn.ru [194.87.146.52])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	by box.trvn.ru (Postfix) with ESMTPSA id ED4C741DDD;
-	Tue, 12 Mar 2024 13:42:23 +0500 (+05)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=trvn.ru; s=mail;
-	t=1710232944; bh=3SdRLYZ3Z+9SbuVBto4NNdKldL11u55/Rfex0dOOF1E=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=HmpIIgtnNZoKS1Zr2NkaS/2JEglvF4JkU9ZUOFjz/qtSF+jTKwQjc7Gqw5+boDDK6
-	 brtx33BZ9oY73lzRf+AmTAM2XmUtj5fwQ2A0USRe4zDk0cSVYLGyIaDp64fv+DmH3S
-	 5fkCQRkKUycm+SLIBWONzjBu/GicTIU7ZK6gsi2whO9igYeCfRWhzctq8IeTxsew7S
-	 GFK0X+6Exr5V8AW4KSR2I+msGutzRMB+Q9Dm5TtVeZhnwtw+QM1dMzmRzXGcXCzWlO
-	 WPDdqgtrsNiKhZL3ouHH+M0ObhbhPpaC3gu4l3pdu3hKohpikp08jr7CFHtE2k9nso
-	 1lrDAkobUSP5g==
-From: Nikita Travkin <nikita@trvn.ru>
-Date: Tue, 12 Mar 2024 13:42:10 +0500
-Subject: [PATCH v4 4/4] arm64: dts: qcom: acer-aspire1: Add embedded
- controller
+	s=arc-20240116; t=1710239747; c=relaxed/simple;
+	bh=QDB+v8Xy4M7nLhPofhtwM2OqHObbpVpZmD9JZ7L7PmI=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=hP+kw8cfQKz7JogaBaWn2tzwUnxROFmWYNxS+3P7h8mk99uNlL1DuV9ZrQt4LeGS/qOM9nH2u2DyrbRdouwGvhSzB1/Dw743/llaxvTAhANVghb42M6A83+x5M2ig4Xe9MAbHrT9j2VNI5zJd68XVGVvE7WrJq/bNmTQhgPse5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OJkPSNeC; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710239747; x=1741775747;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=QDB+v8Xy4M7nLhPofhtwM2OqHObbpVpZmD9JZ7L7PmI=;
+  b=OJkPSNeCJD8umcFOAfubxRY8TfXNdAWd0yCdsSqf2xP62Y79OVrydINB
+   Dc7PMdiOnrtyEKGdWLfKRjOFhBVv3/y2OTn8GxKR36gRwacMyRQMi7Q4P
+   rvomFnlFfZRsqH8BDvqsx4vrOA25QJbFwsF9Nq6XB/AAIAMGlmW9q67UK
+   3zqXuQncxzeXWGikhmdzCUwlJVdDzLHwNSJB9ANrR5h6KGS85uIdG7Rzf
+   iZ7tIRey/L9/LE4+GJqA93UcGjMt1vUcHxt7/jjQYpcf9kapQvQ6UJ2lM
+   TN1k7A9YqWcAjF0jt1Qou43mWtMdzZ1wzNaGzedtFM2sHJFyUgXK24Urx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4798576"
+X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
+   d="scan'208";a="4798576"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 03:35:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
+   d="scan'208";a="11412344"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.247.6])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 03:35:42 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Tue, 12 Mar 2024 12:35:38 +0200 (EET)
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+cc: Kate Hsuan <hpa@redhat.com>, Pavel Machek <pavel@ucw.cz>, 
+    Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org, 
+    platform-driver-x86@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>, 
+    =?ISO-8859-15?Q?Andr=E9_Apitzsch?= <git@apitzsch.eu>, 
+    LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 1/2] platform: x86-android-tablets: other: Add swnode
+ for Xiaomi pad2 indicator LED
+In-Reply-To: <Ze-I63bNzaMkHfgg@surfacebook.localdomain>
+Message-ID: <18ef7e97-db6e-2dc4-5728-5a539ae4c9bb@linux.intel.com>
+References: <20240306025801.8814-1-hpa@redhat.com> <20240306025801.8814-2-hpa@redhat.com> <Ze-I63bNzaMkHfgg@surfacebook.localdomain>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240312-aspire1-ec-v4-4-bd8e3eea212f@trvn.ru>
-References: <20240312-aspire1-ec-v4-0-bd8e3eea212f@trvn.ru>
-In-Reply-To: <20240312-aspire1-ec-v4-0-bd8e3eea212f@trvn.ru>
-To: Hans de Goede <hdegoede@redhat.com>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Sebastian Reichel <sre@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org, 
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- Nikita Travkin <nikita@trvn.ru>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2209; i=nikita@trvn.ru;
- h=from:subject:message-id; bh=3SdRLYZ3Z+9SbuVBto4NNdKldL11u55/Rfex0dOOF1E=;
- b=owEBbQKS/ZANAwAIAUMc7O4oGb91AcsmYgBl8BVrccxopNDy05Gy0/m6i1aDHJfSPZjMCUERj
- 2DmLQYPDhqJAjMEAAEIAB0WIQTAhK9UUj+qg34uxUdDHOzuKBm/dQUCZfAVawAKCRBDHOzuKBm/
- dYCHD/9gU6VDWMdigpmmBvodBpEXHEGimk/bDIpQeSkoResC6yw/CVJzdxaVVwdK8J2ZXybC34b
- sZw8i8mBFwLDN2REtfMOQysJ8YEciKUbv6OKkls6Cpe52TFTLrFPJCbINDak6m8TCJ2NKcGuE/G
- GmECsRnMNXEejm8z2nOWzWnLV9xT4u73IlozvzcDJOmice5PfXyUEjDEMC0gzjlyEWt97CqGGGW
- dwPqcNisa61gZFA+D/Gl9JbUcELupfQt6wL4luY89RfMQ/aQLJlfzR7csLswIw5xSiVKRgjLKZY
- oYNgMV3bdPQsPgmDXFpa8G1xE9NESwnR962w1Sq95JjpjlzRlEj5cmIp8c+xOQWF55zGTWwNFcO
- TYugld5bEOgkxRU15ukWxT0tqJOfmSPYllhaL00VLQFb/ANwA8pwDdJ/sgu0iu7PFWrTR7kqxk0
- uMS4KnqG8eHpKJUc04XfsOlKT8lTCaAIVBwC+wAP30aYF3obBeIP2hkd+S6O0yr1MrxwTV6oMqV
- 06L0bWgub5xPvjpYcIN9z9EH3E1KGPxB68WcLZAoJCC+056XbNdj/oY6OhT/JO71n0I1HfQXLHS
- uvaJpQfpdiSKmcFghl2CDvyTMw4+GeD0wckOy3V6XG779km/S0cPJRlG1UOc7X7VuPlgP4CLMul
- 46ujk4mxtBANnHA==
-X-Developer-Key: i=nikita@trvn.ru; a=openpgp;
- fpr=C084AF54523FAA837E2EC547431CECEE2819BF75
+Content-Type: text/plain; charset=US-ASCII
 
-The laptop contains an embedded controller that provides a set of
-features:
+On Tue, 12 Mar 2024, Andy Shevchenko wrote:
 
-- Battery and charger monitoring
-- USB Type-C DP alt mode HPD monitoring
-- Lid status detection
-- Small amount of keyboard configuration*
+> Wed, Mar 06, 2024 at 10:58:00AM +0800, Kate Hsuan kirjoitti:
+> > There is a KTD2026 LED controller to manage the indicator LED for Xiaomi
+> > pad2. The ACPI for it is not properly made so the kernel can't get
+> > a correct description of it.
+> > 
+> > This work add a description for this RGB LED controller and also set a
+> > trigger to indicate the chaging event (bq27520-0-charging). When it is
+> > charging, the indicator LED will be turn on.
+> 
+> Ilpo, Kate, please consider the following remarks.
+> 
+> ...
+> 
+> >  #include <linux/gpio/machine.h>
+> >  #include <linux/input.h>
+> >  #include <linux/platform_device.h>
+> 
+> + Blank line?
+> 
+> > +#include <dt-bindings/leds/common.h>
+> 
+> Not sure where to place this, some drivers put it the first, some after linux/*.
+> 
+> ...
+> 
+> > +/* main fwnode for ktd2026 */
+> > +static const struct software_node ktd2026_node = {
+> 
+> No name?
+> 
+> > +};
+> > +
+> > +static const struct property_entry ktd2026_rgb_led_props[] = {
+> > +	PROPERTY_ENTRY_U32("reg", 0),
+> > +	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_RGB),
+> > +	PROPERTY_ENTRY_STRING("function", "indicator"),
+> 
+> > +	PROPERTY_ENTRY_STRING("linux,default-trigger",
+> > +			      "bq27520-0-charging"),
+> 
+> It's less than 80, why not on a single line?
+> 
+> > +
+> 
+> Redundant blank line.
+> 
+> > +	{ }
+> > +};
+> 
+> ...
+> 
+> > +/* B */
+> 
+> B for red?!
+> 
+> > +static const struct property_entry ktd2026_red_led_props[] = {
+> > +	PROPERTY_ENTRY_U32("reg", 0),
+> > +	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_BLUE),
+> > +	{ }
+> > +};
 
-[*] The keyboard is handled by the same EC but it has a dedicated i2c
-bus and is already enabled. This port only provides fn key behavior
-configuration.
+The name with "red" and LED_COLOR_ID_BLUE are also inconsistent.
 
-Add the EC to the device tree and describe the relationship between the
-EC-managed type-c port and the SoC DisplayPort.
+> ...
+> 
+> > +/* R */
+> 
+> R for blue?!
+> 
+> > +static const struct property_entry ktd2026_blue_led_props[] = {
+> > +	PROPERTY_ENTRY_U32("reg", 2),
+> > +	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_RED),
+> > +	{ }
+> > +};
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-Signed-off-by: Nikita Travkin <nikita@trvn.ru>
----
- arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dts | 40 +++++++++++++++++++++++-
- 1 file changed, 39 insertions(+), 1 deletion(-)
+Here as well.
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dts b/arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dts
-index 5afcb8212f49..3f0d3e33894a 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dts
-+++ b/arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dts
-@@ -255,7 +255,25 @@ &i2c2 {
- 	clock-frequency = <400000>;
- 	status = "okay";
- 
--	/* embedded-controller@76 */
-+	embedded-controller@76 {
-+		compatible = "acer,aspire1-ec";
-+		reg = <0x76>;
-+
-+		interrupts-extended = <&tlmm 30 IRQ_TYPE_LEVEL_LOW>;
-+
-+		pinctrl-0 = <&ec_int_default>;
-+		pinctrl-names = "default";
-+
-+		connector {
-+			compatible = "usb-c-connector";
-+
-+			port {
-+				ec_dp_in: endpoint {
-+					remote-endpoint = <&mdss_dp_out>;
-+				};
-+			};
-+		};
-+	};
- };
- 
- &i2c4 {
-@@ -419,6 +437,19 @@ &mdss {
- 	status = "okay";
- };
- 
-+&mdss_dp {
-+	data-lanes = <0 1>;
-+
-+	vdda-1p2-supply = <&vreg_l3c_1p2>;
-+	vdda-0p9-supply = <&vreg_l4a_0p8>;
-+
-+	status = "okay";
-+};
-+
-+&mdss_dp_out {
-+	remote-endpoint = <&ec_dp_in>;
-+};
-+
- &mdss_dsi0 {
- 	vdda-supply = <&vreg_l3c_1p2>;
- 	status = "okay";
-@@ -857,6 +888,13 @@ codec_irq_default: codec-irq-deault-state {
- 		bias-disable;
- 	};
- 
-+	ec_int_default: ec-int-default-state {
-+		pins = "gpio30";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-disable;
-+	};
-+
- 	edp_bridge_irq_default: edp-bridge-irq-default-state {
- 		pins = "gpio11";
- 		function = "gpio";
+I think it's better I drop this patch (it's only in review-ilpo) and wait 
+for v5 version as there's some much still to correct.
+
 
 -- 
-2.43.2
+ i.
 
 
