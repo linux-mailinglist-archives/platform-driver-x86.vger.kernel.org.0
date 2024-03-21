@@ -1,132 +1,146 @@
-Return-Path: <platform-driver-x86+bounces-2126-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-2128-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A28EE88568B
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 21 Mar 2024 10:31:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 779F6885732
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 21 Mar 2024 11:15:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3DA5A282B8B
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 21 Mar 2024 09:31:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3667028175F
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 21 Mar 2024 10:15:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 029E347F58;
-	Thu, 21 Mar 2024 09:31:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6134456759;
+	Thu, 21 Mar 2024 10:15:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="wsOg9C2n"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="cW+DnKQG"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D51B125CB;
-	Thu, 21 Mar 2024 09:31:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009415674D;
+	Thu, 21 Mar 2024 10:15:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711013485; cv=none; b=pIUjEfrZRK4jyzaAlHY5VuutL9vqdo5YQdDBXmWKIBl5ilyuAcfLFSbfnCXYg6pN76+2U9jWLB7naBkzlBCC4CMtkFut0xBrWtTMTB9JWgPCpLiCT/+CwdQQdGEhmffvq2C7sZkc5Kk7UZAhltOylaYH208jUSJLezj6oNBFU9s=
+	t=1711016146; cv=none; b=u45pqDKFLiVt9A/TElaoAOJtgNMVdBLMuLq1ieQCY8XVTBe2AdwZEy8h/97PnTuwe0mPjnUXtgAjsF+3sUOlv6Ant5C2/P05YkXZVaGaQCmcCabhol/6j6iRK9Shnid9U5mgRq3LX0W46NaAsj3Kll29nFm/od4X/BzTaV90b+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711013485; c=relaxed/simple;
-	bh=TzFlFyBicWglBuM6+5UuyMfMcNrvW9nqeLaEKUhN0Uo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RW3dXDXijshiar+KW0N8Ulnmk+uC+m1F53YmTxHmFL996iZkaqLYoIvEdb6o+rn4YR87uzqukbFVdC19joOk7fc6RJ21sHzyjAANRX4+7LmPaCabbLzf5taWOdWnuwLPHwtWipkeysqnyphkr1K4mr+rlZUHxXo7TPBrXJyisBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=wsOg9C2n; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
-	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
-	In-Reply-To:References; bh=gn3aXvf5VTogYoFCNQ+hze3URTCA0KPJcqB9uzyTWx8=;
-	t=1711013483; x=1711445483; b=wsOg9C2nMK1CryZat1gIgOb3nBUBNq/sOtpmFvIT9mCjUfa
-	CdSG6CfCjbXRepKqxzHUtjFXE7XjwwNaB7+e75HivQA/1gHxAqrcC8uDK5jan4CytAWo/GNNczrYM
-	vchwN4Sw/+NkoNSECrWL1jPFZm/2lGvVppaCTuSP6KeDZocjY2rBoblyYzN15K/+odi2GNT3cJmwN
-	I9k9W0iK+F+r3cicWXS5KFhNlFUTomltpjEVoHZbF1J5X8VyC1kRwr4t0ji5/bXyKZMxuV/tVUM4j
-	coM45dqxwPncaO5e4iv0PemIRogq/izRBKd+qenlQIlqyGnd8T2kIewOzhVVo/qg==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1rnElb-0005Vn-2F; Thu, 21 Mar 2024 10:31:19 +0100
-Message-ID: <7ed15eea-24f9-4c75-abf0-f120c7f5b09a@leemhuis.info>
-Date: Thu, 21 Mar 2024 10:31:18 +0100
+	s=arc-20240116; t=1711016146; c=relaxed/simple;
+	bh=Ytjv8h8VxWFEtKyURrSyYJai3ajSqv0ktqO6cwRpnLU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=otBgS+uzhuoMNSUtY1SHVyOkw6oKqwFrUYjOyRzcUz2EFLTM1amcwgWarSIqkPfzRYB6LMEMTlYkFuORzIfzJ11qr5tV9rw09JqMTSK+y+C6rt5OlNwsQCIoD3MPL8nMV2ecAZHvTq8dU5MJULpTzb6mKRWIsg1FVllT+atIeFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=cW+DnKQG; arc=none smtp.client-ip=115.124.30.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1711016135; h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
+	bh=wTxDitpguc7D9IOv4I5f29Qm8gzbpWNMt1WDDHf3HJ8=;
+	b=cW+DnKQGQ2T6P7z4VjeNzcoBHtQlBaOSJEEToiw8p6TXwtvSr+9nwQF1tAbXngtDQHzwkFe3VeE05963e6fR2mGPyzACMK4+hayaf0LOBJLa+J1eIWnhTsm0kImr6q7uygARAApXv4AY6w+bUyIlLcJIHgyQBB2qPE0QyqElQUw=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R351e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046060;MF=xuanzhuo@linux.alibaba.com;NM=1;PH=DS;RN=26;SR=0;TI=SMTPD_---0W3-MA6N_1711016132;
+Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com fp:SMTPD_---0W3-MA6N_1711016132)
+          by smtp.aliyun-inc.com;
+          Thu, 21 Mar 2024 18:15:33 +0800
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+To: virtualization@lists.linux.dev
+Cc: Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Vadim Pasternak <vadimp@nvidia.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Cornelia Huck <cohuck@redhat.com>,
+	Halil Pasic <pasic@linux.ibm.com>,
+	Eric Farman <farman@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	David Hildenbrand <david@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	linux-um@lists.infradead.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	kvm@vger.kernel.org
+Subject: [PATCH vhost v4 0/6] refactor the params of find_vqs()
+Date: Thu, 21 Mar 2024 18:15:26 +0800
+Message-Id: <20240321101532.59272-1-xuanzhuo@linux.alibaba.com>
+X-Mailer: git-send-email 2.32.0.3.g01195cf9f
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/1] Failure to hibernate on Dell Latitude 7430
-Content-Language: en-US, de-DE
-To: David McFarland <corngood@gmail.com>
-Cc: "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Linux kernel regressions list <regressions@lists.linux.dev>,
- Chris Feng <chris.feng@mediatek.com>, linux-pm@vger.kernel.org,
- Alex Hung <alexhung@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>
-References: <20240318191153.6978-1-corngood@gmail.com>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <20240318191153.6978-1-corngood@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1711013483;97f36e79;
-X-HE-SMSGID: 1rnElb-0005Vn-2F
+X-Git-Hash: 571c18a30348
+Content-Transfer-Encoding: 8bit
 
-On 18.03.24 20:11, David McFarland wrote:
-> I have a Dell Latitude 7430, and recently whenever I hibernate with
-> `systemctl hibernate`, the machine would immediately wake.
+This pathset is splited from the
 
-Thanks for the report and the proposed patch.
+     http://lore.kernel.org/all/20240229072044.77388-1-xuanzhuo@linux.alibaba.com
 
-> I bisected it to:
-> 
-> 0c4cae1bc00d PM: hibernate: Avoid missing wakeup events during hibernation
+That may needs some cycles to discuss. But that notifies too many people.
 
-I CCed the author of that change, which should at least be aware of this
-any maybe help out.
+But just the four commits need to notify so many people.
+And four commits are independent. So I split that patch set,
+let us review these first.
 
-Also CCed the people that take care of the code your patch modifies,
-they should be the best to judge what should be done here.
+The patch set try to  refactor the params of find_vqs().
+Then we can just change the structure, when introducing new
+features.
 
-FWIW, the start of the thread and the proposed patch can be found here:
-https://lore.kernel.org/all/20240318191153.6978-1-corngood@gmail.com/
+Thanks.
 
-Ciao, Thorsten
+v4:
+  1. remove support for names array entries being null
+  2. remove cfg_idx from virtio_vq_config
 
-> However, the underlying problem seems to be that during hibernation, my
-> system gets a 0xcf (power button release) event, and the above change
-> causes it to abort hibernation correctly.
-> 
-> I also noticed that holding the power button down (when it's configured
-> to suspend) causes the system to suspend and then wake upon release, if
-> it's held long enough.
-> 
-> I'm attaching a patch which fixes the problem for me, by skipping the
-> wake on any of the release events.  These events are all marked
-> KEY_IGNORE, so think this is a reasonable thing to do.
-> 
-> I'm a little worried about the consequences of doing this
-> unconditionally in intel-hid.  Perhaps it should be a quirk?
-> 
-> David McFarland (1):
->   platform/x86/intel/hid: Don't wake on 5-button releases
-> 
->  drivers/platform/x86/intel/hid.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+v3:
+  1. fix the bug: "assignment of read-only location '*cfg.names'"
 
-P.S.: To be sure the issue doesn't fall through the cracks unnoticed,
-I'm adding it to regzbot, the Linux kernel regression tracking bot:
+v2:
+  1. add kerneldoc for "struct vq_transport_config" @ilpo.jarvinen
 
-#regzbot ^introduced 0c4cae1bc00d
-#regzbot title PM: hibernate: & platform/x86/intel/hid: hibernate on
-Dell Latitude 7430 fails
-#regzbot ignore-activity
+v1:
+  1. fix some comments from ilpo.jarvinen@linux.intel.com
+
+
+
+
+Xuan Zhuo (6):
+  virtio_balloon: remove the dependence where names[] is null
+  virtio: remove support for names array entries being null.
+  virtio: find_vqs: pass struct instead of multi parameters
+  virtio: vring_create_virtqueue: pass struct instead of multi
+    parameters
+  virtio: vring_new_virtqueue(): pass struct instead of multi parameters
+  virtio_ring: simplify the parameters of the funcs related to
+    vring_create/new_virtqueue()
+
+ arch/um/drivers/virtio_uml.c             |  33 ++---
+ drivers/platform/mellanox/mlxbf-tmfifo.c |  25 ++--
+ drivers/remoteproc/remoteproc_virtio.c   |  34 ++---
+ drivers/s390/virtio/virtio_ccw.c         |  35 ++---
+ drivers/virtio/virtio_balloon.c          |  41 +++---
+ drivers/virtio/virtio_mmio.c             |  33 ++---
+ drivers/virtio/virtio_pci_common.c       |  62 +++-----
+ drivers/virtio/virtio_pci_common.h       |   9 +-
+ drivers/virtio/virtio_pci_legacy.c       |  16 ++-
+ drivers/virtio/virtio_pci_modern.c       |  37 +++--
+ drivers/virtio/virtio_ring.c             | 173 ++++++++---------------
+ drivers/virtio/virtio_vdpa.c             |  48 +++----
+ include/linux/virtio_config.h            |  75 +++++++---
+ include/linux/virtio_ring.h              |  93 +++++++-----
+ tools/virtio/virtio_test.c               |   4 +-
+ tools/virtio/vringh_test.c               |  28 ++--
+ 16 files changed, 351 insertions(+), 395 deletions(-)
 
 --
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
+2.32.0.3.g01195cf9f
 
 
