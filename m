@@ -1,50 +1,94 @@
-Return-Path: <platform-driver-x86+bounces-2181-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-2212-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA07889658
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Mar 2024 09:50:01 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E6788A5DE
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Mar 2024 16:09:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BF98E1C30133
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Mar 2024 08:50:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DD995B2ACBB
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Mar 2024 13:00:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EF4F144D11;
-	Mon, 25 Mar 2024 05:46:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1D21148831;
+	Mon, 25 Mar 2024 08:03:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bUL61oDb"
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="ImHP03Du";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oC4RHPrN"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout7-smtp.messagingengine.com (fout7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2ABE15253D;
-	Mon, 25 Mar 2024 02:13:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEE691487F7;
+	Mon, 25 Mar 2024 05:50:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711332788; cv=none; b=kdeHrfc35gKEaEXohVq3g8dJ2nXsdQ4KR6W3d75bqOTEIcNP5kvqHuyY/ankkPxhm2VwKn59Ro0Wfts6WRGI+IXU2BAzUxqfIb4Y7ntMk8qLdvKzpecFZAQJIx+3iIiS86n2t7dzFh1fT4dmsEs9qj2y61lXJyb5uXwx84GYkuQ=
+	t=1711345810; cv=none; b=BmN0V7Ds3ZpcuCj+ofMNw2709GR6+3ww5XoXOddt11gMZoQ6/HAu3O+atgOZR1eXMQkXRb3+Vj6MH6b2vV9zX+xget066yI4hhWsXY1TkPDIgHYl6VEI2+4DDe+yXyzl772fMkBqKH0Dw8w1esRKOS6M6gCUV2zauREYSE1O+ZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711332788; c=relaxed/simple;
-	bh=aJvg1KH6joFG6oJkgTHoc61lNEcN6UYDL94Kek/0h5A=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=R48zXyjukBt/Etd1M9nCVkEZlG1fiiroEpe8dgkhWTSZKJewMBoUhqtKirm01WvT+0Bge0vv0kJAjB3CdJ1Oiiw25oqtXiCoXPPqKnyMt/PCq4nNwXfQ2alDH2jKyP50EIZRz3IJcJ30QEDhSOgNg9lMVsQ/U21QNHuh3ld1bGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bUL61oDb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7DB0EC43390;
-	Mon, 25 Mar 2024 02:13:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711332787;
-	bh=aJvg1KH6joFG6oJkgTHoc61lNEcN6UYDL94Kek/0h5A=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=bUL61oDb/M+5KYmdH9GZAQdZT3PYKaJ010SbGP/0QAETJ2gY+Rxd19+hfItokn4fc
-	 qXm+5UshaVvnLaKO+h8US6GsQq7XoxEkTJDEVJIEaNCFv8M2uUBhoQrMAu3fisTCQo
-	 B4fRFMNeMscSki123E/z54cBRXf+v5p5HhYpLJ3jJtc1OvR7VQslOwZ36RRz8NHOez
-	 HFUH5lzzeG0rrZGBHCyr2OTeNZB2H2sILwj6OEqE53Bfd2qCAI/Z34pAg9I1JWd2Cn
-	 dq/bNtJWoCPVpzv9DjBiOxvAIfXazxrFfLBNOkzXYWWq5P+zSQavVa4Lgiia++T7N2
-	 7rjlBqvf/ljRg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 5AFA0D2D0E0;
-	Mon, 25 Mar 2024 02:13:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1711345810; c=relaxed/simple;
+	bh=R5F1sCuv07c2gXHxPP4bDuP4gk0uzrinmcQ9DxKvGNk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LfaLZtvwO1tzgNj/hIv/gFymJ8XMYGTr0L3X7rn0NIovfYtrl0cxMbtO8iF1hnch2zrA6ogfgkao2qgXHNExlNsYnLaSqFvnwvbMC+YdWrk/B48Fhe9EOAWedgEb//94x2ToIPcAWJmfgrZXTB/L4YBOvlGeyuq7J8FToGsBjNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=ImHP03Du; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=oC4RHPrN; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailfout.nyi.internal (Postfix) with ESMTP id C80EC13800F9;
+	Mon, 25 Mar 2024 01:50:06 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Mon, 25 Mar 2024 01:50:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm3; t=1711345806; x=1711432206; bh=iqvDbzDeTvgQwXec4P1M7
+	lVLZPAxb2s+KgS8gBIeABc=; b=ImHP03DubdtYIeGCrCPZkAVY4Mr+XkuPs8Lnh
+	mTU1kYuPpb6aGGVp+E39cnhO5Yf2QznU0I4FEhHdzkvO6hoUhvcBmagAICsYqhYx
+	lvr4VR6fE0IxUqb0C8utpeVcBw5ki5VNKaiRhHG32GwtUOBawSbBNReu13BJU2g1
+	QZGDM1wtSgQYf+kDYPx0DFLaNEnCZLEw0JCpg2yxxs01TvPcsQLDCciGfqygG//o
+	+gxoXVRu6DH6sFOrCshnS2gqzNa2n8qCmVTh/xOdTir718pzCiPYfcnSk/dV5d4d
+	g9li3WskGMTSfIn2qcHTxfOGazsx431GLXzOdhq/pzImTZRmQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1711345806; x=1711432206; bh=iqvDbzDeTvgQwXec4P1M7lVLZPAx
+	b2s+KgS8gBIeABc=; b=oC4RHPrN4UqJWmTW/tKTba05axeDJAw+ClP4xMukE+Bl
+	0No2d4qtZy0OfmQul7maTQUunJtQqhvGZ/EuoFhh48blcSkBcDI1VnpFnxeiYOsb
+	UiMXZMsx12LOwYV1ge1577nRJP8UUT6Ia7QImb9GTkpKgEBphXs1RhiCoktOJNy4
+	czLKXJYwUtnipE7fdic5+WkGZaWv03HSD9Ow5WkuT+znsavrP4HHfMEZjeTOq5tG
+	C2IwLOT8xaXB5C0NXmFn3WDdXfdfxmjLnC7fuhLvvcyHX6bDD8/N5mI393guGZ/Y
+	DTLsFPtcjOCzw1M/2c6xw3ifhCWgjW9YoMgkAKMkYg==
+X-ME-Sender: <xms:jhABZt_pcXa9c5dECfKx8hTDwaWGs_4CRyEn1SrNcCCDYx_0_VnENA>
+    <xme:jhABZhsKKQoDKMiUBAT7OSMcDdepTaLfN_nWROCv_mXInpH3JGXBxhOY2796o1Vjn
+    jjp0kMWSv31yxbE-8c>
+X-ME-Received: <xmr:jhABZrDn0eStiDCoqKfYbQMfL1Q-XOKy6VqL9gFbi4H5Db6Od7OnwNQYpxze>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledruddtkedgkeelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpedfnfhukhgvucffrdculfhonhgvshdfuceolhhukhgvsehljhho
+    nhgvshdruggvvheqnecuggftrfgrthhtvghrnheptdehkeeigeeggfelkeeufeefjeduvd
+    ejveduvdehtdegveeftdeugeetvdeltdejnecuffhomhgrihhnpehkvghrnhgvlhdrohhr
+    ghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehluh
+    hkvgeslhhjohhnvghsrdguvghv
+X-ME-Proxy: <xmx:jhABZhcyq35CdZyPnj3t_XI8TowIcntipUEjEw6NpgqgL_Vl3y36Cw>
+    <xmx:jhABZiPCXBkzKBZTKMEeDD0l-qH9Eg9Y414_zWmHQlIPw-tYAHVgzw>
+    <xmx:jhABZjm3FPZGzppNB7V5H4o_fV0iytDATzJCNkXO_mcdVEl3z0lUyg>
+    <xmx:jhABZsvKmCzEdT5updNru2mYPu3qQQ2wTg6GtlV-0DoPTqwDGu9IXw>
+    <xmx:jhABZuCEOTupMXq62_Tj2htzFFPKjyHKtVHiRT8eGO7Yux-LJIFsrg>
+Feedback-ID: i5ec1447f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 25 Mar 2024 01:50:03 -0400 (EDT)
+From: "Luke D. Jones" <luke@ljones.dev>
+To: hdegoede@redhat.com
+Cc: corentin.chary@gmail.com,
+	ilpo.jarvinen@linux.intel.com,
+	platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Luke D. Jones" <luke@ljones.dev>
+Subject: [PATCH 0/9] asus-wmi: add new features, clean up, fixes
+Date: Mon, 25 Mar 2024 18:49:29 +1300
+Message-ID: <20240325054938.489732-1-luke@ljones.dev>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -52,85 +96,43 @@ List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v6 000/164] pwm: Improve lifetime tracking for pwm_chips
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <171133278736.9916.5526869645378949035.git-patchwork-notify@kernel.org>
-Date: Mon, 25 Mar 2024 02:13:07 +0000
-References: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
-In-Reply-To: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@codeaurora.org
-Cc: linux-pwm@vger.kernel.org, corbet@lwn.net, Jonathan.Cameron@huawei.com,
- james.clark@arm.com, andriy.shevchenko@linux.intel.com, broonie@kernel.org,
- marcan@marcan.st, sven@svenpeter.dev, claudiu.beznea@tuxon.dev,
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
- florian.fainelli@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com,
- shc_work@mail.ru, bleung@chromium.org, p.zabel@pengutronix.de,
- shawnguo@kernel.org, s.hauer@pengutronix.de, paul@crapouillou.net,
- vz@mleia.com, mika.westerberg@linux.intel.com, andy@kernel.org,
- linus.walleij@linaro.org, hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- neil.armstrong@linaro.org, khilman@baylibre.com, conor.dooley@microchip.com,
- daire.mcnamara@microchip.com, j.neuschaefer@gmx.net, heiko@sntech.de,
- krzysztof.kozlowski@linaro.org, palmer@dabbelt.com, paul.walmsley@sifive.com,
- mwalle@kernel.org, orsonzhai@gmail.com, baolin.wang@linux.alibaba.com,
- zhang.lyra@gmail.com, fabrice.gasnier@foss.st.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, hammerh0314@gmail.com, thierry.reding@gmail.com,
- jonathanh@nvidia.com, nobuhiro1.iwamatsu@toshiba.co.jp,
- sean.anderson@seco.com, michal.simek@amd.com, brgl@bgdev.pl,
- andrzej.hajda@intel.com, rfoss@kernel.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- pavel@ucw.cz, lee@kernel.org, quic_amelende@quicinc.com,
- quic_bjorande@quicinc.com, keescook@chromium.org, robh@kernel.org,
- johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
- kernel@pengutronix.de, linux-doc@vger.kernel.org, alyssa@rosenzweig.io,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- groeck@chromium.org, chrome-platform@lists.linux.dev, festevam@gmail.com,
- linux-imx@nxp.com, linux-mips@vger.kernel.org, linux-gpio@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-mediatek@lists.infradead.org,
- jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
- linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-rockchip@lists.infradead.org, alim.akhtar@samsung.com,
- linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- dianders@chromium.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- gustavoars@kernel.org, linux-hardening@vger.kernel.org
 
-Hello:
+This patch series touches quite a few things along with adding support for some
+new features.
 
-This series was applied to chrome-platform/linux.git (for-next)
-by Uwe Kleine-König <u.kleine-koenig@pengutronix.de>:
+- Add support for mini-LED on 2024 ROG lpatops
+- Add support for the gpu MUX WMI call on Vivobook laptops
+- Add support for the POST boot sound on ROG laptops
+- Add support for MCU power-save (ROG Ally only, saves more power on suspend)
+- Store written values for ppt_* features
+- Small formatting cleanup
+- Small fixes to cleanup struct holes found with pahole
 
-On Wed, 14 Feb 2024 10:30:47 +0100 you wrote:
-> Hello,
-> 
-> this is v6 of the series introducing better lifetime tracking for
-> pwmchips that addresses (for now theoretic) lifetime issues of pwm
-> chips. Addressing these is a necessary precondition to introduce chardev
-> support for PWMs.
-> 
-> [...]
+Obsoletes:
+- https://lore.kernel.org/all/20240320011442.11608-1-luke@ljones.dev/
+- https://lore.kernel.org/all/20240310065408.63703-1-luke@ljones.dev/
+- https://lore.kernel.org/all/20240310061715.16531-1-luke@ljones.dev/
+- https://lore.kernel.org/all/20240310055312.11293-1-luke@ljones.dev/
+- https://lore.kernel.org/all/20240310233722.30884-1-luke@ljones.dev/
 
-Here is the summary with links:
-  - [v6,001/164] pwm: Provide an inline function to get the parent device of a given chip
-    https://git.kernel.org/chrome-platform/c/4e59267c7a20
-  - [v6,003/164] pwm: Provide pwmchip_alloc() function and a devm variant of it
-    https://git.kernel.org/chrome-platform/c/024913dbf99f
-  - [v6,029/164] pwm: cros-ec: Change prototype of helpers to prepare further changes
-    https://git.kernel.org/chrome-platform/c/7256c2e79b8e
-  - [v6,030/164] pwm: cros-ec: Make use of pwmchip_parent() accessor
-    https://git.kernel.org/chrome-platform/c/19a568a8d3c4
-  - [v6,031/164] pwm: cros-ec: Make use of devm_pwmchip_alloc() function
-    https://git.kernel.org/chrome-platform/c/452be9421eda
+Luke D. Jones (9):
+  platform/x86: asus-wmi: add support for 2024 ROG Mini-LED
+  platform/x86: asus-wmi: add support for Vivobook GPU MUX
+  platform/x86: asus-wmi: add support variant of TUF RGB
+  platform/x86: asus-wmi: support toggling POST sound
+  platform/x86: asus-wmi: store a min default for ppt options
+  platform/x86: asus-wmi: adjust formatting of ppt-<name>() functions
+  platform/x86: asus-wmi: ROG Ally increase wait time, allow MCU
+    powersave
+  platform/x86: asus-wmi: Add support for MCU powersave
+  platform/x86: asus-wmi: cleanup main struct to avoid some holes
 
-You are awesome, thank you!
+ .../ABI/testing/sysfs-platform-asus-wmi       |  26 ++
+ drivers/platform/x86/asus-wmi.c               | 386 ++++++++++++++----
+ include/linux/platform_data/x86/asus-wmi.h    |   6 +
+ 3 files changed, 339 insertions(+), 79 deletions(-)
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.44.0
 
 
