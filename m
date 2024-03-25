@@ -1,125 +1,153 @@
-Return-Path: <platform-driver-x86+bounces-2195-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-2223-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CFC788A58A
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Mar 2024 15:59:51 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 214F388A300
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Mar 2024 14:50:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D1FA8B468D0
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Mar 2024 12:11:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF9EA2E1312
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Mar 2024 13:50:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64C9C1384BE;
-	Mon, 25 Mar 2024 07:31:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AE9016A981;
+	Mon, 25 Mar 2024 10:32:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nu67yIa1"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="kPomgpyb"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7D0152E11;
-	Mon, 25 Mar 2024 07:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD5313D8A7;
+	Mon, 25 Mar 2024 09:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711350695; cv=none; b=lNZkBxFLZPkjZmVxHj11Ymw157AZsULfOjFhKGyRbCrOO1IasAGi9iqPhX7cUO714wlTAkn5MW+z5FaHcwCIjkTdfTM2F3EiK/35+plZNc12KC7rzS0B7GaKkZ9rcEr4J2T4lIBNS72wvBXwLcm6lf5/GuKwkfWdBP14AsNI0N4=
+	t=1711357468; cv=none; b=dcR/kmLLWJJMJ3zM3IgQ7ROB5AgXbhLxhpcW9u6UWGwTIuZ9xtmPTMKE+NFU5KHAfVo7mpCv1+sYPsQ9m4C1K8ko2XQJefLbwwS/k59C1EEGtF33SnvQkFj8GHKm08ZeCPUAU0Dcb03w/UskjpBf+Ue2xiBn5D8CI8arRGhqorU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711350695; c=relaxed/simple;
-	bh=cNYwknOCoYozJYQki18ub+BQTqAuTBwIbKmwkZH+Rdw=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RubJxn5LDtsaFFsN8ElWOB4VQ40FV0ueGEpinrINFx2NUgSHRpuWYR4Z1ULMSBo0psDrE5j84wJ5EhVbFWMBIlE+pFpMQfmJimVsEo09ujaol462NJbI0pDmXpI3HpJScdirNSjxzv4HVq3WXNlw0p6oF8c3PjuUyzKX6aHpdn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nu67yIa1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B49A5C43390;
-	Mon, 25 Mar 2024 07:11:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711350695;
-	bh=cNYwknOCoYozJYQki18ub+BQTqAuTBwIbKmwkZH+Rdw=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=nu67yIa15SCpfTJanXaBWhOku7Ap2WldWog9PIvPYtQPZeiYE926Hie6SdsjloJH6
-	 YQ6R8skFC+9ab9kVrHZFuyLivI+Q1eWoHLN5yxo/pgnMhkeb5Pi3wVMr/YnG8STYFh
-	 sOQiwxOgY7p6DxYSBLLIPJ9mTqOqzcLEh/tXKSVLeip3JGYceudpbifFCjbV5FqCBq
-	 8HITItpYSLpEC1F2HzymMHHFEul4WNVKbPWXqQhHogxudlpl7p5i8PRE9nC5tDBgnc
-	 l4pnrR7cP7UAlAso5G48ciHZN4QbC/+8mjek7+1x7jWuc1SMzH55HvRQyXAAFQWm2f
-	 vjO+LHlblY5ww==
-From: Damien Le Moal <dlemoal@kernel.org>
-To: linux-pci@vger.kernel.org,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Manivannan Sadhasivami <manivannan.sadhasivam@linaro.org>,
-	linux-scsi@vger.kernel.org,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-serial@vger.kernel.org,
+	s=arc-20240116; t=1711357468; c=relaxed/simple;
+	bh=HxOxxHtwVTH5u8oyYo/vK/0ecb1qPMW3FQ3ShCMKQr4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=jfZLZ23VrlnqGbw5eTkf3kYNkDS8ptMXoMsMXHzii7ARyMPDpSMoKVRNhmPw36zUnUvBERAWubwdqrLHsyjBbl4nyNbneMaUCvVbo3wtLlBHjzyIXI/eFjRBg6ZloDqQzap4If9biooaEOM2y/KEEOyfA6oZQVK9DDwG5l+kqvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=kPomgpyb; arc=none smtp.client-ip=115.124.30.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1711357462; h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
+	bh=zomPIhh8ug+890y2faVExtzUOonFoyYDwub4qOBIFXQ=;
+	b=kPomgpybCS725LynUKNxXHxQ8p+FpeXk8zuBRtJpO3IldxRYOcAuCrodvZKpUKR3S8BNXiZMEmmdZhGMF+3xZk4hZ2dY/f5DcHmS8faPzXXTGl7WXGeZg6c/PD01MIgKqvvkLL5a/2VdVMsp9NNTNFjSIBIeyonwhYk2S+RnLY4=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=xuanzhuo@linux.alibaba.com;NM=1;PH=DS;RN=26;SR=0;TI=SMTPD_---0W3DYNxR_1711357459;
+Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com fp:SMTPD_---0W3DYNxR_1711357459)
+          by smtp.aliyun-inc.com;
+          Mon, 25 Mar 2024 17:04:20 +0800
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+To: virtualization@lists.linux.dev
+Cc: Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
 	Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Vadim Pasternak <vadimp@nvidia.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Cornelia Huck <cohuck@redhat.com>,
+	Halil Pasic <pasic@linux.ibm.com>,
+	Eric Farman <farman@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	David Hildenbrand <david@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	linux-um@lists.infradead.org,
 	platform-driver-x86@vger.kernel.org,
-	ntb@lists.linux.dev,
-	Lee Jones <lee@kernel.org>,
-	David Airlie <airlied@gmail.com>,
-	amd-gfx@lists.freedesktop.org,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	linux-rdma@vger.kernel.org,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 28/28] PCI: Remove PCI_IRQ_LEGACY
-Date: Mon, 25 Mar 2024 16:09:39 +0900
-Message-ID: <20240325070944.3600338-29-dlemoal@kernel.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240325070944.3600338-1-dlemoal@kernel.org>
-References: <20240325070944.3600338-1-dlemoal@kernel.org>
+	linux-remoteproc@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	kvm@vger.kernel.org
+Subject: [PATCH vhost v5 0/6] refactor the params of find_vqs()
+Date: Mon, 25 Mar 2024 17:04:13 +0800
+Message-Id: <20240325090419.33677-1-xuanzhuo@linux.alibaba.com>
+X-Mailer: git-send-email 2.32.0.3.g01195cf9f
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Git-Hash: f38b33f54e32
 Content-Transfer-Encoding: 8bit
 
-Replace the last references to PCI_IRQ_LEGACY with PCI_IRQ_INTX in pci.h
-header file. With this change, PCI_IRQ_LEGACY is unused and we can
-remove its definition.
+This pathset is splited from the
 
-Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
----
- include/linux/pci.h | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+     http://lore.kernel.org/all/20240229072044.77388-1-xuanzhuo@linux.alibaba.com
 
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 16493426a04f..b19992a5dfaf 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -1077,8 +1077,6 @@ enum {
- #define PCI_IRQ_MSIX		(1 << 2) /* Allow MSI-X interrupts */
- #define PCI_IRQ_AFFINITY	(1 << 3) /* Auto-assign affinity */
- 
--#define PCI_IRQ_LEGACY		PCI_IRQ_INTX /* Deprecated! Use PCI_IRQ_INTX */
--
- /* These external functions are only available when PCI support is enabled */
- #ifdef CONFIG_PCI
- 
-@@ -1648,8 +1646,7 @@ int pci_set_vga_state(struct pci_dev *pdev, bool decode,
-  */
- #define PCI_IRQ_VIRTUAL		(1 << 4)
- 
--#define PCI_IRQ_ALL_TYPES \
--	(PCI_IRQ_LEGACY | PCI_IRQ_MSI | PCI_IRQ_MSIX)
-+#define PCI_IRQ_ALL_TYPES	(PCI_IRQ_INTX | PCI_IRQ_MSI | PCI_IRQ_MSIX)
- 
- #include <linux/dmapool.h>
- 
-@@ -1719,7 +1716,7 @@ pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
- 			       unsigned int max_vecs, unsigned int flags,
- 			       struct irq_affinity *aff_desc)
- {
--	if ((flags & PCI_IRQ_LEGACY) && min_vecs == 1 && dev->irq)
-+	if ((flags & PCI_IRQ_INTX) && min_vecs == 1 && dev->irq)
- 		return 1;
- 	return -ENOSPC;
- }
--- 
-2.44.0
+That may needs some cycles to discuss. But that notifies too many people.
+
+But just the four commits need to notify so many people.
+And four commits are independent. So I split that patch set,
+let us review these first.
+
+The patch set try to  refactor the params of find_vqs().
+Then we can just change the structure, when introducing new
+features.
+
+Thanks.
+
+v5:
+  1. virtio_balloon: follow David Hildenbrand's suggest
+    http://lore.kernel.org/all/3620be9c-e288-4ff2-a7be-1fcf806e6e6e@redhat.com
+  2. fix bug of the reference of "cfg_idx"
+    http://lore.kernel.org/all/202403222227.Sdp23Lcb-lkp@intel.com
+
+v4:
+  1. remove support for names array entries being null
+  2. remove cfg_idx from virtio_vq_config
+
+v3:
+  1. fix the bug: "assignment of read-only location '*cfg.names'"
+
+v2:
+  1. add kerneldoc for "struct vq_transport_config" @ilpo.jarvinen
+
+v1:
+  1. fix some comments from ilpo.jarvinen@linux.intel.com
+
+
+
+
+
+Xuan Zhuo (6):
+  virtio_balloon: remove the dependence where names[] is null
+  virtio: remove support for names array entries being null.
+  virtio: find_vqs: pass struct instead of multi parameters
+  virtio: vring_create_virtqueue: pass struct instead of multi
+    parameters
+  virtio: vring_new_virtqueue(): pass struct instead of multi parameters
+  virtio_ring: simplify the parameters of the funcs related to
+    vring_create/new_virtqueue()
+
+ arch/um/drivers/virtio_uml.c             |  33 ++---
+ drivers/platform/mellanox/mlxbf-tmfifo.c |  25 ++--
+ drivers/remoteproc/remoteproc_virtio.c   |  34 ++---
+ drivers/s390/virtio/virtio_ccw.c         |  35 ++---
+ drivers/virtio/virtio_balloon.c          |  46 +++---
+ drivers/virtio/virtio_mmio.c             |  33 ++---
+ drivers/virtio/virtio_pci_common.c       |  62 +++-----
+ drivers/virtio/virtio_pci_common.h       |   9 +-
+ drivers/virtio/virtio_pci_legacy.c       |  16 ++-
+ drivers/virtio/virtio_pci_modern.c       |  37 +++--
+ drivers/virtio/virtio_ring.c             | 173 ++++++++---------------
+ drivers/virtio/virtio_vdpa.c             |  48 +++----
+ include/linux/virtio_config.h            |  75 +++++++---
+ include/linux/virtio_ring.h              |  93 +++++++-----
+ tools/virtio/virtio_test.c               |   4 +-
+ tools/virtio/vringh_test.c               |  28 ++--
+ 16 files changed, 350 insertions(+), 401 deletions(-)
+
+--
+2.32.0.3.g01195cf9f
 
 
