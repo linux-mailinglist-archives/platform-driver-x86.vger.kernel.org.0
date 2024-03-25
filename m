@@ -1,178 +1,158 @@
-Return-Path: <platform-driver-x86+bounces-2222-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-2189-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E417A889EDA
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Mar 2024 13:17:29 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AB14889F60
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Mar 2024 13:29:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DE391F2E5B2
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Mar 2024 12:17:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7C7071C363AD
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Mar 2024 12:29:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C8DF13C90B;
-	Mon, 25 Mar 2024 08:30:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E101012D76A;
+	Mon, 25 Mar 2024 07:31:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="bb/Yq7i2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QE/7hIf4"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from out30-97.freemail.mail.aliyun.com (out30-97.freemail.mail.aliyun.com [115.124.30.97])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DDFE153566;
-	Mon, 25 Mar 2024 06:14:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.97
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5637717F392;
+	Mon, 25 Mar 2024 07:09:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711347268; cv=none; b=oLM7yOMrK6391dS2orN0c1ehvEXaBiEd9qAUDht5GGf9fHFkD/q9gTWVy2DL1AaloAVYCBzdfj9E7pA/sieCaJHKYRVzbP0XsIYVdChGqV/ATHJNaxRfPSM0A167KHMrllywZXQElZhXcxyvu/DmtaW1hCaVhALpxhDZLZ5L4I4=
+	t=1711350589; cv=none; b=jXBZJ1+KbfrRXyBjnPMCeCNSRXu8Tvo8slJLIgomnHd/EEZpiYdygxkqdazrOacidZVMEnvluvkkZXtKAcvR+QJqSX67fbXRSi1rZuY65W9XlIya3qwcXEkhg8XrXy/tHfL7uihtVClBbTuz0so4g4T0jKLeakwwGTbeLcq+dAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711347268; c=relaxed/simple;
-	bh=GyIKFNRR1qWHImh+cuLOt5QaFS06G20Ha+rQxRimdT8=;
-	h=Message-ID:Subject:Date:From:To:Cc:References:In-Reply-To:
-	 Content-Type; b=VsjQZ8YJMXM5/CuPNwQFTEwcIi0q4/GbAfC/RdC3DtUFECc0RTRUIXmPW98XEboweG79lKvY9QkSu5inMakUl3qbm7WWFfMnNhotK8PpLCEPF5l9VYjT2WLJWaNPsDbS4X2h7AuJ1mIVFafv2bsno3S2A/K95CDeg9SdjzbyJaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=bb/Yq7i2; arc=none smtp.client-ip=115.124.30.97
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1711347263; h=Message-ID:Subject:Date:From:To:Content-Type;
-	bh=BJ2ubMtU85p7XN+WIaKbvt0uua6wwUwRoEIA4BLg6No=;
-	b=bb/Yq7i2vT6mBEZEz9Nv65M3Ojh/fe2QB0iNc+7R1DlRJxkYFktmKNfH6ahfV/n11EnTSKPahuRF12R3QSUO8ZAdNIr6Fz3irafdE2E8Ey07lJixM+yFlbzlMduzmJa8fXCXY+Y6D3Q4Q0v3nItbXdb1eTtlmaJnXjIJg+SUiZU=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R881e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046049;MF=xuanzhuo@linux.alibaba.com;NM=1;PH=DS;RN=26;SR=0;TI=SMTPD_---0W39d8Wn_1711347261;
-Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com fp:SMTPD_---0W39d8Wn_1711347261)
-          by smtp.aliyun-inc.com;
-          Mon, 25 Mar 2024 14:14:22 +0800
-Message-ID: <1711346901.0977402-2-xuanzhuo@linux.alibaba.com>
-Subject: Re: [PATCH vhost v4 1/6] virtio_balloon: remove the dependence where names[] is null
-Date: Mon, 25 Mar 2024 14:08:21 +0800
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: virtualization@lists.linux.dev,
- Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Hans de Goede <hdegoede@redhat.com>,
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Vadim Pasternak <vadimp@nvidia.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- linux-um@lists.infradead.org,
- platform-driver-x86@vger.kernel.org,
- linux-remoteproc@vger.kernel.org,
- linux-s390@vger.kernel.org,
- kvm@vger.kernel.org,
- Daniel Verkamp <dverkamp@chromium.org>
-References: <20240321101532.59272-1-xuanzhuo@linux.alibaba.com>
- <20240321101532.59272-2-xuanzhuo@linux.alibaba.com>
- <CABVzXAkwcKMb7pC21aUDLEM=RoyOtGA2Vim+LF0oWQ7mjUx68g@mail.gmail.com>
- <b420a545-0a7a-431c-aa48-c5db3d221420@redhat.com>
-In-Reply-To: <b420a545-0a7a-431c-aa48-c5db3d221420@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1711350589; c=relaxed/simple;
+	bh=dGJkJbFdBqM1o9IeFZ+PlOQFJCVwRbT/Iii7yFVFMSI=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=XDYBAoZaCPis8y3DEnsXsrSM0trJV9sr2/VkpCkwR28fKJCQq4WRLYybrydHxEXccBzh3Txrs82BW+U5L7bemhxNFTcgm3BazX1JDo7xqFqwlwZ0pLnuj9cdYwhk1yTQItiO59ylIs2OPKsEkcx7Lp7w1tNdLgCQ1UEm82UhtjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QE/7hIf4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7946AC433F1;
+	Mon, 25 Mar 2024 07:09:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711350588;
+	bh=dGJkJbFdBqM1o9IeFZ+PlOQFJCVwRbT/Iii7yFVFMSI=;
+	h=From:To:Subject:Date:From;
+	b=QE/7hIf4k1WdMYvCLYH6NWECK80CO9rFwUlKJkwfZ3wfMTBHrGASomESh4jVHXrIM
+	 QpknjzOPFaMLXXYDFsWUzeEjTgmzhhGoh2uEYo6ZaDnMv9KkNibR5UwQMPbzQWhjge
+	 4U/VOeJdCnGli7BcYDHsW1gEbczyXFxPW6Ouc/cZG194BBgVdKEra/Ri8v12n71hRy
+	 yxHTeeLcfPlZ0eYRVyOfM4PT0y5mXYStStFcX/563oqrleQ+x1z/BtOj2RklJxNr4G
+	 lE24FyJC+G1TiuwTkDXCNeL044b8fAkOJt1ES3F/I+1YxhlZB4bkmFEMKHpzoaZvPC
+	 5yzMMFW9kDEcg==
+From: Damien Le Moal <dlemoal@kernel.org>
+To: linux-pci@vger.kernel.org,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Manivannan Sadhasivami <manivannan.sadhasivam@linaro.org>,
+	linux-scsi@vger.kernel.org,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>,
+	platform-driver-x86@vger.kernel.org,
+	ntb@lists.linux.dev,
+	Lee Jones <lee@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	amd-gfx@lists.freedesktop.org,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	linux-rdma@vger.kernel.org,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 00/28] Remove PCI_IRQ_LEGACY
+Date: Mon, 25 Mar 2024 16:09:11 +0900
+Message-ID: <20240325070944.3600338-1-dlemoal@kernel.org>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 22 Mar 2024 22:02:27 +0100, David Hildenbrand <david@redhat.com> wr=
-ote:
-> On 22.03.24 20:16, Daniel Verkamp wrote:
-> > On Thu, Mar 21, 2024 at 3:16=E2=80=AFAM Xuan Zhuo <xuanzhuo@linux.aliba=
-ba.com> wrote:
-> >>
-> >> Currently, the init_vqs function within the virtio_balloon driver reli=
-es
-> >> on the condition that certain names array entries are null in order to
-> >> skip the initialization of some virtual queues (vqs). This behavior is
-> >> unique to this part of the codebase. In an upcoming commit, we plan to
-> >> eliminate this dependency by removing the function entirely. Therefore,
-> >> with this change, we are ensuring that the virtio_balloon no longer
-> >> depends on the aforementioned function.
-> >
-> > This is a behavior change, and I believe means that the driver no
-> > longer follows the spec [1].
-> >
-> > For example, the spec says that virtqueue 4 is reporting_vq, and
-> > reporting_vq only exists if VIRTIO_BALLOON_F_PAGE_REPORTING is set,
-> > but there is no mention of its virtqueue number changing if other
-> > features are not set. If a device/driver combination negotiates
-> > VIRTIO_BALLOON_F_PAGE_REPORTING but not VIRTIO_BALLOON_F_STATS_VQ or
-> > VIRTIO_BALLOON_F_FREE_PAGE_HINT, my reading of the specification is
-> > that reporting_vq should still be vq number 4, and vq 2 and 3 should
-> > be unused. This patch would make the reporting_vq use vq 2 instead in
-> > this case.
-> >
-> > If the new behavior is truly intended, then the spec does not match
-> > reality, and it would need to be changed first (IMO); however,
-> > changing the spec would mean that any devices implemented correctly
-> > per the previous spec would now be wrong, so some kind of mechanism
-> > for detecting the new behavior would be warranted, e.g. a new
-> > non-device-specific virtio feature flag.
-> >
-> > I have brought this up previously on the virtio-comment list [2], but
-> > it did not receive any satisfying answers at that time.
->
-> Rings a bell, but staring at this patch, I thought that there would be
-> no behavioral change. Maybe I missed it :/
->
-> I stared at virtio_ccw_find_vqs(), and it contains:
->
-> 	for (i =3D 0; i < nvqs; ++i) {
-> 		if (!names[i]) {
-> 			vqs[i] =3D NULL;
-> 			continue;
-> 		}
->
-> 		vqs[i] =3D virtio_ccw_setup_vq(vdev, queue_idx++, callbacks[i],
-> 					     names[i], ctx ? ctx[i] : false,
-> 					     ccw);
-> 		if (IS_ERR(vqs[i])) {
-> 			ret =3D PTR_ERR(vqs[i]);
-> 			vqs[i] =3D NULL;
-> 			goto out;
-> 		}
-> 	}
->
-> We increment queue_idx only if an entry was not NULL. SO I thought no
-> behavioral change? (at least on s390x :) )
->
-> It's late here in Germany, so maybe I'm missing something.
+This patch series removes the use of the depracated PCI_IRQ_LEGACY macro
+and replace it with PCI_IRQ_INTX. No functional change.
 
-I think we've encountered a tricky issue. Currently, all transports handle =
-queue
-id by incrementing them in order, without skipping any queue id. So, I'm qu=
-ite
-surprised that my changes would affect the spec. The fact that the
-'names' value is null is just a small trick in the Linux kernel implementat=
-ion
-and should not have an impact on the queue id.
+Damien Le Moal (28):
+  PCI: msi: Use PCI_IRQ_INTX
+  PCI: portdrv: Use PCI_IRQ_INTX
+  PCI: documentation: Use PCI_IRQ_INTX
+  sound: intel: Use PCI_IRQ_INTX
+  usb: hcd-pci: Use PCI_IRQ_INTX
+  tty: 8250_pci: Use PCI_IRQ_INTX
+  platform: intel_ips: Use PCI_IRQ_INTX
+  ntb: Use PCI_IRQ_INTX
+  mfd: intel-lpss-pci: Use PCI_IRQ_INTX
+  drm: amdgpu: Use PCI_IRQ_INTX
+  infiniband: qib: Use PCI_IRQ_INTX
+  infiniband: vmw_pvrdma: Use PCI_IRQ_INTX
+  misc: vmci_guest: Use PCI_IRQ_ALL_TYPES
+  net: xgbe: Use PCI_IRQ_INTX
+  net: aquantia atlantic: Use PCI_IRQ_INTX
+  net: atheros: alx: Use PCI_IRQ_INTX
+  net: realtek: r8169: Use PCI_IRQ_INTX
+  net: wangxun: Use PCI_IRQ_INTX
+  net: wireless: ath10k: Use references to INTX instead of LEGACY
+  net wireless; realtec: Use PCI_IRQ_INTX
+  scsi: arcmsr: Use PCI_IRQ_INTX
+  scsi: hpsa: Use PCI_IRQ_INTX
+  scsi: ipr: Use PCI_IRQ_INTX
+  scsi: megaraid: Use PCI_IRQ_INTX
+  scsi: mpt3sas: Use PCI_IRQ_INTX
+  scsi: pmcraid: Use PCI_IRQ_INTX
+  scsi: vmw_pvscsi: Do not use PCI_IRQ_LEGACY
+  PCI: Remove PCI_IRQ_LEGACY
 
-I believe that my recent modification will not affect the spec. So, let's
-consider the issues with this patch set separately for now. Regarding the M=
-emory
-Balloon Device, it has been operational for many years, and perhaps we shou=
-ld
-add to the spec that if a certain vq does not exist, then subsequent vqs wi=
-ll
-take over its id.
+ Documentation/PCI/msi-howto.rst               |  2 +-
+ Documentation/PCI/pci.rst                     |  2 +-
+ .../translations/zh_CN/PCI/msi-howto.rst      |  2 +-
+ Documentation/translations/zh_CN/PCI/pci.rst  |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c       |  2 +-
+ drivers/infiniband/hw/qib/qib_iba7220.c       |  2 +-
+ drivers/infiniband/hw/qib/qib_iba7322.c       |  5 ++-
+ drivers/infiniband/hw/qib/qib_pcie.c          |  2 +-
+ .../infiniband/hw/vmw_pvrdma/pvrdma_main.c    |  2 +-
+ drivers/mfd/intel-lpss-pci.c                  |  2 +-
+ drivers/misc/vmw_vmci/vmci_guest.c            |  3 +-
+ drivers/net/ethernet/amd/xgbe/xgbe-pci.c      |  2 +-
+ .../net/ethernet/aquantia/atlantic/aq_cfg.h   |  2 +-
+ .../net/ethernet/aquantia/atlantic/aq_hw.h    |  2 +-
+ .../net/ethernet/aquantia/atlantic/aq_nic.c   |  2 +-
+ .../ethernet/aquantia/atlantic/aq_pci_func.c  |  9 ++---
+ .../aquantia/atlantic/hw_atl/hw_atl_a0.c      |  2 +-
+ .../aquantia/atlantic/hw_atl/hw_atl_b0.c      |  2 +-
+ .../aquantia/atlantic/hw_atl2/hw_atl2.c       |  2 +-
+ drivers/net/ethernet/atheros/alx/main.c       |  2 +-
+ drivers/net/ethernet/realtek/r8169_main.c     |  2 +-
+ drivers/net/ethernet/wangxun/libwx/wx_lib.c   |  8 ++---
+ drivers/net/wireless/ath/ath10k/ahb.c         | 18 +++++-----
+ drivers/net/wireless/ath/ath10k/pci.c         | 36 +++++++++----------
+ drivers/net/wireless/ath/ath10k/pci.h         |  6 ++--
+ drivers/net/wireless/realtek/rtw88/pci.c      |  2 +-
+ drivers/net/wireless/realtek/rtw89/pci.c      |  2 +-
+ drivers/ntb/hw/idt/ntb_hw_idt.c               |  2 +-
+ drivers/pci/msi/api.c                         |  8 ++---
+ drivers/pci/pcie/portdrv.c                    |  8 ++---
+ drivers/platform/x86/intel_ips.c              |  2 +-
+ drivers/scsi/arcmsr/arcmsr_hba.c              |  2 +-
+ drivers/scsi/hpsa.c                           |  2 +-
+ drivers/scsi/ipr.c                            |  2 +-
+ drivers/scsi/megaraid/megaraid_sas_base.c     |  4 +--
+ drivers/scsi/mpt3sas/mpt3sas_base.c           |  2 +-
+ drivers/scsi/pmcraid.c                        |  2 +-
+ drivers/scsi/vmw_pvscsi.c                     |  2 +-
+ drivers/tty/serial/8250/8250_pci.c            |  2 +-
+ drivers/usb/core/hcd-pci.c                    |  3 +-
+ include/linux/pci.h                           |  7 ++--
+ sound/soc/intel/avs/core.c                    |  2 +-
+ 42 files changed, 84 insertions(+), 91 deletions(-)
 
-Thanks.
+-- 
+2.44.0
 
-
-
->
-> --
-> Cheers,
->
-> David / dhildenb
->
 
