@@ -1,95 +1,158 @@
-Return-Path: <platform-driver-x86+bounces-2319-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-2322-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 158E988DAA0
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 27 Mar 2024 10:56:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBE8788DAB0
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 27 Mar 2024 10:58:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CCC7C294541
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 27 Mar 2024 09:56:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 29BC11C23794
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 27 Mar 2024 09:58:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C79C038DD6;
-	Wed, 27 Mar 2024 09:56:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B17224AED2;
+	Wed, 27 Mar 2024 09:57:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=holoscopio.com header.i=@holoscopio.com header.b="I7W44Pc+"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="OKRlRFdf"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from grilo.cascardo.info (trem.minaslivre.org [195.201.110.149])
+Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0468747F5C;
-	Wed, 27 Mar 2024 09:56:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.201.110.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6684779F;
+	Wed, 27 Mar 2024 09:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711533378; cv=none; b=N5iYq7WeUsE9AShcPwRUPRsVwLtq5nskHZCX39bqXPYgbkVGs/8R0wLjtRuqh0COlc+QGOzi+afTsm2FY3OHPJaV+fjQopICIrARBuY4bCXcJMVkLwIGeEdfFRDspcviRIpN9ppbVf7FjPrrjPmv3zGDzIx/xx83bFrkhUSQGjk=
+	t=1711533473; cv=none; b=hLpaM41mnSZxnnDVmPM1VEZWMR24yT78zpUWtxhbWgBjBc3tsVbqJDtmXweosM6h6LB/1o4gvDTFDbj1f0+OtSH2bJlziMBaSJnZ9bejGWeASubhUD7zbixW35ZfI8ff1islYbQs8FlwudBw/yfHCSNzisQnzQxSLbAsdYFkjMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711533378; c=relaxed/simple;
-	bh=oZRj03f71Z6Mzs3OczjzQ0sW5FiStEjx1m5pPidYIQk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TMEnQ/sTFkQDm8HBuvrg6mZQ0Of7Td36aZ6DrEoMnPSeygkMOqbumSJMyV85Ebo4GKSEzIkjCAw7C90wkawQDWt5QE8aIGJhq/soYxIWYd0LbfUwnbCzkNlib9WlMPU/XD+bffgqbdD8fBycl+mK1d87K4GJf31MitvezIrF2hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holoscopio.com; spf=pass smtp.mailfrom=holoscopio.com; dkim=pass (2048-bit key) header.d=holoscopio.com header.i=@holoscopio.com header.b=I7W44Pc+; arc=none smtp.client-ip=195.201.110.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holoscopio.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holoscopio.com
-Received: from siri.cascardo.eti.br (unknown [IPv6:2804:431:e7c4:d08f:6a17:29ff:fe00:4f38])
-	by grilo.cascardo.info (Postfix) with ESMTPSA id 22F3E206F1A;
-	Wed, 27 Mar 2024 06:48:09 -0300 (-03)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=holoscopio.com;
-	s=mail; t=1711532892;
-	bh=oZRj03f71Z6Mzs3OczjzQ0sW5FiStEjx1m5pPidYIQk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=I7W44Pc+qYTAd1YSNmEfPHrZvFEzsjJgtVRtDUKvyrJBZjhs71t595lKUm+6bHrxB
-	 U2RCPrm9JEp2wGl/Dw6y9rEt7DgsbkE1zxPfiBPxG7G2dsx4D/nnBDP2rWHFnr+lxg
-	 sNrtv/aeSdqNN3t+d6dpc8SpXxBPm7nkpehz6URLeyGXq7FxXofAxd3BmtEDL8SeM8
-	 H4ExMJviG/MIge/gu/xAUcUgWqO/VuzLitivTi0CJkfZlCjGoulAcveX8zKC252TMQ
-	 NyNFY1bOf7ZKWow2k9jLLa1+VI5jgu/3HysbGbjihXLLVvXGujBM74z2msdhoXeBkF
-	 jRoY6f7ma2BAw==
-Date: Wed, 27 Mar 2024 06:48:03 -0300
-From: Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] platform/x86: MAINTAINERS: drop Daniel Oliveira
- Nascimento
-Message-ID: <ZgPrU0EZbaMwy5y9@siri.cascardo.eti.br>
-References: <20240327081434.306106-1-krzysztof.kozlowski@linaro.org>
+	s=arc-20240116; t=1711533473; c=relaxed/simple;
+	bh=Vt01RMSIBKZ521OD+/raPSA+G1P+EsUMOVWM0ds+7Bw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=YMksogNpy51C9/u4BGvHxZRs0Q+vlF0hw6rAk9WvKFtWAydFU9ubiZ7FvP0Pagpejnzt2CO2dKS8XhO4NYIC/nlkyIlAjBbrBmG46W8hm6NqyCBZKVw0jhTRkiDXVvmvqF9GVGTTPk9QtV5pPeEihUyhSSWAh0Lbt0p0LmeOF0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=OKRlRFdf; arc=none smtp.client-ip=115.124.30.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1711533463; h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
+	bh=+jwn1CT7zNZoh3SNKYQ4fGkb0KdZ0cZLNqkBdEmkfNY=;
+	b=OKRlRFdfpi2tzJT9kRGtidiD9vvh5k2JGCGBtpHEjH1MfqLNAlKcaMypXJAZQDilbr+2TNC0jNX5HXSTfnCQHzTBZegjGD6UO2IWG9/TP+CG87yhmWBO56BtbcV1TVPnpFaWglg0nQY/knQcYZDgICkVZARShs99TnV5f+K8GKo=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R831e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=xuanzhuo@linux.alibaba.com;NM=1;PH=DS;RN=26;SR=0;TI=SMTPD_---0W3OOYg9_1711533461;
+Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com fp:SMTPD_---0W3OOYg9_1711533461)
+          by smtp.aliyun-inc.com;
+          Wed, 27 Mar 2024 17:57:42 +0800
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+To: virtualization@lists.linux.dev
+Cc: Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Vadim Pasternak <vadimp@nvidia.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Cornelia Huck <cohuck@redhat.com>,
+	Halil Pasic <pasic@linux.ibm.com>,
+	Eric Farman <farman@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	David Hildenbrand <david@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	linux-um@lists.infradead.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	kvm@vger.kernel.org
+Subject: [PATCH vhost v6 0/6] refactor the params of find_vqs()
+Date: Wed, 27 Mar 2024 17:57:35 +0800
+Message-Id: <20240327095741.88135-1-xuanzhuo@linux.alibaba.com>
+X-Mailer: git-send-email 2.32.0.3.g01195cf9f
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240327081434.306106-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+X-Git-Hash: f3c3b67ebbb4
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 27, 2024 at 09:14:34AM +0100, Krzysztof Kozlowski wrote:
-> Emails to Daniel Oliveira Nascimento bounce:
-> 
->   "550 5.1.1 The email account that you tried to reach does not exist."
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+This pathset is splited from the
 
-Acked-by: Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>
+     http://lore.kernel.org/all/20240229072044.77388-1-xuanzhuo@linux.alibaba.com
 
-> ---
->  MAINTAINERS | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 51d5a64a5a36..de17c0950d83 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5207,7 +5207,6 @@ F:	lib/closure.c
->  
->  CMPC ACPI DRIVER
->  M:	Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>
-> -M:	Daniel Oliveira Nascimento <don@syst.com.br>
->  L:	platform-driver-x86@vger.kernel.org
->  S:	Supported
->  F:	drivers/platform/x86/classmate-laptop.c
-> -- 
-> 2.34.1
-> 
+That may needs some cycles to discuss. But that notifies too many people.
+
+But just the four commits need to notify so many people.
+And four commits are independent. So I split that patch set,
+let us review these first.
+
+The patch set try to  refactor the params of find_vqs().
+Then we can just change the structure, when introducing new
+features.
+
+Thanks.
+
+v6:
+  1. virtio_balloon: a single variable for both purposes.
+  2. if names[i] is null, return error
+
+v5:
+  1. virtio_balloon: follow David Hildenbrand's suggest
+    http://lore.kernel.org/all/3620be9c-e288-4ff2-a7be-1fcf806e6e6e@redhat.com
+  2. fix bug of the reference of "cfg_idx"
+    http://lore.kernel.org/all/202403222227.Sdp23Lcb-lkp@intel.com
+
+v4:
+  1. remove support for names array entries being null
+  2. remove cfg_idx from virtio_vq_config
+
+v3:
+  1. fix the bug: "assignment of read-only location '*cfg.names'"
+
+v2:
+  1. add kerneldoc for "struct vq_transport_config" @ilpo.jarvinen
+
+v1:
+  1. fix some comments from ilpo.jarvinen@linux.intel.com
+
+
+
+
+
+
+Xuan Zhuo (6):
+  virtio_balloon: remove the dependence where names[] is null
+  virtio: remove support for names array entries being null.
+  virtio: find_vqs: pass struct instead of multi parameters
+  virtio: vring_create_virtqueue: pass struct instead of multi
+    parameters
+  virtio: vring_new_virtqueue(): pass struct instead of multi parameters
+  virtio_ring: simplify the parameters of the funcs related to
+    vring_create/new_virtqueue()
+
+ arch/um/drivers/virtio_uml.c             |  36 +++--
+ drivers/platform/mellanox/mlxbf-tmfifo.c |  23 +--
+ drivers/remoteproc/remoteproc_virtio.c   |  37 +++--
+ drivers/s390/virtio/virtio_ccw.c         |  38 ++---
+ drivers/virtio/virtio_balloon.c          |  48 +++----
+ drivers/virtio/virtio_mmio.c             |  36 +++--
+ drivers/virtio/virtio_pci_common.c       |  69 ++++-----
+ drivers/virtio/virtio_pci_common.h       |   9 +-
+ drivers/virtio/virtio_pci_legacy.c       |  16 ++-
+ drivers/virtio/virtio_pci_modern.c       |  37 +++--
+ drivers/virtio/virtio_ring.c             | 173 ++++++++---------------
+ drivers/virtio/virtio_vdpa.c             |  51 ++++---
+ include/linux/virtio_config.h            |  76 +++++++---
+ include/linux/virtio_ring.h              |  93 +++++++-----
+ tools/virtio/virtio_test.c               |   4 +-
+ tools/virtio/vringh_test.c               |  28 ++--
+ 16 files changed, 382 insertions(+), 392 deletions(-)
+
+--
+2.32.0.3.g01195cf9f
+
 
