@@ -1,208 +1,328 @@
-Return-Path: <platform-driver-x86+bounces-2437-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-2438-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32ECE893145
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 31 Mar 2024 12:51:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0D70893410
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 31 Mar 2024 18:55:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DD185282235
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 31 Mar 2024 10:51:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C4A1D1C2348C
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 31 Mar 2024 16:55:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85A72143C61;
-	Sun, 31 Mar 2024 10:51:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 594A7158A2E;
+	Sun, 31 Mar 2024 16:40:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cpp-in.20230601.gappssmtp.com header.i=@cpp-in.20230601.gappssmtp.com header.b="aBNd2L+h"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ru3QkUkt"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from a.mx.secunet.com (a.mx.secunet.com [62.96.220.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6E7143C74
-	for <platform-driver-x86@vger.kernel.org>; Sun, 31 Mar 2024 10:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711882298; cv=none; b=P1IICCvx9ca2lF3ATz4e6Hf+mqOvjhM+08RtH+NstJYLmcI3dROExZAUW34YmhLxKMbAmFb1AKgrXZ9uY+pDHbtRkMETWEJozQZpvrrBEKCF7i0miS1kUKECwdQ/Eb0R/5guiwM+XxOg2zS9K1lZKGcwOmgZG2MWvjMGb9f5+8A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711882298; c=relaxed/simple;
-	bh=pcdIiEhM2l/zdXKf8Ui9dBMz5cNT2DJKO3WWCjp2iwA=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:In-Reply-To:
-	 Content-Type; b=Qu2DcTW31vtK1Q210Tg1F3B2BonOUShWI+Hihwfakk5I57g/xHpT8s9luzVrg85WGu5FxdwtuBoXxGDLmCGA2HuQ5AOF6DGfhTwO3GNPGEy4zQcrdGevgc3x/Lvgj+E4ubcq8iUMm/lJt6WoQuWYcHi2h1r/LTA41x/91d/hrNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cpp.in; spf=none smtp.mailfrom=cpp.in; dkim=pass (2048-bit key) header.d=cpp-in.20230601.gappssmtp.com header.i=@cpp-in.20230601.gappssmtp.com header.b=aBNd2L+h; arc=none smtp.client-ip=209.85.215.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cpp.in
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cpp.in
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-5d81b08d6f2so2491637a12.0
-        for <platform-driver-x86@vger.kernel.org>; Sun, 31 Mar 2024 03:51:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D53146A92;
+	Sun, 31 Mar 2024 16:40:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=62.96.220.36
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711903254; cv=pass; b=fkwRtvq+6mkel5qfKAbUFZnYLOI6oP4vqZpshXxEwDWEuKQz0bRxwCKOzoNZGMJQtohhOUROQ5sElHgWphMSFBlPa4wjAC+9NQZFOayfNpOWHaEUXEullos+N87KL/6q3TM1o0b0jyIfynCNF0+dCyhwAli4GkX7RlQRGkR5xGw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711903254; c=relaxed/simple;
+	bh=jaZYbjys81pMsn0Wpbu1r14QuC0gHXmfLKIH1QJCNaM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=O4oqbJyroO1U1bu1oJ1CTjxcaNdltg47+CS2P6baSkXOokHaIFf7c57FNwt0w7cDlL8Mz6rrbJxLNypN9FOTXOOYj8REtUscs9q1Ijp5wbwPyUIfOgnD1lA20oRPHeK5TT2sFskzxSo8qWcWqjba0/vJAhHczUXGCk4G3fqHYFs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ru3QkUkt; arc=none smtp.client-ip=209.85.128.51; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; arc=pass smtp.client-ip=62.96.220.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
+Received: from localhost (localhost [127.0.0.1])
+	by a.mx.secunet.com (Postfix) with ESMTP id D1095208C2;
+	Sun, 31 Mar 2024 18:40:50 +0200 (CEST)
+X-Virus-Scanned: by secunet
+Received: from a.mx.secunet.com ([127.0.0.1])
+	by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lgHE1uuu_6Xm; Sun, 31 Mar 2024 18:40:50 +0200 (CEST)
+Received: from mailout2.secunet.com (mailout2.secunet.com [62.96.220.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by a.mx.secunet.com (Postfix) with ESMTPS id 1B75A207D5;
+	Sun, 31 Mar 2024 18:40:50 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com 1B75A207D5
+Received: from cas-essen-01.secunet.de (unknown [10.53.40.201])
+	by mailout2.secunet.com (Postfix) with ESMTP id 0F26880005E;
+	Sun, 31 Mar 2024 18:40:50 +0200 (CEST)
+Received: from mbx-essen-01.secunet.de (10.53.40.197) by
+ cas-essen-01.secunet.de (10.53.40.201) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sun, 31 Mar 2024 18:40:49 +0200
+Received: from Pickup by mbx-essen-01.secunet.de with Microsoft SMTP Server id
+ 15.1.2507.17; Sun, 31 Mar 2024 16:37:03 +0000
+X-sender: <linux-kernel+bounces-125694-steffen.klassert=secunet.com@vger.kernel.org>
+X-Receiver: <steffen.klassert@secunet.com> ORCPT=rfc822;steffen.klassert@secunet.com
+X-CreatedBy: MSExchange15
+X-HeloDomain: mbx-essen-01.secunet.de
+X-ExtendedProps: BQBjAAoAKIumlidQ3AgFADcAAgAADwA8AAAATWljcm9zb2Z0LkV4Y2hhbmdlLlRyYW5zcG9ydC5NYWlsUmVjaXBpZW50Lk9yZ2FuaXphdGlvblNjb3BlEQAAAAAAAAAAAAAAAAAAAAAADwA/AAAATWljcm9zb2Z0LkV4Y2hhbmdlLlRyYW5zcG9ydC5EaXJlY3RvcnlEYXRhLk1haWxEZWxpdmVyeVByaW9yaXR5DwADAAAATG93
+X-Source: SMTP:Default MBX-ESSEN-02
+X-SourceIPAddress: 10.53.40.197
+X-EndOfInjectedXHeaders: 15416
+X-Virus-Scanned: by secunet
+Received-SPF: Pass (sender SPF authorized) identity=mailfrom; client-ip=139.178.88.99; helo=sv.mirrors.kernel.org; envelope-from=linux-kernel+bounces-125694-steffen.klassert=secunet.com@vger.kernel.org; receiver=steffen.klassert@secunet.com 
+DKIM-Filter: OpenDKIM Filter v2.11.0 b.mx.secunet.com 029EE2025D
+Authentication-Results: b.mx.secunet.com;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ru3QkUkt"
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+ARC-Seal: i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711797880; cv=none; b=ZIXGcYhCXLMVWHJo3W2W2yb1Rxp9+tJgQBNkeJCkBipOpuverpier3uHKWtL6mwV8kLHwJcgKrlY6ILy6fy4eLzYLoCBaX68UYPXXpFWlJ4xxEYqMyo8NvYoHCrIZZKCjtpw66IinREO/dcliUUxmgBHQW7TtMT0Qe4uVnXTYmk=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711797880; c=relaxed/simple;
+	bh=jaZYbjys81pMsn0Wpbu1r14QuC0gHXmfLKIH1QJCNaM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=d697TUB1TwKnQ9ixMma64QWb+lag67Vsv1F3HVvr3yA8RGMQCJSYttya8m59KnFZn8NlbK3CKEwkrTnJ9YMbC15X/Kyr/MIp26HbKG8hwN7YpDZEbyTjiIgCfglVndggN0ERsDvVlSn6co2aTSqeWrukOJFM+WekG57kL7mb+7Y=
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ru3QkUkt; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cpp-in.20230601.gappssmtp.com; s=20230601; t=1711882294; x=1712487094; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:cc:to
-         :subject:from:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JiyEjUctzgw3d5cbSMfpqrqZz263bg9AlN7/QV97RU8=;
-        b=aBNd2L+hxc81bM21Uuez4jAwYVhyEEzN3xKS7QvFuFW4PI2WG/FxYGyOYqHxNsMKCB
-         jQ9UtS+1P4SsPfvuk/t4r1ic1ZBG1pmMlez99z1keJ2q974Zz7OJqCcbzrdg05MZ0KGW
-         z23AgaOwVKeiEV/Xyilcfmt37fWzoKdl6Cq+v7qmjd7E1M9ox4Y3qUuRfonKeA9or6wS
-         7mIn1z03Jn+JD+tiOHWrYk+w1aYwTF0dsS/GeCIOt0xCytsbpqEJ+X9oizkuf81r/N03
-         gxNF0zpGtRCFhs3uLpThM3vcDAaDgFINvtshtiVGerG279tm5nyA1/Q1Vo8ZF2TGWMCD
-         UvBA==
+        d=gmail.com; s=20230601; t=1711797877; x=1712402677; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FQXwuJoLJSBrzkd58wtTek0mHwm7fvJx/Uhfmo/YVjY=;
+        b=Ru3QkUktTmx7gXoXCXf76xXePRTYZWhqg+IePz7xDvkhv9ITm0W9Eekox1J/LOeuUf
+         hLjm5uCaJgdHN2YLqNQIdJPrgZzYUiRv5T+2EYlVjHBxuYDnfWchjnGN280YW13Ibam6
+         wqSVwzuTydliK6Kb2v2AZuH/LyFhZ+L5Nm8AWqITORbyZPa/m84Oes1Z7slBFw5LKPNn
+         aoVFg6QgIhHcb/EVufI8LtV3MAJUkVOwnScll51LIsatniyde/ZmEgtPEVC7O+uixBgG
+         GslgpBU78vNNHpXO3Jb/hDu8nqDRXy42wcR0AS70N54STccTIHbQpat36Hc2AohClBvL
+         3irA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711882294; x=1712487094;
-        h=content-transfer-encoding:in-reply-to:content-language:cc:to
-         :subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JiyEjUctzgw3d5cbSMfpqrqZz263bg9AlN7/QV97RU8=;
-        b=TXBh2iuUDvhJuIAkmMo6uofyQG8Y5oGhf7LPNw3w9CKZAHTGLq6wKKk/pFGCG56zeK
-         AT/+R3t1L2TNiBQNDpmEYkX5/247hPD2skkaGHmuaiZG2Bs6BvXPxT+sGimTe27XOasE
-         ockwNo6JN3EcXqQ1cHPCgEoFcTVmramok1etlQSgVwRF4VnG1PcSyhsMXa8N9Ch4yn7h
-         LZ3rnOIZ4BQU3BSOOLNeyCiU8buKqxDsrMoB/kFG+SuatFW9r8xkorznZSBfQb8aULRh
-         fkOcAFSajd6P22BzPwGK6vXaRGlh8K+RcwEIK/2hNOgg4HUsAZQxSK3j/O/CO0H+bXRH
-         ntXw==
-X-Forwarded-Encrypted: i=1; AJvYcCW1MA7WTOSnvCoOedYxH3AuxQhkYq0HVegTBcdb7RUPYNs6uqs0+JV7CS0vqMp+6cjJbvqQObGi9pFG359TfOiHEpr2iQYkot5ovZY76Gzlq06voA==
-X-Gm-Message-State: AOJu0YyuojB8APE85s7IGrQ/aL77Ub31Gp7mxJ8jaJwV+xPVtxd+sKPz
-	/8hTJrsUqkq+yj1hivDKL9IESzBkow005mgtJNdPkdIDkT/6S2hEot4y42/zQg==
-X-Google-Smtp-Source: AGHT+IGbCXPjBovSTHKR9172xf/YfQYGs9t0Y+nud/nfFHTvv80yMaWcmcBoZV1xkyeTwbzmrc7sPQ==
-X-Received: by 2002:a17:903:228e:b0:1e0:b687:c5d1 with SMTP id b14-20020a170903228e00b001e0b687c5d1mr8767015plh.64.1711882294570;
-        Sun, 31 Mar 2024 03:51:34 -0700 (PDT)
-Received: from [192.168.3.23] (mx-ll-180.183.76-49.dynamic.3bb.co.th. [180.183.76.49])
-        by smtp.gmail.com with ESMTPSA id s7-20020a170902ea0700b001e0a7e617d9sm6642277plg.82.2024.03.31.03.51.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 31 Mar 2024 03:51:34 -0700 (PDT)
-Message-ID: <bde342c6-be23-4afa-978f-9503e3c11223@cpp.in>
-Date: Sun, 31 Mar 2024 13:51:28 +0300
+        d=1e100.net; s=20230601; t=1711797877; x=1712402677;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FQXwuJoLJSBrzkd58wtTek0mHwm7fvJx/Uhfmo/YVjY=;
+        b=e6EVPioYZuvUoCX9jL99XFLtdPYghIl4/wcCUlPiA1pHzN7BOQAOv2phMDt4lg+hic
+         3q/nFHrtori28NF/EiteViz//yu+v6f4zcq6zYHuzlWN1jX4UApOduf6Yy0psPON5suA
+         IT0T/x7eMecroBRyaRaOWU16Un+iYW4BaHqfg7RQDUyvfMFYhNlb/XZ3efs3u4Sklw9l
+         8HnFu12xoUekxHBPbde27/PiAvFw9ap6rcGKTDgSqo1cJlSSk5jnQ5rnvjrn2UCSa4zd
+         RA5Yas6WF2N/j6wrhGh6JLR4jAHfnd+g9z4Rv+TZu/V+svabyPc95pOptCgrpAZnBawy
+         iRSA==
+X-Forwarded-Encrypted: i=1; AJvYcCWNNUtvLBKPFewzC3wiHTBFLxNbowTykB9/ozh5fj6qji8zcSWfx8S3xh487Ge/BjPpv4LVggVpAR5F5dPRdw+HH2Xp0TTpEADkBy1CFh3MRsguFuZk0Vsz2w7ypFc8zqckEnK/57lRLoTGkcoM0QV3yi3W7ENLwkbUGr0aiex3F9HIv5f2bifgXsu3b29p
+X-Gm-Message-State: AOJu0YzgN2qO2nHtOhhwS2AZXIeBLCDrbBqsDK9mFbxyPaiP8vJelYPS
+	EZb/BCXkGkokla7R2LL/+yK5QfOwaJB86vBVI3MI4xo+v2MLFn06FKkpt3fW
+X-Google-Smtp-Source: AGHT+IEwYiu779mvlq62aGrWVMA5xFbAJKfIzkmTk7OyUTyJmbNJZ4C8TVIbIsBD5UHFy8EVBL039A==
+X-Received: by 2002:a7b:c843:0:b0:413:e81a:55c0 with SMTP id c3-20020a7bc843000000b00413e81a55c0mr3943297wml.41.1711797876908;
+        Sat, 30 Mar 2024 04:24:36 -0700 (PDT)
+From: Maximilian Luz <luzmaximilian@gmail.com>
+To: Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>
+Cc: Ivor Wanders <ivor@iwanders.net>,
+	linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	Maximilian Luz <luzmaximilian@gmail.com>
+Subject: [PATCH 2/3] hwmon: surface_temp: Add support for sensor names
+Date: Sat, 30 Mar 2024 12:24:01 +0100
+Message-ID: <20240330112409.3402943-3-luzmaximilian@gmail.com>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240330112409.3402943-1-luzmaximilian@gmail.com>
+References: <20240330112409.3402943-1-luzmaximilian@gmail.com>
+Precedence: bulk
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Anthony I Gilea <i@cpp.in>
-Subject: Re: [PATCH] platform/x86: int3472: Add handshake GPIO function
-To: hdegoede@redhat.com
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- bingbu.cao@intel.com, dan.scally@ideasonboard.com, djrscally@gmail.com,
- hao.yao@intel.com, linux-media@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, sakari.ailus@intel.com
-Content-Language: en-US
-In-Reply-To: <186830d2-dd18-7948-b2c5-bcda934ad3e8@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
+
+From: Ivor Wanders <ivor@iwanders.net>
+
+The thermal subsystem of the Surface Aggregator Module allows us to
+query the names of the respective thermal sensors. Forward those to
+userspace.
+
+Signed-off-by: Ivor Wanders <ivor@iwanders.net>
+Co-developed-by: Maximilian Luz <luzmaximilian@gmail.com>
+Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
+---
+ drivers/hwmon/surface_temp.c | 112 +++++++++++++++++++++++++++++------
+ 1 file changed, 95 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/hwmon/surface_temp.c b/drivers/hwmon/surface_temp.c
+index 48c3e826713f6..7a2e1f638336c 100644
+--- a/drivers/hwmon/surface_temp.c
++++ b/drivers/hwmon/surface_temp.c
+@@ -17,6 +17,27 @@
+ 
+ /* -- SAM interface. -------------------------------------------------------- */
+ 
++/*
++ * Available sensors are indicated by a 16-bit bitfield, where a 1 marks the
++ * presence of a sensor. So we have at most 16 possible sensors/channels.
++ */
++#define SSAM_TMP_SENSOR_MAX_COUNT 16
++
++/*
++ * All names observed so far are 6 characters long, but there's only
++ * zeros after the name, so perhaps they can be longer. This number reflects
++ * the maximum zero-padded space observed in the returned buffer.
++ */
++#define SSAM_TMP_SENSOR_NAME_LENGTH 18
++
++struct ssam_tmp_get_name_rsp {
++	__le16 unknown1;
++	char unknown2;
++	char name[SSAM_TMP_SENSOR_NAME_LENGTH];
++} __packed;
++
++static_assert(sizeof(struct ssam_tmp_get_name_rsp) == 21);
++
+ SSAM_DEFINE_SYNC_REQUEST_CL_R(__ssam_tmp_get_available_sensors, __le16, {
+ 	.target_category = SSAM_SSH_TC_TMP,
+ 	.command_id      = 0x04,
+@@ -27,6 +48,11 @@ SSAM_DEFINE_SYNC_REQUEST_MD_R(__ssam_tmp_get_temperature, __le16, {
+ 	.command_id      = 0x01,
+ });
+ 
++SSAM_DEFINE_SYNC_REQUEST_MD_R(__ssam_tmp_get_name, struct ssam_tmp_get_name_rsp, {
++	.target_category = SSAM_SSH_TC_TMP,
++	.command_id      = 0x0e,
++});
++
+ static int ssam_tmp_get_available_sensors(struct ssam_device *sdev, s16 *sensors)
+ {
+ 	__le16 sensors_le;
+@@ -54,12 +80,37 @@ static int ssam_tmp_get_temperature(struct ssam_device *sdev, u8 iid, long *temp
+ 	return 0;
+ }
+ 
++static int ssam_tmp_get_name(struct ssam_device *sdev, u8 iid, char *buf, size_t buf_len)
++{
++	struct ssam_tmp_get_name_rsp name_rsp;
++	int status;
++
++	status =  __ssam_tmp_get_name(sdev->ctrl, sdev->uid.target, iid, &name_rsp);
++	if (status)
++		return status;
++
++	/*
++	 * This should not fail unless the name in the returned struct is not
++	 * null-terminated or someone changed something in the struct
++	 * definitions above, since our buffer and struct have the same
++	 * capacity by design. So if this fails blow this up with a warning.
++	 * Since the more likely cause is that the returned string isn't
++	 * null-terminated, we might have received garbage (as opposed to just
++	 * an incomplete string), so also fail the function.
++	 */
++	status = strscpy(buf, name_rsp.name, buf_len);
++	WARN_ON(status < 0);
++
++	return status < 0 ? status : 0;
++}
++
+ 
+ /* -- Driver.---------------------------------------------------------------- */
+ 
+ struct ssam_temp {
+ 	struct ssam_device *sdev;
+ 	s16 sensors;
++	char names[SSAM_TMP_SENSOR_MAX_COUNT][SSAM_TMP_SENSOR_NAME_LENGTH];
+ };
+ 
+ static umode_t ssam_temp_hwmon_is_visible(const void *data,
+@@ -83,33 +134,47 @@ static int ssam_temp_hwmon_read(struct device *dev,
+ 	return ssam_tmp_get_temperature(ssam_temp->sdev, channel + 1, value);
+ }
+ 
++static int ssam_temp_hwmon_read_string(struct device *dev,
++				       enum hwmon_sensor_types type,
++				       u32 attr, int channel, const char **str)
++{
++	const struct ssam_temp *ssam_temp = dev_get_drvdata(dev);
++
++	*str = ssam_temp->names[channel];
++	return 0;
++}
++
+ static const struct hwmon_channel_info * const ssam_temp_hwmon_info[] = {
+ 	HWMON_CHANNEL_INFO(chip,
+ 			   HWMON_C_REGISTER_TZ),
+-	/* We have at most 16 thermal sensor channels. */
++	/*
++	 * We have at most SSAM_TMP_SENSOR_MAX_COUNT = 16 thermal sensor
++	 * channels.
++	 */
+ 	HWMON_CHANNEL_INFO(temp,
+-			   HWMON_T_INPUT,
+-			   HWMON_T_INPUT,
+-			   HWMON_T_INPUT,
+-			   HWMON_T_INPUT,
+-			   HWMON_T_INPUT,
+-			   HWMON_T_INPUT,
+-			   HWMON_T_INPUT,
+-			   HWMON_T_INPUT,
+-			   HWMON_T_INPUT,
+-			   HWMON_T_INPUT,
+-			   HWMON_T_INPUT,
+-			   HWMON_T_INPUT,
+-			   HWMON_T_INPUT,
+-			   HWMON_T_INPUT,
+-			   HWMON_T_INPUT,
+-			   HWMON_T_INPUT),
++			   HWMON_T_INPUT | HWMON_T_LABEL,
++			   HWMON_T_INPUT | HWMON_T_LABEL,
++			   HWMON_T_INPUT | HWMON_T_LABEL,
++			   HWMON_T_INPUT | HWMON_T_LABEL,
++			   HWMON_T_INPUT | HWMON_T_LABEL,
++			   HWMON_T_INPUT | HWMON_T_LABEL,
++			   HWMON_T_INPUT | HWMON_T_LABEL,
++			   HWMON_T_INPUT | HWMON_T_LABEL,
++			   HWMON_T_INPUT | HWMON_T_LABEL,
++			   HWMON_T_INPUT | HWMON_T_LABEL,
++			   HWMON_T_INPUT | HWMON_T_LABEL,
++			   HWMON_T_INPUT | HWMON_T_LABEL,
++			   HWMON_T_INPUT | HWMON_T_LABEL,
++			   HWMON_T_INPUT | HWMON_T_LABEL,
++			   HWMON_T_INPUT | HWMON_T_LABEL,
++			   HWMON_T_INPUT | HWMON_T_LABEL),
+ 	NULL
+ };
+ 
+ static const struct hwmon_ops ssam_temp_hwmon_ops = {
+ 	.is_visible = ssam_temp_hwmon_is_visible,
+ 	.read = ssam_temp_hwmon_read,
++	.read_string = ssam_temp_hwmon_read_string,
+ };
+ 
+ static const struct hwmon_chip_info ssam_temp_hwmon_chip_info = {
+@@ -122,6 +187,7 @@ static int ssam_temp_probe(struct ssam_device *sdev)
+ 	struct ssam_temp *ssam_temp;
+ 	struct device *hwmon_dev;
+ 	s16 sensors;
++	int channel;
+ 	int status;
+ 
+ 	status = ssam_tmp_get_available_sensors(sdev, &sensors);
+@@ -135,6 +201,18 @@ static int ssam_temp_probe(struct ssam_device *sdev)
+ 	ssam_temp->sdev = sdev;
+ 	ssam_temp->sensors = sensors;
+ 
++	/* Retrieve the name for each available sensor. */
++	for (channel = 0; channel < SSAM_TMP_SENSOR_MAX_COUNT; channel++) {
++		if (!(sensors & BIT(channel)))
++			continue;
++
++		status = ssam_tmp_get_name(sdev, channel + 1,
++					   ssam_temp->names[channel],
++					   SSAM_TMP_SENSOR_NAME_LENGTH);
++		if (status)
++			return status;
++	}
++
+ 	hwmon_dev = devm_hwmon_device_register_with_info(&sdev->dev,
+ 			"surface_thermal", ssam_temp, &ssam_temp_hwmon_chip_info,
+ 			NULL);
+-- 
+2.44.0
 
 
-Hello,
-
-I'm trying to get camera on HP Spectre x360 14-eu0xxx (2024) laptop to work.
-I was able to make main sensor driver (ov08x40) to play nice with IPU6,
-INT3472 and libcamera-SoftISP and the resulting image quality is absolutely
-usable and even surprisingly good.
-
-This laptop also uses this "MIPI aggregator".
-
-
-> Hi,
-> 
-> On 10/7/23 04:12, Hao Yao wrote:
-> > Handshake pin is used for Lattice MIPI aggregator to enable the
-> > camera sensor. After pulled up, recommend to wail ~250ms to get
-> > everything ready.
-> 
-> If this is a pin on the "Lattice MIPI aggregator" and
-> not on the sensor itself then this really should be
-> modeled as such and should not be registered as a GPIO
-> consumed by the sensor since the actual sensor does not
-> have a handshake pin at all.
-> 
-> Also we really don't want to need to patch all involved
-> sensor drivers to toggle a handshake pin, especially since
-> the sensor itself does not physically have this pin.
-> 
-> Can you explain a bit more:
-> 
-> 1. What the "Lattice MIPI aggregator" is.
-> 2. What its functions are, does this control reset + pwdn
->    GPIOs for the sensor? Voltages to the sensor? Clk
->    to the sensor ?
-
-It acts like MIPI switch as no MIPI data gets from the sensor to IPU6 if
-handshake signal is not asserted. Eventually IPU6 times out with "start stream
-of firmware failed" message. Any further attempts to start streaming lead to
-a panic.
-
-I2C communication is not affected by the handshake signal but it looks like
-reset signal is also going through this "MIPI aggregator" as it takes about
-150ms for the sensor to reliably start responding via I2C after the reset
-is deasserted. It should be about few ms if the reset signal was connected to
-the sensor directly.
-
-> 3. How the aggregator is connected to both the main
->    CPU/SoC as well as how it is connected to the sensor ?
->    Some example diagram would be really helpful here.
-> 
-> Then with this info in hand we can try to come up
-> with a way how to model this.
-> 
-> Assuming this controls the entire power-up sequence
-> for the sensor then I think it could be modelled
-> as a GPIO regulator. This also allows making the
-> regulator core take care of the necessary delay
-> between setting the GPIO and trying to talk to
-> the sensor.
-
-Are there any updates on how this signal should be implemented? For now I'm
-just applying this patch and asserting it from the sensor driver.
-
-Regards
-
-
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> 
-> > 
-> > Signed-off-by: Hao Yao <hao.yao@intel.com>
-> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > ---
-> >  drivers/platform/x86/intel/int3472/common.h   | 1 +
-> >  drivers/platform/x86/intel/int3472/discrete.c | 5 +++++
-> >  2 files changed, 6 insertions(+)
-> > 
-> > diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platform/x86/intel/int3472/common.h
-> > index 655ae3ec0593..3ad4c72afb45 100644
-> > --- a/drivers/platform/x86/intel/int3472/common.h
-> > +++ b/drivers/platform/x86/intel/int3472/common.h
-> > @@ -23,6 +23,7 @@
-> >  #define INT3472_GPIO_TYPE_POWER_ENABLE				0x0b
-> >  #define INT3472_GPIO_TYPE_CLK_ENABLE				0x0c
-> >  #define INT3472_GPIO_TYPE_PRIVACY_LED				0x0d
-> > +#define INT3472_GPIO_TYPE_HANDSHAKE				0x12
-> >  
-> >  #define INT3472_PDEV_MAX_NAME_LEN				23
-> >  #define INT3472_MAX_SENSOR_GPIOS				3
-> > diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
-> > index b644ce65c990..4753161b4080 100644
-> > --- a/drivers/platform/x86/intel/int3472/discrete.c
-> > +++ b/drivers/platform/x86/intel/int3472/discrete.c
-> > @@ -111,6 +111,10 @@ static void int3472_get_func_and_polarity(u8 type, const char **func, u32 *polar
-> >  		*func = "power-enable";
-> >  		*polarity = GPIO_ACTIVE_HIGH;
-> >  		break;
-> > +	case INT3472_GPIO_TYPE_HANDSHAKE:
-> > +		*func = "handshake";
-> > +		*polarity = GPIO_ACTIVE_HIGH;
-> > +		break;
-> >  	default:
-> >  		*func = "unknown";
-> >  		*polarity = GPIO_ACTIVE_HIGH;
-> > @@ -201,6 +205,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
-> >  	switch (type) {
-> >  	case INT3472_GPIO_TYPE_RESET:
-> >  	case INT3472_GPIO_TYPE_POWERDOWN:
-> > +	case INT3472_GPIO_TYPE_HANDSHAKE:
-> >  		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, func, polarity);
-> >  		if (ret)
-> >  			err_msg = "Failed to map GPIO pin to sensor\n";
-> 
 
