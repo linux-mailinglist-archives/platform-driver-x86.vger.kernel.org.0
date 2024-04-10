@@ -1,52 +1,52 @@
-Return-Path: <platform-driver-x86+bounces-2727-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-2728-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1066A89FAB8
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 10 Apr 2024 16:56:48 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F22A589FB68
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 10 Apr 2024 17:23:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A00CE1F311F2
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 10 Apr 2024 14:56:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 16428B253E4
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 10 Apr 2024 15:22:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE45316F0E5;
-	Wed, 10 Apr 2024 14:54:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FD4A16E86E;
+	Wed, 10 Apr 2024 15:22:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IT7wfB42"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ClvPEUkJ"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8973915B0EE
-	for <platform-driver-x86@vger.kernel.org>; Wed, 10 Apr 2024 14:54:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB4616E865
+	for <platform-driver-x86@vger.kernel.org>; Wed, 10 Apr 2024 15:22:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712760862; cv=none; b=jE8FYa4tbXMxwbkgL0mbFguLA+kU+M/KV05ypZVI1am8cMAa8EV4axrA9E2hx86DoNJ7Zd148ETGvI5lAJxGUSOrIxPgo03UykJontfqNlYrSA2RFYt7UHbVhNuFALeePFSXwB9u/4NfLeeT8EX2vKRZrGBagSBz/UyruEz7kag=
+	t=1712762566; cv=none; b=jJv+l89sir/oHBujK4e0Cl3JGShDeB92/z9c9HYfHhG8Y4p9ZzIghXK+iA1XmxuFI4UoRFxCWevq6GbETWLC9zpuaF2hgmUmQ43F6y1Mb5bSE7/cxzczmMmGeNQ4J3ceZohdELK2eeswYYlGE2sXOVCIgAA3cROxz7ylzNu/OlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712760862; c=relaxed/simple;
-	bh=XTzAulhuQK+DAiRSIYEe8yTqKRDi/8ZSbsVHH6M5gm4=;
+	s=arc-20240116; t=1712762566; c=relaxed/simple;
+	bh=i31CRQQ4Rvbnx848SZRMoFAjg3QLNFdQqmvhhw2OKNs=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Ad4af17/xUrVFPvSKIWHIwMiJDkM9NLFRBeNQhobfk2Ojw74kBfRSZMJfMges+4oQP80ip7la/m2glnO4tp0CkmkvvS/9jtjyT+z01jkSq/5t3ZSfdUOJu/0rX8VJRJuO1UHaYkONNzCcSAzdWdyhr8M9J5QOfF5uXAEhsnaCjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IT7wfB42; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2290DC433C7
-	for <platform-driver-x86@vger.kernel.org>; Wed, 10 Apr 2024 14:54:22 +0000 (UTC)
+	 Content-Type:MIME-Version; b=gIjZSVwndy9cJGZQ1mPsGSbbGXiekKU3M1t6/0fQABrXY9skosqboiPchGVsDccON4tg6x4gTNMkefjKqIAnJ9lH0NCNSOD+DixkiH9re+zQcRwjpMaJdgrEAnWP43eJJawd1+e+Ma9CASv5RSRxW/B/mrK8C8/L/b6/YnZqQPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ClvPEUkJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9C883C433F1
+	for <platform-driver-x86@vger.kernel.org>; Wed, 10 Apr 2024 15:22:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712760862;
-	bh=XTzAulhuQK+DAiRSIYEe8yTqKRDi/8ZSbsVHH6M5gm4=;
+	s=k20201202; t=1712762565;
+	bh=i31CRQQ4Rvbnx848SZRMoFAjg3QLNFdQqmvhhw2OKNs=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=IT7wfB42Uz0ID2g1UMAGaerbj+0ji2hJgNZvQdX9pKPREP9qWKfEQtebeZd2xMZVl
-	 hMrzPtMF5NL8S3Cn5R0bKsNunqBmQrvP+nysqisCR/F8GlqkPwUuzY33whPqHxXLhr
-	 fa5TWgBtA/hONIC9XSdlbYe46CjxTkEidBbAB266CR9b5jw6tqGr+cu4E0umdVEw5d
-	 79xvtgC/hAj//hGvZ5DlRFGQBIxk0Ne6sjg82S/+xr1E/lhfk+s7M6IOmf4tbwvClI
-	 +7BrBXEDGCBvY9gapDQTgfJ0OGrkqTG3vjc7905Sqr9ec4PbiODTO/lJ9XsE+ijz2g
-	 aQPTzd8zYQJfA==
+	b=ClvPEUkJRh/a44A1bAp6zwhJwq6W7NDByzHFkk8Dy/J0nuQsufF+xYujf/fQJalaK
+	 DM3KdpD9n78HXS86cD929aopPb1KKi1Jw+NygwibqyFSY+rOiPO41TwCE4V894KfUR
+	 TQNFkzTyON7okAPIa+eppbbQPVHewshMfUfJOa9PzdeIgS8CDoZHVev9b/+TQf+drb
+	 S1bIJsiOobrIB5aTKzuDLG65KRY4Oz6MNiH6EbRhnj/H3nP7KyMo1rhxPdGM7aBeWS
+	 dMQT8HfetNX7zGwi8qTTfLGZOfPa4YD8P7UUcpf7sm51hGdUD0xVqFooZ4+0GX5KXR
+	 N3RxcGvpH+ifg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 0E7A4C4332E; Wed, 10 Apr 2024 14:54:22 +0000 (UTC)
+	id 88D30C4332E; Wed, 10 Apr 2024 15:22:45 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: platform-driver-x86@vger.kernel.org
 Subject: [Bug 218685] asus-nb-wmi fails to load due to conflict with amd-pmf
-Date: Wed, 10 Apr 2024 14:54:21 +0000
+Date: Wed, 10 Apr 2024 15:22:45 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
@@ -62,7 +62,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-218685-215701-jFDonwCGr5@https.bugzilla.kernel.org/>
+Message-ID: <bug-218685-215701-fX0szDaU6K@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-218685-215701@https.bugzilla.kernel.org/>
 References: <bug-218685-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -78,8 +78,8 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218685
 
---- Comment #37 from al0uette@outlook.com ---
-Got it. I'm compiling kernel now
+--- Comment #38 from al0uette@outlook.com ---
+On 6.9.0-rc1 it works perfectly fine now. Thank you Mario and Hans
 
 --=20
 You may reply to this email to add a comment.
