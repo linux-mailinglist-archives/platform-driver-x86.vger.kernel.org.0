@@ -1,187 +1,166 @@
-Return-Path: <platform-driver-x86+bounces-2733-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-2735-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C43D8A0452
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 11 Apr 2024 02:02:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE238A05E5
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 11 Apr 2024 04:35:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5746FB2129B
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 11 Apr 2024 00:02:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 93F0CB21A98
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 11 Apr 2024 02:35:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB24EA20;
-	Thu, 11 Apr 2024 00:02:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E74713B28D;
+	Thu, 11 Apr 2024 02:35:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g2dUieEy"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="jp9OIj++"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5248E63D;
-	Thu, 11 Apr 2024 00:02:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5762238C;
+	Thu, 11 Apr 2024 02:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712793733; cv=none; b=H31xp9vhebqFn37emuIWmwWA3Dw0nlwUBSbZqEoHoJRkxtmU8jnsyk056lO0wH/AZlKu8VVXP9AAlroet4uNRdTZiNWNEbbIJpqfMhfbKh/YQTNhyC4v2r9qCEqVY6hysKmN77PcSZbbd7w1WQk0TJa9Jle5aIgU9u4KP+yh9xI=
+	t=1712802936; cv=none; b=f1qBsvTCXZdpCIyT2vjmFzjGZlm+eBw32DBaF4UKsG4sBJ91n1D2z4udpXrLkfanyuk/LMOo8cQCIL3+YA1K5H2FZhIi5iq3GNXzTR6dz81qClAW770UfJy5kg2xeeEs6mVkkOcHDdJNmkCUWuuRDxdTUFpaFWJP/MP5J7Ptwnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712793733; c=relaxed/simple;
-	bh=OSTd7Qy7f+1f9UZ9ao6IxRPViSiIVpqybSuKe7pfrC8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e1E9nOaqLaPBpOEaXGQSmyUjLJcv5IBGr4J5Jf1sb0ZKZK+DjH6DZfcZylzQapan4t0E1QBsUWtOt9qTnnvYANqgT2jou5B3XxTeBVTg9Wnn+r3duCjhMCaR2bPCYDkHDxYAZrFVVxVeNp+AbgmvUZdMVFtwUX8EqVQbX3pmTlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g2dUieEy; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2a519ac18b3so2723268a91.2;
-        Wed, 10 Apr 2024 17:02:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712793731; x=1713398531; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wfrCZroFultv+MXju5r6SP+mW/5Hc70daHzU+zkVS5Y=;
-        b=g2dUieEyKmmRwjQeLqhovjUrnvb+etJ0UyZ3pJAw94R/+pIFPENRx/mfXe59E3+Kjb
-         rzSKcaSLXBI9noM6FBHNd/JUMus9z2W6xDFw5R2ZC8QpMbn3TEf0OK8ieiQaidVI859L
-         ZUkXAEn9UPm5n6cwqO872VdcSGXakSkuB5Pf+f4iGPk084hj1eT2nomr4uPNwjn1WGYP
-         yoqDEnmiK/eH597QFP2/6W5Ov8hXkvko+by6Jqd9Pq7r/ECjmvWSD9lCAVzzuLSv6/Vx
-         nyOpLfJHs8ZtmvZHC+rbFzrExKIuY5Xn54FYamlwH5+be+f4CTDCZdSUhfgguyyNQ83H
-         HfQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712793731; x=1713398531;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wfrCZroFultv+MXju5r6SP+mW/5Hc70daHzU+zkVS5Y=;
-        b=odvjd/U5v75KVmXhlHf8OU1VmnBV/jIZV/ItWRsQ88P1ei05YVGoWZOgJwQWwIzCLj
-         ONqWGhBuSVRMMdKnzViuie/316coDLfqhL820mOw1cPI7Yp1SCSWtbLI10hEcstHtTTP
-         pGaz5BLYlircK0GYB6k9ApnDl6q+gpPiQIZCeQS+wyVPiSmdBZZTuIaDvQcOnLsXo1Al
-         TU4QfaOa1of52ZFoevg4X9FYmsZ+t+dupv2iaUQeLXHuQRYTwyCM9ZNePP2qZCYWewFl
-         IK94SiYFggDIzqjH0KtUF3n4YqF2+Iod5a1oVSpsWuNasfwn9otoFO9KrcdBjCiHLmfu
-         ciIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUJqB6x0FmN1MT3vgjMvmDK9O8PaXtmc5XlKrdxNwWvzNUwZXU8Z1GHUaf22XeMKFq8oAld/wzMhE+aHVsGxJI5JeWuNh/+gsChGHpepMhjQFGYR66sYpHkYRIlXoNfhmjf/qz1gNJ3rN1Va2QfIdd6Rcjzclcpz9ro73vgPLBAUDcYpL2OMNkJWOfqww/X
-X-Gm-Message-State: AOJu0Yz6DXAeVC2EhJBvUS5TKWlIlan8mmJq6w0i1LkZPnZAL2Rh6Tff
-	QxjhBt0sunQK/wqo7ORrvFKAc0l4iIGhZSaBrN1Jl7ne5X3cL5Nr
-X-Google-Smtp-Source: AGHT+IGigq1nRlAG3wzK4rdyckpZKJucY604QtyMnvFuJC/poZuw8R8R2TYwxexL8XTYjwY++6JkRA==
-X-Received: by 2002:a17:90a:d484:b0:2a5:d0cf:3ef with SMTP id s4-20020a17090ad48400b002a5d0cf03efmr3096746pju.37.1712793731204;
-        Wed, 10 Apr 2024 17:02:11 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:60da:41be:a28d:f612])
-        by smtp.gmail.com with ESMTPSA id h16-20020a17090a051000b002a2e4b593cdsm2079501pjh.51.2024.04.10.17.02.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Apr 2024 17:02:10 -0700 (PDT)
-Date: Wed, 10 Apr 2024 17:02:08 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Mark Pearson <mpearson-lenovo@squebb.ca>
-Cc: Peter Hutterer <peter.hutterer@redhat.com>,
+	s=arc-20240116; t=1712802936; c=relaxed/simple;
+	bh=X/h6jJmg7pdb7oBPTYgjlDbTNF50GDbNhn/fUDDm2TE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Ggasj/vCmqtpa5F6GoRL3iQ4v+O4rnOSmzhATmqNB9x9hFj9tA3dMwaBGfVG7G5e/bd9dt4DNIfZvR1hKwmDn0rDadiblUIb87WVzGfvFtFN/G09ec5qgNo5pQhnORxB075husMEk6201V+bdINjZOBGnbkQOBu1VXwwSfK2qj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=jp9OIj++; arc=none smtp.client-ip=115.124.30.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1712802930; h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
+	bh=4SIkgH9C8lwT74kHhHbMGvxYj1Nu+sbNA2gSlRxGlA4=;
+	b=jp9OIj++XmxPWL74rBIhu4cFTU5opOuTcmrowK2Tcyv+nxY0q+PEX5HngbGDCGHVtyrPFa6xjBZ0LNcK9q5VeIxtNWWYKPWR88YAWm2ofWY/P0AvJTcq3BZF7toHMZe/dvZyKczEbNFYTwvHScL67kOu4eqVUJEcFDePyMLZhT8=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045170;MF=xuanzhuo@linux.alibaba.com;NM=1;PH=DS;RN=26;SR=0;TI=SMTPD_---0W4JW4Gq_1712802928;
+Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com fp:SMTPD_---0W4JW4Gq_1712802928)
+          by smtp.aliyun-inc.com;
+          Thu, 11 Apr 2024 10:35:29 +0800
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+To: virtualization@lists.linux.dev
+Cc: Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
 	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-	ibm-acpi-devel@lists.sourceforge.net,
-	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Nitin Joshi1 <njoshi1@lenovo.com>,
-	Vishnu Sankar <vsankar@lenovo.com>
-Subject: Re: [PATCH 1/4] Input: Add trackpoint doubletap and system debug
- info keycodes
-Message-ID: <ZhcogDESvZmUPEEf@google.com>
-References: <mpearson-lenovo@squebb.ca>
- <20240324210817.192033-1-mpearson-lenovo@squebb.ca>
- <20240324210817.192033-2-mpearson-lenovo@squebb.ca>
- <ZhR-WPx7dgKxziMb@google.com>
- <f3342c0b-fb31-4323-aede-7fb02192cf44@redhat.com>
- <ZhW3Wbn4YSGFBgfS@google.com>
- <ZhXpZe1Gm5e4xP6r@google.com>
- <92ee5cb2-565e-413c-b968-81393a9211c4@app.fastmail.com>
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Vadim Pasternak <vadimp@nvidia.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Cornelia Huck <cohuck@redhat.com>,
+	Halil Pasic <pasic@linux.ibm.com>,
+	Eric Farman <farman@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	David Hildenbrand <david@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	linux-um@lists.infradead.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	kvm@vger.kernel.org
+Subject: [PATCH vhost v8 0/6] refactor the params of find_vqs()
+Date: Thu, 11 Apr 2024 10:35:22 +0800
+Message-Id: <20240411023528.10914-1-xuanzhuo@linux.alibaba.com>
+X-Mailer: git-send-email 2.32.0.3.g01195cf9f
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <92ee5cb2-565e-413c-b968-81393a9211c4@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+X-Git-Hash: d277a0b9519b
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 09, 2024 at 10:17:05PM -0400, Mark Pearson wrote:
-> Hi Dmitry
-> 
-> On Tue, Apr 9, 2024, at 9:20 PM, Dmitry Torokhov wrote:
-> > On Tue, Apr 09, 2024 at 02:47:05PM -0700, Dmitry Torokhov wrote:
-> >> On Tue, Apr 09, 2024 at 03:23:52PM +1000, Peter Hutterer wrote:
-> >> > On 09/04/2024 09:31, Dmitry Torokhov wrote:
-> >> > > Hi Mark,
-> >> > > 
-> >> > > On Sun, Mar 24, 2024 at 05:07:58PM -0400, Mark Pearson wrote:
-> >> > > > Add support for new input events on Lenovo laptops that need exporting to
-> >> > > > user space.
-> >> > > > 
-> >> > > > Lenovo trackpoints are adding the ability to generate a doubletap event.
-> >> > > > Add a new keycode to allow this to be used by userspace.
-> >> > > 
-> >> > > What is the intended meaning of this keycode? How does it differ from
-> >> > > the driver sending BTN_LEFT press/release twice?
-> >> > > > 
-> >> > > > Lenovo support is using FN+N with Windows to collect needed details for
-> >> > > > support cases. Add a keycode so that we'll be able to provide similar
-> >> > > > support on Linux.
-> >> > > 
-> >> > > Is there a userspace consumer for this?
-> >> > 
-> >> > Funnily enough XKB has had a keysym for this for decades but it's not
-> >> > hooked up anywhere due to the way it's pointer keys accessibility
-> >> > feature was implemented. Theory is that most of userspace just needs
-> >> > to patch the various pieces together for the new evdev code + keysym,
-> >> > it's not really any different to handling a volume key (except this
-> >> > one needs to be assignable).
-> >> 
-> >> What is the keysym? If we can make them relatable to each other that
-> >> would be good. Or maybe we could find a matching usage from HID usage
-> >> tables...
-> >
-> > I was looking through the existing codes and I see:
-> >
-> > #define KEY_INFO		0x166	/* AL OEM Features/Tips/Tutorial */
-> >
-> > We also have KEY_VENDOR used in a few drivers/plafrom/x86, including
-> > thinkkpad_acpi.c and I wonder if it would be suitable for this vendor
-> > specific debug info collection application (which I honestly doubt will
-> > materialize).
-> >
-> 
-> That's a somewhat disappointing note on your doubts, is that based on
-> anything? Just wondering what we've done to deserve that criticism.
+This pathset is splited from the
 
-Sorry, this was not meant as a criticism really, but you mentioned
-yourself that there isn't anything in the works yet, you just have some
-plans.
+     http://lore.kernel.org/all/20240229072044.77388-1-xuanzhuo@linux.alibaba.com
 
-For such a project to succeed Lenovo needs to invest into selling
-devices with Linux as a primary operating system, and it has to be
-consumer segment (or small business, because for corporate they
-typically roll their own support channels). The case of retrofitting
-Linux onto a that device originally came with Windows OS rarely gets
-much if any response from the normal support channels.
+That may needs some cycles to discuss. But that notifies too many people.
 
-Is this something that is actually happening?
+But just the four commits need to notify so many people.
+And four commits are independent. So I split that patch set,
+let us review these first.
 
-> 
-> That aside, I guess KEY_INFO or KEY_VENDOR could be a good fit (I
-> personally don't think KEY_CONFIG matches well), but I would be
-> worried about clashing with existing functionality.
-> 
-> Peter - do you have any opinion from the user space side of things, or
-> are these likely unused? KEY_VENDOR seems the safer bet to me (but I
-> don't love it).
-> 
-> Dmitry - What are the downsides or concerns of introducing a new code?
-> I'd like to evaluate that against the potential to cause conflicts by
-> re-using existing codes. If you feel strongly about it then I'll defer
-> to your judgement, but I'd like to understand better the context.
-
-The keycode space is finite and extending bitmaps leads to more memory
-consumption and weird breakages (like uevent generation exceeding 4K
-memory page resulting in failures). I am trying to balance need for new
-keycodes with how likely they are to be used.
+The patch set try to  refactor the params of find_vqs().
+Then we can just change the structure, when introducing new
+features.
 
 Thanks.
 
--- 
-Dmitry
+v8:
+  1. rebase the vhost branch
+
+v7:
+  1. fix two bugs. @Jason
+
+v6:
+  1. virtio_balloon: a single variable for both purposes.
+  2. if names[i] is null, return error
+
+v5:
+  1. virtio_balloon: follow David Hildenbrand's suggest
+    http://lore.kernel.org/all/3620be9c-e288-4ff2-a7be-1fcf806e6e6e@redhat.com
+  2. fix bug of the reference of "cfg_idx"
+    http://lore.kernel.org/all/202403222227.Sdp23Lcb-lkp@intel.com
+
+v4:
+  1. remove support for names array entries being null
+  2. remove cfg_idx from virtio_vq_config
+
+v3:
+  1. fix the bug: "assignment of read-only location '*cfg.names'"
+
+v2:
+  1. add kerneldoc for "struct vq_transport_config" @ilpo.jarvinen
+
+v1:
+  1. fix some comments from ilpo.jarvinen@linux.intel.com
+
+
+
+
+
+
+
+
+Xuan Zhuo (6):
+  virtio_balloon: remove the dependence where names[] is null
+  virtio: remove support for names array entries being null.
+  virtio: find_vqs: pass struct instead of multi parameters
+  virtio: vring_create_virtqueue: pass struct instead of multi
+    parameters
+  virtio: vring_new_virtqueue(): pass struct instead of multi parameters
+  virtio_ring: simplify the parameters of the funcs related to
+    vring_create/new_virtqueue()
+
+ arch/um/drivers/virtio_uml.c             |  36 +++--
+ drivers/platform/mellanox/mlxbf-tmfifo.c |  23 +--
+ drivers/remoteproc/remoteproc_virtio.c   |  37 +++--
+ drivers/s390/virtio/virtio_ccw.c         |  38 ++---
+ drivers/virtio/virtio_balloon.c          |  48 +++----
+ drivers/virtio/virtio_mmio.c             |  36 +++--
+ drivers/virtio/virtio_pci_common.c       |  69 ++++-----
+ drivers/virtio/virtio_pci_common.h       |   9 +-
+ drivers/virtio/virtio_pci_legacy.c       |  16 ++-
+ drivers/virtio/virtio_pci_modern.c       |  37 +++--
+ drivers/virtio/virtio_ring.c             | 173 ++++++++---------------
+ drivers/virtio/virtio_vdpa.c             |  51 ++++---
+ include/linux/virtio_config.h            |  76 +++++++---
+ include/linux/virtio_ring.h              |  93 +++++++-----
+ tools/virtio/virtio_test.c               |   4 +-
+ tools/virtio/vringh_test.c               |  28 ++--
+ 16 files changed, 382 insertions(+), 392 deletions(-)
+
+--
+2.32.0.3.g01195cf9f
+
 
