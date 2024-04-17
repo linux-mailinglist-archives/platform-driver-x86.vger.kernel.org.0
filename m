@@ -1,221 +1,142 @@
-Return-Path: <platform-driver-x86+bounces-2867-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-2869-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3024D8A7D0E
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 17 Apr 2024 09:31:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D09428A7E20
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 17 Apr 2024 10:23:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B19261F22229
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 17 Apr 2024 07:31:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 062C91C21972
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 17 Apr 2024 08:23:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 355F96FE07;
-	Wed, 17 Apr 2024 07:30:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 357227D3F0;
+	Wed, 17 Apr 2024 08:23:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="slKsXDks"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cl0dXFi7"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2046.outbound.protection.outlook.com [40.107.244.46])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75BCB6F060;
-	Wed, 17 Apr 2024 07:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713339054; cv=fail; b=S72H+pSES/aA0T5nYOIO13u1iukDT+EhRBkVSx3g1oUS1TEQxHep9O6Zi4lD14ou+s6y0If2IUgEiH6M+MFDgWgKW0pEVuM1Yle72kxSAjpAO2NGkUoi+oFkTE6NbdScLZuRFZdersOyeZfuAuXtOEpEySZemkebOpT0B4dq8vM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713339054; c=relaxed/simple;
-	bh=tu+l9oOPO1ViZIzn530t9nkb4u6RJMZaMufBUT+0eg0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=h+uH+rZQabvVjelTrlqUUpiMdieoktAKueT+HwqQrG39ZbzrSVVEPBw9aeH4mgsQGuwZkjPz2ZcHHFlrYtVDeZXAKrBY9tBxrENg5OWPzXq6VX4V5jOp2u3BtcxoSLxw1asYNokLKEKku1l6Q3GI08nxS0dJzt1X1Wd/XPyUU/I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=slKsXDks; arc=fail smtp.client-ip=40.107.244.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MZ0RmCyqLPPl0alBIxttZHNTUsNTYlsDo4RRGstFut5ceyOH+vlG93hAwGGVdUI0517+AxIndYGeBsyli7UFLsAEOiMVgQQmLVAbH6drd+4EI+Lm+T1WgFREZasGC9wFOeG0mfF5SLFWATWLweAqUIfsUPYShEfj/6BUXOs7qpbxbfRKt3uR5rLnWf/ViwXduPVC7jsuJtgNvV0bphNBj3Bn95AGCGbdmgze5u4prITzVOKDiKP8P1Nfm7RZkH93HEa1Us6guwiAP6m1iiOwRv0/JwUH3EFTmKg3zxWSW+z9QHI1g+x2AhU4QbQr+qCDdAcJxf8m1h0mrZ4qNJiQ0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k3G9hGj4HQSEaeMOnQ/xjz2Mzid1MG0kFCIbFwKAaOo=;
- b=b5/8QvHRUmeQKlIoQ0zCi9CE8Ri+Zx8PFHdeXKuz6HG3du29T1QCiByd3LyaLxBYzJlE7fIqnyIyUTHFP4+P6FzBEatPl5b/39kBUxW88k5hlwAW3UP/VH+kgaIGKOODaVwnfXEo/gmCQWe94qcd1M6j1zY7rxgqlVZyg9G38B+qGR86Frq4GVm+jOkqnjGlkcsep+n//m8twFVTbpaj3ADyP8p8o+E5QDpbe2w6+l7qPHtlbiBjXsQb2RSdiHHqYki1V68PCFxRxtlXrI3/n5ld3qmiswcZleHDcyoFDcg5Vge6fTblToxYWXu4TI6o0XzVPdGep5UlCkCyqRdH6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k3G9hGj4HQSEaeMOnQ/xjz2Mzid1MG0kFCIbFwKAaOo=;
- b=slKsXDks5XFXeH3NJ8cliL/Df828RqpvxaDCUcyQ2qOW+OM6jmfW1dZVbwzePichOCwAzNz/jGUn3yfxHSuAOipeTUQU0N3fVwLLe5NaQc6E7C7S+HX87uXzLz6QNB8b0mpVPk0J4QrLgCVkpyw0cSBPwlhWPDs6vx0+svXTkUlzC469hAsHx7pKYkloOQDtMAc8UI4QKDVNTS7JvmjroHEGOlHIpEkYUwo/ybqNv5C66GKE0gsZwbAinmY7RHQoDXz5Wi0bNremJ4AsEwxGi9U+0Fmt+7B0z+gv+RC+YqqkdH5h0yfsxVbIEnyZ18KoENAE7d+8FTYPg3Ijukq7jQ==
-Received: from DS7PR03CA0058.namprd03.prod.outlook.com (2603:10b6:5:3b5::33)
- by IA1PR12MB8190.namprd12.prod.outlook.com (2603:10b6:208:3f2::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Wed, 17 Apr
- 2024 07:30:49 +0000
-Received: from DS3PEPF000099D3.namprd04.prod.outlook.com
- (2603:10b6:5:3b5:cafe::24) by DS7PR03CA0058.outlook.office365.com
- (2603:10b6:5:3b5::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.34 via Frontend
- Transport; Wed, 17 Apr 2024 07:30:49 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- DS3PEPF000099D3.mail.protection.outlook.com (10.167.17.4) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7452.22 via Frontend Transport; Wed, 17 Apr 2024 07:30:49 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 17 Apr
- 2024 00:30:36 -0700
-Received: from drhqmail201.nvidia.com (10.126.190.180) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Wed, 17 Apr 2024 00:30:36 -0700
-Received: from vdi.nvidia.com (10.127.8.14) by mail.nvidia.com
- (10.126.190.180) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
- Transport; Wed, 17 Apr 2024 00:30:35 -0700
-From: Shravan Kumar Ramani <shravankr@nvidia.com>
-To: Hans de Goede <hdegoede@redhat.com>, Ilpo Jarvinen
-	<ilpo.jarvinen@linux.intel.com>, Vadim Pasternak <vadimp@nvidia.com>, "David
- Thompson" <davthompson@nvidia.com>
-CC: Shravan Kumar Ramani <shravankr@nvidia.com>,
-	<platform-driver-x86@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v1 3/3] platform/mellanox: mlxbf-pmc: Add support for clock_measure performance block
-Date: Wed, 17 Apr 2024 03:30:18 -0400
-Message-ID: <433fac1cffd9128a10eb2eff85b11ff671c9962f.1713334019.git.shravankr@nvidia.com>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <cover.1713334019.git.shravankr@nvidia.com>
-References: <cover.1713334019.git.shravankr@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A40584FAC;
+	Wed, 17 Apr 2024 08:23:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713342200; cv=none; b=SZKq+1XplUGwavJX+bYqPMUwwwEl+f4VLHOfiKtuC3KAV84PUtTk09cer0b0ACqhjgAS/DcqSoOa2xHRuqfshQPBv3XawtalwXgN8D/hrgockhUcP4IqAV7pUalVu5yIOBxGEgZBXIFKfV1JPd95geH3PWjM7ZUdS0wPQOP7FzQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713342200; c=relaxed/simple;
+	bh=C4tOCdvuBbe0nWsP1RYC0WfHw/yvoZ/fnppLyqdrzVg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NIfvlyUbyss5dti7iYFDrnOZSSrTpUTRapEFLIAWPAR2oqxhp9UW1SZWQRQZgpa1cnR7abC2eHyQdGPcwq7av0b1GQYfzBlI0B1TYa6YEDyuYHcDPAeHqyNZPgMu6X8jx/I4ecb/bcNZeVRp9sU347vbS4iCsTZi4/5BpUwKhXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cl0dXFi7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B2F4C32783;
+	Wed, 17 Apr 2024 08:23:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713342199;
+	bh=C4tOCdvuBbe0nWsP1RYC0WfHw/yvoZ/fnppLyqdrzVg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Cl0dXFi7+cjctcO4EmDYic4Anp14X9g7oZQmOJzpgfUGrw+jlsNE4rsYPyaSGibd5
+	 AgrdAoHAghKXhkZuTLTsdHvmIxd8bjB5LauD7bPkXD1DMbx39P9GtgNZ33VtZzKLpp
+	 JfxgYOAT2KLRgnBpiDL4IsZ1RdcJpcEGZKQCWk0kilcCQaEqIZ0az8CrMEenlmvx0i
+	 dqWgyK1XnPJD7BGHp5uiFJzNv6UZyhwNBo27xo6aAM/EEIw/ZkLrPyDo4AJVKUaliG
+	 7eEYwPlT2cTGcnUA1IloRrDpURijulNu6E56nh2yOUvDC+UBMOh0sekIQ3V9XwuEqh
+	 KaK9v7OdBfLIg==
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5acdbfa6e95so191406eaf.3;
+        Wed, 17 Apr 2024 01:23:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWEarIp0Ahk38DyjcVUPMVj58WlTPjvmUZDq3deQ3R3dAi4jUfkubLodv/IXozSPD7/bmlK4F8t0D8Nn1b/kCwbbJsy5ODCIx4Twc25JhWI9yuuK27CaRNGuX7s2fWkKMK8HHk29d9cKOfytOQgWpDR198nsg0y6y1H9ZJ2sMInjveigAQH4tEA1taG
+X-Gm-Message-State: AOJu0YyX4r5tLUo5gLrCSj/v9kQy3UH7foDmsDrFvGP3mRi1U0LoF7p1
+	32NJPlsVfnnMONvGBKZXMU0g8DgT14y2IdfvWwhcBtyWo/X2KQjtqDodCWJoWDaEcKD0J6y1WBq
+	+lFPjcp317NawiSohOghjqqgUeMA=
+X-Google-Smtp-Source: AGHT+IEwWhyxwziJmItu3CudJNR/cbcOGfyy1lJsPIqbwVt2BL7zHv844Kmjt0yZaihq6jyNI/6OLt9Cemu6KrK30DQ=
+X-Received: by 2002:a05:6820:4003:b0:5a7:db56:915c with SMTP id
+ fh3-20020a056820400300b005a7db56915cmr17216803oob.1.1713342198919; Wed, 17
+ Apr 2024 01:23:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099D3:EE_|IA1PR12MB8190:EE_
-X-MS-Office365-Filtering-Correlation-Id: d10587c7-e00c-4726-a5b3-08dc5eb04ded
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	IOIZZqPIvp62lWYZH+XfxPWiU7PXmAyxHt8hneLwG9TJG7ivqCWtbZul8ZiLwWhj6mLU2mxC0DrYg1/9hpyCwyv7kyjFjQWs5ATOr8VuQncgrDmiYxC90UKmdWo19x+4ZwbdYj4pQuP5CBuF7vWL/kFDEL26YFKb0Z03LxZDTWXri+A5I7ElxgEesDkifi4AZUaewcVmmQ/CkKwBa5Erjin/mDh3XUmESO9pFEoPXsvuwHZVsmaiC/aUZXAesTVGu40iK1fIL8m8uxRzMwg7Zlh7SPOVAWQHmkznsvFR3j2p0ExoN2QrqQ3cNPuwvy36rc7bTKIOPM1YrolQDj5Ahhgrk/MMMvYllfA2wFV1PwTF73Kng29GoRetqRkBNmpSThm4C0ZvQUBKj8KhBwTIcDpgC3xKhzQLAK9YNspgaDCvOHjnV2ez0xoSkfiPe5hdA1qxlcwt6bvjdY1qRCvDHrB2aVknkWuyAPK9DCi30jao97xX+YX3mXUfS3RCWVP8FN44FLKw2MyIlxKRzE4u9dkmLOqS4Zyj6y/BFW2sZv8mPFQ6H0/W8FUFQwFOUgrYC2lXIdorkHVJL/FK/jxhNqQJ3FMCDkmL6whpeQiqAT87wyUAUPdh4HYrA/hIZ15A8jFo6z4NGO2vpPc/g2eq+tVC1n9ErHHJ1Iii25tpYb4nYv8wr2DsFIZXAHuLhPy1mRy/+2U5/8rLn2CqWOCShwaJwaTIi21XUu1qRu8fpMP3wWpkHQF2PNXgsNcHlweU
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230031)(82310400014)(36860700004)(1800799015)(376005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2024 07:30:49.3036
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d10587c7-e00c-4726-a5b3-08dc5eb04ded
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS3PEPF000099D3.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8190
+References: <20240416211941.9369-1-tony.luck@intel.com> <20240416212250.9969-1-tony.luck@intel.com>
+In-Reply-To: <20240416212250.9969-1-tony.luck@intel.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 17 Apr 2024 10:23:06 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0hJbpCzGeshmP4NT0P6We=GTTgxVi0OTUoRF8DYpvKGCQ@mail.gmail.com>
+Message-ID: <CAJZ5v0hJbpCzGeshmP4NT0P6We=GTTgxVi0OTUoRF8DYpvKGCQ@mail.gmail.com>
+Subject: Re: [PATCH v3 69/74] x86/cpu/vfm: Update intel_soc_dts_thermal.c
+To: Tony Luck <tony.luck@intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The HW clock_measure counter info is passed to the driver from ACPI.
-Create a new sub-directory for clock_measure events and provide
-read access to the user. Writes are blocked since the fields are RO.
+On Tue, Apr 16, 2024 at 11:22=E2=80=AFPM Tony Luck <tony.luck@intel.com> wr=
+ote:
+>
+> New CPU #defines encode vendor and family as well as model.
+>
+> Signed-off-by: Tony Luck <tony.luck@intel.com>
 
-Signed-off-by: Shravan Kumar Ramani <shravankr@nvidia.com>
-Reviewed-by: David Thompson <davthompson@nvidia.com>
-Reviewed-by: Vadim Pasternak <vadimp@nvidia.com>
----
- drivers/platform/mellanox/mlxbf-pmc.c | 46 ++++++++++++++++++++++++---
- 1 file changed, 42 insertions(+), 4 deletions(-)
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-diff --git a/drivers/platform/mellanox/mlxbf-pmc.c b/drivers/platform/mellanox/mlxbf-pmc.c
-index 635ecc3b3845..1212a96fb3eb 100644
---- a/drivers/platform/mellanox/mlxbf-pmc.c
-+++ b/drivers/platform/mellanox/mlxbf-pmc.c
-@@ -865,6 +865,37 @@ static const struct mlxbf_pmc_events mlxbf_pmc_llt_miss_events[] = {
- 	{75, "HISTOGRAM_HISTOGRAM_BIN9"},
- };
- 
-+static const struct mlxbf_pmc_events mlxbf_pmc_clock_events[] = {
-+	{ 0x0, "FMON_CLK_LAST_COUNT_PLL_D1_INST0" },
-+	{ 0x4, "REFERENCE_WINDOW_WIDTH_PLL_D1_INST0" },
-+	{ 0x8, "FMON_CLK_LAST_COUNT_PLL_D1_INST1" },
-+	{ 0xc, "REFERENCE_WINDOW_WIDTH_PLL_D1_INST1" },
-+	{ 0x10, "FMON_CLK_LAST_COUNT_PLL_G1" },
-+	{ 0x14, "REFERENCE_WINDOW_WIDTH_PLL_G1" },
-+	{ 0x18, "FMON_CLK_LAST_COUNT_PLL_W1" },
-+	{ 0x1c, "REFERENCE_WINDOW_WIDTH_PLL_W1" },
-+	{ 0x20, "FMON_CLK_LAST_COUNT_PLL_T1" },
-+	{ 0x24, "REFERENCE_WINDOW_WIDTH_PLL_T1" },
-+	{ 0x28, "FMON_CLK_LAST_COUNT_PLL_A0" },
-+	{ 0x2c, "REFERENCE_WINDOW_WIDTH_PLL_A0" },
-+	{ 0x30, "FMON_CLK_LAST_COUNT_PLL_C0" },
-+	{ 0x34, "REFERENCE_WINDOW_WIDTH_PLL_C0" },
-+	{ 0x38, "FMON_CLK_LAST_COUNT_PLL_N1" },
-+	{ 0x3c, "REFERENCE_WINDOW_WIDTH_PLL_N1" },
-+	{ 0x40, "FMON_CLK_LAST_COUNT_PLL_I1" },
-+	{ 0x44, "REFERENCE_WINDOW_WIDTH_PLL_I1" },
-+	{ 0x48, "FMON_CLK_LAST_COUNT_PLL_R1" },
-+	{ 0x4c, "REFERENCE_WINDOW_WIDTH_PLL_R1" },
-+	{ 0x50, "FMON_CLK_LAST_COUNT_PLL_P1" },
-+	{ 0x54, "REFERENCE_WINDOW_WIDTH_PLL_P1" },
-+	{ 0x58, "FMON_CLK_LAST_COUNT_REF_100_INST0" },
-+	{ 0x5c, "REFERENCE_WINDOW_WIDTH_REF_100_INST0" },
-+	{ 0x60, "FMON_CLK_LAST_COUNT_REF_100_INST1" },
-+	{ 0x64, "REFERENCE_WINDOW_WIDTH_REF_100_INST1" },
-+	{ 0x68, "FMON_CLK_LAST_COUNT_REF_156" },
-+	{ 0x6c, "REFERENCE_WINDOW_WIDTH_REF_156" },
-+};
-+
- static struct mlxbf_pmc_context *pmc;
- 
- /* UUID used to probe ATF service. */
-@@ -1038,6 +1069,9 @@ static const struct mlxbf_pmc_events *mlxbf_pmc_event_list(const char *blk, size
- 	} else if (strstr(blk, "llt")) {
- 		events = mlxbf_pmc_llt_events;
- 		size = ARRAY_SIZE(mlxbf_pmc_llt_events);
-+	} else if (strstr(blk, "clock_measure")) {
-+		events = mlxbf_pmc_clock_events;
-+		size = ARRAY_SIZE(mlxbf_pmc_clock_events);
- 	} else {
- 		events = NULL;
- 		size = 0;
-@@ -1472,14 +1506,15 @@ static int mlxbf_pmc_read_event(unsigned int blk_num, u32 cnt_num, bool is_l3, u
- /* Method to read a register */
- static int mlxbf_pmc_read_reg(unsigned int blk_num, u32 offset, u64 *result)
- {
--	u32 ecc_out;
-+	u32 reg;
- 
--	if (strstr(pmc->block_name[blk_num], "ecc")) {
-+	if ((strstr(pmc->block_name[blk_num], "ecc")) ||
-+	    (strstr(pmc->block_name[blk_num], "clock_measure"))) {
- 		if (mlxbf_pmc_readl(pmc->block[blk_num].mmio_base + offset,
--				    &ecc_out))
-+				    &reg))
- 			return -EFAULT;
- 
--		*result = ecc_out;
-+		*result = reg;
- 		return 0;
- 	}
- 
-@@ -1493,6 +1528,9 @@ static int mlxbf_pmc_read_reg(unsigned int blk_num, u32 offset, u64 *result)
- /* Method to write to a register */
- static int mlxbf_pmc_write_reg(unsigned int blk_num, u32 offset, u64 data)
- {
-+	if (strstr(pmc->block_name[blk_num], "clock_measure"))
-+		return -EINVAL;
-+
- 	if (strstr(pmc->block_name[blk_num], "ecc")) {
- 		return mlxbf_pmc_write(pmc->block[blk_num].mmio_base + offset,
- 				       MLXBF_PMC_WRITE_REG_32, data);
--- 
-2.30.1
-
+> ---
+>  include/linux/platform_data/x86/soc.h         | 12 ++++++------
+>  drivers/thermal/intel/intel_soc_dts_thermal.c |  2 +-
+>  2 files changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/include/linux/platform_data/x86/soc.h b/include/linux/platfo=
+rm_data/x86/soc.h
+> index a5705189e2ac..f981907a5cb0 100644
+> --- a/include/linux/platform_data/x86/soc.h
+> +++ b/include/linux/platform_data/x86/soc.h
+> @@ -20,7 +20,7 @@
+>  static inline bool soc_intel_is_##soc(void)                    \
+>  {                                                              \
+>         static const struct x86_cpu_id soc##_cpu_ids[] =3D {      \
+> -               X86_MATCH_INTEL_FAM6_MODEL(type, NULL),         \
+> +               X86_MATCH_VFM(type, NULL),                      \
+>                 {}                                              \
+>         };                                                      \
+>         const struct x86_cpu_id *id;                            \
+> @@ -31,11 +31,11 @@ static inline bool soc_intel_is_##soc(void)          =
+       \
+>         return false;                                           \
+>  }
+>
+> -SOC_INTEL_IS_CPU(byt, ATOM_SILVERMONT);
+> -SOC_INTEL_IS_CPU(cht, ATOM_AIRMONT);
+> -SOC_INTEL_IS_CPU(apl, ATOM_GOLDMONT);
+> -SOC_INTEL_IS_CPU(glk, ATOM_GOLDMONT_PLUS);
+> -SOC_INTEL_IS_CPU(cml, KABYLAKE_L);
+> +SOC_INTEL_IS_CPU(byt, INTEL_ATOM_SILVERMONT);
+> +SOC_INTEL_IS_CPU(cht, INTEL_ATOM_AIRMONT);
+> +SOC_INTEL_IS_CPU(apl, INTEL_ATOM_GOLDMONT);
+> +SOC_INTEL_IS_CPU(glk, INTEL_ATOM_GOLDMONT_PLUS);
+> +SOC_INTEL_IS_CPU(cml, INTEL_KABYLAKE_L);
+>
+>  #undef SOC_INTEL_IS_CPU
+>
+> diff --git a/drivers/thermal/intel/intel_soc_dts_thermal.c b/drivers/ther=
+mal/intel/intel_soc_dts_thermal.c
+> index 9c825c6e1f38..718c6326eaf4 100644
+> --- a/drivers/thermal/intel/intel_soc_dts_thermal.c
+> +++ b/drivers/thermal/intel/intel_soc_dts_thermal.c
+> @@ -36,7 +36,7 @@ static irqreturn_t soc_irq_thread_fn(int irq, void *dev=
+_data)
+>  }
+>
+>  static const struct x86_cpu_id soc_thermal_ids[] =3D {
+> -       X86_MATCH_INTEL_FAM6_MODEL(ATOM_SILVERMONT, BYT_SOC_DTS_APIC_IRQ)=
+,
+> +       X86_MATCH_VFM(INTEL_ATOM_SILVERMONT, BYT_SOC_DTS_APIC_IRQ),
+>         {}
+>  };
+>  MODULE_DEVICE_TABLE(x86cpu, soc_thermal_ids);
+> --
+> 2.44.0
+>
 
