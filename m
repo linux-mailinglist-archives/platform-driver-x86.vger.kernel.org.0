@@ -1,260 +1,150 @@
-Return-Path: <platform-driver-x86+bounces-2891-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-2893-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB0508A956D
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 18 Apr 2024 10:55:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B59D8A95BC
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 18 Apr 2024 11:13:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 44BFEB21CCB
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 18 Apr 2024 08:55:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 977B51F21FDF
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 18 Apr 2024 09:13:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C13B215AD80;
-	Thu, 18 Apr 2024 08:55:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6374B15AD8E;
+	Thu, 18 Apr 2024 09:12:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hWAcdUwG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n2CN5d18"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BCAB15AABB
-	for <platform-driver-x86@vger.kernel.org>; Thu, 18 Apr 2024 08:55:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E2D15A4BB;
+	Thu, 18 Apr 2024 09:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713430529; cv=none; b=rDQyxz23zCxv1uk77dOLNBfc4ktFufhhSo8cKYeJKoE9PMYsGIj55lnxa0MQV4oSqxRfLdFQehix8D/8By/8ClMwZwlxih8MPsISzVJCZSEv4Z3QegXmxMwsuPRNk5slhet376uQBetHQKQ3mq0WZQMLDcWNkYGygegOHwumg68=
+	t=1713431558; cv=none; b=Mujo0KoMcRDIhhaP4RoN2/gwbTBK9/gbh3WKtGCdc41XLMFh7olueTHHVZF4nSzJ5z/O3iuzNFY03iDXkKqY9pTuETJTHDBrU/l7wBvrhUPFhfJm4aACwm86TFkDNUWrEPLa69/Te00VKdzPyOVFEoR9Di86pQ+Ce0tGFaSUWRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713430529; c=relaxed/simple;
-	bh=rg1Htv+lB6hxsvVaFwD5Nffj1OIzHqszQvu3GxaKkIg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=rrgS2eGzfbSwP2zo9nuf2NL6QBWkSAShXkdJM5Gk5LsSKS7qeagfaHkhf/HR8bLmUVWqd3DlxS6UZBXx8J1BsdPlXQaW2PtmnWYlomxc9+08SloTVRS1u+AchU/wCd2knuOkKcwUKbN5jPky7r+NabMxB6UKvRLgMTNxp/t+pJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hWAcdUwG; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713430526;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a3ijnHOr2lMizZp28dkk/a8tpj5sBpid4ALmXZbWPA8=;
-	b=hWAcdUwG5KfDuu41xabzY+J2CbrUK/M/HO9BtcGh3Ow+4cD4QNPDxOLR5rJF0GmZSQeok1
-	BTd8MDZG4mZdYtp71UcykwWxfUDdjugKhnpffmJxFJQ4nctb86HBDYKpDdLlkhgvUpkP0M
-	OSSyVoOWxL6WkgSxouXLpR3hWCGKrbY=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-54-_H2NW0WlNU2eGYbMLH_etQ-1; Thu, 18 Apr 2024 04:55:23 -0400
-X-MC-Unique: _H2NW0WlNU2eGYbMLH_etQ-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a556121c01aso32721266b.2
-        for <platform-driver-x86@vger.kernel.org>; Thu, 18 Apr 2024 01:55:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713430522; x=1714035322;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=a3ijnHOr2lMizZp28dkk/a8tpj5sBpid4ALmXZbWPA8=;
-        b=n61X3PijOcxPPkXTyb7d1bS6xR6qPpZYXP0jPA93Y2L7drOISu6sBYClIuA0IldcWl
-         YVnQEW52RUctPvZPXZHRzIG81JFpHwwBS/wycDIWNv2O1GkS+vRlqpMQTsSIIsezcD5r
-         W487fEUuMWZhWIQiv2h5NMvML/2Y+aKBm6oa2iKaBwsILIewesiIX8n0mYOJCEu4xGiP
-         Fa8UUyfvCur056AJ3L1gxecdhEsZ5b3Bd4cTuKwlMgGGuv6OYwCM3Kxk+b72eStnSkX7
-         qv5pM7/7MgrpfSIPsPAHo2R3ZEORCOCAMTTmQ1FP2Ot9QxUTwrsWBY8vudd4gYh/MP3x
-         JQkA==
-X-Forwarded-Encrypted: i=1; AJvYcCUVpJWEMFhwTN1FwOHVkWuNwYhh/CjILzrwGdDHW4dsoqSODSF8j4a7E1KoHBkFpFimFAgseAUQeK0F+ZAfk/NMMLO7QxLIsKLhClmRrMXexcbk+w==
-X-Gm-Message-State: AOJu0YxVWKuAJxVLddkXeX4BHa6Nn0HJXqOj4uPwPzAXaWKr7Ja+HaRx
-	NEip2quFeAlrtwoRNjFJnKGQV/dbYwwlQ4SAWpIJEyImyi+T7sEfvTgbHrif5eD2rMSIDXWLIwh
-	A2PmRrxQdyqxPR33rcX9OO1hGOH+G/mUNuwV6/UY6JW8lxoFzBv+CxsOTrurG3/K5bInn+AM=
-X-Received: by 2002:a17:907:76a9:b0:a55:59e8:b780 with SMTP id jw9-20020a17090776a900b00a5559e8b780mr1277607ejc.4.1713430522290;
-        Thu, 18 Apr 2024 01:55:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGKfvYq8xxFx0WBymZMPuQA2LKlM895k5PHfbu+ObgkMs+Rqx5cC1+8yukvqXz4+PJX9lUPTw==
-X-Received: by 2002:a17:907:76a9:b0:a55:59e8:b780 with SMTP id jw9-20020a17090776a900b00a5559e8b780mr1277588ejc.4.1713430521889;
-        Thu, 18 Apr 2024 01:55:21 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id t7-20020a1709066bc700b00a5556cd0fd5sm598453ejs.183.2024.04.18.01.55.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Apr 2024 01:55:21 -0700 (PDT)
-Message-ID: <218ad508-88bf-451a-a4cc-8246c3d02535@redhat.com>
-Date: Thu, 18 Apr 2024 10:55:20 +0200
+	s=arc-20240116; t=1713431558; c=relaxed/simple;
+	bh=4t2cLoLBXffGWFuuzf20vblalSwZwoEoyJ/BXtoEVhc=;
+	h=From:To:Cc:Date:Subject:Message-ID:MIME-Version:Content-Type; b=bje//TsXdMi7pBfVbduLmb7BcS0GSPWIkVLIxmMX25zAV9SkeeRIE/vO1toZoXc2EwU38L3/DOwFZBXmykOER1sExqi8zf8T4+ANZpXZYZz5hdc6gBDP1/07Uz0BaS8k1ibrOKFAMjiR9AVcjroDgZQGSQVl8fezbmbN7ZBCQfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n2CN5d18; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713431556; x=1744967556;
+  h=from:to:cc:date:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=4t2cLoLBXffGWFuuzf20vblalSwZwoEoyJ/BXtoEVhc=;
+  b=n2CN5d18i5LHASZMsaBYG87Rr/8pUAetZojaSn5qJPeJ4VdyZPKh1V/t
+   2U343n/mvh5WGKgY0ucpBn6+jYDnMXCUYSHVpXCGxaiPrKg63Oy1GX0Un
+   rKghgJ0LWhpAaTp33rSGZCz9z/iiyRCFkKhBmCqbDJ7P6cm+qgjrhB3gq
+   GUBsKfBbN7oEvIO8Gt+YZ8oXJaMMjf4ZWQh2ftfQOEJmnJexh0GKQuE3E
+   kAvud1FAoXs/nxAC5QYDj4MLrBecPRridtaW/e+HYIEya/ZC1pTu4XfZe
+   P2Jof9aBApU9BpmMEpWFIz4hDtAk8OA1ukpBW4Swjfd6YABQK9AL5wCv7
+   w==;
+X-CSE-ConnectionGUID: VhbnCsBiSAC6CNClbW3fKw==
+X-CSE-MsgGUID: U/xzei4XRk6rTgXre82UYA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="12803418"
+X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
+   d="scan'208";a="12803418"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 02:12:34 -0700
+X-CSE-ConnectionGUID: opN75KlGSvCABr06Ru7qHA==
+X-CSE-MsgGUID: PN5c//8OTkS3wx6mFqLPNw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
+   d="scan'208";a="60343594"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.247.36])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 02:12:32 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, PDx86 <platform-driver-x86@vger.kernel.org>, Hans de Goede <hdegoede@redhat.com>, Andy Shevchenko <andy@kernel.org>
+Date: Thu, 18 Apr 2024 12:03:32 +0300
+Subject: [GIT PULL] platform-drivers-x86 for v6.9-3
+Message-ID: <pdx86-pr-20240418120332-847319520@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/5] platform: x86-android-tablets: other: Add swnode
- for Xiaomi pad2 indicator LED
-To: Kate Hsuan <hpa@redhat.com>, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
- platform-driver-x86@vger.kernel.org,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- linux-kernel@vger.kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org
-References: <20240416053909.256319-1-hpa@redhat.com>
- <20240416053909.256319-2-hpa@redhat.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240416053909.256319-2-hpa@redhat.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Kate,
+Hi Linus,
 
-On 4/16/24 7:39 AM, Kate Hsuan wrote:
-> KTD2026 LED controller manages the indicator LED for Xiaomi pad2. The ACPI
-> for it is not properly made so the kernel can't get a correct description.
-> 
-> This work adds a description for this RGB LED controller and also sets a
-> trigger to indicate the changing event (bq27520-0-charging). When it is
-> charging, the indicator LED will be turned on.
-> 
-> Signed-off-by: Kate Hsuan <hpa@redhat.com>
+Here is a platform-drivers-x86 fixes PR for v6.9. Except for adding the
+quirks support code into amd/pmf, this one has simple and well-contained
+changes.
 
-Since this patch is more or less done and since which fwnodes there should
-be and with which contents is prescribed by the existing devicetree
-bindings which are not being changes I have already merged this patch
-into pdx86/for-next:
+Changes:
+ - amd/pmf: Add SPS notifications quirk (+ quirk support)
+ - amd/pmf: Lower Smart PC check message severity
+ - x86/ISST: New HW support
+ - x86/intel-uncore-freq: Bump minor version to avoid "unsupported" message
+ - amd/pmc: New BIOS version still needs Spurious IRQ1 quirk
 
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/commit/?h=for-next&id=fcc6220ddc7e54d8442287273d0cb8c415ada022
-
-So there is no reason to resend this. Please drop this patch from v7
-of the patch-set.
-
-Regards,
-
-Hans
+Regards, i.
 
 
+The following changes since commit e71c8481692582c70cdfd0996c20cdcc71e425d3:
 
+  platform/x86: lg-laptop: fix %s null argument warning (2024-04-08 18:32:14 +0300)
 
-> ---
->  .../platform/x86/x86-android-tablets/other.c  | 82 +++++++++++++++++++
->  .../x86/x86-android-tablets/shared-psy-info.h |  2 +
->  2 files changed, 84 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/x86-android-tablets/other.c b/drivers/platform/x86/x86-android-tablets/other.c
-> index bc6bbf7ec6ea..c77d56454f2d 100644
-> --- a/drivers/platform/x86/x86-android-tablets/other.c
-> +++ b/drivers/platform/x86/x86-android-tablets/other.c
-> @@ -13,6 +13,8 @@
->  #include <linux/input.h>
->  #include <linux/platform_device.h>
->  
-> +#include <dt-bindings/leds/common.h>
-> +
->  #include "shared-psy-info.h"
->  #include "x86-android-tablets.h"
->  
-> @@ -593,6 +595,83 @@ const struct x86_dev_info whitelabel_tm800a550l_info __initconst = {
->  	.gpiod_lookup_tables = whitelabel_tm800a550l_gpios,
->  };
->  
-> +/*
-> + * The fwnode for ktd2026 on Xaomi pad2. It composed of a RGB LED node
-> + * with three subnodes for each color. The RGB LED node is named
-> + * "multi-led" to align with the name in the device tree.
-> + */
-> +
-> +/* main fwnode for ktd2026 */
-> +static const struct software_node ktd2026_node = {
-> +	.name = "ktd2026"
-> +};
-> +
-> +static const struct property_entry ktd2026_rgb_led_props[] = {
-> +	PROPERTY_ENTRY_U32("reg", 0),
-> +	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_RGB),
-> +	PROPERTY_ENTRY_STRING("function", "indicator"),
-> +	PROPERTY_ENTRY_STRING("linux,default-trigger", "bq27520-0-charging"),
-> +	{ }
-> +};
-> +
-> +static const struct software_node ktd2026_rgb_led_node = {
-> +	.name = "multi-led",
-> +	.properties = ktd2026_rgb_led_props,
-> +	.parent = &ktd2026_node,
-> +};
-> +
-> +static const struct property_entry ktd2026_blue_led_props[] = {
-> +	PROPERTY_ENTRY_U32("reg", 0),
-> +	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_BLUE),
-> +	{ }
-> +};
-> +
-> +static const struct software_node ktd2026_blue_led_node = {
-> +	.properties = ktd2026_blue_led_props,
-> +	.parent = &ktd2026_rgb_led_node,
-> +};
-> +
-> +static const struct property_entry ktd2026_green_led_props[] = {
-> +	PROPERTY_ENTRY_U32("reg", 1),
-> +	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_GREEN),
-> +	{ }
-> +};
-> +
-> +static const struct software_node ktd2026_green_led_node = {
-> +	.properties = ktd2026_green_led_props,
-> +	.parent = &ktd2026_rgb_led_node,
-> +};
-> +
-> +static const struct property_entry ktd2026_red_led_props[] = {
-> +	PROPERTY_ENTRY_U32("reg", 2),
-> +	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_RED),
-> +	{ }
-> +};
-> +
-> +static const struct software_node ktd2026_red_led_node = {
-> +	.properties = ktd2026_red_led_props,
-> +	.parent = &ktd2026_rgb_led_node,
-> +};
-> +
-> +static const struct software_node *ktd2026_node_group[] = {
-> +	&ktd2026_node,
-> +	&ktd2026_rgb_led_node,
-> +	&ktd2026_green_led_node,
-> +	&ktd2026_blue_led_node,
-> +	&ktd2026_red_led_node,
-> +	NULL
-> +};
-> +
-> +static int __init xiaomi_mipad2_init(void)
-> +{
-> +	return software_node_register_node_group(ktd2026_node_group);
-> +}
-> +
-> +static void xiaomi_mipad2_exit(void)
-> +{
-> +	software_node_unregister_node_group(ktd2026_node_group);
-> +}
-> +
->  /*
->   * If the EFI bootloader is not Xiaomi's own signed Android loader, then the
->   * Xiaomi Mi Pad 2 X86 tablet sets OSID in the DSDT to 1 (Windows), causing
-> @@ -616,6 +695,7 @@ static const struct x86_i2c_client_info xiaomi_mipad2_i2c_clients[] __initconst
->  			.type = "ktd2026",
->  			.addr = 0x30,
->  			.dev_name = "ktd2026",
-> +			.swnode = &ktd2026_node,
->  		},
->  		.adapter_path = "\\_SB_.PCI0.I2C3",
->  	},
-> @@ -624,4 +704,6 @@ static const struct x86_i2c_client_info xiaomi_mipad2_i2c_clients[] __initconst
->  const struct x86_dev_info xiaomi_mipad2_info __initconst = {
->  	.i2c_client_info = xiaomi_mipad2_i2c_clients,
->  	.i2c_client_count = ARRAY_SIZE(xiaomi_mipad2_i2c_clients),
-> +	.init = xiaomi_mipad2_init,
-> +	.exit = xiaomi_mipad2_exit,
->  };
-> diff --git a/drivers/platform/x86/x86-android-tablets/shared-psy-info.h b/drivers/platform/x86/x86-android-tablets/shared-psy-info.h
-> index c2d2968cddc2..8c33ec47ee12 100644
-> --- a/drivers/platform/x86/x86-android-tablets/shared-psy-info.h
-> +++ b/drivers/platform/x86/x86-android-tablets/shared-psy-info.h
-> @@ -29,4 +29,6 @@ extern const char * const bq24190_modules[];
->  extern const struct platform_device_info int3496_pdevs[];
->  extern struct gpiod_lookup_table int3496_reference_gpios;
->  
-> +extern const struct software_node ktd2026_leds_node;
-> +
->  #endif
+are available in the Git repository at:
 
+  https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-v6.9-3
+
+for you to fetch changes up to f609e7b1b49e4d15cf107d2069673ee63860c398:
+
+  platform/x86/amd/pmc: Extend Framework 13 quirk to more BIOSes (2024-04-17 17:05:30 +0300)
+
+----------------------------------------------------------------
+platform-drivers-x86 for v6.9-3
+
+Changes:
+ - amd/pmf: Add SPS notifications quirk (+ quirk support)
+ - amd/pmf: Lower Smart PC check message severity
+ - x86/ISST: New HW support
+ - x86/intel-uncore-freq: Bump minor version to avoid "unsupported" message
+ - amd/pmc: New BIOS version still needs Spurious IRQ1 quirk
+
+The following is an automated shortlog grouped by driver:
+
+amd/pmc:
+ -  Extend Framework 13 quirk to more BIOSes
+
+amd: pmf:
+ -  Add infrastructure for quirking supported funcs
+ -  Add quirk for ROG Zephyrus G14
+ -  Decrease error message to debug
+
+intel-uncore-freq:
+ -  Increase minor number support
+
+ISST:
+ -  Add Granite Rapids-D to HPM CPU list
+
+----------------------------------------------------------------
+Mario Limonciello (4):
+      platform/x86/amd: pmf: Decrease error message to debug
+      platform/x86/amd: pmf: Add infrastructure for quirking supported funcs
+      platform/x86/amd: pmf: Add quirk for ROG Zephyrus G14
+      platform/x86/amd/pmc: Extend Framework 13 quirk to more BIOSes
+
+Srinivas Pandruvada (2):
+      platform/x86: ISST: Add Granite Rapids-D to HPM CPU list
+      platform/x86/intel-uncore-freq: Increase minor number support
+
+ drivers/platform/x86/amd/pmc/pmc-quirks.c          |  9 ++++
+ drivers/platform/x86/amd/pmf/Makefile              |  2 +-
+ drivers/platform/x86/amd/pmf/acpi.c                |  7 ++-
+ drivers/platform/x86/amd/pmf/core.c                |  1 +
+ drivers/platform/x86/amd/pmf/pmf-quirks.c          | 51 ++++++++++++++++++++++
+ drivers/platform/x86/amd/pmf/pmf.h                 |  3 ++
+ .../x86/intel/speed_select_if/isst_if_common.c     |  1 +
+ .../intel/uncore-frequency/uncore-frequency-tpmi.c |  4 +-
+ 8 files changed, 73 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/platform/x86/amd/pmf/pmf-quirks.c
 
