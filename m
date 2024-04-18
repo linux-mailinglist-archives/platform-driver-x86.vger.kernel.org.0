@@ -1,80 +1,74 @@
-Return-Path: <platform-driver-x86+bounces-2892-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-2894-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D0048A9598
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 18 Apr 2024 11:04:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E4E78A9880
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 18 Apr 2024 13:27:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2E1B61F21E7A
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 18 Apr 2024 09:04:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B1A2C1F21CA3
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 18 Apr 2024 11:27:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05DCB15A4B8;
-	Thu, 18 Apr 2024 09:04:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5AE715E5CF;
+	Thu, 18 Apr 2024 11:27:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EyjkLMGQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ekqcJ5F3"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF8D7BAF0
-	for <platform-driver-x86@vger.kernel.org>; Thu, 18 Apr 2024 09:04:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3941315DBD6;
+	Thu, 18 Apr 2024 11:27:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713431056; cv=none; b=cpmGIMrkOWW51NLfOv9wrpx3rdtETfvQAGGylgR+nbm2Pu+ztWriLTh7xjt0/ntOE1W4YbuitNgfAxIWix+xBg/Mbc3mNaBafv3LRt3RUk7ICRTzsgI68VzvWbXH7EDdqiuZbxPVQRpDAddQskdWNZTURXZYT17D9y3eFw/oduA=
+	t=1713439651; cv=none; b=YwpAFuB63x5oncbE1OnXNMvHGhNAxIFISUxqe96gCNof8oAi+cxisRG9uZUd3k8mnxfDm2yduy3b1wqdOcmcs+BwL5aNqV0+XzQzs2Pz/uyUNNLPqAuzDOBa+LWhUVVi/NRyYyeMLsTba+tYYZt8KbCYvIXTiQvF8S2hWtTlMLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713431056; c=relaxed/simple;
-	bh=Ng07Evum/BkjkcFlRfN5kIJF+7KwBj2VJeuEezw65Fs=;
+	s=arc-20240116; t=1713439651; c=relaxed/simple;
+	bh=zYiLdrEVejpU8szBAhDTQgAKOfNea1cTA7YCvvFRdlk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=inob3LetJNdDhI4V5YseRWsiP6Bji/IUb91YdtDJf5qmRi6SWO83GwInuL/AhAbMZwEEFHzhMuTJGyTW9vIoL4hxXRRnTZRJxTiasV0US6quw438XCAwa2db6jdOMBOV+cqJcEgXEqV1J0eOi2JTmjCAtRvQ1UVstVJqVo0VZgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EyjkLMGQ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713431052;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fjUdQEZsyr1B+cnLstK3ud8ll9tHc4f4QHn3Yp4TzDU=;
-	b=EyjkLMGQW6+jkVaiGQ+A9TPFDrxhgQZOEZDY8qWAP86zhSVXbTSV10FFM8g47Tk8bnVRex
-	LJudbf2I311boe4sAWQFmoysrUgz/hXcxgn5l0DMfayhdXOv95/EceyquocnMeYsOm8GaN
-	HLtxkx2gX0pBN2MHV/W1nnj1+rLwC80=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-621-67835CkQP_uE0YozD9pkbQ-1; Thu, 18 Apr 2024 05:04:08 -0400
-X-MC-Unique: 67835CkQP_uE0YozD9pkbQ-1
-Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-516d6407352so575942e87.0
-        for <platform-driver-x86@vger.kernel.org>; Thu, 18 Apr 2024 02:04:08 -0700 (PDT)
+	 In-Reply-To:Content-Type; b=aQnlZzVFefWPml8BZTu/nyLbUPLLU+sELu//sJl1XANjHsbjSp3sFVCoZUQULyf3MEfMXyKmmyGCvYQm1VtuKOpd3YexZ9sSwzRsFKO7l6/Vw0len7lKd6yiXBggDcKnQiVwSEvZPpd8zTcCue/rVpp+Dl+BRvpMhxToh3otv3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ekqcJ5F3; arc=none smtp.client-ip=209.85.210.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6eb7d1a5d39so414685a34.2;
+        Thu, 18 Apr 2024 04:27:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713439649; x=1714044449; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=554fH9Cd7MwhrlcujjseGkWqSlH0FyRp9PRDR7JpJZ4=;
+        b=ekqcJ5F3Ubg3gx+Y8Na7uDX6TSGlQ1SHM+DLncB6J+TbuD8ZDvu461Ak/mp438e58A
+         ObaOyb+d8o1HgeLycfgeZbsiLniVb0Dht9/uxNp49WwcTCpjASZUVHWdCIN51cGsPe8t
+         m57aCX2yPSFTv7TK7kD9heT/YPq9wftf4AGRl8K7UY3v4WdmL0axG8R877Mi/m4dTDfh
+         r1Lq9rFx60yvxbnnM67waj7ZBjyrj5aC4NJCYLy8YN2qWgB1GhNkhoHm2wDdj89wa/H0
+         9zwAxbI8Sj3m1+tLLaMgA/8VvJXrli+6sy0GCTCKPmAVYMcHMAvJPdKG1A7Z+tB+I2dH
+         b7DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713431047; x=1714035847;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1713439649; x=1714044449;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fjUdQEZsyr1B+cnLstK3ud8ll9tHc4f4QHn3Yp4TzDU=;
-        b=Wrg2VIZilcGcIFPOygxrZg1kzoziZRVuNokiUuuUUJa2Bn5R1MUCKEkfilXsXv6dju
-         jn5QPcbgjFs7gR5Oc002AUEjdkR07zW2LyrTOyMb39YQfTOUZ5uqnab+ltc6m+z7EmOM
-         8QvQVBIkJ1b0/1MlTpMRMHW3kjiojamAiSO9Tl7LfqxC2YWqNDL4iTFJldeG35jYsLGQ
-         WEw2guB876OfRpBnQiJ/FuuRFgJ4QIrF/juqQNHfbWkusL/4WilSh0+WjU9XPp5gIjuR
-         sVGOoiN9KJu1vG4Xgl8Dy8bm1Stzd4pl5wMj/wiyi9mc50Nw3B2Ojgm2p3zowNRxOwuk
-         2lpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUBC5N16PWC0zUt4+AmrRUTiT7vvI1uBmjTrKwRX3CtrM8hehiD5uKBJlrHUMu7gpYoECETtjAoadiGOpzFZjdLa7UnYx5Y5rVQTcrKPOGHB7lFKw==
-X-Gm-Message-State: AOJu0YyvwUCgFkItiuxqn1PbL0qmVhb8aGfZ1O1w/5u5Zb6QPge6A1z0
-	QYtXD1I74kf3V6PoqVOY/7LIL+VNk1dmB7TwhibbmIuTXKVuQIYfCFUFkwmUmggXEPScWDx4LiK
-	+9Ded9FHQyXDnUhpJYZ5I6KUytxEA2XIEdNv0oelMGh4AIFqlcbr4Fk79LTlTGKSDHsubvow=
-X-Received: by 2002:a19:644c:0:b0:515:c91a:f4e2 with SMTP id b12-20020a19644c000000b00515c91af4e2mr1018890lfj.24.1713431046936;
-        Thu, 18 Apr 2024 02:04:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFCX+axwo24HZErHphPUmlk46UZojOnXZn1R68yXCn5Wa506iFYwqgVmPiE8g4upF2OnLB21g==
-X-Received: by 2002:a19:644c:0:b0:515:c91a:f4e2 with SMTP id b12-20020a19644c000000b00515c91af4e2mr1018868lfj.24.1713431046340;
-        Thu, 18 Apr 2024 02:04:06 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id h25-20020a0564020e9900b0056bc0c44f02sm597045eda.96.2024.04.18.02.04.05
+        bh=554fH9Cd7MwhrlcujjseGkWqSlH0FyRp9PRDR7JpJZ4=;
+        b=MoFVak/DGQCAup/TK2mOjvvWXfvWc+krXZqEDhThMTBxMcfHpXPvO2xrKxRu+KYOOn
+         L5b9fvEzcaGdxH/avKG/SX2NHJ2cwExaRs9/UBZP9bPRjQ7iDC8liZt1KGdfrpN8jljS
+         4yJsbBkMmHg7f1iz/zGp/p6KJTYWMFcCmoic60Raq5AMOp1t4TlA4copjfJScYPVWLa6
+         uGE8X7hFcqZURwhWRbgBVcSE+sNKVVpN4CbRDP0mjTsykaLjuojdYDtZdQIUSBEFlVhM
+         +DhXBLZQFIuZxy5C0gXI/vTjoR/bkIN1HzfkHVnwYQRbO+xQszyqBktUCjFUa5vpK0sV
+         66Ng==
+X-Forwarded-Encrypted: i=1; AJvYcCUqGqY3Xfh+vRLpJsZiTQLKu7xLSJEg9RJAIwAup/LpeWUYwFG4dHaD4NmXp63JbC25vh2Tx36uHSWmDLmbRiKbN/QmSPOItylWtuHiVotOAgtpu7CyMO5/iBDm4YSIhntsu4nVOqetGRlgowrFKJD8zw==
+X-Gm-Message-State: AOJu0Yzh31mPQZUdCn22MxhV3Wqey1mQyGgpJiHNAUmVmJYMPptZGoTU
+	VNt6nLVyAGh2SIyc+EXsglmCav8Bp9p1PkC3SckdoxQzhLVwDDco
+X-Google-Smtp-Source: AGHT+IEH413XYHfbdvqk0bZhern4tn8FikGz5ZML2LlZc9rEH/V5ftZAw36OLSRN1EAw1xhuE5mp8w==
+X-Received: by 2002:a05:6830:928:b0:6eb:7a4b:a56e with SMTP id v40-20020a056830092800b006eb7a4ba56emr3253986ott.23.1713439649108;
+        Thu, 18 Apr 2024 04:27:29 -0700 (PDT)
+Received: from ?IPV6:2600:1700:70:f702:9c77:c230:a0ba:a1a1? ([2600:1700:70:f702:9c77:c230:a0ba:a1a1])
+        by smtp.gmail.com with ESMTPSA id v3-20020a05683011c300b006ebab994655sm303698otq.43.2024.04.18.04.27.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Apr 2024 02:04:05 -0700 (PDT)
-Message-ID: <ca6e0dc7-f5ea-4c0a-b9fe-0667fadc78a6@redhat.com>
-Date: Thu, 18 Apr 2024 11:04:05 +0200
+        Thu, 18 Apr 2024 04:27:28 -0700 (PDT)
+Message-ID: <1071ea83-7919-469a-ac5b-3209fe9e018c@gmail.com>
+Date: Thu, 18 Apr 2024 06:27:28 -0500
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -84,7 +78,8 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2] platform/x86/amd: Don't allow HSMP to be loaded on
  non-server hardware
-To: Mario Limonciello <superm1@gmail.com>,
+Content-Language: en-US
+To: Hans de Goede <hdegoede@redhat.com>,
  =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
 Cc: Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>,
  Carlos Bilbao <carlos.bilbao@amd.com>,
@@ -92,79 +87,98 @@ Cc: Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>,
  open list <linux-kernel@vger.kernel.org>,
  Mario Limonciello <mario.limonciello@amd.com>
 References: <20240416182057.8230-1-superm1@gmail.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240416182057.8230-1-superm1@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+ <ca6e0dc7-f5ea-4c0a-b9fe-0667fadc78a6@redhat.com>
+From: Mario Limonciello <superm1@gmail.com>
+In-Reply-To: <ca6e0dc7-f5ea-4c0a-b9fe-0667fadc78a6@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi,
 
-On 4/16/24 8:20 PM, Mario Limonciello wrote:
-> From: Mario Limonciello <mario.limonciello@amd.com>
+
+On 4/18/24 04:04, Hans de Goede wrote:
+> Hi,
 > 
-> If the HSMP driver is compiled into the kernel or a module manually loaded
-> on client hardware it can cause problems with the functionality of the PMC
-> module since it probes a mailbox with a different definition on servers.
+> On 4/16/24 8:20 PM, Mario Limonciello wrote:
+>> From: Mario Limonciello <mario.limonciello@amd.com>
+>>
+>> If the HSMP driver is compiled into the kernel or a module manually loaded
+>> on client hardware it can cause problems with the functionality of the PMC
+>> module since it probes a mailbox with a different definition on servers.
+>>
+>> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2414
+>> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/3285
+>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>> ---
+>> v1->v2:
+>>   * use pm preferred profile instead
 > 
-> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2414
-> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/3285
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> ---
-> v1->v2:
->  * use pm preferred profile instead
-
-Thanks, patch looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Mario, should this go in as a fix for the 6.9 cylce, or is
-this for-next material ?  (I'm not sure what to do myself)
-
-Regards,
-
-Hans
-
-
-
-
-> ---
->  drivers/platform/x86/amd/hsmp.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+> Thanks, patch looks good to me:
 > 
-> diff --git a/drivers/platform/x86/amd/hsmp.c b/drivers/platform/x86/amd/hsmp.c
-> index 1927be901108..102a49c3e945 100644
-> --- a/drivers/platform/x86/amd/hsmp.c
-> +++ b/drivers/platform/x86/amd/hsmp.c
-> @@ -907,6 +907,17 @@ static int hsmp_plat_dev_register(void)
->  	return ret;
->  }
->  
-> +static bool hsmp_supported_profile(void)
-> +{
-> +	switch (acpi_gbl_FADT.preferred_profile) {
-> +	case PM_ENTERPRISE_SERVER:
-> +	case PM_SOHO_SERVER:
-> +	case PM_PERFORMANCE_SERVER:
-> +		return true;
-> +	}
-> +	return false;
-> +}
-> +
->  static int __init hsmp_plt_init(void)
->  {
->  	int ret = -ENODEV;
-> @@ -917,6 +928,11 @@ static int __init hsmp_plt_init(void)
->  		return ret;
->  	}
->  
-> +	if (!hsmp_supported_profile()) {
-> +		pr_err("HSMP is only supported on servers");
-> +		return ret;
-> +	}
-> +
->  	/*
->  	 * amd_nb_num() returns number of SMN/DF interfaces present in the system
->  	 * if we have N SMN/DF interfaces that ideally means N sockets
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> 
+> Mario, should this go in as a fix for the 6.9 cylce, or is
+> this for-next material ?  (I'm not sure what to do myself)
+The main risk with this patch is if there are servers that previously 
+loaded amd-hsmp no longer working because of a BIOS bug to exporting the 
+incorrect profile.  I think this is quite unlikely but not non-zero.
 
+To at least give some time for anything like that to be raised I feel 
+this should go to for-next.
+
+Ideally I do want to see it go to stable kernels after we're all 
+sufficiently happy though.  Random bug reports to me like the ones I 
+added to the commit message get raised mostly by people who compile 
+their own (stable) kernels and enable all the AMD stuff because they 
+have AMD hardware.
+
+So how about we target for-next, but also add a stable tag for when it 
+gets merged in the 6.10 cycle?
+
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+> 
+>> ---
+>>   drivers/platform/x86/amd/hsmp.c | 16 ++++++++++++++++
+>>   1 file changed, 16 insertions(+)
+>>
+>> diff --git a/drivers/platform/x86/amd/hsmp.c b/drivers/platform/x86/amd/hsmp.c
+>> index 1927be901108..102a49c3e945 100644
+>> --- a/drivers/platform/x86/amd/hsmp.c
+>> +++ b/drivers/platform/x86/amd/hsmp.c
+>> @@ -907,6 +907,17 @@ static int hsmp_plat_dev_register(void)
+>>   	return ret;
+>>   }
+>>   
+>> +static bool hsmp_supported_profile(void)
+>> +{
+>> +	switch (acpi_gbl_FADT.preferred_profile) {
+>> +	case PM_ENTERPRISE_SERVER:
+>> +	case PM_SOHO_SERVER:
+>> +	case PM_PERFORMANCE_SERVER:
+>> +		return true;
+>> +	}
+>> +	return false;
+>> +}
+>> +
+>>   static int __init hsmp_plt_init(void)
+>>   {
+>>   	int ret = -ENODEV;
+>> @@ -917,6 +928,11 @@ static int __init hsmp_plt_init(void)
+>>   		return ret;
+>>   	}
+>>   
+>> +	if (!hsmp_supported_profile()) {
+>> +		pr_err("HSMP is only supported on servers");
+>> +		return ret;
+>> +	}
+>> +
+>>   	/*
+>>   	 * amd_nb_num() returns number of SMN/DF interfaces present in the system
+>>   	 * if we have N SMN/DF interfaces that ideally means N sockets
+> 
 
