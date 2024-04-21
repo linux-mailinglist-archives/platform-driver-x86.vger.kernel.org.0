@@ -1,60 +1,60 @@
-Return-Path: <platform-driver-x86+bounces-2938-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-2940-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D0F38ABFD0
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECDC68ABFD2
 	for <lists+platform-driver-x86@lfdr.de>; Sun, 21 Apr 2024 17:46:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B66731F21089
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A6FE228195F
 	for <lists+platform-driver-x86@lfdr.de>; Sun, 21 Apr 2024 15:46:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE1881B946;
-	Sun, 21 Apr 2024 15:45:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D07E31B977;
+	Sun, 21 Apr 2024 15:46:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SKcxL0G2"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Z+sGdgIU"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A091B5B1
-	for <platform-driver-x86@vger.kernel.org>; Sun, 21 Apr 2024 15:45:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D5C1B5B1
+	for <platform-driver-x86@vger.kernel.org>; Sun, 21 Apr 2024 15:45:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713714358; cv=none; b=qFijggTMi20iY5qLzT6OdJR4Ochxvaxb2C4WMG/dIJ2KMPKjv5HhF7F97QThilc/iXsBy7rEbLoeFcZO34bw1ud5EAVBWA5qiUemvs8jzU+GLMsOJbl//hTuvIbcorVcGyiqQc55XDgaUg6IWgAAPKclsJ4IwrhlYT0NhprzJeQ=
+	t=1713714360; cv=none; b=VqFd4/0lJ+oWgutQU8vzYlivw0I8CAWg4r2Pqfc3cmE1rhI3gu9oB7DdiZa8e0HxHRFOAhV4waVnTEuaCZUyWBHzuii5M09BVminOK64FkswtrjiEBDxPQOd/zfFF9ucTJtWBTJjY3GayWol+aq8ARNbUVxMh/mlfnAnAeT+bTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713714358; c=relaxed/simple;
-	bh=TbT+L44GuIdHBouGGtSCReysnxAwvX6rRc1stQsm9Dk=;
+	s=arc-20240116; t=1713714360; c=relaxed/simple;
+	bh=VIM0j5LN8mL2vMrEQJGAo+Rvo5VCIap/f4g7t71+jPA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cgzzBSY4hMdA1FUwaiv1mQdRSS2dR35gerFBPD89iRQiUYT20EU8unIS3QZpYzhxibKJTT9SA3nRYJ2LLqUZfyXIj0iKvRz1pMD4mYAAjkNAWKXKCx2alVza8o7ETOi6ocIOhDILNixpVSzBdYJ4q4yykabVo4D/231U7u+o5Jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SKcxL0G2; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=k/uTKQAgTdc+Tvm0B5ZB80JXcEi+uTrdnl38Edk4fnAI5aGV9Im5aIJ+hnLtJgf0JFDbzEcyJ+KHookh3z2+dBy4g6NUjndKxrlo8ubCV9jjbwQe4OTvFBGgjFAFzWMGG4p/8oRK0cpa4+/qs0wxb7Sg9grPQBEBUnkxHz3qVek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Z+sGdgIU; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713714356;
+	s=mimecast20190719; t=1713714358;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vvdv18IJGOuumFikPskbXJYsileD8TWgYyzZkZDzd08=;
-	b=SKcxL0G2T+0x4XaL0KdJGyIMtLtZX5PTrSmb5x0JfCCxD63yNvgRiBOdhXZO551gtoXFB3
-	+C2C7kixqAyHdy6Et8jSTSW7My6fEHjYRdshsWk95EmA9gJNFarMwfLFM7FTcHoM8x9Wz5
-	ho+6yzzYP7y8e7FRupRQ19aS4XrzucM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-269-3Ig_eV2VOv6zmer-9rB3Yw-1; Sun, 21 Apr 2024 11:45:53 -0400
-X-MC-Unique: 3Ig_eV2VOv6zmer-9rB3Yw-1
+	bh=E+mzqNt5w3qnJcmko8jwwdLwE5oPIFcZ7M11zY2tmRU=;
+	b=Z+sGdgIUuOnqVJyzOKkYaIpX2+WYV4qAZ7jC+7WzIfboVbuY88KUzsaa3qh/Ac7L48pzX9
+	cxIb73sY4UheK4vku8YXBoDgSAe8stLOC/7wWAzNPQlFy4LpUtG3ME7ksWMZmTt1qPpFI+
+	/57IVnG/jBLNPVSHHjm0x0js/5uR5Rw=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-677-HS1oUmW_NnubOSSC2Rz-dA-1; Sun,
+ 21 Apr 2024 11:45:55 -0400
+X-MC-Unique: HS1oUmW_NnubOSSC2Rz-dA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5F7A0802E4D;
-	Sun, 21 Apr 2024 15:45:53 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AB1203C00098;
+	Sun, 21 Apr 2024 15:45:54 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.66])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 44718402482D;
-	Sun, 21 Apr 2024 15:45:52 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 8D76A40357A7;
+	Sun, 21 Apr 2024 15:45:53 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
 	Andy Shevchenko <andy@kernel.org>,
@@ -65,9 +65,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Nitin Joshi <njoshi1@lenovo.com>,
 	ibm-acpi-devel@lists.sourceforge.net,
 	platform-driver-x86@vger.kernel.org
-Subject: [PATCH 20/24] platform/x86: thinkpad_acpi: Add mappings for adaptive kbd clipping-tool and cloud keys
-Date: Sun, 21 Apr 2024 17:45:16 +0200
-Message-ID: <20240421154520.37089-21-hdegoede@redhat.com>
+Subject: [PATCH 21/24] platform/x86: thinkpad_acpi: Simplify known_ev handling
+Date: Sun, 21 Apr 2024 17:45:17 +0200
+Message-ID: <20240421154520.37089-22-hdegoede@redhat.com>
 In-Reply-To: <20240421154520.37089-1-hdegoede@redhat.com>
 References: <20240421154520.37089-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -79,44 +79,53 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
 
-The X1 carbon 2014 / 2nd gen's adaptive keyboard top row's "Home" mode,
-which is 1 of the 2 modes Linux supports, has clipping-tool and cloud
-buttons which so far are not mapped.
+From: Mark Pearson <mpearson-lenovo@squebb.ca>
 
-I assume these were left as KEY_RESERVED because no suitable KEY_FOO codes
-were available when support was added.
+Modify how known_ev event is handled in preparation for adding new hkey
+event range.
 
-In the mean time we have gotten KEY_SELECTIVE_SCREENSHOT and this has been
-used for the clipping-tool function under Fn + PrtSc on more traditional
-ThinkPad keyboards already.
-
-Finding a KEY_FOO code for the cloud key is harder looking at the symbol
-it seems to refer to cloud-storage which made me think of file syncing,
-or file transfer which has let me to pick KEY_XFER for this.
-
-Note this is based on looking at a picture of the adaptive top row
-in Home mode and has not been tested on an actual adaptive keyboard.
-
+Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+Link: https://lore.kernel.org/r/20240417173124.9953-1-mpearson-lenovo@squebb.ca
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/thinkpad_acpi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/platform/x86/thinkpad_acpi.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 5e34f70c21a4..fc60857b39ec 100644
+index fc60857b39ec..cd54a2455ac8 100644
 --- a/drivers/platform/x86/thinkpad_acpi.c
 +++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -3231,8 +3231,8 @@ static const struct key_entry keymap_lenovo[] __initconst = {
- 	/* Adaptive keyboard mappings for Carbon X1 2014 translated scancodes 0x20 - 0x33 */
- 	{ KE_KEY, TP_ACPI_HOTKEYSCAN_MUTE2, { KEY_RESERVED } },
- 	{ KE_KEY, TP_ACPI_HOTKEYSCAN_BRIGHTNESS_ZERO, { KEY_BRIGHTNESS_MIN } },
--	{ KE_KEY, TP_ACPI_HOTKEYSCAN_CLIPPING_TOOL, { KEY_RESERVED } },
--	{ KE_KEY, TP_ACPI_HOTKEYSCAN_CLOUD, { KEY_RESERVED } },
-+	{ KE_KEY, TP_ACPI_HOTKEYSCAN_CLIPPING_TOOL, { KEY_SELECTIVE_SCREENSHOT } },
-+	{ KE_KEY, TP_ACPI_HOTKEYSCAN_CLOUD, { KEY_XFER } },
- 	{ KE_KEY, TP_ACPI_HOTKEYSCAN_UNK9, { KEY_RESERVED } },
- 	{ KE_KEY, TP_ACPI_HOTKEYSCAN_VOICE, { KEY_VOICECOMMAND } },
- 	{ KE_KEY, TP_ACPI_HOTKEYSCAN_UNK10, { KEY_RESERVED } },
+@@ -3840,6 +3840,7 @@ static void hotkey_notify(struct ibm_struct *ibm, u32 event)
+ 		}
+ 
+ 		send_acpi_ev = true;
++		known_ev = false;
+ 
+ 		switch (hkey >> 12) {
+ 		case 1:
+@@ -3863,8 +3864,6 @@ static void hotkey_notify(struct ibm_struct *ibm, u32 event)
+ 				/* FIXME: kick libata if SATA link offline */
+ 				known_ev = true;
+ 				break;
+-			default:
+-				known_ev = false;
+ 			}
+ 			break;
+ 		case 4:
+@@ -3887,11 +3886,8 @@ static void hotkey_notify(struct ibm_struct *ibm, u32 event)
+ 				tpacpi_send_radiosw_update();
+ 				send_acpi_ev = 0;
+ 				known_ev = true;
+-				break;
+ 			}
+-			fallthrough;	/* to default */
+-		default:
+-			known_ev = false;
++			break;
+ 		}
+ 		if (!known_ev) {
+ 			pr_notice("unhandled HKEY event 0x%04x\n", hkey);
 -- 
 2.44.0
 
