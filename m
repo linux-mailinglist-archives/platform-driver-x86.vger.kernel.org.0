@@ -1,156 +1,200 @@
-Return-Path: <platform-driver-x86+bounces-2918-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-2920-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D0D8ABE7D
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 21 Apr 2024 05:44:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 201718ABFBE
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 21 Apr 2024 17:45:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5083B1F21173
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 21 Apr 2024 03:44:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC42628196F
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 21 Apr 2024 15:45:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E10CA2F26;
-	Sun, 21 Apr 2024 03:44:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFFE31A28C;
+	Sun, 21 Apr 2024 15:45:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l9WKXXjF"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BRPDvVLt"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861B84C70;
-	Sun, 21 Apr 2024 03:44:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D15199B4
+	for <platform-driver-x86@vger.kernel.org>; Sun, 21 Apr 2024 15:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713671059; cv=none; b=Udw7smjQ2zerw+JzASV4tpTiCdgPoC8+aXIuuz6j4qTMQIH4m0PTx2jeG/0cnMWSFebz3mmC4Ag++wvTfhWsLV3JYcbLNEUc3PnC5eedSxvugW0iTU9z5n+Owx68B1oNoW8IExrkJj4orKyV+LZuy1KeGEt8T2fbmJ3K996Xrhk=
+	t=1713714334; cv=none; b=VC7RxaNhdFTIwehogbloekAoWg7fwcTW5RaoVrEd6gj8f1AmXjcmqykQZFjMJsr9mTZ7XSM32pB1zQIivsTCr2S1u2U6F5FXDmany/ga9lNzWFzrtx60aSLgSVe6Y3OlP/9H6TszmW1wvs2Xpzc/tQZZdmybEhwySSuBrPZrTUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713671059; c=relaxed/simple;
-	bh=7w0n391lEOJiB4Bkz9LUiRO65cvGXQ/0hj8tv7G2fJc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lFuefCoXP4o+6og2VghFeTjOhgxPmI9w5766+/QeRW22kvd5vU68XesQ5e8x8iWwbGFKjwrvhI5qHPQm6eY8PpqUNImQ24B9LZ3GmOBfAooL5nMak71+d3URXChdT8dvUSfsNU3ypMZJSxS3oPcwvnmXK/idBx1QuvsBLKONjrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l9WKXXjF; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713671055; x=1745207055;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7w0n391lEOJiB4Bkz9LUiRO65cvGXQ/0hj8tv7G2fJc=;
-  b=l9WKXXjFwf+8smdBxl7Y8QpVdBI8vjscihlY9xkRi96U3o/gVQPYZP5Z
-   Q5vmomwfDUine7X85whUng8nUeQdC/K+vfpRiMrmaQqCSr+qtSyI4y1EB
-   OlAp9JE5fMIaLfv130EERsrKRCh7OsF1/5JeXOlsGUyczKBJkasuqFx+V
-   SOKg5iX2Ilo6lVilIragqj5GnSjlDlrs4du56enHOjhBVw4739nVSKsgA
-   vE2q+ogd1SL+Koq+OaX5gsCJWMIdsRJL8xpv4NwXZZBgynZvyLpH6sZ40
-   ePAI93LhSIzUTFZizjisvvpMtRkLVh90xL6kALPiupKF5u8xjTc4UboNk
-   g==;
-X-CSE-ConnectionGUID: ShkHpnZTTiCHNCPn205ZkQ==
-X-CSE-MsgGUID: pg59g6i9RmKEfFzSAUzPPg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11050"; a="20374178"
-X-IronPort-AV: E=Sophos;i="6.07,217,1708416000"; 
-   d="scan'208";a="20374178"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2024 20:44:14 -0700
-X-CSE-ConnectionGUID: bhsNMk0ETOmtQirJyLeisA==
-X-CSE-MsgGUID: CrFy/DzhTk+NvEY3j8zkTg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,217,1708416000"; 
-   d="scan'208";a="23751069"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 20 Apr 2024 20:44:11 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ryO7c-000BfO-2g;
-	Sun, 21 Apr 2024 03:44:08 +0000
-Date: Sun, 21 Apr 2024 11:43:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mohamed Ghanmi <mohamed.ghanmi@supcom.tn>, hdegoede@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	corentin.chary@gmail.com, ilpo.jarvinen@linux.intel.com,
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-	"Luke D . Jones" <luke@ljones.dev>,
-	Mohamed Ghanmi <mohamed.ghanmi@supcom.tn>
-Subject: Re: [PATCH v2 1/1] platform/x86: asus-wmi: add support for vivobook
- fan profiles
-Message-ID: <202404211110.YaZAJhfU-lkp@intel.com>
-References: <20240418214727.10658-2-mohamed.ghanmi@supcom.tn>
+	s=arc-20240116; t=1713714334; c=relaxed/simple;
+	bh=+xmNJ5bI5lAzqXafWsPy8XiJQuBS3Mjki9nJvH+c7vs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d80Z6OTexPZXaIQE8zxFh7jkQtxkJ5sxVfA4zJ0f6YDZE5/chQFtFQ+wSfGBpnY/tWNySYgZBupNIvphFRLuGZt5A5l20A54f+Y27HY+1i0dRLEpuLif4Gf3T5D3gzUA0tIteDW2EbV+cWI2+iMtWvs4WzxDyk/dR67RNOR2bR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BRPDvVLt; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1713714331;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=1S/AJXq0rQrlD6I8rI07rKpBMasUHTiTmcxpdMUwm3E=;
+	b=BRPDvVLtz4f94PbroBBuJoveKmwD+pZ8ZG63e9lt69I7NDbO6I62Vf2R6OYdHXLTsDCeXa
+	0UCpTzmebos5n6tuMP4iUecIWhAyf7zvl1hv1v0jvLGLv6znRoThrGEmRNuMgeiQMcJp0F
+	3pIqlB9FRvvKzR9t318GbP8TE/HbSSQ=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-413-ttgP8wMNMjaluszo_2QV7g-1; Sun,
+ 21 Apr 2024 11:45:27 -0400
+X-MC-Unique: ttgP8wMNMjaluszo_2QV7g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 486C0380450A;
+	Sun, 21 Apr 2024 15:45:27 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.66])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id D4B2A402482D;
+	Sun, 21 Apr 2024 15:45:25 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Vishnu Sankar <vishnuocv@gmail.com>,
+	Nitin Joshi <njoshi1@lenovo.com>,
+	ibm-acpi-devel@lists.sourceforge.net,
+	platform-driver-x86@vger.kernel.org
+Subject: [PATCH 00/24] platform/x86: thinkpad_acpi: Refactor hotkey handling and add support for some new hotkeys
+Date: Sun, 21 Apr 2024 17:44:56 +0200
+Message-ID: <20240421154520.37089-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240418214727.10658-2-mohamed.ghanmi@supcom.tn>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
 
-Hi Mohamed,
+Hi All,
 
-kernel test robot noticed the following build errors:
+My reply in the "[PATCH v2 1/4] platform/x86: thinkpad_acpi:
+simplify known_ev handling" handling where I indicated that I would work
+on converting the thinkpad_acpi hotkey handling to use sparse-keymaps
+underestimated the work this required quite a bit.
 
-[auto build test ERROR on next-20240418]
-[cannot apply to linus/master v6.9-rc4 v6.9-rc3 v6.9-rc2 v6.9-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The hotkey code is quite old and crufty and full of special cases to
+support many generations of ThinkPads, so I ended up doing some
+significant refactoring and cleanup before doing the actual conversion
+to sparse-keymaps.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mohamed-Ghanmi/platform-x86-asus-wmi-add-support-for-vivobook-fan-profiles/20240419-055003
-base:   next-20240418
-patch link:    https://lore.kernel.org/r/20240418214727.10658-2-mohamed.ghanmi%40supcom.tn
-patch subject: [PATCH v2 1/1] platform/x86: asus-wmi: add support for vivobook fan profiles
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240421/202404211110.YaZAJhfU-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240421/202404211110.YaZAJhfU-lkp@intel.com/reproduce)
+I have been vary careful to not introduce any changes wrt support for
+the original ThinkPad models / hotkeys which use the hotkey_*_mask
+related code.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404211110.YaZAJhfU-lkp@intel.com/
+I've also done my best to avoid any *significant* functional change but
+there are still some functional changes, which should all not impact
+userspace compatibility:
 
-All errors (new ones prefixed by >>):
+1. Adaptive keyboard special keys will now also send EV_MSC events with
+   the scancode, just like all the other hotkeys.
 
->> drivers/platform/x86/asus-wmi.c:3730:49: error: use of undeclared identifier 'asus'
-    3730 |         u8 max_mode = throttle_thermal_policy_max_mode(asus);
-         |                                                        ^
-   1 error generated.
+2. Rely on the input core for KEY_RESERVED suppression. This means that
+   keys marked as KEY_RESERVED will still send EV_MSC evdev events when
+   pressed (which helps users with mapping them to non reserved KEY_FOO
+   values if desired).
+
+3. Align the keycodes for volume up/down/mute and brightness up/down with
+   those set by userspace through udev upstream's hwdb. Note these are all
+   for keys which are suppressed by hotkey_reserved_mask by default.
+   So this is only a functional change for users who override the default
+   hotkey-mask *and* who do not have udev's default hwdb installed.
+
+4. Suppress ACPI netlink event generation for unknown 0x1xxx hkey events to
+   avoid userspace starting to rely on the netlink events for new hotkeys
+   before these have been added to the keymap, only to have the netlink
+   events get disabled by the adding of the new hotkeys to the keymap.
+
+   This should not cause a behavior change for existing models since all
+   currently known 0x1xxx events have a mapping.
+
+Here is a quick breakdown of the patches in this series:
+
+Patch 1 - 2: Fix a small locking issue on rmmod the only problem here
+   really is a lockdep warning, so I plan to route these fixes through
+   for-next together with the rest to keep things simple.
+
+Patch 3 - 14: Do a bunch of cleanups and refactoring
+
+Patch 15: Implements functional change no 4. I really kinda want to just
+   completely disable ACPI netlink event generation when also sending evdev
+   events instead of reporting these twice. But for the 0x11xx / 0x13xx
+   hkey events the kernel has send ACPI netlink events for years now. So
+   this disables ACPI netlink events for any new hotkeys going forward.
+
+Patch 16 - 18: Refactor / cleanup reserved key handling
+
+Patch 19: Actually move to sparse-keymaps
+
+Patch 20: Update the keymap for 2 adaptive kbd Fn row keys
+
+Patch 21 - 24: Mark's original patches adding support for the new Fn + N
+   key combo and for trackpoint doubletap slightly reworked to use
+   the new sparse-keymap.
+
+Mark if you can make some time to review patches 1-20 that would be great.
+
+Regards,
+
+Hans
 
 
-vim +/asus +3730 drivers/platform/x86/asus-wmi.c
+Hans de Goede (20):
+  platform/x86: thinkpad_acpi: Take hotkey_mutex during hotkey_exit()
+  platform/x86: thinkpad_acpi: Provide hotkey_poll_stop_sync() dummy
+  platform/x86: thinkpad_acpi: Drop setting send_/ignore_acpi_ev
+    defaults twice
+  platform/x86: thinkpad_acpi: Drop ignore_acpi_ev
+  platform/x86: thinkpad_acpi: Use tpacpi_input_send_key() in adaptive
+    kbd code
+  platform/x86: thinkpad_acpi: Do hkey to scancode translation later
+  platform/x86: thinkpad_acpi: Make tpacpi_driver_event() return if it
+    handled the event
+  platform/x86: thinkpad_acpi: Move adaptive kbd event handling to
+    tpacpi_driver_event()
+  platform/x86: thinkpad_acpi: Move special original hotkeys handling
+    out of switch-case
+  platform/x86: thinkpad_acpi: Move hotkey_user_mask check to
+    tpacpi_input_send_key()
+  platform/x86: thinkpad_acpi: Always call tpacpi_driver_event() for
+    hotkeys
+  platform/x86: thinkpad_acpi: Drop tpacpi_input_send_key_masked() and
+    hotkey_driver_event()
+  platform/x86: thinkpad_acpi: Move hkey > scancode mapping to
+    tpacpi_input_send_key()
+  platform/x86: thinkpad_acpi: Move tpacpi_driver_event() call to
+    tpacpi_input_send_key()
+  platform/x86: thinkpad_acpi: Do not send ACPI netlink events for
+    unknown hotkeys
+  platform/x86: thinkpad_acpi: Change hotkey_reserved_mask
+    initialization
+  platform/x86: thinkpad_acpi: Use correct keycodes for volume and
+    brightness keys
+  platform/x86: thinkpad_acpi: Drop KEY_RESERVED special handling
+  platform/x86: thinkpad_acpi: Switch to using sparse-keymap helpers
+  platform/x86: thinkpad_acpi: Add mappings for adaptive kbd
+    clipping-tool and cloud keys
 
-  3725	
-  3726	static ssize_t throttle_thermal_policy_store(struct device *dev,
-  3727					    struct device_attribute *attr,
-  3728					    const char *buf, size_t count)
-  3729	{
-> 3730		u8 max_mode = throttle_thermal_policy_max_mode(asus);
-  3731		struct asus_wmi *asus = dev_get_drvdata(dev);
-  3732		u8 new_mode;
-  3733		int result;
-  3734		int err;
-  3735	
-  3736		result = kstrtou8(buf, 10, &new_mode);
-  3737		if (result < 0)
-  3738			return result;
-  3739	
-  3740		if (new_mode > max_mode)
-  3741			return -EINVAL;
-  3742	
-  3743		asus->throttle_thermal_policy_mode = new_mode;
-  3744		err = throttle_thermal_policy_write(asus);
-  3745		if (err)
-  3746			return err;
-  3747	
-  3748		/*
-  3749		 * Ensure that platform_profile updates userspace with the change to ensure
-  3750		 * that platform_profile and throttle_thermal_policy_mode are in sync.
-  3751		 */
-  3752		platform_profile_notify();
-  3753	
-  3754		return count;
-  3755	}
-  3756	
+Mark Pearson (4):
+  platform/x86: thinkpad_acpi: Simplify known_ev handling
+  platform/x86: thinkpad_acpi: Support for trackpoint doubletap
+  platform/x86: thinkpad_acpi: Support for system debug info hotkey
+  platform/x86: thinkpad_acpi: Support hotkey to disable trackpoint
+    doubletap
+
+ drivers/platform/x86/thinkpad_acpi.c | 849 +++++++++++----------------
+ 1 file changed, 348 insertions(+), 501 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.44.0
+
 
