@@ -1,78 +1,71 @@
-Return-Path: <platform-driver-x86+bounces-3027-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-3030-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0988B05CA
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Apr 2024 11:16:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F6338B097A
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Apr 2024 14:28:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 528801F2678D
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Apr 2024 09:16:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 832E01C215D4
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Apr 2024 12:28:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB05115921B;
-	Wed, 24 Apr 2024 09:15:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 015A7159598;
+	Wed, 24 Apr 2024 12:28:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="J7OYHsjf"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eRkewd+y"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B84A1591F3;
-	Wed, 24 Apr 2024 09:15:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508E3158DD6
+	for <platform-driver-x86@vger.kernel.org>; Wed, 24 Apr 2024 12:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713950150; cv=none; b=huluRpdWskM59meelifZs+7L9ZIM66t7HTquuJFE8C8JU4i2K0wxO4p9g5Bi1EbMe7DYy/rbhRP2HW8NfQuCz5VKlhgxVjg65WB5Y8fd5Y8qPfQJNr61trhhwheRl90nADyzNesxOvL6Um6fyttvdOnni9CrBA+wEnxvX2YGUvk=
+	t=1713961721; cv=none; b=WNANx8oJVO+mV0mFuV7Tyuz0O5ejq8shOJB+5P1uK89WXZV6qFeeAo+HKT+84U4f64MYPDRSrx+oyYXY5/0vm7AVxxI68MIumYejy01qQfOmuvyf8+B/4bO7oN8p86L/iNnnFPkYUiWiI2ihfEYzOZ1IzLc9pmE09awm1ShmStU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713950150; c=relaxed/simple;
-	bh=WqijgsgknTD42pX0AJPxhmATHAHRAgWH+Y70fUcWT0k=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XXT2LOZcgttssB+bP1DbEsu2AYAWsJxuBRT2SZZZzjv556/RnL6PqX54gNqFDYaOEDkHVT20JNyGpeREfN1vihSFssLQ+bfxUyfx6Mfi7JjkzOBP7yZi2pJjNhm28mSVa9zuhMMnR5NOYLqjd/L6osn57mmPxUsF0zE3ZkbfVGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=J7OYHsjf; arc=none smtp.client-ip=115.124.30.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1713950146; h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
-	bh=BF+R39vEMjfNT7kwwXK+6kuPa16lTOGlEmdbi4NXV28=;
-	b=J7OYHsjf1Ziff1CvUrQRAkB22fGKrIxVCTB76nCL7YEercC/cAIPDdmbKG6prZJCQDqf44BTkg5QKQd45PNRSlEJiLjdieXOYLzOssVf/TSNYsMUn1WicQdxHU2XMkwtG5eQJQjm15+t1yJqp8WOAHcVbXtmzZPIWWR778TbBGc=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037067110;MF=xuanzhuo@linux.alibaba.com;NM=1;PH=DS;RN=26;SR=0;TI=SMTPD_---0W5BsEqC_1713950143;
-Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com fp:SMTPD_---0W5BsEqC_1713950143)
-          by smtp.aliyun-inc.com;
-          Wed, 24 Apr 2024 17:15:44 +0800
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-To: virtualization@lists.linux.dev
-Cc: Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Vadim Pasternak <vadimp@nvidia.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Cornelia Huck <cohuck@redhat.com>,
-	Halil Pasic <pasic@linux.ibm.com>,
-	Eric Farman <farman@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	David Hildenbrand <david@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	linux-um@lists.infradead.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	kvm@vger.kernel.org
-Subject: [PATCH vhost v9 6/6] virtio_ring: simplify the parameters of the funcs related to vring_create/new_virtqueue()
-Date: Wed, 24 Apr 2024 17:15:33 +0800
-Message-Id: <20240424091533.86949-7-xuanzhuo@linux.alibaba.com>
-X-Mailer: git-send-email 2.32.0.3.g01195cf9f
-In-Reply-To: <20240424091533.86949-1-xuanzhuo@linux.alibaba.com>
-References: <20240424091533.86949-1-xuanzhuo@linux.alibaba.com>
+	s=arc-20240116; t=1713961721; c=relaxed/simple;
+	bh=K758PGdA4Ngy7h1cLyKwbzBiS7cpny7plCelBH5h/4k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Jg4putbs8ThIDOMjqKUd/iOqcFpGKqBXXfrqaxMSyA9NVrh7BmDGf5lFZkIqMtbw5LjTj6ossg28PVzdma7YeaUDfdaNXc6x1EmndOpGs/ouaMnOUX/AVZDlS6cSXhhmi+eOew664cssTInc8KVAFOcqXIEEGwl+OTqafu94n3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eRkewd+y; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1713961719;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0xvBzDNRJJ9jSclY1XJJLLiBrhthst3ZLwuU0+xsuAw=;
+	b=eRkewd+yHZ/E/CjcwawSTMcP2i1OaG4LcuaEzVbA7UHp4euPtUP2GwrxDgCzJSwCsZCVzT
+	7v9L4H4dxm8gxxhJ+kEDB7LH+Oa9DdAJgNKLa29zFSN1qQtGi2FjKfY3Fg9SitnqYWevwE
+	HVvBjaVePGqwNOHxqsmUBYYwNlAPKHk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-643-PgxBR5aYPay2iegg55eLrA-1; Wed, 24 Apr 2024 08:28:36 -0400
+X-MC-Unique: PgxBR5aYPay2iegg55eLrA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4687A8DCFC3;
+	Wed, 24 Apr 2024 12:28:36 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.195.45])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id D9D70C15771;
+	Wed, 24 Apr 2024 12:28:34 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Vishnu Sankar <vishnuocv@gmail.com>,
+	Nitin Joshi <njoshi1@lenovo.com>,
+	ibm-acpi-devel@lists.sourceforge.net,
+	platform-driver-x86@vger.kernel.org
+Subject: [PATCH v2 00/24] platform/x86: thinkpad_acpi: Refactor hotkey handling and add support for some new hotkeys
+Date: Wed, 24 Apr 2024 14:28:10 +0200
+Message-ID: <20240424122834.19801-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -80,303 +73,126 @@ List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Git-Hash: bdb00f35db89
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
 
-As the refactor of find_vqs()/vring_new_virtqueue()/vring_create_virtqueue
-the struct cfg/tp_cfg are passed to vring.
+Hi All,
 
-This patch refactors the vring by these structures. This can simplify
-the code.
+Here is v2 of my patch-series to refactor thinkpad_acpi's hotkey handling
+and to add support for some new hotkeys on new models.
 
-Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
----
- drivers/virtio/virtio_ring.c | 161 +++++++++++------------------------
- 1 file changed, 52 insertions(+), 109 deletions(-)
+Changes in v2:
+- Some small code style tweaks in response to reviews
+- Add various Reviewed-by and Tested-by tags
 
-diff --git a/drivers/virtio/virtio_ring.c b/drivers/virtio/virtio_ring.c
-index 3a5e56cca13a..766db96406f0 100644
---- a/drivers/virtio/virtio_ring.c
-+++ b/drivers/virtio/virtio_ring.c
-@@ -223,15 +223,11 @@ struct vring_virtqueue {
- #endif
- };
- 
--static struct virtqueue *__vring_new_virtqueue(unsigned int index,
-+static struct virtqueue *__vring_new_virtqueue(struct virtio_device *vdev,
-+					       unsigned int index,
- 					       struct vring_virtqueue_split *vring_split,
--					       struct virtio_device *vdev,
--					       bool weak_barriers,
--					       bool context,
--					       bool (*notify)(struct virtqueue *),
--					       void (*callback)(struct virtqueue *),
--					       const char *name,
--					       struct device *dma_dev);
-+					       struct vq_transport_config *tp_cfg,
-+					       struct virtio_vq_config *cfg);
- static struct vring_desc_extra *vring_alloc_desc_extra(unsigned int num);
- static void vring_free(struct virtqueue *_vq);
- 
-@@ -240,6 +236,8 @@ static void vring_free(struct virtqueue *_vq);
-  */
- 
- #define to_vvq(_vq) container_of_const(_vq, struct vring_virtqueue, vq)
-+#define cfg_vq_val(cfg, vq, key) (cfg->key[vq->vq.index])
-+#define cfg_vq_get(cfg, vq, key) (cfg->key ? cfg_vq_val(cfg, vq, key) : false)
- 
- static bool virtqueue_use_indirect(const struct vring_virtqueue *vq,
- 				   unsigned int total_sg)
-@@ -1138,32 +1136,28 @@ static int vring_alloc_queue_split(struct vring_virtqueue_split *vring_split,
- 	return 0;
- }
- 
--static struct virtqueue *vring_create_virtqueue_split(
--	unsigned int index,
--	unsigned int num,
--	unsigned int vring_align,
--	struct virtio_device *vdev,
--	bool weak_barriers,
--	bool may_reduce_num,
--	bool context,
--	bool (*notify)(struct virtqueue *),
--	void (*callback)(struct virtqueue *),
--	const char *name,
--	struct device *dma_dev)
-+static struct virtqueue *vring_create_virtqueue_split(struct virtio_device *vdev,
-+						      unsigned int index,
-+						      struct vq_transport_config *tp_cfg,
-+						      struct virtio_vq_config *cfg)
- {
- 	struct vring_virtqueue_split vring_split = {};
- 	struct virtqueue *vq;
- 	int err;
- 
--	err = vring_alloc_queue_split(&vring_split, vdev, num, vring_align,
--				      may_reduce_num, dma_dev);
-+	tp_cfg->dma_dev = tp_cfg->dma_dev ? : vdev->dev.parent;
-+
-+	err = vring_alloc_queue_split(&vring_split, vdev,
-+				      tp_cfg->num,
-+				      tp_cfg->vring_align,
-+				      tp_cfg->may_reduce_num,
-+				      tp_cfg->dma_dev);
- 	if (err)
- 		return NULL;
- 
--	vq = __vring_new_virtqueue(index, &vring_split, vdev, weak_barriers,
--				   context, notify, callback, name, dma_dev);
-+	vq = __vring_new_virtqueue(vdev, index, &vring_split, tp_cfg, cfg);
- 	if (!vq) {
--		vring_free_split(&vring_split, vdev, dma_dev);
-+		vring_free_split(&vring_split, vdev, tp_cfg->dma_dev);
- 		return NULL;
- 	}
- 
-@@ -2050,38 +2044,33 @@ static void virtqueue_reinit_packed(struct vring_virtqueue *vq)
- 	virtqueue_vring_init_packed(&vq->packed, !!vq->vq.callback);
- }
- 
--static struct virtqueue *vring_create_virtqueue_packed(
--	unsigned int index,
--	unsigned int num,
--	unsigned int vring_align,
--	struct virtio_device *vdev,
--	bool weak_barriers,
--	bool may_reduce_num,
--	bool context,
--	bool (*notify)(struct virtqueue *),
--	void (*callback)(struct virtqueue *),
--	const char *name,
--	struct device *dma_dev)
-+static struct virtqueue *vring_create_virtqueue_packed(struct virtio_device *vdev,
-+						       unsigned int index,
-+						       struct vq_transport_config *tp_cfg,
-+						       struct virtio_vq_config *cfg)
- {
- 	struct vring_virtqueue_packed vring_packed = {};
- 	struct vring_virtqueue *vq;
-+	struct device *dma_dev;
- 	int err;
- 
--	if (vring_alloc_queue_packed(&vring_packed, vdev, num, dma_dev))
-+	dma_dev = tp_cfg->dma_dev ? : vdev->dev.parent;
-+
-+	if (vring_alloc_queue_packed(&vring_packed, vdev, tp_cfg->num, dma_dev))
- 		goto err_ring;
- 
- 	vq = kmalloc(sizeof(*vq), GFP_KERNEL);
- 	if (!vq)
- 		goto err_vq;
- 
--	vq->vq.callback = callback;
--	vq->vq.vdev = vdev;
--	vq->vq.name = name;
- 	vq->vq.index = index;
-+	vq->vq.callback = cfg_vq_val(cfg, vq, callbacks);
-+	vq->vq.vdev = vdev;
-+	vq->vq.name = cfg_vq_val(cfg, vq, names);
- 	vq->vq.reset = false;
- 	vq->we_own_ring = true;
--	vq->notify = notify;
--	vq->weak_barriers = weak_barriers;
-+	vq->notify = tp_cfg->notify;
-+	vq->weak_barriers = tp_cfg->weak_barriers;
- #ifdef CONFIG_VIRTIO_HARDEN_NOTIFICATION
- 	vq->broken = true;
- #else
-@@ -2094,7 +2083,7 @@ static struct virtqueue *vring_create_virtqueue_packed(
- 	vq->do_unmap = vq->use_dma_api;
- 
- 	vq->indirect = virtio_has_feature(vdev, VIRTIO_RING_F_INDIRECT_DESC) &&
--		!context;
-+		!cfg_vq_get(cfg, vq, ctx);
- 	vq->event = virtio_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX);
- 
- 	if (virtio_has_feature(vdev, VIRTIO_F_ORDER_PLATFORM))
-@@ -2104,9 +2093,9 @@ static struct virtqueue *vring_create_virtqueue_packed(
- 	if (err)
- 		goto err_state_extra;
- 
--	virtqueue_vring_init_packed(&vring_packed, !!callback);
-+	virtqueue_vring_init_packed(&vring_packed, !!cfg_vq_val(cfg, vq, callbacks));
- 
--	virtqueue_init(vq, num);
-+	virtqueue_init(vq, tp_cfg->num);
- 	virtqueue_vring_attach_packed(vq, &vring_packed);
- 
- 	spin_lock(&vdev->vqs_list_lock);
-@@ -2599,15 +2588,11 @@ irqreturn_t vring_interrupt(int irq, void *_vq)
- EXPORT_SYMBOL_GPL(vring_interrupt);
- 
- /* Only available for split ring */
--static struct virtqueue *__vring_new_virtqueue(unsigned int index,
-+static struct virtqueue *__vring_new_virtqueue(struct virtio_device *vdev,
-+					       unsigned int index,
- 					       struct vring_virtqueue_split *vring_split,
--					       struct virtio_device *vdev,
--					       bool weak_barriers,
--					       bool context,
--					       bool (*notify)(struct virtqueue *),
--					       void (*callback)(struct virtqueue *),
--					       const char *name,
--					       struct device *dma_dev)
-+					       struct vq_transport_config *tp_cfg,
-+					       struct virtio_vq_config *cfg)
- {
- 	struct vring_virtqueue *vq;
- 	int err;
-@@ -2620,26 +2605,26 @@ static struct virtqueue *__vring_new_virtqueue(unsigned int index,
- 		return NULL;
- 
- 	vq->packed_ring = false;
--	vq->vq.callback = callback;
--	vq->vq.vdev = vdev;
--	vq->vq.name = name;
- 	vq->vq.index = index;
-+	vq->vq.callback = cfg_vq_val(cfg, vq, callbacks);
-+	vq->vq.vdev = vdev;
-+	vq->vq.name = cfg_vq_val(cfg, vq, names);
- 	vq->vq.reset = false;
- 	vq->we_own_ring = false;
--	vq->notify = notify;
--	vq->weak_barriers = weak_barriers;
-+	vq->notify = tp_cfg->notify;
-+	vq->weak_barriers = tp_cfg->weak_barriers;
- #ifdef CONFIG_VIRTIO_HARDEN_NOTIFICATION
- 	vq->broken = true;
- #else
- 	vq->broken = false;
- #endif
--	vq->dma_dev = dma_dev;
-+	vq->dma_dev = tp_cfg->dma_dev;
- 	vq->use_dma_api = vring_use_dma_api(vdev);
- 	vq->premapped = false;
- 	vq->do_unmap = vq->use_dma_api;
- 
- 	vq->indirect = virtio_has_feature(vdev, VIRTIO_RING_F_INDIRECT_DESC) &&
--		!context;
-+		!cfg_vq_get(cfg, vq, ctx);
- 	vq->event = virtio_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX);
- 
- 	if (virtio_has_feature(vdev, VIRTIO_F_ORDER_PLATFORM))
-@@ -2667,36 +2652,10 @@ struct virtqueue *vring_create_virtqueue(struct virtio_device *vdev,
- 					 struct vq_transport_config *tp_cfg,
- 					 struct virtio_vq_config *cfg)
- {
--	struct device *dma_dev;
--	unsigned int num;
--	unsigned int vring_align;
--	bool weak_barriers;
--	bool may_reduce_num;
--	bool context;
--	bool (*notify)(struct virtqueue *_);
--	void (*callback)(struct virtqueue *_);
--	const char *name;
--
--	dma_dev = tp_cfg->dma_dev ? : vdev->dev.parent;
--
--	num            = tp_cfg->num;
--	vring_align    = tp_cfg->vring_align;
--	weak_barriers  = tp_cfg->weak_barriers;
--	may_reduce_num = tp_cfg->may_reduce_num;
--	notify         = tp_cfg->notify;
--
--	name     = cfg->names[index];
--	callback = cfg->callbacks[index];
--	context  = cfg->ctx ? cfg->ctx[index] : false;
--
- 	if (virtio_has_feature(vdev, VIRTIO_F_RING_PACKED))
--		return vring_create_virtqueue_packed(index, num, vring_align,
--				vdev, weak_barriers, may_reduce_num,
--				context, notify, callback, name, dma_dev);
-+		return vring_create_virtqueue_packed(vdev, index, tp_cfg, cfg);
- 
--	return vring_create_virtqueue_split(index, num, vring_align,
--			vdev, weak_barriers, may_reduce_num,
--			context, notify, callback, name, dma_dev);
-+	return vring_create_virtqueue_split(vdev, index, tp_cfg, cfg);
- }
- EXPORT_SYMBOL_GPL(vring_create_virtqueue);
- 
-@@ -2837,30 +2796,14 @@ struct virtqueue *vring_new_virtqueue(struct virtio_device *vdev,
- 				      struct virtio_vq_config *cfg)
- {
- 	struct vring_virtqueue_split vring_split = {};
--	unsigned int num;
--	unsigned int vring_align;
--	bool weak_barriers;
--	bool context;
--	bool (*notify)(struct virtqueue *_);
--	void (*callback)(struct virtqueue *_);
--	const char *name;
--
--	num            = tp_cfg->num;
--	vring_align    = tp_cfg->vring_align;
--	weak_barriers  = tp_cfg->weak_barriers;
--	notify         = tp_cfg->notify;
--
--	name     = cfg->names[index];
--	callback = cfg->callbacks[index];
--	context  = cfg->ctx ? cfg->ctx[index] : false;
- 
- 	if (virtio_has_feature(vdev, VIRTIO_F_RING_PACKED))
- 		return NULL;
- 
--	vring_init(&vring_split.vring, num, pages, vring_align);
--	return __vring_new_virtqueue(index, &vring_split, vdev, weak_barriers,
--				     context, notify, callback, name,
--				     vdev->dev.parent);
-+	tp_cfg->dma_dev = vdev->dev.parent;
-+
-+	vring_init(&vring_split.vring, tp_cfg->num, pages, tp_cfg->vring_align);
-+	return __vring_new_virtqueue(vdev, index, &vring_split, tp_cfg, cfg);
- }
- EXPORT_SYMBOL_GPL(vring_new_virtqueue);
- 
+Relevant parts of v1 cover-letter:
+
+I have been very careful to not introduce any changes wrt support for
+the original ThinkPad models / hotkeys which use the hotkey_*_mask
+related code.
+
+I've also done my best to avoid any *significant* functional change but
+there are still some functional changes, which should all not impact
+userspace compatibility:
+
+1. Adaptive keyboard special keys will now also send EV_MSC events with
+   the scancode, just like all the other hotkeys.
+
+2. Rely on the input core for KEY_RESERVED suppression. This means that
+   keys marked as KEY_RESERVED will still send EV_MSC evdev events when
+   pressed (which helps users with mapping them to non reserved KEY_FOO
+   values if desired).
+
+3. Align the keycodes for volume up/down/mute and brightness up/down with
+   those set by userspace through udev upstream's hwdb. Note these are all
+   for keys which are suppressed by hotkey_reserved_mask by default.
+   So this is only a functional change for users who override the default
+   hotkey-mask *and* who do not have udev's default hwdb installed.
+
+4. Suppress ACPI netlink event generation for unknown 0x1xxx hkey events to
+   avoid userspace starting to rely on the netlink events for new hotkeys
+   before these have been added to the keymap, only to have the netlink
+   events get disabled by the adding of the new hotkeys to the keymap.
+
+   This should not cause a behavior change for existing models since all
+   currently known 0x1xxx events have a mapping.
+
+Here is a quick breakdown of the patches in this series:
+
+Patch 1 - 2: Fix a small locking issue on rmmod the only problem here
+   really is a lockdep warning, so I plan to route these fixes through
+   for-next together with the rest to keep things simple.
+
+Patch 3 - 14: Do a bunch of cleanups and refactoring
+
+Patch 15: Implements functional change no 4. I really kinda want to just
+   completely disable ACPI netlink event generation when also sending evdev
+   events instead of reporting these twice. But for the 0x11xx / 0x13xx
+   hkey events the kernel has send ACPI netlink events for years now. So
+   this disables ACPI netlink events for any new hotkeys going forward.
+
+Patch 16 - 18: Refactor / cleanup reserved key handling
+
+Patch 19: Actually move to sparse-keymaps
+
+Patch 20: Update the keymap for 2 adaptive kbd Fn row keys
+
+Patch 21 - 24: Mark's original patches adding support for the new Fn + N
+   key combo and for trackpoint doubletap slightly reworked to use
+   the new sparse-keymap.
+
+Regards,
+
+Hans
+
+
+Hans de Goede (20):
+  platform/x86: thinkpad_acpi: Take hotkey_mutex during hotkey_exit()
+  platform/x86: thinkpad_acpi: Provide hotkey_poll_stop_sync() dummy
+  platform/x86: thinkpad_acpi: Drop setting send_/ignore_acpi_ev
+    defaults twice
+  platform/x86: thinkpad_acpi: Drop ignore_acpi_ev
+  platform/x86: thinkpad_acpi: Use tpacpi_input_send_key() in adaptive
+    kbd code
+  platform/x86: thinkpad_acpi: Do hkey to scancode translation later
+  platform/x86: thinkpad_acpi: Make tpacpi_driver_event() return if it
+    handled the event
+  platform/x86: thinkpad_acpi: Move adaptive kbd event handling to
+    tpacpi_driver_event()
+  platform/x86: thinkpad_acpi: Move special original hotkeys handling
+    out of switch-case
+  platform/x86: thinkpad_acpi: Move hotkey_user_mask check to
+    tpacpi_input_send_key()
+  platform/x86: thinkpad_acpi: Always call tpacpi_driver_event() for
+    hotkeys
+  platform/x86: thinkpad_acpi: Drop tpacpi_input_send_key_masked() and
+    hotkey_driver_event()
+  platform/x86: thinkpad_acpi: Move hkey > scancode mapping to
+    tpacpi_input_send_key()
+  platform/x86: thinkpad_acpi: Move tpacpi_driver_event() call to
+    tpacpi_input_send_key()
+  platform/x86: thinkpad_acpi: Do not send ACPI netlink events for
+    unknown hotkeys
+  platform/x86: thinkpad_acpi: Change hotkey_reserved_mask
+    initialization
+  platform/x86: thinkpad_acpi: Use correct keycodes for volume and
+    brightness keys
+  platform/x86: thinkpad_acpi: Drop KEY_RESERVED special handling
+  platform/x86: thinkpad_acpi: Switch to using sparse-keymap helpers
+  platform/x86: thinkpad_acpi: Add mappings for adaptive kbd
+    clipping-tool and cloud keys
+
+Mark Pearson (4):
+  platform/x86: thinkpad_acpi: Simplify known_ev handling
+  platform/x86: thinkpad_acpi: Support for trackpoint doubletap
+  platform/x86: thinkpad_acpi: Support for system debug info hotkey
+  platform/x86: thinkpad_acpi: Support hotkey to disable trackpoint
+    doubletap
+
+ drivers/platform/x86/thinkpad_acpi.c | 854 +++++++++++----------------
+ 1 file changed, 353 insertions(+), 501 deletions(-)
+
 -- 
-2.32.0.3.g01195cf9f
+2.44.0
 
 
