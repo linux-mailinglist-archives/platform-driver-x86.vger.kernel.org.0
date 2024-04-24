@@ -1,60 +1,60 @@
-Return-Path: <platform-driver-x86+bounces-3039-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-3043-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1BE18B0988
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B61778B0987
 	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Apr 2024 14:29:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 17E41B2631C
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Apr 2024 12:29:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6DF2228882F
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Apr 2024 12:29:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFC5F15B0F6;
-	Wed, 24 Apr 2024 12:28:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FB0715B124;
+	Wed, 24 Apr 2024 12:28:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZxYcmnRU"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Qzwzi+Ze"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441362561B
-	for <platform-driver-x86@vger.kernel.org>; Wed, 24 Apr 2024 12:28:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FFF15AAA2
+	for <platform-driver-x86@vger.kernel.org>; Wed, 24 Apr 2024 12:28:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713961735; cv=none; b=SC80yRUtef5RyY8wUxmxTcg9ELgUdplDrXbFAsXlsQEnzMQrnpsqWTGhyjWDKk0CMkoA0iDd2eu2ea7rgCQfRWDx7u7lQ4jHlzGFocD749A0JoShng1X86p4ql+i3ad/AMeWLnZemMqdaTpX01MpoF8cjxWnua6I9G5a6JtG4Nk=
+	t=1713961739; cv=none; b=toULPeWYjAwdik3HrYOBXpoxILrolvEbNacUDeKXfDnQIes2ljvlBRiKNsjaYrAF5Y81g86DH2CLUjNQGPHq9USK4NTtzKTVrC5aJyOuLgboap5Rz8++oJPDmOYjQcbt47fuuFZZ1Y99ITUKNqbMZBh9iOMKQOQtaPlPvw1kNU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713961735; c=relaxed/simple;
-	bh=dv8Rwy8TH4WIzk5Yt7ZaVdnJxI3SyNridraoh62d9yA=;
+	s=arc-20240116; t=1713961739; c=relaxed/simple;
+	bh=rjPO8DH0pA9JdOPp0ggj2ZCmtdZjh4QbkxnjHyNDnVE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=j7nsPJNi0v1CI+okQM0X33JeuCowVg0YGfPOaDHDFqG/LMixwQcRbDhkYfmXKfgKBSehz/lU04Wzvpo+6bx2yQmvm3FMUczdHxEjVt6KuUhbhbBXHEp/K3qLSizFAH7CXWWbrT+rv/mEYJ0YyuMs/RkAO60daA4W7tTMzUIRZns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZxYcmnRU; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=A2LOExu58zTGHCmGoUZ8SMSnzI0Ft0RiWlbBCFmEUd1a8g7in1x0JiiQUdJ/w+OXaiozFPS2naEbcmgBdf5EC6IvzGEURv2wfeVR4bYo78yB77F6wVbXp2Z0Xp+HtrpCzJHuXeZ+qm8ZTSxaVQqevkn6azQQDCbIC1bPveEtIo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Qzwzi+Ze; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713961733;
+	s=mimecast20190719; t=1713961737;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SgfbFtYFNUM9RnvzEqVv1Q0J+WIxJOhE6A52Glxaa+c=;
-	b=ZxYcmnRUJQU6ou7dlXJx4vC/7fv2Y14tRi+tQt+1IpU2vEsW0CbViGsgZz5uYwXzgRJQwZ
-	656aH5/LAXJ/bhc8no/YiT1hpqi5Wqbfyte55pcVJtmq8NyVWjdQz9w7JEFDvPOi0dukvK
-	b7jcPXeDflwv/X0BdV438QsG5a6D6dI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-554-Z4BA7TeEMJ6AIUHEudGySg-1; Wed, 24 Apr 2024 08:28:50 -0400
-X-MC-Unique: Z4BA7TeEMJ6AIUHEudGySg-1
+	bh=IxC43M8Mawg7aalqwEn5qO0qdwjgtbqBNRS0N1xfmgc=;
+	b=Qzwzi+ZexwqovsqQgWkLq4vShd6AZsdEJPmkLGNWsgk++bVBGsIyrS3jiLXsLNZ4cyukOK
+	wqOTuhoOb0+6E7ZImSGW6rviDH6NcjVUc+9MeDwyl9dRG6hLnQBlccDjOnLPX7iDuOcTJ8
+	pvWj0uJ6Q7Q/bjk+hky7yWj98gMmqeg=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-344-pWNuZHY6M6m3hkmxAdiJnA-1; Wed,
+ 24 Apr 2024 08:28:51 -0400
+X-MC-Unique: pWNuZHY6M6m3hkmxAdiJnA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B67E0811029;
-	Wed, 24 Apr 2024 12:28:49 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6043829AC01C;
+	Wed, 24 Apr 2024 12:28:51 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.195.45])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 91DD6C271B5;
-	Wed, 24 Apr 2024 12:28:48 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id E5870C13FA6;
+	Wed, 24 Apr 2024 12:28:49 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
 	Andy Shevchenko <andy@kernel.org>,
@@ -65,9 +65,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Nitin Joshi <njoshi1@lenovo.com>,
 	ibm-acpi-devel@lists.sourceforge.net,
 	platform-driver-x86@vger.kernel.org
-Subject: [PATCH v2 10/24] platform/x86: thinkpad_acpi: Move hotkey_user_mask check to tpacpi_input_send_key()
-Date: Wed, 24 Apr 2024 14:28:20 +0200
-Message-ID: <20240424122834.19801-11-hdegoede@redhat.com>
+Subject: [PATCH v2 11/24] platform/x86: thinkpad_acpi: Always call tpacpi_driver_event() for hotkeys
+Date: Wed, 24 Apr 2024 14:28:21 +0200
+Message-ID: <20240424122834.19801-12-hdegoede@redhat.com>
 In-Reply-To: <20240424122834.19801-1-hdegoede@redhat.com>
 References: <20240424122834.19801-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -79,40 +79,61 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
 
-Move hotkey_user_mask check to tpacpi_input_send_key(), this is
-a preparation patch for further refactoring.
+Call tpacpi_driver_event() at the top of hotkey_notify_hotkey() for all
+(orig / adaptive / extended) hotkey types, rather then having the orig
+code path call tpacpi_input_send_key_masked() which calls it through
+hotkey_driver_event() and having the adaptive / extended helpers call
+it separately.
 
 Tested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/thinkpad_acpi.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/platform/x86/thinkpad_acpi.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index ba440213ae49..05c1a562f6a1 100644
+index 05c1a562f6a1..25758d252f27 100644
 --- a/drivers/platform/x86/thinkpad_acpi.c
 +++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -2256,6 +2256,10 @@ static void tpacpi_input_send_key(const unsigned int scancode)
- {
- 	const unsigned int keycode = hotkey_keycode_map[scancode];
+@@ -3713,9 +3713,6 @@ static void adaptive_keyboard_s_quickview_row(void)
  
-+	if (scancode < TP_ACPI_HOTKEYSCAN_ADAPTIVE_START &&
-+	    !(hotkey_user_mask & (1 << scancode)))
-+		return;
+ static bool adaptive_keyboard_hotkey_notify_hotkey(const u32 hkey)
+ {
+-	if (tpacpi_driver_event(hkey))
+-		return true;
+-
+ 	if (hkey < TP_HKEY_EV_ADAPTIVE_KEY_START ||
+ 	    hkey > TP_HKEY_EV_ADAPTIVE_KEY_END) {
+ 		pr_info("Unhandled adaptive keyboard key: 0x%x\n", hkey);
+@@ -3729,9 +3726,6 @@ static bool adaptive_keyboard_hotkey_notify_hotkey(const u32 hkey)
+ 
+ static bool hotkey_notify_extended_hotkey(const u32 hkey)
+ {
+-	if (tpacpi_driver_event(hkey))
+-		return true;
+-
+ 	if (hkey >= TP_HKEY_EV_EXTENDED_KEY_START &&
+ 	    hkey <= TP_HKEY_EV_EXTENDED_KEY_END) {
+ 		unsigned int scancode = hkey - TP_HKEY_EV_EXTENDED_KEY_START +
+@@ -3757,6 +3751,9 @@ static bool hotkey_notify_hotkey(const u32 hkey, bool *send_acpi_ev)
+ 			return true;
+ 	}
+ 
++	if (tpacpi_driver_event(hkey))
++		return true;
 +
- 	if (keycode != KEY_RESERVED) {
- 		mutex_lock(&tpacpi_inputdev_send_mutex);
- 
-@@ -2275,8 +2279,7 @@ static void tpacpi_input_send_key(const unsigned int scancode)
- static void tpacpi_input_send_key_masked(const unsigned int scancode)
- {
- 	hotkey_driver_event(scancode);
--	if (hotkey_user_mask & (1 << scancode))
--		tpacpi_input_send_key(scancode);
-+	tpacpi_input_send_key(scancode);
- }
- 
- #ifdef CONFIG_THINKPAD_ACPI_HOTKEY_POLL
+ 	/*
+ 	 * Original events are in the 0x10XX range, the adaptive keyboard
+ 	 * found in 2014 X1 Carbon emits events are of 0x11XX. In 2017
+@@ -3766,7 +3763,7 @@ static bool hotkey_notify_hotkey(const u32 hkey, bool *send_acpi_ev)
+ 	case 0:
+ 		if (hkey >= TP_HKEY_EV_ORIG_KEY_START &&
+ 		    hkey <= TP_HKEY_EV_ORIG_KEY_END) {
+-			tpacpi_input_send_key_masked(scancode);
++			tpacpi_input_send_key(scancode);
+ 			return true;
+ 		}
+ 		break;
 -- 
 2.44.0
 
