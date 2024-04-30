@@ -1,83 +1,74 @@
-Return-Path: <platform-driver-x86+bounces-3150-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-3152-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 592238B8206
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Apr 2024 23:41:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 747548B829E
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  1 May 2024 00:11:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 15059285F7C
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Apr 2024 21:41:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A2ACF1C22962
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Apr 2024 22:11:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 691E11BED90;
-	Tue, 30 Apr 2024 21:41:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 219021BF6C7;
+	Tue, 30 Apr 2024 22:11:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X3PZEtef"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cFFlQNpw"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C2F1BED72;
-	Tue, 30 Apr 2024 21:41:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 811B31802D8;
+	Tue, 30 Apr 2024 22:11:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714513281; cv=none; b=tKhl29IidyCP+0D+T+YKCiGRoEJcbhrZTIFJeNniI5e+7P2G1q4FQIdxH3xVTkKK7FJfvKS3TOeHkxnVwZwyznf1l2p4Xse2LQ0rm0lvEmPHGOAWcZbdCySNU0wEpDoP7AqeFF5rZfiRJ7T/xfZ8jIuH2ehhhyERQJtp0EV5cjI=
+	t=1714515064; cv=none; b=C0FGs5VwCKygba4ojJdDJYhhr2KpGptdhFQmDa9hrWFPjE3kYg3drinhnHm+0wRmNMpBgFjJ40Aa7gW/8vzOENJzou/EU2Vm0Lokhc0hKqlbgaWkLhLIxDmg0rkDY2nazYVy50wC18xH9AagDs0ud2Q6cYjKDWixuzSnDl5ncXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714513281; c=relaxed/simple;
-	bh=x7Ol+/+g8MWI3KkMdPC4Pmi13hhCIxwJQ+316xO7RcI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=qUlnFqOIYjbycesd+C6FKmvBEYVW7oJCOZ6cVBV9+Olz3MWKw+7w1Ih8XAsH/iuFFxNkImHf4jT+JB0mWd34H3TIjJ5Obuo4bWtxef0anzUblPSBU8ujzfIhoYGHF7n1cIqnLsIV/sRdUaBbS03X/P5vBh4DCopkasXgTSanwtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X3PZEtef; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1714515064; c=relaxed/simple;
+	bh=q/H6nqXJsWNoKU9TwbxDMKCb3eBjRvO7RNFWS3ZQZho=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gqUdcxDpjqboNeOa46+DaAiUToeW6rXWciFp7b+SHMzjcNsYLr33R/ysyraYrJZ0hRMCUQP6jKc3jc+z5/lmenhEZTo0QIncHvM6ci67cy7VtKS4DWBuht/oNnaER1wlsZMy8locMjYZunccqtOxDiiBGv8/mCoeGE2B5/b9ftg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cFFlQNpw; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714513280; x=1746049280;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=x7Ol+/+g8MWI3KkMdPC4Pmi13hhCIxwJQ+316xO7RcI=;
-  b=X3PZEtefjIB5pZ4D/cGC0wdKUaLQD4fvCRwGYjkv6+HGcIQQyQ6pRyGn
-   a3q0MIRgD9QU3UoCOktyku13K/nJSm2e/3LZfTyEXm1ZnIx7An8FUqaaI
-   J8oWC9txNVkTodXfpP0TKLGmZzkIGw0LjcRN5T3xoUSuMbexLYgnUVkRi
-   pY/DeG3eDpYWIVX1fno2Kd3nxyr8bx8LY4DHpowfiDqLgyGtChnw+ELiK
-   byXdAfQZdWlg9rdMxQjdO+wbPcNlw+Y5zrq5A8U9w5w887tPCudaZ5T+j
-   U72PScvvVCSM0QihcyuOG3DWoairr6470AIcvrZFHPhQ8CxhxpNDNt+Jh
-   A==;
-X-CSE-ConnectionGUID: Gl+b9rkJTPaYUzPpwwvRJw==
-X-CSE-MsgGUID: OTOfVkqESimO5Mp6vyBkNw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="14023068"
+  t=1714515063; x=1746051063;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=q/H6nqXJsWNoKU9TwbxDMKCb3eBjRvO7RNFWS3ZQZho=;
+  b=cFFlQNpwDPbrvRKMu1i00ESZVVOaJTZhuuL7QxiPjc8x3ZrR/9aUl30D
+   fiXXBHUaFTWDGRTD+A0cqJPYarBHGWaj66x3DrNRQZRRT1TYdouAHXtpr
+   9sRCuZXfHW+yduBMwAYmoN2iprTSZ8gKDyFdXHq2cFTeSw4X5SqfZ+3Se
+   HjLBdrLLv6UCZb0KjyNbkvgsl3s+rzN0JEOWSLGWDWMo1U/vIW3Aj2xj6
+   e7RqzO2CosmN7D3h+M/4QwqSusN+YvKypSNLKzmgb+3iivLyKsWWoR2I1
+   YQpnGG7VXtsDadbUJdpCBYNBAeUhx5Z2IEieI7DSobdzeDCSWjZpk0heU
+   g==;
+X-CSE-ConnectionGUID: Yotv3XfZRtyOIPKCcbt4LQ==
+X-CSE-MsgGUID: 4IG1l+zpR/isXSzCGSJ2+w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="10077471"
 X-IronPort-AV: E=Sophos;i="6.07,243,1708416000"; 
-   d="scan'208";a="14023068"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 14:41:19 -0700
-X-CSE-ConnectionGUID: BcMoaQbpRk2UsSYVt72q+Q==
-X-CSE-MsgGUID: ey6uZY7xQGm4lU/ZlAi9mw==
+   d="scan'208";a="10077471"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 15:11:03 -0700
+X-CSE-ConnectionGUID: 7NIs8La3SrWCF1+5d08o/g==
+X-CSE-MsgGUID: 2QK4/CVVS8qD+l43BSNN3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,243,1708416000"; 
-   d="scan'208";a="26693375"
-Received: from chang-linux-3.sc.intel.com ([172.25.66.175])
-  by fmviesa006.fm.intel.com with ESMTP; 30 Apr 2024 14:41:19 -0700
-From: "Chang S. Bae" <chang.seok.bae@intel.com>
-To: linux-kernel@vger.kernel.org
-Cc: x86@kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	hdegoede@redhat.com,
+   d="scan'208";a="26631480"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.19])
+  by orviesa009.jf.intel.com with ESMTP; 30 Apr 2024 15:11:02 -0700
+From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To: hdegoede@redhat.com,
 	ilpo.jarvinen@linux.intel.com,
-	tony.luck@intel.com,
-	ashok.raj@intel.com,
-	jithu.joseph@intel.com,
-	chang.seok.bae@intel.com
-Subject: [PATCH 2/2] platform/x86/intel/ifs: Initialize AMX state for the scan test
-Date: Tue, 30 Apr 2024 14:25:08 -0700
-Message-Id: <20240430212508.105117-3-chang.seok.bae@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240430212508.105117-1-chang.seok.bae@intel.com>
-References: <20240430212508.105117-1-chang.seok.bae@intel.com>
+	andriy.shevchenko@linux.intel.com
+Cc: platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Zhang Rui <rui.zhang@intel.com>
+Subject: [PATCH] platform/x86: ISST: Support SST-BF and SST-TF per level
+Date: Tue, 30 Apr 2024 15:10:52 -0700
+Message-ID: <20240430221052.15825-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -86,75 +77,83 @@ List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The scan test does not start when the AMX state remains active and is not
-re-initialized. With the extension of kernel_fpu_begin_mask(), the driver
-code can now initialize the state properly.
+SST SST-BF and SST-TF can be enabled/disabled per SST-PP level. So return
+a mask of all levels, where the feature is supported, instead of just for
+level 0.
 
-Introduce custom FPU handling wrappers to ensure compliant with the
-established FPU API semantics, as kernel_fpu_begin() exclusively sets
-legacy states. This follows the EFI case from commit b0dc553cfc9d
-("x86/fpu: Make the EFI FPU calling convention explicit").
+Since the return value returns all levels mask, not just level 0, update
+API version.
 
-Then, use these wrappers to surround the MSR_ACTIVATE_SCAN write to
-minimize the critical section. To prevent unnecessary delays, invoke
-ifs_fpu_begin() before entering the rendezvous loop.
-
-Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
-Reviewed-by: Jithu Joseph <jithu.joseph@intel.com>
-Tested-by: Jithu Joseph <jithu.joseph@intel.com>
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Reviewed-by: Zhang Rui <rui.zhang@intel.com>
 ---
- drivers/platform/x86/intel/ifs/ifs.h     | 14 ++++++++++++++
- drivers/platform/x86/intel/ifs/runtest.c |  6 ++++++
- 2 files changed, 20 insertions(+)
+ .../intel/speed_select_if/isst_tpmi_core.c    | 38 +++++++++++++++----
+ 1 file changed, 31 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/platform/x86/intel/ifs/ifs.h b/drivers/platform/x86/intel/ifs/ifs.h
-index 56b9f3e3cf76..71d8b50854b2 100644
---- a/drivers/platform/x86/intel/ifs/ifs.h
-+++ b/drivers/platform/x86/intel/ifs/ifs.h
-@@ -325,4 +325,18 @@ int do_core_test(int cpu, struct device *dev);
- extern struct attribute *plat_ifs_attrs[];
- extern struct attribute *plat_ifs_array_attrs[];
+diff --git a/drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c b/drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c
+index 6bcbb97b0101..7bac7841ff0a 100644
+--- a/drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c
++++ b/drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c
+@@ -847,6 +847,8 @@ static int isst_if_get_perf_level(void __user *argp)
+ {
+ 	struct isst_perf_level_info perf_level;
+ 	struct tpmi_per_power_domain_info *power_domain_info;
++	unsigned long level_mask;
++	u8 level, support;
  
-+static inline void ifs_fpu_begin(void)
-+{
-+	/*
-+	 * The AMX state must be initialized prior to executing In-Field
-+	 * Scan tests, according to Intel SDM.
-+	 */
-+	kernel_fpu_begin_mask(KFPU_AMX);
-+}
-+
-+static inline void ifs_fpu_end(void)
-+{
-+	kernel_fpu_end();
-+}
-+
- #endif
-diff --git a/drivers/platform/x86/intel/ifs/runtest.c b/drivers/platform/x86/intel/ifs/runtest.c
-index 95b4b71fab53..a35eac7c0b44 100644
---- a/drivers/platform/x86/intel/ifs/runtest.c
-+++ b/drivers/platform/x86/intel/ifs/runtest.c
-@@ -188,6 +188,9 @@ static int doscan(void *data)
- 	/* Only the first logical CPU on a core reports result */
- 	first = cpumask_first(cpu_smt_mask(cpu));
+ 	if (copy_from_user(&perf_level, argp, sizeof(perf_level)))
+ 		return -EFAULT;
+@@ -866,12 +868,34 @@ static int isst_if_get_perf_level(void __user *argp)
+ 		      SST_PP_FEATURE_STATE_START, SST_PP_FEATURE_STATE_WIDTH, SST_MUL_FACTOR_NONE)
+ 	perf_level.enabled = !!(power_domain_info->sst_header.cap_mask & BIT(1));
  
-+	/* Prepare FPU state before entering the rendezvous loop*/
-+	ifs_fpu_begin();
+-	_read_bf_level_info("bf_support", perf_level.sst_bf_support, 0, 0,
+-			    SST_BF_FEATURE_SUPPORTED_START, SST_BF_FEATURE_SUPPORTED_WIDTH,
+-			    SST_MUL_FACTOR_NONE);
+-	_read_tf_level_info("tf_support", perf_level.sst_tf_support, 0, 0,
+-			    SST_TF_FEATURE_SUPPORTED_START, SST_TF_FEATURE_SUPPORTED_WIDTH,
+-			    SST_MUL_FACTOR_NONE);
++	level_mask = perf_level.level_mask;
++	perf_level.sst_bf_support = 0;
++	for_each_set_bit(level, &level_mask, BITS_PER_BYTE) {
++		/*
++		 * Read BF support for a level. Read output is updated
++		 * to "support" variable by the below macro.
++		 */
++		_read_bf_level_info("bf_support", support, level, 0, SST_BF_FEATURE_SUPPORTED_START,
++				    SST_BF_FEATURE_SUPPORTED_WIDTH, SST_MUL_FACTOR_NONE);
 +
- 	wait_for_sibling_cpu(&scan_cpus_in, NSEC_PER_SEC);
++		/* If supported set the bit for the level */
++		if (support)
++			perf_level.sst_bf_support |= BIT(level);
++	}
++
++	perf_level.sst_tf_support = 0;
++	for_each_set_bit(level, &level_mask, BITS_PER_BYTE) {
++		/*
++		 * Read TF support for a level. Read output is updated
++		 * to "support" variable by the below macro.
++		 */
++		_read_tf_level_info("tf_support", support, level, 0, SST_TF_FEATURE_SUPPORTED_START,
++				    SST_TF_FEATURE_SUPPORTED_WIDTH, SST_MUL_FACTOR_NONE);
++
++		/* If supported set the bit for the level */
++		if (support)
++			perf_level.sst_tf_support |= BIT(level);
++	}
  
- 	/*
-@@ -199,6 +202,9 @@ static int doscan(void *data)
- 	 * are processed in a single pass) before it retires.
- 	 */
- 	wrmsrl(MSR_ACTIVATE_SCAN, params->activate->data);
-+
-+	ifs_fpu_end();
-+
- 	rdmsrl(MSR_SCAN_STATUS, status.data);
+ 	if (copy_to_user(argp, &perf_level, sizeof(perf_level)))
+ 		return -EFAULT;
+@@ -1648,7 +1672,7 @@ void tpmi_sst_dev_resume(struct auxiliary_device *auxdev)
+ }
+ EXPORT_SYMBOL_NS_GPL(tpmi_sst_dev_resume, INTEL_TPMI_SST);
  
- 	trace_ifs_status(ifsd->cur_batch, start, stop, status.data);
+-#define ISST_TPMI_API_VERSION	0x02
++#define ISST_TPMI_API_VERSION	0x03
+ 
+ int tpmi_sst_init(void)
+ {
 -- 
-2.34.1
+2.44.0
 
 
