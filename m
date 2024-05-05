@@ -1,77 +1,81 @@
-Return-Path: <platform-driver-x86+bounces-3217-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-3219-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 602AA8BBD30
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  4 May 2024 18:41:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E42638BC070
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  5 May 2024 15:08:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 92E201C20E6C
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  4 May 2024 16:41:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 08C521C20965
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  5 May 2024 13:08:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27EFE5A0F9;
-	Sat,  4 May 2024 16:41:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2206618C36;
+	Sun,  5 May 2024 13:08:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MMXH+WPT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DsPypYXb"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A747C5A0FE
-	for <platform-driver-x86@vger.kernel.org>; Sat,  4 May 2024 16:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E631865B;
+	Sun,  5 May 2024 13:08:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714840893; cv=none; b=S4waqQhFAgfnRlQyAfGDEfzWz1wqxHHRt0VUSjcKPf5T2VzMqQVEuh2SHDdEe7adZqefiaV5ttpX2vYFefBhKSXhSKxk9pZ9JtANDeUhzGKAws0hgkL6soOBqVD4aPLjG5ltqurn/9yqTomWSrMIvNhAfdvbcuktzxFxuzmpuE0=
+	t=1714914523; cv=none; b=FR8EGhCGFwzNxjuOldbNL0dQ9FShHTDrNVom4WcyVl5C82L2V0752fiewyBY9PxW+/li65LISa2wIi+xCUDIQOQPXK6L5ooYpt+0zUO9ioZ3JJeMgbm5nT1EHVi6qCdimVjTc0phHzSfwHs9iB3LA15zi3791JG8waZWkQOEBuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714840893; c=relaxed/simple;
-	bh=/0fToQ2iJiRqdx6PBUa7OtDSZMO9BIMoXNb+0GT7xks=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m8Y5mS5UTF8mvuyXcyM6ic0fubRgTTFze/jMZFI/ghGMBdqMlDx/bL4CNuTJ1V69W1EEyGINtYdxtOTtSA94vPDYRAwGn266U1V7m7PVKGix7mY9mLDONbTrh6YPr1mPYpPHFbIxMaxebcOrJqohakOYh+cisYzwk8hirzN9v1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MMXH+WPT; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1714840890;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cPRLXDItnp0uhz0pZwCmAgzkhjsF5FhD82XowiKJz/A=;
-	b=MMXH+WPTGCMlV2FbHXEs/jwchruxZCjhZfrRTHe7g6QMSNqJXmu/UzNKx5JUU7bvhLKNsQ
-	02xLwn8uBD0SiKHIid5haBiXe/BXrutOnrkDE1zpJmvSSnwli76AZ2Df1V+wGcMpGx/eLl
-	RnPQ0t0M2hXqMuNkj/fxShuh1fQ3yR8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-403-jHIhJba-PJaCYY2vsDU65Q-1; Sat, 04 May 2024 12:41:29 -0400
-X-MC-Unique: jHIhJba-PJaCYY2vsDU65Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7122E101042D;
-	Sat,  4 May 2024 16:41:28 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.41])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1EBA6EC688;
-	Sat,  4 May 2024 16:41:27 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Kate Hsuan <hpa@redhat.com>,
-	Sebastian Reichel <sre@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	platform-driver-x86@vger.kernel.org,
-	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
-	linux-leds@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Subject: [PATCH v9 7/7] platform: x86-android-tablets: Xiaomi pad2 RGB LED fwnode updates
-Date: Sat,  4 May 2024 18:41:05 +0200
-Message-ID: <20240504164105.114017-8-hdegoede@redhat.com>
-In-Reply-To: <20240504164105.114017-1-hdegoede@redhat.com>
-References: <20240504164105.114017-1-hdegoede@redhat.com>
+	s=arc-20240116; t=1714914523; c=relaxed/simple;
+	bh=Px8PRHZ803xOrqkehMecytmPVy2Bj6D7/bRb+lKTk9I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZDYq7Qfl+qSBd2el4LmIBJ/P1FneIP52vv5H+VacSYObzYCsi/+LwbBqNq4zouQXfofBRYIGoduM1ILEJniWV39qTkB+A4mWHSqcPvQ1RR040xANb5yH/7mIhk42QFYrW72AVj/oKYTFcgno0omvg7sRZQF/Khg6MzHIda9kLPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DsPypYXb; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-5f415fd71f8so857450a12.3;
+        Sun, 05 May 2024 06:08:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714914520; x=1715519320; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=82t8iKOnzOMcTOXyExboVbky/f5PQ2Kw9lsluTPOV48=;
+        b=DsPypYXbEASRXTXV+5AFNm6zgAIjOb5TwAMANrkEOHwqQ0oJrSuZnXLiemO6NhsmRZ
+         ep1Dvl16vPiwjkKQ9I6TdMAhyyh/dpeAeOAbmd+1towZFqbhYBl8bREhbUXt0Pce7Evc
+         IAc5j4MHXU7paWdWitG362FT9+ymBF5zfDI1VkzBOqfdphTppq4jlJzFyM+uZjeWESJd
+         kzwhLMKFgKC0ciSckCjMOyhrXfLaipcZXUC+en5O3MSq02r5eykeYhK7IOGNatt9pKkv
+         I+vk4/QROD968Al4iS8EyHVoapTlGYc6w4dmGoz9ODL+Sh77AgjAr9S8VcJzBcHLdm47
+         /fCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714914520; x=1715519320;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=82t8iKOnzOMcTOXyExboVbky/f5PQ2Kw9lsluTPOV48=;
+        b=qXBYXCuSK60sk5u4YX+ZeDdi8G+Wr5qQjffETQBiudKkbRCXFkBsmTgLXJhp6Oz36R
+         pjSJWoMt+E3SWM+2TQRy4pNUR9XxnHL6/dha+HHIByU1JsbfALx1H5FpXZC1NS8TR5i/
+         Ia3gcxg5OHf1M+MzRVVg40MD1pD9xLioZvvQ/sJvZDl77rMRewtQyCcT0QrTUuwveBU7
+         cx43bmLRQVfDDX01uE7jpluKkBfygWsY9qiCffDCE6nD/+NRqjpqXekd3FA31T1GJcYz
+         dY2a/Bw4a3w4SPp7JgsoFZ8K95EA3ejPg6rD4uja5Ewho+p5oRUNTm/X8kXvPm8DTqP7
+         C2gg==
+X-Forwarded-Encrypted: i=1; AJvYcCXkjWZ2bDPI4ioZb47y+vr8h0cWEIZmOT7IAfFWUlMSnFfdZ8gE53/TOAOwHHzWh2GzfAqUgiDkb8+/b64kXmZzYubIHLSKMApS2PM4
+X-Gm-Message-State: AOJu0Yx+/Yw+RP53qXXZ6ZMScEyXfJhY/SWXaoHeZBtxUjKc9H01+56D
+	3fBtdrx8eNURI0/8Lo2gRCFWgLuD83swu+zywfZQt9qIKgKDsgXSolb+sh4emqdDeWEB
+X-Google-Smtp-Source: AGHT+IFaLbgAnNKhIox09dwN/Fh+vfBvzSu4E1eIxm8+2M+I5oYXmakwTf1X41gix4GhviO0p0Tpig==
+X-Received: by 2002:a05:6a00:3cc6:b0:6e8:3d5b:f3b1 with SMTP id ln6-20020a056a003cc600b006e83d5bf3b1mr8057710pfb.22.1714914520073;
+        Sun, 05 May 2024 06:08:40 -0700 (PDT)
+Received: from localhost ([103.192.227.200])
+        by smtp.gmail.com with ESMTPSA id h4-20020a056a00218400b006f3e3d928fesm6029471pfi.220.2024.05.05.06.08.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 May 2024 06:08:39 -0700 (PDT)
+From: Weifeng Liu <weifeng.liu.z@gmail.com>
+To: platform-driver-x86@vger.kernel.org,
+	linux-serial@vger.kernel.org
+Cc: Weifeng Liu <weifeng.liu.z@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>
+Subject: [PATCH v3 0/2] Defer probing of SAM if serdev device is not ready
+Date: Sun,  5 May 2024 21:07:48 +0800
+Message-ID: <20240505130800.2546640-1-weifeng.liu.z@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -79,56 +83,75 @@ List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 
-From: Kate Hsuan <hpa@redhat.com>
+v3 changes:
+* better formatting, nothing special
 
-Xiaomi pad2 RGB LED fwnode updates:
+v2 changes:
+* resolves Andy's comments
 
-1. Set "label" instead "function" to change the LED classdev name from
-   "rgb:indicator" to "i2c-ktd2026:rgb:indicator" to match the usual
-   triplet name format for LED classdevs.
+Original letter:
 
-2. Set the trigger to the new "bq27520-0-charging-orange-full-green"
-   powersupply trigger type for multi-color LEDs.
+Greetings,
 
-3. Put the fwnode link for red before green in ktd2026_node_group[] so that
-   multi_index becomes "red green blue".
+This series is intended to remedy a race condition where surface
+aggregator module (SAM) which is a serdev driver could fail to probe if
+the underlying UART port is not ready to open.  In such circumstance,
+invoking serdev_device_open() gets errno -ENXIO, leading to failure in
+probing of SAM.  However, if the probe is retried in a short delay,
+serdev_device_open() would work as expected and everything just goes
+fine.  As a workaround, adding the serial driver (8250_dw) into
+initramfs or building it into the kernel image significantly mitigates
+the likelihood of encountering this race condition, as in this way the
+serial device would be initialized much earlier than probing of SAM.
 
-Signed-off-by: Kate Hsuan <hpa@redhat.com>
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-Co-developed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/x86-android-tablets/other.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+However, IMO we should reliably avoid this sort of race condition.  A
+good way is returning -EPROBE_DEFER when serdev_device_open returns
+-ENXIO so that the kernel will be able to retry the probing later.  This
+is what the first patch tries to do.
 
-diff --git a/drivers/platform/x86/x86-android-tablets/other.c b/drivers/platform/x86/x86-android-tablets/other.c
-index ce487b3c972c..198ea894d071 100644
---- a/drivers/platform/x86/x86-android-tablets/other.c
-+++ b/drivers/platform/x86/x86-android-tablets/other.c
-@@ -609,8 +609,8 @@ static const struct software_node ktd2026_node = {
- static const struct property_entry ktd2026_rgb_led_props[] = {
- 	PROPERTY_ENTRY_U32("reg", 0),
- 	PROPERTY_ENTRY_U32("color", LED_COLOR_ID_RGB),
--	PROPERTY_ENTRY_STRING("function", "indicator"),
--	PROPERTY_ENTRY_STRING("linux,default-trigger", "bq27520-0-charging"),
-+	PROPERTY_ENTRY_STRING("label", "i2c-ktd2026:rgb:indicator"),
-+	PROPERTY_ENTRY_STRING("linux,default-trigger", "bq27520-0-charging-orange-full-green"),
- 	{ }
- };
- 
-@@ -656,9 +656,9 @@ static const struct software_node ktd2026_red_led_node = {
- static const struct software_node *ktd2026_node_group[] = {
- 	&ktd2026_node,
- 	&ktd2026_rgb_led_node,
-+	&ktd2026_red_led_node,
- 	&ktd2026_green_led_node,
- 	&ktd2026_blue_led_node,
--	&ktd2026_red_led_node,
- 	NULL
- };
- 
+Though this solution might be a good enough solution for this specific
+issue, I am wondering why this kind of race condition could ever happen,
+i.e., why a serdes device could be not ready yet at the moment the
+serdev driver gets called and tries to bind it.  And even if this is an
+expected behavior how serdev driver works, I do feel it a little bit
+weird that we need to identify serdev_device_open() returning -ENXIO as
+non-fatal error and thus return -EPROBE_DEFER manually in such case, as
+I don't see this sort of behavior in other serdev driver.  Maximilian
+and Hans suggested discussing the root cause of the race condition here.
+I will be grateful if you could provide some reasoning and insights on
+this.
+
+Following is the code path when the issue occurs:
+
+	ssam_serial_hub_probe()
+	serdev_device_open()
+	ctrl->ops->open()	/* this callback being ttyport_open() */
+	tty->ops->open()	/* this callback being uart_open() */
+	tty_port_open()
+	port->ops->activate()	/* this callback being uart_port_activate() */
+	Find bit UPF_DEAD is set in uport->flags and fail with errno -ENXIO.
+
+I notice that flag UPF_DEAD would be set in serial_core_register_port()
+during calling serial_core_add_one_port() but don't have much idea
+what's going on under the hood.
+
+Additionally, add logs to the probe procedure of SAM in the second
+patch, hoping it could help provide context to user when something
+miserable happens.
+
+Context of this series is available in [1].
+
+Best regards,
+Weifeng
+
+Weifeng Liu (2):
+  platform/surface: aggregator: Defer probing when serdev is not ready
+  platform/surface: aggregator: Log critical errors during SAM probing
+
+ drivers/platform/surface/aggregator/core.c | 53 ++++++++++++++++------
+ 1 file changed, 39 insertions(+), 14 deletions(-)
+
 -- 
 2.44.0
 
