@@ -1,253 +1,139 @@
-Return-Path: <platform-driver-x86+bounces-3456-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-3459-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 581548CE73C
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 May 2024 16:39:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 842F78CE75B
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 May 2024 16:54:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BFC131F21B2C
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 May 2024 14:39:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3A056282375
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 May 2024 14:54:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C5FD12C554;
-	Fri, 24 May 2024 14:39:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CE4D86643;
+	Fri, 24 May 2024 14:54:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M2aQRmyy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lISWqdgT"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CF642AB7;
-	Fri, 24 May 2024 14:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61C912C498
+	for <platform-driver-x86@vger.kernel.org>; Fri, 24 May 2024 14:54:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716561589; cv=none; b=MaBnu4l7RmTMK+Y9C+JDKVyn+f4CMKYN+yz4BUI7sBq9IHhTjZtOsSItjqP/3iEU02MinMzDXfcEfef1utp/LR496Vk9PNUGRLigu2GbmZ6W7XS4w2zEnBajdM3J7Zt9haaGYMgVFxOl/I3nm5y/JsrBV/2bYh+hhFMEYiZM72w=
+	t=1716562481; cv=none; b=LVe0ISz+rdnosnN3ARyyX81Mcsu0yfp0ee0AgTU9w3x/2TPstZs8Bs6CTOtYny+alQDVWN+tjM7w8xGuOpeg7c4o3aPf7H6+mnhSvxA408Iciz3YknwN1CF9+xO7x0SCfx1aIbrjHwOIzxbAf2lgs86xZrioJ+ejHhyqXG/Ua7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716561589; c=relaxed/simple;
-	bh=azd/+Jtb3PR7LZMaQHlxqyMQJmkcRTdfxSuAuKzYoWs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KS/tOozzFreOpkQv83qtsQl/U8FtCsgKKTfiPJl1o0f3bTTino662ugKHz+4nqKhiz70hEaudSive2cFz24Q6Tdk/y6OvgsrkNL75T0lkMo0BSoFb8wjzwjMT63IfVGR1mQVgOelYu4N3437tXlG3DFydpbG9v1a4oyFhURompw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M2aQRmyy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 89298C32789;
-	Fri, 24 May 2024 14:39:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716561589;
-	bh=azd/+Jtb3PR7LZMaQHlxqyMQJmkcRTdfxSuAuKzYoWs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=M2aQRmyyaZQfqtPWnQ/9RXPSHv41T39imxCCf/golpT5NtAVqcl3A+QZlyZR467nd
-	 IdxVWUgM986bNzwEv1VzF5YxjEgRgsxKRP6CinpHIW7e1M+q7yK8TWl+VfTde6jM9l
-	 ibIcRIMVTCg3fP/3mu8RwKsJojGqfQB7FDlqHoJPsdPhHg6qZA+M4PQKB/fAtuheae
-	 fhxJvjC0BvOn8eJX8idOx+GE5NTjP8qY7vf/JB9046yDTyDKz53hwifS7uOA9sKEKj
-	 yMkM8GAItvk1WhdT4tKc0wGr1B66mdAXffC86gtUIwtWh1QNJDNNXpDZLZhgIVPsKu
-	 QASO57CziNszQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77786C25B7A;
-	Fri, 24 May 2024 14:39:49 +0000 (UTC)
-From: Joel Selvaraj via B4 Relay <devnull+joelselvaraj.oss.gmail.com@kernel.org>
-Date: Fri, 24 May 2024 09:39:20 -0500
-Subject: [PATCH v2 3/3] Input: novatek-nvt-ts: add support for NT36672A
- touchscreen
+	s=arc-20240116; t=1716562481; c=relaxed/simple;
+	bh=PNdFcLTU0qQHyPogVRs7FQWkzRXlSIlN8NHiGrpMPYI=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=IpJrD0MXbcY89Exvugw9Y04oxirjlhkUMf0yLBF4j4yQWUVFBadzeO1FC4MtixcRs61ewn87x9IaoVsZYJ68gS+HCWZ2bsAYEkbgGqzthcnds2tefjfkzgT76hxnSrUjOTnAdGQ/1b5HEsCxXmXc7N48XsIf//r2X6LvbrYTE0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lISWqdgT; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716562480; x=1748098480;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=PNdFcLTU0qQHyPogVRs7FQWkzRXlSIlN8NHiGrpMPYI=;
+  b=lISWqdgT+jHQwr7Nd5Js0wvTYYh0MAOcFQINldhSPePRvNz8Mjr4rWsn
+   TQN5/YHjvR95NcEUQDJYFE3PDB2ki9eepQrUOFZMYmNxEoSy1eTNC7A29
+   1DE6KcgoupV0DYMZpYGYu7mhigLzlI6ny3HIjmWVFDyo7Vt2B1kaWHa9U
+   tCWkUZu7qHmLLU2Oh1pRMtZt8d0aM3Bj8uDtXjgJSygkTMZqjskyCSFVq
+   86As6wQqBzks2iLtPSXefBAcid02Chs59DPHCXZTeoRnalo9R53cygjHg
+   48E5esc0ANEHoDnTV/5wvN/6iFS8GrPcZa54W2CoReDbT2eKKzdSVl+d6
+   Q==;
+X-CSE-ConnectionGUID: 5RhaQT8TTwS393u8pzDKbg==
+X-CSE-MsgGUID: tTaTUqwvQH+pKKKDXbnSNg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="24070238"
+X-IronPort-AV: E=Sophos;i="6.08,185,1712646000"; 
+   d="scan'208";a="24070238"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 07:54:40 -0700
+X-CSE-ConnectionGUID: XdJpz91bQPmRs+/KxlVU0g==
+X-CSE-MsgGUID: /JjxfPnmSWehmFlUOeAo/Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,185,1712646000"; 
+   d="scan'208";a="38456319"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.247.127])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 07:54:37 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Fri, 24 May 2024 17:54:34 +0300 (EEST)
+To: Hans de Goede <hdegoede@redhat.com>
+cc: Andy Shevchenko <andy@kernel.org>, platform-driver-x86@vger.kernel.org, 
+    Gregor Riepl <onitake@gmail.com>
+Subject: Re: [PATCH v2] platform/x86: touchscreen_dmi: Add support for setting
+ touchscreen properties from cmdline
+In-Reply-To: <792e7722-8e93-4414-9665-2bddd888173c@redhat.com>
+Message-ID: <348c270a-cbd0-55ab-63ac-11afb2eebe91@linux.intel.com>
+References: <20240523143601.47555-1-hdegoede@redhat.com> <792e7722-8e93-4414-9665-2bddd888173c@redhat.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240524-nvt-ts-devicetree-regulator-support-v2-3-b74947038c44@gmail.com>
-References: <20240524-nvt-ts-devicetree-regulator-support-v2-0-b74947038c44@gmail.com>
-In-Reply-To: <20240524-nvt-ts-devicetree-regulator-support-v2-0-b74947038c44@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- Joel Selvaraj <joelselvaraj.oss@gmail.com>
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1716561588; l=5429;
- i=joelselvaraj.oss@gmail.com; s=20240420; h=from:subject:message-id;
- bh=iS/qydC+3ZyOwj/BFn5ZeWXmsLtQZbVeeksPZgAo5MU=;
- b=it6bM7idQMfK/9zprRb/BDnQ0I6+EMIqT/GWcPoiI4aCre6zWER6hYdZarF2jpU0n3F47QCl3
- 6SnhCHRKA8KCQoBPzdUHXALe+CrZUeBtTpOZgvHZpkQw7yIj73yDMYN
-X-Developer-Key: i=joelselvaraj.oss@gmail.com; a=ed25519;
- pk=qT4gsuVtlPE0Dpr+tQA/Fumm7wzVP6qfeVaY+6pX04s=
-X-Endpoint-Received: by B4 Relay for joelselvaraj.oss@gmail.com/20240420
- with auth_id=165
-X-Original-From: Joel Selvaraj <joelselvaraj.oss@gmail.com>
-Reply-To: joelselvaraj.oss@gmail.com
+Content-Type: text/plain; charset=US-ASCII
 
-From: Joel Selvaraj <joelselvaraj.oss@gmail.com>
+On Fri, 24 May 2024, Hans de Goede wrote:
 
-Extend the novatek touchscreen driver to support NT36672A chip which
-is found in phones like Xiaomi Poco F1 [1]. Added devicetree support for
-the driver and used i2c chip data to handle the variation in chip id and
-wake type. Also added vcc and iovcc regulators which are used to power
-the touchscreen hardware.
+> Hi All,
+> 
+> On 5/23/24 4:36 PM, Hans de Goede wrote:
+> > On x86/ACPI platforms touchscreens mostly just work without needing any
+> > device/model specific configuration. But in some cases (mostly with Silead
+> > and Goodix touchscreens) it is still necessary to manually specify various
+> > touchscreen-properties on a per model basis.
+> > 
+> > touchscreen_dmi is a special place for DMI quirks for this, but it can be
+> > challenging for users to figure out the right property values, especially
+> > for Silead touchscreens where non of these can be read back from
+> > the touchscreen-controller.
+> > 
+> > ATM users can only test touchscreen properties by editing touchscreen_dmi.c
+> > and then building a completely new kernel which makes it unnecessary
+> > difficult for users to test and submit properties when necessary for their
+> > laptop / tablet model.
+> > 
+> > Add support for specifying properties on the kernel commandline to allow
+> > users to easily figure out the right settings. See the added documentation
+> > in kernel-parameters.txt for the commandline syntax.
+> > 
+> > Cc: Gregor Riepl <onitake@gmail.com>
+> > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> > ---
+> > Changes in v2:
+> > - Refactor ts_data / ts_data_dmi handling a bit (addressing Andy's review)
+> > - Accept hex/octal numbers (addressing Andy's review)
+> > - Fix ts_parse_props return value (addressing Randy's review)
+> > - Use ':' as separator instead of ',', ',' is used in "vendor,option" style
+> >   property names, e.g. "silead,home-button"
+> > - pr_warn() on invalid syntax since init/main.c does not do this
+> > ---
+> > Note assuming this gets favourable review(s) in a reasonable timeframe
+> > I'm thinking about maybe even adding this to 6.10 as a fix since users
+> > not being able to easily test Silead touchscreen settings has been an
+> > issue for quite a while now. Without the cmdline option being used this
+> > is a no-op so the chance of this causing regressions is close to 0.
+> 
+> Ok, so here is the other half of this in the form of documentation how
+> to use this to figure out the right configuration parameters for Silead
+> touchscreens on laptop/tablet models which are not supported yet:
+> 
+> https://github.com/jwrdegoede/gsl-firmware/blob/master/README.md#determining-the-touchscreens-parameters
+> 
+> As mentioned above I would like to merge this through the fixes branch
+> since this resolves a long standing issue with users not being able to
+> use Silead touchscreens on unknown models.
+> 
+> Ilpo, do you have any objections against me merging this through
+> the fixes branch ?
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dts?h=v6.9
-
-Signed-off-by: Joel Selvaraj <joelselvaraj.oss@gmail.com>
----
- drivers/input/touchscreen/novatek-nvt-ts.c | 78 +++++++++++++++++++++++++++---
- 1 file changed, 72 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/input/touchscreen/novatek-nvt-ts.c b/drivers/input/touchscreen/novatek-nvt-ts.c
-index 224fd112b25a9..7a82a1b09f9d5 100644
---- a/drivers/input/touchscreen/novatek-nvt-ts.c
-+++ b/drivers/input/touchscreen/novatek-nvt-ts.c
-@@ -31,9 +31,6 @@
- #define NVT_TS_PARAMS_CHIP_ID		0x0e
- #define NVT_TS_PARAMS_SIZE		0x0f
- 
--#define NVT_TS_SUPPORTED_WAKE_TYPE	0x05
--#define NVT_TS_SUPPORTED_CHIP_ID	0x05
--
- #define NVT_TS_MAX_TOUCHES		10
- #define NVT_TS_MAX_SIZE			4096
- 
-@@ -51,11 +48,18 @@ static const int nvt_ts_irq_type[4] = {
- 	IRQF_TRIGGER_HIGH
- };
- 
-+struct nvt_ts_i2c_chip_data {
-+	u8 wake_type;
-+	u8 chip_id;
-+};
-+
- struct nvt_ts_data {
- 	struct i2c_client *client;
- 	struct input_dev *input;
- 	struct gpio_desc *reset_gpio;
-+	struct regulator_bulk_data regulators[2];
- 	struct touchscreen_properties prop;
-+	const struct nvt_ts_i2c_chip_data *chip;
- 	int max_touches;
- 	u8 buf[NVT_TS_TOUCH_SIZE * NVT_TS_MAX_TOUCHES];
- };
-@@ -139,9 +143,23 @@ static irqreturn_t nvt_ts_irq(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
-+static void nvt_ts_disable_regulators(void *_data)
-+{
-+	struct nvt_ts_data *data = _data;
-+
-+	regulator_bulk_disable(ARRAY_SIZE(data->regulators), data->regulators);
-+}
-+
- static int nvt_ts_start(struct input_dev *dev)
- {
- 	struct nvt_ts_data *data = input_get_drvdata(dev);
-+	int error;
-+
-+	error = regulator_bulk_enable(ARRAY_SIZE(data->regulators), data->regulators);
-+	if (error) {
-+		dev_err(&data->client->dev, "failed to enable regulators\n");
-+		return error;
-+	}
- 
- 	enable_irq(data->client->irq);
- 	gpiod_set_value_cansleep(data->reset_gpio, 0);
-@@ -155,6 +173,7 @@ static void nvt_ts_stop(struct input_dev *dev)
- 
- 	disable_irq(data->client->irq);
- 	gpiod_set_value_cansleep(data->reset_gpio, 1);
-+	nvt_ts_disable_regulators(data);
- }
- 
- static int nvt_ts_suspend(struct device *dev)
-@@ -199,9 +218,37 @@ static int nvt_ts_probe(struct i2c_client *client)
- 	if (!data)
- 		return -ENOMEM;
- 
-+	data->chip = device_get_match_data(&client->dev);
-+	if (!data->chip)
-+		return -EINVAL;
-+
- 	data->client = client;
- 	i2c_set_clientdata(client, data);
- 
-+	/*
-+	 * VCC is the analog voltage supply
-+	 * IOVCC is the digital voltage supply
-+	 */
-+	data->regulators[0].supply = "vcc";
-+	data->regulators[1].supply = "iovcc";
-+	error = devm_regulator_bulk_get(dev, ARRAY_SIZE(data->regulators), data->regulators);
-+	if (error) {
-+		dev_err(dev, "cannot get regulators: %d\n", error);
-+		return error;
-+	}
-+
-+	error = regulator_bulk_enable(ARRAY_SIZE(data->regulators), data->regulators);
-+	if (error) {
-+		dev_err(dev, "failed to enable regulators\n");
-+		return error;
-+	}
-+
-+	error = devm_add_action_or_reset(dev, nvt_ts_disable_regulators, data);
-+	if (error) {
-+		dev_err(dev, "failed to install regulator disable handler\n");
-+		return error;
-+	}
-+
- 	data->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
- 	error = PTR_ERR_OR_ZERO(data->reset_gpio);
- 	if (error) {
-@@ -225,8 +272,8 @@ static int nvt_ts_probe(struct i2c_client *client)
- 	if (width > NVT_TS_MAX_SIZE || height >= NVT_TS_MAX_SIZE ||
- 	    data->max_touches > NVT_TS_MAX_TOUCHES ||
- 	    irq_type >= ARRAY_SIZE(nvt_ts_irq_type) ||
--	    data->buf[NVT_TS_PARAMS_WAKE_TYPE] != NVT_TS_SUPPORTED_WAKE_TYPE ||
--	    data->buf[NVT_TS_PARAMS_CHIP_ID] != NVT_TS_SUPPORTED_CHIP_ID) {
-+	    data->buf[NVT_TS_PARAMS_WAKE_TYPE] != data->chip->wake_type ||
-+	    data->buf[NVT_TS_PARAMS_CHIP_ID] != data->chip->chip_id) {
- 		dev_err(dev, "Unsupported touchscreen parameters: %*ph\n",
- 			NVT_TS_PARAMS_SIZE, data->buf);
- 		return -EIO;
-@@ -277,8 +324,26 @@ static int nvt_ts_probe(struct i2c_client *client)
- 	return 0;
- }
- 
-+static const struct nvt_ts_i2c_chip_data nvt_nt11205_ts_data = {
-+	.wake_type = 0x05,
-+	.chip_id = 0x05,
-+};
-+
-+static const struct nvt_ts_i2c_chip_data nvt_nt36672a_ts_data = {
-+	.wake_type = 0x01,
-+	.chip_id = 0x08,
-+};
-+
-+static const struct of_device_id nvt_ts_of_match[] = {
-+	{ .compatible = "novatek,nt11205-ts", .data = &nvt_nt11205_ts_data },
-+	{ .compatible = "novatek,nt36672a-ts", .data = &nvt_nt36672a_ts_data },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, nvt_ts_of_match);
-+
- static const struct i2c_device_id nvt_ts_i2c_id[] = {
--	{ "NT11205-ts" },
-+	{ "NT11205-ts", (unsigned long) &nvt_nt11205_ts_data },
-+	{ "NT36672A-ts", (unsigned long) &nvt_nt36672a_ts_data },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, nvt_ts_i2c_id);
-@@ -287,6 +352,7 @@ static struct i2c_driver nvt_ts_driver = {
- 	.driver = {
- 		.name	= "novatek-nvt-ts",
- 		.pm	= pm_sleep_ptr(&nvt_ts_pm_ops),
-+		.of_match_table = nvt_ts_of_match,
- 	},
- 	.probe = nvt_ts_probe,
- 	.id_table = nvt_ts_i2c_id,
+It's fine to take it through fixes I think, especially this early into the 
+cycle.
 
 -- 
-2.45.1
-
+ i.
 
 
