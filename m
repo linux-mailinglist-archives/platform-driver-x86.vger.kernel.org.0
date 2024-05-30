@@ -1,150 +1,130 @@
-Return-Path: <platform-driver-x86+bounces-3631-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-3626-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D77A8D5287
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 May 2024 21:44:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E19FB8D524E
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 May 2024 21:28:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0773B1F22811
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 May 2024 19:44:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 106221C21FB9
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 May 2024 19:28:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 949D215887E;
-	Thu, 30 May 2024 19:44:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B62E14B971;
+	Thu, 30 May 2024 19:28:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YbaAp5so"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fSOloOcX"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BFC158A0D;
-	Thu, 30 May 2024 19:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB8914B953
+	for <platform-driver-x86@vger.kernel.org>; Thu, 30 May 2024 19:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717098253; cv=none; b=XIM3vk6gSFctYVJD9VcLk3zFSQXvTCFyi6rjk7o4IG5P6fG67rCHgOR0lhIYYf6+xO/BL0GjaGz6NELKLIZPt8xsLvzQob0n01On16qClQ9VLNUJEtC6p8JlgnFn+yLDfsjei0hFhHSFQw5qLgVmZx65mP/2TJ/JCnqgXhye7FE=
+	t=1717097323; cv=none; b=WEX5Glj8LQPS1birLyyUHxdLeapzVxxkSz3Waeiqwq6we11LXZzGt0FrLAh5SDGT6tOxZy4IvGHeJTIimsmnK5TTgVtAyLAppVbk8d2DN6NjP7OFdHWI8LzKdK61Bs7iJzL1TGucmgDbfBuubspHsa3YWU09UljlhKNeYNOt7vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717098253; c=relaxed/simple;
-	bh=Swv+nuFCro+i5I34h3+DF1nKDezzVeomXVrOHHcYQts=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gE7d842XP7ePbedXdrYbDHaoOfyeDH5o5bYPt8ktfPFSn1BKg3mVXbOXQT9nhmZwGdqVMKOqkKtWjZzhRbaa3+d88MOs+Pvi1NYaBxH5ur24YFSu/hB6pmPZwCLDtl/wk/PxSxeY4FVhVLqo6KtQ6T30yZvshXEvcqCwDFDMOP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YbaAp5so; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717098249; x=1748634249;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Swv+nuFCro+i5I34h3+DF1nKDezzVeomXVrOHHcYQts=;
-  b=YbaAp5so237r19NgQ4XoeNejVu0BJm5Si0cw3P0L68NpFQ2/dfQih/Z1
-   6YHpLPfMeRnLX4XNuxZ/6MGEpLOSGrWjK1ZNyP+ajgy1qvBNeUAGZuK26
-   1NwRs01lGYXJsTAmrYHdbDmQ+zcZ+fsqX+cE0nFzSwlSLKBgsChAOYtNI
-   s6Pj6EZ+xhzFdHuYxKT6T4CpVCRx5f80kDKDbwQ6brh3K3sjOCs7o1W25
-   ssDCVEbGBhkNiyCw/5a+1zhjAyUTxY6JH5ZYMTB14AMl95Jk4faivTBF7
-   y/CB9ayw3MA5Yw04ZzZMyzHh/dKAEJCjApjt2MSXbo8kpUihx7AOAB+3P
-   g==;
-X-CSE-ConnectionGUID: Df67wi9iTTqt2bHbB14K/g==
-X-CSE-MsgGUID: PrnINVKETy+VJyQ5++Kf9A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="31144002"
-X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="31144002"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 12:44:09 -0700
-X-CSE-ConnectionGUID: iRRt9hkMRJmIPl5TPnGpjA==
-X-CSE-MsgGUID: yD599GxkQzaoqyI/8Q2KmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="36027635"
-Received: from chang-linux-3.sc.intel.com ([172.25.66.177])
-  by orviesa009.jf.intel.com with ESMTP; 30 May 2024 12:44:09 -0700
-From: "Chang S. Bae" <chang.seok.bae@intel.com>
-To: linux-kernel@vger.kernel.org
-Cc: x86@kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	tony.luck@intel.com,
-	ashok.raj@intel.com,
-	jithu.joseph@intel.com,
-	sathyanarayanan.kuppuswamy@linux.intel.com,
-	chang.seok.bae@intel.com
-Subject: [PATCH v3 3/3] platform/x86/intel/ifs: Initialize FPU states for the scan test
-Date: Thu, 30 May 2024 12:27:39 -0700
-Message-Id: <20240530192739.172566-4-chang.seok.bae@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240530192739.172566-1-chang.seok.bae@intel.com>
-References: <20240530192739.172566-1-chang.seok.bae@intel.com>
+	s=arc-20240116; t=1717097323; c=relaxed/simple;
+	bh=JJhS1pPURI+aQlYnA8wo8o0Excof0LOY618hx1VqTvs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cL0LsraCv5lzjC+BrMCzJVZhC7qbFLA470iYtvaU9a1qFoq68+SpL7lk5dqvnri2H5CYob6kq2r1+VJY1dgbQ5A8QhAiY+inX7RuXjkrZrzpgAwYZIRDOaz/lwbp5TEn/rEy5Vp7VbbDk/L0Fub/9rTBEvKb0a4dF3ZRyyIKP2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fSOloOcX; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2e95a75a90eso12957751fa.2
+        for <platform-driver-x86@vger.kernel.org>; Thu, 30 May 2024 12:28:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1717097320; x=1717702120; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DkBHvViNRUO3vQPOWF9hByywaR4nvfvUm5Gui6RAYuk=;
+        b=fSOloOcXNXYxjmiGVNhuY9XV2m89Kq35vZE6kqgq3+cvDLroE+jm6izLHUcJIjEMe0
+         ZHZgTYLFndK5txYHWfNEaFyqthvanH/pwRQqXLZXRA94wEZs0iqRwmuEGjRwLqL5rvFU
+         hNLiKC+Qv0JeDWL/BMbjOol1e8T3HcwotIOpAchxK4s1hKA7aL2B6DxJ2xwzzbkhFl2q
+         QTFjN2fgApUF1U6e4xRof73xvvfNVhmw1wtfTCwN2TmfI8WmCV+aDvC3WFQS+/8ebHKH
+         EZv7qbWYmEdrvy5lkGhze+LwqviVAbeN+xwk3VAt4nFYRRmryley0+c3rg4yHKzlXFDF
+         m8qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717097320; x=1717702120;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DkBHvViNRUO3vQPOWF9hByywaR4nvfvUm5Gui6RAYuk=;
+        b=AjFRbRX63VX2J/HgTz5hQcVTPHPbw3J0E/j9xYutqvTAMOISMjb2QAo70OLBks+4MP
+         n6TR6FkW8cheE7vIFZoydXE/W2iIQlLl2K3t8wDgl/T4DEjZFs+q4UJMXV+P3PhLh3oj
+         dPDSt37/5J5150eSQfZ0GLLQN047lAcAgkE+VR19AAHFYNHsm73PGe/ucgpMXw1RnvzH
+         PpFFx+Fb6PQvtX7w0Jx07K0+qoPnW2zb5bLaw8Pk3cGUisCIsnFjKFqNiprYBnIRjCGH
+         SwkavSnAdF0LRucbSx1CoPDpGtMqc+c2XDv1vJOi39s2uHTNcmLfuxMT87fNTeX1I1ak
+         Igxw==
+X-Forwarded-Encrypted: i=1; AJvYcCUSzu3dSDBK5YXPW7/Sgsmekmr3Fz5rjHL6B/8xZ2KAndovjzXwd92a1Sc9q1OPWWSpYUwtZH04Dt7YP4rvY0BaO0dzVDGdcGkGYDa0kxjkMca8ng==
+X-Gm-Message-State: AOJu0YzVfDFY3tYmVryM8Qw0mGco+so8Ztsug3dWrjs6Gj+8xd8Cr7cg
+	yxNKy+Iv9XK/OvxAN8kiJF/+YtjHEPLiMKB0EFwYTKqcU6DpOJdwwkh3zhsb5uU=
+X-Google-Smtp-Source: AGHT+IF/S3+edrbcvaVlQXG/c5PQFdSIR94fq5kVS7yYYPf+3CZ7HSU+p3YnKFoMkQ0CRC40m/czSQ==
+X-Received: by 2002:a2e:8792:0:b0:2ea:83c9:2560 with SMTP id 38308e7fff4ca-2ea848493c5mr17255771fa.46.1717097319718;
+        Thu, 30 May 2024 12:28:39 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57a31c6d4b6sm131122a12.74.2024.05.30.12.28.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 May 2024 12:28:39 -0700 (PDT)
+Date: Thu, 30 May 2024 22:28:34 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Thorsten Blum <thorsten.blum@toblux.com>
+Cc: markus.elfring@web.de, Shyam-sundar.S-k@amd.com, hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com, kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v2] platform/x86/amd/pmf: Use memdup_user()
+Message-ID: <1512f46e-112c-47ef-8620-add0f04ce86d@moroto.mountain>
+References: <50d10f0b-d108-4057-be9c-a90e2398e810@web.de>
+ <20240527083628.210491-2-thorsten.blum@toblux.com>
+ <4c2c8a76-17c7-4dbb-96ff-8488c8e953ff@moroto.mountain>
+ <1D5BDE66-ABB3-41D9-ACB0-FBAC207D55DC@toblux.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1D5BDE66-ABB3-41D9-ACB0-FBAC207D55DC@toblux.com>
 
-The In-Field Scan process aborts if AMX state is not in initialized
-state. Use fpu_reset_fpregs() to ensure AMX state is initialized before
-entering the rendezvous loop.
+On Thu, May 30, 2024 at 04:15:51PM +0200, Thorsten Blum wrote:
+> Hi Dan,
+> 
+> On 27. May 2024, at 12:38, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> > Also this check isn't great:
+> > 
+> > if (dev->policy_sz < header->length + 512)
+> > 
+> > header->length is a u32 that comes from the user, so the addition can
+> > overflow.  I can't immediately see how to exploit this though since we
+> > don't seem to use header->length after this (by itself).
+> 
+> How about
+> 
+> 	if (header->length > U32_MAX - 512 || dev->policy_sz < header->length + 512)
+> 		return -EINVAL;
+> 
+> to prevent a possible overflow?
 
-Suggested-by: Dave Hansen <dave.hansen@linux.intel.com>
-Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
-Tested-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
----
-V2 -> V3: Use fpu_reset_user_fpregs().
-	  Thanks to everyone who provided tags on previous versions. Due
-	  to the code change, I felt it necessary to revoke them, but the
-	  high-level logic remains the same.
+I've been thinking about this and actually we could do something simpler:
 
-V1 -> V2: Revised the changelog (Ashok), added a space to the code comment
-	  (Ilpo), and included the header file explicitly (0-day).
----
- drivers/platform/x86/intel/ifs/ifs.h     | 1 +
- drivers/platform/x86/intel/ifs/runtest.c | 7 +++++++
- 2 files changed, 8 insertions(+)
+	if (dev->policy_sz < size_add(header->length, 512)) {
 
-diff --git a/drivers/platform/x86/intel/ifs/ifs.h b/drivers/platform/x86/intel/ifs/ifs.h
-index 56b9f3e3cf76..5e7ba94b4054 100644
---- a/drivers/platform/x86/intel/ifs/ifs.h
-+++ b/drivers/platform/x86/intel/ifs/ifs.h
-@@ -129,6 +129,7 @@
-  */
- #include <linux/device.h>
- #include <linux/miscdevice.h>
-+#include <asm/fpu/api.h>
- 
- #define MSR_ARRAY_BIST				0x00000105
- #define MSR_COPY_SCAN_HASHES			0x000002c2
-diff --git a/drivers/platform/x86/intel/ifs/runtest.c b/drivers/platform/x86/intel/ifs/runtest.c
-index 282e4bfe30da..68e128ea57ed 100644
---- a/drivers/platform/x86/intel/ifs/runtest.c
-+++ b/drivers/platform/x86/intel/ifs/runtest.c
-@@ -191,6 +191,10 @@ static int doscan(void *data)
- 	/* Only the first logical CPU on a core reports result */
- 	first = cpumask_first(cpu_smt_mask(cpu));
- 
-+	/* Prepare FPU state before entering the rendezvous loop */
-+	kernel_fpu_begin();
-+	fpu_reset_fpregs();
-+
- 	wait_for_sibling_cpu(&scan_cpus_in, NSEC_PER_SEC);
- 
- 	/*
-@@ -202,6 +206,9 @@ static int doscan(void *data)
- 	 * are processed in a single pass) before it retires.
- 	 */
- 	wrmsrl(MSR_ACTIVATE_SCAN, params->activate->data);
-+
-+	kernel_fpu_end();
-+
- 	rdmsrl(MSR_SCAN_STATUS, status.data);
- 
- 	trace_ifs_status(ifsd->cur_batch, start, stop, status.data);
--- 
-2.34.1
+> 
+> header->length is used in the next line
+> 
+> 	dev->policy_sz = header->length + 512;
+
+Yeah, but it's not used by itself.  The "header->length + 512" has been
+verified as a valid value whether it overflows or not.  Only
+"header->length" is wrong.
+
+> 
+> and if the addition overflows, we end up setting dev->policy_sz to an 
+> invalid value.
+
+regards,
+dan carpenter
 
 
