@@ -1,167 +1,121 @@
-Return-Path: <platform-driver-x86+bounces-3625-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-3628-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 595188D51CA
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 May 2024 20:30:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF3758D527A
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 May 2024 21:44:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 06CA6282E80
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 May 2024 18:30:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B12C9287891
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 May 2024 19:44:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D28F61BDDC;
-	Thu, 30 May 2024 18:30:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBF69158874;
+	Thu, 30 May 2024 19:44:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JZZRepBe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F4ZrBZSt"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B85718756B
-	for <platform-driver-x86@vger.kernel.org>; Thu, 30 May 2024 18:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4312F12E6D;
+	Thu, 30 May 2024 19:44:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717093851; cv=none; b=I5eN/ee9YculZTa/PsJCoaapo/ua+rLcErDSMabKI7bd5SrtC3glMe+kOtKT1k7J/12AWeKH0nEh4SW3reo5Qy/iPXKI0QJ2nIf8E0DkLCeEboQAPWkquJvrqjnrLx0nEZk7h0HJ8W2klk+hOMn/ha2ueUczr7oX67Hy5BRehr4=
+	t=1717098247; cv=none; b=CXCk9/+hfYk9kVxfhzMEgOOurxsGENEgMMxFldysilXI6RqCL87Ha5UGROrs6s8Y4igKsR1/EM6ThJ1qGs9U0lu0juhgVm2opwl+PWxSnG3pbv0JP9ypv4iHQGwvKmWWjibwnY2bKP6u5RK+9uVd75+sWaNfEzUGf/BFaAjxHP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717093851; c=relaxed/simple;
-	bh=33L6s4vKy97GaN4BZzqEE5/renpH8a2GYzMSjcrPTFQ=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=SqAwO7jcIPKAG4Ts1mCj+E1zJl7x3z3zuRyIn5KYBfmmar36c8bAwF1RaSS5n4Lrm9rkK71VJNmUVqVgYsm0q0BlyRFVmFuK0zyxzb1WoxSJ/HeDz/OpzRhm2y+kUwolfxgjRTWpYCmIHPCc3zliLYRO9xeafOsgZLn799Ick48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JZZRepBe; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1717093849;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=nd2gyK4ZonhwCOT/Y7f2LA/uGx9MOgzn7+cShk0mQFA=;
-	b=JZZRepBe9hLUgaZpGjkHVRG3SQNCHYuSdOtuukcY9Qy2Wwr39jR8hpSAnLZHvDMo51w7DR
-	DGCoZH0+2VJ7Qnt3haHd9NItB29xUzaqKoWGoKJ7II0K+tIH7Gh1TXaC3lthwv8caTuSb0
-	cKBxevxlcezQcQwTP8WNiD8MpFxEjJg=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-611-YGyS-cImNHeZAIlRb8LKhg-1; Thu, 30 May 2024 14:30:47 -0400
-X-MC-Unique: YGyS-cImNHeZAIlRb8LKhg-1
-Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-52af478a4cbso781930e87.1
-        for <platform-driver-x86@vger.kernel.org>; Thu, 30 May 2024 11:30:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717093846; x=1717698646;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=nd2gyK4ZonhwCOT/Y7f2LA/uGx9MOgzn7+cShk0mQFA=;
-        b=wQ2sA08cy1wy1W/VjTLk3g3u/GjtWTBNYZpnVippbv1nQl7YwbhuAP/MIl605bbt+A
-         q4n2VS7lHd9MtFToVM+IvTVueEs6ux5k7cIgP0/F/1VqeaAUfvib9PBCi34ZpWFt4g+N
-         H69MeAiSXup1LKISW4x6G9UJy5cjScj74jdZ7N1hBD5WTK+iw66Z99zKUWPcfkIaIhTn
-         X9uZIrQQXhdhNrphvYzCoZjWWkzOZVJIfO6/FiBKgA4azzdUDAGP+w6IpWclyw4mo9nt
-         8yRt4XABDOaiOlouobjvuAsO9Ej34BKW5VboZtPOWBmwnrJuiTWNw69oBl4fKhVw/bki
-         s7bQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW1FQHdjiDQPsVPXjYicF0P/tb9m86Zb5LDDOSRzeITqflY5LSgKsGdLdwa6MASwiZhAjVALywVr79Y4xdi6ZorKl51bVUPaLWnTgxuYckpFzbUcQ==
-X-Gm-Message-State: AOJu0Yzn9Ui9J7408OODS2hi/mtLKSVtvf195vSGKdsh4aRnKlF8Q/4C
-	jkmtsu3c59PLAQj05wDvInyrDH3jJ+3yC6llAJdavFfa3XkmwYHqYN8zhec51rKpvEIEhoFkb43
-	/vRg706IFKvwrMD7qZUZHY/XXGmQVMuCPHQaoFz7iRov0930p/0wwl1gQtr1o45nk9yR0dg4=
-X-Received: by 2002:ac2:52ad:0:b0:52b:68e3:6e02 with SMTP id 2adb3069b0e04-52b7d4263ffmr1732275e87.27.1717093845819;
-        Thu, 30 May 2024 11:30:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGm6WIHSy1XP/kCjJRfi19l9VpuwmnbTkKAggfM+5EFREAwdT4X0ElY/xJHa6zOBTaduJM7Wg==
-X-Received: by 2002:ac2:52ad:0:b0:52b:68e3:6e02 with SMTP id 2adb3069b0e04-52b7d4263ffmr1732263e87.27.1717093845326;
-        Thu, 30 May 2024 11:30:45 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a67eb344426sm2429566b.215.2024.05.30.11.30.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 May 2024 11:30:44 -0700 (PDT)
-Message-ID: <470d8b3d-1c9a-475e-a6fb-4fcc4b9ef98e@redhat.com>
-Date: Thu, 30 May 2024 20:30:44 +0200
+	s=arc-20240116; t=1717098247; c=relaxed/simple;
+	bh=Jmwxt8bWquRc2Bo8nA6dbosFgYTM5uelPHKc3KAchq0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XH4w2FCBZO/rbVS8+Un+L7PYLsPynHSPtxhtIUNPILW0FrMLx20Fo6/0RWRuWCHxJJIFo/ZBCGh0qZfB5Tt6uR9khZXUW/0oRDvQxNthyZY4Dj6oJMXxjAtw1PfLw7CWIqK4QFsMYICRZsiwqpvLlNvE7lcXps8APENdw35iQiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F4ZrBZSt; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717098246; x=1748634246;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Jmwxt8bWquRc2Bo8nA6dbosFgYTM5uelPHKc3KAchq0=;
+  b=F4ZrBZStxB6pRcxfkqMoVKCdf/EwVIWEbGcuWllBX05fl7xizh5Hl9a6
+   WFDjXHKFTCTacm+qFJvw/G/ZC/4E1KLzNpMtiZ+HJJ4f1kof9eJYVsVr4
+   Mvc7eV/32AtAUCudt3hQ3auG7pNCy5NJ5l49BEjhuxIwgVrtu5mzby8EX
+   VMTvddpKNV1diM7B6b90dcSwEzoRVhEQSxKenISSzywwVPGonT5HTjzyk
+   unTNGfi6ry/7NdphxBMjCnHIyKbaQMu4giSB2pUpTJfzckrhmHIqs5dAP
+   x3wbWfDjN95QlQSlRFqBGu7xPzoveJglWzwmKYBJpN716EkadnC4TgwqX
+   g==;
+X-CSE-ConnectionGUID: F10TKrOHSbicWOallAGjDQ==
+X-CSE-MsgGUID: wj6iL/PRSRKqssLKXJq4ww==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="31143988"
+X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
+   d="scan'208";a="31143988"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 12:44:05 -0700
+X-CSE-ConnectionGUID: 1/AsBVNGRi6pdfTq65GHFQ==
+X-CSE-MsgGUID: Z7wdXs2VRU2fjDeKfAmLVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
+   d="scan'208";a="36027619"
+Received: from chang-linux-3.sc.intel.com ([172.25.66.177])
+  by orviesa009.jf.intel.com with ESMTP; 30 May 2024 12:44:06 -0700
+From: "Chang S. Bae" <chang.seok.bae@intel.com>
+To: linux-kernel@vger.kernel.org
+Cc: x86@kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	tony.luck@intel.com,
+	ashok.raj@intel.com,
+	jithu.joseph@intel.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com,
+	chang.seok.bae@intel.com
+Subject: [PATCH v3 0/3] x86/fpu: Allow the In-Field Scan driver to initialize FPU state
+Date: Thu, 30 May 2024 12:27:36 -0700
+Message-Id: <20240530192739.172566-1-chang.seok.bae@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans de Goede <hdegoede@redhat.com>
-Subject: [GIT PULL] platform-drivers-x86 for 6.10-2
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- platform-driver-x86@vger.kernel.org,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Linus,
+This revision switches to a new approach by providing a helper to
+initialize user FPU states for the driver, which is considerably simpler.
+This approach could serve as an example for addressing similar situations
+from a non-critical path.
 
-Here is the first round of fixes for platform-drivers-x86 for 6.10.
+I thought fpu_reset_fpregs() as the helper name. There is already one
+with this name. Then, I realized the existing one is a bit misaligned, so
+renamed it first here.
 
-Highlights:
- -  A use-after-free bugfix
- -  2 Kconfig fixes for randconfig builds
- -  Allow setting touchscreen_dmi quirks from the cmdline for debugging
- -  touchscreen_dmi quirks for 2 new laptop/tablet models
+Thanks to Dave for the reviews and the suggestion.
 
-Regards,
+Thanks,
+Chang
 
-Hans
+The previous postings:
+V2: https://lore.kernel.org/all/20240507235344.249103-1-chang.seok.bae@intel.com
+V1: https://lore.kernel.org/all/20240430212508.105117-1-chang.seok.bae@intel.com
+
+Chang S. Bae (3):
+  x86/fpu: Rename fpu_reset_fpregs() to fpu_reset_fpstate_regs()
+  x86/fpu: Allow FPU users to initialize FPU state
+  platform/x86/intel/ifs: Initialize FPU states for the scan test
+
+ arch/x86/include/asm/fpu/api.h           |  2 ++
+ arch/x86/kernel/fpu/core.c               | 17 ++++++++++++++---
+ drivers/platform/x86/intel/ifs/ifs.h     |  1 +
+ drivers/platform/x86/intel/ifs/runtest.c |  7 +++++++
+ 4 files changed, 24 insertions(+), 3 deletions(-)
 
 
-The following changes since commit 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0:
-
-  Linux 6.10-rc1 (2024-05-26 15:20:12 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-v6.10-2
-
-for you to fetch changes up to 3050052613790e75b5e4a8536930426b0a8b0774:
-
-  platform/x86: touchscreen_dmi: Add info for the EZpad 6s Pro (2024-05-27 11:43:03 +0200)
-
-----------------------------------------------------------------
-platform-drivers-x86 for v6.10-2
-
-Highlights:
- -  A use-after-free bugfix
- -  2 Kconfig fixes for randconfig builds
- -  Allow setting touchscreen_dmi quirks from the cmdline for debugging
- -  touchscreen_dmi quirks for 2 new laptop/tablet models
-
-The following is an automated git shortlog grouped by driver:
-
-ISST:
- -  fix use-after-free in tpmi_sst_dev_remove()
-
-thinkpad_acpi:
- -  Select INPUT_SPARSEKMAP in Kconfig
-
-touchscreen_dmi:
- -  Add info for the EZpad 6s Pro
- -  Add info for GlobalSpace SolT IVW 11.6" tablet
- -  Add support for setting touchscreen properties from cmdline
-
-x86-android-tablets:
- -  Add "select LEDS_CLASS"
-
-----------------------------------------------------------------
-Hans de Goede (2):
-      platform/x86: x86-android-tablets: Add "select LEDS_CLASS"
-      platform/x86: touchscreen_dmi: Add support for setting touchscreen properties from cmdline
-
-Harshit Mogalapalli (1):
-      platform/x86: ISST: fix use-after-free in tpmi_sst_dev_remove()
-
-Steven Rostedt (Google) (1):
-      platform/x86: thinkpad_acpi: Select INPUT_SPARSEKMAP in Kconfig
-
-hmtheboy154 (2):
-      platform/x86: touchscreen_dmi: Add info for GlobalSpace SolT IVW 11.6" tablet
-      platform/x86: touchscreen_dmi: Add info for the EZpad 6s Pro
-
- Documentation/admin-guide/kernel-parameters.txt    |  22 ++++
- drivers/platform/x86/Kconfig                       |   1 +
- .../x86/intel/speed_select_if/isst_tpmi_core.c     |   2 +-
- drivers/platform/x86/touchscreen_dmi.c             | 117 ++++++++++++++++++++-
- drivers/platform/x86/x86-android-tablets/Kconfig   |   2 +
- 5 files changed, 139 insertions(+), 5 deletions(-)
+base-commit: 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
+-- 
+2.34.1
 
 
