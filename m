@@ -1,38 +1,38 @@
-Return-Path: <platform-driver-x86+bounces-3701-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-3699-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B7E08D746F
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 Jun 2024 11:04:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEBBC8D746D
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 Jun 2024 11:04:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE5831C20D3A
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 Jun 2024 09:04:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B35F28226F
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 Jun 2024 09:04:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7348A3BBF1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 209173D549;
 	Sun,  2 Jun 2024 09:03:01 +0000 (UTC)
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from fgw20-7.mail.saunalahti.fi (fgw20-7.mail.saunalahti.fi [62.142.5.81])
+Received: from fgw22-7.mail.saunalahti.fi (fgw22-7.mail.saunalahti.fi [62.142.5.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835C63BBDE
-	for <platform-driver-x86@vger.kernel.org>; Sun,  2 Jun 2024 09:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3D63BBEB
+	for <platform-driver-x86@vger.kernel.org>; Sun,  2 Jun 2024 09:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717318981; cv=none; b=qZ5SU4vWh3w0KwBrMYySRWUxXHKE2xrZY91gDoRHsgLvQP9zssdxt20jdA8OVyNmeaAAZ/STbrrFrKm0d5iPTKY/6dsS/9W70x61I8ivJdm9tIxkDH4xvgzKH56jwyYbgCh4wJWBItfDOnluFK+zyrpiIIrekH+nH1flB57jbrs=
+	t=1717318981; cv=none; b=R/7P/0KFmbSyWk4uLhhx9ZKy5s0MJFNGhLG3L2kJjpHqepFAiEevJt/i6DaQtDWqI43lW1W0jJzvmChrGqoGFc54nm2wM2zGjqY4doAqlBEAGq/DIy18xRB7FXX9xUNpfDkGVLqyGMn8892pLoqCzeVcv6g525wSvg+qzYi/7nI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1717318981; c=relaxed/simple;
-	bh=9h94DqXvQDdb48Sdw6WpvBt3kLrGfO30x8RvJcq38WI=;
+	bh=bQeuWPwSxT8QFhzr6uwQL9dUBoJgcUfr5QAmP07v+1Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KtNVuXlVaQ62vOT8FuXX8EHtWrt1t4YTCq7cqeUmFQdqdVvX75OhfB+KshCOKU7s6DHHLHr8Gk1ehfucsrW+wLdS4VqHlS2Tp5lX1GVSdkN/UEYmv1db28X82mBEHTdZCliBtuKt3jQuMkWJ7n3/uVQ/htSXPeSmHt8WcCRFYgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.81
+	 MIME-Version; b=azpiO/G+dpS/J4yMfGWrxBYnQjKTrwQ75ifYVcgBZm1uK3cRUStKp6qdb0PMSU14Bi6mSknuacQW/16hDMkxhiaKS4EMNfNcx5W3n55sEUEn20tXUe/uitcr76a8LU9HukivlsuLgPP0H/86TW4EgniJ0+X9K/T/OA1LrdVApwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.83
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
 Received: from localhost (88-113-26-230.elisa-laajakaista.fi [88.113.26.230])
-	by fgw22.mail.saunalahti.fi (Halon) with ESMTP
-	id e39b5d9a-20be-11ef-8e3d-005056bdf889;
-	Sun, 02 Jun 2024 12:02:50 +0300 (EEST)
+	by fgw20.mail.saunalahti.fi (Halon) with ESMTP
+	id e40e5ddf-20be-11ef-8d47-005056bd6ce9;
+	Sun, 02 Jun 2024 12:02:51 +0300 (EEST)
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
 To: Hans de Goede <hdegoede@redhat.com>,
 	Andy Shevchenko <andy.shevchenko@gmail.com>,
@@ -49,9 +49,9 @@ Cc: Corentin Chary <corentin.chary@gmail.com>,
 	"Luke D. Jones" <luke@ljones.dev>,
 	Mark Pearson <markpearson@lenovo.com>,
 	Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-Subject: [PATCH v1 2/7] platform/x86: hp: hp-bioscfg: Use 2-argument strscpy()
-Date: Sun,  2 Jun 2024 11:57:55 +0300
-Message-ID: <20240602090244.1666360-3-andy.shevchenko@gmail.com>
+Subject: [PATCH v1 3/7] platform/x86: intel: chtwc_int33fe: Use 2-argument strscpy()
+Date: Sun,  2 Jun 2024 11:57:56 +0300
+Message-ID: <20240602090244.1666360-4-andy.shevchenko@gmail.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240602090244.1666360-1-andy.shevchenko@gmail.com>
 References: <20240602090244.1666360-1-andy.shevchenko@gmail.com>
@@ -68,254 +68,40 @@ an additional check that destination buffer is an array.
 
 Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- .../x86/hp/hp-bioscfg/enum-attributes.c       | 18 +++++-------------
- .../x86/hp/hp-bioscfg/int-attributes.c        |  7 ++-----
- .../x86/hp/hp-bioscfg/order-list-attributes.c | 18 +++++-------------
- .../x86/hp/hp-bioscfg/passwdobj-attributes.c  | 19 +++++--------------
- .../x86/hp/hp-bioscfg/spmobj-attributes.c     |  3 +--
- .../x86/hp/hp-bioscfg/string-attributes.c     | 12 ++++--------
- 6 files changed, 22 insertions(+), 55 deletions(-)
+ drivers/platform/x86/intel/chtwc_int33fe.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c b/drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c
-index a2402d31c146..c50ad5880503 100644
---- a/drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c
-+++ b/drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c
-@@ -52,9 +52,7 @@ static void update_enumeration_value(int instance_id, char *attr_value)
- {
- 	struct enumeration_data *enum_data = &bioscfg_drv.enumeration_data[instance_id];
- 
--	strscpy(enum_data->current_value,
--		attr_value,
--		sizeof(enum_data->current_value));
-+	strscpy(enum_data->current_value, attr_value);
- }
- 
- ATTRIBUTE_S_COMMON_PROPERTY_SHOW(display_name, enumeration);
-@@ -174,8 +172,7 @@ static int hp_populate_enumeration_elements_from_package(union acpi_object *enum
- 		case VALUE:
- 			break;
- 		case PATH:
--			strscpy(enum_data->common.path, str_value,
--				sizeof(enum_data->common.path));
-+			strscpy(enum_data->common.path, str_value);
- 			break;
- 		case IS_READONLY:
- 			enum_data->common.is_readonly = int_value;
-@@ -222,9 +219,7 @@ static int hp_populate_enumeration_elements_from_package(union acpi_object *enum
- 				if (ret)
- 					return -EINVAL;
- 
--				strscpy(enum_data->common.prerequisites[reqs],
--					str_value,
--					sizeof(enum_data->common.prerequisites[reqs]));
-+				strscpy(enum_data->common.prerequisites[reqs], str_value);
- 
- 				kfree(str_value);
- 				str_value = NULL;
-@@ -236,8 +231,7 @@ static int hp_populate_enumeration_elements_from_package(union acpi_object *enum
- 			break;
- 
- 		case ENUM_CURRENT_VALUE:
--			strscpy(enum_data->current_value,
--				str_value, sizeof(enum_data->current_value));
-+			strscpy(enum_data->current_value, str_value);
- 			break;
- 		case ENUM_SIZE:
- 			if (int_value > MAX_VALUES_SIZE) {
-@@ -278,9 +272,7 @@ static int hp_populate_enumeration_elements_from_package(union acpi_object *enum
- 				 * is greater than MAX_VALUES_SIZE
- 				 */
- 				if (size < MAX_VALUES_SIZE)
--					strscpy(enum_data->possible_values[pos_values],
--						str_value,
--						sizeof(enum_data->possible_values[pos_values]));
-+					strscpy(enum_data->possible_values[pos_values], str_value);
- 
- 				kfree(str_value);
- 				str_value = NULL;
-diff --git a/drivers/platform/x86/hp/hp-bioscfg/int-attributes.c b/drivers/platform/x86/hp/hp-bioscfg/int-attributes.c
-index 86b7ac63fec2..6c7f4d5fa9cb 100644
---- a/drivers/platform/x86/hp/hp-bioscfg/int-attributes.c
-+++ b/drivers/platform/x86/hp/hp-bioscfg/int-attributes.c
-@@ -192,8 +192,7 @@ static int hp_populate_integer_elements_from_package(union acpi_object *integer_
- 			integer_data->current_value = int_value;
- 			break;
- 		case PATH:
--			strscpy(integer_data->common.path, str_value,
--				sizeof(integer_data->common.path));
-+			strscpy(integer_data->common.path, str_value);
- 			break;
- 		case IS_READONLY:
- 			integer_data->common.is_readonly = int_value;
-@@ -240,9 +239,7 @@ static int hp_populate_integer_elements_from_package(union acpi_object *integer_
- 				if (ret)
- 					continue;
- 
--				strscpy(integer_data->common.prerequisites[reqs],
--					str_value,
--					sizeof(integer_data->common.prerequisites[reqs]));
-+				strscpy(integer_data->common.prerequisites[reqs], str_value);
- 				kfree(str_value);
- 				str_value = NULL;
- 			}
-diff --git a/drivers/platform/x86/hp/hp-bioscfg/order-list-attributes.c b/drivers/platform/x86/hp/hp-bioscfg/order-list-attributes.c
-index 1ff09dfb7d7e..c6e57bb9d8b7 100644
---- a/drivers/platform/x86/hp/hp-bioscfg/order-list-attributes.c
-+++ b/drivers/platform/x86/hp/hp-bioscfg/order-list-attributes.c
-@@ -57,9 +57,7 @@ static void update_ordered_list_value(int instance, char *attr_value)
- {
- 	struct ordered_list_data *ordered_list_data = &bioscfg_drv.ordered_list_data[instance];
- 
--	strscpy(ordered_list_data->current_value,
--		attr_value,
--		sizeof(ordered_list_data->current_value));
-+	strscpy(ordered_list_data->current_value, attr_value);
- }
- 
- ATTRIBUTE_S_COMMON_PROPERTY_SHOW(display_name, ordered_list);
-@@ -179,13 +177,11 @@ static int hp_populate_ordered_list_elements_from_package(union acpi_object *ord
- 		/* Assign appropriate element value to corresponding field*/
- 		switch (eloc) {
- 		case VALUE:
--			strscpy(ordered_list_data->current_value,
--				str_value, sizeof(ordered_list_data->current_value));
-+			strscpy(ordered_list_data->current_value, str_value);
- 			replace_char_str(ordered_list_data->current_value, COMMA_SEP, SEMICOLON_SEP);
- 			break;
- 		case PATH:
--			strscpy(ordered_list_data->common.path, str_value,
--				sizeof(ordered_list_data->common.path));
-+			strscpy(ordered_list_data->common.path, str_value);
- 			break;
- 		case IS_READONLY:
- 			ordered_list_data->common.is_readonly = int_value;
-@@ -227,9 +223,7 @@ static int hp_populate_ordered_list_elements_from_package(union acpi_object *ord
- 				if (ret)
- 					continue;
- 
--				strscpy(ordered_list_data->common.prerequisites[reqs],
--					str_value,
--					sizeof(ordered_list_data->common.prerequisites[reqs]));
-+				strscpy(ordered_list_data->common.prerequisites[reqs], str_value);
- 
- 				kfree(str_value);
- 				str_value = NULL;
-@@ -271,9 +265,7 @@ static int hp_populate_ordered_list_elements_from_package(union acpi_object *ord
- 			part = strsep(&part_tmp, COMMA_SEP);
- 
- 			for (olist_elem = 0; olist_elem < MAX_ELEMENTS_SIZE && part; olist_elem++) {
--				strscpy(ordered_list_data->elements[olist_elem],
--					part,
--					sizeof(ordered_list_data->elements[olist_elem]));
-+				strscpy(ordered_list_data->elements[olist_elem], part);
- 				part = strsep(&part_tmp, COMMA_SEP);
- 			}
- 			ordered_list_data->elements_size = olist_elem;
-diff --git a/drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c b/drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c
-index f7efe217a4bb..35936c05e45b 100644
---- a/drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c
-+++ b/drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c
-@@ -101,13 +101,9 @@ static int store_password_instance(struct kobject *kobj, const char *buf,
- 
- 	if (!ret) {
- 		if (is_current)
--			strscpy(bioscfg_drv.password_data[id].current_password,
--				buf_cp,
--				sizeof(bioscfg_drv.password_data[id].current_password));
-+			strscpy(bioscfg_drv.password_data[id].current_password, buf_cp);
- 		else
--			strscpy(bioscfg_drv.password_data[id].new_password,
--				buf_cp,
--				sizeof(bioscfg_drv.password_data[id].new_password));
-+			strscpy(bioscfg_drv.password_data[id].new_password, buf_cp);
+diff --git a/drivers/platform/x86/intel/chtwc_int33fe.c b/drivers/platform/x86/intel/chtwc_int33fe.c
+index 93f75ba1dafd..11503b1c85f3 100644
+--- a/drivers/platform/x86/intel/chtwc_int33fe.c
++++ b/drivers/platform/x86/intel/chtwc_int33fe.c
+@@ -270,7 +270,7 @@ cht_int33fe_register_max17047(struct device *dev, struct cht_int33fe_data *data)
  	}
  
- 	kfree(buf_cp);
-@@ -272,8 +268,7 @@ static int hp_populate_password_elements_from_package(union acpi_object *passwor
- 		case VALUE:
- 			break;
- 		case PATH:
--			strscpy(password_data->common.path, str_value,
--				sizeof(password_data->common.path));
-+			strscpy(password_data->common.path, str_value);
- 			break;
- 		case IS_READONLY:
- 			password_data->common.is_readonly = int_value;
-@@ -315,9 +310,7 @@ static int hp_populate_password_elements_from_package(union acpi_object *passwor
- 				if (ret)
- 					break;
+ 	memset(&board_info, 0, sizeof(board_info));
+-	strscpy(board_info.type, "max17047", I2C_NAME_SIZE);
++	strscpy(board_info.type, "max17047");
+ 	board_info.dev_name = "max17047";
+ 	board_info.fwnode = fwnode;
+ 	data->battery_fg = i2c_acpi_new_device(dev, 1, &board_info);
+@@ -361,7 +361,7 @@ static int cht_int33fe_typec_probe(struct platform_device *pdev)
+ 	}
  
--				strscpy(password_data->common.prerequisites[reqs],
--					str_value,
--					sizeof(password_data->common.prerequisites[reqs]));
-+				strscpy(password_data->common.prerequisites[reqs], str_value);
+ 	memset(&board_info, 0, sizeof(board_info));
+-	strscpy(board_info.type, "typec_fusb302", I2C_NAME_SIZE);
++	strscpy(board_info.type, "typec_fusb302");
+ 	board_info.dev_name = "fusb302";
+ 	board_info.fwnode = fwnode;
+ 	board_info.irq = fusb302_irq;
+@@ -381,7 +381,7 @@ static int cht_int33fe_typec_probe(struct platform_device *pdev)
+ 	memset(&board_info, 0, sizeof(board_info));
+ 	board_info.dev_name = "pi3usb30532";
+ 	board_info.fwnode = fwnode;
+-	strscpy(board_info.type, "pi3usb30532", I2C_NAME_SIZE);
++	strscpy(board_info.type, "pi3usb30532");
  
- 				kfree(str_value);
- 				str_value = NULL;
-@@ -359,9 +352,7 @@ static int hp_populate_password_elements_from_package(union acpi_object *passwor
- 				if (ret)
- 					break;
- 
--				strscpy(password_data->encodings[pos_values],
--					str_value,
--					sizeof(password_data->encodings[pos_values]));
-+				strscpy(password_data->encodings[pos_values], str_value);
- 				kfree(str_value);
- 				str_value = NULL;
- 
-diff --git a/drivers/platform/x86/hp/hp-bioscfg/spmobj-attributes.c b/drivers/platform/x86/hp/hp-bioscfg/spmobj-attributes.c
-index 86f90238750c..2b00a14792e9 100644
---- a/drivers/platform/x86/hp/hp-bioscfg/spmobj-attributes.c
-+++ b/drivers/platform/x86/hp/hp-bioscfg/spmobj-attributes.c
-@@ -365,8 +365,7 @@ int hp_populate_secure_platform_data(struct kobject *attr_name_kobj)
- 	/* Populate data for Secure Platform Management */
- 	bioscfg_drv.spm_data.attr_name_kobj = attr_name_kobj;
- 
--	strscpy(bioscfg_drv.spm_data.attribute_name, SPM_STR,
--		sizeof(bioscfg_drv.spm_data.attribute_name));
-+	strscpy(bioscfg_drv.spm_data.attribute_name, SPM_STR);
- 
- 	bioscfg_drv.spm_data.is_enabled = 0;
- 	bioscfg_drv.spm_data.mechanism = 0;
-diff --git a/drivers/platform/x86/hp/hp-bioscfg/string-attributes.c b/drivers/platform/x86/hp/hp-bioscfg/string-attributes.c
-index f0c20070094d..27758b779b2d 100644
---- a/drivers/platform/x86/hp/hp-bioscfg/string-attributes.c
-+++ b/drivers/platform/x86/hp/hp-bioscfg/string-attributes.c
-@@ -50,7 +50,7 @@ static void update_string_value(int instance_id, char *attr_value)
- 	struct string_data *string_data = &bioscfg_drv.string_data[instance_id];
- 
- 	/* Write settings to BIOS */
--	strscpy(string_data->current_value, attr_value, sizeof(string_data->current_value));
-+	strscpy(string_data->current_value, attr_value);
- }
- 
- /*
-@@ -178,12 +178,10 @@ static int hp_populate_string_elements_from_package(union acpi_object *string_ob
- 		/* Assign appropriate element value to corresponding field*/
- 		switch (eloc) {
- 		case VALUE:
--			strscpy(string_data->current_value,
--				str_value, sizeof(string_data->current_value));
-+			strscpy(string_data->current_value, str_value);
- 			break;
- 		case PATH:
--			strscpy(string_data->common.path, str_value,
--				sizeof(string_data->common.path));
-+			strscpy(string_data->common.path, str_value);
- 			break;
- 		case IS_READONLY:
- 			string_data->common.is_readonly = int_value;
-@@ -231,9 +229,7 @@ static int hp_populate_string_elements_from_package(union acpi_object *string_ob
- 				if (ret)
- 					continue;
- 
--				strscpy(string_data->common.prerequisites[reqs],
--					str_value,
--					sizeof(string_data->common.prerequisites[reqs]));
-+				strscpy(string_data->common.prerequisites[reqs], str_value);
- 				kfree(str_value);
- 				str_value = NULL;
- 			}
+ 	data->pi3usb30532 = i2c_acpi_new_device(dev, 3, &board_info);
+ 	if (IS_ERR(data->pi3usb30532)) {
 -- 
 2.45.1
 
