@@ -1,38 +1,38 @@
-Return-Path: <platform-driver-x86+bounces-3700-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-3698-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC4858D7471
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 Jun 2024 11:04:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A0C68D746C
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 Jun 2024 11:04:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3F19CB21B77
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 Jun 2024 09:04:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 15A512821ED
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 Jun 2024 09:04:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67A043DBBF;
-	Sun,  2 Jun 2024 09:03:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A61639ACC;
+	Sun,  2 Jun 2024 09:03:00 +0000 (UTC)
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from fgw20-7.mail.saunalahti.fi (fgw20-7.mail.saunalahti.fi [62.142.5.81])
+Received: from fgw21-7.mail.saunalahti.fi (fgw21-7.mail.saunalahti.fi [62.142.5.82])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D6B3BBF6
-	for <platform-driver-x86@vger.kernel.org>; Sun,  2 Jun 2024 09:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68CC3AC1F
+	for <platform-driver-x86@vger.kernel.org>; Sun,  2 Jun 2024 09:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.82
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717318981; cv=none; b=qGJXK1mIOBuXX8XoZbHPxAUg4RvSAlRoZkPOxsMa+DfdZs7wmcY2bvxyPelryT9+Ge3hud33Oc6hvbKscrepchOac+WomwE7M2sVMHqGfPDKTAYiMpQTiZg/b15h/cbFPVZyzcqJH6RTgzOzKP4qAxlPa6IMpD9bhWukMq9X4ic=
+	t=1717318980; cv=none; b=I0IiVR1dMF4LV16OoCe0nE8bwirCFX0fWsMkP+miTAybjAyvLc1Oa/vZ4MvunCElKZp9n8okGclyZHcgrdiMfO8qg4H7N3iWKBXaGPEG9esjoSv9YHrLMwHoHcZrlK/6yDQrwh3EXPgCE9ajaonOHZhIIDg61ol+ChKEy6Xtsfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717318981; c=relaxed/simple;
-	bh=UgAuMHpFIkncb10bX6YzLxaitjoHyiUwEFu7OS+KpA4=;
+	s=arc-20240116; t=1717318980; c=relaxed/simple;
+	bh=kjAyPZMiSO/QOUSk3fdxY5FJ/AeIhJLqhUfXYyQ05PA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QY5VjLec1wAg2/GfaezcjO9UkpLGKmA947Vy5/43pNPBzxe986NXTGQ7/T5QyHeiQbUcHr6Hi8kavXU2zmjSqJmQBiYYB1QHcLBldLMGDDjWONPju+bsyaoO70weSggOzgipWzekNPHaUs8dHgf12x5e7FLS9GS73KEu+G7Uv74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.81
+	 MIME-Version; b=o6Uc9p5QFrfP0f2jhkPhuK+zDF2gdFewkrsRw96jZFAWBA//S+XKalazSZX1LrUJfHquCseoGh2EsFhpD/KSo2Y6vmWGzSC+0yHYx2i1fOVKDLRINKueGnxLJqt4++31CrpI8YpDUjrzK4LRuL+5wunAF8mHrMvV7xJtge9j+uA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.82
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
 Received: from localhost (88-113-26-230.elisa-laajakaista.fi [88.113.26.230])
-	by fgw22.mail.saunalahti.fi (Halon) with ESMTP
-	id e585c43e-20be-11ef-8e3d-005056bdf889;
-	Sun, 02 Jun 2024 12:02:53 +0300 (EEST)
+	by fgw20.mail.saunalahti.fi (Halon) with ESMTP
+	id e5f4102e-20be-11ef-8d47-005056bd6ce9;
+	Sun, 02 Jun 2024 12:02:54 +0300 (EEST)
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
 To: Hans de Goede <hdegoede@redhat.com>,
 	Andy Shevchenko <andy.shevchenko@gmail.com>,
@@ -49,9 +49,9 @@ Cc: Corentin Chary <corentin.chary@gmail.com>,
 	"Luke D. Jones" <luke@ljones.dev>,
 	Mark Pearson <markpearson@lenovo.com>,
 	Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-Subject: [PATCH v1 6/7] platform/x86: thinkpad_acpi: Use 2-argument strscpy()
-Date: Sun,  2 Jun 2024 11:57:59 +0300
-Message-ID: <20240602090244.1666360-7-andy.shevchenko@gmail.com>
+Subject: [PATCH v1 7/7] platform/x86: touchscreen_dmi: Use 2-argument strscpy()
+Date: Sun,  2 Jun 2024 11:58:00 +0300
+Message-ID: <20240602090244.1666360-8-andy.shevchenko@gmail.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240602090244.1666360-1-andy.shevchenko@gmail.com>
 References: <20240602090244.1666360-1-andy.shevchenko@gmail.com>
@@ -68,26 +68,22 @@ an additional check that destination buffer is an array.
 
 Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- drivers/platform/x86/thinkpad_acpi.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/platform/x86/touchscreen_dmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 397b409064c9..f269ca1ff771 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -7416,10 +7416,8 @@ static int __init volume_create_alsa_mixer(void)
- 	data = card->private_data;
- 	data->card = card;
+diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+index 2d9ca2292ea1..879a63e4ecd0 100644
+--- a/drivers/platform/x86/touchscreen_dmi.c
++++ b/drivers/platform/x86/touchscreen_dmi.c
+@@ -1907,7 +1907,7 @@ static int __init ts_parse_props(char *str)
+ 	u32 u32val;
+ 	int i, ret;
  
--	strscpy(card->driver, TPACPI_ALSA_DRVNAME,
--		sizeof(card->driver));
--	strscpy(card->shortname, TPACPI_ALSA_SHRTNAME,
--		sizeof(card->shortname));
-+	strscpy(card->driver, TPACPI_ALSA_DRVNAME);
-+	strscpy(card->shortname, TPACPI_ALSA_SHRTNAME);
- 	snprintf(card->mixername, sizeof(card->mixername), "ThinkPad EC %s",
- 		 (thinkpad_id.ec_version_str) ?
- 			thinkpad_id.ec_version_str : "(unknown)");
+-	strscpy(orig_str, str, sizeof(orig_str));
++	strscpy(orig_str, str);
+ 
+ 	/*
+ 	 * str is part of the static_command_line from init/main.c and poking
 -- 
 2.45.1
 
