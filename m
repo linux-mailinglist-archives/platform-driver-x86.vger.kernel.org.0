@@ -1,38 +1,38 @@
-Return-Path: <platform-driver-x86+bounces-3699-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-3695-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEBBC8D746D
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 Jun 2024 11:04:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA7B8D7462
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 Jun 2024 11:03:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B35F28226F
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 Jun 2024 09:04:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4AC84281D5D
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 Jun 2024 09:03:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 209173D549;
-	Sun,  2 Jun 2024 09:03:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80BCA381B8;
+	Sun,  2 Jun 2024 09:02:56 +0000 (UTC)
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from fgw22-7.mail.saunalahti.fi (fgw22-7.mail.saunalahti.fi [62.142.5.83])
+Received: from fgw21-7.mail.saunalahti.fi (fgw21-7.mail.saunalahti.fi [62.142.5.82])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3D63BBEB
-	for <platform-driver-x86@vger.kernel.org>; Sun,  2 Jun 2024 09:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3962D61B
+	for <platform-driver-x86@vger.kernel.org>; Sun,  2 Jun 2024 09:02:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.82
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717318981; cv=none; b=R/7P/0KFmbSyWk4uLhhx9ZKy5s0MJFNGhLG3L2kJjpHqepFAiEevJt/i6DaQtDWqI43lW1W0jJzvmChrGqoGFc54nm2wM2zGjqY4doAqlBEAGq/DIy18xRB7FXX9xUNpfDkGVLqyGMn8892pLoqCzeVcv6g525wSvg+qzYi/7nI=
+	t=1717318976; cv=none; b=CW3iyupOXi580vPm5iJY+Y1kGJWT+mqMMGktoS30zxA+93dbnQG1JzFaCwFQ57Vt4G8g02zS3tBB8cAq0GaCIsPSBmM8mGkZZehVdD94Kvv1rkM4RmzCSDnO65Ak8Kt651GjTLEri7PitvO2ETVsYYyPrzlyZWxYOG2g6tiaKuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717318981; c=relaxed/simple;
-	bh=bQeuWPwSxT8QFhzr6uwQL9dUBoJgcUfr5QAmP07v+1Y=;
+	s=arc-20240116; t=1717318976; c=relaxed/simple;
+	bh=Zev7O1OaJPuWxSkFHl6udbLp67nkr4VjyCzglGcW7E0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=azpiO/G+dpS/J4yMfGWrxBYnQjKTrwQ75ifYVcgBZm1uK3cRUStKp6qdb0PMSU14Bi6mSknuacQW/16hDMkxhiaKS4EMNfNcx5W3n55sEUEn20tXUe/uitcr76a8LU9HukivlsuLgPP0H/86TW4EgniJ0+X9K/T/OA1LrdVApwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.83
+	 MIME-Version; b=DU8/z8x4M5BavxWSI7MgONG22z9QSMiW+I7Yu0Pctknvu1+m0ZE4dTUhsPmZY7KGERbRj3Bw1x/l+ik6Xjb3RFGw1CaPmwtrnIUHZQrGkuX455Ml5n7EJHFaRsZMy1CSghY6aTnE99M8bGYTd7AU+QBhQzFr12mHUplJkbTIQsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.82
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
 Received: from localhost (88-113-26-230.elisa-laajakaista.fi [88.113.26.230])
-	by fgw20.mail.saunalahti.fi (Halon) with ESMTP
-	id e40e5ddf-20be-11ef-8d47-005056bd6ce9;
-	Sun, 02 Jun 2024 12:02:51 +0300 (EEST)
+	by fgw21.mail.saunalahti.fi (Halon) with ESMTP
+	id e4aa8b06-20be-11ef-ab01-005056bdd08f;
+	Sun, 02 Jun 2024 12:02:52 +0300 (EEST)
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
 To: Hans de Goede <hdegoede@redhat.com>,
 	Andy Shevchenko <andy.shevchenko@gmail.com>,
@@ -49,9 +49,9 @@ Cc: Corentin Chary <corentin.chary@gmail.com>,
 	"Luke D. Jones" <luke@ljones.dev>,
 	Mark Pearson <markpearson@lenovo.com>,
 	Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-Subject: [PATCH v1 3/7] platform/x86: intel: chtwc_int33fe: Use 2-argument strscpy()
-Date: Sun,  2 Jun 2024 11:57:56 +0300
-Message-ID: <20240602090244.1666360-4-andy.shevchenko@gmail.com>
+Subject: [PATCH v1 4/7] platform/x86: serial-multi-instantiate: Use 2-argument strscpy()
+Date: Sun,  2 Jun 2024 11:57:57 +0300
+Message-ID: <20240602090244.1666360-5-andy.shevchenko@gmail.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240602090244.1666360-1-andy.shevchenko@gmail.com>
 References: <20240602090244.1666360-1-andy.shevchenko@gmail.com>
@@ -68,40 +68,31 @@ an additional check that destination buffer is an array.
 
 Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- drivers/platform/x86/intel/chtwc_int33fe.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/platform/x86/serial-multi-instantiate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/platform/x86/intel/chtwc_int33fe.c b/drivers/platform/x86/intel/chtwc_int33fe.c
-index 93f75ba1dafd..11503b1c85f3 100644
---- a/drivers/platform/x86/intel/chtwc_int33fe.c
-+++ b/drivers/platform/x86/intel/chtwc_int33fe.c
-@@ -270,7 +270,7 @@ cht_int33fe_register_max17047(struct device *dev, struct cht_int33fe_data *data)
- 	}
+diff --git a/drivers/platform/x86/serial-multi-instantiate.c b/drivers/platform/x86/serial-multi-instantiate.c
+index 97b9c6392230..3be016cfe601 100644
+--- a/drivers/platform/x86/serial-multi-instantiate.c
++++ b/drivers/platform/x86/serial-multi-instantiate.c
+@@ -131,7 +131,7 @@ static int smi_spi_probe(struct platform_device *pdev, struct smi *smi,
  
- 	memset(&board_info, 0, sizeof(board_info));
--	strscpy(board_info.type, "max17047", I2C_NAME_SIZE);
-+	strscpy(board_info.type, "max17047");
- 	board_info.dev_name = "max17047";
- 	board_info.fwnode = fwnode;
- 	data->battery_fg = i2c_acpi_new_device(dev, 1, &board_info);
-@@ -361,7 +361,7 @@ static int cht_int33fe_typec_probe(struct platform_device *pdev)
- 	}
+ 		ctlr = spi_dev->controller;
  
- 	memset(&board_info, 0, sizeof(board_info));
--	strscpy(board_info.type, "typec_fusb302", I2C_NAME_SIZE);
-+	strscpy(board_info.type, "typec_fusb302");
- 	board_info.dev_name = "fusb302";
- 	board_info.fwnode = fwnode;
- 	board_info.irq = fusb302_irq;
-@@ -381,7 +381,7 @@ static int cht_int33fe_typec_probe(struct platform_device *pdev)
- 	memset(&board_info, 0, sizeof(board_info));
- 	board_info.dev_name = "pi3usb30532";
- 	board_info.fwnode = fwnode;
--	strscpy(board_info.type, "pi3usb30532", I2C_NAME_SIZE);
-+	strscpy(board_info.type, "pi3usb30532");
+-		strscpy(spi_dev->modalias, inst_array[i].type, sizeof(spi_dev->modalias));
++		strscpy(spi_dev->modalias, inst_array[i].type);
  
- 	data->pi3usb30532 = i2c_acpi_new_device(dev, 3, &board_info);
- 	if (IS_ERR(data->pi3usb30532)) {
+ 		ret = smi_get_irq(pdev, adev, &inst_array[i]);
+ 		if (ret < 0) {
+@@ -205,7 +205,7 @@ static int smi_i2c_probe(struct platform_device *pdev, struct smi *smi,
+ 
+ 	for (i = 0; i < count && inst_array[i].type; i++) {
+ 		memset(&board_info, 0, sizeof(board_info));
+-		strscpy(board_info.type, inst_array[i].type, I2C_NAME_SIZE);
++		strscpy(board_info.type, inst_array[i].type);
+ 		snprintf(name, sizeof(name), "%s-%s.%d", dev_name(dev), inst_array[i].type, i);
+ 		board_info.dev_name = name;
+ 
 -- 
 2.45.1
 
