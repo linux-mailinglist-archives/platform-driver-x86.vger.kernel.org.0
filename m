@@ -1,53 +1,53 @@
-Return-Path: <platform-driver-x86+bounces-3750-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-3751-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88BF78FB12C
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  4 Jun 2024 13:31:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B99C08FB397
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  4 Jun 2024 15:24:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 284DA1F2246B
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  4 Jun 2024 11:31:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6FC7A1F21027
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  4 Jun 2024 13:24:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CF9D144D07;
-	Tue,  4 Jun 2024 11:31:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21CFA1465A8;
+	Tue,  4 Jun 2024 13:24:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WC6tfITO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vf4Xe7gZ"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1692DAD51
-	for <platform-driver-x86@vger.kernel.org>; Tue,  4 Jun 2024 11:31:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2587144D23
+	for <platform-driver-x86@vger.kernel.org>; Tue,  4 Jun 2024 13:24:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717500707; cv=none; b=MqpzDVxG16XsBKe5CLfkuV8BDrQkOvgngh1jGowlwCEOuRxvfVtRTHZsuygmg1cgOO5UgKTWTpbAyBvkj3eUYlUP292YNeE79kNIRLxeHZmYn3n14vFTw3bKR1yXDBDj6V/qPv5ybyRBb9lFqUJE7pf+U8YtOO5GVoSTUwPEJQw=
+	t=1717507459; cv=none; b=fhbZKfCsbA8Jg0y7q04kKF0ZSKZ6Yiery1YanlRfc7RCcjpicw6QJXH4QwjFNjAVv3fnF6VN6/vQWDD+YAg7Q3vbBBVZWJJro16FIWad+wlSqYQcnJUsCSDZZUWGRSZLn4jytuasvVZlvsJgjRPnavF1lnYlXsGM/nDqQgs82YU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717500707; c=relaxed/simple;
-	bh=wtLFbqayjRP4wHdKhd0SzhirImO4qAvtEO+AOTa4S60=;
+	s=arc-20240116; t=1717507459; c=relaxed/simple;
+	bh=ovitGQtKYtqdqw55fFI6Kl/5+hT2FMFRH4ZE5c916yI=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DuGTQNAPqqLHebdUuFFxizpEh6uCwZlI+lGEzje4xxS7gWsuVHmpydKnfZY0grz70hd8C75RSi21ucRxcccjeANt8H/mrh6UaIjpc9OkNVmc/bS1Iyfu1cdAsQePaxylFOqFaejKAdfRBv2D4NF24BbzLnCrAXtxnWUvVipYFwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WC6tfITO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9DAF4C2BBFC
-	for <platform-driver-x86@vger.kernel.org>; Tue,  4 Jun 2024 11:31:46 +0000 (UTC)
+	 Content-Type:MIME-Version; b=tlqqN0hwpFU99o97981qPL6kKvPZz0tl4zaD/etzrXtZfKS84cwRgnSrkcItepIbqFpVqK/bm8/Z5hCiwUOrVUUERbKgBwD1H/YjfQV1Qc+MTZYH8PBlqdY5+Su/UE6WV1rPKglm1pbdEGVqGV3m/NdXppHomRhNXlGkbTtXJbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vf4Xe7gZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8472DC3277B
+	for <platform-driver-x86@vger.kernel.org>; Tue,  4 Jun 2024 13:24:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717500706;
-	bh=wtLFbqayjRP4wHdKhd0SzhirImO4qAvtEO+AOTa4S60=;
+	s=k20201202; t=1717507458;
+	bh=ovitGQtKYtqdqw55fFI6Kl/5+hT2FMFRH4ZE5c916yI=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=WC6tfITOcmC+IuUIfOH0v/kx/s/Lt335IINeF93mHZ4v6AkmZEs6D5v/atZqE2FoX
-	 uLHZAmB4aglU8QoLnL/7uzTZHV5EZdAaGfDvI0YeYJtAQ254j9GCZ90eWAwVc5UUqL
-	 W5tsgvDR6563TUH+JfiiUFkZ/XigBFbd+1C3OlPqhw3+zPEQR3wbW/6czTZqzTElz2
-	 GBsh9qahnGtXdajWrLFedEHiBJdUOKsvfI/WqTuaHY4WqQxeoWezqHtAiHsKhbh0iy
-	 oigC5RaOcLo97RuQTrFmlA/5AUJcErJE384LDYVb3hE2VQ0Oin8cFV5qYiS7V5JL6O
-	 hRSUgh6rkpvAA==
+	b=Vf4Xe7gZldUpDvg0+gkLZsMEUwYdDdEf9mXqxXP3ghyNNzqazedbZ59t1mOMOcQ6Q
+	 x6EKPMwHJjOhMEFv4GOd6/N8aK1hDPH8/pdOC8Cxm5Af02cJZwvP6gjKNJKlE1RUiA
+	 CpuBxlxmNTkB+LmAjkZUGE89wq0x3UmLDpUe6V6BxqDgqY4N2/g97Ufovcv6pJqZIh
+	 s/9HgWcRAcTAyLzmgbY37K/NiwmcgMK7imj50feuPIHH3kGqWkMqdecH+5gxcx59E+
+	 0OqQ6X/3sdL8iABrZDgMwiGuTfNCJIA6Lxc1PI9E6uI1goru7dXlyM48F+tBZUIwWs
+	 JQC7v+f/OipCg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 8CBFFC53B50; Tue,  4 Jun 2024 11:31:46 +0000 (UTC)
+	id 6DD8DC53B50; Tue,  4 Jun 2024 13:24:18 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: platform-driver-x86@vger.kernel.org
 Subject: [Bug 218901] LG Gram Laptop Extra Features not working on 2024
  models (16Z90S)
-Date: Tue, 04 Jun 2024 11:31:46 +0000
+Date: Tue, 04 Jun 2024 13:24:18 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
@@ -56,14 +56,14 @@ X-Bugzilla-Component: Platform_x86
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: W_Armin@gmx.de
+X-Bugzilla-Who: agathe@boutmy.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-218901-215701-xkRNcj39Lu@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-218901-215701-f5x14EGuGn@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-218901-215701@https.bugzilla.kernel.org/>
 References: <bug-218901-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -79,18 +79,39 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218901
 
---- Comment #29 from Armin Wolf (W_Armin@gmx.de) ---
-Created attachment 306408
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D306408&action=3Dedit
-Prototype kernel module v4
+--- Comment #30 from Agathe Boutmy (agathe@boutmy.com) ---
+(In reply to Armin Wolf from comment #29)
+> Created attachment 306408 [details]
+> Prototype kernel module v4
+>=20
+> I have removed the airplane mode hotkey handling from the driver, can you
+> test again if the wifi issues are resolved now?
 
-I have removed the airplane mode hotkey handling from the driver, can you t=
-est
-again if the wifi issues are resolved now?
+Yes, it no longers deactivate the wifi.
 
-Can you also send me the output of dmesg after pressing FN+F8? I am curious=
- if
-the strange ACPI events are still happening.
+> Can you also send me the output of dmesg after pressing FN+F8? I am curio=
+us
+> if the strange ACPI events are still happening.
+
+it is still happening: here is the output once I press FN+F8:
+
+[26146.735205] lg_laptop: event guid 2
+[26146.735305] lg_laptop: Type: 1    Eventcode: 0x30010000
+[26148.031450] lg_laptop: event guid 2
+[26148.031517] lg_laptop: Type: 1    Eventcode: 0x30010001
+[26148.054930] lg_laptop: event guid 2
+[26148.058063] lg_laptop: Type: 1    Eventcode: 0x10000000
+[26148.141362] lg_laptop: event guid 2
+[26148.141429] lg_laptop: Type: 1    Eventcode: 0x30010001
+[26148.301453] lg_laptop: event guid 2
+[26148.301518] lg_laptop: Type: 1    Eventcode: 0x30010001
+[26148.324300] ACPI: \_SB_.XINI: notify: 192
+[26150.350874] ACPI: \_SB_.XINI: notify: 192
+[26151.363858] ACPI: \_SB_.XINI: notify: 192
+[26152.380376] ACPI: \_SB_.XINI: notify: 192
+
+
+it keeps sending the acpi event with any key press.
 
 --=20
 You may reply to this email to add a comment.
