@@ -1,71 +1,71 @@
-Return-Path: <platform-driver-x86+bounces-4090-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-4093-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1D04916851
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Jun 2024 14:46:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E342E916854
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Jun 2024 14:46:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 75BE31F25816
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Jun 2024 12:46:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6505A1F2577D
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Jun 2024 12:46:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F10A14A619;
-	Tue, 25 Jun 2024 12:46:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA0F3157A5C;
+	Tue, 25 Jun 2024 12:46:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="grsQScr1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gRGTktmC"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B81156899
-	for <platform-driver-x86@vger.kernel.org>; Tue, 25 Jun 2024 12:46:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654112BCF6
+	for <platform-driver-x86@vger.kernel.org>; Tue, 25 Jun 2024 12:46:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719319584; cv=none; b=kFFXbrZ0+KygBxTF6PZvhZme267A1bld5x0c8qoOIZPPuJhPNbggeyZXD8FdQ/hiIqeppodbil9YVMf1REwOnHr5ezg2rmJBJkWrOAlD2Hw3lJQKpbRTKyUTwCp51jSGPWmqndc2swJZwS+4K7Gdp17QSmi4xP8PsOFt7TWWLIA=
+	t=1719319587; cv=none; b=bQZ5HWUkzpCACKvIvn2axnwYyWTM1dxQU1EAWmSGMtwKfYbGbyHePnXOaszeZ9ekn/aURGv1DwoE2NBW+t68o5elBMDdN5Pt0SoIL+KOx2ZpSJ30TGUFVleIllnnxaCchHboGGXqnpgpS7ijPwXzuJYAlyL2sBkYWgvDN/Tg7wQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719319584; c=relaxed/simple;
-	bh=R8dbb3VgmZF9CuqsKQAVTfcfpL/OtdrfBMNafCLJTlQ=;
+	s=arc-20240116; t=1719319587; c=relaxed/simple;
+	bh=PzNioSfRXQpfuHXKkF+ye0zuWnIiOoNw3FQ8TQqipSU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=arlQ77jW4Pi5gJ3LENCS/iOVZ4R0I14W8YnYM76WBGlLEaCMKPYPP+6+WdMSWuEtsCZdY+fBjhTDi10UewWcgfK1vGB5HpOhGOeXOL3ChHOaJChNYgg4dRJDBEbrooIO61tF2xPCSCbs4d3BEgLzC8TH3xEVOOx3ImTsQAKK954=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=grsQScr1; arc=none smtp.client-ip=192.198.163.11
+	 MIME-Version; b=H79D53rDY4xA95ttWAvKLRpbBO61smK6qdTH8i0O8fAZfAYTkC95NJfHthGsnJVkeN0uVWAgchvadJuYj17U80s6tVuGC5pssSq7uAL/KGXnomHd0I6ythvIJ80TGV3yHiWfBUl9+NEKhDmWxA7jbK6U0WOIeU0M1XPsHbmZjxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gRGTktmC; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719319583; x=1750855583;
+  t=1719319585; x=1750855585;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=R8dbb3VgmZF9CuqsKQAVTfcfpL/OtdrfBMNafCLJTlQ=;
-  b=grsQScr1fwexNjnFA89nBFYhrGpivNYUwvbtPzK7hQeOYLElYVWLg3bB
-   gItTInD9qXMX0GLQSy9PetY+pMercUXDCU+GyYcTdKcEAcWlyskFGMagh
-   llkm/JZnI3N1RLMJ/vlavf6mjhAzRLfViNhu8bRXPB2cgjDt6ZmGY0d6y
-   ZDZRyOj2lVr2lEGKFs2KF9Z4OpTl3zOfrXrhOLn5M91W39J7TckhC5L6x
-   tF0OHMyUWwbxBtp2+79XH+AdAG/6mmDPVolmlFjBFe5wpcICeo//PsAhL
-   qQvpVsTdznZaj31bJWr8gEsSWwIGY/A7FuvsLsMUYampncIf44CbsIzDV
-   w==;
-X-CSE-ConnectionGUID: kgCXrm0eS0KuDwGjOa3dww==
-X-CSE-MsgGUID: ePzX03V4Q02fRCkWaSoOLg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="26955332"
+  bh=PzNioSfRXQpfuHXKkF+ye0zuWnIiOoNw3FQ8TQqipSU=;
+  b=gRGTktmCw7dWpIADM2yd2DHLeiSUhDfheB9lEIlT5sflJX3FYHZA8Q1S
+   wKkWc49/wrzLTrFWKWdbL3671nYOVq0lJeIClP+QylYiPGtjc0oTf3wR/
+   Z/i3sSH9rCfmsW5m6QdoQU9A451AILg7wgyF9AfE3yXBiJGUAekr+NM3a
+   7wj/g1A34y0zDnkWRuKx5h0fjJCOqO7NGx8aQJuXcJW0Z6SngEgfNDZt+
+   tX3GpFYRCFpiWy2nRpk/sg55gJ9s/XeLGiQBYL8ErtrFlU/1VMlOalSVX
+   gwyqM2aIeRrk/qbOiNbKsRjH6B9FxqNbrylRQD+f8oRxfGZ3xJLPdiFAG
+   g==;
+X-CSE-ConnectionGUID: zfMc+NrmQuGUeP7omnnPXA==
+X-CSE-MsgGUID: fxO0p0N/SjiTUUKydfKnKQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="26955338"
 X-IronPort-AV: E=Sophos;i="6.08,264,1712646000"; 
-   d="scan'208";a="26955332"
+   d="scan'208";a="26955338"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 05:46:18 -0700
-X-CSE-ConnectionGUID: k966GdQBTbS27l/lMDLkTA==
-X-CSE-MsgGUID: 83DSzVQoSCWhZ805gOv5yA==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 05:46:19 -0700
+X-CSE-ConnectionGUID: bwMxWNj3RxuCJ3QD/5JozA==
+X-CSE-MsgGUID: P0DKgjNCRXejkon8XsAz7Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,264,1712646000"; 
-   d="scan'208";a="48547069"
+   d="scan'208";a="48547078"
 Received: from awvttdev-05.aw.intel.com ([10.228.212.156])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 05:46:17 -0700
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 05:46:18 -0700
 From: "Michael J. Ruhl" <michael.j.ruhl@intel.com>
 To: intel-xe@lists.freedesktop.org,
 	platform-driver-x86@vger.kernel.org,
 	david.e.box@linux.intel.com
 Cc: michael.j.ruhl@intel.com
-Subject: [PATCH v3 2/6] platform/x86/intel/vsec: Add PMT read callbacks
-Date: Tue, 25 Jun 2024 08:45:48 -0400
-Message-ID: <20240625124554.3358460-3-michael.j.ruhl@intel.com>
+Subject: [PATCH v3 3/6] platform/x86/intel/pmt: Use PMT callbacks
+Date: Tue, 25 Jun 2024 08:45:49 -0400
+Message-ID: <20240625124554.3358460-4-michael.j.ruhl@intel.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240625124554.3358460-1-michael.j.ruhl@intel.com>
 References: <20240625124554.3358460-1-michael.j.ruhl@intel.com>
@@ -79,48 +79,153 @@ Content-Transfer-Encoding: 8bit
 
 From: "David E. Box" <david.e.box@linux.intel.com>
 
-Some PMT providers require device specific actions before their telemetry
-can be read. Provide assignable PMT read callbacks to allow providers to
-perform those actions.
+PMT providers may require device specific actions before their telemetry
+may be read. If the read_telem() is assigned, call it instead of
+memcpy_fromio() and return. Since this needs to be done in multiple
+locations, add pmt_telem_read_mmio() as a wrapper function to perform this
+and any other needed checks.
 
 Signed-off-by: David E. Box <david.e.box@linux.intel.com>
 ---
- drivers/platform/x86/intel/vsec.c | 1 +
- include/linux/intel_vsec.h        | 5 +++++
- 2 files changed, 6 insertions(+)
+ drivers/platform/x86/intel/pmt/class.c     | 26 +++++++++++++++++-----
+ drivers/platform/x86/intel/pmt/class.h     |  8 +++++--
+ drivers/platform/x86/intel/pmt/telemetry.c | 10 +++++----
+ 3 files changed, 32 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/platform/x86/intel/vsec.c b/drivers/platform/x86/intel/vsec.c
-index 2b46807f868b..7b5cc9993974 100644
---- a/drivers/platform/x86/intel/vsec.c
-+++ b/drivers/platform/x86/intel/vsec.c
-@@ -212,6 +212,7 @@ static int intel_vsec_add_dev(struct pci_dev *pdev, struct intel_vsec_header *he
- 	intel_vsec_dev->num_resources = header->num_entries;
- 	intel_vsec_dev->quirks = info->quirks;
- 	intel_vsec_dev->base_addr = info->base_addr;
-+	intel_vsec_dev->priv_data = info->priv_data;
+diff --git a/drivers/platform/x86/intel/pmt/class.c b/drivers/platform/x86/intel/pmt/class.c
+index d7939b28e937..c04bb7f97a4d 100644
+--- a/drivers/platform/x86/intel/pmt/class.c
++++ b/drivers/platform/x86/intel/pmt/class.c
+@@ -58,6 +58,22 @@ pmt_memcpy64_fromio(void *to, const u64 __iomem *from, size_t count)
+ 	return count;
+ }
  
- 	if (header->id == VSEC_ID_SDSI)
- 		intel_vsec_dev->ida = &intel_vsec_sdsi_ida;
-diff --git a/include/linux/intel_vsec.h b/include/linux/intel_vsec.h
-index ff7998cadab4..003301783331 100644
---- a/include/linux/intel_vsec.h
-+++ b/include/linux/intel_vsec.h
-@@ -67,10 +67,15 @@ enum intel_vsec_quirks {
- 	VSEC_QUIRK_EARLY_HW     = BIT(4),
++int pmt_telem_read_mmio(struct pci_dev *pdev, struct pmt_callbacks *cb, u32 guid, void *buf,
++			void __iomem *addr, u32 count)
++{
++	if (cb && cb->read_telem)
++		return cb->read_telem(pdev, guid, buf, count);
++
++	if (guid == GUID_SPR_PUNIT)
++		/* PUNIT on SPR only supports aligned 64-bit read */
++		return pmt_memcpy64_fromio(buf, addr, count);
++
++	memcpy_fromio(buf, addr, count);
++
++	return count;
++}
++EXPORT_SYMBOL_NS_GPL(pmt_telem_read_mmio, INTEL_PMT);
++
+ /*
+  * sysfs
+  */
+@@ -79,11 +95,8 @@ intel_pmt_read(struct file *filp, struct kobject *kobj,
+ 	if (count > entry->size - off)
+ 		count = entry->size - off;
+ 
+-	if (entry->guid == GUID_SPR_PUNIT)
+-		/* PUNIT on SPR only supports aligned 64-bit read */
+-		count = pmt_memcpy64_fromio(buf, entry->base + off, count);
+-	else
+-		memcpy_fromio(buf, entry->base + off, count);
++	count = pmt_telem_read_mmio(entry->ep->pcidev, entry->cb, entry->header.guid, buf,
++				    entry->base + off, count);
+ 
+ 	return count;
+ }
+@@ -239,6 +252,7 @@ static int intel_pmt_populate_entry(struct intel_pmt_entry *entry,
+ 
+ 	entry->guid = header->guid;
+ 	entry->size = header->size;
++	entry->cb = ivdev->priv_data;
+ 
+ 	return 0;
+ }
+@@ -300,7 +314,7 @@ static int intel_pmt_dev_register(struct intel_pmt_entry *entry,
+ 		goto fail_ioremap;
+ 
+ 	if (ns->pmt_add_endpoint) {
+-		ret = ns->pmt_add_endpoint(entry, ivdev->pcidev);
++		ret = ns->pmt_add_endpoint(ivdev, entry);
+ 		if (ret)
+ 			goto fail_add_endpoint;
+ 	}
+diff --git a/drivers/platform/x86/intel/pmt/class.h b/drivers/platform/x86/intel/pmt/class.h
+index d6f9ccaf28c8..a267ac964423 100644
+--- a/drivers/platform/x86/intel/pmt/class.h
++++ b/drivers/platform/x86/intel/pmt/class.h
+@@ -24,6 +24,7 @@ struct pci_dev;
+ struct telem_endpoint {
+ 	struct pci_dev		*pcidev;
+ 	struct telem_header	header;
++	struct pmt_callbacks	*cb;
+ 	void __iomem		*base;
+ 	bool			present;
+ 	struct kref		kref;
+@@ -43,6 +44,7 @@ struct intel_pmt_entry {
+ 	struct kobject		*kobj;
+ 	void __iomem		*disc_table;
+ 	void __iomem		*base;
++	struct pmt_callbacks	*cb;
+ 	unsigned long		base_addr;
+ 	size_t			size;
+ 	u32			guid;
+@@ -55,10 +57,12 @@ struct intel_pmt_namespace {
+ 	const struct attribute_group *attr_grp;
+ 	int (*pmt_header_decode)(struct intel_pmt_entry *entry,
+ 				 struct device *dev);
+-	int (*pmt_add_endpoint)(struct intel_pmt_entry *entry,
+-				struct pci_dev *pdev);
++	int (*pmt_add_endpoint)(struct intel_vsec_device *ivdev,
++				struct intel_pmt_entry *entry);
  };
  
-+struct pmt_callbacks {
-+	int (*read_telem)(void *args, u32 guid, u64 *data, u32 count);
-+};
-+
- /* Platform specific data */
- struct intel_vsec_platform_info {
- 	struct device *parent;
- 	struct intel_vsec_header **headers;
-+	void *priv_data;
- 	unsigned long caps;
- 	unsigned long quirks;
- 	u64 base_addr;
++int pmt_telem_read_mmio(struct pci_dev *pdev, struct pmt_callbacks *cb, u32 guid, void *buf,
++			void __iomem *addr, u32 count);
+ bool intel_pmt_is_early_client_hw(struct device *dev);
+ int intel_pmt_dev_create(struct intel_pmt_entry *entry,
+ 			 struct intel_pmt_namespace *ns,
+diff --git a/drivers/platform/x86/intel/pmt/telemetry.c b/drivers/platform/x86/intel/pmt/telemetry.c
+index 3478f891ea0b..c9feac859e57 100644
+--- a/drivers/platform/x86/intel/pmt/telemetry.c
++++ b/drivers/platform/x86/intel/pmt/telemetry.c
+@@ -93,8 +93,8 @@ static int pmt_telem_header_decode(struct intel_pmt_entry *entry,
+ 	return 0;
+ }
+ 
+-static int pmt_telem_add_endpoint(struct intel_pmt_entry *entry,
+-				  struct pci_dev *pdev)
++static int pmt_telem_add_endpoint(struct intel_vsec_device *ivdev,
++				  struct intel_pmt_entry *entry)
+ {
+ 	struct telem_endpoint *ep;
+ 
+@@ -104,13 +104,14 @@ static int pmt_telem_add_endpoint(struct intel_pmt_entry *entry,
+ 		return -ENOMEM;
+ 
+ 	ep = entry->ep;
+-	ep->pcidev = pdev;
++	ep->pcidev = ivdev->pcidev;
+ 	ep->header.access_type = entry->header.access_type;
+ 	ep->header.guid = entry->header.guid;
+ 	ep->header.base_offset = entry->header.base_offset;
+ 	ep->header.size = entry->header.size;
+ 	ep->base = entry->base;
+ 	ep->present = true;
++	ep->cb = ivdev->priv_data;
+ 
+ 	kref_init(&ep->kref);
+ 
+@@ -218,7 +219,8 @@ int pmt_telem_read(struct telem_endpoint *ep, u32 id, u64 *data, u32 count)
+ 	if (offset + NUM_BYTES_QWORD(count) > size)
+ 		return -EINVAL;
+ 
+-	memcpy_fromio(data, ep->base + offset, NUM_BYTES_QWORD(count));
++	pmt_telem_read_mmio(ep->pcidev, ep->cb, ep->header.guid, data, ep->base + offset,
++			    NUM_BYTES_QWORD(count));
+ 
+ 	return ep->present ? 0 : -EPIPE;
+ }
 -- 
 2.44.0
 
