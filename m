@@ -1,85 +1,81 @@
-Return-Path: <platform-driver-x86+bounces-4104-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-4106-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26252919D58
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 27 Jun 2024 04:37:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA36919ECE
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 27 Jun 2024 07:40:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE5EF1F24679
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 27 Jun 2024 02:37:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 54069288ACD
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 27 Jun 2024 05:40:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E02821078B;
-	Thu, 27 Jun 2024 02:37:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7FD61C6B7;
+	Thu, 27 Jun 2024 05:40:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yad25XLh"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="W2xnQzUy"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2053.outbound.protection.outlook.com [40.107.236.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63854C8E9;
-	Thu, 27 Jun 2024 02:37:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719455869; cv=none; b=VF05Mb8YubJ8h36pazkaZoS4j4uZThLLgxTd/ILj3sy+oj6pdLARahkOJfBm7uZ5qPA/QNDa/HQd3Kt32Ya0EBp/VbEn9EMXkzMvX+il08/NndSP8tYgETL5Dnfeb/3quPqXDNl49VQxgadBljOU3szR17SdRFI7IxFiN+RepUs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719455869; c=relaxed/simple;
-	bh=OBp+67Tvck2axK2SJa+el04tfq6pZcR+s8OZwOZk3kk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Pim7PoI7LUCZD049npoWWpr3MNz3hS4XGta2IMRSwljv7WbWsIvb4bAAQPXYbszoo+I7jrnMh3h/F36QgcsanD4p3ZyjqUvMmZU0/drw4w5q9u8Se0kw5+wlyKBJ9JUNpzOqt5qq1Znbt72HDH0h8QCy0lv0jr+dyv1mtVR2HrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yad25XLh; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719455869; x=1750991869;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=OBp+67Tvck2axK2SJa+el04tfq6pZcR+s8OZwOZk3kk=;
-  b=Yad25XLhDsbSYxga5jkeZC0aT16s3a2sTgdpyAC0zfyAVLFX0X+KE8W8
-   u9e0MpSRJ/xJEJVpNQ0T6bd4eZ2jVMxUuRiKuuZbh5PIIP8DgQUe+0IHk
-   ZgTsHnPqWSEKFsZFCvmfi9VygBLK5j8c6WleGIoZLDqeLMBlU3l0xJaye
-   9/mw1qXCnFKo0uqs6FZRi8H86BDopQzf6v8wh8dTLIhWKRzEpOWwhaY7a
-   BndcrBv/1l36jI8IXkKBOzFUu8XVLLqy8RNJDiUCHAU1b5apDyEwujsGg
-   8YGLPAoVL2cDnRKd5NWgph/iY41jTYyeKdQromy7PLYSDuv6u8yItDBjW
-   Q==;
-X-CSE-ConnectionGUID: VQrv2AF6TmuGO/HxNbEDxg==
-X-CSE-MsgGUID: 4/QNs9bARle7etXL9Va4xQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="27959510"
-X-IronPort-AV: E=Sophos;i="6.08,268,1712646000"; 
-   d="scan'208";a="27959510"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 19:37:46 -0700
-X-CSE-ConnectionGUID: 4B/p0t/eT2qrK5FbWTuXsw==
-X-CSE-MsgGUID: RUbKdxMAQJa9wwjwL77omg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,268,1712646000"; 
-   d="scan'208";a="44052408"
-Received: from skuppusw-desk2.jf.intel.com ([10.165.154.101])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 19:37:45 -0700
-From: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-To: Jithu Joseph <jithu.joseph@intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Ashok Raj <ashok.raj@intel.com>,
-	Tony Luck <tony.luck@intel.com>,
-	linux-trace-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	Shankar Ravi V <ravi.v.shankar@intel.com>
-Subject: [PATCH v1 4/4] trace: platform/x86/intel/ifs: Add SBAF trace support
-Date: Thu, 27 Jun 2024 02:35:16 +0000
-Message-Id: <20240627023516.3783454-5-sathyanarayanan.kuppuswamy@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9C71C2AD
+	for <platform-driver-x86@vger.kernel.org>; Thu, 27 Jun 2024 05:40:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719466824; cv=fail; b=HDjIkEMfkpZf8DTziTY6ATiONJIlKggaKEARgq8cKwSq25NqyhRmS+tetONMcD/ZGQu33Fj5qWSbbKPW20EB8dmNxD097wDqa42mVWVMJ+0Rd5gi5bUNcu2adypWFWpni9KSPMCn6Jna4FiBcLG2+t7iw8iAsIlD+QX2jZXaTlo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719466824; c=relaxed/simple;
+	bh=o6dLqVuG3/cquyqeBYmjB1/P/Ew6aEqD/OIb3fKWzA0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=I+4M3O7nfSbrKcD2QP4bPxO9Iq1vQq+GBSl0NTtnIo/NqgLepwEc46F/7PpVcW0MheTgY1mV2r4g6o0AjrLfVePvtbwh+fT8Ead1DiZZ6w+YLt31uKNkQ5k/oHqQqTDcVBZqhEg9WN/LCuQRnNDoZvnrQ+5V/fyxXDiM9ikQFBo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=W2xnQzUy; arc=fail smtp.client-ip=40.107.236.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Zx67eE8+ZsO9knVC3lteS9vt9Rr41P5ZgesFJD8tG33b+SV7W+PFU6yZkkhYqyFv72M+Ay/jhnJSCNqaKJ8Nf9454TXXc3ZyoSc8vHRjo/h49KBVdQJQ6kR37FXevO7adwuZxMQ4hRDlyx4WfuUucUzq1tm381WSqtIR1nD5ZSCSQkFc8DJ+OPi+QMcoKpqBwkMqnoimZlQqbPvW2bEx9IVtlua5tlFYH3nyUtePFqONWpDiNzIqu7HWgMhOEMGzjrRxAcT1jCZ8b+0TQIQXATpb6DMga36eTtnx4aQI49tdqi6qto8H6v3ouyd0K1TwvLz0BUj47GQFGqSjOE5KrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hGAxJKCRmlBcQhw86hOakoOKKnHIfuYTSeUBM6/F0wE=;
+ b=WPju8BE3TgaUZWRWB9EATmlQgc6cQo+HXdOnzLo8OJ8Ux3uGarzLZiOacG9rXxJZx/i1H1CL6zSyZu4iKpHFK91kHSfW2hv7RrbfiRaZp6h65DryEo8K0NdvMpc9tCX0XxP67mz0dkl+HzjeuRxNezgYVe5tMUE1gKJcWl5kEJjp284nz6IoBnLRakvqawrfK13w4H4sfdclHeMm44q7jV9dIuRESJkFYSKu0hU9iutax6AgkrgvCFRZuKgvuVj2P7QdAhFNMSKAI+RNWE6qb5Tec+/uqhrIUm69cwxo+jQ8Rfx2HhZeoWAZ8iEkTWnUeGfcAF7U2QeaKb5a8z+U5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hGAxJKCRmlBcQhw86hOakoOKKnHIfuYTSeUBM6/F0wE=;
+ b=W2xnQzUyPkgVPrHmSli6PtCBcg0xSyYwP9THMQdECOznW7tJgdWZTwdurTTe6v7YxDwMOCXOTraHxYKt6wNFhg+5tqQngGyasYqb8JGbcB3KGLSsDuK6gYKS/PFGI2XuiskE0ecaBmw0kM1OCxabmTmh7o7ZaeNSLRIF+TLqR0o=
+Received: from SA1PR02CA0015.namprd02.prod.outlook.com (2603:10b6:806:2cf::19)
+ by DS7PR12MB8204.namprd12.prod.outlook.com (2603:10b6:8:e1::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7698.32; Thu, 27 Jun 2024 05:40:19 +0000
+Received: from SN1PEPF000397B5.namprd05.prod.outlook.com
+ (2603:10b6:806:2cf:cafe::e6) by SA1PR02CA0015.outlook.office365.com
+ (2603:10b6:806:2cf::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.23 via Frontend
+ Transport; Thu, 27 Jun 2024 05:40:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SN1PEPF000397B5.mail.protection.outlook.com (10.167.248.59) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7677.15 via Frontend Transport; Thu, 27 Jun 2024 05:40:19 +0000
+Received: from amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 27 Jun
+ 2024 00:40:17 -0500
+From: Suma Hegde <suma.hegde@amd.com>
+To: <platform-driver-x86@vger.kernel.org>
+CC: <ilpo.jarvinen@linux.intel.com>, <hdegoede@redhat.com>, Suma Hegde
+	<suma.hegde@amd.com>
+Subject: [PATCH 00/10] platform/x86/amd/hsmp: Split ACPI and plat device driver
+Date: Thu, 27 Jun 2024 05:39:48 +0000
+Message-ID: <20240627053958.2533860-1-suma.hegde@amd.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240627023516.3783454-1-sathyanarayanan.kuppuswamy@linux.intel.com>
-References: <20240627023516.3783454-1-sathyanarayanan.kuppuswamy@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -87,73 +83,108 @@ List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF000397B5:EE_|DS7PR12MB8204:EE_
+X-MS-Office365-Filtering-Correlation-Id: b6c4e815-9b2b-4463-2b4c-08dc966ba1ae
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|376014|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?ntSFRSMdh8z7DxI/Fa9uInpgmTdPFF9BStrA3nfJYNfijzqg2ZAcYfb2opf1?=
+ =?us-ascii?Q?uf+J+4vFIQq888L41lQ52DwX2RSx6ZijfN0iuc2WQeyzukhzAaMepWRmSD9V?=
+ =?us-ascii?Q?NjNEWGeeyEKLOLXxJ8TFBBDVdJAgxTWyheHfWTrtQ/9I5/nppbg6LsyAeoOu?=
+ =?us-ascii?Q?cUhKe723mqoSToaAG5nZgHom1FR8GHaKSnSNht38tYS1KpkGqHNqLskcGSGm?=
+ =?us-ascii?Q?qg0iVAVrsnFZAwwUrwUMaxqbiP9CVcPxACtxWRYVWczXh9Zr1FxDpr+xTeA2?=
+ =?us-ascii?Q?k9vt22Q8DelNX+IY4pl1Kvfe0RnFpo1q/SmR1Gmfh3kYh+DlDkgtjIf5x5Oj?=
+ =?us-ascii?Q?y70c3HV7mBd6EbkYgSwzLgyhevExGON0LZl+uEhQpMauAS0we8Dmx2t2EZT1?=
+ =?us-ascii?Q?XzSO6CjxUvL8UmtSZS0Gcv/aQ/4g79C43GNysHXbcR4h8g8ZsKaTc2MMH7z3?=
+ =?us-ascii?Q?q7mCK+FcJeN5WmMLya5qojvnHQ7/mYJ9BXFRJykcHHwOJaa3vzmSWhoinz97?=
+ =?us-ascii?Q?LKhNn7XkmN0aUwMjCWJe9mzgVIPZqdsBIj7mNas3pdgYBh+e6AL2yhYoojD5?=
+ =?us-ascii?Q?ZiyTYpF8st5ymYExuTpAnEIMmd8IvpYsV6rUw59vUOIkXwTU9viWT4wcdGiX?=
+ =?us-ascii?Q?1L32HhaVoMvJeGwvHVApmenFFW3pyyOltQxl8F3YbWdB3Gbmr8V3ac1pfqqR?=
+ =?us-ascii?Q?yO7AkXMXfCCXSYzBvZ426jffsUz9fTo8v16uwr/PcxFFHA2CjTdGjLBFAjwE?=
+ =?us-ascii?Q?X3dC+UBIAcPkPvh1tnTxv0cBXl9QCfgyuNryG+dmTNO5wHdR9lPvGr+/foqG?=
+ =?us-ascii?Q?yTtrXgBEJcTmPkWe7uDgUPrgiV4BJVG2UdW6OqIz4Fe6D8tO8x0X39v2S4tj?=
+ =?us-ascii?Q?WMZFPash01a5SPlzdVUHkMc6xY9ZL8wPYN8rnGORgGRq7eG4447g7xZQNrHT?=
+ =?us-ascii?Q?LNoy6JHJm9KY5xqYZoAHE+1fbM8xmIGRguv8vrEkGI8m37mYF5AKLtIlgxsv?=
+ =?us-ascii?Q?uPO7TRlzwzXOtrq/Sm6oQ8Qmq6pKFmmCsnWc+M8i0tS6+cEoi8AnOEYj0fdt?=
+ =?us-ascii?Q?RUblv1XYXVDxdq8S64w8pI0BYlkUm+hYnN9xrErALJImsGosHltpwERxHdjn?=
+ =?us-ascii?Q?EEHVvyltYDzkYrABOnfCcHEAfv1hHhOZUafaCViwkPc4qWVAdUl9TILXol59?=
+ =?us-ascii?Q?wMvb1CJ0UDRyLOPgljNVpSDGa3atAkK8elwsfh5ifsjTwmgF/wY2RyeoqEUS?=
+ =?us-ascii?Q?ewbsTmND0OtmufgMFoSrUsVghw80AOUNXsXAbwrJKfJSfWfVL0+D3Bu5XNGU?=
+ =?us-ascii?Q?NQRwuYEgDNd7mong/tcGZW3j9IXGTd1qvoFsCrypUHq7xCG830RaV7YTkqrC?=
+ =?us-ascii?Q?2ixQlZA=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2024 05:40:19.6730
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6c4e815-9b2b-4463-2b4c-08dc966ba1ae
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF000397B5.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8204
 
-From: Jithu Joseph <jithu.joseph@intel.com>
+This patch series splits the ACPI and platform device probing
+in hsmp driver based on suggestion by Ilpo Jarvinen
+https://lore.kernel.org/platform-driver-x86/20240607133405.1211929-1-suma.hegde@amd.com/T/#t
 
-Add tracing support for the SBAF IFS tests, which may be useful for
-debugging systems that fail these tests. Log details like test content
-batch number, SBAF bundle ID, program index and the exact errors or
-warnings encountered by each HT thread during the test.
+This change will help: 
+ - Keep the probes clean of the if else ladder
+ - use dev_groups in platform driver structure, instead of using
+   devm_device_add_group()
+ - use is_visible() to enable only the necessary sysfs entries.
 
-Reviewed-by: Ashok Raj <ashok.raj@intel.com>
-Reviewed-by: Tony Luck <tony.luck@intel.com>
-Signed-off-by: Jithu Joseph <jithu.joseph@intel.com>
-Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
----
- include/trace/events/intel_ifs.h         | 27 ++++++++++++++++++++++++
- drivers/platform/x86/intel/ifs/runtest.c |  1 +
- 2 files changed, 28 insertions(+)
+Patch1-5 : Add smaller functions in preparation for the split
+	   no logical change, code is re-structured to ease the
+	   driver split.
+Patch6   : Split ACPI and platform device based drivers as 2
+           mutually exclusive drivers, only one of them can be enabled.
+           Make Kconfig and Makefile changes to support this.
+Patch7   : Add namespace to exported symbol hsmp_send_messag()
+Patch8-9 : Remove dynamic creation and use dev_groups instead.
+Patch 10 : Fix smatch error
 
-diff --git a/include/trace/events/intel_ifs.h b/include/trace/events/intel_ifs.h
-index 0d88ebf2c980..9c7413de432b 100644
---- a/include/trace/events/intel_ifs.h
-+++ b/include/trace/events/intel_ifs.h
-@@ -35,6 +35,33 @@ TRACE_EVENT(ifs_status,
- 		__entry->status)
- );
- 
-+TRACE_EVENT(ifs_sbaf,
-+
-+	TP_PROTO(int batch, union ifs_sbaf activate, union ifs_sbaf_status status),
-+
-+	TP_ARGS(batch, activate, status),
-+
-+	TP_STRUCT__entry(
-+		__field(	int,	batch	)
-+		__field(	u64,	status	)
-+		__field(	u16,	bundle	)
-+		__field(	u16,	pgm	)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->batch	= batch;
-+		__entry->bundle	= activate.bundle_idx;
-+		__entry->pgm	= activate.pgm_idx;
-+		__entry->status	= status.data;
-+	),
-+
-+	TP_printk("batch: 0x%.2x, bundle_idx: 0x%.4x, pgm_idx: 0x%.4x, status: 0x%.16llx",
-+		__entry->batch,
-+		__entry->bundle,
-+		__entry->pgm,
-+		__entry->status)
-+);
-+
- #endif /* _TRACE_IFS_H */
- 
- /* This part must be outside protection */
-diff --git a/drivers/platform/x86/intel/ifs/runtest.c b/drivers/platform/x86/intel/ifs/runtest.c
-index bdb31b2f45b4..69ee0eb72025 100644
---- a/drivers/platform/x86/intel/ifs/runtest.c
-+++ b/drivers/platform/x86/intel/ifs/runtest.c
-@@ -530,6 +530,7 @@ static int dosbaf(void *data)
- 	 */
- 	wrmsrl(MSR_ACTIVATE_SBAF, run_params->activate->data);
- 	rdmsrl(MSR_SBAF_STATUS, status.data);
-+	trace_ifs_sbaf(ifsd->cur_batch, *run_params->activate, status);
- 
- 	/* Pass back the result of the test */
- 	if (cpu == first)
+Suma Hegde (10):
+  platform/x86/amd/hsmp: Create hsmp/ directory
+  platform/x86/amd/hsmp: Create wrapper function init_acpi()
+  platform/x86/amd/hsmp: Move strcuture and macros to header file
+  platform/x86/amd/hsmp: Move platform device specific code to plat.c
+  platform/x86/amd/hsmp: Move ACPI code to acpi.c
+  platform/x86/amd/hsmp: Create mutually exclusive ACPI and plat drivers
+  platform/x86/amd/hsmp: Use name space while exporting module symbols
+  platform/x86/amd/hsmp: Move read and is_visible to respective files
+  platform/x86/amd/hsmp: Use dev_groups in the driver structure
+  platform/x86/amd/hsmp: Fix potential spectre issue
+
+ MAINTAINERS                            |   2 +-
+ arch/x86/include/asm/amd_hsmp.h        |   2 +-
+ drivers/platform/x86/amd/Kconfig       |  14 +-
+ drivers/platform/x86/amd/Makefile      |   3 +-
+ drivers/platform/x86/amd/hsmp.c        | 988 -------------------------
+ drivers/platform/x86/amd/hsmp/Kconfig  |  40 +
+ drivers/platform/x86/amd/hsmp/Makefile |  14 +
+ drivers/platform/x86/amd/hsmp/acpi.c   | 410 ++++++++++
+ drivers/platform/x86/amd/hsmp/hsmp.c   | 323 ++++++++
+ drivers/platform/x86/amd/hsmp/hsmp.h   |  61 ++
+ drivers/platform/x86/amd/hsmp/plat.c   | 368 +++++++++
+ 11 files changed, 1220 insertions(+), 1005 deletions(-)
+ delete mode 100644 drivers/platform/x86/amd/hsmp.c
+ create mode 100644 drivers/platform/x86/amd/hsmp/Kconfig
+ create mode 100644 drivers/platform/x86/amd/hsmp/Makefile
+ create mode 100644 drivers/platform/x86/amd/hsmp/acpi.c
+ create mode 100644 drivers/platform/x86/amd/hsmp/hsmp.c
+ create mode 100644 drivers/platform/x86/amd/hsmp/hsmp.h
+ create mode 100644 drivers/platform/x86/amd/hsmp/plat.c
+
 -- 
 2.25.1
 
