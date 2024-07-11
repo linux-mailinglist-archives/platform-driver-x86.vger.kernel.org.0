@@ -1,168 +1,102 @@
-Return-Path: <platform-driver-x86+bounces-4330-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-4333-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DAD092EB80
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 11 Jul 2024 17:18:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5917B92EBD0
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 11 Jul 2024 17:39:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4202B1C22C56
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 11 Jul 2024 15:18:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 016CB1F24957
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 11 Jul 2024 15:39:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0B2C16CD2C;
-	Thu, 11 Jul 2024 15:17:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E382A16CD11;
+	Thu, 11 Jul 2024 15:39:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PNYuCZNm"
+	dkim=pass (2048-bit key) header.d=trvn.ru header.i=@trvn.ru header.b="5WInBIWD"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from box.trvn.ru (box.trvn.ru [194.87.146.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC7E16CD1A
-	for <platform-driver-x86@vger.kernel.org>; Thu, 11 Jul 2024 15:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69B416C86B;
+	Thu, 11 Jul 2024 15:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.87.146.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720711051; cv=none; b=ISVytKvaZnitk+Kxu1iOwFF9WpA6mWNVcXNtkQR2eWblYlul9IwdAz9QJ4F0TViZnTnMvFGaOBwi8PRO1Axk/3sm+L2cUoRey8x/Ss8tnrRTx41JfM1lkzMOododq9MO19JRQ3megf3PZAyk7/YFwxYYxrtZ6mXCZaumpz9dXos=
+	t=1720712375; cv=none; b=OL0jE2RjE5kruw8Wj0Ey8NGgjtzBv56zJCudvQga5a87nmVClTGqAfOs4Pgc1Q/TJoR0EOGHJPFHi1I1VuUBYWVu48VdYR/d8eMiZEcJXQ8b6tX98+xAc5Amf/WmvpC+tNQOWB/mf8VsxonTBQcAHyhy8mDA/4baZHDZXFsg/6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720711051; c=relaxed/simple;
-	bh=EpZgJ8CQ9N0rfJxBFPo4GhnNPAEKGpuPfx2yb0F94CE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Up63LWxmV1/vcqOpX7wmdUH9fN+Jp1CM6+MbTg4+EVanoAoPvaPFvpQoM4ld5FAsWg7exrhEWdCzVvhyKHgwSNDCXpwjLxsdseehYqDHewMpW2ItvaOam0NzSiMbsLQA8ft8CL4GE6ix2PmbH6jy0sjkYJMuYRpuCT5Ams/Okfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PNYuCZNm; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1720711049;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PvcjybqPHzlQzi++pVLDJbA6O/40LXVR87iFWMUpfmE=;
-	b=PNYuCZNmHodCiAPaY5rrEYOk0qSWvdbXK0VTbpY3Sr9v1B96D0DCwmURhbJf0qN2p3c+JL
-	51L0bmIuB4+mmWo0mPeyArF22cJj8fDLfHn8B1vMBgwMO9hzX9mu40oIrqhZpWt1kCVt5N
-	AKquRjDA9/mL58dQPIJ/sdkwa4elmSo=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-615-bDl-qJaLNpSCN35xCvJ8ng-1; Thu, 11 Jul 2024 11:17:27 -0400
-X-MC-Unique: bDl-qJaLNpSCN35xCvJ8ng-1
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-58c7800d03eso668945a12.0
-        for <platform-driver-x86@vger.kernel.org>; Thu, 11 Jul 2024 08:17:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720711046; x=1721315846;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PvcjybqPHzlQzi++pVLDJbA6O/40LXVR87iFWMUpfmE=;
-        b=MrwA0pOn94QGEYj73L8t+V6VJAQjQxRrCtzBCozwIJH1QsM7FOa1+ErHIZW9w7CAyA
-         9S4qCrC6O5HJYqYauW7IB8F425XchzEg0WFMzj1bIJXidmAhceu9cqByNHIZgxcg98b0
-         DemgVw2jS1D1jFjqp5icZZdxsznXvxXyasDwdKLaaW23gF7GFKPJyCHdvo5h9hyVF4NU
-         D8XbLR8Kj1dOocwqEuA31T0vTR1Ugi6rwI5dg8Js/mt2lUfQIMaHaSLQwVhzRSs9ti7G
-         Qv2e+zW8gXlaV++1RJigjsKrK2VHKByyF3wfXIrwmZwAQzh/IXJIE5qXZPfb+z/DG0YP
-         g4dg==
-X-Gm-Message-State: AOJu0YxcvVRtT0ENb45kgwfOrAira3Yl8zV1cBc7pD7mlqnFOtkfCwBz
-	frBiFUGGn/G0rvZLaYAcYSYBWT0isVeg6QIWKtdk0kPqOxDmZ/OrnfBi+vA72bHMG98FN0/u8WY
-	DMbPpU/IB5/76wUIq90IQKTCOSzxG8+Lw6zfoLWGI1nlEoId/g+7PLXNwX/nHgAeDkntGNkA=
-X-Received: by 2002:a05:6402:354e:b0:57d:1696:fd14 with SMTP id 4fb4d7f45d1cf-594bab80ab5mr9064475a12.8.1720711046530;
-        Thu, 11 Jul 2024 08:17:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEWaholCedjUASVrq0V/4fdSiV4EtfSitNCOr5n41JWw+r2jeZ9UnIusYhu48h6RTYBsgNwlw==
-X-Received: by 2002:a05:6402:354e:b0:57d:1696:fd14 with SMTP id 4fb4d7f45d1cf-594bab80ab5mr9064448a12.8.1720711046100;
-        Thu, 11 Jul 2024 08:17:26 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-594bd45a1absm3585530a12.77.2024.07.11.08.17.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jul 2024 08:17:24 -0700 (PDT)
-Message-ID: <bb74a97e-3f25-4d56-9733-46e5325c47e7@redhat.com>
-Date: Thu, 11 Jul 2024 17:17:23 +0200
+	s=arc-20240116; t=1720712375; c=relaxed/simple;
+	bh=BvMMY1pmMmts/9HoUMplH81BSkTvam09q6qLfTIXWFE=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=Gc4GXPrGGwgUFDi4JbJIaQCoKw1xkk6E20us2h2o/X8JmFGDbpKFO/txU3fgITiKgfNapUqJCvFcgZDzFnBnOKxNZ+/J939TWSEe8SlqAKSYI/WAzNEiZxzxmom91TQ9EOzM2IXWDnRK0ZrmLUSb+YZM6GCRQOH4IFiqpr98/9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=trvn.ru; spf=pass smtp.mailfrom=trvn.ru; dkim=pass (2048-bit key) header.d=trvn.ru header.i=@trvn.ru header.b=5WInBIWD; arc=none smtp.client-ip=194.87.146.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=trvn.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trvn.ru
+Received: from authenticated-user (box.trvn.ru [194.87.146.52])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	by box.trvn.ru (Postfix) with ESMTPSA id A49E242518;
+	Thu, 11 Jul 2024 20:30:22 +0500 (+05)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=trvn.ru; s=mail;
+	t=1720711825; bh=BvMMY1pmMmts/9HoUMplH81BSkTvam09q6qLfTIXWFE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=5WInBIWDlcQHHL696i4CXMq6ciOsmJ2JptFzhgqfpeSpBtVzmGHdpOOMVPPKQZ56u
+	 8gst1S9gGp47x257aQ5vpqrJbST+voWHBwaBgPb8u9KGRrrexzCGq27NNoFmdQ8PCV
+	 o44oSHaEHslP9S03qv00i7w2/E36e7+DQDTv/WlTHRh34jbzxM7GnkOPHAi2ZVW9/i
+	 8+pZ32VRpxvgZQPj3Ez4Kv7HXaYH4pBFnAqtyahe9K6UYvhB5+QwnBbbN0HNfhPGRq
+	 fgnP7blMW4xo5LGfsdMWJXFuS2H7JMiAXl7CvQuDy757LD9pyahZb5LPR0O27gu1CO
+	 adccfxzMjf2dg==
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/1] HP: wmi: added support for 4 zone keyboard rgb
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Carlos Ferreira <carlosmiguelferreira.2003@gmail.com>
-Cc: platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-References: <20240707175613.27529-1-carlosmiguelferreira.2003@gmail.com>
- <20240707175613.27529-2-carlosmiguelferreira.2003@gmail.com>
- <71874c5e-b6d0-d05c-3b07-d1add491dbb6@linux.intel.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <71874c5e-b6d0-d05c-3b07-d1add491dbb6@linux.intel.com>
+Date: Thu, 11 Jul 2024 20:30:17 +0500
+From: Nikita Travkin <nikita@trvn.ru>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Hans de Goede <hdegoede@redhat.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>, Bryan O'Donoghue
+ <bryan.odonoghue@linaro.org>, platform-driver-x86@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] platform: arm64: EC_ACER_ASPIRE1 should depend on
+ ARCH_QCOM
+In-Reply-To: <f5f38709c01d369ed9e375ceb2a9a12986457a1a.1720707932.git.geert+renesas@glider.be>
+References: <80e17dffa8f4c1d3fdedd4d82df3a722aa4044ff.1720707932.git.geert+renesas@glider.be>
+ <f5f38709c01d369ed9e375ceb2a9a12986457a1a.1720707932.git.geert+renesas@glider.be>
+Message-ID: <315e6f5fa10cc779ca399f6aec203c32@trvn.ru>
+X-Sender: nikita@trvn.ru
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Ilpo,
-
-Thank you for reviewing this.
-
-On 7/11/24 10:41 AM, Ilpo Järvinen wrote:
-> On Sun, 7 Jul 2024, Carlos Ferreira wrote:
+Geert Uytterhoeven писал(а) 11.07.2024 19:30:
+> The Acer Aspire 1 Embedded Controller is only present on the Qualcomm
+> Snapdragon-based Acer Aspire 1 laptop.  Hence add a dependency on
+> ARCH_QCOM, to prevent asking the user about this driver when configuring
+> a kernel without Qualcomm SoC support.
 > 
->> This driver adds supports for 4 zone keyboard rgb on omen laptops
->> and maps the wmi backlight toggle event to KEY_KBDILLUMTOGGLE.
->> For the backlight, it uses the multicolor led api.
->>
->> Tested on the HP Omen 15-en1001np.
->>
->> Signed-off-by: Carlos Ferreira <carlosmiguelferreira.2003@gmail.com>
->> ---
->> Changes in v3:
->>  - Moved to the multicolor led api
->>  - Mapped the wmi backlight toggle event to KEY_KBDILLUMTOGGLE
->>  - Some other minor changes
->> Changes in v2:
->>  - Rearranged code to remove forward declarations
->>  - Changed from sprintf() to sysfs_emit()
->>  - Fixed some identation and coding style problems
->>  - Switched from manual bit manipulation to GENMASK(x, y) + FIELD_PREP(XX, )
->>  - #define'ed magic constants
->> ---
->>  drivers/platform/x86/hp/hp-wmi.c | 248 +++++++++++++++++++++++++++++--
->>  1 file changed, 239 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/platform/x86/hp/hp-wmi.c b/drivers/platform/x86/hp/hp-wmi.c
->> index 5fa553023842..5eae47961f76 100644
->> --- a/drivers/platform/x86/hp/hp-wmi.c
->> +++ b/drivers/platform/x86/hp/hp-wmi.c
->> @@ -14,6 +14,8 @@
->>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->>  
->>  #include <linux/kernel.h>
->> +#include <linux/led-class-multicolor.h>
->> +#include <linux/leds.h>
->>  #include <linux/module.h>
->>  #include <linux/init.h>
->>  #include <linux/slab.h>
->> @@ -24,6 +26,7 @@
->>  #include <linux/platform_profile.h>
->>  #include <linux/hwmon.h>
->>  #include <linux/acpi.h>
->> +#include <linux/bits.h>
+
+Oh yeah, you're right. Thanks for fixing this!
+
+Acked-by: Nikita Travkin <nikita@trvn.ru>
+
+We should probably do the same for the C630 driver as well...
+
+> Fixes: 2b3efb7c515111ea ("platform: arm64: Add Acer Aspire 1 embedded controller driver")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/platform/arm64/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> You need to add #include <linux/bitfield.h> as LKP found out. The 
-> MODULE_DESCRIPTION() ones you can ignore as LKP unfortunately spams some 
-> kernel-wide problems to all patches even if they're entirely unrelated
-> to the patch in question.
-
-Actually the LKP / kernel test robot email with the MODULE_DESCRIPTION()
-warnings does contain useful, new errors. The problem though is that
-the bot prefixes new (not seen on builds without this patch) messages
-with '>>' making them show up as quoted (replied-to) text making the
-actual new errors harder to spot :|   The 2 new actual errors in the
-email with all the MODULE_DESCRIPTION warnings are:
-
-ERROR: modpost: "devm_led_classdev_multicolor_unregister" [drivers/platform/x86/hp/hp-wmi.ko] undefined!
-ERROR: modpost: "devm_led_classdev_multicolor_register_ext" [drivers/platform/x86/hp/hp-wmi.ko] undefined!
-
-I agree with all the other review remarks and I'll do my own review
-soon.
-
-Regards,
-
-Hans
-
-
+> diff --git a/drivers/platform/arm64/Kconfig b/drivers/platform/arm64/Kconfig
+> index 8c103b3150d1d0a6..058a4baa216a83b8 100644
+> --- a/drivers/platform/arm64/Kconfig
+> +++ b/drivers/platform/arm64/Kconfig
+> @@ -18,6 +18,7 @@ if ARM64_PLATFORM_DEVICES
+>  
+>  config EC_ACER_ASPIRE1
+>  	tristate "Acer Aspire 1 Embedded Controller driver"
+> +	depends on ARCH_QCOM || COMPILE_TEST
+>  	depends on I2C
+>  	depends on DRM
+>  	depends on POWER_SUPPLY
 
