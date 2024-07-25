@@ -1,120 +1,108 @@
-Return-Path: <platform-driver-x86+bounces-4495-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-4499-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B5C093BB50
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2024 05:40:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C2493BEF2
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2024 11:21:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A49411C21909
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2024 03:40:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC9D7282A5D
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2024 09:21:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84478171B6;
-	Thu, 25 Jul 2024 03:40:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c46Nkvyw"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8676197A7C;
+	Thu, 25 Jul 2024 09:21:28 +0000 (UTC)
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5AB17722;
-	Thu, 25 Jul 2024 03:40:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E166681E;
+	Thu, 25 Jul 2024 09:21:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721878853; cv=none; b=u7Q1hQp/jrDRJdgCxLCyUf1hhJ45V2K8YxhuKqP04Fqj+4sWvbPyJrzFWZxDO4TO2A99xJ2L6+2mtqruMiLAeYSBVOJ0hOw/7gkLHCMExzG5fXnla5bZtaJpeMmNPobM7+aui2PuC/BD9tJTTkEfqWe+b7kzAekefST+cyvPiVs=
+	t=1721899288; cv=none; b=axLTSr6JpztdcgaXzWy/W0AfFF2D9dGXvyN7egSj54ySshVGvDpZI2yQdpjLjlY7L0xv1FCWY9jQ+Kf6wuw8BsibuDncBZluNaILCPTMgo8W48HEVqG0D+y2BmxggMslVVoWlh30DgBnaOgEoCPsM119Vj0iN5ESQHiU1xXbGQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721878853; c=relaxed/simple;
-	bh=+/SfHcWvZuzX5BpxFTHb0SOKVhDlmAD0pvwxtii3/9s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d1/9PKCm/7gLqnsIj+KczO9nmnnh80m3iBGHbqvn51NrQ7PDajJaknhkYs571OBJHU8FxHYgbf5PrCD8wAnUxncbSD/C3MZYKrO8YFL4q6F1His2n612frLXCgKy+3C/1X81TDQA10XRMJQCICzHcKgR8PSH68x2CpMeBE4vH4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c46Nkvyw; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721878851; x=1753414851;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+/SfHcWvZuzX5BpxFTHb0SOKVhDlmAD0pvwxtii3/9s=;
-  b=c46NkvywEzrrW3OzAG6kl1linE543u1D/A8CK5aasu7+fHdd0SL41TBe
-   yC/EFC/IfcVGJJBGgxA3mVFKNLSY7co4/ozCvZSwK/I3UatjTqFZx/8TK
-   4BgYzLTxKHEHJvav/jAYsfh6oaWiCsZwrT4BbRNhIKBH6HQrU1VJAf+oL
-   unP+u9/4A+rurWG6befxKON7mGGpHP2B31q0evoOTjFQlotmx7Rt0/ygi
-   ttCGjLOsXucDk3TChRFAxStDdxHTsLmD1fEir+PV9AlZacw6oqFikKmlI
-   UM127QPL3/XpyQgFEqucP/MFe05eduvytiPYArHP56kFJ1rRznTlWXZ4w
-   Q==;
-X-CSE-ConnectionGUID: gIRzvfBfSvq9MMbWSQTdOQ==
-X-CSE-MsgGUID: HaKJdgM5SqWskyPFP5eDBA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="31011505"
-X-IronPort-AV: E=Sophos;i="6.09,234,1716274800"; 
-   d="scan'208";a="31011505"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 20:40:51 -0700
-X-CSE-ConnectionGUID: OPYShQlcTvOHVabSwQwkdw==
-X-CSE-MsgGUID: D07xcoM9SzSpX0iEQmX2Rw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,234,1716274800"; 
-   d="scan'208";a="52817584"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 24 Jul 2024 20:40:48 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sWpLR-000nii-1V;
-	Thu, 25 Jul 2024 03:40:45 +0000
-Date: Thu, 25 Jul 2024 11:40:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Carlos Ferreira <carlosmiguelferreira.2003@gmail.com>,
-	hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, mustafa.eskieksi@gmail.com,
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Carlos Ferreira <carlosmiguelferreira.2003@gmail.com>
-Subject: Re: [PATCH v4 1/2] HP: wmi: added support for 4 zone keyboard rgb
-Message-ID: <202407251136.aymIqEw3-lkp@intel.com>
-References: <20240719100011.16656-2-carlosmiguelferreira.2003@gmail.com>
+	s=arc-20240116; t=1721899288; c=relaxed/simple;
+	bh=WKtd/flgo3bItka/YxIm4R4RSxCucfVmVzb08YKF3n0=;
+	h=From:To:Cc:Subject:Date:Message-ID:Mime-Version:Content-Type; b=SiIrwc266hKr2d4L/mKzlXd1/z87ar/T9ekwiQ1dx9QU4s9/+d5v5iuUiO4WJ16oCarMfSfssbneINMBxJSxI+QXxflPGsjmNrvnILh2sqJxV1Rksh1doZbVpLDU/eVH0VEpKagVThVsR+sYxsR/UAFcjSHN5fLItbvzPxbRrX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from fedori.lan (51b68624.dsl.pool.telekom.hu [::ffff:81.182.134.36])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 0000000000073A7F.0000000066A2190E.0018F377; Thu, 25 Jul 2024 11:21:18 +0200
+From: Gergo Koteles <soyer@irl.hu>
+To: Hans de Goede <hdegoede@redhat.com>,
+  =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+  Ike Panhc <ike.pan@canonical.com>
+Cc: platform-driver-x86@vger.kernel.org,
+  linux-kernel@vger.kernel.org, Gergo Koteles <soyer@irl.hu>
+Subject: [PATCH v4 0/4] platform/x86: ideapad-laptop: synchronize VPC commands
+Date: Thu, 25 Jul 2024 11:21:06 +0200
+Message-ID: <cover.1721898747.git.soyer@irl.hu>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240719100011.16656-2-carlosmiguelferreira.2003@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
 
-Hi Carlos,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Sometimes the Yoga mode control switch did not work properly on my 
+laptop, and sometimes even caused a platform profile switch. It turned 
+out that it was caused by a race situation, the lenovo-ymc wmi notify 
+handler was running at the same time as the ideapad-laptop acpi notify 
+handler, and the partial results of the VPC calls in the two were mixed 
+up.
 
-[auto build test WARNING on lee-leds/for-leds-next]
-[also build test WARNING on v6.10]
-[cannot apply to linus/master next-20240724]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This series introduces a notification chain to receive YMC or other 
+events, moves the EC triggering into ideapad-laptop, and then introduces 
+a mutex to eliminate the problem.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Carlos-Ferreira/HP-wmi-added-support-for-4-zone-keyboard-rgb/20240719-180603
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20240719100011.16656-2-carlosmiguelferreira.2003%40gmail.com
-patch subject: [PATCH v4 1/2] HP: wmi: added support for 4 zone keyboard rgb
-config: i386-kismet-CONFIG_LEDS_CLASS_MULTICOLOR-CONFIG_HP_WMI-0-0 (https://download.01.org/0day-ci/archive/20240725/202407251136.aymIqEw3-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240725/202407251136.aymIqEw3-lkp@intel.com/reproduce)
+Best regards,
+Gergo Koteles
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407251136.aymIqEw3-lkp@intel.com/
+---
+Changes in v4:
+- Handle the return value of devm_mutex_init
+- Link to v3: https://lore.kernel.org/all/cover.1721294787.git.soyer@irl.hu/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for LEDS_CLASS_MULTICOLOR when selected by HP_WMI
-   WARNING: unmet direct dependencies detected for LEDS_CLASS_MULTICOLOR
-     Depends on [n]: NEW_LEDS [=n] && LEDS_CLASS [=n]
-     Selected by [y]:
-     - HP_WMI [=y] && X86_PLATFORM_DEVICES [=y] && X86_PLATFORM_DRIVERS_HP [=y] && ACPI_WMI [=y] && INPUT [=y] && (RFKILL [=y] || RFKILL [=y]=n)
+Changes in v3:
+- Use devm_mutex_init for vpc_mutex
+- Link to v2: https://lore.kernel.org/all/cover.1721258854.git.soyer@irl.hu/
+
+Changes in v2:
+- Skip the already merged "platform/x86: ideapad-laptop: use cleanup.h" commit
+- Based on the WMI driver development guide and the dell drivers,
+  introduce a generic notification chain
+- Use the notification chain to send the YMC event from lenovo-ymc to
+  the ideapad-laptop module
+- Move the ec_trigger module parameter to the ideapad-laptop as well
+- Mutex changes go into one patch
+- Link to v1: https://lore.kernel.org/all/cover.1720515666.git.soyer@irl.hu/
+---
+
+
+Gergo Koteles (4):
+  platform/x86: ideapad-laptop: introduce a generic notification chain
+  platform/x86: ideapad-laptop: move ymc_trigger_ec from lenovo-ymc
+  platform/x86: ideapad-laptop: move ACPI helpers from header to source
+    file
+  platform/x86: ideapad-laptop: add a mutex to synchronize VPC commands
+
+ drivers/platform/x86/Kconfig          |   1 +
+ drivers/platform/x86/ideapad-laptop.c | 284 ++++++++++++++++++++++++--
+ drivers/platform/x86/ideapad-laptop.h | 142 +------------
+ drivers/platform/x86/lenovo-ymc.c     |  60 +-----
+ 4 files changed, 277 insertions(+), 210 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.45.2
+
 
