@@ -1,323 +1,221 @@
-Return-Path: <platform-driver-x86+bounces-4554-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-4556-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E16941349
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Jul 2024 15:38:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 222F694145C
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Jul 2024 16:28:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3499EB21CEF
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Jul 2024 13:38:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 702D6B28E55
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Jul 2024 14:28:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83A3C1991A6;
-	Tue, 30 Jul 2024 13:37:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18E5E1A08AB;
+	Tue, 30 Jul 2024 14:28:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fbV3KGiG"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="fkaxSl2c"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2044.outbound.protection.outlook.com [40.107.92.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0A5173;
-	Tue, 30 Jul 2024 13:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722346676; cv=none; b=r0mylDt79Yg8ZkMPbGyt+7uF0OLTCTG34WwhtMY8g1jYMmRxPkBju2nnDXlqmbMG/ALwlmVcSH0Ab8ABkZujwcdPx1b06jBkzG7QuLO4y29BU9pTYDYgJEjxdCm43X1Q2MEmpR0tHg3oJuA3ivJe4SbuOkWw0UnoFUim9qL9Wiw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722346676; c=relaxed/simple;
-	bh=Rr3vidpsu5UyMdBK7jyALJcyDuzhQ/AJBZI4kY2lJew=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=GGiGgx6CeGwTdI+zwVuARQICB5epILFRhM/iVJsQKRzs95+aXy2JLEVzaX1+8+6Fkvl/QrBfBYBY3e8dbtI4m/Aj2+1vJ4B4DLfQBMpBzxE21s7fXJ7P3rb4wWWgDkVgYgSmELeQbHchQu5sH+poyT2fTl5H9MOKDkazmd9OQj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fbV3KGiG; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722346674; x=1753882674;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=Rr3vidpsu5UyMdBK7jyALJcyDuzhQ/AJBZI4kY2lJew=;
-  b=fbV3KGiGowPe1CLFnLo494MuZNNgvdhRhKxYuqORFSyOoRXISC696DZI
-   e/BmqPVJjiknR7nWChcsrnK+i+2ynndsb6W0Lpu8XsfnjzNcQbe//+DMT
-   9s3c9Jq/rnLApMcU+Jp0hd0eT5Nk3uaRud5xmlm+41OeMxocgE+P1Tr9M
-   ZORu6VZUyL8p9sSmU/F6FyA5SKVPyG2QdQ8PJ3kVV3tcka5sBZ4NJ6VsW
-   yhEi+5DyNX8tU9Ea5f/9m0XAYOpIs7Y+GMc1EFwuVK5d7d20fRTo8/UC/
-   oZUcSmKi30eOyDtf3PvawqyskQYeCYUIyQsBXIp8B1UyMwqD87vEppn/b
-   A==;
-X-CSE-ConnectionGUID: spF115GuT+u+9NJ73Ai+ww==
-X-CSE-MsgGUID: ze4kacEvQxSSpNHz60K2BA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="20044749"
-X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
-   d="scan'208";a="20044749"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 06:37:53 -0700
-X-CSE-ConnectionGUID: 4WHkeHtZREG6+/6jIuWtUQ==
-X-CSE-MsgGUID: 8+ZaQ76AQ9i2YjunzuJbgA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
-   d="scan'208";a="54382102"
-Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.244.25])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 06:37:51 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 30 Jul 2024 16:37:45 +0300 (EEST)
-To: Gergo Koteles <soyer@irl.hu>
-cc: Hans de Goede <hdegoede@redhat.com>, Ike Panhc <ike.pan@canonical.com>, 
-    platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 4/4] platform/x86: ideapad-laptop: add a mutex to
- synchronize VPC commands
-In-Reply-To: <f26782fa1194ad11ed5d9ba121a804e59b58b026.1721898747.git.soyer@irl.hu>
-Message-ID: <29153152-79de-c637-eede-0b36ce4b5222@linux.intel.com>
-References: <cover.1721898747.git.soyer@irl.hu> <f26782fa1194ad11ed5d9ba121a804e59b58b026.1721898747.git.soyer@irl.hu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4930E1A254B
+	for <platform-driver-x86@vger.kernel.org>; Tue, 30 Jul 2024 14:28:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722349707; cv=fail; b=i2vbSWw3LE8m/Iea08XZvjXfxJjo+9imkjKeQ9cdfCD40ifVzC3eZTpup8XT/bH+dPdoqrYqqLzRPGMPgT3Imlc/1pUPqnRCn2HHPyZk8CCFSTlhkMpkEQ4G80Cj0Y2kmQ50O24ALq/0SeOCQxi4bCKPaKaMwAlLypAPhu4MeW0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722349707; c=relaxed/simple;
+	bh=nXORBruzlPriGK4Arkl4/m/EqYoeQKfGgCYrp8JFNaM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Z5P9WwKhbLX75l9PoLGua2Ll5sA2m2HL/iRzjs29D4l4a36g8FCSh8rFeuLQ8z4b/8lbcYSJiih1LGahuJVIcqLnNp9Xuz+QEi0/8OdURZKmWj+HvSFs9CI0o3xvF/oVCyjRHXA4tZqA5K2pO6lQaqktXtdhm0+HebIKh6ud1Zw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=fkaxSl2c; arc=fail smtp.client-ip=40.107.92.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=f8GX92JJw8sCE1OOIrvb6NpSqoyllvLnNHe0wfEmLTYkjS07GzmLcMMKMNNelKZQUB5FfUNFvarYg/YHrYg1IWObb8rT7uQWXhwJqSv8Jl4fEY7hMZoIKOgtzbWnT6u7n8DsapwpsvMmIwownRRA+7Ed9lAlYdGeRo2F68miNBWG/UofPCXAQAzs8Z/EWuSAVHCZ4muAetqAH7EXFeTbcftpOj+sShdcrHMgli5gnr+BbtOpu0Lk6bTAaBAMgnVquOK+GXy4x1jRK0h9izbrrMKKnxRZAWLwfuIKDBvjhy8f/r8Jonutnamu3oiV6PhczTDK2e1W/yiHRSvpvSgeuA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BLUvVo0yLEt3NBuvLKs4V1LDH0Ws9yV1bXhig8+UbCU=;
+ b=hKvmxOKwOHglMqZyn/KPfnOk3SQnmavZxsCPCjqB1F/0WCrdf7TC3yulXbZ2jipM4pzu4NjTU4GXNwDm2eLTiTdWRCjvSrU/kd8rXKaEXRgfav08mYgA0al3bCYKxv4PjBV/lspQlBJB8FEIiTykj4Q/4KaPT0ptL+RVj9yDxk2tlR7AU3SPX4K+lGl1ZjWjJAMLfhuVMNjtgwCMHHyfLc2NHVlDz4YWH3/lo7TqWI5jR1GqIgXsalrDytywnZ0N+zU5tv8p+7v89IAUxABs37IABnaxqQVAx7J7FJQfp3FJMarPm+XBuc32deQ++2o1nThMgCOcCIHVbbpsFzM/+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BLUvVo0yLEt3NBuvLKs4V1LDH0Ws9yV1bXhig8+UbCU=;
+ b=fkaxSl2czjL9NGno4Sp12u1ZqrJ7jXennm3ZkJDLg6jztRbv06v4CZ0zNtyqvnaMJEa84uJDyqhC9GxZCOp5vBEOSbHb5M/Qekjv9tFqOzt+Aqql9dIyVeaqC3+WmRMFA6oV10N3nzBPihQ52SzPD3TbsHrs9t/WxxgEmfkalXM=
+Received: from CH3P221CA0018.NAMP221.PROD.OUTLOOK.COM (2603:10b6:610:1e7::30)
+ by PH0PR12MB7470.namprd12.prod.outlook.com (2603:10b6:510:1e9::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.28; Tue, 30 Jul
+ 2024 14:28:20 +0000
+Received: from CH1PEPF0000A349.namprd04.prod.outlook.com
+ (2603:10b6:610:1e7:cafe::65) by CH3P221CA0018.outlook.office365.com
+ (2603:10b6:610:1e7::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.34 via Frontend
+ Transport; Tue, 30 Jul 2024 14:28:20 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CH1PEPF0000A349.mail.protection.outlook.com (10.167.244.9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7828.19 via Frontend Transport; Tue, 30 Jul 2024 14:28:20 +0000
+Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 30 Jul
+ 2024 09:28:17 -0500
+From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+To: <hdegoede@redhat.com>, <ilpo.jarvinen@linux.intel.com>
+CC: <platform-driver-x86@vger.kernel.org>, <Patil.Reddy@amd.com>, "Shyam
+ Sundar S K" <Shyam-sundar.S-k@amd.com>
+Subject: [PATCH v2] platform/x86/amd/pmf: Fix to Update HPD Data When ALS is Disabled
+Date: Tue, 30 Jul 2024 19:53:16 +0530
+Message-ID: <20240730142316.3846259-1-Shyam-sundar.S-k@amd.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000A349:EE_|PH0PR12MB7470:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6d91ffa0-aec1-47d7-f2d6-08dcb0a3dc3e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|1800799024|376014|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?z3vVvTS2d8FEp0KFd68T9i9w6aa7MSVoWcNPmr4D8C70cxQmlscjReouJ37s?=
+ =?us-ascii?Q?vZjQnqwPPbex0N+IJMfSSvSfjS9wSo8Lpc+qC4GvhBJ6YJX0yrPSWXkvQr8t?=
+ =?us-ascii?Q?51Qm8tEu67r527MWU2rn3Hadl5Ze30O2hv/l6lmY81IQUrmM39lcFuvQLHkE?=
+ =?us-ascii?Q?7APSym5GNNmvff9sQw5j9313UZhqBFr9flSVTDwqiTKaJ/hBhBV4H24FomSY?=
+ =?us-ascii?Q?aP4nbDfWHPDzVkd33aaFdb7fYetGFhE6dL9U3m2fekvBC66ort9/QiMPhbO4?=
+ =?us-ascii?Q?9xH6cc/UCOWuYdFVlBZ3QJL21n8nz6uBAdnoP1R+YYLtm0krI3p6wGDLvSyn?=
+ =?us-ascii?Q?8CLUGdgLDpU96Ec6KAMRKQzC2XO+MkFydWamIWzUt9z6UKZ3efNNIG6Y2q0c?=
+ =?us-ascii?Q?IYmwy7j0ylzwB2oLyWcwFmlLTNmzqBt2aH8IwrYSyNahOIXJ5c8D3tAdgyNg?=
+ =?us-ascii?Q?EJgR9Ycv0+uyeQsnwc+kPCDhWzcuANA5ZToUEiENdAo38GE6zDy+VGPufCfZ?=
+ =?us-ascii?Q?i5//fnjPVo/VZH+ZlAiKYvnjQ6oXFSLd67yVYHV5tbhmfDgAcscb6SraX1v+?=
+ =?us-ascii?Q?+lLdDeysZpZ3gmrJ/YhoxW6TTnAbQspdgJM+Oc0dR7k2ldLG7jey8Zjavh61?=
+ =?us-ascii?Q?80jcl06tI4Radjk5l0tKfPddQxqBswm7G3jsj4YFKdxoSOH41eik65w5n93+?=
+ =?us-ascii?Q?gzRY7PEHoDXiZB/acHqGPxvjkwVflXJ6oIptNMCj9DGxwhv6zaieLS5vXM/e?=
+ =?us-ascii?Q?slNuzw+tBeLKLPs1I7KWYPralZd08WRb3R4/Aeznw+/iMlNYEEXuhOLfnbph?=
+ =?us-ascii?Q?9A5AlKTVh/5DjXzqirACjJGzB0YnLGOgK4lPnm8KpndjOEJjd1auutwTABnd?=
+ =?us-ascii?Q?17uN9ZpvlNr3pmk9AR47tBQmfts+XcrM8UglRzMCpe4RyqASDvJkHedHCQ+c?=
+ =?us-ascii?Q?eE1cHmel7ZNegfcX3B3lTqxGQPRFJzl4ki2TgkclSlQA2ctczRbZoMVvUZKR?=
+ =?us-ascii?Q?EWXapFx6E1ND5sKg4QYaVsFJPEN9Wu+l8g9luBZuazn7poEnJzVefIUYe6cK?=
+ =?us-ascii?Q?mKkdMpPm1ieCjzKOoZB1FkoNHCiwuOoLbS1em9uRJl++4pj2ygKdrLE7V0iD?=
+ =?us-ascii?Q?E023LOdiGUcQJV7zd3v21cYtGlJGllgZ6MwIYBsDGbn1EAw5XYnpbUf/29Sl?=
+ =?us-ascii?Q?IVb2DfgLzS7GZwvwuHSpC92cGem7s7LErScu0JjukbkvJxW8LoeVXwYT6dck?=
+ =?us-ascii?Q?2UboUM/jKPXDW5sbQ253SWFLLnbmXHw+VBLHoMN9OqBuGRXyoj54mFlQME+4?=
+ =?us-ascii?Q?ghYRnhoRIAoTk4Nz3pRWie11KGbj9zAtKzqRQBDSub5XhA207TvcA5lEnEs5?=
+ =?us-ascii?Q?OKxBjB72hWt90ve7PkEDM9UrC2omwn77d7GphYHbFfwPRJOBwIzBsv4qWDhg?=
+ =?us-ascii?Q?a9mWvpImjD7Tuyxs5l2mgtH5tnY949Q5?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2024 14:28:20.0101
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d91ffa0-aec1-47d7-f2d6-08dcb0a3dc3e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH1PEPF0000A349.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7470
 
-On Thu, 25 Jul 2024, Gergo Koteles wrote:
+If the Ambient Light Sensor (ALS) is disabled, the current code in the PMF
+driver does not query for Human Presence Detection (HPD) data in
+amd_pmf_get_sensor_info(). As a result, stale HPD data is used by PMF-TA
+to evaluate policy conditions, leading to unexpected behavior in the policy
+output actions.
 
-> Calling VPC commands consists of several VPCW and VPCR ACPI calls.
-> These calls and their results can get mixed up if they are called
-> simultaneously from different threads, like acpi notify handler,
-> sysfs, debugfs, notification chain.
-> 
-> Add a mutex to synchronize VPC commands.
-> 
-> Signed-off-by: Gergo Koteles <soyer@irl.hu>
+To resolve this issue, modify the PMF driver to query HPD data
+independently of ALS.
 
-What commit does this fix? I was going to add a Fixes tag myself while 
-applying this but wasn't sure if it should be the ACPI concurrency commit 
-e2ffcda16290 or the change introducing lenovo-ymc driver?
+Since user_present is a boolean, modify the current code to return true if
+the user is present and false if the user is away or if the sensor is not
+detected, and report this status to the PMF TA firmware accordingly.
 
-Also, I'd prefer to not take the move patch (PATCH 3/4) now so I could 
-take this through fixes branch since it causes a real issue if I remember 
-the earlier discussions right? Do you think there's any issue if I take 
-only patches 1, 2, and 4? They seemed to apply without conflicts when I 
-tried to apply the entire series and then cherrypicked the last patch 
-dropping the third patch.
+With this change, amd_pmf_get_sensor_info() now returns void instead of
+int.
 
-The code movement patch could go through for-next fixes branch is then 
-merged into it (or after one kernel cycle).
+Fixes: cedecdba60f4 ("platform/x86/amd/pmf: Get ambient light information from AMD SFH driver")
+Co-developed-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
+Signed-off-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
+Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+---
+v2:
+ - Simplify ALS and HPD sensors not present cases in
+   amd_pmf_get_sensor_info()
+ 
+ drivers/platform/x86/amd/pmf/spc.c | 32 ++++++++++--------------------
+ 1 file changed, 11 insertions(+), 21 deletions(-)
 
-
+diff --git a/drivers/platform/x86/amd/pmf/spc.c b/drivers/platform/x86/amd/pmf/spc.c
+index a3dec14c3004..3c153fb1425e 100644
+--- a/drivers/platform/x86/amd/pmf/spc.c
++++ b/drivers/platform/x86/amd/pmf/spc.c
+@@ -150,36 +150,26 @@ static int amd_pmf_get_slider_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_
+ 	return 0;
+ }
+ 
+-static int amd_pmf_get_sensor_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
++static void amd_pmf_get_sensor_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
+ {
+ 	struct amd_sfh_info sfh_info;
+-	int ret;
++
++	/* Get the latest information from SFH */
++	in->ev_info.user_present = false;
+ 
+ 	/* Get ALS data */
+-	ret = amd_get_sfh_info(&sfh_info, MT_ALS);
+-	if (!ret)
++	if (!amd_get_sfh_info(&sfh_info, MT_ALS))
+ 		in->ev_info.ambient_light = sfh_info.ambient_light;
+ 	else
+-		return ret;
++		dev_dbg(dev->dev, "ALS is not enabled/detected\n");
+ 
+ 	/* get HPD data */
+-	ret = amd_get_sfh_info(&sfh_info, MT_HPD);
+-	if (ret)
+-		return ret;
+-
+-	switch (sfh_info.user_present) {
+-	case SFH_NOT_DETECTED:
+-		in->ev_info.user_present = 0xff; /* assume no sensors connected */
+-		break;
+-	case SFH_USER_PRESENT:
+-		in->ev_info.user_present = 1;
+-		break;
+-	case SFH_USER_AWAY:
+-		in->ev_info.user_present = 0;
+-		break;
++	if (!amd_get_sfh_info(&sfh_info, MT_HPD)) {
++		if (sfh_info.user_present == SFH_USER_PRESENT)
++			in->ev_info.user_present = true;
++	} else {
++		dev_dbg(dev->dev, "HPD is not enabled/detected\n");
+ 	}
+-
+-	return 0;
+ }
+ 
+ void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
 -- 
- i.
+2.25.1
 
-
-> ---
->  drivers/platform/x86/ideapad-laptop.c | 64 ++++++++++++++++++++-------
->  1 file changed, 47 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
-> index 8398774cdfe2..3c24e3d99cd2 100644
-> --- a/drivers/platform/x86/ideapad-laptop.c
-> +++ b/drivers/platform/x86/ideapad-laptop.c
-> @@ -155,6 +155,7 @@ struct ideapad_rfk_priv {
->  
->  struct ideapad_private {
->  	struct acpi_device *adev;
-> +	struct mutex vpc_mutex; /* protects the VPC calls */
->  	struct rfkill *rfk[IDEAPAD_RFKILL_DEV_NUM];
->  	struct ideapad_rfk_priv rfk_priv[IDEAPAD_RFKILL_DEV_NUM];
->  	struct platform_device *platform_device;
-> @@ -437,6 +438,8 @@ static int debugfs_status_show(struct seq_file *s, void *data)
->  	struct ideapad_private *priv = s->private;
->  	unsigned long value;
->  
-> +	guard(mutex)(&priv->vpc_mutex);
-> +
->  	if (!read_ec_data(priv->adev->handle, VPCCMD_R_BL_MAX, &value))
->  		seq_printf(s, "Backlight max:  %lu\n", value);
->  	if (!read_ec_data(priv->adev->handle, VPCCMD_R_BL, &value))
-> @@ -555,7 +558,8 @@ static ssize_t camera_power_show(struct device *dev,
->  	unsigned long result;
->  	int err;
->  
-> -	err = read_ec_data(priv->adev->handle, VPCCMD_R_CAMERA, &result);
-> +	scoped_guard(mutex, &priv->vpc_mutex)
-> +		err = read_ec_data(priv->adev->handle, VPCCMD_R_CAMERA, &result);
->  	if (err)
->  		return err;
->  
-> @@ -574,7 +578,8 @@ static ssize_t camera_power_store(struct device *dev,
->  	if (err)
->  		return err;
->  
-> -	err = write_ec_cmd(priv->adev->handle, VPCCMD_W_CAMERA, state);
-> +	scoped_guard(mutex, &priv->vpc_mutex)
-> +		err = write_ec_cmd(priv->adev->handle, VPCCMD_W_CAMERA, state);
->  	if (err)
->  		return err;
->  
-> @@ -627,7 +632,8 @@ static ssize_t fan_mode_show(struct device *dev,
->  	unsigned long result;
->  	int err;
->  
-> -	err = read_ec_data(priv->adev->handle, VPCCMD_R_FAN, &result);
-> +	scoped_guard(mutex, &priv->vpc_mutex)
-> +		err = read_ec_data(priv->adev->handle, VPCCMD_R_FAN, &result);
->  	if (err)
->  		return err;
->  
-> @@ -649,7 +655,8 @@ static ssize_t fan_mode_store(struct device *dev,
->  	if (state > 4 || state == 3)
->  		return -EINVAL;
->  
-> -	err = write_ec_cmd(priv->adev->handle, VPCCMD_W_FAN, state);
-> +	scoped_guard(mutex, &priv->vpc_mutex)
-> +		err = write_ec_cmd(priv->adev->handle, VPCCMD_W_FAN, state);
->  	if (err)
->  		return err;
->  
-> @@ -734,7 +741,8 @@ static ssize_t touchpad_show(struct device *dev,
->  	unsigned long result;
->  	int err;
->  
-> -	err = read_ec_data(priv->adev->handle, VPCCMD_R_TOUCHPAD, &result);
-> +	scoped_guard(mutex, &priv->vpc_mutex)
-> +		err = read_ec_data(priv->adev->handle, VPCCMD_R_TOUCHPAD, &result);
->  	if (err)
->  		return err;
->  
-> @@ -755,7 +763,8 @@ static ssize_t touchpad_store(struct device *dev,
->  	if (err)
->  		return err;
->  
-> -	err = write_ec_cmd(priv->adev->handle, VPCCMD_W_TOUCHPAD, state);
-> +	scoped_guard(mutex, &priv->vpc_mutex)
-> +		err = write_ec_cmd(priv->adev->handle, VPCCMD_W_TOUCHPAD, state);
->  	if (err)
->  		return err;
->  
-> @@ -1148,6 +1157,8 @@ static int ideapad_rfk_set(void *data, bool blocked)
->  	struct ideapad_rfk_priv *priv = data;
->  	int opcode = ideapad_rfk_data[priv->dev].opcode;
->  
-> +	guard(mutex)(&priv->priv->vpc_mutex);
-> +
->  	return write_ec_cmd(priv->priv->adev->handle, opcode, !blocked);
->  }
->  
-> @@ -1161,6 +1172,8 @@ static void ideapad_sync_rfk_state(struct ideapad_private *priv)
->  	int i;
->  
->  	if (priv->features.hw_rfkill_switch) {
-> +		guard(mutex)(&priv->vpc_mutex);
-> +
->  		if (read_ec_data(priv->adev->handle, VPCCMD_R_RF, &hw_blocked))
->  			return;
->  		hw_blocked = !hw_blocked;
-> @@ -1334,8 +1347,9 @@ static void ideapad_input_novokey(struct ideapad_private *priv)
->  {
->  	unsigned long long_pressed;
->  
-> -	if (read_ec_data(priv->adev->handle, VPCCMD_R_NOVO, &long_pressed))
-> -		return;
-> +	scoped_guard(mutex, &priv->vpc_mutex)
-> +		if (read_ec_data(priv->adev->handle, VPCCMD_R_NOVO, &long_pressed))
-> +			return;
->  
->  	if (long_pressed)
->  		ideapad_input_report(priv, 17);
-> @@ -1347,8 +1361,9 @@ static void ideapad_check_special_buttons(struct ideapad_private *priv)
->  {
->  	unsigned long bit, value;
->  
-> -	if (read_ec_data(priv->adev->handle, VPCCMD_R_SPECIAL_BUTTONS, &value))
-> -		return;
-> +	scoped_guard(mutex, &priv->vpc_mutex)
-> +		if (read_ec_data(priv->adev->handle, VPCCMD_R_SPECIAL_BUTTONS, &value))
-> +			return;
->  
->  	for_each_set_bit (bit, &value, 16) {
->  		switch (bit) {
-> @@ -1381,6 +1396,8 @@ static int ideapad_backlight_get_brightness(struct backlight_device *blightdev)
->  	unsigned long now;
->  	int err;
->  
-> +	guard(mutex)(&priv->vpc_mutex);
-> +
->  	err = read_ec_data(priv->adev->handle, VPCCMD_R_BL, &now);
->  	if (err)
->  		return err;
-> @@ -1393,6 +1410,8 @@ static int ideapad_backlight_update_status(struct backlight_device *blightdev)
->  	struct ideapad_private *priv = bl_get_data(blightdev);
->  	int err;
->  
-> +	guard(mutex)(&priv->vpc_mutex);
-> +
->  	err = write_ec_cmd(priv->adev->handle, VPCCMD_W_BL,
->  			   blightdev->props.brightness);
->  	if (err)
-> @@ -1470,6 +1489,8 @@ static void ideapad_backlight_notify_power(struct ideapad_private *priv)
->  	if (!blightdev)
->  		return;
->  
-> +	guard(mutex)(&priv->vpc_mutex);
-> +
->  	if (read_ec_data(priv->adev->handle, VPCCMD_R_BL_POWER, &power))
->  		return;
->  
-> @@ -1482,7 +1503,8 @@ static void ideapad_backlight_notify_brightness(struct ideapad_private *priv)
->  
->  	/* if we control brightness via acpi video driver */
->  	if (!priv->blightdev)
-> -		read_ec_data(priv->adev->handle, VPCCMD_R_BL, &now);
-> +		scoped_guard(mutex, &priv->vpc_mutex)
-> +			read_ec_data(priv->adev->handle, VPCCMD_R_BL, &now);
->  	else
->  		backlight_force_update(priv->blightdev, BACKLIGHT_UPDATE_HOTKEY);
->  }
-> @@ -1707,7 +1729,8 @@ static void ideapad_sync_touchpad_state(struct ideapad_private *priv, bool send_
->  	int ret;
->  
->  	/* Without reading from EC touchpad LED doesn't switch state */
-> -	ret = read_ec_data(priv->adev->handle, VPCCMD_R_TOUCHPAD, &value);
-> +	scoped_guard(mutex, &priv->vpc_mutex)
-> +		ret = read_ec_data(priv->adev->handle, VPCCMD_R_TOUCHPAD, &value);
->  	if (ret)
->  		return;
->  
-> @@ -1767,7 +1790,8 @@ static void ideapad_laptop_trigger_ec(void)
->  	if (!priv->features.ymc_ec_trigger)
->  		return;
->  
-> -	ret = write_ec_cmd(priv->adev->handle, VPCCMD_W_YMC, 1);
-> +	scoped_guard(mutex, &priv->vpc_mutex)
-> +		ret = write_ec_cmd(priv->adev->handle, VPCCMD_W_YMC, 1);
->  	if (ret)
->  		dev_warn(&priv->platform_device->dev, "Could not write YMC: %d\n", ret);
->  }
-> @@ -1813,11 +1837,13 @@ static void ideapad_acpi_notify(acpi_handle handle, u32 event, void *data)
->  	struct ideapad_private *priv = data;
->  	unsigned long vpc1, vpc2, bit;
->  
-> -	if (read_ec_data(handle, VPCCMD_R_VPC1, &vpc1))
-> -		return;
-> +	scoped_guard(mutex, &priv->vpc_mutex) {
-> +		if (read_ec_data(handle, VPCCMD_R_VPC1, &vpc1))
-> +			return;
->  
-> -	if (read_ec_data(handle, VPCCMD_R_VPC2, &vpc2))
-> -		return;
-> +		if (read_ec_data(handle, VPCCMD_R_VPC2, &vpc2))
-> +			return;
-> +	}
->  
->  	vpc1 = (vpc2 << 8) | vpc1;
->  
-> @@ -2124,6 +2150,10 @@ static int ideapad_acpi_add(struct platform_device *pdev)
->  	priv->adev = adev;
->  	priv->platform_device = pdev;
->  
-> +	err = devm_mutex_init(&pdev->dev, &priv->vpc_mutex);
-> +	if (err)
-> +		return err;
-> +
->  	ideapad_check_features(priv);
->  
->  	err = ideapad_sysfs_init(priv);
-> 
 
