@@ -1,206 +1,473 @@
-Return-Path: <platform-driver-x86+bounces-4917-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-4920-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32539958485
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Aug 2024 12:30:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A187A95851B
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Aug 2024 12:47:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF9102819AD
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Aug 2024 10:30:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AADE61C20B43
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Aug 2024 10:47:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 823E218CC02;
-	Tue, 20 Aug 2024 10:30:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B33918990C;
+	Tue, 20 Aug 2024 10:47:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="5VSAORBV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W2GrlZwc"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2087.outbound.protection.outlook.com [40.107.102.87])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB96A18C939
-	for <platform-driver-x86@vger.kernel.org>; Tue, 20 Aug 2024 10:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.87
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724149829; cv=fail; b=mNS68+9F+EUu4fjd1VF0XovXtLgUNXYaANj7MV+OWTXCVq94JoiWskVgGcu3gIyVlFax+jJFJr5jDXYzHMjt41pfGWTdWGS/VrGQrE2sieZGsgu0HhdvmxqjpLgrzaK6ct3kSrrjv4BSuC0OV7w01bccLWF56cpiA/jrbX9i6og=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724149829; c=relaxed/simple;
-	bh=Bd30lgmAsRvb4uLeD6KN5EVf9GerbmRRZsJKHLGq5fk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lQAMdq8pwtL0cj0Wm5cR8NnN/SxXVgA5386zADJAgI8+EGRIK9k4enXkQLHc8fC+w+OYU7fe+wEebZ/orXIXO8b5TMypryvQysMZAcUO2BpuRd48BHAMdJdqnC8ZeJOUScDcPWPVtmL3IcJkGjW3482zevu6ZsNy04tQHJXyA8w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=5VSAORBV; arc=fail smtp.client-ip=40.107.102.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mWMCTYHspw/YGGxkzqsbclAXlXl05VYBK51fitiicENOmN6+hg4utaQXmIBuuYz/nSF8Gx6DbHgUkoYbWImyFHm+IfFEkfrrY79nkmnKHcYTnZZTBN5+VPRaHqGM/kcSCAs0Md+0OZdcsNykzJTA7SEkunZnEPFPN0A6cPqrvMhc9XRubVfxjmfM51LmJWOr1sS7dNvZUF2dXbCyx+4MEpWCtGdA7DkSlL1qOSrjTFe1hY5HOY10sFVWBDgaKS+zaHl+ZzYrd2zasU6vpbXVLewL+YfIDLcQYKX6VVxUt2JemJ+kSZ9Dw33rizBM58MpdFesZSU1z2Q/xeP6a/jFjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=605RR6vntj1wfLFXRuXJa4/sjWGJ31TOAECWXVRCpNY=;
- b=CfaE/3iA/5tomoHVmCknDX+mdPnWb0pEXApDtBc24RAE7pZ1+TDcG6hRLKKZ3wr4b86Gmz8Ieat6Do8zc52nAmggmBiH9Z8bt/QGBYIhqgvuuGNllHJzkQZlAqc8yPu+1WS9kHQzLox2B1GghgrVtL6WZs68T0RsnWtPgErWAxWKq9zSRNH3K9ZlXQ0b0m0EHubCzcMvZG7UDgDPKE4A95qx/Y0I1CUmViLYZV8uZNdkQdnc9ZWnlvq9K7TgqYb3aoQ1RMpdYhY8vA73mRdrMddT0O7SvhGqA2wzvxk3OcY6rKBKx/8ujfDAapQDIw+750DCDplR0z0BYLohKP/9bA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=605RR6vntj1wfLFXRuXJa4/sjWGJ31TOAECWXVRCpNY=;
- b=5VSAORBVrb2OWuHCft3O+ceJsoW+3Z8MtxeZbH2kWdAipoY0bgh8+/GFMnUqUgUXjtATjSwqf3rvkTAiB1fzslu2XQI0nYl6XSbZQmwwSD5r9f/MIL4UnbaYiNk8cAKr0e66Hd4NhxCB6iOtx8oJtJuq04OA8rkOP8k+jvRl4TA=
-Received: from BYAPR01CA0018.prod.exchangelabs.com (2603:10b6:a02:80::31) by
- CY8PR12MB7194.namprd12.prod.outlook.com (2603:10b6:930:5a::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7875.20; Tue, 20 Aug 2024 10:30:25 +0000
-Received: from SJ1PEPF00001CDE.namprd05.prod.outlook.com
- (2603:10b6:a02:80:cafe::d3) by BYAPR01CA0018.outlook.office365.com
- (2603:10b6:a02:80::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.16 via Frontend
- Transport; Tue, 20 Aug 2024 10:30:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ1PEPF00001CDE.mail.protection.outlook.com (10.167.242.6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7897.11 via Frontend Transport; Tue, 20 Aug 2024 10:30:24 +0000
-Received: from amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 20 Aug
- 2024 05:30:22 -0500
-From: Suma Hegde <suma.hegde@amd.com>
-To: <platform-driver-x86@vger.kernel.org>
-CC: <ilpo.jarvinen@linux.intel.com>, <hdegoede@redhat.com>, Suma Hegde
-	<suma.hegde@amd.com>, Naveen Krishna Chatradhi
-	<naveenkrishna.chatradhi@amd.com>
-Subject: [v4 11/11] platform/x86/amd/hsmp: Fix potential spectre issue
-Date: Tue, 20 Aug 2024 10:29:41 +0000
-Message-ID: <20240820102941.1813163-11-suma.hegde@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240820102941.1813163-1-suma.hegde@amd.com>
-References: <20240820102941.1813163-1-suma.hegde@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53EF9178376;
+	Tue, 20 Aug 2024 10:47:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724150824; cv=none; b=HUaLFK1UzyoQiyeOcnO8qnNu1Zq2GMBLAlVe61NuaJPoF+Z07Cknl2QDXh0qwThmvJ6/1roTbiiPVZwDP51Hx/gXiKdC4HARRIc/kACH0NJhjv9o0rXhGFxQYZH+bV5++zw2GR2qOR/6A5ed8FW6mNdvd6mh9xoGhubGOIdy3Yc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724150824; c=relaxed/simple;
+	bh=SOWask95HdRJQFs7FMKJHS/nmN9Kv5UyeCNaBnpczYQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hMcRy9l/adTKOI70p9gapj2nSrDHvrEJj2KRTRu1sNW1s547Zk1p2/N3Qygfis5JrRpbrY9SFjZSetEoExmERBXLSfuC1ZJDOBNoWnO2Rbxt0tUeYxoxPRf19NKijhW8K/79g9ZgVoK+rI01tlG84s6Bi6uOsSCWFkNJKvrLrXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W2GrlZwc; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52f01993090so6328187e87.2;
+        Tue, 20 Aug 2024 03:47:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724150820; x=1724755620; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9lILZzOdgFiNlalhGHQWPYUA6sSupFUaTSZbByHCfOM=;
+        b=W2GrlZwcJdvc63cxO9cjSV/etKeHsIaJ2Ztoe7JuK03HXve9G9diIQ2W7OnR4pCiFu
+         zzkPAgkJPyAGDcK/Cf6wkpDVrQ+IW44CPyB/s6Fswn9BNoh3kwEz4BkFl5X97UQOSIKG
+         ESQWwkFw6GadlblE0xWUpKy/ed1giTCjTxp2UlFqQyD0wTjZf4VOiqEsZrC0Q53iLDc9
+         AdmqmY80QDa22UHoYzMShBYFfjheVNxlaw+YDr4mPtXDx6wHwJ/v9bkpQmIjq8blOta8
+         0zqtY+SHeN0fhHU0RJzCo5HonMS7DhA+6l4VK3akhQGPZtMdsl+aU7Ap38Lj6rjU0vT+
+         pkkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724150820; x=1724755620;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9lILZzOdgFiNlalhGHQWPYUA6sSupFUaTSZbByHCfOM=;
+        b=am1OL9R68icHwpmCXGoz40Gm2ZiNEArmHxk/SfMrG4z6j6dOg7WrUquflJGhFXNRev
+         1LS2lVpCmR2u/1S5tly9YePxbB4GY3ZpoSGuuzkv9Hcq5QtwTNpS8yAt4mJop8psWPnT
+         4f+h75t6rny2Qqc4P6DtcsgKXDBpw2BGy0tdCYgHthmCQv2MreZSY8s2kuJnOQDnI9bY
+         j5jG7/x2FQYcqKaQzqS4ccXa48R2VkkClahstmiDa/iTSQv+BGSWQexZOdYGovXaJ5Au
+         JQZsshl2SKNeZJS3Yk+aF4QFbbAKVVLlbrqK88ORtL+s/g+tirlIy3G0WZ5wneCqS17i
+         dXEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUG2VX976FLAK1lPOPpFKwzRALdF9mCXL72Mk+7rGI8U4VVl4W5VNqlw+Ff43CtarbjIiu4u5Al@vger.kernel.org, AJvYcCV8hHaQT5U9zRNuEDHrKQ7ZV7RawA1iuuC05aN52BNN27iBdnf1thQSb8oRlVJ5U15XkSKZO4Tkn74tDA==@vger.kernel.org, AJvYcCVT2U5xGN2MFCZ8j3tLEOWQshONKmBD3kNIkv6NUzPISZkehLp7GeC4qv8pHTVfAR4yqcdjtnXmenTRcURr6wzwszxUcg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1mkRtuCHOtxdsoS11ZEa0rKmsPLxkhOEyIvHy/9rIVCkcdYGd
+	bLkJ1XcP0WSkwXty/0m4bdlTxbYub6Cs5QPYmEHOXyt9cCEgO2oaK5v6AEBlJUY=
+X-Google-Smtp-Source: AGHT+IHIO3sSnR/TAn478uopoGQAQi0Ly9eqNhe72zaMsE5YdJk6lsTnGZAz3GWiNXwZdJNSmtCXDg==
+X-Received: by 2002:a05:6512:ba3:b0:530:e323:b1d0 with SMTP id 2adb3069b0e04-5331c68fccfmr8866596e87.9.1724150819849;
+        Tue, 20 Aug 2024 03:46:59 -0700 (PDT)
+Received: from localhost ([185.220.101.186])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a838396c15asm744410566b.197.2024.08.20.03.46.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Aug 2024 03:46:59 -0700 (PDT)
+Date: Tue, 20 Aug 2024 13:46:53 +0300
+From: Maxim Mikityanskiy <maxtram95@gmail.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Ike Panhc <ike.pan@canonical.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+	Jonathan Denose <jdenose@chromium.org>, stable@vger.kernel.org
+Subject: Re: [PATCH] platform/x86: ideapad-laptop: Stop calling
+ i8042_command()
+Message-ID: <ZsR0HdzglEH19dVH@mail.gmail.com>
+References: <20240805141608.170844-1-hdegoede@redhat.com>
+ <ZrDwF919M0YZTqde@mail.gmail.com>
+ <5c5120a7-4739-4d92-a5b8-9b9c60edc3b7@redhat.com>
+ <ZroaE5Q6OdGe6ewz@mail.gmail.com>
+ <80dc479e-33af-4d09-8177-7862c34a4882@redhat.com>
+ <ZrpFSnCQ0T4_7zAB@google.com>
+ <2d5be262-3bfd-4b66-bee4-97c89a9a4707@redhat.com>
+ <Zrph94r8haR_nbj7@google.com>
+ <ZsJZ7fKJtNTbXhi7@google.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CDE:EE_|CY8PR12MB7194:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4c943b4a-5491-4bb8-44f9-08dcc1031a3f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?upAmbvN5UsXJDcdSpQgN8si/dWVV5enjLuYhYbpf0YABTEiySMCOQqAJ/SM2?=
- =?us-ascii?Q?+thV+LIoYjIn/ANpiORCY0TaP3DIX8XnXvFP1qWdU1L+wxk2BETZUshN5PF2?=
- =?us-ascii?Q?K4f6T7ZH1rmL9KJ+4rv7+GZfM7BTeOFeBBFQ7BRElTP/5ZVpoW/N00dvHryS?=
- =?us-ascii?Q?l/xdr1YPVtvirMnrk9UEzEJlPl7Rp6a1Om789vvjH+W9JXzC+DGjNrPOuuhm?=
- =?us-ascii?Q?YGFssNed+eZZ2tfDdrhhhN7gHDbQrUTiX61iIKtX16iAJgJbFZZQ6jjti9Q6?=
- =?us-ascii?Q?XLElQqKQ4bqo9+2LnWAN/YMAa5ifa+pEu4mZkGn4xg4a5ppa6/935LsybItN?=
- =?us-ascii?Q?Y/Ve6Vqm3wYNFY63ZCR2RkyjVF0+ibW8WSC9zNaL4upIABLUSTnFfgubPTSd?=
- =?us-ascii?Q?BLNcQnJoUcLIcPa6edU9WqIYTe67sKHAQS40HCfwxtPO6PNcc9STSvzzM6NT?=
- =?us-ascii?Q?9Ma78Q/opEUJ9A8K3yrQ3Ew8CbFyE2OzhMvR8jDXmBMMmCtNFuVGRVhaSGA1?=
- =?us-ascii?Q?FZdbUOmud9ii3KBXvnDjjIjY3O9emkCMQ8D8MtT5LwtO2/8FCX6be7oVbVJP?=
- =?us-ascii?Q?my3/pDj2lo2UxkeNwfg0r2DKKvliqOx6dia8drx1CSn2Wso7k2ci3zeXxJ+g?=
- =?us-ascii?Q?WSVRjlhO4LeMGEt3BRBsVFefWCtx6NCtr1a+Aextb3XQGrd+rGrKQlp7CqtN?=
- =?us-ascii?Q?K8hDMR3+1YkgW0kHDrK3l0jmtz+qll3ulr7eI8RxXqrarvZh0kRjaRPOCl9E?=
- =?us-ascii?Q?FsJqReGxXeUyjZFwny6hnyUrpOleUnWf82XZgIHyBzdhCvIuppb5LPvz7HTb?=
- =?us-ascii?Q?wXBcsqUTbSYdK9/tvilEPuZokp3mgMK783FeTDtz0pmXx7yYOjCO+kc1hUG9?=
- =?us-ascii?Q?VMJwER8BSzV8xlQGqm7P+xWpWzzZ7cPHNwWBEzOaEAqiXeWNABlXB83xlbL5?=
- =?us-ascii?Q?ucyooLNnXnyPpT4I2eGIsEQXF7hno66J4qmJzAS3jOMrYYSDi3M7WA8Fo/sO?=
- =?us-ascii?Q?QmEWYSWhFAqn9cm/r0f/pKbUgPx5+UhjpoM04QD7A4wLSHRl9skJ3+TjuEXN?=
- =?us-ascii?Q?+2xZob2/VhRGumN03U6d6rbf0zQ4gKunIGbnFug9N2ef8apiV5ZljlSgDeme?=
- =?us-ascii?Q?0VxwkX2q+oeuRGsqlweCslSiFdUGADMie3n/5vR1e7ctYdvPM7D4NHo07XWp?=
- =?us-ascii?Q?i37Izfed0/osxVx/fUm8NS7v5xZsagmEMAUTHmBRo75bgjYkSjyWzcZZox+3?=
- =?us-ascii?Q?jNZRTimFlujcENoV3UHMnoZrzNkzXSj7y/zq72a2v0b/Wp7OM41e72SSZIFu?=
- =?us-ascii?Q?F49VlYpHrgmCnin6CbG0cnPWI1dxayUCf9dpmUYZNu6CtqGKFebXoRqhk7p/?=
- =?us-ascii?Q?y/P6mC7lSzBV3SLtNliL1E/oKsCVSTwaK+vtB0SQ5CgejXVolCKySOzBOCMF?=
- =?us-ascii?Q?WpT3izLbiPLzLF6p7rta/jbSQxMD7Wo7?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2024 10:30:24.7778
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c943b4a-5491-4bb8-44f9-08dcc1031a3f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00001CDE.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7194
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZsJZ7fKJtNTbXhi7@google.com>
 
-Fix below warning caused by smatch by using array_index_nospec()
-to clamp the index within the range.
-"warn: potential spectre issue 'plat_dev.sock' [r] (local cap)"
+On Sun, 18 Aug 2024 at 13:30:37 -0700, Dmitry Torokhov wrote:
+> On Mon, Aug 12, 2024 at 12:26:47PM -0700, Dmitry Torokhov wrote:
+> > On Mon, Aug 12, 2024 at 08:18:24PM +0200, Hans de Goede wrote:
+> > > Hi Dmitry,
+> > > 
+> > > On 8/12/24 7:24 PM, Dmitry Torokhov wrote:
+> > > > On Mon, Aug 12, 2024 at 04:41:50PM +0200, Hans de Goede wrote:
+> > > >> Hi Maxim,
+> > > >>
+> > > >> On 8/12/24 4:37 PM, Maxim Mikityanskiy wrote:
+> > > >>> On Mon, 05 Aug 2024 at 17:45:19 +0200, Hans de Goede wrote:
+> > > >>>> On 8/5/24 5:30 PM, Maxim Mikityanskiy wrote:
+> > > >>>>> That means, userspace is not filtering out events upon receiving
+> > > >>>>> KEY_TOUCHPAD_OFF. If we wanted to rely on that, we would need to send
+> > > >>>>> KEY_TOUCHPAD_TOGGLE from the driver, but we actually can't, because Z570
+> > > >>>>> is weird. It maintains the touchpad state in firmware to light up the
+> > > >>>>> status LED, but the firmware doesn't do the actual touchpad disablement.
+> > > >>>>>
+> > > >>>>> That is, if we use TOGGLE, the LED will get out of sync. If we use
+> > > >>>>> ON/OFF, the touchpad won't be disabled, unless we do it in the kernel.
+> > > >>>>
+> > > >>>> Ack.
+> > > >>>>
+> > > >>>> So how about this instead:
+> > > >>>>
+> > > >>>> diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
+> > > >>>> index 1ace711f7442..b7fa06f793cb 100644
+> > > >>>> --- a/drivers/platform/x86/ideapad-laptop.c
+> > > >>>> +++ b/drivers/platform/x86/ideapad-laptop.c
+> > > >>>> @@ -1574,7 +1574,7 @@ static void ideapad_sync_touchpad_state(struct ideapad_private *priv, bool send_
+> > > >>>>  	 * touchpad off and on. We send KEY_TOUCHPAD_OFF and
+> > > >>>>  	 * KEY_TOUCHPAD_ON to not to get out of sync with LED
+> > > >>>>  	 */
+> > > >>>> -	if (priv->features.ctrl_ps2_aux_port)
+> > > >>>> +	if (send_events && priv->features.ctrl_ps2_aux_port)
+> > > >>>>  		i8042_command(&param, value ? I8042_CMD_AUX_ENABLE : I8042_CMD_AUX_DISABLE);
+> > > >>>>  
+> > > >>>>  	/*
+> > > >>>>
+> > > >>>> Maxmime, if you still have your Z570 can you check if the touchpad state after a suspend/resume
+> > > >>>> correctly reflects the state before suspend/resume in both touchpad on / off states ?
+> > > >>>
+> > > >>> *Maxim
+> > > >>
+> > > >> Oops, sorry.
+> > > >>
+> > > >>> Just a heads-up, my Z570 now belongs to a family member, we'll test what
+> > > >>> you asked, but right now there is a btrfs corruption on that laptop that
+> > > >>> we need to fix first, it interferes with kernel compilation =/
+> > > >>
+> > > >> Note as discussed in another part of the thread the original bug report
+> > > >> actually was not on a Z570, so the whole usage of i8042_command() on
+> > > >> suspend/resume was a bit of a red herring. And the suspend/resume issue
+> > > >> has been fixed in another way in the mean time.
+> > > >>
+> > > >> So there really is no need to test this change anymore. At the moment
+> > > >> there are no planned changes to ideapad-laptop related to this.
+> > > > 
+> > > > I think we still need to stop ideapad-laptop poking into 8042,
+> > > > especially ahead of time.
+> > > 
+> > > I agree. I think your suggestion of using the new(ish) [un]inhibit
+> > > support in the input subsystem for this instead of poking at the i8042
+> > > is a good idea.
+> > > 
+> > > As I mentioned when you first suggested this, I guess this requires 2 things:
+> > > 
+> > > 1. Some helper to find the struct input_dev for the input_dev related
+> > >    to the ps/2 aux port
+> > > 2. In kernel API / functions to do inhibit/uninhibit
+> > >    (maybe these already exist?)
+> > > 
+> > > > If we do not want to wait for userspace to
+> > > > handle this properly, I wonder if we could not create an
+> > > > input_handler that would attach to the touchpad device and filter out
+> > > > all events coming from the touchpad if touchpad is supposed to be off.
+> > > 
+> > > I think using the inhibit stuff would be better no?
+> > 
+> > The issue with inhibit/uninhibit is that they are only exposed to
+> > userpsace via sysfs. And as you mentioned we need to locate the input
+> > device corresponding to the touchpad.
+> > 
+> > With input handler we are essentially getting both - psmouse does not do
+> > anything special in inhibit so it is just the input core dropping
+> > events, the same as with the filter handler, and we can use hanlder's
+> > match table to limit it to the touchpad and input core will find the
+> > device for us.
+> > 
+> > > 
+> > > The biggest problems with trying to fix this are:
+> > > 
+> > > 1. Finding time to work on this
+> > > 2. Finding someone willing to test the patches
+> > > 
+> > > Finding the time is going to be an issue for me since the i8042_command()
+> > > calls are only still done on a single model laptop (using a DMI quirk)
+> > > inside ideapad-laptop now, so this is pretty low priority IMHO. Which
+> > > in practice means that I will simply never get around to this, sorry...
+> > 
+> > Yeah, I can see that ;) Maybe I will find a couple of hours to waste...
+> 
+> Maybe something like below can work?
 
-Signed-off-by: Suma Hegde <suma.hegde@amd.com>
-Reviewed-by: Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
----
-Changes since v3:
-None
+Great patch, thank you, I'll test it and report the results. See some
+minor comments below.
 
-Changes since v2:
-None
+> 
+> 
+> platform/x86: ideapad-laptop: do not poke keyboard controller
+> 
+> From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> 
+> On Ideapad Z570 the driver tries to disable and reenable data coming
+> from the touchpad by poking directly into 8042 keyboard controller.
+> This may coincide with the controller resuming and leads to spews in
+> dmesg and potentially other instabilities.
+> 
+> Instead of using i8042_command() to control the touchpad state create a
+> input handler that serves as a filter and drop events coming from the
+> touchpad when it is supposed to be off.
+> 
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+>  drivers/platform/x86/ideapad-laptop.c |  171 ++++++++++++++++++++++++++++++++-
+>  1 file changed, 168 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
+> index fcf13d88fd6e..2f40feefd5e3 100644
+> --- a/drivers/platform/x86/ideapad-laptop.c
+> +++ b/drivers/platform/x86/ideapad-laptop.c
+> @@ -17,7 +17,6 @@
+>  #include <linux/device.h>
+>  #include <linux/dmi.h>
+>  #include <linux/fb.h>
+> -#include <linux/i8042.h>
+>  #include <linux/init.h>
+>  #include <linux/input.h>
+>  #include <linux/input/sparse-keymap.h>
+> @@ -157,6 +156,13 @@ struct ideapad_private {
+>  		struct led_classdev led;
+>  		unsigned int last_brightness;
+>  	} fn_lock;
+> +	struct {
+> +		bool initialized;
+> +		bool active;
+> +		struct input_handler handler;
+> +		struct input_dev *tp_dev;
+> +		spinlock_t lock;
+> +	} tp_switch;
+>  };
+>  
+>  static bool no_bt_rfkill;
+> @@ -1236,6 +1242,158 @@ static void ideapad_check_special_buttons(struct ideapad_private *priv)
+>  	}
+>  }
+>  
+> +struct ideapad_tpswitch_handle {
+> +	struct input_handle handle;
+> +	struct ideapad_private *priv;
+> +};
+> +
+> +#define to_tpswitch_handle(h) \
+> +	container_of(h, struct ideapad_tpswitch_handle, handle);
+> +
+> +static int ideapad_tpswitch_connect(struct input_handler *handler,
+> +				    struct input_dev *dev,
+> +				    const struct input_device_id *id)
+> +{
+> +	struct ideapad_private *priv =
+> +		container_of(handler, struct ideapad_private, tp_switch.handler);
+> +	struct ideapad_tpswitch_handle *h;
+> +	int error;
+> +
+> +	h = kzalloc(sizeof(*h), GFP_KERNEL);
+> +	if (!h)
+> +		return -ENOMEM;
+> +
+> +	h->priv = priv;
+> +	h->handle.dev = dev;
+> +	h->handle.handler = handler;
+> +	h->handle.name = "ideapad-tpswitch";
+> +
+> +	error = input_register_handle(&h->handle);
+> +	if (error)
+> +		goto err_free_handle;
+> +
+> +	/*
+> +	 * FIXME: ideally we do not want to open the input device here
+> +	 * if there are no other users. We need a notion of "observer"
+> +	 * handlers in the input core.
+> +	 */
+> +	error = input_open_device(&h->handle);
+> +	if (error)
+> +		goto err_unregister_handle;
+> +
+> +	scoped_guard(spinlock_irq, &priv->tp_switch.lock)
+> +		priv->tp_switch.tp_dev = dev;
+> +
+> +	return 0;
+> +
+> + err_unregister_handle:
+> +	input_unregister_handle(&h->handle);
+> +err_free_handle:
+> +	kfree(h);
+> +	return error;
+> +}
+> +
+> +static void ideapad_tpswitch_disconnect(struct input_handle *handle)
+> +{
+> +	struct ideapad_tpswitch_handle *h = to_tpswitch_handle(handle);
+> +	struct ideapad_private *priv = h->priv;
+> +
+> +	scoped_guard(spinlock_irq, &priv->tp_switch.lock)
 
-Changes since v1:
-Change plat_dev to hsmp_pdev
+Nice syntax, I didn't know about it before.
 
- drivers/platform/x86/amd/hsmp/acpi.c | 3 +++
- drivers/platform/x86/amd/hsmp/plat.c | 3 +++
- 2 files changed, 6 insertions(+)
+> +		priv->tp_switch.tp_dev = NULL;
+> +
+> +	input_close_device(handle);
+> +	input_unregister_handle(handle);
+> +	kfree(h);
+> +}
+> +
+> +static bool ideapad_tpswitch_filter(struct input_handle *handle,
+> +				    unsigned int type, unsigned int code,
+> +				    int value)
+> +{
+> +	struct ideapad_tpswitch_handle *h = to_tpswitch_handle(handle);
+> +	struct ideapad_private *priv = h->priv;
+> +
+> +	if (!priv->tp_switch.active)
 
-diff --git a/drivers/platform/x86/amd/hsmp/acpi.c b/drivers/platform/x86/amd/hsmp/acpi.c
-index 81d49dee3f9b..1d9f3851dd2c 100644
---- a/drivers/platform/x86/amd/hsmp/acpi.c
-+++ b/drivers/platform/x86/amd/hsmp/acpi.c
-@@ -18,6 +18,7 @@
- #include <linux/ioport.h>
- #include <linux/kstrtox.h>
- #include <linux/module.h>
-+#include <linux/nospec.h>
- #include <linux/platform_device.h>
- #include <linux/sysfs.h>
- #include <linux/uuid.h>
-@@ -278,6 +279,8 @@ static int init_acpi(struct device *dev)
- 	if (sock_ind >= hsmp_pdev.num_sockets)
- 		return -EINVAL;
- 
-+	sock_ind = array_index_nospec(sock_ind, hsmp_pdev.num_sockets);
-+
- 	ret = hsmp_parse_acpi_table(dev, sock_ind);
- 	if (ret) {
- 		dev_err(dev, "Failed to parse ACPI table\n");
-diff --git a/drivers/platform/x86/amd/hsmp/plat.c b/drivers/platform/x86/amd/hsmp/plat.c
-index a0f2fb6750a1..a843609a7c81 100644
---- a/drivers/platform/x86/amd/hsmp/plat.c
-+++ b/drivers/platform/x86/amd/hsmp/plat.c
-@@ -15,6 +15,7 @@
- #include <linux/device.h>
- #include <linux/module.h>
- #include <linux/pci.h>
-+#include <linux/nospec.h>
- #include <linux/platform_device.h>
- #include <linux/sysfs.h>
- 
-@@ -78,6 +79,8 @@ static ssize_t hsmp_metric_tbl_read(struct file *filp, struct kobject *kobj,
- 	if (sock_ind >= hsmp_pdev.num_sockets)
- 		return -EINVAL;
- 
-+	sock_ind = array_index_nospec(sock_ind, hsmp_pdev.num_sockets);
-+
- 	sock = &hsmp_pdev.sock[sock_ind];
- 	if (!sock)
- 		return -EINVAL;
--- 
-2.25.1
+This check seems inverted. ideapad_tpswitch_toggle assigns true when the
+touchpad is enabled.
 
+> +		return false;
+> +
+> +	/* Allow passing button release events, drop everything else */
+> +	return !(type == EV_KEY && value == 0) &&
+> +	       !(type == EV_SYN && code == SYN_REPORT);
+> +
+> +}
+> +
+> +static const struct input_device_id ideapad_tpswitch_ids[] = {
+> +	{
+> +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT |
+> +				INPUT_DEVICE_ID_MATCH_KEYBIT |
+> +				INPUT_DEVICE_ID_MATCH_ABSBIT,
+> +		.bustype = BUS_I8042,
+> +		.vendor = 0x0002,
+> +		.evbit = { BIT_MASK(EV_KEY) | BIT_MASK(EV_ABS) },
+> +		.keybit = { [BIT_WORD(BTN_TOOL_FINGER)] =
+> +				BIT_MASK(BTN_TOOL_FINGER) },
+> +		.absbit = { BIT_MASK(ABS_X) | BIT_MASK(ABS_Y) |
+> +				BIT_MASK(ABS_PRESSURE) |
+> +				BIT_MASK(ABS_TOOL_WIDTH) },
+> +	},
+> +	{ }
+> +};
+> +
+> +static int ideapad_tpswitch_init(struct ideapad_private *priv)
+> +{
+> +	int error;
+> +
+> +	if (!priv->features.ctrl_ps2_aux_port)
+
+Nit: the comment above ctrl_ps2_aux_port and the MODULE_PARAM_DESC
+should be altered, because it no longer disables PS/2 AUX, but just
+filters the events on software level.
+
+Not sure whether we want to keep the old name for the module parameter.
+I think it's better to keep it, because it essentially serves the same
+purpose, but the implementation is better.
+
+> +		return 0;
+> +
+> +	spin_lock_init(&priv->tp_switch.lock);
+> +
+> +	priv->tp_switch.handler.name = "ideapad-tpswitch";
+> +	priv->tp_switch.handler.id_table = ideapad_tpswitch_ids;
+> +	priv->tp_switch.handler.filter = ideapad_tpswitch_filter;
+> +	priv->tp_switch.handler.connect = ideapad_tpswitch_connect;
+> +	priv->tp_switch.handler.disconnect = ideapad_tpswitch_disconnect;
+> +
+> +	error = input_register_handler(&priv->tp_switch.handler);
+> +	if (error) {
+> +		dev_err(&priv->platform_device->dev,
+> +			"failed to register touchpad switch handler: %d",
+> +			error);
+> +		return error;
+> +	}
+> +
+> +	priv->tp_switch.initialized = true;
+> +	return 0;
+> +}
+> +
+> +static void ideapad_tpswitch_exit(struct ideapad_private *priv)
+> +{
+> +	if (priv->tp_switch.initialized) {
+> +		input_unregister_handler(&priv->tp_switch.handler);
+> +		priv->tp_switch.initialized = false;
+> +	}
+> +}
+> +
+> +static void ideapad_tpswitch_toggle(struct ideapad_private *priv, bool on)
+> +{
+> +	guard(spinlock_irq)(&priv->tp_switch.lock);
+> +
+> +	priv->tp_switch.active = on;
+> +	if (on) {
+> +		struct input_dev *tp_dev = priv->tp_switch.tp_dev;
+> +		if (tp_dev) {
+> +			input_report_key(tp_dev, BTN_TOUCH, 0);
+> +			input_report_key(tp_dev, BTN_TOOL_FINGER, 0);
+> +			input_report_key(tp_dev, BTN_TOOL_DOUBLETAP, 0);
+> +			input_report_key(tp_dev, BTN_TOOL_TRIPLETAP, 0);
+> +			input_report_key(tp_dev, BTN_LEFT, 0);
+> +			input_report_key(tp_dev, BTN_RIGHT, 0);
+> +			input_report_key(tp_dev, BTN_MIDDLE, 0);
+> +			input_sync(tp_dev);
+> +		}
+> +	}
+> +}
+> +
+>  /*
+>   * backlight
+>   */
+> @@ -1567,7 +1725,6 @@ static void ideapad_fn_lock_led_exit(struct ideapad_private *priv)
+>  static void ideapad_sync_touchpad_state(struct ideapad_private *priv, bool send_events)
+>  {
+>  	unsigned long value;
+> -	unsigned char param;
+>  	int ret;
+>  
+>  	/* Without reading from EC touchpad LED doesn't switch state */
+> @@ -1582,7 +1739,7 @@ static void ideapad_sync_touchpad_state(struct ideapad_private *priv, bool send_
+>  	 * KEY_TOUCHPAD_ON to not to get out of sync with LED
+>  	 */
+>  	if (priv->features.ctrl_ps2_aux_port)
+> -		i8042_command(&param, value ? I8042_CMD_AUX_ENABLE : I8042_CMD_AUX_DISABLE);
+> +		ideapad_tpswitch_toggle(priv, value);
+>  
+>  	/*
+>  	 * On older models the EC controls the touchpad and toggles it on/off
+> @@ -1927,6 +2084,10 @@ static int ideapad_acpi_add(struct platform_device *pdev)
+>  	if (err)
+>  		goto input_failed;
+>  
+> +	err = ideapad_tpswitch_init(priv);
+> +	if (err)
+> +		goto tpswitch_failed;
+> +
+>  	err = ideapad_kbd_bl_init(priv);
+>  	if (err) {
+>  		if (err != -ENODEV)
+> @@ -2001,6 +2162,9 @@ static int ideapad_acpi_add(struct platform_device *pdev)
+>  
+>  	ideapad_fn_lock_led_exit(priv);
+>  	ideapad_kbd_bl_exit(priv);
+> +	ideapad_tpswitch_exit(priv);
+> +
+> +tpswitch_failed:
+>  	ideapad_input_exit(priv);
+>  
+>  input_failed:
+> @@ -2029,6 +2193,7 @@ static void ideapad_acpi_remove(struct platform_device *pdev)
+>  
+>  	ideapad_fn_lock_led_exit(priv);
+>  	ideapad_kbd_bl_exit(priv);
+> +	ideapad_tpswitch_exit(priv);
+>  	ideapad_input_exit(priv);
+>  	ideapad_debugfs_exit(priv);
+>  	ideapad_sysfs_exit(priv);
 
