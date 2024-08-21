@@ -1,74 +1,76 @@
-Return-Path: <platform-driver-x86+bounces-4940-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-4943-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE54959B4D
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 21 Aug 2024 14:10:05 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D9A5959BAE
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 21 Aug 2024 14:23:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CD5FFB21CEF
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 21 Aug 2024 12:05:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CD328B22C62
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 21 Aug 2024 12:22:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1D8B1D130A;
-	Wed, 21 Aug 2024 12:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA9D4189BA4;
+	Wed, 21 Aug 2024 12:22:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NoZnvUYc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TdPeFXnH"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D09E1D1304;
-	Wed, 21 Aug 2024 12:05:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4275916B3B7;
+	Wed, 21 Aug 2024 12:22:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724241905; cv=none; b=ifeJAH6nnwZElImX1JQxWhk+qG01UI9/J+GBZHHv4IhVQ64vV5s2aLIOOrdLmV2+tZNGWvHgvvGVw6wFXMW5bGyKM3J/P8SFmNsGSV9l/VMy+0plBbbThQRDffniqjxUhPhOPqe3PCJe8vv/S5SBGJaNsN6L1xLSC4jEiiTh6kw=
+	t=1724242961; cv=none; b=QsHIgh+r6TtzdIYacRj68iqHePqLyGx9mSIEOziBIc7X9h3KKvmME92+mVkpkOUBVb4vlsHpsUS8b6OhPO1Hs+IBUluMWqinW+DL2iUnaVwXDrTLGL2PtvoL8KZJ2D2qFJ7+aWrJpG4NUYsXF/gwdjskhSMQiBh8xxbVdLKsMVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724241905; c=relaxed/simple;
-	bh=kkemyqSbgq4Wi5mtf87z+iEyf1zAZrBisQqAGMkoY78=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dTKC/Z0e5x2wySV95MfG4Q1C4axZZk6zq6vCYkokgAHsn4dZsf+MldXA6S6GsR7Jj1S1lhRsDX2VQ1Pi/e38MA6vYCcto6kRkNgCK5ELYXdTrVPeucloaaQxA6AEy+GVcJ91sefddln0ibpRm7iX9lgLRVcw3IvHHIBVVfgqAOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NoZnvUYc; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1724242961; c=relaxed/simple;
+	bh=sNzlKdxKngZ+ICVxZLqHWMC10KYHTm5HeQx0B6HUSsY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rm7XIUgxUhGEI8Jaep0Qcwzcg22y2knTxhu6jtc8noOksMfIhFCTe2fnXeF0NV7G2/6mCV7TOam6AkGI2A9yNszzoXeMH92mGfGbmUIKY2oBL5+R8Agxac7VylKXZ7t17P+fkj6oRNis4SOm7djWsjmUuhWCPuHwXxnFJUR2WUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TdPeFXnH; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724241904; x=1755777904;
+  t=1724242961; x=1755778961;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=kkemyqSbgq4Wi5mtf87z+iEyf1zAZrBisQqAGMkoY78=;
-  b=NoZnvUYcAe8J0LQCulhzHhI2qKvMMNkmK0sHjkn2WV3IEmOpi6OK3x9b
-   B53KTo341KRFQcvQdoQ4hVD0ajplsHKv5+euxQX70vl8fM8xxUBmYmFhw
-   wsSKqyuQ38aQE0S2lxCGsVjEYMdocK4W3Nchyq4dYlFoDUEFtgSCY9kz6
-   HHKotJemB/trQF82cCZ6WXe/F2/Ie+x0xbVH4p9Js9k6nTrfS4HIN/EWD
-   QL4i37Gsp36q7mIg3jOrFP6mns61jOcZ1mrOAc9xhZvxzAvG/gpIvX2c6
-   acy7VeXf7eBD1a6CMUFUHqwuHmpB69ajRWK5Svei73DVyf36wJILKdpfI
+  bh=sNzlKdxKngZ+ICVxZLqHWMC10KYHTm5HeQx0B6HUSsY=;
+  b=TdPeFXnHEgcaQcCwFXwI43u4kHeDF1aHk7qYDR/0yhSRHoC1OL1Wx/pN
+   LHxFMcJQA5wqytDpimy0Gx/IFVV0ctXEOnqL18NEd087VHm6NkOF+CPlk
+   n1PGlwbQlkgqSaItih9LEWwTKIZ+YtXsTxEFO2LHduGuZKSVTZCD7dwa+
+   3vZk/xD0vcYQ3eTprVjpdFk7UhNFtRiY/24uRnLKLDqQi8LZ5Wga6pM+9
+   FLojMD6kccH75etQop7DrBdlVzWUdtZ/WRjwGKMTW3WnU2oPKVKL8CdKF
+   61lfzJV3y/eHsmADLpQzzlnaIDGmftAVyzVMbsOwdaeitKC/C5CDFgOZG
    w==;
-X-CSE-ConnectionGUID: C/fxzO7JTuqs0F5/Pe5ejg==
-X-CSE-MsgGUID: o4Za1bJ+SK6sqMo+bBP+yw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="33258078"
+X-CSE-ConnectionGUID: tSyOdNeXTsiTCMAvhx/YSA==
+X-CSE-MsgGUID: waCb2kRxRmiQqiB56UHKuw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="45123248"
 X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="33258078"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 05:05:01 -0700
-X-CSE-ConnectionGUID: Ao/3LgvuRCKRzJLjhoe0ww==
-X-CSE-MsgGUID: AVwgTqHxQtq5CZjcsYDwQw==
+   d="scan'208";a="45123248"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 05:22:38 -0700
+X-CSE-ConnectionGUID: rqHONEAhQSmSw3jMQ2nFog==
+X-CSE-MsgGUID: cKq/yA4oQMOiGnCdmPUl9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="61211166"
+   d="scan'208";a="61057197"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa010.fm.intel.com with ESMTP; 21 Aug 2024 05:05:00 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 21 Aug 2024 05:22:37 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id CC40C43E; Wed, 21 Aug 2024 15:04:58 +0300 (EEST)
+	id DFCCF43E; Wed, 21 Aug 2024 15:22:34 +0300 (EEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Alex Hung <alexhung@gmail.com>
-Subject: [PATCH v1 1/1] platform/x86: intel-hid: Use string_choices API instead of ternary operator
-Date: Wed, 21 Aug 2024 15:04:57 +0300
-Message-ID: <20240821120458.3702655-1-andriy.shevchenko@linux.intel.com>
+	Hans de Goede <hdegoede@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>
+Subject: [PATCH v1 0/4] platform/x86: int3472: A few cleanups
+Date: Wed, 21 Aug 2024 15:20:39 +0300
+Message-ID: <20240821122233.3761645-1-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
@@ -78,39 +80,22 @@ List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use modern string_choices API instead of manually determining the
-output using ternary operator.
+A few cleanups to the driver. It includes an amendment to
+dev_err_probe() to ignore 0 error code. The patches 1 and 2 are
+dependent, while patches 2 and 3 may be applied in any order.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/platform/x86/intel/hid.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+Assumed to go via PDx86 tree if no objections to the code.
 
-diff --git a/drivers/platform/x86/intel/hid.c b/drivers/platform/x86/intel/hid.c
-index 10cd65497cc1..445e7a59beb4 100644
---- a/drivers/platform/x86/intel/hid.c
-+++ b/drivers/platform/x86/intel/hid.c
-@@ -13,6 +13,7 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-+#include <linux/string_choices.h>
- #include <linux/suspend.h>
- #include "../dual_accel_detect.h"
- 
-@@ -331,10 +332,8 @@ static int intel_hid_set_enable(struct device *device, bool enable)
- 	acpi_handle handle = ACPI_HANDLE(device);
- 
- 	/* Enable|disable features - power button is always enabled */
--	if (!intel_hid_execute_method(handle, INTEL_HID_DSM_HDSM_FN,
--				      enable)) {
--		dev_warn(device, "failed to %sable hotkeys\n",
--			 enable ? "en" : "dis");
-+	if (!intel_hid_execute_method(handle, INTEL_HID_DSM_HDSM_FN, enable)) {
-+		dev_warn(device, "failed to %s hotkeys\n", str_enable_disable(enable));
- 		return -EIO;
- 	}
- 
+Andy Shevchenko (4):
+  driver core: Ignore 0 in dev_err_probe()
+  platform/x86: int3472: Simplify dev_err_probe() usage
+  platform/x86: int3472: Use GPIO_LOOKUP() macro
+  platform/x86: int3472: Use str_high_low()
+
+ drivers/base/core.c                           |  4 ++++
+ drivers/platform/x86/intel/int3472/discrete.c | 14 ++++----------
+ 2 files changed, 8 insertions(+), 10 deletions(-)
+
 -- 
 2.43.0.rc1.1336.g36b5255a03ac
 
