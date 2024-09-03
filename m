@@ -1,93 +1,160 @@
-Return-Path: <platform-driver-x86+bounces-5213-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-5215-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A1696A726
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Sep 2024 21:11:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0AAE96A8B3
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Sep 2024 22:44:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C9D8B1C214D8
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Sep 2024 19:11:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 984401F23426
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Sep 2024 20:44:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E4701D5CF3;
-	Tue,  3 Sep 2024 19:11:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5C7B1D88C9;
+	Tue,  3 Sep 2024 20:42:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HppV9aYq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BKRvDrev"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71B91D5CFC
-	for <platform-driver-x86@vger.kernel.org>; Tue,  3 Sep 2024 19:11:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993CF1DB554;
+	Tue,  3 Sep 2024 20:42:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725390664; cv=none; b=MirapKbpQokoRLQbQH9fX96+m7dhDSF0m8EhqHlRPwt4dg/zWJwSizFQ0ZoHTbg1Z1QiKxpHreQmXaZYQgOR1ZdG55Hm8P59Q7mPJgPhj1nSSHkY/9wqte9ozKDGT/E2v6YRUmrXytQpX/HEYAtOj7vl8znayLgUD5TvUAcupcM=
+	t=1725396147; cv=none; b=A4vH4UNNZXljqdzoUKmAq0InvcDCkKVCtLMQFbHOQKfB4WAcw+p/E+Vmd90GzBOh0pd6/luDKWw4DpdNvGe7Gg3RVO7Vq/vjVe+DiZBfGPxng+zu9RocPiAq9FQWePhPJJ2cHpfPyZ5hnv8Sa62Jn+LxBd+oiLjmI2ewykKxSBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725390664; c=relaxed/simple;
-	bh=jflcQBPDjZt/OZzaJxpRWjTsTeS1u1xR04ACHlPLDOY=;
-	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
-	 Cc:In-Reply-To:To; b=SH9EGkq1Bc+w/7F1UpcJD7rfhNI4efgZnWPMACZMiaLbmIut77QLNqwhJiXRxt4rQfKfLyJHZXN4AZrXEhhVcOGKKrBFGHH5HjpQSdSu9N7oVP+ndxOSFERlk1ORvp9cgWfUCipJzLY1diVmXa1cvgUXE9yarnpXEwE5VqH/Zig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HppV9aYq; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5c218866849so6059741a12.0
-        for <platform-driver-x86@vger.kernel.org>; Tue, 03 Sep 2024 12:11:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725390661; x=1725995461; darn=vger.kernel.org;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jflcQBPDjZt/OZzaJxpRWjTsTeS1u1xR04ACHlPLDOY=;
-        b=HppV9aYq/yOZ+4anrGT2CWA8G0YVF9NxjB0A8T/+eL600bDb/68kUF8nM0mxUCIGG0
-         LtILtsMCfzo4RdUMMNvtsFXnLcoZfcFdec4V3/ttCbZaCQJRlU+ir6IFgHkPw6oIj/AK
-         VYyHH4cujHg5kga5OWLxnswLlHJgJ+ftAq+aBM397ehB8KoTs2PzgEH4ZJDRojD/MO2A
-         3JWm2C9INIHtKgPm6VZmo+xHMGFsD6NecT9YZLlTTNm9Tg00i33xVvd3BzFMJ5/AO6nB
-         iSbceZ90Y6eCSBEzi+5UxkB8e6WROwDwepMw9fVsKuiUbuPpNFFj4BGViKLkcsoFfq1i
-         qKYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725390661; x=1725995461;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jflcQBPDjZt/OZzaJxpRWjTsTeS1u1xR04ACHlPLDOY=;
-        b=KjT6HuR7BWutgTqfgeQq8VyX4ShnBbPzCmqGlh7Xl+YmNtgrb0IgAcFX6Yyh4am0QO
-         qNuruUsxlSzFEPVzSIgKgTsj+yeduKeyXZ1AzXI9EWDR2N6lvCTY1NLj+ASjfSEjjo3/
-         MJDi5XxzXGmUJONbrQlA02acEr41lsQoY8cVG06vQ6xWv1cXEoxOG7J05MVajKnZ4DnU
-         D+Bd7UDzlfd2ECLsB+1rWpnw5+/ecRd5bdl3Lr2eHiAkrrhJUOqROMPLqiXcvMw8ZiyW
-         5IK3kT40euF29ZDmGlkklyepQ18oxgUO/uIUzYjnMAOQC3cU7/oW3O1GZVnIlgZiq5Qz
-         cFrg==
-X-Gm-Message-State: AOJu0YxT5bvMfflOW2A7uE9kMG1dX0x5k9EZ3FGsz5YLTBvjXfL7Lni9
-	bv2cdvqYyj5i2+rRaaVgoCICwduV9qEupRd348GqTwbpgF6Lk/wieHpbNw==
-X-Google-Smtp-Source: AGHT+IENUJBPheLHPyyl6tkTfsbzB3DeBLgBV6S3tg5w3O5E25gk0HLu1EX6aFiQ+zLIT7S0zhDjMQ==
-X-Received: by 2002:a17:907:e8a:b0:a86:9602:f4b with SMTP id a640c23a62f3a-a89b972952cmr776479366b.63.1725390660474;
-        Tue, 03 Sep 2024 12:11:00 -0700 (PDT)
-Received: from smtpclient.apple ([89.19.67.124])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a898900f6cfsm716500066b.60.2024.09.03.12.10.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Sep 2024 12:10:59 -0700 (PDT)
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-From: Rayan Margham <rayanmargham4@gmail.com>
+	s=arc-20240116; t=1725396147; c=relaxed/simple;
+	bh=RxI8GFXMoXcmGMJElSAc2SJChgm1aEv8s9B6Kz05nc0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RfpVLq3yh0ayQzhXNGzRzD1Ju4VHp1dJ45YTSMzYnuqdf64ho+UhAUUqYUuECMjZb6PLfUwD6WLQWi4daxeD5KEDuHKl0kXulCrOoGe/HAhzzrP96KnRsztwGMIyfHYXYBNTEizoMuoCDOS5ETgFv1cwwxvMM9BbsFcNn71L9r0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BKRvDrev; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 672D5C4CEC9;
+	Tue,  3 Sep 2024 20:42:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725396147;
+	bh=RxI8GFXMoXcmGMJElSAc2SJChgm1aEv8s9B6Kz05nc0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=BKRvDrev8R1RaIWwUsjG0gZLP+rq8TSwt90Ci44iqMBG2H2P/TC25NCxH+vzy+RzO
+	 96fqfDryLTkX943PXLlm5OnjF7lojc7mH0eKDW+Fd9e/rCgK0Mz/0r+CerCGPS02Nm
+	 mUrzrQggWSgWkSy8D8MXkHoPSfm2EBeXmldz1gBh2IF8ZVybwmN31rr/C5Gw7TeNbI
+	 g/rbGLAqVOj4N1ILeFdcWag2LnKD088lTDxlPOTdsonW2otfCpG0T3CSKmPTSeclLY
+	 mfjm7tpmKGD1KwbK0mSjVi/9Du2r705Pv7itjudsN1Zq5PBeuB/vq/MqJuKJwZPx80
+	 ckaCi5bCmJwNw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Mathieu Fenniak <mathieu@fenniak.net>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Sasha Levin <sashal@kernel.org>,
+	corentin.chary@gmail.com,
+	luke@ljones.dev,
+	hdegoede@redhat.com,
+	platform-driver-x86@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.10 11/22] platform/x86: asus-wmi: Fix spurious rfkill on UX8406MA
+Date: Tue,  3 Sep 2024 15:21:58 -0400
+Message-ID: <20240903192243.1107016-11-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240903192243.1107016-1-sashal@kernel.org>
+References: <20240903192243.1107016-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (1.0)
-Subject: Re: Add Support for the Acer Predator Triton PT14-51
-Date: Tue, 3 Sep 2024 20:10:49 +0100
-Message-Id: <62891F43-E938-4DF3-9E51-9CCE19784DA8@gmail.com>
-References: <3c63701c-f9fc-4f98-b991-58135da3fcc3@gmx.de>
-Cc: platform-driver-x86@vger.kernel.org
-In-Reply-To: <3c63701c-f9fc-4f98-b991-58135da3fcc3@gmx.de>
-To: Armin Wolf <W_Armin@gmx.de>
-X-Mailer: iPhone Mail (21G93)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.10.7
+Content-Transfer-Encoding: 8bit
 
-Hi Armin Wolf,
+From: Mathieu Fenniak <mathieu@fenniak.net>
 
-Any update on the progress for the driver?
+[ Upstream commit 9286dfd5735b9cceb6a14bdf15e13400ccb60fe7 ]
 
-Thanks,
-Rayan Margham
+The Asus Zenbook Duo (UX8406MA) has a keyboard which can be
+placed on the laptop to connect it via USB, or can be removed from the
+laptop to reveal a hidden secondary display in which case the keyboard
+operates via Bluetooth.
+
+When it is placed on the secondary display to connect via USB, it emits
+a keypress for a wireless disable. This causes the rfkill system to be
+activated disconnecting the current wifi connection, which doesn't
+reflect the user's true intention.
+
+Detect this hardware and suppress any wireless switches from the
+keyboard; this keyboard does not have a wireless toggle capability so
+these presses are always spurious.
+
+Signed-off-by: Mathieu Fenniak <mathieu@fenniak.net>
+Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Link: https://lore.kernel.org/r/20240823135630.128447-1-mathieu@fenniak.net
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/platform/x86/asus-nb-wmi.c | 20 +++++++++++++++++++-
+ drivers/platform/x86/asus-wmi.h    |  1 +
+ 2 files changed, 20 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
+index fceffe2082ec5..ed3633c5955d9 100644
+--- a/drivers/platform/x86/asus-nb-wmi.c
++++ b/drivers/platform/x86/asus-nb-wmi.c
+@@ -145,6 +145,10 @@ static struct quirk_entry quirk_asus_ignore_fan = {
+ 	.wmi_ignore_fan = true,
+ };
+ 
++static struct quirk_entry quirk_asus_zenbook_duo_kbd = {
++	.ignore_key_wlan = true,
++};
++
+ static int dmi_matched(const struct dmi_system_id *dmi)
+ {
+ 	pr_info("Identified laptop model '%s'\n", dmi->ident);
+@@ -516,6 +520,15 @@ static const struct dmi_system_id asus_quirks[] = {
+ 		},
+ 		.driver_data = &quirk_asus_ignore_fan,
+ 	},
++	{
++		.callback = dmi_matched,
++		.ident = "ASUS Zenbook Duo UX8406MA",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "UX8406MA"),
++		},
++		.driver_data = &quirk_asus_zenbook_duo_kbd,
++	},
+ 	{},
+ };
+ 
+@@ -630,7 +643,12 @@ static void asus_nb_wmi_key_filter(struct asus_wmi_driver *asus_wmi, int *code,
+ 	case 0x32: /* Volume Mute */
+ 		if (atkbd_reports_vol_keys)
+ 			*code = ASUS_WMI_KEY_IGNORE;
+-
++		break;
++	case 0x5D: /* Wireless console Toggle */
++	case 0x5E: /* Wireless console Enable */
++	case 0x5F: /* Wireless console Disable */
++		if (quirks->ignore_key_wlan)
++			*code = ASUS_WMI_KEY_IGNORE;
+ 		break;
+ 	}
+ }
+diff --git a/drivers/platform/x86/asus-wmi.h b/drivers/platform/x86/asus-wmi.h
+index cc30f18538472..d02f15fd3482f 100644
+--- a/drivers/platform/x86/asus-wmi.h
++++ b/drivers/platform/x86/asus-wmi.h
+@@ -40,6 +40,7 @@ struct quirk_entry {
+ 	bool wmi_force_als_set;
+ 	bool wmi_ignore_fan;
+ 	bool filter_i8042_e1_extended_codes;
++	bool ignore_key_wlan;
+ 	enum asus_wmi_tablet_switch_mode tablet_switch_mode;
+ 	int wapf;
+ 	/*
+-- 
+2.43.0
+
 
