@@ -1,61 +1,61 @@
-Return-Path: <platform-driver-x86+bounces-5201-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-5203-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5886C969DD9
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Sep 2024 14:40:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EF79969DDC
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Sep 2024 14:40:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 11AD02825C5
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Sep 2024 12:40:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 31A161C21561
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Sep 2024 12:40:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D8071D86D2;
-	Tue,  3 Sep 2024 12:39:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BA571D86FC;
+	Tue,  3 Sep 2024 12:39:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vrg52K7D"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="3AvWPfN+"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2067.outbound.protection.outlook.com [40.107.244.67])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2080.outbound.protection.outlook.com [40.107.236.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ECD21CE6F5
-	for <platform-driver-x86@vger.kernel.org>; Tue,  3 Sep 2024 12:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826511CE6F5
+	for <platform-driver-x86@vger.kernel.org>; Tue,  3 Sep 2024 12:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.80
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725367150; cv=fail; b=LDemYk8jIlPkW6VzEe839Ymxjl/8fP+GJab11E+K0SfgMbJExGFsSy9JjINjNleBB+EQS0CxBoFIGFdl5F1QsfUSY+PO9ZPEnw524q7MMVVsdrY3yuHn8KWAEp6VNVLI8vwaogob7Hxs/LzWuroBsPKgsb0ElnJ3Go2sosJirSk=
+	t=1725367152; cv=fail; b=vELT0q1VaJMWKJ9uYFGHt6IWhDMU/V/kzIpI5WvRHtPXzw4NdCxAlsR5TC7rKwelsIMDacILq5Hpps6dDBzuGyGyJ64PJnq82M9m25W/f//W8a20PwUlqgN3XDjfJSlQNkFpKdM1bkHvF7/jPWoRrxNixi0lS98XJYtQDy4Xgw8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725367150; c=relaxed/simple;
-	bh=dSKNd7V0rbBEQnkWFIQurqqa2+vjQNrstGwSsI4Mspo=;
+	s=arc-20240116; t=1725367152; c=relaxed/simple;
+	bh=4dUDWuq9zno2fSubecIwY4Zj417YXfeNifgFbdGmLtI=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DxSPL4ARxznxsPuV26HkR5zeFcm7iErCm+LRqHSYrt6dRT7jy+86Rv24z5Elff/PILqWmPk/XYHAaDy6VLj23tnEFvTNU6qAuOPrnXPmQTkYXsXXMFHkwre1AdDdfPG64czMAbnSknvirC34/frYBlitndveCgN28x/RTyIEvoY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vrg52K7D; arc=fail smtp.client-ip=40.107.244.67
+	 MIME-Version:Content-Type; b=oaTSpq6w5IQ34hksRvq9eRev238fwu6+zKS4lprSqbCwIhB9ROQjY/F++6viCrYxPZENoPP+LkYrOVueSllmgDyMqzTbsguSf33FGr7P4E32tkS4BgbYmdV67N4BBK6PlMQEZFM/1WO5RiDbhAPqqEdQ/6zFNA+MyxqsETc+HSw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=3AvWPfN+; arc=fail smtp.client-ip=40.107.236.80
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=L6n12ENvVy8efgt1HoTCoaRKbMsmrP90gNjCg5B/rA4hGYk30h5E/ha7qxHxHCLuy/qWuxibpnfrhVpYnXoKkerA8mOgk4CkMdZMBqO5sBYtHBloXttObbL9jfrN8JB1pukvVm18ZIxsHSMdSYtlN/wihdxDIeaQtfxovC8EvO3zgFKJdCjm6E/Mxu1dMcPE/WHOSMnA7xFLfGzWQToOlxpu15L4ujvCoAjuOR+TTjPczdZeJbMotHZO7WKpoQvHmTqCWb7sAHHZI0XIrV2XneYd+2Lc8NYgGePFXphnI8D3kIobt3Am05Y4ynf2DJ4tYIwubBcHrEiWoyMeEy0t4A==
+ b=b6nHzFZ4Jk8D+gtwPAOtNgnxWxjX/H8GKDFlhEBjGfwiRkuEsuvSNygdKKzegm+DK6erkzwjNEW+t85cpLahWMub72seYlUW62vO7L5CwTlt8WKAz6OHpZ8BOvwB25tXNaps/r8v+oUr8Pij8rIfXkVXJzJ47ebGEeB2Wap6ubvuDgoL1184I6ATPcsygcxn5emIfR6jMztne3CvgMXrCjP2QWL38GnNED/bEhiCIPaqz95wS1OMeOADfjigocLJp4mSS1zQTW3KCl8RxyzCjJwXJZnEWqp5Aj8rIfHhvhyxb8d1VmTMtrJBSSj2utYEtK0EUSFkllhHF5UCkp0vng==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LNazj1u7/aJ9Durh8mptior5dwLufRAmYpGxNbnZdk8=;
- b=rF7AM9gBbYBHbFeu+88h5tpKbflxaSX7IAVvoMghGL8aHLx2FgchH7q+qIq9acbubZhkNNQT0ePFQK9o3I6HyQj0jgRKPLva9xktEFRIkH1zbaVYn7nnwh45EEpbuVK796BOoIO8XxClYnzHBnz0J/QwueKprqxl2Pjkb+TRpUM3jplx87IFSo8dELq/7Z/QzLSb85PfOJ0Jk2FiTDu2XXvZdI90wfkYUOJt5BaEY5HEEi336ElixJtm3+lVAWRspkWz2ZHGYYetmwsmG9u5ofyym8JeJeSLe/AgUKSruPCM/yMvyVf2JXYJ+6kYVlvNFdpkvKLgoOmdONYgPKA6/Q==
+ bh=o6JYZFykt/wEZecREyeVCT87LRiFgmSKn7+piIloYy4=;
+ b=KxLr+mgEC5c4rLxXQlSeglomw5aFqSDMDEvLsIXUyDKMcJdhj3uBfUt13lJHLFiqfQNqdYWoWXS6BiIWxNV0R3aU0sJpFZH2JrFYGLxay10j5BAGl2X7zmTdCoEaP8vh8cpKalIUzMXmIUlUSQRnw4XJHJXqpYkaP1RfcIpG84e4GnEtBonu8Nnwdtzf3ZkNG8zC9gSO+/yeujk0sMH66URqsMx1Fb6Jedy2Tv6D9B9mVv59Nv5h5lS1rQys88yIMFW+FGFlSekmh5FeONmIezRsAMEXQ5/oq3sGNCSaLEnHKzR6NRbfWHmSirkc1y7gt6lcUlPjQqPWn6TtSfD+CQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LNazj1u7/aJ9Durh8mptior5dwLufRAmYpGxNbnZdk8=;
- b=vrg52K7D6epxq7kFgOSULZGsSAPFG8CJse6I4DvaAO8anOXihnjE8a0Mt6kALJ24zTNzd1t+1M4jUa6MWdwPFacAIyd0212AJcXpi/hpsqJAseGiCehZvsdLWHn9Mhk+UXqbXJp2iBWawcKq85bjO4UY8QKyGr+NHA6eZPNo6uw=
-Received: from MN2PR05CA0055.namprd05.prod.outlook.com (2603:10b6:208:236::24)
- by DS7PR12MB8420.namprd12.prod.outlook.com (2603:10b6:8:e9::14) with
+ bh=o6JYZFykt/wEZecREyeVCT87LRiFgmSKn7+piIloYy4=;
+ b=3AvWPfN+nUd3F/ThmDuUr4SJdN+OomABOcwgzGAy9G7PPl4EP77aaBOLZLh4t+4EVhMe1O/dvOjadRKbKVOmJonmJkIDVg4bEdypIDdq8Gy938Rjt0ky3jvgXu0nmNtpgrni7Cx+PWejxO9LMsXSh22flwtzfOa7VhKhlPrNyF8=
+Received: from BL1PR13CA0380.namprd13.prod.outlook.com (2603:10b6:208:2c0::25)
+ by SJ0PR12MB6992.namprd12.prod.outlook.com (2603:10b6:a03:483::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.25; Tue, 3 Sep
- 2024 12:39:03 +0000
-Received: from BL02EPF00029927.namprd02.prod.outlook.com
- (2603:10b6:208:236:cafe::55) by MN2PR05CA0055.outlook.office365.com
- (2603:10b6:208:236::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.14 via Frontend
- Transport; Tue, 3 Sep 2024 12:39:02 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.24; Tue, 3 Sep
+ 2024 12:39:05 +0000
+Received: from BL02EPF0002992E.namprd02.prod.outlook.com
+ (2603:10b6:208:2c0:cafe::bf) by BL1PR13CA0380.outlook.office365.com
+ (2603:10b6:208:2c0::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.12 via Frontend
+ Transport; Tue, 3 Sep 2024 12:39:05 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -63,21 +63,21 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
 Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BL02EPF00029927.mail.protection.outlook.com (10.167.249.52) with Microsoft
+ BL02EPF0002992E.mail.protection.outlook.com (10.167.249.59) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7918.13 via Frontend Transport; Tue, 3 Sep 2024 12:39:02 +0000
+ 15.20.7918.13 via Frontend Transport; Tue, 3 Sep 2024 12:39:04 +0000
 Received: from amd.amd.com (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 3 Sep
- 2024 07:39:00 -0500
+ 2024 07:39:02 -0500
 From: Suma Hegde <suma.hegde@amd.com>
 To: <platform-driver-x86@vger.kernel.org>
 CC: <ilpo.jarvinen@linux.intel.com>, <hdegoede@redhat.com>, Suma Hegde
 	<suma.hegde@amd.com>, Naveen Krishna Chatradhi
 	<naveenkrishna.chatradhi@amd.com>
-Subject: [v7 07/10] platform/x86/amd/hsmp: Change generic plat_dev name to hsmp_pdev
-Date: Tue, 3 Sep 2024 12:38:27 +0000
-Message-ID: <20240903123830.2717196-7-suma.hegde@amd.com>
+Subject: [v7 08/10] platform/x86/amd/hsmp: Create mutually exclusive ACPI and plat drivers
+Date: Tue, 3 Sep 2024 12:38:28 +0000
+Message-ID: <20240903123830.2717196-8-suma.hegde@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240903123830.2717196-1-suma.hegde@amd.com>
 References: <20240903123830.2717196-1-suma.hegde@amd.com>
@@ -87,354 +87,893 @@ List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB03.amd.com
  (10.181.40.144)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF00029927:EE_|DS7PR12MB8420:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4b900af3-ebef-45ef-2ff0-08dccc156455
+X-MS-TrafficTypeDiagnostic: BL02EPF0002992E:EE_|SJ0PR12MB6992:EE_
+X-MS-Office365-Filtering-Correlation-Id: f0b5e53c-7afb-4e1c-1a95-08dccc15659b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|1800799024|376014|82310400026;
+	BCL:0;ARA:13230040|36860700013|376014|82310400026|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?akJsOHBMd3dZb2lFNU1QbERoajlGa2dETTIySDFURmdQdTNTMUgzMDdPWFZh?=
- =?utf-8?B?YnhoL1R4WWhTdzhSY0ZlTDJkdExVaUhHQ3kwMjREbGJDS3lMUm9Kby84WCtI?=
- =?utf-8?B?VWVRdkpVZk9kN2dwZUFPS0U0L0VMNDJiTVFkbmYyNFh6Zzg4a2YrVGtNLzZt?=
- =?utf-8?B?SWVrWHpsVWQ0VTlGd1dqelpEeG9QY3VIbGt2OHhhUWJtL21paWZ0VmRVN25D?=
- =?utf-8?B?RFpzU0FXZk4xbXdER1YxdG16cDQyaGtVUlZwSmlmdk1IQmticHFuNFZ4SXZF?=
- =?utf-8?B?QzU4bTlYL2dyckpoSzB1TzlkY2RQTWRTbG5vNDNKZ0J4dzBxVEZmRjJCbzEz?=
- =?utf-8?B?blBVelY0Nlo5Y2REKzZReVJKU1BaaWptZ01ud3lRN3Q0Yyt0NUxOTDhhQkZJ?=
- =?utf-8?B?Y2drd2pHY2NQbnl3TDRWRmpzckFoZFR5VjNtRm8zNy92MzF2RzcxTDQrRlly?=
- =?utf-8?B?Vkt5Z1lyTG5iaDJUWHp5UXBaREFsajEzUVlsMkF4V0lCZUdNQ2k4TmRrWVZm?=
- =?utf-8?B?RDFjQ1ZTUGJnRzJLUFNkcHlCQzJQY1AveWNPYnpIamMxUXV5Rmc3ZCtIZExJ?=
- =?utf-8?B?MVI3dXM3OUxiRzZJTVgzNjJXTCtQWGUrZ1VRMHA0d2hjTVRGWm1IdXVCWVNh?=
- =?utf-8?B?K1NxeHBPdGJyczZ0OXUvTGFYekdSWWY5Zm1YMFlRSno0b2JsVlFkU1lQOEpm?=
- =?utf-8?B?Unlkd0p5WFBnWmR6eUp3WWZ0SU4yNjhBTFhBQlU5bXR6bHpsRzdvbWdhRGlT?=
- =?utf-8?B?ZFZrVHFWaFYvYnllbDhtYXNDNWJqL0ttVm1rTGJoaHpGUVUxLy9FY1BTcnVz?=
- =?utf-8?B?N3hkSVhLMjF6MFF3N25HYU5aQ2FUMzJXc2wrNmFxMFR1YUVQaUovdkdtem1G?=
- =?utf-8?B?R09oOUQvb1NXMmJLTWJBa3JRQWlUdGlsL1ZVZ3JMeDRoQ1dMUk4zSWg4VEJa?=
- =?utf-8?B?dG5Xb1RER3B5YmxOZ1BwU3lJK280ekJDNEd4a0Z6ZUFYMXRhYXVlbHVEYnBD?=
- =?utf-8?B?UExzNjdIZFZ1K3RhaTk1eGhMYWcrd0Q5eENWSTY4UlAzcTI0TjlmOHZtQldj?=
- =?utf-8?B?ZkhLc012T3Q1WHBYV0o2Y2NWTXFzK0xvTURjK2plMHB5R0pWVmg1UWZBcVNa?=
- =?utf-8?B?eVlaeFVvWVFzUWhkbDRwSU50bjBYRjNhYVFmYlNtazMyL1Y4OHVOVmFnVmQ2?=
- =?utf-8?B?Y2dDM2ttc1ZJQVFNVzdDQXV1ZUQ1ZjI2Wlg1NUJ4L0I5RE81MmVkNGJaVVFQ?=
- =?utf-8?B?VXdXYldGY3drVHVydVoxMGI3ZkJHSE5ISzltTGJKTW5XS045cnIvQ3lrc1Ir?=
- =?utf-8?B?SDBlRmdiOEwweTBkQUFRUVQzaW5US1AwdXp6L1JuemM3cnBCK2VTMm1ycHhX?=
- =?utf-8?B?M2dyZ204WTJKNEI1dlErdXJleDhiRDczQURMNlppbFBQbnhBdTU2a25SQ0Ns?=
- =?utf-8?B?MjFxYmhwVXhHQWFZYzJqcmgxWVZyZkZNMUFvNFVvSVI2Uks5NTdJK1Y2TllV?=
- =?utf-8?B?RFdDbWdSalZ4Tjk4ZTFLdzJwa2k0V0ZXR2REY1pzMnRrYXNOeG5TNHVsUWhx?=
- =?utf-8?B?eWZkd2tsS255K0J4dytCa2d1MkYvcWU4TkJDMTlMNDIwRnNpWjNmVFI1TFgv?=
- =?utf-8?B?a0pPdHIySms2dVhibkdKY2dkL3FkWjgzQllPK0ZVMGpidkxQOVFiVWpTZGtz?=
- =?utf-8?B?aXFpNVVzeUF5dExHbEovZjAvWmZkblZWcHJpVS92blllT2RDb3h1ZG9zNnNB?=
- =?utf-8?B?ZjZONDZIR1h1eXdGN0lmNFVKZFFnREZoaVNxUytRVldMV0VzM2xTcnlxOS9J?=
- =?utf-8?B?cUpLQytFUFRGQU0vYlhBM0Q4RThnQ2ZmMTVSNUJPbm5OZk44R29RaFgzcFp4?=
- =?utf-8?B?ZjFDMElBOGJuMHI1RHBxODl5bnJKb2ZYeWNrbXdFN3g0clpwcGUvR3FISm1q?=
- =?utf-8?Q?5lYlrM2pNoN0XEsM9IgudvxDkUw3V7sI?=
+	=?us-ascii?Q?at9z11ptMpHKrrQMOzGh0IESGV+GzwrH1yWMRuv0ZannLCxvgNRLBeqvfSb9?=
+ =?us-ascii?Q?8gTfEqp1IfH8je5E2Qev6MouecQm5WIzRLAcJGhYjpDcDD7MptNU8uVu2ucw?=
+ =?us-ascii?Q?EUTlJ6sWLfvGarQxn2/C+z60LYiY7oCx75RvC0Q7h6xQ8RiM1hAS/RJw1vpE?=
+ =?us-ascii?Q?ISq9JxXyh3HC5jynmMr0pAglTAqgb4aP0BB3KVuE1+hRHdXAFigumH1/V+51?=
+ =?us-ascii?Q?TKNLiY2mN3aOk/4FhKbL2Oi9zfg9LB4Mi+q18R2MjdVrr4/Eb86ZBuA+VUWG?=
+ =?us-ascii?Q?+KypO9xFJYOPQjfI2BWE1ki4Ohgi/ZzQZ3gLlq7bTypYc+h6ErnaIVMyI4cc?=
+ =?us-ascii?Q?RMhlSAoqOZil88xAqg8Vh/MVaDxVKEoDShtKDdGsos2r/IU2nv+mYMNAaH7c?=
+ =?us-ascii?Q?+ShsNk487B8UmbIYmS1uoqsmlvc77DoBEiwx61QfF/rSMZpHuqmj40Meo0wH?=
+ =?us-ascii?Q?msAfiK/1NAx+PX8Fp1aoBRU2unmxlqHr1KQeKijo9MbxSZqM2ajC/MFj/9eS?=
+ =?us-ascii?Q?oS71GS8+O+QUkYBYnxST0vherwedGHUBWelFjAobDGwLSbEm0pIqjt7GaVcO?=
+ =?us-ascii?Q?ah7Qt1ghj8Ef2DC8Lsl34JIrRTMDJilMPX4ZWNDYO9Wlb1MyuEzAdFkVbwV6?=
+ =?us-ascii?Q?Oc17E4XBtsX/SASdz3DTvfpnJlldifELaQACKtizsjJkqlTi71FS2RxKXZlQ?=
+ =?us-ascii?Q?ZXmTLp27OEI6efxddfef5u0n42p9s6m5334Bkki3JfaE+osCUtH6CJf6p2ec?=
+ =?us-ascii?Q?l1V9ZJe1Rb1LD7Becq7mYm41FaWRT9BaZbNnInXYH5VmhQ6yJCrTX40W+96x?=
+ =?us-ascii?Q?T+pl9Bg5rVOtB9pu2muJzA/QDTq8sgIll0zh1hEC4KGQu9573qvUTvyoAzEV?=
+ =?us-ascii?Q?Nj1aKyDmiTV8MC7oMj0PyqQdgi99fTtpaGq3RS5LRXohDw5xl+F/XWhQSlVk?=
+ =?us-ascii?Q?6USomKziev4x0lfEIxtMX6/vkNoUh39BuwUzv7ZT0gwU543Si/n+jUrlxnp0?=
+ =?us-ascii?Q?y0v2bhxIlqj0kip8sf2OV8wQqDgub98tyta6BaUCtolwCutd4ab7Tdn7oGvt?=
+ =?us-ascii?Q?F8sNDZRRXVI5urLYGWgojnLlWuWtVWC3q+2B1uAVLTMKN8X13503tyxjnl7S?=
+ =?us-ascii?Q?utGw3Of+isrvsmvldBCkvE/od0rP3ImkSyBsUqEFxQxuLrgcsKynrTdiq6/a?=
+ =?us-ascii?Q?6a0zs0nUPlcSCQHX5BFE+Ko8WpF3hY3xj7iI0zH2mgLz/W5tUGKopreUmiGD?=
+ =?us-ascii?Q?1upfXLoPhUzgV2SET5Te4sMZgunaaYvjfcCcUkpUPEriAmPFlGs5rhD7fWnq?=
+ =?us-ascii?Q?ZmEyuDO1rKeLJ+E64lWCi7GN+IgB1XwuQEOhqT88OWCRTjHnRWsugg5b+j7m?=
+ =?us-ascii?Q?SrFsxKwafM524tRcTwtn5f4ETEn90mLuAomsFk/eZruvMi7EKZ4akgC/F7Oa?=
+ =?us-ascii?Q?b5RUUjZ2/n7yfsrifMseaLeQPYgYoIcX?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2024 12:39:02.8670
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2024 12:39:04.9873
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b900af3-ebef-45ef-2ff0-08dccc156455
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0b5e53c-7afb-4e1c-1a95-08dccc15659b
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	BL02EPF00029927.namprd02.prod.outlook.com
+	BL02EPF0002992E.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8420
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6992
 
-plat_dev is a commonly used variable name, since its made as extern now,
-change it to more specific name.
-Also change miscdevice hsmp_device to mdev.
+Separate the probes for HSMP ACPI and platform device drivers.
+
+Provide a Kconfig option to choose between
+ACPI or the platform device based driver.
+The common code which is the core part of the HSMP driver
+maintained at hsmp.c is guarded by AMD_HSMP config and is selected by
+these two driver configs.
+
+Also add "|| COMPILE_TEST" clause in Kconfig to get build coverage
+for HSMP.
 
 Signed-off-by: Suma Hegde <suma.hegde@amd.com>
 Reviewed-by: Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 ---
 Changes since v6:
-None
+1. Keep the SPDX license line same as original hsmp.c file.
+2. Reflow the paragraph in amd_hsmp.rst.
 
 Changes since v5:
-None
+1. Update documentation to reduce line length, update SPDK line and update the wordings.
+2. Change module license from GPL v2 to GPL and update SPDX license line in plat.c and acpi.c.
+3. Update Kconfig with amd_hsmp.rst document name.
 
 Changes since v4:
-Add  Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+1. Update commit description.
+2. Move common code from plat.c and acpi.c to hsmp.c and name it as hsmp_misc_register()
+   and hsmp_misc_deregister().
+3. Reduce line size in documentation.
+4. Remove check_acpi_support() related code.
 
 Changes since v3:
-code indentation is removed in hsmp_parse_acpi_table().
+1. Added documentation for ACPI object.
+2. Kconfig is updated.
+3. Added COMPILE_TEST clause in Kconfig.
 
 Changes since v2:
-None
+Following files are modified to add new symbol
+ - drivers/platform/x86/amd/hsmp/Kconfig, 
+ - drivers/platform/x86/amd/hsmp/Makefile
+ - drivers/platform/x86/amd/Makefile
+AMD_HSMP is used as common symbol and new AMD_HSMP_PLAT symbol is added
 
 Changes since v1:
-1. This is a new patch to rename generic name "plat_dev"
-   in hsmp.h, hsmp.c, plat.c and acpi.c to more specific name "hsmp_pdev"
-2. Rename miscdevice hsmp_device to mdev.
+Rename "plat_dev" to "hsmp_pdev"
 
- drivers/platform/x86/amd/hsmp/acpi.c |  6 +--
- drivers/platform/x86/amd/hsmp/hsmp.c | 60 ++++++++++++++--------------
- drivers/platform/x86/amd/hsmp/hsmp.h |  4 +-
- drivers/platform/x86/amd/hsmp/plat.c | 12 +++---
- 4 files changed, 41 insertions(+), 41 deletions(-)
+ Documentation/arch/x86/amd_hsmp.rst    |  66 +++++++-
+ arch/x86/include/asm/amd_hsmp.h        |   2 +-
+ drivers/platform/x86/amd/Makefile      |   2 +-
+ drivers/platform/x86/amd/hsmp/Kconfig  |  37 ++++-
+ drivers/platform/x86/amd/hsmp/Makefile |   6 +-
+ drivers/platform/x86/amd/hsmp/acpi.c   |  82 +++++++++-
+ drivers/platform/x86/amd/hsmp/hsmp.c   | 212 ++-----------------------
+ drivers/platform/x86/amd/hsmp/hsmp.h   |   8 +-
+ drivers/platform/x86/amd/hsmp/plat.c   | 144 ++++++++++++++++-
+ 9 files changed, 341 insertions(+), 218 deletions(-)
 
+diff --git a/Documentation/arch/x86/amd_hsmp.rst b/Documentation/arch/x86/amd_hsmp.rst
+index 1e499ecf5f4e..e4b4bbeed643 100644
+--- a/Documentation/arch/x86/amd_hsmp.rst
++++ b/Documentation/arch/x86/amd_hsmp.rst
+@@ -4,8 +4,9 @@
+ AMD HSMP interface
+ ============================================
+ 
+-Newer Fam19h EPYC server line of processors from AMD support system
+-management functionality via HSMP (Host System Management Port).
++Newer Fam19h(model 0x00-0x1f, 0x30-0x3f, 0x90-0x9f, 0xa0-0xaf),
++Fam1Ah(model 0x00-0x1f) EPYC server line of processors from AMD support
++system management functionality via HSMP (Host System Management Port).
+ 
+ The Host System Management Port (HSMP) is an interface to provide
+ OS-level software with access to system management functions via a
+@@ -16,14 +17,24 @@ More details on the interface can be found in chapter
+ Eg: https://www.amd.com/content/dam/amd/en/documents/epyc-technical-docs/programmer-references/55898_B1_pub_0_50.zip
+ 
+ 
+-HSMP interface is supported on EPYC server CPU models only.
++HSMP interface is supported on EPYC line of server CPUs and MI300A (APU).
+ 
+ 
+ HSMP device
+ ============================================
+ 
+-amd_hsmp driver under the drivers/platforms/x86/ creates miscdevice
+-/dev/hsmp to let user space programs run hsmp mailbox commands.
++amd_hsmp driver under drivers/platforms/x86/amd/hsmp/ has separate driver files
++for ACPI object based probing and platform device based probing. These two
++drivers are mutually exclusive drivers with compile time Kconfig options to
++choose between them. Both the drivers create the miscdevice /dev/hsmp to let
++user space programs run hsmp mailbox commands.
++
++The ACPI object format supported by the driver is defined below.
++
++Kconfig option CONFIG_AMD_HSMP compiles plat.c + hsmp.c
++for platform device based probing.
++Kconfig option CONFIG_AMD_HSMP_ACPI compiles acpi.c + hsmp.c
++for ACPI object based probing.
+ 
+ $ ls -al /dev/hsmp
+ crw-r--r-- 1 root root 10, 123 Jan 21 21:41 /dev/hsmp
+@@ -59,6 +70,51 @@ Note: lseek() is not supported as entire metrics table is read.
+ Metrics table definitions will be documented as part of Public PPR.
+ The same is defined in the amd_hsmp.h header.
+ 
++ACPI device object format
++=========================
++The ACPI object format expected from the amd_hsmp driver
++for socket with ID00 is given below.
++
++Device(HSMP)
++		{
++			Name(_HID, "AMDI0097")
++			Name(_UID, "ID00")
++			Name(HSE0, 0x00000001)
++			Name(RBF0, ResourceTemplate()
++			{
++				Memory32Fixed(ReadWrite, 0xxxxxxx, 0x00100000)
++			})
++			Method(_CRS, 0, NotSerialized)
++			{
++				Return(RBF0)
++			}
++			Method(_STA, 0, NotSerialized)
++			{
++				If(LEqual(HSE0, One))
++				{
++					Return(0x0F)
++				}
++				Else
++				{
++					Return(Zero)
++				}
++			}
++			Name(_DSD, Package(2)
++			{
++				Buffer(0x10)
++				{
++					0x9D, 0x61, 0x4D, 0xB7, 0x07, 0x57, 0xBD, 0x48,
++					0xA6, 0x9F, 0x4E, 0xA2, 0x87, 0x1F, 0xC2, 0xF6
++				},
++				Package(3)
++				{
++					Package(2) {"MsgIdOffset", 0x00010934},
++					Package(2) {"MsgRspOffset", 0x00010980},
++					Package(2) {"MsgArgOffset", 0x000109E0}
++				}
++			})
++		}
++
+ 
+ An example
+ ==========
+diff --git a/arch/x86/include/asm/amd_hsmp.h b/arch/x86/include/asm/amd_hsmp.h
+index 03c2ce3edaf5..ada14e55f9f4 100644
+--- a/arch/x86/include/asm/amd_hsmp.h
++++ b/arch/x86/include/asm/amd_hsmp.h
+@@ -5,7 +5,7 @@
+ 
+ #include <uapi/asm/amd_hsmp.h>
+ 
+-#if IS_ENABLED(CONFIG_AMD_HSMP)
++#if IS_ENABLED(CONFIG_AMD_HSMP) || IS_ENABLED(CONFIG_AMD_HSMP_ACPI)
+ int hsmp_send_message(struct hsmp_message *msg);
+ #else
+ static inline int hsmp_send_message(struct hsmp_message *msg)
+diff --git a/drivers/platform/x86/amd/Makefile b/drivers/platform/x86/amd/Makefile
+index 96ec24c8701b..f0b2fe81c685 100644
+--- a/drivers/platform/x86/amd/Makefile
++++ b/drivers/platform/x86/amd/Makefile
+@@ -5,6 +5,6 @@
+ #
+ 
+ obj-$(CONFIG_AMD_PMC)		+= pmc/
+-obj-y				+= hsmp/
++obj-$(CONFIG_AMD_HSMP)		+= hsmp/
+ obj-$(CONFIG_AMD_PMF)		+= pmf/
+ obj-$(CONFIG_AMD_WBRF)		+= wbrf.o
+diff --git a/drivers/platform/x86/amd/hsmp/Kconfig b/drivers/platform/x86/amd/hsmp/Kconfig
+index b55d4ed9bceb..b10ff91e9f5a 100644
+--- a/drivers/platform/x86/amd/hsmp/Kconfig
++++ b/drivers/platform/x86/amd/hsmp/Kconfig
+@@ -4,14 +4,45 @@
+ #
+ 
+ config AMD_HSMP
+-	tristate "AMD HSMP Driver"
+-	depends on AMD_NB && X86_64 && ACPI
++	tristate
++
++menu "AMD HSMP Driver"
++	depends on AMD_NB || COMPILE_TEST
++
++config AMD_HSMP_ACPI
++	tristate "AMD HSMP ACPI device driver"
++	depends on ACPI
++	select AMD_HSMP
+ 	help
++	  Host System Management Port (HSMP) interface is a mailbox interface
++	  between the x86 core and the System Management Unit (SMU) firmware.
+ 	  The driver provides a way for user space tools to monitor and manage
+-	  system management functionality on EPYC server CPUs from AMD.
++	  system management functionality on EPYC and MI300A server CPUs
++	  from AMD.
++
++	  This option supports ACPI based probing.
++	  You may enable this, if your platform BIOS provides an ACPI object
++	  as described in amd_hsmp.rst document.
++
++	  If you choose to compile this driver as a module the module will be
++	  called amd_hsmp.
+ 
++config AMD_HSMP_PLAT
++	tristate "AMD HSMP platform device driver"
++	depends on AMD_HSMP_ACPI=n
++	select AMD_HSMP
++	help
+ 	  Host System Management Port (HSMP) interface is a mailbox interface
+ 	  between the x86 core and the System Management Unit (SMU) firmware.
++	  The driver provides a way for user space tools to monitor and manage
++	  system management functionality on EPYC and MI300A server CPUs
++	  from AMD.
++
++	  This option supports platform device based probing.
++	  You may enable this, if your platform BIOS does not provide
++	  HSMP ACPI object.
+ 
+ 	  If you choose to compile this driver as a module the module will be
+ 	  called amd_hsmp.
++
++endmenu
+diff --git a/drivers/platform/x86/amd/hsmp/Makefile b/drivers/platform/x86/amd/hsmp/Makefile
+index 0cc92865c0a2..18d9a0d1e8c5 100644
+--- a/drivers/platform/x86/amd/hsmp/Makefile
++++ b/drivers/platform/x86/amd/hsmp/Makefile
+@@ -4,5 +4,7 @@
+ # AMD HSMP Driver
+ #
+ 
+-obj-$(CONFIG_AMD_HSMP)		+= amd_hsmp.o
+-amd_hsmp-objs			:= hsmp.o plat.o acpi.o
++obj-$(CONFIG_AMD_HSMP)			+= amd_hsmp.o
++amd_hsmp-objs				:= hsmp.o
++amd_hsmp-$(CONFIG_AMD_HSMP_PLAT)	+= plat.o
++amd_hsmp-$(CONFIG_AMD_HSMP_ACPI)	+= acpi.o
 diff --git a/drivers/platform/x86/amd/hsmp/acpi.c b/drivers/platform/x86/amd/hsmp/acpi.c
-index 61c072216fb7..6f8e7962266a 100644
+index 6f8e7962266a..766617e6adc7 100644
 --- a/drivers/platform/x86/amd/hsmp/acpi.c
 +++ b/drivers/platform/x86/amd/hsmp/acpi.c
-@@ -194,13 +194,13 @@ static int hsmp_read_acpi_crs(struct hsmp_socket *sock)
- /* Parse the ACPI table to read the data */
- static int hsmp_parse_acpi_table(struct device *dev, u16 sock_ind)
- {
--	struct hsmp_socket *sock = &plat_dev.sock[sock_ind];
-+	struct hsmp_socket *sock = &hsmp_pdev.sock[sock_ind];
- 	int ret;
+@@ -9,11 +9,15 @@
  
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
++#include <asm/amd_nb.h>
++
+ #include <linux/acpi.h>
+ #include <linux/device.h>
+ #include <linux/dev_printk.h>
+ #include <linux/ioport.h>
+ #include <linux/kstrtox.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
+ #include <linux/sysfs.h>
+ #include <linux/uuid.h>
+ 
+@@ -21,6 +25,10 @@
+ 
+ #include "hsmp.h"
+ 
++#define DRIVER_NAME		"amd_hsmp"
++#define DRIVER_VERSION		"2.3"
++#define ACPI_HSMP_DEVICE_HID	"AMDI0097"
++
+ /* These are the strings specified in ACPI table */
+ #define MSG_IDOFF_STR		"MsgIdOffset"
+ #define MSG_ARGOFF_STR		"MsgArgOffset"
+@@ -200,7 +208,6 @@ static int hsmp_parse_acpi_table(struct device *dev, u16 sock_ind)
  	sock->sock_ind		= sock_ind;
  	sock->dev		= dev;
  	sock->amd_hsmp_rdwr	= amd_hsmp_acpi_rdwr;
--	plat_dev.is_acpi_device	= true;
-+	hsmp_pdev.is_acpi_device	= true;
+-	hsmp_pdev.is_acpi_device	= true;
  
  	sema_init(&sock->hsmp_sem, 1);
  
-@@ -244,7 +244,7 @@ int init_acpi(struct device *dev)
- 	ret = hsmp_get_uid(dev, &sock_ind);
- 	if (ret)
- 		return ret;
--	if (sock_ind >= plat_dev.num_sockets)
-+	if (sock_ind >= hsmp_pdev.num_sockets)
- 		return -EINVAL;
+@@ -213,7 +220,7 @@ static int hsmp_parse_acpi_table(struct device *dev, u16 sock_ind)
+ 	return hsmp_read_acpi_dsd(sock);
+ }
  
- 	ret = hsmp_parse_acpi_table(dev, sock_ind);
-diff --git a/drivers/platform/x86/amd/hsmp/hsmp.c b/drivers/platform/x86/amd/hsmp/hsmp.c
-index 573867c17fd5..78945750d590 100644
---- a/drivers/platform/x86/amd/hsmp/hsmp.c
-+++ b/drivers/platform/x86/amd/hsmp/hsmp.c
-@@ -39,7 +39,7 @@
- #define HSMP_WR			true
- #define HSMP_RD			false
- 
--struct hsmp_plat_device plat_dev;
-+struct hsmp_plat_device hsmp_pdev;
- 
- /*
-  * Send a message to the HSMP port via PCI-e config space registers
-@@ -176,9 +176,9 @@ int hsmp_send_message(struct hsmp_message *msg)
- 	if (ret)
- 		return ret;
- 
--	if (!plat_dev.sock || msg->sock_ind >= plat_dev.num_sockets)
-+	if (!hsmp_pdev.sock || msg->sock_ind >= hsmp_pdev.num_sockets)
- 		return -ENODEV;
--	sock = &plat_dev.sock[msg->sock_ind];
-+	sock = &hsmp_pdev.sock[msg->sock_ind];
- 
- 	/*
- 	 * The time taken by smu operation to complete is between
-@@ -219,7 +219,7 @@ int hsmp_test(u16 sock_ind, u32 value)
- 
- 	/* Check the response value */
- 	if (msg.args[0] != (value + 1)) {
--		dev_err(plat_dev.sock[sock_ind].dev,
-+		dev_err(hsmp_pdev.sock[sock_ind].dev,
- 			"Socket %d test message failed, Expected 0x%08X, received 0x%08X\n",
- 			sock_ind, (value + 1), msg.args[0]);
- 		return -EBADE;
-@@ -320,7 +320,7 @@ ssize_t hsmp_metric_tbl_read(struct file *filp, struct kobject *kobj,
- 
- static int hsmp_get_tbl_dram_base(u16 sock_ind)
+-int hsmp_create_acpi_sysfs_if(struct device *dev)
++static int hsmp_create_acpi_sysfs_if(struct device *dev)
  {
--	struct hsmp_socket *sock = &plat_dev.sock[sock_ind];
-+	struct hsmp_socket *sock = &hsmp_pdev.sock[sock_ind];
- 	struct hsmp_message msg = { 0 };
- 	phys_addr_t dram_addr;
+ 	struct attribute_group *attr_grp;
+ 	u16 sock_ind;
+@@ -236,7 +243,7 @@ int hsmp_create_acpi_sysfs_if(struct device *dev)
+ 	return devm_device_add_group(dev, attr_grp);
+ }
+ 
+-int init_acpi(struct device *dev)
++static int init_acpi(struct device *dev)
+ {
+ 	u16 sock_ind;
  	int ret;
-@@ -354,7 +354,7 @@ static int hsmp_get_tbl_dram_base(u16 sock_ind)
- umode_t hsmp_is_sock_attr_visible(struct kobject *kobj,
- 				  struct bin_attribute *battr, int id)
- {
--	if (plat_dev.proto_ver == HSMP_PROTO_VER6)
-+	if (hsmp_pdev.proto_ver == HSMP_PROTO_VER6)
- 		return battr->attr.mode;
- 	else
- 		return 0;
-@@ -362,17 +362,17 @@ umode_t hsmp_is_sock_attr_visible(struct kobject *kobj,
- 
- static int hsmp_init_metric_tbl_bin_attr(struct bin_attribute **hattrs, u16 sock_ind)
- {
--	struct bin_attribute *hattr = &plat_dev.sock[sock_ind].hsmp_attr;
-+	struct bin_attribute *hattr = &hsmp_pdev.sock[sock_ind].hsmp_attr;
- 
- 	sysfs_bin_attr_init(hattr);
- 	hattr->attr.name	= HSMP_METRICS_TABLE_NAME;
- 	hattr->attr.mode	= 0444;
- 	hattr->read		= hsmp_metric_tbl_read;
- 	hattr->size		= sizeof(struct hsmp_metric_table);
--	hattr->private		= &plat_dev.sock[sock_ind];
-+	hattr->private		= &hsmp_pdev.sock[sock_ind];
- 	hattrs[0]		= hattr;
- 
--	if (plat_dev.proto_ver == HSMP_PROTO_VER6)
-+	if (hsmp_pdev.proto_ver == HSMP_PROTO_VER6)
- 		return hsmp_get_tbl_dram_base(sock_ind);
- 	else
- 		return 0;
-@@ -409,7 +409,7 @@ int hsmp_cache_proto_ver(u16 sock_ind)
- 
- 	ret = hsmp_send_message(&msg);
- 	if (!ret)
--		plat_dev.proto_ver = msg.args[0];
-+		hsmp_pdev.proto_ver = msg.args[0];
+@@ -270,3 +277,72 @@ int init_acpi(struct device *dev)
  
  	return ret;
  }
-@@ -441,11 +441,11 @@ static int hsmp_pltdrv_probe(struct platform_device *pdev)
- 	 * Hence allocate memory for all the sockets at once instead of allocating
- 	 * on each probe.
- 	 */
--	if (!plat_dev.is_probed) {
--		plat_dev.sock = devm_kcalloc(&pdev->dev, plat_dev.num_sockets,
--					     sizeof(*plat_dev.sock),
--					     GFP_KERNEL);
--		if (!plat_dev.sock)
++
++static const struct acpi_device_id amd_hsmp_acpi_ids[] = {
++	{ACPI_HSMP_DEVICE_HID, 0},
++	{}
++};
++MODULE_DEVICE_TABLE(acpi, amd_hsmp_acpi_ids);
++
++static int hsmp_acpi_probe(struct platform_device *pdev)
++{
++	int ret;
++
 +	if (!hsmp_pdev.is_probed) {
++		hsmp_pdev.num_sockets = amd_nb_num();
++		if (hsmp_pdev.num_sockets == 0 || hsmp_pdev.num_sockets > MAX_AMD_SOCKETS)
++			return -ENODEV;
++
 +		hsmp_pdev.sock = devm_kcalloc(&pdev->dev, hsmp_pdev.num_sockets,
 +					      sizeof(*hsmp_pdev.sock),
 +					      GFP_KERNEL);
 +		if (!hsmp_pdev.sock)
- 			return -ENOMEM;
- 	}
- 	if (check_acpi_support(&pdev->dev)) {
-@@ -468,19 +468,19 @@ static int hsmp_pltdrv_probe(struct platform_device *pdev)
- 			dev_err(&pdev->dev, "Failed to create HSMP sysfs interface\n");
- 	}
- 
--	if (!plat_dev.is_probed) {
--		plat_dev.hsmp_device.name	= HSMP_CDEV_NAME;
--		plat_dev.hsmp_device.minor	= MISC_DYNAMIC_MINOR;
--		plat_dev.hsmp_device.fops	= &hsmp_fops;
--		plat_dev.hsmp_device.parent	= &pdev->dev;
--		plat_dev.hsmp_device.nodename	= HSMP_DEVNODE_NAME;
--		plat_dev.hsmp_device.mode	= 0644;
++			return -ENOMEM;
++	}
++
++	ret = init_acpi(&pdev->dev);
++	if (ret) {
++		dev_err(&pdev->dev, "Failed to initialize HSMP interface.\n");
++		return ret;
++	}
++
++	ret = hsmp_create_acpi_sysfs_if(&pdev->dev);
++	if (ret)
++		dev_err(&pdev->dev, "Failed to create HSMP sysfs interface\n");
++
 +	if (!hsmp_pdev.is_probed) {
-+		hsmp_pdev.mdev.name	= HSMP_CDEV_NAME;
-+		hsmp_pdev.mdev.minor	= MISC_DYNAMIC_MINOR;
-+		hsmp_pdev.mdev.fops	= &hsmp_fops;
-+		hsmp_pdev.mdev.parent	= &pdev->dev;
-+		hsmp_pdev.mdev.nodename	= HSMP_DEVNODE_NAME;
-+		hsmp_pdev.mdev.mode	= 0644;
- 
--		ret = misc_register(&plat_dev.hsmp_device);
-+		ret = misc_register(&hsmp_pdev.mdev);
- 		if (ret)
- 			return ret;
- 
--		plat_dev.is_probed = true;
++		ret = hsmp_misc_register(&pdev->dev);
++		if (ret)
++			return ret;
 +		hsmp_pdev.is_probed = true;
- 	}
- 
- 	return 0;
-@@ -493,9 +493,9 @@ static void hsmp_pltdrv_remove(struct platform_device *pdev)
- 	 * We register only one misc_device even on multi socket system.
- 	 * So, deregister should happen only once.
- 	 */
--	if (plat_dev.is_probed) {
--		misc_deregister(&plat_dev.hsmp_device);
--		plat_dev.is_probed = false;
++	}
++
++	return 0;
++}
++
++static void hsmp_acpi_remove(struct platform_device *pdev)
++{
++	/*
++	 * We register only one misc_device even on multi-socket system.
++	 * So, deregister should happen only once.
++	 */
 +	if (hsmp_pdev.is_probed) {
-+		misc_deregister(&hsmp_pdev.mdev);
++		hsmp_misc_deregister();
 +		hsmp_pdev.is_probed = false;
- 	}
++	}
++}
++
++static struct platform_driver amd_hsmp_driver = {
++	.probe		= hsmp_acpi_probe,
++	.remove_new	= hsmp_acpi_remove,
++	.driver		= {
++		.name	= DRIVER_NAME,
++		.acpi_match_table = amd_hsmp_acpi_ids,
++	},
++};
++
++module_platform_driver(amd_hsmp_driver);
++
++MODULE_DESCRIPTION("AMD HSMP Platform Interface Driver");
++MODULE_VERSION(DRIVER_VERSION);
++MODULE_LICENSE("GPL");
+diff --git a/drivers/platform/x86/amd/hsmp/hsmp.c b/drivers/platform/x86/amd/hsmp/hsmp.c
+index 78945750d590..5e0c9c36f435 100644
+--- a/drivers/platform/x86/amd/hsmp/hsmp.c
++++ b/drivers/platform/x86/amd/hsmp/hsmp.c
+@@ -15,17 +15,11 @@
+ #include <linux/acpi.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
+-#include <linux/module.h>
+-#include <linux/platform_device.h>
+ #include <linux/semaphore.h>
+ #include <linux/sysfs.h>
+ 
+ #include "hsmp.h"
+ 
+-#define DRIVER_NAME		"amd_hsmp"
+-#define DRIVER_VERSION		"2.2"
+-#define ACPI_HSMP_DEVICE_HID	"AMDI0097"
+-
+ /* HSMP Status / Error codes */
+ #define HSMP_STATUS_NOT_READY	0x00
+ #define HSMP_STATUS_OK		0x01
+@@ -228,7 +222,7 @@ int hsmp_test(u16 sock_ind, u32 value)
+ 	return ret;
  }
  
-@@ -567,15 +567,15 @@ static int __init hsmp_plt_init(void)
- 	 * amd_nb_num() returns number of SMN/DF interfaces present in the system
- 	 * if we have N SMN/DF interfaces that ideally means N sockets
- 	 */
--	plat_dev.num_sockets = amd_nb_num();
--	if (plat_dev.num_sockets == 0 || plat_dev.num_sockets > MAX_AMD_SOCKETS)
-+	hsmp_pdev.num_sockets = amd_nb_num();
-+	if (hsmp_pdev.num_sockets == 0 || hsmp_pdev.num_sockets > MAX_AMD_SOCKETS)
- 		return ret;
+-static long hsmp_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
++long hsmp_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
+ {
+ 	int __user *arguser = (int  __user *)arg;
+ 	struct hsmp_message msg = { 0 };
+@@ -284,12 +278,6 @@ static long hsmp_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
+ 	return 0;
+ }
  
- 	ret = platform_driver_register(&amd_hsmp_driver);
- 	if (ret)
- 		return ret;
+-static const struct file_operations hsmp_fops = {
+-	.owner		= THIS_MODULE,
+-	.unlocked_ioctl	= hsmp_ioctl,
+-	.compat_ioctl	= hsmp_ioctl,
+-};
+-
+ ssize_t hsmp_metric_tbl_read(struct file *filp, struct kobject *kobj,
+ 			     struct bin_attribute *bin_attr, char *buf,
+ 			     loff_t off, size_t count)
+@@ -414,193 +402,25 @@ int hsmp_cache_proto_ver(u16 sock_ind)
+ 	return ret;
+ }
  
--	if (!plat_dev.is_acpi_device) {
-+	if (!hsmp_pdev.is_acpi_device) {
- 		if (legacy_hsmp_support()) {
- 			/* Not ACPI device, but supports HSMP, register a plat_dev */
- 			ret = hsmp_plat_dev_register();
-diff --git a/drivers/platform/x86/amd/hsmp/hsmp.h b/drivers/platform/x86/amd/hsmp/hsmp.h
-index f465600cb843..9c5b9c263fc1 100644
---- a/drivers/platform/x86/amd/hsmp/hsmp.h
-+++ b/drivers/platform/x86/amd/hsmp/hsmp.h
-@@ -48,7 +48,7 @@ struct hsmp_socket {
+-static const struct acpi_device_id amd_hsmp_acpi_ids[] = {
+-	{ACPI_HSMP_DEVICE_HID, 0},
+-	{}
+-};
+-MODULE_DEVICE_TABLE(acpi, amd_hsmp_acpi_ids);
+-
+-static bool check_acpi_support(struct device *dev)
+-{
+-	struct acpi_device *adev = ACPI_COMPANION(dev);
+-
+-	if (adev && !acpi_match_device_ids(adev, amd_hsmp_acpi_ids))
+-		return true;
+-
+-	return false;
+-}
+-
+-static int hsmp_pltdrv_probe(struct platform_device *pdev)
+-{
+-	int ret;
+-
+-	/*
+-	 * On ACPI supported BIOS, there is an ACPI HSMP device added for
+-	 * each socket, so the per socket probing, but the memory allocated for
+-	 * sockets should be contiguous to access it as an array,
+-	 * Hence allocate memory for all the sockets at once instead of allocating
+-	 * on each probe.
+-	 */
+-	if (!hsmp_pdev.is_probed) {
+-		hsmp_pdev.sock = devm_kcalloc(&pdev->dev, hsmp_pdev.num_sockets,
+-					      sizeof(*hsmp_pdev.sock),
+-					      GFP_KERNEL);
+-		if (!hsmp_pdev.sock)
+-			return -ENOMEM;
+-	}
+-	if (check_acpi_support(&pdev->dev)) {
+-		ret = init_acpi(&pdev->dev);
+-		if (ret) {
+-			dev_err(&pdev->dev, "Failed to init HSMP mailbox\n");
+-			return ret;
+-		}
+-		ret = hsmp_create_acpi_sysfs_if(&pdev->dev);
+-		if (ret)
+-			dev_err(&pdev->dev, "Failed to create HSMP sysfs interface\n");
+-	} else {
+-		ret = init_platform_device(&pdev->dev);
+-		if (ret) {
+-			dev_err(&pdev->dev, "Failed to init HSMP mailbox\n");
+-			return ret;
+-		}
+-		ret = hsmp_create_non_acpi_sysfs_if(&pdev->dev);
+-		if (ret)
+-			dev_err(&pdev->dev, "Failed to create HSMP sysfs interface\n");
+-	}
+-
+-	if (!hsmp_pdev.is_probed) {
+-		hsmp_pdev.mdev.name	= HSMP_CDEV_NAME;
+-		hsmp_pdev.mdev.minor	= MISC_DYNAMIC_MINOR;
+-		hsmp_pdev.mdev.fops	= &hsmp_fops;
+-		hsmp_pdev.mdev.parent	= &pdev->dev;
+-		hsmp_pdev.mdev.nodename	= HSMP_DEVNODE_NAME;
+-		hsmp_pdev.mdev.mode	= 0644;
+-
+-		ret = misc_register(&hsmp_pdev.mdev);
+-		if (ret)
+-			return ret;
+-
+-		hsmp_pdev.is_probed = true;
+-	}
+-
+-	return 0;
+-
+-}
+-
+-static void hsmp_pltdrv_remove(struct platform_device *pdev)
+-{
+-	/*
+-	 * We register only one misc_device even on multi socket system.
+-	 * So, deregister should happen only once.
+-	 */
+-	if (hsmp_pdev.is_probed) {
+-		misc_deregister(&hsmp_pdev.mdev);
+-		hsmp_pdev.is_probed = false;
+-	}
+-}
+-
+-static struct platform_driver amd_hsmp_driver = {
+-	.probe		= hsmp_pltdrv_probe,
+-	.remove_new	= hsmp_pltdrv_remove,
+-	.driver		= {
+-		.name	= DRIVER_NAME,
+-		.acpi_match_table = amd_hsmp_acpi_ids,
+-	},
++static const struct file_operations hsmp_fops = {
++	.owner		= THIS_MODULE,
++	.unlocked_ioctl	= hsmp_ioctl,
++	.compat_ioctl	= hsmp_ioctl,
  };
  
- struct hsmp_plat_device {
--	struct miscdevice hsmp_device;
-+	struct miscdevice mdev;
+-static struct platform_device *amd_hsmp_platdev;
+-
+-static int hsmp_plat_dev_register(void)
++int hsmp_misc_register(struct device *dev)
+ {
+-	int ret;
+-
+-	amd_hsmp_platdev = platform_device_alloc(DRIVER_NAME, PLATFORM_DEVID_NONE);
+-	if (!amd_hsmp_platdev)
+-		return -ENOMEM;
+-
+-	ret = platform_device_add(amd_hsmp_platdev);
+-	if (ret)
+-		platform_device_put(amd_hsmp_platdev);
+-
+-	return ret;
++	hsmp_pdev.mdev.name	= HSMP_CDEV_NAME;
++	hsmp_pdev.mdev.minor	= MISC_DYNAMIC_MINOR;
++	hsmp_pdev.mdev.fops	= &hsmp_fops;
++	hsmp_pdev.mdev.parent	= dev;
++	hsmp_pdev.mdev.nodename	= HSMP_DEVNODE_NAME;
++	hsmp_pdev.mdev.mode	= 0644;
++
++	return misc_register(&hsmp_pdev.mdev);
+ }
+ 
+-/*
+- * This check is only needed for backward compatibility of previous platforms.
+- * All new platforms are expected to support ACPI based probing.
+- */
+-static bool legacy_hsmp_support(void)
++void hsmp_misc_deregister(void)
+ {
+-	if (boot_cpu_data.x86_vendor != X86_VENDOR_AMD)
+-		return false;
+-
+-	switch (boot_cpu_data.x86) {
+-	case 0x19:
+-		switch (boot_cpu_data.x86_model) {
+-		case 0x00 ... 0x1F:
+-		case 0x30 ... 0x3F:
+-		case 0x90 ... 0x9F:
+-		case 0xA0 ... 0xAF:
+-			return true;
+-		default:
+-			return false;
+-		}
+-	case 0x1A:
+-		switch (boot_cpu_data.x86_model) {
+-		case 0x00 ... 0x1F:
+-			return true;
+-		default:
+-			return false;
+-		}
+-	default:
+-		return false;
+-	}
+-
+-	return false;
++	misc_deregister(&hsmp_pdev.mdev);
+ }
+-
+-static int __init hsmp_plt_init(void)
+-{
+-	int ret = -ENODEV;
+-
+-	/*
+-	 * amd_nb_num() returns number of SMN/DF interfaces present in the system
+-	 * if we have N SMN/DF interfaces that ideally means N sockets
+-	 */
+-	hsmp_pdev.num_sockets = amd_nb_num();
+-	if (hsmp_pdev.num_sockets == 0 || hsmp_pdev.num_sockets > MAX_AMD_SOCKETS)
+-		return ret;
+-
+-	ret = platform_driver_register(&amd_hsmp_driver);
+-	if (ret)
+-		return ret;
+-
+-	if (!hsmp_pdev.is_acpi_device) {
+-		if (legacy_hsmp_support()) {
+-			/* Not ACPI device, but supports HSMP, register a plat_dev */
+-			ret = hsmp_plat_dev_register();
+-		} else {
+-			/* Not ACPI, Does not support HSMP */
+-			pr_info("HSMP is not supported on Family:%x model:%x\n",
+-				boot_cpu_data.x86, boot_cpu_data.x86_model);
+-			ret = -ENODEV;
+-		}
+-		if (ret)
+-			platform_driver_unregister(&amd_hsmp_driver);
+-	}
+-
+-	return ret;
+-}
+-
+-static void __exit hsmp_plt_exit(void)
+-{
+-	platform_device_unregister(amd_hsmp_platdev);
+-	platform_driver_unregister(&amd_hsmp_driver);
+-}
+-
+-device_initcall(hsmp_plt_init);
+-module_exit(hsmp_plt_exit);
+-
+-MODULE_DESCRIPTION("AMD HSMP Platform Interface Driver");
+-MODULE_VERSION(DRIVER_VERSION);
+-MODULE_LICENSE("GPL v2");
+diff --git a/drivers/platform/x86/amd/hsmp/hsmp.h b/drivers/platform/x86/amd/hsmp/hsmp.h
+index 9c5b9c263fc1..9ab50bc74676 100644
+--- a/drivers/platform/x86/amd/hsmp/hsmp.h
++++ b/drivers/platform/x86/amd/hsmp/hsmp.h
+@@ -52,7 +52,6 @@ struct hsmp_plat_device {
  	struct hsmp_socket *sock;
  	u32 proto_ver;
  	u16 num_sockets;
-@@ -56,7 +56,7 @@ struct hsmp_plat_device {
+-	bool is_acpi_device;
  	bool is_probed;
  };
  
--extern struct hsmp_plat_device plat_dev;
-+extern struct hsmp_plat_device hsmp_pdev;
- 
+@@ -61,14 +60,13 @@ extern struct hsmp_plat_device hsmp_pdev;
  ssize_t hsmp_metric_tbl_read(struct file *filp, struct kobject *kobj,
  			     struct bin_attribute *bin_attr, char *buf,
+ 			     loff_t off, size_t count);
+-int hsmp_create_non_acpi_sysfs_if(struct device *dev);
+-int hsmp_create_acpi_sysfs_if(struct device *dev);
+ int hsmp_cache_proto_ver(u16 sock_ind);
+ umode_t hsmp_is_sock_attr_visible(struct kobject *kobj,
+ 				  struct bin_attribute *battr, int id);
+ int hsmp_create_attr_list(struct attribute_group *attr_grp,
+ 			  struct device *dev, u16 sock_ind);
+ int hsmp_test(u16 sock_ind, u32 value);
+-int init_platform_device(struct device *dev);
+-int init_acpi(struct device *dev);
++long hsmp_ioctl(struct file *fp, unsigned int cmd, unsigned long arg);
++void hsmp_misc_deregister(void);
++int hsmp_misc_register(struct device *dev);
+ #endif /* HSMP_H */
 diff --git a/drivers/platform/x86/amd/hsmp/plat.c b/drivers/platform/x86/amd/hsmp/plat.c
-index 85a104859acd..e18cf82478a0 100644
+index e18cf82478a0..e49b53f8c5e3 100644
 --- a/drivers/platform/x86/amd/hsmp/plat.c
 +++ b/drivers/platform/x86/amd/hsmp/plat.c
-@@ -56,21 +56,21 @@ int hsmp_create_non_acpi_sysfs_if(struct device *dev)
+@@ -12,11 +12,16 @@
+ #include <asm/amd_nb.h>
+ 
+ #include <linux/device.h>
++#include <linux/module.h>
+ #include <linux/pci.h>
++#include <linux/platform_device.h>
+ #include <linux/sysfs.h>
+ 
+ #include "hsmp.h"
+ 
++#define DRIVER_NAME		"amd_hsmp"
++#define DRIVER_VERSION		"2.3"
++
+ /*
+  * To access specific HSMP mailbox register, s/w writes the SMN address of HSMP mailbox
+  * register into the SMN_INDEX register, and reads/writes the SMN_DATA reg.
+@@ -50,7 +55,13 @@ static int amd_hsmp_pci_rdwr(struct hsmp_socket *sock, u32 offset,
+ 	return ret;
+ }
+ 
+-int hsmp_create_non_acpi_sysfs_if(struct device *dev)
++static const struct file_operations hsmp_fops = {
++	.owner		= THIS_MODULE,
++	.unlocked_ioctl	= hsmp_ioctl,
++	.compat_ioctl	= hsmp_ioctl,
++};
++
++static int hsmp_create_non_acpi_sysfs_if(struct device *dev)
+ {
+ 	const struct attribute_group **hsmp_attr_grps;
  	struct attribute_group *attr_grp;
- 	u16 i;
+@@ -88,7 +99,7 @@ static inline bool is_f1a_m0h(void)
+ 	return false;
+ }
  
--	hsmp_attr_grps = devm_kcalloc(dev, plat_dev.num_sockets + 1,
-+	hsmp_attr_grps = devm_kcalloc(dev, hsmp_pdev.num_sockets + 1,
- 				      sizeof(*hsmp_attr_grps),
- 				      GFP_KERNEL);
- 	if (!hsmp_attr_grps)
- 		return -ENOMEM;
- 
- 	/* Create a sysfs directory for each socket */
--	for (i = 0; i < plat_dev.num_sockets; i++) {
-+	for (i = 0; i < hsmp_pdev.num_sockets; i++) {
- 		attr_grp = devm_kzalloc(dev, sizeof(struct attribute_group),
- 					GFP_KERNEL);
- 		if (!attr_grp)
- 			return -ENOMEM;
- 
--		snprintf(plat_dev.sock[i].name, HSMP_ATTR_GRP_NAME_SIZE, "socket%u", (u8)i);
--		attr_grp->name			= plat_dev.sock[i].name;
-+		snprintf(hsmp_pdev.sock[i].name, HSMP_ATTR_GRP_NAME_SIZE, "socket%u", (u8)i);
-+		attr_grp->name			= hsmp_pdev.sock[i].name;
- 		attr_grp->is_bin_visible	= hsmp_is_sock_attr_visible;
- 		hsmp_attr_grps[i]		= attr_grp;
- 
-@@ -93,10 +93,10 @@ int init_platform_device(struct device *dev)
+-int init_platform_device(struct device *dev)
++static int init_platform_device(struct device *dev)
+ {
  	struct hsmp_socket *sock;
  	int ret, i;
+@@ -134,3 +145,132 @@ int init_platform_device(struct device *dev)
  
--	for (i = 0; i < plat_dev.num_sockets; i++) {
-+	for (i = 0; i < hsmp_pdev.num_sockets; i++) {
- 		if (!node_to_amd_nb(i))
- 			return -ENODEV;
--		sock = &plat_dev.sock[i];
-+		sock = &hsmp_pdev.sock[i];
- 		sock->root			= node_to_amd_nb(i)->root;
- 		sock->sock_ind			= i;
- 		sock->dev			= dev;
+ 	return 0;
+ }
++
++static int hsmp_pltdrv_probe(struct platform_device *pdev)
++{
++	int ret;
++
++	hsmp_pdev.sock = devm_kcalloc(&pdev->dev, hsmp_pdev.num_sockets,
++				      sizeof(*hsmp_pdev.sock),
++				      GFP_KERNEL);
++	if (!hsmp_pdev.sock)
++		return -ENOMEM;
++
++	ret = init_platform_device(&pdev->dev);
++	if (ret) {
++		dev_err(&pdev->dev, "Failed to init HSMP mailbox\n");
++		return ret;
++	}
++
++	ret = hsmp_create_non_acpi_sysfs_if(&pdev->dev);
++	if (ret)
++		dev_err(&pdev->dev, "Failed to create HSMP sysfs interface\n");
++
++	return hsmp_misc_register(&pdev->dev);
++}
++
++static void hsmp_pltdrv_remove(struct platform_device *pdev)
++{
++	hsmp_misc_deregister();
++}
++
++static struct platform_driver amd_hsmp_driver = {
++	.probe		= hsmp_pltdrv_probe,
++	.remove_new	= hsmp_pltdrv_remove,
++	.driver		= {
++		.name	= DRIVER_NAME,
++	},
++};
++
++static struct platform_device *amd_hsmp_platdev;
++
++static int hsmp_plat_dev_register(void)
++{
++	int ret;
++
++	amd_hsmp_platdev = platform_device_alloc(DRIVER_NAME, PLATFORM_DEVID_NONE);
++	if (!amd_hsmp_platdev)
++		return -ENOMEM;
++
++	ret = platform_device_add(amd_hsmp_platdev);
++	if (ret)
++		platform_device_put(amd_hsmp_platdev);
++
++	return ret;
++}
++
++/*
++ * This check is only needed for backward compatibility of previous platforms.
++ * All new platforms are expected to support ACPI based probing.
++ */
++static bool legacy_hsmp_support(void)
++{
++	if (boot_cpu_data.x86_vendor != X86_VENDOR_AMD)
++		return false;
++
++	switch (boot_cpu_data.x86) {
++	case 0x19:
++		switch (boot_cpu_data.x86_model) {
++		case 0x00 ... 0x1F:
++		case 0x30 ... 0x3F:
++		case 0x90 ... 0x9F:
++		case 0xA0 ... 0xAF:
++			return true;
++		default:
++			return false;
++		}
++	case 0x1A:
++		switch (boot_cpu_data.x86_model) {
++		case 0x00 ... 0x1F:
++			return true;
++		default:
++			return false;
++		}
++	default:
++		return false;
++	}
++
++	return false;
++}
++
++static int __init hsmp_plt_init(void)
++{
++	int ret = -ENODEV;
++
++	if (!legacy_hsmp_support()) {
++		pr_info("HSMP is not supported on Family:%x model:%x\n",
++			boot_cpu_data.x86, boot_cpu_data.x86_model);
++		return ret;
++	}
++
++	/*
++	 * amd_nb_num() returns number of SMN/DF interfaces present in the system
++	 * if we have N SMN/DF interfaces that ideally means N sockets
++	 */
++	hsmp_pdev.num_sockets = amd_nb_num();
++	if (hsmp_pdev.num_sockets == 0 || hsmp_pdev.num_sockets > MAX_AMD_SOCKETS)
++		return ret;
++
++	ret = platform_driver_register(&amd_hsmp_driver);
++	if (ret)
++		return ret;
++
++	ret = hsmp_plat_dev_register();
++	if (ret)
++		platform_driver_unregister(&amd_hsmp_driver);
++
++	return ret;
++}
++
++static void __exit hsmp_plt_exit(void)
++{
++	platform_device_unregister(amd_hsmp_platdev);
++	platform_driver_unregister(&amd_hsmp_driver);
++}
++
++device_initcall(hsmp_plt_init);
++module_exit(hsmp_plt_exit);
++
++MODULE_DESCRIPTION("AMD HSMP Platform Interface Driver");
++MODULE_VERSION(DRIVER_VERSION);
++MODULE_LICENSE("GPL");
 -- 
 2.25.1
 
