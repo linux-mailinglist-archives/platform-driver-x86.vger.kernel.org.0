@@ -1,106 +1,104 @@
-Return-Path: <platform-driver-x86+bounces-5217-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-5214-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8019396A8F5
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Sep 2024 22:50:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D7D596A790
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Sep 2024 21:42:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 354DD1F210A7
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Sep 2024 20:50:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D04CC1C23D81
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Sep 2024 19:42:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A1311E1A01;
-	Tue,  3 Sep 2024 20:44:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A60C18E752;
+	Tue,  3 Sep 2024 19:42:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nqrzahnE"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="X1gEBNwd"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007501DB550;
-	Tue,  3 Sep 2024 20:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7AE18E77D
+	for <platform-driver-x86@vger.kernel.org>; Tue,  3 Sep 2024 19:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725396250; cv=none; b=YZIRENqJ7wMcz1unajiKQiVMlDo/LMemcEN0jVnhUcgOXdUlgleiCYXxfF5UmOOsVqE2VR1666EKX/gI5c4vS363FLbrYnPQemUpzFdBpPxOXPwZ5HO2m4YW7Pt5zKo0+C47UQKqtNbK6K+EoFOjGr/0pVgB3VUZT9XEDnQsiQM=
+	t=1725392537; cv=none; b=WTcyCKrg3bDrxxTIggXFX/IGcmqm2zPKgy/dmpcenk+qEI7SPQ0+JwHQtxCL3xKDKN3cLviPSxqRzf2OnI3y75h2tHOkUnFwYDKsPsJF78XsA4Rxl3TeYfUE/qps3EI541UTqi5jgQhHrmNHHyzaI7pj5PpqBgdiVUYfNmK0by8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725396250; c=relaxed/simple;
-	bh=ktpNedWiKVoT5UydmXwBJ1Ij8Q+ec0nP0x9MYK8iiVU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H2OVxvOSBTGHBUytg/N57z8jYashE7TecLXiFhlmDVv97uBPAtINrYTYrNHZyQezYoMUWKGpdlQtYeNEra3nbf/XI77xLCk7hbBSBiAZ5ZX8wzd6RDp66pYT3gTet0CwFTb7XO+j/fO4cLKeO/T6GhGPXeIjQkLRcjihD/QopM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nqrzahnE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD2DDC4CECA;
-	Tue,  3 Sep 2024 20:44:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725396249;
-	bh=ktpNedWiKVoT5UydmXwBJ1Ij8Q+ec0nP0x9MYK8iiVU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nqrzahnEymISnLUGqnTTwryuMT8+jLrWwOZ+VWjHg8zxS9Eq0rs4qYQqOl91SFH/5
-	 b2IcIwF5bDu/wrCqNqxyUAjh/BU9gBoIYIec+JG6UjmEwIHfgrNM+H5Y99zXPQhSC8
-	 JRXG/dkIbc0u4Rv6kAZjfSBJ0feFJM/vkJPL1QsXly5vPWPP0hEloHjAr7qLxDwJR1
-	 +1EHSpV8OeN1Cl3hZbsEaCwFhbhffB3jVS2XID+0pG+ntPFKPMKPJLjunEVQ0PC8cz
-	 GcO6y2nfnUk35+u8sA8/y2jkMiuEG3TCyaZYVTpFmNZJW9+xGZYd+uKdSLMihLfbF0
-	 T7aYkUQDZeGcg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Sasha Levin <sashal@kernel.org>,
-	platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 11/20] platform/x86: x86-android-tablets: Make Lenovo Yoga Tab 3 X90F DMI match less strict
-Date: Tue,  3 Sep 2024 15:23:43 -0400
-Message-ID: <20240903192425.1107562-11-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240903192425.1107562-1-sashal@kernel.org>
-References: <20240903192425.1107562-1-sashal@kernel.org>
+	s=arc-20240116; t=1725392537; c=relaxed/simple;
+	bh=TfSsa7xIMth7yd78HszB0pZ3u7/qV4x7Nm8FrIu/jbs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bY1VdncX4tjqterb6+1TMCO/pHR2kM0qcBZL53ej6hqjwaYhzdqxvAOj9hb1ppqCXam/oQtxbJWRJfwlb0dMNa2f8H4zC3JkGhll35scr0UAZ9NaxWWFofm2Mh9xGuR/OClT4ornCBajlPXv5+M6Z9Z83mRUn53cC5m3qaM4yqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=X1gEBNwd; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1725392532; x=1725997332; i=w_armin@gmx.de;
+	bh=TfSsa7xIMth7yd78HszB0pZ3u7/qV4x7Nm8FrIu/jbs=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=X1gEBNwd1SQwfdL+neT6ogY7eRTUntL+Dm7jC0Gzpsr4YdoKUoNVHVdta00bfdof
+	 NkStuJVpHUOk8hisnKQnG2kKcmQFvcyQRVcG4kipV+mnwyk+has8BwQfZx4hyqKv6
+	 BnC8d4kb40Nw7SYsuRZL/p8rHSebG/XFD6G3PwDYoZDvI/4b9ilNjUJDJTdQkzzbC
+	 70pjMKBTpccr6h6+0jKhWyULpn4CDFvFZ20D9X6u9MLntYjAep4NCtZwhtf+bZ41z
+	 ua+sYsGy72VaxLCKqTPsiWJFz0fMUt7/vadOn0C8c7jyEWFC3HfjbUfjmmDSvoCBt
+	 youUUBQUoJmHYh/S5g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Ma20k-1sXBIW02pI-00Jqv7; Tue, 03
+ Sep 2024 21:42:12 +0200
+Message-ID: <d8563b6b-8ab8-481d-aeba-656c38dda2ed@gmx.de>
+Date: Tue, 3 Sep 2024 21:42:11 +0200
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.48
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: Add Support for the Acer Predator Triton PT14-51
+To: Rayan Margham <rayanmargham4@gmail.com>
+Cc: platform-driver-x86@vger.kernel.org
+References: <3c63701c-f9fc-4f98-b991-58135da3fcc3@gmx.de>
+ <62891F43-E938-4DF3-9E51-9CCE19784DA8@gmail.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <62891F43-E938-4DF3-9E51-9CCE19784DA8@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:prM+PM08Si5GxV0lECzLyis+3Y6Ycxl355+RKXvvk9nlim3+QPx
+ DQSZU5rzPe6fh5d+2EIqU7kQilrBnCum6fU6LLjeuh+fQdRA2Nvf67v7+Q9BRp93yIqL+YY
+ N4B+TWKsTSeDgNR8V4nBEEn6MOa/zzZJoKVVtEm2jCeu4Gx9BZP+LMyHZ0oHu7nbM9tWM5A
+ X+SavbmwZDNfNDxuyFB1Q==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:en8HnZxC57Y=;Jt4E+zjgXi1tJ1RM1AZWukmbFRQ
+ UiLhzByW68ufIXlFjLGRvvLUM2L+HrKpWlKtkLRpyRA+hEsn+kQ2Pml1KMNcGF+lCzRwMnlNp
+ vu9yAXqbuRABckILCrZ14q1d/kIp34rB6CutbsAMmCjCSa5aABeGMDR0UbQ6nRTjylnNYvCap
+ GOR7WWNLiplTaxm5zcr1kFypWMR99rC/BUgOA77Gm8J/txDG6r8MGPlpWvB+JaUHHNZAP5str
+ KwCWVNbbMR/NEjcxjHznQ2Fs3uKLzS5ZOkxmA0KGXaP6V7eV/BBh79uDUZ4WP9kazxP0tfdAV
+ L/insm7AB6QmeJUMXQY1hrUmtfkSGGP5fbUe5lvNbOut976XZJbcEtlg5UPwT2fJWda1foiNI
+ Q3j3nJ6OKo1VAtyDOCKTrzP7LYVYQ6DBzoMv6uhwAH663jEcBhHTOYjaR8upzNeoBACsTyse7
+ o08FuejA7jEan816OxtGGjBGQX7DxXzvSnXoV+234ciY0h20BgKrJj3EOj2ejALyNG3yqY9Ds
+ xAY5X3CPDTKHihcpIgVB6nf1tS9Dqh9rXqv6TRBm1sdsG78mI3llmsnJERy85NHWoGe8/l3n6
+ phx6kzGB/XE0fviGw0hXRcUM/BsBAxyoPLU8I79XpY6erWBQumC/Cbd3KhuXTKdHwf00gzkBZ
+ WO/up1gTcAYnUsJfKP0Belb3pZ6hPUbpxJfSc/eu/rTyxfd+y8DGtSKYrqtc1pgiB/rtKms/s
+ SL6/ozapb8BJ4nF6bHcDksms5iM58F6xiQE9KMkERCCkMEYZWWTCGIwE5HPp9lJSL9mJar0cC
+ 11OuUy7nrmU1rzjUYgB7oxVg==
 
-From: Hans de Goede <hdegoede@redhat.com>
+Am 03.09.24 um 21:10 schrieb Rayan Margham:
 
-[ Upstream commit a3379eca24a7da5118a7d090da6f8eb8611acac8 ]
+> Hi Armin Wolf,
+>
+> Any update on the progress for the driver?
+>
+> Thanks,
+> Rayan Margham
+>
+I am currently quite busy, so the reverse-engineering is still on my TODO list.
 
-There are 2G and 4G RAM versions of the Lenovo Yoga Tab 3 X90F and it
-turns out that the 2G version has a DMI product name of
-"CHERRYVIEW D1 PLATFORM" where as the 4G version has
-"CHERRYVIEW C0 PLATFORM". The sys-vendor + product-version check are
-unique enough that the product-name check is not necessary.
-
-Drop the product-name check so that the existing DMI match for the 4G
-RAM version also matches the 2G RAM version.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://lore.kernel.org/r/20240825132415.8307-1-hdegoede@redhat.com
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/x86-android-tablets/dmi.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/platform/x86/x86-android-tablets/dmi.c b/drivers/platform/x86/x86-android-tablets/dmi.c
-index 5d6c12494f082..0c9d9caf074cb 100644
---- a/drivers/platform/x86/x86-android-tablets/dmi.c
-+++ b/drivers/platform/x86/x86-android-tablets/dmi.c
-@@ -122,7 +122,6 @@ const struct dmi_system_id x86_android_tablet_ids[] __initconst = {
- 		/* Lenovo Yoga Tab 3 Pro YT3-X90F */
- 		.matches = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
--			DMI_MATCH(DMI_PRODUCT_NAME, "CHERRYVIEW D1 PLATFORM"),
- 			DMI_MATCH(DMI_PRODUCT_VERSION, "Blade3-10A-001"),
- 		},
- 		.driver_data = (void *)&lenovo_yt3_info,
--- 
-2.43.0
+Thanks,
+Armin Wolf
 
 
