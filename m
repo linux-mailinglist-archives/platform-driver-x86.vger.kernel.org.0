@@ -1,165 +1,145 @@
-Return-Path: <platform-driver-x86+bounces-5306-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-5311-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04871971900
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Sep 2024 14:12:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7060F9719ED
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Sep 2024 14:50:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B1ED62859BC
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Sep 2024 12:12:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 194931F23C3D
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Sep 2024 12:50:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67F171B78E8;
-	Mon,  9 Sep 2024 12:11:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 450A11B9B38;
+	Mon,  9 Sep 2024 12:50:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Nta8qH1k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZafzdWSQ"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729E81B29C7
-	for <platform-driver-x86@vger.kernel.org>; Mon,  9 Sep 2024 12:11:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CDF1B86D3;
+	Mon,  9 Sep 2024 12:50:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725883917; cv=none; b=aD/SIFR2xvaIXzZMRwqFq/AjOFToCpqnJg3SZ0JxOAfY3Pkha2bMXntzJPnHKmqG1odsh7SZNgEww9nhzMjMA61KhZ8qNZE6QRFThKeZp00GkcmpWS2N0RLFk6udvLkzvPVjhSUIeKubn456bIjSPspiHx6sEP/+tZ4IcGo5Bp0=
+	t=1725886224; cv=none; b=LxDNZwwH/KTp93qwOimuk9PuGwfuTT2pPjqCkpBRk7nm6ej+oB8bE90xPPk57CQB/v1IiZpp02fIM7VdjgGAND9s7BmvvDBl3PaPtAlAYKb4PqlVCi+6+HtSvg3P/vRE01W7XDqnWrjRtC5vdhwuKe/G6FIFf5W/eZRTPoqIiAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725883917; c=relaxed/simple;
-	bh=dUQj9zWUfU/akRgrXFiIBsQ/RyA2KdiEw7fJtNodFug=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FK+wN0PTFY4VTvSzBYpuu+43zFfDmb2JDkWHKvaa9iEzNAXB70oFyN0iuhi37/UGtP0mDPHbLdMkZyBAhT41waBZ2mJHXTJPXfqbMPUzqsBJh/3y0tkBTRMxVyvKKh/YioXM+9NofQR0Q+VFpCODe+S+tjmWBVoHT95rCSs2OHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Nta8qH1k; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1725883914;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=INtvbWXQtYAK0r10sLjdX9ETH/d5KrFD0FlLWwAg8cI=;
-	b=Nta8qH1klJv2oalh0CL7xnruD9Aurhuuki/tPd1D5el8z2ZGndQYVbYr6B58vNFs42266E
-	jPLqwnOW7tTuHbTRwOEaIMAbFpsEzwlofzu336XAzXGmjuwRHrHx0sWXdrLyxonoPq9h6K
-	83fvpIotq/6MOLS4XzLyTZfDw5mdph8=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-634-WwcfmF-dPSS6Vnuf6wIDdg-1; Mon, 09 Sep 2024 08:11:53 -0400
-X-MC-Unique: WwcfmF-dPSS6Vnuf6wIDdg-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a8d2e6a6989so87469166b.1
-        for <platform-driver-x86@vger.kernel.org>; Mon, 09 Sep 2024 05:11:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725883912; x=1726488712;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=INtvbWXQtYAK0r10sLjdX9ETH/d5KrFD0FlLWwAg8cI=;
-        b=B0vCfMAjjRteJbslgcl+6DLws4TJHxjmH7iECmIVVwT64uktrBtWPnHMNcR8slxQfo
-         nKEvbzx8b4RhEH9r9c6Roxq7AmnMJkAjTqQcpK9tZzyCr+FzW6GB6ZJgfizLQr4YEIEa
-         /uySW8V5ZCiM9yaSjo8zE1Bdx9rC7KQnyw2MaxxSQdzbc9PqtILsy1NKeSK5ODoQ5cxI
-         9FRN3qJBmuK5B7wIikyrTTJ037YDoc3cRuoiC3IUNiaJNwg8Eryl3svJADPVE1rqNIdW
-         ZJHsrpqw4xerTzMwqngjKGD8qAvgPV70H9Kexc4xrt77wcZh0pXXaGE3jRyg1EqMKnLF
-         jR8w==
-X-Forwarded-Encrypted: i=1; AJvYcCW0q6d2n1BM9oKGHAsFY5NARQG45zLeBB4FmUHSvl8w2ZPj+zEuGe/QsBW9OSE8vs7hlKERBLEhBbhRDjViHuVXsuPr@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSfrvdOAoUPv9HzGFr9AOd+r8L8eMGmIK0tCMdYEuMjMyfP0W6
-	ayDfeml05J62cD1vSGqJTd1Xr8XMME2hwphhbtjY4+yMIDrDktjyyrDsMJ5SD+a4LDK7B4I93Cr
-	fNwKmU8ZM5lKF5oBhSoItDBiDCdXbK3B6Oyrh7ywBrWNPP/C5mCioDc38U5fi8Ys8Su/8SgU=
-X-Received: by 2002:a17:907:f1d1:b0:a87:31c:c6c4 with SMTP id a640c23a62f3a-a8d2457be3cmr439706966b.24.1725883912020;
-        Mon, 09 Sep 2024 05:11:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHwqZSYmIbXYEfKEoLHC6r7yAv3jN4sCFK0fSKNiG5IJ6voTB2jO0YvO7eT0t66seATKx2Kbw==
-X-Received: by 2002:a17:907:f1d1:b0:a87:31c:c6c4 with SMTP id a640c23a62f3a-a8d2457be3cmr439703466b.24.1725883911379;
-        Mon, 09 Sep 2024 05:11:51 -0700 (PDT)
-Received: from [10.40.98.157] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25c62541sm336253766b.111.2024.09.09.05.11.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Sep 2024 05:11:50 -0700 (PDT)
-Message-ID: <a8fc0357-8358-4a35-b094-4667e5aa20d5@redhat.com>
-Date: Mon, 9 Sep 2024 14:11:50 +0200
+	s=arc-20240116; t=1725886224; c=relaxed/simple;
+	bh=KWYespF+mcQwqISVVXzv9T2zQplfsj431bxXbvKt39o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GEaWhTatHMPTXQBls71j8afFJN6EiStVgYH5wG8sczFOG4CtJJ+qaLFXT6MQ2WaQBEXu6idjWV+8eqSnySPZFyKpm5xO8mxtPUFLBgE4vLqX1Of5GJS+Q6VOVJ8eEcLfFBnZi0kciaEPiwlheQM0Pyzut3qOq7dry4lWvXlqtGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZafzdWSQ; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725886223; x=1757422223;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=KWYespF+mcQwqISVVXzv9T2zQplfsj431bxXbvKt39o=;
+  b=ZafzdWSQF+zEWjDUDmTmf85z5kkdw+s1pKV2/FBJP/n0Nn/K2KY5sA1Z
+   IEUXCM68FYRrJ+KU7HrexCx/vZBmM30+sSvp0OwDdLhOtJv+8Pzv/mEtq
+   ugGyyVnZ9YptSWlfRu3+fQjF+3PJUVFFxOnYtGMyS5WtB55AkltaGnrko
+   MDgdRBMor33D7g3yrizD2HrjscZqIJxHIezAODFs0A1cc5ik6Y5e9EvZu
+   3wBwSSLJjDQOK8p7hEWzcMXHBXO1UOMxuLJTsXY7Ik5mn5w4ebqLrAzAM
+   1QxgveusaG7XtORXu5hlRuPq3iGs4w8WSUk+JUJSKhzxh5lLLZ0ELNj/t
+   g==;
+X-CSE-ConnectionGUID: 1BMZ9U31SPm44MxQXT3x6A==
+X-CSE-MsgGUID: ZWVytuzpSPuuaQws/4WGmQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="24079104"
+X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
+   d="scan'208";a="24079104"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 05:50:05 -0700
+X-CSE-ConnectionGUID: vx5aSnBRQneWiQsSzpk30A==
+X-CSE-MsgGUID: Hc3TVcRKRKK+K5Fxc3MKGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
+   d="scan'208";a="97470243"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa001.fm.intel.com with ESMTP; 09 Sep 2024 05:49:59 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id E351C321; Mon, 09 Sep 2024 15:49:56 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Utkarsh Patel <utkarsh.h.patel@intel.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-watchdog@vger.kernel.org
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
+	"David E. Box" <david.e.box@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Zha Qipeng <qipeng.zha@intel.com>,
+	Lee Jones <lee@kernel.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>
+Subject: [PATCH v2 0/3] platform/x86: intel_scu: Move headers to x86 subfolder
+Date: Mon,  9 Sep 2024 15:41:03 +0300
+Message-ID: <20240909124952.1152017-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] platform/x86: panasonic-laptop: Fix SINF array out
- of bounds accesses
-To: Andy Shevchenko <andy@kernel.org>
-Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- James Harmison <jharmison@redhat.com>, platform-driver-x86@vger.kernel.org,
- stable@vger.kernel.org
-References: <20240909113227.254470-1-hdegoede@redhat.com>
- <Zt7kzwtNRdohoC-x@smile.fi.intel.com>
-Content-Language: en-US
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Zt7kzwtNRdohoC-x@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Add the record to the MAINTAINERS to follow what is going on with the
+Intel MID platform related code and drivers.
 
-On 9/9/24 2:06 PM, Andy Shevchenko wrote:
-> On Mon, Sep 09, 2024 at 01:32:25PM +0200, Hans de Goede wrote:
->> The panasonic laptop code in various places uses the SINF array with index
->> values of 0 - SINF_CUR_BRIGHT(0x0d) without checking that the SINF array
->> is big enough.
->>
->> Not all panasonic laptops have this many SINF array entries, for example
->> the Toughbook CF-18 model only has 10 SINF array entries. So it only
->> supports the AC+DC brightness entries and mute.
->>
->> Check that the SINF array has a minimum size which covers all AC+DC
->> brightness entries and refuse to load if the SINF array is smaller.
->>
->> For higher SINF indexes hide the sysfs attributes when the SINF array
->> does not contain an entry for that attribute, avoiding show()/store()
->> accessing the array out of bounds and add bounds checking to the probe()
->> and resume() code accessing these.
-> 
-> ...
-> 
->> +static umode_t pcc_sysfs_is_visible(struct kobject *kobj, struct attribute *attr, int idx)
->> +{
->> +	struct device *dev = kobj_to_dev(kobj);
->> +	struct acpi_device *acpi = to_acpi_device(dev);
->> +	struct pcc_acpi *pcc = acpi_driver_data(acpi);
-> 
-> Isn't it the same as dev_get_drvdata()?
+With that, clean up a bit a couple of headers, i.e. move them to x86
+subfolder of include/linux/platform_data where they belong to.
 
-No I also thought so and I checked. It is not the same,
-struct acpi_device has its own driver_data member, which
-this gets.
+No functional changes intended.
 
+Taking into account nature of this change it's supposed to go via PDx86
+tree, please Ack.
 
-> 
->> +	if (attr == &dev_attr_mute.attr)
->> +		return (pcc->num_sifr > SINF_MUTE) ? attr->mode : 0;
->> +
->> +	if (attr == &dev_attr_eco_mode.attr)
->> +		return (pcc->num_sifr > SINF_ECO_MODE) ? attr->mode : 0;
->> +
->> +	if (attr == &dev_attr_current_brightness.attr)
->> +		return (pcc->num_sifr > SINF_CUR_BRIGHT) ? attr->mode : 0;
->> +
->> +	return attr->mode;
->> +}
-> 
-> ...
-> 
->> +	/*
->> +	 * pcc->sinf is expected to at least have the AC+DC brightness entries.
->> +	 * Accesses to higher SINF entries are checked against num_sifr.
->> +	 */
->> +	if (num_sifr <= SINF_DC_CUR_BRIGHT || num_sifr > 255) {
->> +		pr_err("num_sifr %d out of range %d - 255\n", num_sifr, SINF_DC_CUR_BRIGHT + 1);
-> 
-> acpi_handle_err() ?
+v2:
+- Maintained --> Supported (Dave)
+- added two cleanup patches (Mika and me)
 
-The driver is using pr_err() already in 18 other places, so IMHO it is better
-to be consistent and also use it here.
+Andy Shevchenko (2):
+  MAINTAINERS: Add Intel MID section
+  platform/x86: intel_scu_wdt: Move intel_scu_wdt.h to x86 subfolder
 
-Regards,
+Mika Westerberg (1):
+  platform/x86: intel_scu_ipc: Move intel_scu_ipc.h out of
+    arch/x86/include/asm
 
-Hans
+ MAINTAINERS                                   | 20 ++++++++++++++++++-
+ arch/x86/include/asm/intel_telemetry.h        |  2 +-
+ arch/x86/platform/intel-mid/intel-mid.c       |  3 ++-
+ drivers/mfd/intel_pmc_bxt.c                   |  3 +--
+ drivers/mfd/intel_soc_pmic_bxtwc.c            |  3 +--
+ drivers/mfd/intel_soc_pmic_mrfld.c            |  3 +--
+ drivers/platform/x86/intel_scu_ipc.c          |  2 +-
+ drivers/platform/x86/intel_scu_ipcutil.c      |  2 +-
+ drivers/platform/x86/intel_scu_pcidrv.c       |  2 +-
+ drivers/platform/x86/intel_scu_pltdrv.c       |  2 +-
+ drivers/platform/x86/intel_scu_wdt.c          |  3 ++-
+ drivers/usb/typec/mux/intel_pmc_mux.c         |  3 +--
+ drivers/watchdog/intel-mid_wdt.c              |  5 ++---
+ .../platform_data/{ => x86}/intel-mid_wdt.h   |  6 +++---
+ .../linux/platform_data/x86}/intel_scu_ipc.h  |  4 ++--
+ 15 files changed, 39 insertions(+), 24 deletions(-)
+ rename include/linux/platform_data/{ => x86}/intel-mid_wdt.h (74%)
+ rename {arch/x86/include/asm => include/linux/platform_data/x86}/intel_scu_ipc.h (96%)
+
+-- 
+2.43.0.rc1.1336.g36b5255a03ac
 
 
