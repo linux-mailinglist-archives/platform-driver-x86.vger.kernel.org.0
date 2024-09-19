@@ -1,72 +1,58 @@
-Return-Path: <platform-driver-x86+bounces-5410-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-5414-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A17397CCBA
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 19 Sep 2024 18:54:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA88997CD08
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 19 Sep 2024 19:26:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C9B501F23CE3
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 19 Sep 2024 16:54:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9CE052855F5
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 19 Sep 2024 17:26:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59D0D1A0AFB;
-	Thu, 19 Sep 2024 16:54:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CFDF1A2C03;
+	Thu, 19 Sep 2024 17:26:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jOuy5kTC"
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="ELaFrwh2"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF4D1A08C0
-	for <platform-driver-x86@vger.kernel.org>; Thu, 19 Sep 2024 16:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01881A2846;
+	Thu, 19 Sep 2024 17:26:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726764841; cv=none; b=nRhSVKhl0K1lv3LlU2//N2qBURkZPap1xZzaT8bk7shwmXZdE4I0RxL4LjHsiKngRHsvxRnob1ue6JxeycImJBijHe/q4cjsdxjgxeua4sa0UGrCoNCuy1x5dHHp5qpYakP6QEKMp/uXAMNuKeivFLjbOC5+4KzeE24LSjveE7I=
+	t=1726766798; cv=none; b=qgVNY2vwu+LXj2BM8jzmCHBJxxxRG8r4ErOpUk1EwYGhJObps2CyXZoz7CG1Bygw7//jOq1I0zjqHACar/HNy8Yz0DFfoXBxyMa1+fHGH/iS1DLKv4pBkOQ+y5IGOWfA073mN2xF+4lzKYp2soav4/8m+w9RufUlowJVFZiE6po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726764841; c=relaxed/simple;
-	bh=r83giQhv+wdGkGVm0A1lTterNV2Xu2zbcG8fllzeV8U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mzox5WKqQCNSsGDAkTvWS1iqfbPZnGWfguqdv4hDht50h7qznhSK9mz6xJwoJA0raoHfRW46Zl0D38iY9iKiW32Xtr+VRdGLv2xaNdFgirMNh8ujrfcvf8CSmEV6t0WWqQX2nZuiF0VpFLi7hOgF7Fc0JJzwTjreLZYAE0uOzbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jOuy5kTC; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1726764838;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=aSuHNzG8p7jlj6yGR863iiZBqKSDhQlRijPfqGucVxc=;
-	b=jOuy5kTCY7BtMDQiGmSbm2oVQhfG+jyeOqMT45sCM9mC7OjwP8JRxpMS217lF19AuTKULT
-	mGZXMk4W/8VRo7iQWYFyKXe3GakXzKX5w5H+GrmHxUo9dga+njcFc/sl3NILXJj+oPHQ6f
-	ymOQUvzOJEgMVpvOlx/7QUJPGcdwIr0=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-552-cH2fokswO3aJrv3g-uTOdg-1; Thu,
- 19 Sep 2024 12:53:55 -0400
-X-MC-Unique: cH2fokswO3aJrv3g-uTOdg-1
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (unknown [10.30.177.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E7D84193611B;
-	Thu, 19 Sep 2024 16:53:53 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.90])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DF4481956060;
-	Thu, 19 Sep 2024 16:53:50 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	platform-driver-x86@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	regressions@lists.linux.dev,
-	Paul Menzel <pmenzel@molgen.mpg.de>,
-	Marek Maslanka <mmaslanka@google.com>
-Subject: [PATCH] platform/x86:intel/pmc: Leave ACPI PM Timer alone when using S3 suspend
-Date: Thu, 19 Sep 2024 18:53:49 +0200
-Message-ID: <20240919165349.235777-1-hdegoede@redhat.com>
+	s=arc-20240116; t=1726766798; c=relaxed/simple;
+	bh=TQWPNq8DyM/4me8VRKVsJwijLwYjiWGJi45ISt7PEyU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qyiFyx3Il9QbksABCVzs2ovKSJUFSIGoCaAMLFQTLw422czNBV6Syhu38iQ/yRu7Tyq9kA16jzvet40gXJnVBeg7+cP+FWh+jfJtXIj9ugiSVmsP9l7eRR+E2+LIs8N05k4Sv3zBoACrgF8T6WkcQmHQMYhthy2pdGqMPgXcjRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=ELaFrwh2; arc=none smtp.client-ip=185.138.42.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+Received: from localhost.localdomain (unknown [IPv6:2a05:f6c2:511b:0:6813:1156:549c:fa23])
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id 1A9D22E09C22;
+	Thu, 19 Sep 2024 20:20:07 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1726766414;
+	bh=LfUaB5yPDbKb/LkMr/y9H5z351Im1vjb13XjVA1irWM=; h=From:To:Subject;
+	b=ELaFrwh2lJhA5oftOjd5BYj1E/210X/98/WGCssDM7/9Slf7BsaPuf2LSl4S+6YDU
+	 pIyLuhDZPM4CqJGC27VVBoBRs13c4Um9fRTTL5A7uITwbXbdZsmBchNgx6J0volMSY
+	 ZKXJ0g5uQdbDaFBYtHkLX6AGKt2ZElTWTUaNElic=
+Authentication-Results: linux1587.grserver.gr;
+	spf=pass (sender IP is 2a05:f6c2:511b:0:6813:1156:549c:fa23) smtp.mailfrom=lkml@antheas.dev smtp.helo=localhost.localdomain
+Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
+From: Antheas Kapenekakis <lkml@antheas.dev>
+To: linux-pm@vger.kernel.org
+Cc: platform-driver-x86@vger.kernel.org,
+	Mario.Limonciello@amd.com,
+	luke@ljones.dev,
+	me@kylegospodneti.ch
+Subject: [PATCH v1 0/4] acpi/x86: s2idle: move Display off/on calls outside
+ suspend (fixes ROG Ally suspend)
+Date: Thu, 19 Sep 2024 19:19:48 +0200
+Message-ID: <20240919171952.403745-1-lkml@antheas.dev>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -74,44 +60,138 @@ List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+X-PPP-Message-ID: 
+ <172676640787.26346.1362010344851206874@linux1587.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
+X-Virus-Status: Clean
 
-Disabling the ACPI PM timer causes suspend to no longer work on
-a Intel Kaby Lake Dell XPS 13 using deep / S3 suspend.
+The following series moves the Display off/on calls outside of the suspend sequence,
+as they are performed in Windows. This fixes certain issues that appear
+in devices that use the calls and expect the kernel to be active during their
+call (especially in the case of the ROG Ally devices) and opens the possibility
+of implementing a "Screen Off" state in the future (which mirrors Windows).
 
-The power-savings from disabling the pm-timer are mostly relevant for
-s0ix suspend. If regular S3 suspend is used the firmware is in control of
-the suspend and if necessary it should disable the timer if necessary.
+This series requires a bit of background on how modern standby works in Windows.
+Fundamentally, it is composed of two stages: "Screen Off" and "Sleep".
+Each stage consists of a series of steps, with the former focusing on software
+and the latter focusing on the kernel.
 
-Limit the disabling of the ACPI PM Timer on suspend to when using
-S0ix (so not firmware, but OS handled) suspend to fix this.
+The "Screen Off" stage is a software only stage, where the kernel and drivers
+are fully active. In this stage, software is supposed to minimize non-essential
+activity and to slowly coalesce into a state of non-activity over a period of
+minutes. This can last from 1 second to hours, depending on device state (e.g.,
+if it is plugged in). During research of this patch on Windows, most times it
+fluxuates between 5 seconds to 10 minutes. To aid in battery life and in how
+fast the system suspends, Microsoft provides the _DSM firmware notifications
+"Display On" and "Display Off" that can be used to deactivate unnecessary
+hardware (e.g., RGB).
 
-Fixes: e86c8186d03a ("platform/x86:intel/pmc: Enable the ACPI PM Timer to be turned off when suspended")
-Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
-Closes: https://lore.kernel.org/linux-pm/18784f62-91ff-4d88-9621-6c88eb0af2b5@molgen.mpg.de/
-Cc: Marek Maslanka <mmaslanka@google.com>
-Tested-by: Paul Menzel <pmenzel@molgen.mpg.de> # Dell XPS 13 9360/0596KF, BIOS 2.21.0 06/02/2022
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/intel/pmc/core.c | 4 ++++
- 1 file changed, 4 insertions(+)
+The "Sleep" stage mirrors the traditional suspend sequence, in which kernel
+components are succesively suspended to reach a low power state.
 
-diff --git a/drivers/platform/x86/intel/pmc/core.c b/drivers/platform/x86/intel/pmc/core.c
-index f443bf8bb82c..c753f013b59d 100644
---- a/drivers/platform/x86/intel/pmc/core.c
-+++ b/drivers/platform/x86/intel/pmc/core.c
-@@ -1275,6 +1275,10 @@ static void pmc_core_acpi_pm_timer_suspend_resume(void *data, bool suspend)
- 	if (!map->acpi_pm_tmr_ctl_offset)
- 		return;
- 
-+	/* Check if the suspend will actually use S0ix */
-+	if (suspend && pm_suspend_via_firmware())
-+		return;
-+
- 	guard(mutex)(&pmcdev->lock);
- 
- 	if (!suspend && !pmcdev->enable_acpi_pm_timer_on_resume)
+Currently, the kernel calls the Display On/Off calls during a late part of the
+suspend sequence, where most drivers have already suspended. Since these calls
+are not often used (and if they are, they are mostly used for lid switches),
+this has not caused issues up to now (although a little birdie tells me those
+lid sensors might not be behaving correctly currently).
+
+That was until the release of ROG Ally, where Asus placed a callback that turns
+the controller on and off in those _DSM calls. The Display Off call disconnects
+(if powersave is off) or powers off (if powersave is on and on DC power) the MCU
+responsible for the controller and deactivates the RGB of the device. Display On
+powers on or reconnects the controller respectively.
+This controller, in the Ally X, is composed of 6 HID devices that register to
+the kernel. As can be inferred, the handling of the calls during the suspend
+sequence leads to a set of undesirable outcomes, such as the controller
+soft-locking or only half of the HID devices coming back after resume.
+
+After moving the calls outside of the suspend sequence, my ROG Ally X test unit
+can suspend more than 50 times without rebooting, both with powersave on or off,
+regardless of whether it is plugged/unplugged during suspend, and still have the
+controller work with full reliability.
+
+In addition, moving the calls outside of the suspend sequence (and the validation
+work it implies) opens the possibility of implementing a "Screen Off" state in
+the future. This state would make a great addition to something like logind or
+systemd, if it is exposed over a sysfs endpoint. The recommendation here would
+be to allow userspace to instruct the kernel to enter "Screen Off" state when
+the device becomes inactive. The kernel would then call "Display Off" and
+delegade the responsibility of exiting "Screen Off" (and calling Display On)
+to userspace, regardless of the number of the suspensions afterwards.
+If userspace does not make the kernel enter "Screen Off" prior to suspend, the
+kernel would call Display Off and On before suspending, in the same way it is
+done with this patch.
+
+This series is worth backing this up with sources, so as part of it I reference
+Microsoft's documentation on Modern standby below that explains the difference
+between "Screen Off" and "Sleep" and how to prepare for them and attach a
+repository of more than 15 device DSDT tables from different manufacturers.
+This repository also contains instructions on how to decode the DSDT tables on
+a test laptop, to figure out what the _DSM calls will do on that device (in most
+cases it is a NOOP).
+
+Moreover, I conduct a short behavioral test in Windows with the Ally X to showcase
+the documentation empirically. The Ally is great for such a test, as it contains
+visual indicators for all Microsoft suspend points: "Display Off/On" calls are
+indicated with the Controller RGB turning off/on, "Screen Off" is indicated with
+the suspend light and fan being on, and suspend is indicated with the suspend
+light blinking.
+
+Referencing Microsoft's documentation, "Screen Off" is entered either through
+inactivity or by pressing the power button, so I conduct two tests: one by pressing
+the powerbutton, and one for entering Screen Off due to inactivity.
+
+1) Powerbutton test:
+When pressing the powerbutton, the screen of the Ally turns off, and the RGB of
+the controller faints to off within 1s. Following, depending on whether the
+system is plugged in, the power light and fan stay on for 5 seconds to 10 minutes.
+After this point, the power light begins to blink and the fan turns off, showing
+that the system has entered the "Sleep" state.
+
+2) Inactivity test:
+I set the Windows power settings to turn off the screen after 1 minute and wait.
+After one minute, the display turns off, and after 5 seconds, the controller RGB
+turns off. This indicates to me that "Screen Off" is not defined by the screen
+being off, but is rather characterized by it. During those 5 seconds while the
+RGB is on, I can use the controller to wake up the device. Afterwards it cannot.
+
+Those tests validate Microsoft's documentation and show that "Screen Off"
+seems to more closely correlate to lockscreen behavior (button locks instantly,
+inactivity after 5 seconds) than the screen being off and as such it is
+not something that would be a great fit for tying into the DRM subsystem.
+If controlled by userspace and part of the screen turning off, it would also
+solve several behavioral issues that currently exist. For example, as I look
+at my Ally X dev right now, with its screen off, I notice the RGB is still on,
+which is kind of bothersome, now that I know what the expected behavior is in
+Windows.
+
+This patch series is based on work of and communication with Mario Limonciello,
+so Mario I would gladly credit you as a co-author here. It also references prior
+upstream work by Luke Jones on Asus-wmi for the Ally controller quirk that is
+removed on patch (4) and an issue on amd-drm in 2023 in preparation for that
+the work in that quirk (reference below).
+
+Link: https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/prepare-hardware-for-modern-standby
+Link: https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/prepare-software-for-modern-standby
+Link: https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/modern-standby-firmware-notifications
+Link: https://github.com/hhd-dev/hwinfo/tree/master/devices
+Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2719
+
+Antheas Kapenekakis (4):
+  acpi/x86: s2idle: add support for screen off and screen on callbacks
+  acpi/x86: s2idle: handle screen off/on calls outside of suspend
+    sequence
+  acpi/x86: s2idle: call screen on and off as part of callbacks
+  platform/x86: asus-wmi: remove Ally (1st gen) and Ally X suspend quirk
+
+ drivers/acpi/x86/s2idle.c       | 72 ++++++++++++++++++++++++++-------
+ drivers/platform/x86/asus-wmi.c | 54 -------------------------
+ include/linux/suspend.h         |  5 +++
+ kernel/power/suspend.c          | 28 +++++++++++++
+ 4 files changed, 90 insertions(+), 69 deletions(-)
+
 -- 
-2.46.0
+2.46.1
 
 
