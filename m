@@ -1,61 +1,61 @@
-Return-Path: <platform-driver-x86+bounces-5719-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-5721-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C073398EDC7
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  3 Oct 2024 13:16:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71B0A98EDCE
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  3 Oct 2024 13:17:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F0FB28100A
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  3 Oct 2024 11:16:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 95B5F1C209E4
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  3 Oct 2024 11:17:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41EB615572E;
-	Thu,  3 Oct 2024 11:15:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FF89170853;
+	Thu,  3 Oct 2024 11:16:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4NyinbLR"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="x0O3JhwU"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2040.outbound.protection.outlook.com [40.107.220.40])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2052.outbound.protection.outlook.com [40.107.94.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC921547CE
-	for <platform-driver-x86@vger.kernel.org>; Thu,  3 Oct 2024 11:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5775A156231
+	for <platform-driver-x86@vger.kernel.org>; Thu,  3 Oct 2024 11:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727954158; cv=fail; b=dPSd22S5yvrd4VxcnsO7F0tq9/jLRyOqGkw1nH3CaBdRfMXNXYUVIj/u7VGgaIwntjXHZOTpxKrvUkR361kSuAExJjfXHqK3GwfOtR4mmjNf3RlVuVT85hPCzB64PNnnGK3tw9VJ2FoLixiRlxJXfY9l5L2tfumEEbe8/qpdI18=
+	t=1727954163; cv=fail; b=TibLsRET4AABlE+m1gxvaRMZ43dPuXVdlXOoxogCdf7MPwpymHvjrwKVRmydIGxLkh5fzHlMugpmUAqDlGUDXdgyEe8BacZ13Bwn6pNYN0WhLkZGmAi/vVZM+/TOW/l2b9q3eRLetdOABpMngE3iITcg49uiIY2jqcLkYzY1heE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727954158; c=relaxed/simple;
-	bh=G/ySLvAnzTQqoTeQ7c2sctoX9W+ubyC1lQPYSqOhn4E=;
+	s=arc-20240116; t=1727954163; c=relaxed/simple;
+	bh=N0/2U/dNOyeyTjE6pWro9nYR3W9NrQfja9ZYTbW4AEM=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rmktwldPTGS0J210YG7Is7o+pHXRX872RnpKf9tNbTsEe3a6e5K5gDaPtu5ZiwXEDihGxaGyCsTKPzdMmYM6pZSft9nDUDtlSQqxK3k8Vx6l16PRdtlEX3/daBpd9t+dBPOYLV4jbnvuZmbYcrRHNB7Kw+SjqCF51syQPSTuoPs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=4NyinbLR; arc=fail smtp.client-ip=40.107.220.40
+	 MIME-Version:Content-Type; b=GZR44MxkaixdZVLJzjzV3vBjZyZjIpklszpa4w55W0508ytG/Zz4bbZrPYKphJasC7si40kWYGAHYwg/qP4MkwjpxOuRyP10uZ1z4IOxHLU6UXaO8ZKW32KdaTg4utitfZ6Kzcypx/9Q/7qQs36m127cnBw2orSaFk4CcGIgOpU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=x0O3JhwU; arc=fail smtp.client-ip=40.107.94.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rUVbhUrRHcesBTXNjVhbbpG0mWtUlYir7DSVoLYWmXV57/V+jLNnVbFmRZcAewDj+ty9Ydvn9MrkZB0aQFiKQbfSPSL5VAcX/yW3XcTnsTXTrfS2VgV7OlzEGs/AQdRfl3Co8+yRRRKPt/HKMZioF6HZ0kj+ri7+gNcitfBIUA7TJbwTvIKKBf70tjIsvKrXXIHailzx9ScPQoa2rkYUbJ+v5JCR1h7zKJzW9NVWD9E/dgqweEceOxSlzE1TtICdi22/d/kzoOvE5MWnQuO1VdcfOGh1jZrStDKrKvFnGopMejrCBYuY1lKo9S1BYTTpaX7FF0xmBNaYrNe2N+nbhw==
+ b=NxpaNEEp0iID/3DI+CGrCMyGcF9ZLXGlI3or5zzk7XsH5FyZ+OmVfe4BKN243uD+WqAInKxf2gTmlAfS3Iwz0zIaPZEgf1sRUKqxT9nf1Otgc5OT105KJX97BjRXJeFLAKDAVlqSCoRDRzDZ0wJ54Yp+xXjb+pdzQdsOz2sFst7qIgozH3ErjPW5JqvTYR27dGxIFCXvMhrYOLmeyNLS8noh4zG6dCa84YH5vqSuo2M/yL0VgegIDm/cxVuRGllnLYWRU+VPtDvLTpzohfHwe9a4Zy82U7wJEauKNmqSF/kkSpgyuCC30GetcrocXrXsW/BQ/QjyPQItYv7ukg4wkg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=07rODr/Rn8BKDT13vgMQs3qZYu6/2ovsRyxiKbhLge4=;
- b=q02GTFGTjwYLX0z3I6HOZnRBHClucdwbZysut1eiIAmjOpL0RTSaYQ5vfoosaTiiBK/sTMG4GRfThVJp5sy8nXJoVGEmx2jNvQyzVRw00Xlm8xkV3Lbbk1u2pCfS8e4+HCb2zycfItyHKbuK/jNPWyrohvzZrHaQWaw2RWERj3oIXuU6Ez9VTaPMp4sBksarhMLe70l0kh2vn7QyB126fhLppCM8OkbD12TYXyYYYOfpr1jq6/ZE2+7Y11OnOgJw2K1kBxwc/2R6wvV5Frf0ssmzpyJFaVMJk+15MNJBBr2H/6IShcg4M/6XfzKEPJNMA1CzVHEneHFQGjsA8u35DQ==
+ bh=8cV9/VsmdXwaVw+29UCBe4i6/gXQCG7sV0z3a0XqtqI=;
+ b=FAekr8gLYFOe4RUadIcyAGAIMNvT6mLrJE5trgGRMrOvmGx4z9OU5waEd4QxQBFzbAAOcWSiVPbBIMqB0dRpsXgHbOP/RFRa3v3vK0sCBoTnscclIf4PtYv+WcYyL0IrTJeTFn/njn7+RazzpW0LEIp+dRflnZDNkMmFDMjJM2In4mkwYs1CJi9AlSibYycKLIVSLobgZMUWLXah8T+aXiE3+QQCEj1/jg7M13UbxSHpYiI6RB4DV3snkzjf9pfautNrX7UB7iPnYVhpH5mfSzp3+9syA5ZxUu6GYBjJBkvSWp2KN9KN7hFq2SFQ3q7vtSi6Iy2DRhcxMJVNGq8sBg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=07rODr/Rn8BKDT13vgMQs3qZYu6/2ovsRyxiKbhLge4=;
- b=4NyinbLRPJkyexzDAqTXuQQ9RCp/5ejEPV6AVAlwXS4Ra8LyyGQxxwrjL9jIMQmt0RAFwCl9Z45FwNAcpaA46yCae4De8BG+C0S94B+YuXZNMgBFyIZB3JLV/2K29ysxNetygdKgcODXZlhPI/Y36pOQCqkzMI3sU+tuTae/Yc0=
-Received: from CH0P221CA0014.NAMP221.PROD.OUTLOOK.COM (2603:10b6:610:11c::12)
- by SN7PR12MB7322.namprd12.prod.outlook.com (2603:10b6:806:299::6) with
+ bh=8cV9/VsmdXwaVw+29UCBe4i6/gXQCG7sV0z3a0XqtqI=;
+ b=x0O3JhwU7nCGQ9y6t7i9sjlINI3xXNeyPv1Ls6dxcUCr5pl2Z9KlkZy23MUHWrpFF9pnB5QfC7sfPFtU66KEjuDsMAnsI/8aUfQ14mi/DLCqiopdJbS1/53yJPA7Ewe18aE6KwWXLiPDigXtls2f1/nNzXNDMGGiyrdBd1XN6cQ=
+Received: from CH2PR16CA0030.namprd16.prod.outlook.com (2603:10b6:610:50::40)
+ by IA1PR12MB6354.namprd12.prod.outlook.com (2603:10b6:208:3e2::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.15; Thu, 3 Oct
- 2024 11:15:52 +0000
-Received: from CH1PEPF0000AD83.namprd04.prod.outlook.com
- (2603:10b6:610:11c:cafe::fb) by CH0P221CA0014.outlook.office365.com
- (2603:10b6:610:11c::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.18 via Frontend
- Transport; Thu, 3 Oct 2024 11:15:51 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.16; Thu, 3 Oct
+ 2024 11:15:53 +0000
+Received: from CH1PEPF0000AD7F.namprd04.prod.outlook.com
+ (2603:10b6:610:50:cafe::a5) by CH2PR16CA0030.outlook.office365.com
+ (2603:10b6:610:50::40) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.30 via Frontend
+ Transport; Thu, 3 Oct 2024 11:15:53 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -63,21 +63,21 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH1PEPF0000AD83.mail.protection.outlook.com (10.167.244.85) with Microsoft
+ CH1PEPF0000AD7F.mail.protection.outlook.com (10.167.244.88) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8026.11 via Frontend Transport; Thu, 3 Oct 2024 11:15:51 +0000
+ 15.20.8026.11 via Frontend Transport; Thu, 3 Oct 2024 11:15:53 +0000
 Received: from amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 3 Oct
- 2024 06:15:49 -0500
+ 2024 06:15:51 -0500
 From: Suma Hegde <suma.hegde@amd.com>
 To: <platform-driver-x86@vger.kernel.org>
 CC: <ilpo.jarvinen@linux.intel.com>, <hdegoede@redhat.com>, Suma Hegde
 	<suma.hegde@amd.com>, Naveen Krishna Chatradhi
 	<naveenkrishna.chatradhi@amd.com>
-Subject: [v9 09/11] platform/x86/amd/hsmp: Use name space while exporting module symbols
-Date: Thu, 3 Oct 2024 11:15:13 +0000
-Message-ID: <20241003111515.2955700-9-suma.hegde@amd.com>
+Subject: [v9 10/11] platform/x86/amd/hsmp: Use dev_groups in the driver structure
+Date: Thu, 3 Oct 2024 11:15:14 +0000
+Message-ID: <20241003111515.2955700-10-suma.hegde@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20241003111515.2955700-1-suma.hegde@amd.com>
 References: <20241003111515.2955700-1-suma.hegde@amd.com>
@@ -93,198 +93,506 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD83:EE_|SN7PR12MB7322:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7837923e-cc65-4731-d794-08dce39cbdd9
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD7F:EE_|IA1PR12MB6354:EE_
+X-MS-Office365-Filtering-Correlation-Id: a17a7983-a2cf-4840-30bb-08dce39cbf03
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014;
+	BCL:0;ARA:13230040|376014|36860700013|1800799024|82310400026;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?0IclFYH+rYMQkfhvvN/N8jsU1rGDWCiVAFQyzMAMbBTLpW+Spp/WrXd9MzYj?=
- =?us-ascii?Q?NAN6MsPJfsRP3tJJny0duiTu55njzsIyxR8dOYP7I5YTxMCtfWyebWZg/CyG?=
- =?us-ascii?Q?tCCRy7bh/aPpwLF4vSAFm6TrvcKeuOkSVrp+/aNN7kfGhwSXIGIDoDvT9iy+?=
- =?us-ascii?Q?atRqpYaiI7kxHJoTHzRMUh9IW+T6FXjBKcGz1pxKv9ObEQaj53RkKHtH0nm7?=
- =?us-ascii?Q?l9Y4QWfkmZWhTVBzzZV15wQoamDTBalfxw2q4jpVw4WfuYV8mnNHr4Q2WTP5?=
- =?us-ascii?Q?YAFM0TPJ+RS/nsed8tjWKSEXc/qfA9DBP6V6wG5q63X1YJfXkDq13QTYp2WH?=
- =?us-ascii?Q?2ubQ1aftJ5gheTnIA665Hlhc7nlZRXmEpskEjacqCmwjxMS53d90RrozOYxL?=
- =?us-ascii?Q?AaReEnPmh+LjcwOtEbFhP98fFFRUM0suLVRP+UqDOs+xskM8K7ERVU/TtS75?=
- =?us-ascii?Q?5pjNE5i9CyUWdRsf0lxVvwnfcl1XWMdI/jYy8Vbzt8QdBkFN40057XMbKsm8?=
- =?us-ascii?Q?8HSSHXqkEIJku1AeypBIUwL7USA7834qsl06v7knxtwn3PBFXTm6KaAwKzBh?=
- =?us-ascii?Q?64IgtIKQHLr4GtaKqgjxhTTd4OUt8gKbf0FGQk/tAYOv28/Vye+eHpnktrJd?=
- =?us-ascii?Q?4oMrj/nwN/NWCzZjgnOECEe3jSZTB+Z+WSVtSWPVx4q3iS6TlT0FtO7aA+i0?=
- =?us-ascii?Q?9sqTJIN18CZCz9q/N40cjjCA8GQsjBnqPRmbfiDQeDY97y8K19vaEj0jafUz?=
- =?us-ascii?Q?wqgJbAhKwT/LRADqssoCPfzArKzI5eglGukyMcy+w+FYfqSCyDZ/gxTFm2Mp?=
- =?us-ascii?Q?2/Lz1CCdvIoIdXUhD1Riz8e6yeWKfJ51Q0+PMjiCRaZNEHU+TTnp7b89P2p9?=
- =?us-ascii?Q?QJjEgW+66QDPLg7lVXQfF2cChma2kGtqh32dv/yO57BDFq6qwkLVSz/taY2x?=
- =?us-ascii?Q?J5yXezxC9Lq70y34x1gFXJyC/ttC60ji5PY2EvkHWS2AWSO58Pm1yjyFMnwX?=
- =?us-ascii?Q?Wn7UzmK5ga/5pWN2OdEzYX77fBt8pUYah4YGezpTVN8Fbc6gUeWajN6MXRKx?=
- =?us-ascii?Q?ZBHqpPZgBdgRSNmvDjjAs2xjrvx6tU70FKiCljsKcx0elhZWQC+IrB/wqWAO?=
- =?us-ascii?Q?Lcy0WimKhIdksZ4RFgFn714Ih6mp2/VxJytdWzyezkst7ubxCU+ssuEQprsZ?=
- =?us-ascii?Q?1hsH4xl4wedaeBHpS3DLeQdFQIX4q1Qn+nhI+qnoTspz7gS0RiiujHFlIUQQ?=
- =?us-ascii?Q?aPwRpLXZMhm7kOIYkJL9fHMTLuZDCdvIT1k03Eh5cs+ITF0I5LVAgZDg8HBL?=
- =?us-ascii?Q?v8qsn3pCY/jDaDe/F6qS+Gk0N5pufLwPUs2w3YrTA76PoGTBorWJx/ICo2ct?=
- =?us-ascii?Q?oEnlKZdyCng1T59sT/X8mX1EUBmn?=
+	=?us-ascii?Q?o/PyCdtvxZ2pQkVkEZUm7SSTaJ/vQOEaeywuitPeZbXgk3cfulb+bo7qgPau?=
+ =?us-ascii?Q?7VAoRQmdryA0gBxVm3gsluwxejwoL7OUYth1iOZlt0x12Qica2Wkps8jhL5V?=
+ =?us-ascii?Q?hTLtKXXPPMT+cNb0fP00cqLvC3Mg6feUE0sOkMN07/8kxbvcSC00KoQHdxme?=
+ =?us-ascii?Q?balIlvGRXVj/goOst4SgGO5muYeb01H1UUhm+9cm3/5SzZ9aNUSp0o3HN1Mc?=
+ =?us-ascii?Q?KHPmpLD5fTu3Jj8DTo4TP8hg2jj9ymEoN8SvQD4sdCYPElyuOwhuZ98BoA2z?=
+ =?us-ascii?Q?cLSueixlAyj8SitSxCd+zT8kuh9BIq9TNL+frEvAjKJ2gNWz6+eIQsIpwFGz?=
+ =?us-ascii?Q?x8AcwAr70aCVu+F5jLbApYqSAElny2RkZrkOX1TGSx/IuZGPYlc7oacbNJbB?=
+ =?us-ascii?Q?QK8jR0k0tbsXI4HvfbMPTh/Jq96Ee0hlLyTQdM7SN0dpIYabvTa0jQ6I8Qh+?=
+ =?us-ascii?Q?hIpeJGxdm3CHgHkD5a9Zqey97d+WpRW+L9BR/1pbpf5iOZyt6pw2NQlh1A5Z?=
+ =?us-ascii?Q?lIPS0sksNxeBTHlEvrPm6RwYT0K254+IZN/53XvKHBZuLwESC11vOYfdk8KE?=
+ =?us-ascii?Q?AqJPMhcdkVKs0EkKu1S5rRX5OVeiNp70OBy/vsZ49Z5hCGveTV4/2j/3xM5a?=
+ =?us-ascii?Q?mEYqKAz3zdVwb7tiYEhkQ7HT7B7OBdqbgbxIP4H7bUvSFePFfQGeukJ1+qdr?=
+ =?us-ascii?Q?Ft3x4OGnvmnTPcqi26a45EQHWCqubbNlhXnbkpkNopEmYG68/VcxZwVO6ZHR?=
+ =?us-ascii?Q?gG6OM208bx84pq9xNoZGP88OnHPnU9rT08iATeZvKgLknOpsGeZvsdBPUdFq?=
+ =?us-ascii?Q?aizwsrWnyBzMqiDfDMPySWfibwxUEHd1G+WDMp64mC6l4frypdHqPkcKwcfo?=
+ =?us-ascii?Q?Ctrt5xmIx4FvOxOSu7mrL1b9tPe7u/wpbUm/0UY6txOUIXnForD+XZdm8W1n?=
+ =?us-ascii?Q?3YQPon2Z99dS3JxKshEwGrH9Cd33McDEng0EX1an4tSbrGBuDM+9EFON5hFM?=
+ =?us-ascii?Q?0jD/6CwfRs6Sj17GOrPE8xMC5XwVTZMpSPTCGecADcpn6PrrwmssMY+cQ8Wy?=
+ =?us-ascii?Q?g1glqv887GBFgTKrIUXyXoS9eE+lra/xM4OIeolfNbbidYAHn5Cm8+lMcvbK?=
+ =?us-ascii?Q?dltEyEZKz7e5Nv1SP3cvbYDh5cNhDfDlNmVdKG9kYBO+TxWNf8FQS9eJxrIV?=
+ =?us-ascii?Q?9uPnH1CwRvgPkKpRtAZx2jldDeqtjGI8/XJ+9tpK+kemsR3N4kujtWsxjg/+?=
+ =?us-ascii?Q?DDd+Psv6A+AWpLWi5JfbINMFB47f9BxEmDGnozGYrS2K39WHnzZIG/FihsLE?=
+ =?us-ascii?Q?gaBipqo4eUKkSyVYGedlomW+bOY36qkhGBS93MH4Igk9hQ3xLzJYvLDEI7tl?=
+ =?us-ascii?Q?jxI23Ds=3D?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2024 11:15:51.8403
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2024 11:15:53.7734
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7837923e-cc65-4731-d794-08dce39cbdd9
+X-MS-Exchange-CrossTenant-Network-Message-Id: a17a7983-a2cf-4840-30bb-08dce39cbf03
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CH1PEPF0000AD83.namprd04.prod.outlook.com
+	CH1PEPF0000AD7F.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7322
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6354
 
-hsmp_send_message() is exported with AMD_HSMP name space.
-The other modules who would like to use this symbol,
-need to import AMD_HSMP namespace using MODULE_IMPORT_NS()
-to get away with warning.
+Move out of device_add_group() variants, instead assign static array of
+attribute groups to .dev_groups in platform_driver structure.
+Then use is_visible to enable only the necessary files on the platform.
+
+.read() and .is_bin_visibile() have slightly different
+implemetations on ACPI and non-ACPI system, so move them
+to respective files.
 
 Signed-off-by: Suma Hegde <suma.hegde@amd.com>
 Reviewed-by: Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
 ---
 Changes since v8:
-None
+Resolved conflict caused due to change in plat.c.
 
 Changes since v7:
-1. Changed from EXPORT_SYMBOL_GPL() to EXPORT_SYMBOL_NS_GPL() for the newly exported
-   symbols in hsmp.c.
-2. MODULE_IMPORT_NS(AMD_HSMP) is added in hsmp.c and acpi.c.
+hsmp_get_tbl_dram_base() is exported as a module symbol.
 
 Changes since v6:
-None
+1. Move common code of hsmp_metric_tbl_read() of plat.c and acpi.c to
+   hsmp.c with the same function name.
+2. Rename hsmp_metric_tbl_read() to hsmp_metric_tbl_plat_read() and
+   hsmp_metric_tbl_acpi_read() in plat.c acpi.c respectively.
+3. Add tabe space in macros definition in plat.c
+4. Keep only one cast for sock_ind.
 
 Changes since v5:
-None
+Assign integer directly to .private.
 
 Changes since v4:
-None
+Change ->private from string pointer to u16 pointer.
 
 Changes since v3:
-None
+This patch and next patch(9th and 10th patch in v3 series) are merged
+and commit description is updated.
 
 Changes since v2:
 None
 
 Changes since v1:
-None
+1. Change is_visible to is_bin_visible in commit message
+1. Add parenthesis around read and is_bin_visible in commit message
+2. Change plat_dev to hsmp_pdev, hsmp_device to mdev
+3. Remove unnecessary if, else conditions in hsmp_is_sock_attr_visible
+4. Change un cached to un-cached
 
 
- drivers/platform/x86/amd/hsmp/acpi.c |  1 +
- drivers/platform/x86/amd/hsmp/hsmp.c | 18 +++++++++---------
- drivers/platform/x86/amd/hsmp/plat.c |  1 +
- 3 files changed, 11 insertions(+), 9 deletions(-)
+ drivers/platform/x86/amd/hsmp/acpi.c |  65 ++++++++++-----
+ drivers/platform/x86/amd/hsmp/hsmp.c |  67 ++--------------
+ drivers/platform/x86/amd/hsmp/hsmp.h |   9 +--
+ drivers/platform/x86/amd/hsmp/plat.c | 113 +++++++++++++++++++++------
+ 4 files changed, 141 insertions(+), 113 deletions(-)
 
 diff --git a/drivers/platform/x86/amd/hsmp/acpi.c b/drivers/platform/x86/amd/hsmp/acpi.c
-index 766617e6adc7..53deee86f456 100644
+index 53deee86f456..9435e40bbf25 100644
 --- a/drivers/platform/x86/amd/hsmp/acpi.c
 +++ b/drivers/platform/x86/amd/hsmp/acpi.c
-@@ -343,6 +343,7 @@ static struct platform_driver amd_hsmp_driver = {
+@@ -9,6 +9,7 @@
  
- module_platform_driver(amd_hsmp_driver);
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
  
-+MODULE_IMPORT_NS(AMD_HSMP);
- MODULE_DESCRIPTION("AMD HSMP Platform Interface Driver");
- MODULE_VERSION(DRIVER_VERSION);
- MODULE_LICENSE("GPL");
++#include <asm/amd_hsmp.h>
+ #include <asm/amd_nb.h>
+ 
+ #include <linux/acpi.h>
+@@ -211,6 +212,8 @@ static int hsmp_parse_acpi_table(struct device *dev, u16 sock_ind)
+ 
+ 	sema_init(&sock->hsmp_sem, 1);
+ 
++	dev_set_drvdata(dev, sock);
++
+ 	/* Read MP1 base address from CRS method */
+ 	ret = hsmp_read_acpi_crs(sock);
+ 	if (ret)
+@@ -220,27 +223,23 @@ static int hsmp_parse_acpi_table(struct device *dev, u16 sock_ind)
+ 	return hsmp_read_acpi_dsd(sock);
+ }
+ 
+-static int hsmp_create_acpi_sysfs_if(struct device *dev)
++static ssize_t hsmp_metric_tbl_acpi_read(struct file *filp, struct kobject *kobj,
++					 struct bin_attribute *bin_attr, char *buf,
++					 loff_t off, size_t count)
+ {
+-	struct attribute_group *attr_grp;
+-	u16 sock_ind;
+-	int ret;
++	struct device *dev = container_of(kobj, struct device, kobj);
++	struct hsmp_socket *sock = dev_get_drvdata(dev);
+ 
+-	attr_grp = devm_kzalloc(dev, sizeof(struct attribute_group), GFP_KERNEL);
+-	if (!attr_grp)
+-		return -ENOMEM;
+-
+-	attr_grp->is_bin_visible = hsmp_is_sock_attr_visible;
+-
+-	ret = hsmp_get_uid(dev, &sock_ind);
+-	if (ret)
+-		return ret;
++	return hsmp_metric_tbl_read(sock, buf, count);
++}
+ 
+-	ret = hsmp_create_attr_list(attr_grp, dev, sock_ind);
+-	if (ret)
+-		return ret;
++static umode_t hsmp_is_sock_attr_visible(struct kobject *kobj,
++					 struct bin_attribute *battr, int id)
++{
++	if (hsmp_pdev.proto_ver == HSMP_PROTO_VER6)
++		return battr->attr.mode;
+ 
+-	return devm_device_add_group(dev, attr_grp);
++	return 0;
+ }
+ 
+ static int init_acpi(struct device *dev)
+@@ -275,9 +274,36 @@ static int init_acpi(struct device *dev)
+ 		return ret;
+ 	}
+ 
++	if (hsmp_pdev.proto_ver == HSMP_PROTO_VER6) {
++		ret = hsmp_get_tbl_dram_base(sock_ind);
++		if (ret)
++			dev_err(dev, "Failed to init metric table\n");
++	}
++
+ 	return ret;
+ }
+ 
++static struct bin_attribute  hsmp_metric_tbl_attr = {
++	.attr = { .name = HSMP_METRICS_TABLE_NAME, .mode = 0444},
++	.read = hsmp_metric_tbl_acpi_read,
++	.size = sizeof(struct hsmp_metric_table),
++};
++
++static struct bin_attribute *hsmp_attr_list[] = {
++	&hsmp_metric_tbl_attr,
++	NULL
++};
++
++static struct attribute_group hsmp_attr_grp = {
++	.bin_attrs = hsmp_attr_list,
++	.is_bin_visible = hsmp_is_sock_attr_visible,
++};
++
++static const struct attribute_group *hsmp_groups[] = {
++	&hsmp_attr_grp,
++	NULL
++};
++
+ static const struct acpi_device_id amd_hsmp_acpi_ids[] = {
+ 	{ACPI_HSMP_DEVICE_HID, 0},
+ 	{}
+@@ -306,10 +332,6 @@ static int hsmp_acpi_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
+-	ret = hsmp_create_acpi_sysfs_if(&pdev->dev);
+-	if (ret)
+-		dev_err(&pdev->dev, "Failed to create HSMP sysfs interface\n");
+-
+ 	if (!hsmp_pdev.is_probed) {
+ 		ret = hsmp_misc_register(&pdev->dev);
+ 		if (ret)
+@@ -338,6 +360,7 @@ static struct platform_driver amd_hsmp_driver = {
+ 	.driver		= {
+ 		.name	= DRIVER_NAME,
+ 		.acpi_match_table = amd_hsmp_acpi_ids,
++		.dev_groups = hsmp_groups,
+ 	},
+ };
+ 
 diff --git a/drivers/platform/x86/amd/hsmp/hsmp.c b/drivers/platform/x86/amd/hsmp/hsmp.c
-index 4fa0850c7824..6fd08f16933a 100644
+index 6fd08f16933a..7c3fb090684f 100644
 --- a/drivers/platform/x86/amd/hsmp/hsmp.c
 +++ b/drivers/platform/x86/amd/hsmp/hsmp.c
-@@ -36,7 +36,7 @@
- #define DRIVER_VERSION		"2.3"
- 
- struct hsmp_plat_device hsmp_pdev;
--EXPORT_SYMBOL_GPL(hsmp_pdev);
-+EXPORT_SYMBOL_NS_GPL(hsmp_pdev, AMD_HSMP);
- 
- /*
-  * Send a message to the HSMP port via PCI-e config space registers
-@@ -193,7 +193,7 @@ int hsmp_send_message(struct hsmp_message *msg)
- 
- 	return ret;
+@@ -282,19 +282,16 @@ long hsmp_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
+ 	return 0;
  }
--EXPORT_SYMBOL_GPL(hsmp_send_message);
-+EXPORT_SYMBOL_NS_GPL(hsmp_send_message, AMD_HSMP);
  
- int hsmp_test(u16 sock_ind, u32 value)
+-ssize_t hsmp_metric_tbl_read(struct file *filp, struct kobject *kobj,
+-			     struct bin_attribute *bin_attr, char *buf,
+-			     loff_t off, size_t count)
++ssize_t hsmp_metric_tbl_read(struct hsmp_socket *sock, char *buf, size_t size)
  {
-@@ -224,7 +224,7 @@ int hsmp_test(u16 sock_ind, u32 value)
+-	struct hsmp_socket *sock = bin_attr->private;
+ 	struct hsmp_message msg = { 0 };
+ 	int ret;
  
- 	return ret;
+-	if (!sock)
++	if (!sock || !buf)
+ 		return -EINVAL;
+ 
+-	/* Do not support lseek(), reads entire metric table */
+-	if (count < bin_attr->size) {
++	/* Do not support lseek(), also don't allow more than the size of metric table */
++	if (size != sizeof(struct hsmp_metric_table)) {
+ 		dev_err(sock->dev, "Wrong buffer size\n");
+ 		return -EINVAL;
+ 	}
+@@ -305,13 +302,13 @@ ssize_t hsmp_metric_tbl_read(struct file *filp, struct kobject *kobj,
+ 	ret = hsmp_send_message(&msg);
+ 	if (ret)
+ 		return ret;
+-	memcpy_fromio(buf, sock->metric_tbl_addr, bin_attr->size);
++	memcpy_fromio(buf, sock->metric_tbl_addr, size);
+ 
+-	return bin_attr->size;
++	return size;
  }
--EXPORT_SYMBOL_GPL(hsmp_test);
-+EXPORT_SYMBOL_NS_GPL(hsmp_test, AMD_HSMP);
+ EXPORT_SYMBOL_NS_GPL(hsmp_metric_tbl_read, AMD_HSMP);
  
- long hsmp_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
+-static int hsmp_get_tbl_dram_base(u16 sock_ind)
++int hsmp_get_tbl_dram_base(u16 sock_ind)
  {
-@@ -309,7 +309,7 @@ ssize_t hsmp_metric_tbl_read(struct file *filp, struct kobject *kobj,
- 
- 	return bin_attr->size;
+ 	struct hsmp_socket *sock = &hsmp_pdev.sock[sock_ind];
+ 	struct hsmp_message msg = { 0 };
+@@ -343,55 +340,7 @@ static int hsmp_get_tbl_dram_base(u16 sock_ind)
+ 	}
+ 	return 0;
  }
--EXPORT_SYMBOL_GPL(hsmp_metric_tbl_read);
-+EXPORT_SYMBOL_NS_GPL(hsmp_metric_tbl_read, AMD_HSMP);
- 
- static int hsmp_get_tbl_dram_base(u16 sock_ind)
- {
-@@ -352,7 +352,7 @@ umode_t hsmp_is_sock_attr_visible(struct kobject *kobj,
- 	else
- 		return 0;
- }
--EXPORT_SYMBOL_GPL(hsmp_is_sock_attr_visible);
-+EXPORT_SYMBOL_NS_GPL(hsmp_is_sock_attr_visible, AMD_HSMP);
- 
- static int hsmp_init_metric_tbl_bin_attr(struct bin_attribute **hattrs, u16 sock_ind)
- {
-@@ -391,7 +391,7 @@ int hsmp_create_attr_list(struct attribute_group *attr_grp,
- 
- 	return hsmp_init_metric_tbl_bin_attr(hsmp_bin_attrs, sock_ind);
- }
--EXPORT_SYMBOL_GPL(hsmp_create_attr_list);
-+EXPORT_SYMBOL_NS_GPL(hsmp_create_attr_list, AMD_HSMP);
+-
+-umode_t hsmp_is_sock_attr_visible(struct kobject *kobj,
+-				  struct bin_attribute *battr, int id)
+-{
+-	if (hsmp_pdev.proto_ver == HSMP_PROTO_VER6)
+-		return battr->attr.mode;
+-	else
+-		return 0;
+-}
+-EXPORT_SYMBOL_NS_GPL(hsmp_is_sock_attr_visible, AMD_HSMP);
+-
+-static int hsmp_init_metric_tbl_bin_attr(struct bin_attribute **hattrs, u16 sock_ind)
+-{
+-	struct bin_attribute *hattr = &hsmp_pdev.sock[sock_ind].hsmp_attr;
+-
+-	sysfs_bin_attr_init(hattr);
+-	hattr->attr.name	= HSMP_METRICS_TABLE_NAME;
+-	hattr->attr.mode	= 0444;
+-	hattr->read		= hsmp_metric_tbl_read;
+-	hattr->size		= sizeof(struct hsmp_metric_table);
+-	hattr->private		= &hsmp_pdev.sock[sock_ind];
+-	hattrs[0]		= hattr;
+-
+-	if (hsmp_pdev.proto_ver == HSMP_PROTO_VER6)
+-		return hsmp_get_tbl_dram_base(sock_ind);
+-	else
+-		return 0;
+-}
+-
+-/* One bin sysfs for metrics table */
+-#define NUM_HSMP_ATTRS		1
+-
+-int hsmp_create_attr_list(struct attribute_group *attr_grp,
+-			  struct device *dev, u16 sock_ind)
+-{
+-	struct bin_attribute **hsmp_bin_attrs;
+-
+-	/* Null terminated list of attributes */
+-	hsmp_bin_attrs = devm_kcalloc(dev, NUM_HSMP_ATTRS + 1,
+-				      sizeof(*hsmp_bin_attrs),
+-				      GFP_KERNEL);
+-	if (!hsmp_bin_attrs)
+-		return -ENOMEM;
+-
+-	attr_grp->bin_attrs = hsmp_bin_attrs;
+-
+-	return hsmp_init_metric_tbl_bin_attr(hsmp_bin_attrs, sock_ind);
+-}
+-EXPORT_SYMBOL_NS_GPL(hsmp_create_attr_list, AMD_HSMP);
++EXPORT_SYMBOL_NS_GPL(hsmp_get_tbl_dram_base, AMD_HSMP);
  
  int hsmp_cache_proto_ver(u16 sock_ind)
  {
-@@ -408,7 +408,7 @@ int hsmp_cache_proto_ver(u16 sock_ind)
+diff --git a/drivers/platform/x86/amd/hsmp/hsmp.h b/drivers/platform/x86/amd/hsmp/hsmp.h
+index 9ab50bc74676..9b4ab6a3598c 100644
+--- a/drivers/platform/x86/amd/hsmp/hsmp.h
++++ b/drivers/platform/x86/amd/hsmp/hsmp.h
+@@ -57,16 +57,11 @@ struct hsmp_plat_device {
  
- 	return ret;
- }
--EXPORT_SYMBOL_GPL(hsmp_cache_proto_ver);
-+EXPORT_SYMBOL_NS_GPL(hsmp_cache_proto_ver, AMD_HSMP);
+ extern struct hsmp_plat_device hsmp_pdev;
  
- static const struct file_operations hsmp_fops = {
- 	.owner		= THIS_MODULE,
-@@ -427,13 +427,13 @@ int hsmp_misc_register(struct device *dev)
- 
- 	return misc_register(&hsmp_pdev.mdev);
- }
--EXPORT_SYMBOL_GPL(hsmp_misc_register);
-+EXPORT_SYMBOL_NS_GPL(hsmp_misc_register, AMD_HSMP);
- 
- void hsmp_misc_deregister(void)
- {
- 	misc_deregister(&hsmp_pdev.mdev);
- }
--EXPORT_SYMBOL_GPL(hsmp_misc_deregister);
-+EXPORT_SYMBOL_NS_GPL(hsmp_misc_deregister, AMD_HSMP);
- 
- MODULE_DESCRIPTION("AMD HSMP Common driver");
- MODULE_VERSION(DRIVER_VERSION);
+-ssize_t hsmp_metric_tbl_read(struct file *filp, struct kobject *kobj,
+-			     struct bin_attribute *bin_attr, char *buf,
+-			     loff_t off, size_t count);
+ int hsmp_cache_proto_ver(u16 sock_ind);
+-umode_t hsmp_is_sock_attr_visible(struct kobject *kobj,
+-				  struct bin_attribute *battr, int id);
+-int hsmp_create_attr_list(struct attribute_group *attr_grp,
+-			  struct device *dev, u16 sock_ind);
+ int hsmp_test(u16 sock_ind, u32 value);
+ long hsmp_ioctl(struct file *fp, unsigned int cmd, unsigned long arg);
+ void hsmp_misc_deregister(void);
+ int hsmp_misc_register(struct device *dev);
++int hsmp_get_tbl_dram_base(u16 sock_ind);
++ssize_t hsmp_metric_tbl_read(struct hsmp_socket *sock, char *buf, size_t size);
+ #endif /* HSMP_H */
 diff --git a/drivers/platform/x86/amd/hsmp/plat.c b/drivers/platform/x86/amd/hsmp/plat.c
-index d2e207820bcd..6049dc126d49 100644
+index 6049dc126d49..d9fe87fc85bd 100644
 --- a/drivers/platform/x86/amd/hsmp/plat.c
 +++ b/drivers/platform/x86/amd/hsmp/plat.c
-@@ -265,6 +265,7 @@ static void __exit hsmp_plt_exit(void)
- device_initcall(hsmp_plt_init);
- module_exit(hsmp_plt_exit);
+@@ -9,6 +9,7 @@
  
-+MODULE_IMPORT_NS(AMD_HSMP);
- MODULE_DESCRIPTION("AMD HSMP Platform Interface Driver");
- MODULE_VERSION(DRIVER_VERSION);
- MODULE_LICENSE("GPL");
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
++#include <asm/amd_hsmp.h>
+ #include <asm/amd_nb.h>
+ 
+ #include <linux/device.h>
+@@ -55,36 +56,93 @@ static int amd_hsmp_pci_rdwr(struct hsmp_socket *sock, u32 offset,
+ 	return ret;
+ }
+ 
+-static int hsmp_create_non_acpi_sysfs_if(struct device *dev)
++static ssize_t hsmp_metric_tbl_plat_read(struct file *filp, struct kobject *kobj,
++					 struct bin_attribute *bin_attr, char *buf,
++					 loff_t off, size_t count)
+ {
+-	const struct attribute_group **hsmp_attr_grps;
+-	struct attribute_group *attr_grp;
+-	u16 i;
++	struct hsmp_socket *sock;
++	u16 sock_ind;
+ 
+-	hsmp_attr_grps = devm_kcalloc(dev, hsmp_pdev.num_sockets + 1,
+-				      sizeof(*hsmp_attr_grps),
+-				      GFP_KERNEL);
+-	if (!hsmp_attr_grps)
+-		return -ENOMEM;
++	sock_ind = (uintptr_t)bin_attr->private;
++	if (sock_ind >= hsmp_pdev.num_sockets)
++		return -EINVAL;
+ 
+-	/* Create a sysfs directory for each socket */
+-	for (i = 0; i < hsmp_pdev.num_sockets; i++) {
+-		attr_grp = devm_kzalloc(dev, sizeof(struct attribute_group),
+-					GFP_KERNEL);
+-		if (!attr_grp)
+-			return -ENOMEM;
++	sock = &hsmp_pdev.sock[sock_ind];
+ 
+-		snprintf(hsmp_pdev.sock[i].name, HSMP_ATTR_GRP_NAME_SIZE, "socket%u", (u8)i);
+-		attr_grp->name			= hsmp_pdev.sock[i].name;
+-		attr_grp->is_bin_visible	= hsmp_is_sock_attr_visible;
+-		hsmp_attr_grps[i]		= attr_grp;
++	return hsmp_metric_tbl_read(sock, buf, count);
++}
+ 
+-		hsmp_create_attr_list(attr_grp, dev, i);
+-	}
++static umode_t hsmp_is_sock_attr_visible(struct kobject *kobj,
++					 struct bin_attribute *battr, int id)
++{
++	u16 sock_ind;
++
++	sock_ind = (uintptr_t)battr->private;
++
++	if (id == 0 && sock_ind >= hsmp_pdev.num_sockets)
++		return SYSFS_GROUP_INVISIBLE;
+ 
+-	return device_add_groups(dev, hsmp_attr_grps);
++	if (hsmp_pdev.proto_ver == HSMP_PROTO_VER6)
++		return battr->attr.mode;
++
++	return 0;
+ }
+ 
++/*
++ * AMD supports maximum of 8 sockets in a system.
++ * Static array of 8 + 1(for NULL) elements is created below
++ * to create sysfs groups for sockets.
++ * is_bin_visible function is used to show / hide the necessary groups.
++ */
++#define HSMP_BIN_ATTR(index, _list)					\
++static struct bin_attribute attr##index = {				\
++	.attr = { .name = HSMP_METRICS_TABLE_NAME, .mode = 0444},	\
++	.private = (void *)index,					\
++	.read = hsmp_metric_tbl_plat_read,					\
++	.size = sizeof(struct hsmp_metric_table),			\
++};									\
++static struct bin_attribute _list[] = {					\
++	&attr##index,							\
++	NULL								\
++}
++
++HSMP_BIN_ATTR(0, *sock0_attr_list);
++HSMP_BIN_ATTR(1, *sock1_attr_list);
++HSMP_BIN_ATTR(2, *sock2_attr_list);
++HSMP_BIN_ATTR(3, *sock3_attr_list);
++HSMP_BIN_ATTR(4, *sock4_attr_list);
++HSMP_BIN_ATTR(5, *sock5_attr_list);
++HSMP_BIN_ATTR(6, *sock6_attr_list);
++HSMP_BIN_ATTR(7, *sock7_attr_list);
++
++#define HSMP_BIN_ATTR_GRP(index, _list, _name)			\
++static struct attribute_group sock##index##_attr_grp = {	\
++	.bin_attrs = _list,					\
++	.is_bin_visible = hsmp_is_sock_attr_visible,		\
++	.name = #_name,						\
++}
++
++HSMP_BIN_ATTR_GRP(0, sock0_attr_list, socket0);
++HSMP_BIN_ATTR_GRP(1, sock1_attr_list, socket1);
++HSMP_BIN_ATTR_GRP(2, sock2_attr_list, socket2);
++HSMP_BIN_ATTR_GRP(3, sock3_attr_list, socket3);
++HSMP_BIN_ATTR_GRP(4, sock4_attr_list, socket4);
++HSMP_BIN_ATTR_GRP(5, sock5_attr_list, socket5);
++HSMP_BIN_ATTR_GRP(6, sock6_attr_list, socket6);
++HSMP_BIN_ATTR_GRP(7, sock7_attr_list, socket7);
++
++static const struct attribute_group *hsmp_groups[] = {
++	&sock0_attr_grp,
++	&sock1_attr_grp,
++	&sock2_attr_grp,
++	&sock3_attr_grp,
++	&sock4_attr_grp,
++	&sock5_attr_grp,
++	&sock6_attr_grp,
++	&sock7_attr_grp,
++	NULL
++};
++
+ static inline bool is_f1a_m0h(void)
+ {
+ 	if (boot_cpu_data.x86 == 0x1A && boot_cpu_data.x86_model <= 0x0F)
+@@ -135,6 +193,12 @@ static int init_platform_device(struct device *dev)
+ 			dev_err(dev, "Failed to read HSMP protocol version\n");
+ 			return ret;
+ 		}
++
++		if (hsmp_pdev.proto_ver == HSMP_PROTO_VER6) {
++			ret = hsmp_get_tbl_dram_base(i);
++			if (ret)
++				dev_err(dev, "Failed to init metric table\n");
++		}
+ 	}
+ 
+ 	return 0;
+@@ -156,10 +220,6 @@ static int hsmp_pltdrv_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
+-	ret = hsmp_create_non_acpi_sysfs_if(&pdev->dev);
+-	if (ret)
+-		dev_err(&pdev->dev, "Failed to create HSMP sysfs interface\n");
+-
+ 	return hsmp_misc_register(&pdev->dev);
+ }
+ 
+@@ -173,6 +233,7 @@ static struct platform_driver amd_hsmp_driver = {
+ 	.remove_new	= hsmp_pltdrv_remove,
+ 	.driver		= {
+ 		.name	= DRIVER_NAME,
++		.dev_groups = hsmp_groups,
+ 	},
+ };
+ 
 -- 
 2.25.1
 
