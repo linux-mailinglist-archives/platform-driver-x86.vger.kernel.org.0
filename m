@@ -1,594 +1,124 @@
-Return-Path: <platform-driver-x86+bounces-5846-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-5848-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A2D9970AF
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  9 Oct 2024 18:10:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5B64997943
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 10 Oct 2024 01:46:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4B9531C2252A
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  9 Oct 2024 16:10:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 862051F23619
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  9 Oct 2024 23:46:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F69B1FF7B8;
-	Wed,  9 Oct 2024 15:49:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1536191F65;
+	Wed,  9 Oct 2024 23:46:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="tE7MJDLL"
+	dkim=pass (2048-bit key) header.d=myyahoo.com header.i=@myyahoo.com header.b="A4CS0ziy"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic307-22.consmr.mail.sg3.yahoo.com (sonic307-22.consmr.mail.sg3.yahoo.com [106.10.241.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265241E32B7;
-	Wed,  9 Oct 2024 15:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1729917B500
+	for <platform-driver-x86@vger.kernel.org>; Wed,  9 Oct 2024 23:46:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=106.10.241.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728488997; cv=none; b=YOAi0XY9JfrF+noOpPfz/b2PJPfZRbHV83LRHR0CwYIIK7Bi7325ECRFF1YnveB33FfQfVzwLihZz7D2ErsT1vgD90x3NpQ6WTb79PR/MTOsYXFi9gfsbvzrZHlpsIpPO0e6j2sVsltSSQM/+hpe+podMOy+GyKcp8WebZNPLI4=
+	t=1728517606; cv=none; b=TUj11EuePjedF+/Y2ylHv6tJOW03ygaHMz1f3VafTz9LtemAj1eyVwlyeSKFUZ0OWlZbMuaIQstAfcZYTn57zEo+axgrLzb0AWxaO9nU1G0XSGU9BTG5hnCQEdm4ybsU4cSIVMCyygncSPqMw3bzP5dxdfr3EurRoRpJFn2RdeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728488997; c=relaxed/simple;
-	bh=rq78IESx5ts2EtUblB0yKMsuQh/dazegeohn+iiQXDs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CWVfiau+bdXL8qpJpuO8HK50uS63UFh4zSEYtjdoJRrylsUviBUFB6dTeo54HTM0p+hvOouYiIiAki1uagvtH9dqa0eAcU7h1o6+aRwRDFxVLzvmXLNiAPx8xJ/BHH3xo++W5KX+NIKiz8Vt+7TV5ApAV/ba/TRkA2IxPVuHejo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=tE7MJDLL; arc=none smtp.client-ip=212.227.17.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1728488934; x=1729093734; i=w_armin@gmx.de;
-	bh=cQ4JfM+zwcTt/gzsqYelbxHyQEzeinnDkVsrlQdRvsY=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=tE7MJDLLhHWsCKC0qSgTif3pwAo3eA+2RwRgklOvzQiEMUd9DgE5nI3bSD4NDmWx
-	 KYgQrKu6TVzRbfiKQ5dzffNLYXNgMD5/CfeAA6pmtplbP0GLo8k7CTxZr6AKLx5Pw
-	 vTTR1KVQ74cfWZwAgA2YFfdIJpjTrJ9qFyP2zIvRlvbgxsGRFeYyzYgn0EUVpRWqi
-	 OoPxd3TRRyOHmJJIy8Gkjx0uqWgwNjSkuVJDfPkabehQzw8LPE1clNEjQuifarwlt
-	 YKsoL5imS9FL67N4vQQKZOPZS6UwImoCnrOu5IZOUIIJHkwEg/lXJDBL2Ry3gwN5d
-	 K++ONLGgPtFHwFTiQw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [172.16.151.191] ([141.76.185.123]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MgNct-1tcrxy2xqh-00bdDO; Wed, 09
- Oct 2024 17:48:53 +0200
-Message-ID: <7eb24067-bef7-416f-b002-3abdcf54b891@gmx.de>
-Date: Wed, 9 Oct 2024 17:48:51 +0200
+	s=arc-20240116; t=1728517606; c=relaxed/simple;
+	bh=cfaRjA3CqOTxRD7nUUWHlYZv23A9SpOnzpBVDTYyXQo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=nmQJWvc/AjWf11PZvuv8T8aScs5zSDAlrsgwMaQgiI0aHo1Clc9qLFvL1Xq98/7podICIUHBjTdX0lxcq3JVnu3b1N3Lh4XKMUzZtP/2yzP8kr50CpuqOx6clvsYZUBA/H/snPI9XrOy4wQrP37tZmTkon6+ngt0FdjNAXzkO6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=myyahoo.com; spf=pass smtp.mailfrom=myyahoo.com; dkim=pass (2048-bit key) header.d=myyahoo.com header.i=@myyahoo.com header.b=A4CS0ziy; arc=none smtp.client-ip=106.10.241.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=myyahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=myyahoo.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=myyahoo.com; s=s2048; t=1728517603; bh=fCwkOM8TYV+wxIKhbJq9MIh4fDUJOApi7mvbAmFs+6I=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=A4CS0ziy5Z+FXJlpkVRituAwyVEHuyZJpICAWqYF7aROqulFBETIjK73D7A+ihJYZPW5VPpZY7PVBduVb+Ta5cjpfKcZ7iILQ9XDbq4whs38/9zoe4xQy72GTu70K0+nFLVx3/wgUU+MeiVzNQ8tXesB7+rMRijy65HfJCE1w0PGRJLUuVugRuxgfHuw7qHQfQR0RvQ7nOnthu6ZDitF9CoQdW5beaHV5rn9JGJxuiWDsuSB1M47Bc2udvfYIIeKev/6ci/f7YlJh15hzLBiJVUj+OxPLhTgn4lBR3yUy9lL/TD915FmUdkN7/4immDpbSxT0tBOBWVBWVsQWzwSRw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1728517603; bh=dRIkfKUAE0uZe0vIzxe0W9UotEjX/W4+EfOpdTQ+is3=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=sN6x13YHbCmdY2LD+b826pZg2MmTESDvU1G5a7JI2wf7oT6r6pCiRXbQFYk9jk9mMSiFX9p5zkVvYuKUysXLo9chsUV37FGG87OBz0H1qCIsgZdsT6c8penccJrYrCWQeGieOvDxfnt411vswW6lZQTFRci3VcrorZ/3LSsey31WVKDd8rm3nQxmuBvG+mV/7YXvObq3Cf6Vgg8PfSShkJAjBo2cyS5U74u+3KXtb5VDJHGFRIagJhisTOuKgD6ajNoPU56mtNQHXslvc2gE1+mnmvVip9Z1f1dxJ8L6PbYtoexykbDP4sKanqy3Qs05IazzHRqpb8wZ7YvqKkHVtg==
+X-YMail-OSG: LAqXbcsVM1nw4.MA3icLGCWBMgxXA9bNb.NaHzjvCRm.LhHrDpB3T2VXNy0JdBQ
+ FvzvAuPOp_GmNhaQH64T.j9.2cpiBXJuYI5uGWCYhPtrA1O427LjcPPgcPjiJ3fSV1VvvgE2mAZb
+ uh_ay_MGdD9GjtlxygN3NQ1WsK2mToUcxASu1F6nXtLUTvuCQU0JfmIdcWMU8mYfy9I_lnmqpd1o
+ RoN0dc0RSU3OUPzCdS5bXVaL5cyh69fbgr72XGKEKG7qpBnCqWrBTwah4QUOgmiXQTJr0ucHm6cW
+ p.38n.K.Sgk1w4RxYsfq9.xrxnMIPRN5XGoXKz9y.ilThJmDxX.KMvWfsi4mAkEw74jsD2Iv_lE3
+ 4bOGHnKi8rrFmBlSCGtgJrQlMwBAHbkjGFhgxwPtXFzTMLHw07r1NoPEwO1mrWxHhQBUkFBFpGf1
+ 4HW2N9ojBS2MRXNn8_.hMupuz0fOsQmxrZ8M3z7qJlueWn_l63wOT2VP26jItoUKY3RYDAS6_u5s
+ 092kAZH0JjdMMLmhn1xxRFN.fvEwxJSuVCmdsJvWesgoyEoXct0ywRXgUr5Z.klPXXZGV6QHOVSP
+ x6DR8HZ_gZt9cm7vEBVBycdSzfAeLJsipd.y2A5rWEbEn2n6Ap0u.JuRCiZQVb55K2mqfajgbw2R
+ QJvB09GTD_Vvnau8_OSovoctzBPpsDYPj6olyVyX4ig5znf9zjQsWacdNwM5EPJ05O3duhpWvwtb
+ Aw0WC1v0cP7UmxzhTgxOwwFg8ocCuc3eEd0bdrtgXIoPBIb9GGjPfD5ZDbnzyE3mE3UWFvWACX9K
+ o3THHua2BUI4Ayi8UPCSzreR3EmZKjcoMeSAu6utGwYRSHfFYnjWI1NHgTRicaF9wIffUB3rjKNp
+ R7EAJCfb8dXi7wrjee2kWqzlzzOYKi0G_4kKPsh4PXlw0I5ARjyToHZAztZByeMwz3qE19qgPNXv
+ waUP5_oQDm3fY7UWz5IDLyFMtwNI8xGtGRWMI7.lyflgMyfjWz6smbH2ibWNXyj0M0qR7SMw84FV
+ G.SOpkv6MwDPkDTBZP7mLYK5580bagECkoU3sVlln8xTNWmvNIQyFt0U.YmjYy1eqs.VNl6MnOr_
+ evGyqpvcpWRBixqxnQUwg6fdu7Dg3AubIo6g9cxJ9XJ5gPZaZLphQ_Ne_hud7O33d9vRwNT.03IY
+ LgWedJQSlZmhleVzKtdD7fbuu_nnHJr0y5WnMHA7CZcixtDAbvxB9gJXhtvMtFTcRYEo0LS5I7t5
+ zciOTgB1YzyNXCYRwRA_dxYn2yzG3e_nIw_y_r_mcF1shNMb2yWzA8nKxSdQ_8isg6bCMmyVDxjt
+ SJN9bvf7upDlWHzxMCnUkQJiF7XMthl11PFK5jocccdGjtPGliHX6pSgZkpU7vIZZ26wTxlSfeeK
+ qT9BDqLtJzGOalw4.2jCgDecIdWnDQm0zc.oPyPkjw2JYP5ZtbxcFg_N3qyKCO3GFKIBCNMZoTjG
+ EeK2jPB3LUUYxiYNHc9rrabt4eRi8W5xFBBkvwcUdmYktjdgWRyQGFZnKDrw2ri_YLZogQxLcTuV
+ xgUs7VYaGlay45DcsA8kbzIOWZhcOLGx6S7V_BgOQY7M3o7_AQIMEUtkeWjn1qWigFGKwBPVckDn
+ WrWWNsMRXSIaL0B.VYyya4gbi3Ig2W_ivw3HxzrYWqo11ueqgjK8jZKneQqd9lQiX5UqB1y66OTf
+ ly3gEm11EdkuIx11gpSE.azHHSc6SRz5un0e4lY6L1.fnkzpM4mUtoZufEFTNt4ANQAAVtgeoQLS
+ 84ontRuD716iiNLbrNjByJRwWS3shaaL6x1Il.cwFOxSH0LJcU0DVS3Kmq4aPN.57b4I3pDyi.c8
+ D5bXpD54xIYNKKUrjjsTZ0OMjf0v8fax7BSukW1tTxyXPnpS93U9rFtRI_RFYMSXR4.mSsvx111v
+ O0GU9cyPdMHouIB8Tu5L1x_F2XYtdUBlU9XxOOKHkq5sIWlnEiAdJxhZz8A_KYZU8HZCWyMw1VSL
+ YSXd72K0juqRomEokkBN_wL0Hlms1J_ez237VR3YwXRyRYXeZcxAjkNsunBZvOxt0H3_ThDQkwqN
+ 3NpJxoyG__d8hsQkotEMt8pAcPYNK.4uGe2XP.oy330veJbPrR37o7TnIoYvl57pzbOq8RmoK0pN
+ QVt_w3NLWusMXuOmN7W2W3LfTuaohqcai4ChdU5uzlvHIUD9EbgviM9mev40ddNppQm1IPUclojQ
+ SgO7PQSLM3KeEG0wN5QjpdFvUpuC69UyUwYfX.r3hv7XLwp55PnbKt_b20OCyFQWsqA--
+X-Sonic-MF: <abdul.rahim@myyahoo.com>
+X-Sonic-ID: b416c6f4-eb5e-4393-99e5-d3f766167a5a
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.sg3.yahoo.com with HTTP; Wed, 9 Oct 2024 23:46:43 +0000
+Received: by hermes--production-sg3-fc85cddf6-qj99b (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID b4e7dfb9ad5f3db34c6a2dfeb82ccf54;
+          Wed, 09 Oct 2024 23:06:09 +0000 (UTC)
+From: Abdul Rahim <abdul.rahim@myyahoo.com>
+To: corentin.chary@gmail.com,
+	luke@ljones.dev,
+	hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com
+Cc: platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Abdul Rahim <abdul.rahim@myyahoo.com>
+Subject: [PATCH] asus-laptop: prefer strscpy() over strcpy()
+Date: Thu, 10 Oct 2024 04:35:58 +0530
+Message-ID: <20241009230558.51892-1-abdul.rahim@myyahoo.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] alienware-wmi: Dell AWCC platform_profile support
-To: Kurt Borja <kuurtb@gmail.com>
-Cc: Dell.Client.Kernel@dell.com, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, linux-kernel@vger.kernel.org,
- platform-driver-x86@vger.kernel.org
-References: <d7ecb190-285a-4229-a8c8-3105b1f31d5d@gmx.de>
- <20241009144813.7704-1-kuurtb@gmail.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <20241009144813.7704-1-kuurtb@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:BiE3rF7H9kfq+tjEFZ2f33tqNadccG9bpTZSgUHXMzAeFEvoR+E
- DNSO9s/2ieV9DsBbwz3hXhHKY+mHhlQ/Nzv2Fkwdc2kBgqBNI8ZzxVmEO+sGHRyQFjhXsLy
- 6i1DMtT4RmPOQFGkQnqtL2gzSkcYnHE25nmpqQBNhOuIt3Go0MmWkkNOx6HpJx1vn1nuyKC
- 0THb5sP3OTwqyDtONk4GA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:mdslWCFULXw=;i2ShwTUylkGKs6rrVN9/+PGDVl2
- 28hy2EI2J7Qhbd5QHAh0IHcQsQXRbPg2LvML5X9J47HgiSWdw/YEFhXGr7509/yNnSlA4bnka
- shxr2UuhfsuWu5j6IoX7A4tRuYBox3F0zs8SQFfNRHWwHpCct8pSz/QC5qRrOZ0mnspBTSpyU
- greq0QM26Sjvtp9mVlnbsxh90FsWNb7jc02TTC3INTsf3aK1phMKfHDTSKyCTUl+qvfRgSgaP
- OS2fGpiO/uIK/u53+aCmSIpkGT82QDkry6prqGsbl+5tWXZn1KB6YbdsJTgOYd5ZYg1ULSvuM
- adiMwhp0IvAobGL7tYhY9W4YliDpfE//ayMx2+KhSz46i69DzGt4qG3m8LKtjlGtujXlPyj3b
- wHC4zDerxrfU5XyrsdW0IO2T4abjVR7O3G+bkPJj1BoQFVmP54zhKIUAV0k/yJA51dBOLqO/f
- TAAR+7e455+MMX6izSTsLb1KWFgohFOyKKAwjQ9jw37B1bEOAMX0XA19wbUlmMf1BHAd1dHyL
- d8jDVRUChrHVP3GvsplfDJygnKhKqVB8m2tj0CYQFYOvclhFMkPTzGQOneZVUqvzjBP1xNCMN
- N8Nhke/ZcYjwGlnOhWhRgyQkYtCrBnMqaJptn+u5wWvbz85yA7qgZBh65eZYDdDxaZZ/RU26+
- S/DloKETL2cT1EsyIF98JA6OuhPRY8v05eOZtc7m35CU+f2WAr2KMc3JCfWNhTy3MOzDURSRY
- lzslqORPLxX1M/1uIO21k5AjIXtmGbAIFLiGGSUsW/WLDuiQy1cDi3kjmDgGfRZCGSMYaGjFv
- gl9dVXPhVvwUHKmG7o8FUkAtGvvlp03FOjudjHAEqYl7M=
+Content-Transfer-Encoding: 8bit
+References: <20241009230558.51892-1-abdul.rahim.ref@myyahoo.com>
 
-Am 09.10.24 um 16:48 schrieb Kurt Borja:
+The function strcpy() is depreciated and potentially unsafe. It performs
+no bounds checking on the destination buffer. This could result in
+linear overflows beyond the end of the buffer, leading to all kinds of
+misbehaviors. The safe replacement is strscpy() [1].
 
-> Yes, of course.
->
->>> This driver was heavily inspired on inspur_platform_profile, special
->>> thanks.
->>>
->>> Notes:
->>>    - Performance (FullSpeed) profile is a special profile which has it's own
->>>      entry in the Firmware Settings of the Alienware x15 R1. It also changes
->>>      the color of the F1 key. I suspect this behavior would be replicated in
->>>      other X-Series or M-Series laptops.
->>>    - G-Mode is a profile documented on [1] which mimics the behavior of
->>>      FullSpeed mode but it does not have an entry on the Firmware Settings of
->>>      the Alienware x15 R1, this may correspond to the G-Mode functionality on
->>>      G-Series laptops (activated by a special button) but I cannot test it. I
->>>      did not include this code in the driver as G-Mode causes unexpected
->>>      behavior on X-Series laptops.
->>>
->>> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
->>>
->>> ---
->>> v3:
->>>    - Removed extra empty line
->>>    - 0x0B named WMAX_ARG_GET_CURRENT_PROF
->>>    - Removed casts to the same type on functions added in this patch
->>>    - Thermal profile to WMAX argument is now an static function and makes
->>>      use of in-built kernel macros
->>>    - Platform profile is now removed only if it was created first
->>>    - create_platform_profile is now create_thermal_profile to avoid
->>>      confusion
->>>    - profile_get and profile_set functions renamed too to match the above
->>> v2:
->>>    - Moved functionality to alienware-wmi driver
->>>    - Added thermal and gmode quirks to add support based on dmi match
->>>    - Performance profile is now GMODE for devices that support it
->>>    - alienware_wmax_command now is insize agnostic to support new thermal
->>>      methods
->>> ---
->>>    drivers/platform/x86/dell/Kconfig         |   1 +
->>>    drivers/platform/x86/dell/alienware-wmi.c | 238 ++++++++++++++++++++--
->>>    2 files changed, 226 insertions(+), 13 deletions(-)
->>>
->>> diff --git a/drivers/platform/x86/dell/Kconfig b/drivers/platform/x86/dell/Kconfig
->>> index 68a49788a..b06d634cd 100644
->>> --- a/drivers/platform/x86/dell/Kconfig
->>> +++ b/drivers/platform/x86/dell/Kconfig
->>> @@ -21,6 +21,7 @@ config ALIENWARE_WMI
->>>    	depends on LEDS_CLASS
->>>    	depends on NEW_LEDS
->>>    	depends on ACPI_WMI
->>> +	select ACPI_PLATFORM_PROFILE
->>>    	help
->>>    	 This is a driver for controlling Alienware BIOS driven
->>>    	 features.  It exposes an interface for controlling the AlienFX
->>> diff --git a/drivers/platform/x86/dell/alienware-wmi.c b/drivers/platform/x86/dell/alienware-wmi.c
->>> index f5ee62ce1..e3ef4b10b 100644
->>> --- a/drivers/platform/x86/dell/alienware-wmi.c
->>> +++ b/drivers/platform/x86/dell/alienware-wmi.c
->>> @@ -10,6 +10,7 @@
->>>    #include <linux/acpi.h>
->>>    #include <linux/module.h>
->>>    #include <linux/platform_device.h>
->>> +#include <linux/platform_profile.h>
->>>    #include <linux/dmi.h>
->>>    #include <linux/leds.h>
->>>
->>> @@ -25,6 +26,10 @@
->>>    #define WMAX_METHOD_AMPLIFIER_CABLE	0x6
->>>    #define WMAX_METHOD_DEEP_SLEEP_CONTROL	0x0B
->>>    #define WMAX_METHOD_DEEP_SLEEP_STATUS	0x0C
->>> +#define WMAX_METHOD_THERMAL_INFORMATION	0x14
->>> +#define WMAX_METHOD_THERMAL_CONTROL	0x15
->>> +
->>> +#define WMAX_ARG_GET_CURRENT_PROF	0x0B
->>>
->>>    MODULE_AUTHOR("Mario Limonciello <mario.limonciello@outlook.com>");
->>>    MODULE_DESCRIPTION("Alienware special feature control");
->>> @@ -49,11 +54,22 @@ enum WMAX_CONTROL_STATES {
->>>    	WMAX_SUSPEND = 3,
->>>    };
->>>
->>> +enum WMAX_THERMAL_PROFILE {
->>> +	WMAX_THERMAL_QUIET = 0xA3,
->>> +	WMAX_THERMAL_BALANCED = 0xA0,
->>> +	WMAX_THERMAL_BALANCED_PERFORMANCE = 0xA1,
->>> +	WMAX_THERMAL_PERFORMANCE = 0xA4,
->>> +	WMAX_THERMAL_GMODE = 0xAB,
->>> +	WMAX_THERMAL_LOW_POWER	= 0xA5,
->>> +};
->>> +
->>>    struct quirk_entry {
->>>    	u8 num_zones;
->>>    	u8 hdmi_mux;
->>>    	u8 amplifier;
->>>    	u8 deepslp;
->>> +	u8 thermal;
->>> +	u8 gmode;
->>>    };
->>>
->>>    static struct quirk_entry *quirks;
->>> @@ -64,6 +80,8 @@ static struct quirk_entry quirk_inspiron5675 = {
->>>    	.hdmi_mux = 0,
->>>    	.amplifier = 0,
->>>    	.deepslp = 0,
->>> +	.thermal = 0,
->>> +	.gmode = 0,
->>>    };
->>>
->>>    static struct quirk_entry quirk_unknown = {
->>> @@ -71,6 +89,8 @@ static struct quirk_entry quirk_unknown = {
->>>    	.hdmi_mux = 0,
->>>    	.amplifier = 0,
->>>    	.deepslp = 0,
->>> +	.thermal = 0,
->>> +	.gmode = 0,
->>>    };
->>>
->>>    static struct quirk_entry quirk_x51_r1_r2 = {
->>> @@ -78,6 +98,8 @@ static struct quirk_entry quirk_x51_r1_r2 = {
->>>    	.hdmi_mux = 0,
->>>    	.amplifier = 0,
->>>    	.deepslp = 0,
->>> +	.thermal = 0,
->>> +	.gmode = 0,
->>>    };
->>>
->>>    static struct quirk_entry quirk_x51_r3 = {
->>> @@ -85,6 +107,8 @@ static struct quirk_entry quirk_x51_r3 = {
->>>    	.hdmi_mux = 0,
->>>    	.amplifier = 1,
->>>    	.deepslp = 0,
->>> +	.thermal = 0,
->>> +	.gmode = 0,
->>>    };
->>>
->>>    static struct quirk_entry quirk_asm100 = {
->>> @@ -92,6 +116,8 @@ static struct quirk_entry quirk_asm100 = {
->>>    	.hdmi_mux = 1,
->>>    	.amplifier = 0,
->>>    	.deepslp = 0,
->>> +	.thermal = 0,
->>> +	.gmode = 0,
->>>    };
->>>
->>>    static struct quirk_entry quirk_asm200 = {
->>> @@ -99,6 +125,8 @@ static struct quirk_entry quirk_asm200 = {
->>>    	.hdmi_mux = 1,
->>>    	.amplifier = 0,
->>>    	.deepslp = 1,
->>> +	.thermal = 0,
->>> +	.gmode = 0,
->>>    };
->>>
->>>    static struct quirk_entry quirk_asm201 = {
->>> @@ -106,6 +134,17 @@ static struct quirk_entry quirk_asm201 = {
->>>    	.hdmi_mux = 1,
->>>    	.amplifier = 1,
->>>    	.deepslp = 1,
->>> +	.thermal = 0,
->>> +	.gmode = 0,
->>> +};
->>> +
->>> +static struct quirk_entry quirk_x15_r1 = {
->>> +	.num_zones = 2,
->>> +	.hdmi_mux = 0,
->>> +	.amplifier = 0,
->>> +	.deepslp = 0,
->>> +	.thermal = 1,
->>> +	.gmode = 0,
->>>    };
->>>
->>>    static int __init dmi_matched(const struct dmi_system_id *dmi)
->>> @@ -169,6 +208,15 @@ static const struct dmi_system_id alienware_quirks[] __initconst = {
->>>    		     },
->>>    	 .driver_data = &quirk_asm201,
->>>    	 },
->>> +	 {
->>> +	 .callback = dmi_matched,
->>> +	 .ident = "Alienware x15 R1",
->>> +	 .matches = {
->>> +		     DMI_MATCH(DMI_SYS_VENDOR, "Alienware"),
->>> +		     DMI_MATCH(DMI_PRODUCT_NAME, "Alienware x15 R1")
->>> +		    },
->>> +	 .driver_data = &quirk_x15_r1,
->>> +	},
->>>    	 {
->>>    	 .callback = dmi_matched,
->>>    	 .ident = "Dell Inc. Inspiron 5675",
->>> @@ -218,6 +266,7 @@ static struct platform_device *platform_device;
->>>    static struct device_attribute *zone_dev_attrs;
->>>    static struct attribute **zone_attrs;
->>>    static struct platform_zone *zone_data;
->>> +static struct platform_profile_handler pp_handler;
->>>
->>>    static struct platform_driver platform_driver = {
->>>    	.driver = {
->>> @@ -500,7 +549,7 @@ static void alienware_zone_exit(struct platform_device *dev)
->>>    	kfree(zone_attrs);
->>>    }
->>>
->>> -static acpi_status alienware_wmax_command(struct wmax_basic_args *in_args,
->>> +static acpi_status alienware_wmax_command(void *in_args, size_t insize,
->>>    					  u32 command, int *out_data)
->>>    {
->> Can you split this change into a separate patch? This would make review a bit easier.
->>
-> Yes, sure. In that case should I mention this patch depends on that one
-> in v4?
+this fixes checkpatch warning:
+    WARNING: Prefer strscpy over strcpy
 
-Yes, but only in the description of the resulting patch series.
+Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strcpy [1]
+Signed-off-by: Abdul Rahim <abdul.rahim@myyahoo.com>
+---
+ drivers/platform/x86/asus-laptop.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks,
-Armin Wolf
+diff --git a/drivers/platform/x86/asus-laptop.c b/drivers/platform/x86/asus-laptop.c
+index 9d7e6b712abf..d460dd194f19 100644
+--- a/drivers/platform/x86/asus-laptop.c
++++ b/drivers/platform/x86/asus-laptop.c
+@@ -1832,8 +1832,8 @@ static int asus_acpi_add(struct acpi_device *device)
+ 	if (!asus)
+ 		return -ENOMEM;
+ 	asus->handle = device->handle;
+-	strcpy(acpi_device_name(device), ASUS_LAPTOP_DEVICE_NAME);
+-	strcpy(acpi_device_class(device), ASUS_LAPTOP_CLASS);
++	strscpy(acpi_device_name(device), ASUS_LAPTOP_DEVICE_NAME);
++	strscpy(acpi_device_class(device), ASUS_LAPTOP_CLASS);
+ 	device->driver_data = asus;
+ 	asus->device = device;
+ 
+-- 
+2.43.0
 
->>>    	acpi_status status;
->>> @@ -508,7 +557,7 @@ static acpi_status alienware_wmax_command(struct wmax_basic_args *in_args,
->>>    	struct acpi_buffer input;
->>>    	struct acpi_buffer output;
->>>
->>> -	input.length = (acpi_size) sizeof(*in_args);
->>> +	input.length = (acpi_size) insize;
->> Please drop the cast to acpi_size.
->>
-> Ok.
->
->>>    	input.pointer = in_args;
->>>    	if (out_data) {
->>>    		output.length = ACPI_ALLOCATE_BUFFER;
->>> @@ -541,8 +590,8 @@ static ssize_t show_hdmi_cable(struct device *dev,
->>>    		.arg = 0,
->>>    	};
->>>    	status =
->>> -	    alienware_wmax_command(&in_args, WMAX_METHOD_HDMI_CABLE,
->>> -				   (u32 *) &out_data);
->>> +	    alienware_wmax_command(&in_args, sizeof(in_args),
->>> +				   WMAX_METHOD_HDMI_CABLE, (u32 *) &out_data);
->>>    	if (ACPI_SUCCESS(status)) {
->>>    		if (out_data == 0)
->>>    			return sysfs_emit(buf, "[unconnected] connected unknown\n");
->>> @@ -562,8 +611,8 @@ static ssize_t show_hdmi_source(struct device *dev,
->>>    		.arg = 0,
->>>    	};
->>>    	status =
->>> -	    alienware_wmax_command(&in_args, WMAX_METHOD_HDMI_STATUS,
->>> -				   (u32 *) &out_data);
->>> +	    alienware_wmax_command(&in_args, sizeof(in_args),
->>> +				   WMAX_METHOD_HDMI_STATUS, (u32 *) &out_data);
->>>
->>>    	if (ACPI_SUCCESS(status)) {
->>>    		if (out_data == 1)
->>> @@ -589,7 +638,8 @@ static ssize_t toggle_hdmi_source(struct device *dev,
->>>    		args.arg = 3;
->>>    	pr_debug("alienware-wmi: setting hdmi to %d : %s", args.arg, buf);
->>>
->>> -	status = alienware_wmax_command(&args, WMAX_METHOD_HDMI_SOURCE, NULL);
->>> +	status = alienware_wmax_command(&args, sizeof(args),
->>> +					WMAX_METHOD_HDMI_SOURCE, NULL);
->>>
->>>    	if (ACPI_FAILURE(status))
->>>    		pr_err("alienware-wmi: HDMI toggle failed: results: %u\n",
->>> @@ -642,8 +692,8 @@ static ssize_t show_amplifier_status(struct device *dev,
->>>    		.arg = 0,
->>>    	};
->>>    	status =
->>> -	    alienware_wmax_command(&in_args, WMAX_METHOD_AMPLIFIER_CABLE,
->>> -				   (u32 *) &out_data);
->>> +	    alienware_wmax_command(&in_args, sizeof(in_args),
->>> +				   WMAX_METHOD_AMPLIFIER_CABLE, (u32 *) &out_data);
->>>    	if (ACPI_SUCCESS(status)) {
->>>    		if (out_data == 0)
->>>    			return sysfs_emit(buf, "[unconnected] connected unknown\n");
->>> @@ -694,8 +744,8 @@ static ssize_t show_deepsleep_status(struct device *dev,
->>>    	struct wmax_basic_args in_args = {
->>>    		.arg = 0,
->>>    	};
->>> -	status = alienware_wmax_command(&in_args, WMAX_METHOD_DEEP_SLEEP_STATUS,
->>> -					(u32 *) &out_data);
->>> +	status = alienware_wmax_command(&in_args, sizeof(in_args),
->>> +					WMAX_METHOD_DEEP_SLEEP_STATUS, (u32 *) &out_data);
->>>    	if (ACPI_SUCCESS(status)) {
->>>    		if (out_data == 0)
->>>    			return sysfs_emit(buf, "[disabled] s5 s5_s4\n");
->>> @@ -723,8 +773,8 @@ static ssize_t toggle_deepsleep(struct device *dev,
->>>    		args.arg = 2;
->>>    	pr_debug("alienware-wmi: setting deep sleep to %d : %s", args.arg, buf);
->>>
->>> -	status = alienware_wmax_command(&args, WMAX_METHOD_DEEP_SLEEP_CONTROL,
->>> -					NULL);
->>> +	status = alienware_wmax_command(&args, sizeof(args),
->>> +					WMAX_METHOD_DEEP_SLEEP_CONTROL, NULL);
->>>
->>>    	if (ACPI_FAILURE(status))
->>>    		pr_err("alienware-wmi: deep sleep control failed: results: %u\n",
->>> @@ -760,6 +810,160 @@ static int create_deepsleep(struct platform_device *dev)
->>>    	return ret;
->>>    }
->>>
->>> +/*
->>> + * Thermal Profile control
->>> + *  - Provides thermal profile control through the Platform Profile API
->>> + */
->>> +#define PROFILE_MASK		GENMASK(15,8)
->>> +#define PROFILE_ACTIVATE	BIT(0)
->>> +
->>> +static u32 profile_to_wmax_arg(enum WMAX_THERMAL_PROFILE prof)
->>> +{
->>> +	return FIELD_PREP(PROFILE_MASK, prof) | PROFILE_ACTIVATE;
->>> +}
->>> +
->>> +static int thermal_profile_get(struct platform_profile_handler *pprof,
->>> +				enum platform_profile_option *profile)
->>> +{
->>> +	acpi_status status;
->>> +	u32 in_args = WMAX_ARG_GET_CURRENT_PROF;
->>> +	u32 out_data;
->>> +
->>> +	status = alienware_wmax_command(&in_args, sizeof(in_args),
->>> +					WMAX_METHOD_THERMAL_INFORMATION, &out_data);
->>> +
->>> +	if (ACPI_FAILURE(status))
->>> +		return -EOPNOTSUPP;
->> Please return -EIO.
->>
-> Ok.
->
->>> +
->>> +	if (out_data == 0xFFFFFFFF)
->>> +		return -EBADRQC;
->>> +
->>> +	switch (out_data) {
->>> +	case WMAX_THERMAL_LOW_POWER:
->>> +		*profile = PLATFORM_PROFILE_LOW_POWER;
->>> +		break;
->>> +	case WMAX_THERMAL_QUIET:
->>> +		*profile = PLATFORM_PROFILE_QUIET;
->>> +		break;
->>> +	case WMAX_THERMAL_BALANCED:
->>> +		*profile = PLATFORM_PROFILE_BALANCED;
->>> +		break;
->>> +	case WMAX_THERMAL_BALANCED_PERFORMANCE:
->>> +		*profile = PLATFORM_PROFILE_BALANCED_PERFORMANCE;
->>> +		break;
->>> +	case WMAX_THERMAL_PERFORMANCE:
->>> +	case WMAX_THERMAL_GMODE:
->>> +		*profile = PLATFORM_PROFILE_PERFORMANCE;
->>> +		break;
->>> +	default:
->>> +		return -ENODATA;
->>> +	}
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +static int thermal_profile_set(struct platform_profile_handler *pprof,
->>> +				enum platform_profile_option profile)
->>> +{
->>> +	acpi_status status;
->>> +	u32 in_args;
->>> +	u32 out_data;
->>> +
->>> +	switch (profile) {
->>> +	case PLATFORM_PROFILE_LOW_POWER:
->>> +		in_args = profile_to_wmax_arg(WMAX_THERMAL_LOW_POWER);
->>> +		break;
->>> +	case PLATFORM_PROFILE_QUIET:
->>> +		in_args = profile_to_wmax_arg(WMAX_THERMAL_QUIET);
->>> +		break;
->>> +	case PLATFORM_PROFILE_BALANCED:
->>> +		in_args = profile_to_wmax_arg(WMAX_THERMAL_BALANCED);
->>> +		break;
->>> +	case PLATFORM_PROFILE_BALANCED_PERFORMANCE:
->>> +		in_args = profile_to_wmax_arg(WMAX_THERMAL_BALANCED_PERFORMANCE);
->>> +		break;
->>> +	case PLATFORM_PROFILE_PERFORMANCE:
->>> +		in_args = profile_to_wmax_arg(WMAX_THERMAL_PERFORMANCE);
->>> +		break;
->>> +	default:
->>> +		return -EOPNOTSUPP;
->>> +	}
->>> +
->>> +	status = alienware_wmax_command(&in_args, sizeof(in_args),
->>> +					WMAX_METHOD_THERMAL_CONTROL, &out_data);
->>> +
->>> +	if (ACPI_FAILURE(status))
->>> +		return -EOPNOTSUPP;
->> Return -EIO.
->>
->>> +
->>> +	if (out_data == 0xFFFFFFFF)
->>> +		return -EBADRQC;
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +static int gmode_thermal_profile_set(struct platform_profile_handler *pprof,
->>> +				     enum platform_profile_option profile)
->>> +{
->>> +	acpi_status status;
->>> +	u32 in_args;
->>> +	u32 out_data;
->>> +
->>> +	switch (profile) {
->>> +	case PLATFORM_PROFILE_LOW_POWER:
->>> +		in_args = profile_to_wmax_arg(WMAX_THERMAL_LOW_POWER);
->>> +		break;
->>> +	case PLATFORM_PROFILE_QUIET:
->>> +		in_args = profile_to_wmax_arg(WMAX_THERMAL_QUIET);
->>> +		break;
->>> +	case PLATFORM_PROFILE_BALANCED:
->>> +		in_args = profile_to_wmax_arg(WMAX_THERMAL_BALANCED);
->>> +		break;
->>> +	case PLATFORM_PROFILE_BALANCED_PERFORMANCE:
->>> +		in_args = profile_to_wmax_arg(WMAX_THERMAL_BALANCED_PERFORMANCE);
->>> +		break;
->>> +	case PLATFORM_PROFILE_PERFORMANCE:
->>> +		in_args = profile_to_wmax_arg(WMAX_THERMAL_GMODE);
->>> +		break;
->>> +	default:
->>> +		return -EOPNOTSUPP;
->>> +	}
->>> +
->>> +	status = alienware_wmax_command(&in_args, sizeof(in_args),
->>> +					WMAX_METHOD_THERMAL_CONTROL, &out_data);
->>> +
->>> +	if (ACPI_FAILURE(status))
->>> +		return -EOPNOTSUPP;
->> Return -EIO.
->>
->> Otherwise the patch looks quite good.
->>
-> Thank you! It's my first time working on the kernel.
->
->> Thanks,
->> Armin Wolf
-> Your feedback is appreciated.
->
-> Kurt
->
->>> +
->>> +	if (out_data == 0xFFFFFFFF)
->>> +		return -EBADRQC;
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +static int create_thermal_profile(void)
->>> +{
->>> +	pp_handler.profile_get = thermal_profile_get;
->>> +
->>> +	if (quirks->gmode > 0)
->>> +		pp_handler.profile_set = gmode_thermal_profile_set;
->>> +	else
->>> +		pp_handler.profile_set = thermal_profile_set;
->>> +
->>> +	set_bit(PLATFORM_PROFILE_LOW_POWER, pp_handler.choices);
->>> +	set_bit(PLATFORM_PROFILE_QUIET, pp_handler.choices);
->>> +	set_bit(PLATFORM_PROFILE_BALANCED, pp_handler.choices);
->>> +	set_bit(PLATFORM_PROFILE_BALANCED_PERFORMANCE, pp_handler.choices);
->>> +	set_bit(PLATFORM_PROFILE_PERFORMANCE, pp_handler.choices);
->>> +
->>> +	return platform_profile_register(&pp_handler);
->>> +}
->>> +
->>> +static void remove_thermal_profile(void)
->>> +{
->>> +	if (quirks->thermal > 0)
->>> +		platform_profile_remove();
->>> +}
->>> +
->>>    static int __init alienware_wmi_init(void)
->>>    {
->>>    	int ret;
->>> @@ -807,6 +1011,12 @@ static int __init alienware_wmi_init(void)
->>>    			goto fail_prep_deepsleep;
->>>    	}
->>>
->>> +	if (quirks->thermal > 0) {
->>> +		ret = create_thermal_profile();
->>> +		if (ret)
->>> +			goto fail_prep_thermal_profile;
->>> +	}
->>> +
->>>    	ret = alienware_zone_init(platform_device);
->>>    	if (ret)
->>>    		goto fail_prep_zones;
->>> @@ -817,6 +1027,7 @@ static int __init alienware_wmi_init(void)
->>>    	alienware_zone_exit(platform_device);
->>>    fail_prep_deepsleep:
->>>    fail_prep_amplifier:
->>> +fail_prep_thermal_profile:
->>>    fail_prep_hdmi:
->>>    	platform_device_del(platform_device);
->>>    fail_platform_device2:
->>> @@ -834,6 +1045,7 @@ static void __exit alienware_wmi_exit(void)
->>>    	if (platform_device) {
->>>    		alienware_zone_exit(platform_device);
->>>    		remove_hdmi(platform_device);
->>> +		remove_thermal_profile();
->>>    		platform_device_unregister(platform_device);
->>>    		platform_driver_unregister(&platform_driver);
->>>    	}
 
