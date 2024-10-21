@@ -1,409 +1,468 @@
-Return-Path: <platform-driver-x86+bounces-6094-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-6096-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6FF9A6646
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 21 Oct 2024 13:15:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D17229A66CA
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 21 Oct 2024 13:40:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E74AB281139
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 21 Oct 2024 11:15:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F112A1C21C81
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 21 Oct 2024 11:40:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE5291E2605;
-	Mon, 21 Oct 2024 11:15:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 981FB1E633C;
+	Mon, 21 Oct 2024 11:39:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="IVDw2yBC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a6ZJgxmi"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2058.outbound.protection.outlook.com [40.107.243.58])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E411E7C01
-	for <platform-driver-x86@vger.kernel.org>; Mon, 21 Oct 2024 11:15:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729509315; cv=fail; b=ebrwv6ybm1PXcm+7igfh4SDtj2NC2f8O6TutdjOW7YLJrEajjMq/DG3EKdtbAyLOQQ3Br584ObG1XTeSbJInXfZoD3kVhLnlbPRSC6/5RbgxoG8559GzyIrL7r8AUaOpxjDWTRD85fyiqkSd7S+422e2fCABtquF8+Pju5Yr4Eo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729509315; c=relaxed/simple;
-	bh=isxAJJhHuVVmWAWWfQsTbI5qEuiZ6SkvXbNvJg2dcr8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FzgHleQtiCLi1LRlxkIhxIW5UIK1W1FmENZgr3s4lr868cGdmMVOyCPufkES7hvq6ZTlnfMUSqsujiXdQjl/1+/dze9rPZ8nIyk3PA9D5Wr8tpZJ491LyNmzcmKGs+RbBoTTheQcu2LebS105i1tJtgZZfJUjzSPX9nL8cmzGJY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=IVDw2yBC; arc=fail smtp.client-ip=40.107.243.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TfBcZICh0+ZMxAaBOvx2iGzMumoljJRW3iBgTVU2k3yDN2WSWDAeg4PYXOnPfpIW85TMlLVuw2wGMlKBgV9eJiwjJY4Mxr5JgPrv9E5Zn7cDNs5yK2vWNguhrEl40ghTFYsNWAIK+bWcijcnsRLcV1WVjKHBBInj0dpx6WFkxmW782rfPObpf6pAjqOn0IyJXOmjgIOS2DX5+3jSCrWIdT/T52ODlPjxbYSb13lfx1UhFXRPVfPqlUVv7/1GxMQFS4GrXHnjd+NuWIG9nFDg9KcLfGlORQTIqKjY/4H/6ihQAa3bK/Z5L3aChsYyh7MHiZC0Z9AtHfwCGz4TyqtG1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RUrwkdA1/zqpbYHYWlwm7Qn3jSSdsi5Veh+1M+z1Xyo=;
- b=wNTIZZ86kj/5pYSER2EXLdMVgpXTpV6FF/eXnjZBCq6eEGXJJ0OzLR0o1Erv81pA4tK8UrnYkJYCinCX0tzgrcneVo7X7KrbcboyNWe9UkX6jN7iu6xPwGQVxYyNCWC1c2l5f8xN9v12LbWBdTfcwtG9sV3rIvHo30YBiAqn5BYvQ0Fr92NA53H3w4Uptx+AOEJH06peu01UQA+6EwwJwgpMXPqwLHJN95QNE8MVYsSS6bgYpwTyLPtUfTNvtXFBYMh/vbGsPYGZaymu0clME217NTbeR6cma+tPRXMVcAICY7Qdbo+ZjNwePJhwvXW8XIY3GO/ZUyOcZSmcsNg/1A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RUrwkdA1/zqpbYHYWlwm7Qn3jSSdsi5Veh+1M+z1Xyo=;
- b=IVDw2yBCG4KIbQ1VudFAl+7JLYy/s2Fclf0JZVfZt2y3DSbrRMj09XAK+VohjYrIPTRaUUueXPBlRi3C8kwiGk7LjOOdPtgl/Qhy4DKrOA47XN9FgQinwlBWFGoRLPsIhcXLVbu07F5XGfrPx+wiFInhwYuQzoCzjbpssKpinh0=
-Received: from BN9PR03CA0459.namprd03.prod.outlook.com (2603:10b6:408:139::14)
- by DM4PR12MB6470.namprd12.prod.outlook.com (2603:10b6:8:b8::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.27; Mon, 21 Oct
- 2024 11:15:10 +0000
-Received: from BL02EPF0002992B.namprd02.prod.outlook.com
- (2603:10b6:408:139:cafe::3e) by BN9PR03CA0459.outlook.office365.com
- (2603:10b6:408:139::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.28 via Frontend
- Transport; Mon, 21 Oct 2024 11:15:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL02EPF0002992B.mail.protection.outlook.com (10.167.249.56) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8093.14 via Frontend Transport; Mon, 21 Oct 2024 11:15:10 +0000
-Received: from amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 21 Oct
- 2024 06:15:08 -0500
-From: Suma Hegde <suma.hegde@amd.com>
-To: <platform-driver-x86@vger.kernel.org>
-CC: <ilpo.jarvinen@linux.intel.com>, <hdegoede@redhat.com>, Suma Hegde
-	<suma.hegde@amd.com>, Naveen Krishna Chatradhi
-	<naveenkrishna.chatradhi@amd.com>
-Subject: [v10 11/11] platform/x86/amd/hsmp: Make hsmp_pdev static instead of global
-Date: Mon, 21 Oct 2024 11:14:28 +0000
-Message-ID: <20241021111428.2676884-11-suma.hegde@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241021111428.2676884-1-suma.hegde@amd.com>
-References: <20241021111428.2676884-1-suma.hegde@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570161D221A;
+	Mon, 21 Oct 2024 11:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729510795; cv=none; b=YuH2nZeVF7vwzPvMUKMl9NrlUrzChzUEW0dmo4xM7ZsfKBEstNnkUOYuuy/wxtWVfVMhA33ISjLFdIsNqW011OkCJruu9lv0E61RBz6SdloGRKnfOJDNPm1wiGrbFOGMHpyJPX0ear8O5L0dXqIT+MHunof3pWcY1dR525tQR2c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729510795; c=relaxed/simple;
+	bh=u7cpiVqoeOklwP3Eb20dPAFdje8IQD6Lx114kT0wFS0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Z4I0fsYGMlx7GQJRLvW9o1mEp/u9/tT5Pk2bA5fBuyYHOvChhoZKynjqEBGnKNoeKbMDKrLO2eCLNGzz+LmTqRWo5FHr6cIpcguA7rGMbpNWng8OAnUjSao0/BhNgfQtpZOIdcGKMLVaITULUv3EsqaBnS72308NvkGeo90AYH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a6ZJgxmi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE2C1C4CEC3;
+	Mon, 21 Oct 2024 11:39:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729510795;
+	bh=u7cpiVqoeOklwP3Eb20dPAFdje8IQD6Lx114kT0wFS0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=a6ZJgxmikHn+7Wwc/v5h5D47C96hD+PWllnoOGsxby6utvdIAvI2o19JZxdjnlcfr
+	 hvfHJa8KOk6cRfKagn/656YsNm0U4zlhXsUea6EbkipzRnBO/HxZDTPsMd3jRkp+0J
+	 gprJgPRGnxJLiADy8PTiIxQRKi6xvoK5e/Yeq11x3BYiyZKgYjvRMGMSDhlw7pAxno
+	 xvteVk5OduNihbJssHzsmiVqrz1Nz4Ve2nfdY0c8+qFeu41wjcrQ2C5QPkcL2RS+f4
+	 X5JyNbxvcGjMC8gJtbKiU8+x+mtGZA+uCqlOq4FE/B7wjGOtOD3zzD2TggUAV3thVb
+	 /NoEDzd3INbKw==
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-288642376bcso2235263fac.1;
+        Mon, 21 Oct 2024 04:39:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUBOdJtMG5AVo+FHg+x8V2+iTO3T4U6RPMF7rqF6qMpknQmAfHxuVQJCGI4e52eUBF4aNG9uMJVVJ+1tc6t@vger.kernel.org, AJvYcCUjCyOZHd8DtTI9NKWtZTdX1wisfDxowqc2qRHSOWh9anDxzPWlBLhWfd3eeWE4mXfsOE1oM6pWR7QqxYU=@vger.kernel.org, AJvYcCWWMeN30DnsSIGg9gMb/+zoUWSACvWittWlbNF8oKYjQhhF1WLJVUwmPu96VJrTce71ot9cXOvPQbABJH4wWD3p+72jug==@vger.kernel.org, AJvYcCXMMOw84uppJfcykzX9cTkCFQpUO4Uk5ng7aAgc7H9YWyMd3ynUFLCp8+MVRrnwf/wtDaDDAG4KgDMT@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNYhP6uLHEmZMfzumqkkXAqejVmpBGCJGCxlgSwXL381SL01ac
+	rEYIAWY/F7QBwk1LyEuyx/EWZUA4HRbPRFIzdQMAeKcQAkFBej5gmhBJwso92lzq55sqGpO1mN/
+	8OrWfh+Kf5xB41uF1xqFKcU8TgNk=
+X-Google-Smtp-Source: AGHT+IEGm9wUSukDAtEp3hFUdy5XpRl4ISERWG3V3XUGhuGl/CPLH7vUfXN2DT0aGkUZj+IY9Rmpz2rl7QUXTz3Fh/M=
+X-Received: by 2002:a05:6870:46a6:b0:277:f722:45e1 with SMTP id
+ 586e51a60fabf-2892c2df4demr7593010fac.17.1729510794174; Mon, 21 Oct 2024
+ 04:39:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0002992B:EE_|DM4PR12MB6470:EE_
-X-MS-Office365-Filtering-Correlation-Id: 76ca65e9-bd92-415f-b95f-08dcf1c1a0a0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|36860700013|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?xGXcsghjmmnlJ82+8C01Z39jn3p7gSkZTggronq6ZkiDYbMbYH09CpQQJX5w?=
- =?us-ascii?Q?rBKnw1fnyBl209JUMQ91JNSbl7AdsUUbnn3it/C+j4fxjMcxdX4MOrGv/d3J?=
- =?us-ascii?Q?BCcVb0oIm8MFhp48xPFVR0+8fmlL4YbI3zagPWMtVKTv1ywMHlDIjIXLelE0?=
- =?us-ascii?Q?B1UVJTf2E2cAnlBLxNlwBDm6TI9sv1RqNttx15jXmT4tkIM/oDVe09VEBoVn?=
- =?us-ascii?Q?C++jtetVqmhMZ+bn84wEcCxAkuCNqxwgIVao0c4x/tre1HSILiwK8SqYmhUt?=
- =?us-ascii?Q?YyW0NX+u75HAJxN5rvtZcDjarqb7xZRqIXPrH4YHdF8aiBiqgmk2Cea1R9PY?=
- =?us-ascii?Q?QUfH3vxkKhfLUU5gic4ZEndOVIYVjhD9LIfwpSFZ0k5Chnygr0LiZlVUaK2k?=
- =?us-ascii?Q?7b9QOdl9k7URpPH4VbUPjBoIQoSMwOOUwZ0VTni2cOuzbbgthclIsAHplntb?=
- =?us-ascii?Q?Eo39jQ5YjAeoeuhcZpw2N58l13AX94jxFbswrfC+h+5fcKk6yslNkvwEoE1e?=
- =?us-ascii?Q?IGRYfoiBSmASArSaW14qchN0rTr+gWzwNBvswhh+AQvTSOV1fMEdXcd/sySS?=
- =?us-ascii?Q?ZSQOV092RZnjrrty9ER9iBtIXRaGF6QTYv0Z4NOZ48wIpc6HWttAuK7MWHe0?=
- =?us-ascii?Q?3dtbhMYi40a7SIUqtThffo9KjkPxz4XWsoaV0ND/oIlxK0HE7Cq2+Ctld5Hp?=
- =?us-ascii?Q?LGzqFbQsIDoj5a526VzIJaw/1IYDjcqoBFy7avJlBNYNXO+u0LtEUsBu6jhD?=
- =?us-ascii?Q?InJXDGrPnXmuTYSE7kZc+hzMKRHlG5rd1zrYJWENh245/ITmv+1a19DZ8Dm9?=
- =?us-ascii?Q?lMjxsq7f+/x5ELSGFXfkZ2Tyoc8FMUoGjwcp9tITEMQvJMKKitNnITUddMb+?=
- =?us-ascii?Q?Uz2PhdyeJg8DsHcbmtssU1tl8L0iuXYFQ6jb51nw2KPCnV1JaCBAPbIQuThs?=
- =?us-ascii?Q?PmLqBGSO85JqZ6i9KwZGoT0bZhahz24aLOY4D7WHhevDE+Arvf4HBZVCInWS?=
- =?us-ascii?Q?u+HsGLlXxxDcmBheMLb72DJ6WY0MDHvLy5eOGrebOUO58RM6/UeKwjyvS33y?=
- =?us-ascii?Q?YUMc1DRg4nhxPHTCLa5gulqpxHIik2Ix17Ya/HSwu85dvEezW2eHqUC5Nvjp?=
- =?us-ascii?Q?IGmuISfoXGgQVaUV2n1FYitiRTqWU/Hh8Bi/k65Edjs8YReCrDCPNkUxWzn7?=
- =?us-ascii?Q?fORla6J0xPnluHmoZN7/d5KmX/TWuwDrTk+Z2MlWKoNSfBKCy1lBQSHEbYNz?=
- =?us-ascii?Q?7LvAskIlIZmIpkmF935R4t468gxrVRsG4uJfWYl2zZwyTXCo5LclwkGNUYjb?=
- =?us-ascii?Q?ZW7kj596TVBqx6TCFEPhlKGu1ONR1Av3LM7voPoFqV740Da/w+l2YHAqu6pI?=
- =?us-ascii?Q?ezFDxizqgGy0cftnPT9jHKPaM3V8TJgxcKjYh12zx4FUP4a8Hg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2024 11:15:10.4856
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76ca65e9-bd92-415f-b95f-08dcf1c1a0a0
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL02EPF0002992B.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6470
+References: <20241011061948.3211423-1-arnd@kernel.org>
+In-Reply-To: <20241011061948.3211423-1-arnd@kernel.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 21 Oct 2024 13:39:38 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jX1Ga9g8BweYJT2GQsJh03pD_imrY7tCP-Xg_gq0EbOA@mail.gmail.com>
+Message-ID: <CAJZ5v0jX1Ga9g8BweYJT2GQsJh03pD_imrY7tCP-Xg_gq0EbOA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] acpi: make EC support compile-time conditional
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Len Brown <lenb@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Hans de Goede <hdegoede@redhat.com>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-acpi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Instead of making hsmp_pdev global and exporting this symbol from hsmp.c,
-make it static and create a wrapper function get_hsmp_pdev() to access
-hsmp_pdev from plat.c and acpi.c.
+On Fri, Oct 11, 2024 at 8:19=E2=80=AFAM Arnd Bergmann <arnd@kernel.org> wro=
+te:
+>
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The embedded controller code is mainly used on x86 laptops and cannot
+> work without PC style I/O port access.
+>
+> Make this a user-visible configuration option that is default enabled
+> on x86 but otherwise disabled, and that can never be enabled unless
+> CONFIG_HAS_IOPORT is also available.
+>
+> The empty stubs in internal.h help ignore the EC code in configurations
+> that don't support it. In order to see those stubs, the sbshc code also
+> has to include this header and drop duplicate declarations.
+>
+> All the direct callers of ec_read/ec_write already had an x86
+> dependency and now also need to depend on APCI_EC.
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Suma Hegde <suma.hegde@amd.com>
-Reviewed-by: Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
----
-Changes since v9
-None
+I think I can pick up this one as the other two patches in the series
+don't depend on it.
 
-Changes since v8
-None
+Any concerns about doing that?
 
-Changes since v7
-New patch
- 
- drivers/platform/x86/amd/hsmp/acpi.c | 36 ++++++++++++++++------------
- drivers/platform/x86/amd/hsmp/hsmp.c |  9 +++++--
- drivers/platform/x86/amd/hsmp/hsmp.h |  3 +--
- drivers/platform/x86/amd/hsmp/plat.c | 32 +++++++++++++++----------
- 4 files changed, 48 insertions(+), 32 deletions(-)
-
-diff --git a/drivers/platform/x86/amd/hsmp/acpi.c b/drivers/platform/x86/amd/hsmp/acpi.c
-index b953959c9adb..4aa4d66f491a 100644
---- a/drivers/platform/x86/amd/hsmp/acpi.c
-+++ b/drivers/platform/x86/amd/hsmp/acpi.c
-@@ -35,6 +35,8 @@
- #define MSG_ARGOFF_STR		"MsgArgOffset"
- #define MSG_RESPOFF_STR		"MsgRspOffset"
- 
-+static struct hsmp_plat_device *hsmp_pdev;
-+
- static int amd_hsmp_acpi_rdwr(struct hsmp_socket *sock, u32 offset,
- 			      u32 *value, bool write)
- {
-@@ -203,7 +205,7 @@ static int hsmp_read_acpi_crs(struct hsmp_socket *sock)
- /* Parse the ACPI table to read the data */
- static int hsmp_parse_acpi_table(struct device *dev, u16 sock_ind)
- {
--	struct hsmp_socket *sock = &hsmp_pdev.sock[sock_ind];
-+	struct hsmp_socket *sock = &hsmp_pdev->sock[sock_ind];
- 	int ret;
- 
- 	sock->sock_ind		= sock_ind;
-@@ -236,7 +238,7 @@ static ssize_t hsmp_metric_tbl_acpi_read(struct file *filp, struct kobject *kobj
- static umode_t hsmp_is_sock_attr_visible(struct kobject *kobj,
- 					 struct bin_attribute *battr, int id)
- {
--	if (hsmp_pdev.proto_ver == HSMP_PROTO_VER6)
-+	if (hsmp_pdev->proto_ver == HSMP_PROTO_VER6)
- 		return battr->attr.mode;
- 
- 	return 0;
-@@ -250,7 +252,7 @@ static int init_acpi(struct device *dev)
- 	ret = hsmp_get_uid(dev, &sock_ind);
- 	if (ret)
- 		return ret;
--	if (sock_ind >= hsmp_pdev.num_sockets)
-+	if (sock_ind >= hsmp_pdev->num_sockets)
- 		return -EINVAL;
- 
- 	ret = hsmp_parse_acpi_table(dev, sock_ind);
-@@ -274,7 +276,7 @@ static int init_acpi(struct device *dev)
- 		return ret;
- 	}
- 
--	if (hsmp_pdev.proto_ver == HSMP_PROTO_VER6) {
-+	if (hsmp_pdev->proto_ver == HSMP_PROTO_VER6) {
- 		ret = hsmp_get_tbl_dram_base(sock_ind);
- 		if (ret)
- 			dev_err(dev, "Failed to init metric table\n");
-@@ -314,15 +316,19 @@ static int hsmp_acpi_probe(struct platform_device *pdev)
- {
- 	int ret;
- 
--	if (!hsmp_pdev.is_probed) {
--		hsmp_pdev.num_sockets = amd_nb_num();
--		if (hsmp_pdev.num_sockets == 0 || hsmp_pdev.num_sockets > MAX_AMD_SOCKETS)
-+	hsmp_pdev = get_hsmp_pdev();
-+	if (!hsmp_pdev)
-+		return -ENOMEM;
-+
-+	if (!hsmp_pdev->is_probed) {
-+		hsmp_pdev->num_sockets = amd_nb_num();
-+		if (hsmp_pdev->num_sockets == 0 || hsmp_pdev->num_sockets > MAX_AMD_SOCKETS)
- 			return -ENODEV;
- 
--		hsmp_pdev.sock = devm_kcalloc(&pdev->dev, hsmp_pdev.num_sockets,
--					      sizeof(*hsmp_pdev.sock),
--					      GFP_KERNEL);
--		if (!hsmp_pdev.sock)
-+		hsmp_pdev->sock = devm_kcalloc(&pdev->dev, hsmp_pdev->num_sockets,
-+					       sizeof(*hsmp_pdev->sock),
-+					       GFP_KERNEL);
-+		if (!hsmp_pdev->sock)
- 			return -ENOMEM;
- 	}
- 
-@@ -332,11 +338,11 @@ static int hsmp_acpi_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	if (!hsmp_pdev.is_probed) {
-+	if (!hsmp_pdev->is_probed) {
- 		ret = hsmp_misc_register(&pdev->dev);
- 		if (ret)
- 			return ret;
--		hsmp_pdev.is_probed = true;
-+		hsmp_pdev->is_probed = true;
- 	}
- 
- 	return 0;
-@@ -348,9 +354,9 @@ static void hsmp_acpi_remove(struct platform_device *pdev)
- 	 * We register only one misc_device even on multi-socket system.
- 	 * So, deregister should happen only once.
- 	 */
--	if (hsmp_pdev.is_probed) {
-+	if (hsmp_pdev->is_probed) {
- 		hsmp_misc_deregister();
--		hsmp_pdev.is_probed = false;
-+		hsmp_pdev->is_probed = false;
- 	}
- }
- 
-diff --git a/drivers/platform/x86/amd/hsmp/hsmp.c b/drivers/platform/x86/amd/hsmp/hsmp.c
-index 7c3fb090684f..82d8ba2e1204 100644
---- a/drivers/platform/x86/amd/hsmp/hsmp.c
-+++ b/drivers/platform/x86/amd/hsmp/hsmp.c
-@@ -35,8 +35,7 @@
- 
- #define DRIVER_VERSION		"2.3"
- 
--struct hsmp_plat_device hsmp_pdev;
--EXPORT_SYMBOL_NS_GPL(hsmp_pdev, AMD_HSMP);
-+static struct hsmp_plat_device hsmp_pdev;
- 
- /*
-  * Send a message to the HSMP port via PCI-e config space registers
-@@ -384,6 +383,12 @@ void hsmp_misc_deregister(void)
- }
- EXPORT_SYMBOL_NS_GPL(hsmp_misc_deregister, AMD_HSMP);
- 
-+struct hsmp_plat_device *get_hsmp_pdev(void)
-+{
-+	return &hsmp_pdev;
-+}
-+EXPORT_SYMBOL_NS_GPL(get_hsmp_pdev, AMD_HSMP);
-+
- MODULE_DESCRIPTION("AMD HSMP Common driver");
- MODULE_VERSION(DRIVER_VERSION);
- MODULE_LICENSE("GPL");
-diff --git a/drivers/platform/x86/amd/hsmp/hsmp.h b/drivers/platform/x86/amd/hsmp/hsmp.h
-index 9b4ab6a3598c..e852f0a947e4 100644
---- a/drivers/platform/x86/amd/hsmp/hsmp.h
-+++ b/drivers/platform/x86/amd/hsmp/hsmp.h
-@@ -55,8 +55,6 @@ struct hsmp_plat_device {
- 	bool is_probed;
- };
- 
--extern struct hsmp_plat_device hsmp_pdev;
--
- int hsmp_cache_proto_ver(u16 sock_ind);
- int hsmp_test(u16 sock_ind, u32 value);
- long hsmp_ioctl(struct file *fp, unsigned int cmd, unsigned long arg);
-@@ -64,4 +62,5 @@ void hsmp_misc_deregister(void);
- int hsmp_misc_register(struct device *dev);
- int hsmp_get_tbl_dram_base(u16 sock_ind);
- ssize_t hsmp_metric_tbl_read(struct hsmp_socket *sock, char *buf, size_t size);
-+struct hsmp_plat_device *get_hsmp_pdev(void);
- #endif /* HSMP_H */
-diff --git a/drivers/platform/x86/amd/hsmp/plat.c b/drivers/platform/x86/amd/hsmp/plat.c
-index 905607b5cba5..f8e74c0392ba 100644
---- a/drivers/platform/x86/amd/hsmp/plat.c
-+++ b/drivers/platform/x86/amd/hsmp/plat.c
-@@ -37,6 +37,8 @@
- #define HSMP_INDEX_REG		0xc4
- #define HSMP_DATA_REG		0xc8
- 
-+static struct hsmp_plat_device *hsmp_pdev;
-+
- static int amd_hsmp_pci_rdwr(struct hsmp_socket *sock, u32 offset,
- 			     u32 *value, bool write)
- {
-@@ -64,10 +66,10 @@ static ssize_t hsmp_metric_tbl_plat_read(struct file *filp, struct kobject *kobj
- 	u16 sock_ind;
- 
- 	sock_ind = (uintptr_t)bin_attr->private;
--	if (sock_ind >= hsmp_pdev.num_sockets)
-+	if (sock_ind >= hsmp_pdev->num_sockets)
- 		return -EINVAL;
- 
--	sock = &hsmp_pdev.sock[sock_ind];
-+	sock = &hsmp_pdev->sock[sock_ind];
- 
- 	return hsmp_metric_tbl_read(sock, buf, count);
- }
-@@ -79,10 +81,10 @@ static umode_t hsmp_is_sock_attr_visible(struct kobject *kobj,
- 
- 	sock_ind = (uintptr_t)battr->private;
- 
--	if (id == 0 && sock_ind >= hsmp_pdev.num_sockets)
-+	if (id == 0 && sock_ind >= hsmp_pdev->num_sockets)
- 		return SYSFS_GROUP_INVISIBLE;
- 
--	if (hsmp_pdev.proto_ver == HSMP_PROTO_VER6)
-+	if (hsmp_pdev->proto_ver == HSMP_PROTO_VER6)
- 		return battr->attr.mode;
- 
- 	return 0;
-@@ -156,10 +158,10 @@ static int init_platform_device(struct device *dev)
- 	struct hsmp_socket *sock;
- 	int ret, i;
- 
--	for (i = 0; i < hsmp_pdev.num_sockets; i++) {
-+	for (i = 0; i < hsmp_pdev->num_sockets; i++) {
- 		if (!node_to_amd_nb(i))
- 			return -ENODEV;
--		sock = &hsmp_pdev.sock[i];
-+		sock = &hsmp_pdev->sock[i];
- 		sock->root			= node_to_amd_nb(i)->root;
- 		sock->sock_ind			= i;
- 		sock->dev			= dev;
-@@ -194,7 +196,7 @@ static int init_platform_device(struct device *dev)
- 			return ret;
- 		}
- 
--		if (hsmp_pdev.proto_ver == HSMP_PROTO_VER6) {
-+		if (hsmp_pdev->proto_ver == HSMP_PROTO_VER6) {
- 			ret = hsmp_get_tbl_dram_base(i);
- 			if (ret)
- 				dev_err(dev, "Failed to init metric table\n");
-@@ -208,10 +210,10 @@ static int hsmp_pltdrv_probe(struct platform_device *pdev)
- {
- 	int ret;
- 
--	hsmp_pdev.sock = devm_kcalloc(&pdev->dev, hsmp_pdev.num_sockets,
--				      sizeof(*hsmp_pdev.sock),
--				      GFP_KERNEL);
--	if (!hsmp_pdev.sock)
-+	hsmp_pdev->sock = devm_kcalloc(&pdev->dev, hsmp_pdev->num_sockets,
-+				       sizeof(*hsmp_pdev->sock),
-+				       GFP_KERNEL);
-+	if (!hsmp_pdev->sock)
- 		return -ENOMEM;
- 
- 	ret = init_platform_device(&pdev->dev);
-@@ -298,12 +300,16 @@ static int __init hsmp_plt_init(void)
- 		return ret;
- 	}
- 
-+	hsmp_pdev = get_hsmp_pdev();
-+	if (!hsmp_pdev)
-+		return -ENOMEM;
-+
- 	/*
- 	 * amd_nb_num() returns number of SMN/DF interfaces present in the system
- 	 * if we have N SMN/DF interfaces that ideally means N sockets
- 	 */
--	hsmp_pdev.num_sockets = amd_nb_num();
--	if (hsmp_pdev.num_sockets == 0 || hsmp_pdev.num_sockets > MAX_AMD_SOCKETS)
-+	hsmp_pdev->num_sockets = amd_nb_num();
-+	if (hsmp_pdev->num_sockets == 0 || hsmp_pdev->num_sockets > MAX_AMD_SOCKETS)
- 		return ret;
- 
- 	ret = platform_driver_register(&amd_hsmp_driver);
--- 
-2.25.1
-
+> ---
+>  drivers/acpi/Kconfig               | 11 ++++++++++-
+>  drivers/acpi/Makefile              |  2 +-
+>  drivers/acpi/internal.h            | 25 +++++++++++++++++++++++++
+>  drivers/acpi/sbshc.c               |  9 +--------
+>  drivers/char/Kconfig               |  1 +
+>  drivers/hwmon/Kconfig              |  3 ++-
+>  drivers/platform/x86/Kconfig       | 22 ++++++++++++----------
+>  drivers/platform/x86/dell/Kconfig  |  1 +
+>  drivers/platform/x86/hp/Kconfig    |  1 +
+>  drivers/platform/x86/intel/Kconfig |  2 +-
+>  include/linux/acpi.h               |  8 ++++++--
+>  11 files changed, 61 insertions(+), 24 deletions(-)
+>
+> diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
+> index d67f63d93b2a..d65cd08ba8e1 100644
+> --- a/drivers/acpi/Kconfig
+> +++ b/drivers/acpi/Kconfig
+> @@ -132,8 +132,17 @@ config ACPI_REV_OVERRIDE_POSSIBLE
+>           makes it possible to force the kernel to return "5" as the supp=
+orted
+>           ACPI revision via the "acpi_rev_override" command line switch.
+>
+> +config ACPI_EC
+> +       bool "Embedded Controller"
+> +       depends on HAS_IOPORT
+> +       default X86
+> +       help
+> +         This driver handles communication with the microcontroller
+> +         on many x86 laptops and other machines.
+> +
+>  config ACPI_EC_DEBUGFS
+>         tristate "EC read/write access through /sys/kernel/debug/ec"
+> +       depends on ACPI_EC
+>         help
+>           Say N to disable Embedded Controller /sys/kernel/debug interfac=
+e
+>
+> @@ -433,7 +442,7 @@ config ACPI_HOTPLUG_IOAPIC
+>
+>  config ACPI_SBS
+>         tristate "Smart Battery System"
+> -       depends on X86
+> +       depends on X86 && ACPI_EC
+>         select POWER_SUPPLY
+>         help
+>           This driver supports the Smart Battery System, another
+> diff --git a/drivers/acpi/Makefile b/drivers/acpi/Makefile
+> index 61ca4afe83dc..40208a0f5dfb 100644
+> --- a/drivers/acpi/Makefile
+> +++ b/drivers/acpi/Makefile
+> @@ -41,7 +41,7 @@ acpi-y                                +=3D resource.o
+>  acpi-y                         +=3D acpi_processor.o
+>  acpi-y                         +=3D processor_core.o
+>  acpi-$(CONFIG_ARCH_MIGHT_HAVE_ACPI_PDC) +=3D processor_pdc.o
+> -acpi-y                         +=3D ec.o
+> +acpi-$(CONFIG_ACPI_EC)         +=3D ec.o
+>  acpi-$(CONFIG_ACPI_DOCK)       +=3D dock.o
+>  acpi-$(CONFIG_PCI)             +=3D pci_root.o pci_link.o pci_irq.o
+>  obj-$(CONFIG_ACPI_MCFG)                +=3D pci_mcfg.o
+> diff --git a/drivers/acpi/internal.h b/drivers/acpi/internal.h
+> index ced7dff9a5db..00910ccd7eda 100644
+> --- a/drivers/acpi/internal.h
+> +++ b/drivers/acpi/internal.h
+> @@ -215,6 +215,8 @@ extern struct acpi_ec *first_ec;
+>  /* External interfaces use first EC only, so remember */
+>  typedef int (*acpi_ec_query_func) (void *data);
+>
+> +#ifdef CONFIG_ACPI_EC
+> +
+>  void acpi_ec_init(void);
+>  void acpi_ec_ecdt_probe(void);
+>  void acpi_ec_dsdt_probe(void);
+> @@ -231,6 +233,29 @@ void acpi_ec_flush_work(void);
+>  bool acpi_ec_dispatch_gpe(void);
+>  #endif
+>
+> +#else
+> +
+> +static inline void acpi_ec_init(void) {}
+> +static inline void acpi_ec_ecdt_probe(void) {}
+> +static inline void acpi_ec_dsdt_probe(void) {}
+> +static inline void acpi_ec_block_transactions(void) {}
+> +static inline void acpi_ec_unblock_transactions(void) {}
+> +static inline int acpi_ec_add_query_handler(struct acpi_ec *ec, u8 query=
+_bit,
+> +                             acpi_handle handle, acpi_ec_query_func func=
+,
+> +                             void *data)
+> +{
+> +       return -ENXIO;
+> +}
+> +static inline void acpi_ec_remove_query_handler(struct acpi_ec *ec, u8 q=
+uery_bit) {}
+> +static inline void acpi_ec_register_opregions(struct acpi_device *adev) =
+{}
+> +
+> +static inline void acpi_ec_flush_work(void) {}
+> +static inline bool acpi_ec_dispatch_gpe(void)
+> +{
+> +       return false;
+> +}
+> +
+> +#endif
+>
+>  /*----------------------------------------------------------------------=
+----
+>                                    Suspend/Resume
+> diff --git a/drivers/acpi/sbshc.c b/drivers/acpi/sbshc.c
+> index 16f2daaa2c45..2b63cd18cca2 100644
+> --- a/drivers/acpi/sbshc.c
+> +++ b/drivers/acpi/sbshc.c
+> @@ -14,6 +14,7 @@
+>  #include <linux/module.h>
+>  #include <linux/interrupt.h>
+>  #include "sbshc.h"
+> +#include "internal.h"
+>
+>  #define ACPI_SMB_HC_CLASS      "smbus_host_ctl"
+>  #define ACPI_SMB_HC_DEVICE_NAME        "ACPI SMBus HC"
+> @@ -236,12 +237,6 @@ static int smbus_alarm(void *context)
+>         return 0;
+>  }
+>
+> -typedef int (*acpi_ec_query_func) (void *data);
+> -
+> -extern int acpi_ec_add_query_handler(struct acpi_ec *ec, u8 query_bit,
+> -                             acpi_handle handle, acpi_ec_query_func func=
+,
+> -                             void *data);
+> -
+>  static int acpi_smbus_hc_add(struct acpi_device *device)
+>  {
+>         int status;
+> @@ -278,8 +273,6 @@ static int acpi_smbus_hc_add(struct acpi_device *devi=
+ce)
+>         return 0;
+>  }
+>
+> -extern void acpi_ec_remove_query_handler(struct acpi_ec *ec, u8 query_bi=
+t);
+> -
+>  static void acpi_smbus_hc_remove(struct acpi_device *device)
+>  {
+>         struct acpi_smb_hc *hc;
+> diff --git a/drivers/char/Kconfig b/drivers/char/Kconfig
+> index 7c8dd0abcfdf..8fb33c90482f 100644
+> --- a/drivers/char/Kconfig
+> +++ b/drivers/char/Kconfig
+> @@ -238,6 +238,7 @@ config APPLICOM
+>  config SONYPI
+>         tristate "Sony Vaio Programmable I/O Control Device support"
+>         depends on X86_32 && PCI && INPUT
+> +       depends on ACPI_EC || !ACPI
+>         help
+>           This driver enables access to the Sony Programmable I/O Control
+>           Device which can be found in many (all ?) Sony Vaio laptops.
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 65ea92529406..25ae0a00ea2c 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -1747,7 +1747,7 @@ source "drivers/hwmon/occ/Kconfig"
+>
+>  config SENSORS_OXP
+>         tristate "OneXPlayer EC fan control"
+> -       depends on ACPI
+> +       depends on ACPI_EC
+>         depends on X86
+>         help
+>                 If you say yes here you get support for fan readings and =
+control over
+> @@ -2586,6 +2586,7 @@ config SENSORS_ASUS_WMI
+>  config SENSORS_ASUS_EC
+>         tristate "ASUS EC Sensors"
+>         depends on X86
+> +       depends on ACPI_EC
+>         help
+>           If you say yes here you get support for the ACPI embedded contr=
+oller
+>           hardware monitoring interface found in ASUS motherboards. The d=
+river
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index 3875abba5a79..0258dd879d64 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -52,6 +52,7 @@ config WMI_BMOF
+>  config HUAWEI_WMI
+>         tristate "Huawei WMI laptop extras driver"
+>         depends on ACPI_BATTERY
+> +       depends on ACPI_EC
+>         depends on ACPI_WMI
+>         depends on INPUT
+>         select INPUT_SPARSEKMAP
+> @@ -147,7 +148,7 @@ config YT2_1380
+>
+>  config ACERHDF
+>         tristate "Acer Aspire One temperature and fan driver"
+> -       depends on ACPI && THERMAL
+> +       depends on ACPI_EC && THERMAL
+>         select THERMAL_GOV_BANG_BANG
+>         help
+>           This is a driver for Acer Aspire One netbooks. It allows to acc=
+ess
+> @@ -186,6 +187,7 @@ config ACER_WMI
+>         depends on SERIO_I8042
+>         depends on INPUT
+>         depends on RFKILL || RFKILL =3D n
+> +       depends on ACPI_EC
+>         depends on ACPI_WMI
+>         depends on ACPI_VIDEO || ACPI_VIDEO =3D n
+>         depends on HWMON
+> @@ -334,7 +336,7 @@ config MERAKI_MX100
+>
+>  config EEEPC_LAPTOP
+>         tristate "Eee PC Hotkey Driver"
+> -       depends on ACPI
+> +       depends on ACPI_EC
+>         depends on INPUT
+>         depends on RFKILL || RFKILL =3D n
+>         depends on ACPI_VIDEO || ACPI_VIDEO =3D n
+> @@ -503,7 +505,7 @@ config SENSORS_HDAPS
+>
+>  config THINKPAD_ACPI
+>         tristate "ThinkPad ACPI Laptop Extras"
+> -       depends on ACPI
+> +       depends on ACPI_EC
+>         depends on ACPI_BATTERY
+>         depends on INPUT
+>         depends on RFKILL || RFKILL =3D n
+> @@ -682,7 +684,7 @@ config MEEGOPAD_ANX7428
+>
+>  config MSI_EC
+>         tristate "MSI EC Extras"
+> -       depends on ACPI
+> +       depends on ACPI_EC
+>         depends on ACPI_BATTERY
+>         help
+>           This driver allows various MSI laptops' functionalities to be
+> @@ -690,7 +692,7 @@ config MSI_EC
+>
+>  config MSI_LAPTOP
+>         tristate "MSI Laptop Extras"
+> -       depends on ACPI
+> +       depends on ACPI_EC
+>         depends on BACKLIGHT_CLASS_DEVICE
+>         depends on ACPI_VIDEO || ACPI_VIDEO =3D n
+>         depends on RFKILL
+> @@ -796,7 +798,7 @@ config SAMSUNG_LAPTOP
+>
+>  config SAMSUNG_Q10
+>         tristate "Samsung Q10 Extras"
+> -       depends on ACPI
+> +       depends on ACPI_EC
+>         select BACKLIGHT_CLASS_DEVICE
+>         help
+>           This driver provides support for backlight control on Samsung Q=
+10
+> @@ -804,7 +806,7 @@ config SAMSUNG_Q10
+>
+>  config ACPI_TOSHIBA
+>         tristate "Toshiba Laptop Extras"
+> -       depends on ACPI
+> +       depends on ACPI_EC
+>         depends on ACPI_BATTERY
+>         depends on ACPI_WMI
+>         select LEDS_CLASS
+> @@ -904,7 +906,7 @@ config ACPI_CMPC
+>
+>  config COMPAL_LAPTOP
+>         tristate "Compal (and others) Laptop Extras"
+> -       depends on ACPI
+> +       depends on ACPI_EC
+>         depends on BACKLIGHT_CLASS_DEVICE
+>         depends on ACPI_VIDEO || ACPI_VIDEO =3D n
+>         depends on RFKILL
+> @@ -949,7 +951,7 @@ config PANASONIC_LAPTOP
+>
+>  config SONY_LAPTOP
+>         tristate "Sony Laptop Extras"
+> -       depends on ACPI
+> +       depends on ACPI_EC
+>         depends on ACPI_VIDEO || ACPI_VIDEO =3D n
+>         depends on BACKLIGHT_CLASS_DEVICE
+>         depends on INPUT
+> @@ -972,7 +974,7 @@ config SONYPI_COMPAT
+>
+>  config SYSTEM76_ACPI
+>         tristate "System76 ACPI Driver"
+> -       depends on ACPI
+> +       depends on ACPI_EC
+>         depends on ACPI_BATTERY
+>         depends on HWMON
+>         depends on INPUT
+> diff --git a/drivers/platform/x86/dell/Kconfig b/drivers/platform/x86/del=
+l/Kconfig
+> index 68a49788a396..dc21227dd66e 100644
+> --- a/drivers/platform/x86/dell/Kconfig
+> +++ b/drivers/platform/x86/dell/Kconfig
+> @@ -194,6 +194,7 @@ config DELL_WMI
+>  config DELL_WMI_PRIVACY
+>         bool "Dell WMI Hardware Privacy Support"
+>         depends on DELL_WMI
+> +       depends on ACPI_EC
+>         help
+>           This option adds integration with the "Dell Hardware Privacy"
+>           feature of Dell laptops to the dell-wmi driver.
+> diff --git a/drivers/platform/x86/hp/Kconfig b/drivers/platform/x86/hp/Kc=
+onfig
+> index d776761cd5fd..dd51491b9bcd 100644
+> --- a/drivers/platform/x86/hp/Kconfig
+> +++ b/drivers/platform/x86/hp/Kconfig
+> @@ -37,6 +37,7 @@ config HP_ACCEL
+>  config HP_WMI
+>         tristate "HP WMI extras"
+>         default m
+> +       depends on ACPI_EC
+>         depends on ACPI_WMI
+>         depends on INPUT
+>         depends on RFKILL || RFKILL =3D n
+> diff --git a/drivers/platform/x86/intel/Kconfig b/drivers/platform/x86/in=
+tel/Kconfig
+> index ad50bbabec61..eb698dcb9af9 100644
+> --- a/drivers/platform/x86/intel/Kconfig
+> +++ b/drivers/platform/x86/intel/Kconfig
+> @@ -62,7 +62,7 @@ config INTEL_INT0002_VGPIO
+>
+>  config INTEL_OAKTRAIL
+>         tristate "Intel Oaktrail Platform Extras"
+> -       depends on ACPI
+> +       depends on ACPI_EC
+>         depends on ACPI_VIDEO || ACPI_VIDEO=3Dn
+>         depends on RFKILL && BACKLIGHT_CLASS_DEVICE && ACPI
+>         help
+> diff --git a/include/linux/acpi.h b/include/linux/acpi.h
+> index 4d5ee84c468b..7dd24acd9ffe 100644
+> --- a/include/linux/acpi.h
+> +++ b/include/linux/acpi.h
+> @@ -1164,8 +1164,6 @@ int acpi_subsys_suspend_noirq(struct device *dev);
+>  int acpi_subsys_suspend(struct device *dev);
+>  int acpi_subsys_freeze(struct device *dev);
+>  int acpi_subsys_poweroff(struct device *dev);
+> -void acpi_ec_mark_gpe_for_wake(void);
+> -void acpi_ec_set_gpe_wake_mask(u8 action);
+>  int acpi_subsys_restore_early(struct device *dev);
+>  #else
+>  static inline int acpi_subsys_prepare(struct device *dev) { return 0; }
+> @@ -1176,6 +1174,12 @@ static inline int acpi_subsys_suspend(struct devic=
+e *dev) { return 0; }
+>  static inline int acpi_subsys_freeze(struct device *dev) { return 0; }
+>  static inline int acpi_subsys_poweroff(struct device *dev) { return 0; }
+>  static inline int acpi_subsys_restore_early(struct device *dev) { return=
+ 0; }
+> +#endif
+> +
+> +#if defined(CONFIG_ACPI_EC) && defined(CONFIG_PM_SLEEP)
+> +void acpi_ec_mark_gpe_for_wake(void);
+> +void acpi_ec_set_gpe_wake_mask(u8 action);
+> +#else
+>  static inline void acpi_ec_mark_gpe_for_wake(void) {}
+>  static inline void acpi_ec_set_gpe_wake_mask(u8 action) {}
+>  #endif
+> --
+> 2.39.5
+>
 
