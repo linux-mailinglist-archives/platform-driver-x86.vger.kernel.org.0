@@ -1,89 +1,104 @@
-Return-Path: <platform-driver-x86+bounces-6131-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-6132-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14929A71EA
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 21 Oct 2024 20:06:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB55E9A8FF7
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 21 Oct 2024 21:38:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 44FB0B20C83
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 21 Oct 2024 18:06:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EB6841C21FB5
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 21 Oct 2024 19:38:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 444BF1FDFAB;
-	Mon, 21 Oct 2024 18:03:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED0B31FB3F1;
+	Mon, 21 Oct 2024 19:38:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="v4f3mYpa"
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="B1suubmc";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Z6zH1OIj"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2069.outbound.protection.outlook.com [40.107.236.69])
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDFF01FBF7F;
-	Mon, 21 Oct 2024 18:03:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.69
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729533814; cv=fail; b=A3sNBJJpRYrJzKwOmkraRHYYgnQvGptXs7PMh19MpPbqfZ6fUlakX0TKV4bYHPL9KGaPSxDLWpzt/lvky9FvgRjxuXMutSyDFOH2vp2tnZWYz7znhy7zjYNotXmkULlZUnYJX+eqDU0gDl5yKb83jnheLIS9v3cos39Gb1LlijA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729533814; c=relaxed/simple;
-	bh=v+nTus0gD6qj+auBQQHGfkWKR/9AiLE3GwDUj5LCzmY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AxBsZjCRxn5kqrqIBISDrExZzd1edWn6Kk2mIzVsfyaMeWKmpU8F6pp4SXSbDtBWISXF/CS9UPxneZU0irBbML8H6yugS/Brf9mbC4V0BlcwxUu6xDQUmB/Ge1wwGZ9nlfJecyPCkL1TsctZl0k63lRZ0auqHviiwfiMJaAqgQw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=v4f3mYpa; arc=fail smtp.client-ip=40.107.236.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=o34kzAfhDUPC/ae6/ZXGPaOEIYhwXC7appi1eylbhzSrHBOZqcv207jYrbmWHmOF0yoXIF4Q/0VkQevSESAPEwQ4HVCHbbn8SMiLg5FtXvNzJNTePmLSEySPVEittY684XuyFzdrMUXOt+Er+SJN6C7rCDi/m25JK+5j0Gzi6YAepglXCIQ82Cfj0oXfzDfkW3kbHQ9dSHm0F2SfjIazN9crIsbb43iNKjmQN2C/3fnRW53YkJYyVA53r5IsYxIB/uY5qAOMZy4qfplVQkbMITIbMbpVRfsKQpn3cBEhkcPKSZ5CT6lhM9RaBnN+NAJcRjMWltoUKZOR/WLZSZB4KQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Qmr49eQLPrG0tFYXwCTU8c79T4nfEKV4Zezby/7jkJQ=;
- b=QhdD59u85KNTAA9TMmhOBg1IWOtPPm/bF5wXNwZxrAej/oAqAqYq3Zh8/z3JLCkHSY0jbuPajqK/9m/+J5Dj3STwbLeNrbRG886p2UVU4aVtTlT/DNBt7vQB/EG5Y5p6z9MukZpAjCzaek20f9Hf6P0rwkhvPWWtFjO8W6GS0orOxS9E0XRHU4cIV90GLvDlIhCqWykeeRl8uxrJ7qciTBrg3YZDQJ1RwCsrDICMPQcpEq1EotU/OTqiUGV7zai5od1S2ABpi9pVGhKYN99fp4nLEz9Ib3R8cTn1v9Jabjb/YRgeXE5lUzALey7LgjrjTftYAqk2aMZN8KJ0TdKWww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=alien8.de smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qmr49eQLPrG0tFYXwCTU8c79T4nfEKV4Zezby/7jkJQ=;
- b=v4f3mYpa/4E3Pp7vZQokHic5IqKLFFLhh51BUrtIB+EEFN8f9VRAAZAL/TKzJWRmW3O44FHFl1NjDR/lm7cpSZ0T0e+JRszjF405J+R66eBeRjovM9CDaoJN/lqLvqlds8jx76LrnDf2vnxlYTuRNBMs3DqAxEoHal1E6QFQ7N4=
-Received: from BY3PR05CA0036.namprd05.prod.outlook.com (2603:10b6:a03:39b::11)
- by PH7PR12MB5655.namprd12.prod.outlook.com (2603:10b6:510:138::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.28; Mon, 21 Oct
- 2024 18:03:27 +0000
-Received: from SJ1PEPF000023D0.namprd02.prod.outlook.com
- (2603:10b6:a03:39b:cafe::71) by BY3PR05CA0036.outlook.office365.com
- (2603:10b6:a03:39b::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.15 via Frontend
- Transport; Mon, 21 Oct 2024 18:03:27 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ1PEPF000023D0.mail.protection.outlook.com (10.167.244.4) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8093.14 via Frontend Transport; Mon, 21 Oct 2024 18:03:27 +0000
-Received: from AUS-P9-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 21 Oct
- 2024 13:03:23 -0500
-From: Mario Limonciello <mario.limonciello@amd.com>
-To: Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-CC: <x86@kernel.org>, "Gautham R . Shenoy" <gautham.shenoy@amd.com>, "Mario
- Limonciello" <mario.limonciello@amd.com>, Perry Yuan <perry.yuan@amd.com>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-pm@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>, "Shyam
- Sundar S K" <Shyam-sundar.S-k@amd.com>
-Subject: [PATCH v4 13/13] platform/x86/amd: hfi: Add debugfs support
-Date: Mon, 21 Oct 2024 13:02:52 -0500
-Message-ID: <20241021180252.3531-14-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241021180252.3531-1-mario.limonciello@amd.com>
-References: <20241021180252.3531-1-mario.limonciello@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEEBF1CF7A6;
+	Mon, 21 Oct 2024 19:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729539528; cv=none; b=SKN1E0XY8hbl1q4H1LE/wQVijMVX6ujSh8a78ovIcQGTnNBNU9YrNiqUcTqK41Kr8yyvtmGupx6QUrt3leVWQ+L6vCa88NDhBaO/sxddQL38/UdH7ebQlZLEyEFaV/0owbgmpIgMO4Lxt1JZVThfSIwKGZtS1WkmN6V6tXTlzNI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729539528; c=relaxed/simple;
+	bh=54jwoouqgKE0bVqr3uFQHW/WkkHaCd/oyMvONoJ0cjU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Esgnmx8QUip6fMQ7pHdMKicQaSBQzQxVeXuNpfjFVaAJMCNXt8crAb8tvZd3KUUqTGUlUaeBjMzwAWHj96WoU9gAs1VSg65KrAHtkd3C1058fRD41Gq3GyyWmSeh4ixl8XJC+dmaA6sCBnfI//0pb412fTa2GoQ/S75KWSoTQqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=B1suubmc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Z6zH1OIj; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id AA82813802EA;
+	Mon, 21 Oct 2024 15:38:44 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Mon, 21 Oct 2024 15:38:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1729539524; x=
+	1729625924; bh=LE2Hk0JKN4Kf5sI0bnT9emdXdEal6XnN2BMhL9CtIWs=; b=B
+	1suubmcTwhSmTm8CJzrBvOAAUvImE8mUJG0Z3n28qkFDJmWrfqgHpcGRcbolhWYL
+	H/jsOgPpkyrZOQJFsnG/kxxLVM4wB+ELsMpyHOGgjw0GXyou3KjZcwSdYI3CCNL3
+	t9hxZCfMUi98KfCGV1beM/OX1uwLfaJOqz11gME5ifvGPK4Z4TGo1Y2lqrRXi0jC
+	WeodFYgV1Iq/H9ZigHoyU6i5PobZfqspAdjlQzrtP4+KSqa2jUwR0+AnATi0imT2
+	3U72sM5DoCK+PMjjIVwxcEwAnQJ70Oq3OQdS9te3w0BWvW7mrbTZgkYezMzDJj67
+	mRr33ZJcq+c1Yhx6Tr6Ug==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1729539524; x=
+	1729625924; bh=LE2Hk0JKN4Kf5sI0bnT9emdXdEal6XnN2BMhL9CtIWs=; b=Z
+	6zH1OIjfdDjS5OhpBHWkd7j7a2ydqf+kDjpwcHONPlvFOzZvIFU7QLp16OiUiT4u
+	eey5suMIz86gSXHXfR/QBLcNxi+tYq/lwLtbno8gmD9vJIcdUKUTOWcSICGoOWuP
+	kUoeWM8DZxUz+zT8Uc7G46WExukXHcaYn369iLZg9dyG15M38mnQ5zxmqZLgqaSI
+	JDt0nakod5m1Wu+s56qjZ/hk33hWrPpiyNflYpV2fmw2D7N29p7sI/xBDcTDK2BG
+	C5I2V9T9l65Q2EIaSLWLCGobhoENgwm5kon9SBl4cN2hoxDQPpVERzmiJRemL4Gb
+	mVgeljUeVJxWZ2udAExzA==
+X-ME-Sender: <xms:xK0WZyQbOIWvI2CFDWbXJpeGq6QHdye3LjxGh44DUQRcce7mQESfdg>
+    <xme:xK0WZ3wCbKZS3UhuoTUQUXxJJqtkSy0HQcX5BBwOc0fHTR7XJUBSYxY-RQp1NHZmr
+    CvWh1f_g6olxs8sLAY>
+X-ME-Received: <xmr:xK0WZ_3O6K8ojBpJGgCvL3z0G2Xr6RmBtXcNSLyV-vdh1ZKUHV3r24r2MPvjzyFAJ9KL6KYxUpsEtv_k-kWRjeJ3K3m1FbAirfcIgxlF6rlcGfJ6WV-rgcch-jytdg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdehledgudegtdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecuogetfedtuddqtdduuc
+    dludehmdenucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhm
+    peforghrkhcurfgvrghrshhonhcuoehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvg
+    gssgdrtggrqeenucggtffrrghtthgvrhhnpeeftddvjeefleffvefhgfejjeehudetteei
+    geeugfekhffhgeejudeuteehgfdvffenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdr
+    tggrpdhnsggprhgtphhtthhopeehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhope
+    hmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggrpdhrtghpthhtohephhgu
+    vghgohgvuggvsehrvgguhhgrthdrtghomhdprhgtphhtthhopehilhhpohdrjhgrrhhvih
+    hnvghnsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepphhlrghtfhhorhhm
+    qdgurhhivhgvrhdqgiekieesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    hlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:xK0WZ-DbNowvML_uJrB8rH-GYW6tBKA0Vk4crB-0pnSJirJY5QZSJw>
+    <xmx:xK0WZ7iiqiuOVF8xhWnlJoH9JgyJZUad9M-6HKADoqdoiCOnGgA2tg>
+    <xmx:xK0WZ6o0X_gEgNF5tC_pkgvErsmjmk-79tY9Yfa0rpTpXQrLPsklig>
+    <xmx:xK0WZ-i5L7VavWEn7qDRaYsPWKj2BWX3jkvel_C9cll8z6rieXzjkg>
+    <xmx:xK0WZxaHvXv-wCOUKtcGpyhIijNwnUbhJ8VKy72STZFXbdYm83N1seSb>
+Feedback-ID: ibe194615:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 21 Oct 2024 15:38:43 -0400 (EDT)
+From: Mark Pearson <mpearson-lenovo@squebb.ca>
+To: mpearson-lenovo@squebb.ca
+Cc: hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/4] platform/x86: think-lmi: improve check if BIOS account security enabled
+Date: Mon, 21 Oct 2024 15:38:23 -0400
+Message-ID: <20241021193837.7641-1-mpearson-lenovo@squebb.ca>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <mpearson-lenovo@squebb.ca>
+References: <mpearson-lenovo@squebb.ca>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -91,139 +106,152 @@ List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000023D0:EE_|PH7PR12MB5655:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4a1710d3-8f52-4a87-bd75-08dcf1faa9d2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?IffY0QXVPI/83oy5zr1MgO65zAjpy+5PS/bU7DBovmVi44zi68UWuoHx7aHZ?=
- =?us-ascii?Q?FnlAtX8xJDDLMGvljnBeSkBIVWLrBQa8qqV8UhUrldS5xMzRukBZF12d9jcn?=
- =?us-ascii?Q?qORvhR/YaR6wUxU6L5bDv1L29YGqzuBCjZojfxli47bAsn9xocfpTFPnmNeZ?=
- =?us-ascii?Q?33hMo1ilZ/9N+kXdzTMOr4T+JHjQWkoiqmPzKb48Q7faEi2CMpOncStvWmQ/?=
- =?us-ascii?Q?9OeP2BY9c4h560FipnTkUGyzLkFTpNA+TT5rc0NxT8gXOeGMMTDI+W5lXQEY?=
- =?us-ascii?Q?SQmnRe0OwMv1bX+ntZ4wjIc4pLqlX8/GfRoXXt3iqdF4WtcmUyGP5wyT+K/q?=
- =?us-ascii?Q?Wj5ZtpwV3dx7xEhUNMwR/DTvP1GbaPKbRNMnAWSwYdffBs/dmF9PAKAKUsoy?=
- =?us-ascii?Q?W1dlLMnJ7OMoD3dP1Uw85alRU26DST40R0i9MKhVzHNuhvue1berIxOTHsnm?=
- =?us-ascii?Q?9Iel3wzjzkhAbzES75zk62LJRl202Y/g601RZepIN9AT+ccGcg7rWPqWG8SE?=
- =?us-ascii?Q?ZfA/6iwa1aDfMgUH7o9CPr6sWb4v1s8pHA3eKOQGit9Ymo7e6bgXd+QHH0En?=
- =?us-ascii?Q?35vEXK/uewZj5dWUj/k3kiQlBQ+5KWtmQTFPaGCvcRY5t5Jt/YgLlY83TjYz?=
- =?us-ascii?Q?DnTxpNt+IYhvDrrkcVg4ZwEXzks5czp/9pPzc5r9aSDsYLyBir/Uk6n5n66g?=
- =?us-ascii?Q?iURj94TAIz6F4h/golWhLBngv/7EaXzdOXivWKZPI8srxLxVsZEekJZ+DENE?=
- =?us-ascii?Q?aeUgJD+q00Uq7uGp0QKY09ayRLJNtUYq2rgA0IN3kk40Va+TCaLnqjU87SZM?=
- =?us-ascii?Q?l89sVkIBozViARPDM0DDR6fcyqV/rIfljSSllY8ejl6ioZPOc8ZOsqQ4jxFV?=
- =?us-ascii?Q?juaWw/m/l+gS+Iy6stgla2fFf9yr50/qzrQpNOpm1cvZLf5QVEaP2DIBUmcC?=
- =?us-ascii?Q?u60Vczj+resvrHrCXpGF5es2STJWOX3YHdGdZETLKh/vAWEWvqTZMrS1IPoA?=
- =?us-ascii?Q?OMToIOG/fr+/Mkihnr/jSaXrPRRMsh3S9OIgQoBFeCh1bAnUxAdma0WtECim?=
- =?us-ascii?Q?wAJJQbs8F0/2GKXI6oDM8asOQXn5e6n2gW1r3bGxB5SVbUIowOJf5+/jxuDh?=
- =?us-ascii?Q?4FPsMg3cYM6Kjiqq+v5KKpTupQ/Mo00twrArpcUThgOHYxF9is5cjYBrSESy?=
- =?us-ascii?Q?ZRRi+uWBN3xWvi95qG9KIXonQgRZzZV69P5mlrVVaSplxt3HXbfHaJ481Ytf?=
- =?us-ascii?Q?Wru8HEz0gB53/W/7UZw/uojctk7RN8G/QB00Nn0LpBCJUq1bZ6KyL8I3Z4Qn?=
- =?us-ascii?Q?quet13M949RC9KgpHCz6QmxxGtuVJ1mNG4mzQ0auMVkJVNk0oPlPjhvICndH?=
- =?us-ascii?Q?/NoqvSZIQ8XA8NEJsRNI/CwciN06Cd5ejmsTkvn7ebwTDkUpOg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2024 18:03:27.1640
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a1710d3-8f52-4a87-bd75-08dcf1faa9d2
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF000023D0.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5655
 
-Add a dump of the class and capabilities table to debugfs to assist
-with debugging scheduler issues.
+Improve determination of whether authentication account is enabled by
+checking if either password or certificate is enabled.
 
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Renamed valid to pwd_enabled for better readability.
+
+Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 ---
-v3->v4:
- * Drop conditional printing (Ilpo)
-v2->v3:
-  * New patch
----
- drivers/platform/x86/amd/hfi/hfi.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ drivers/platform/x86/think-lmi.c | 26 +++++++++++++-------------
+ drivers/platform/x86/think-lmi.h |  2 +-
+ 2 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/platform/x86/amd/hfi/hfi.c b/drivers/platform/x86/amd/hfi/hfi.c
-index 50407ab805169..839007684b049 100644
---- a/drivers/platform/x86/amd/hfi/hfi.c
-+++ b/drivers/platform/x86/amd/hfi/hfi.c
-@@ -13,6 +13,7 @@
- #include <linux/acpi.h>
- #include <linux/cpu.h>
- #include <linux/cpumask.h>
-+#include <linux/debugfs.h>
- #include <linux/gfp.h>
- #include <linux/init.h>
- #include <linux/io.h>
-@@ -75,6 +76,8 @@ struct amd_hfi_data {
- 	void __iomem		*pcc_comm_addr;
- 	struct acpi_subtable_header	*pcct_entry;
- 	struct amd_shmem_info	*shmem;
-+
-+	struct dentry *dbgfs_dir;
- };
- 
- /**
-@@ -239,6 +242,8 @@ static void amd_hfi_remove(struct platform_device *pdev)
+diff --git a/drivers/platform/x86/think-lmi.c b/drivers/platform/x86/think-lmi.c
+index 4cfb53206cb8..727a9400d406 100644
+--- a/drivers/platform/x86/think-lmi.c
++++ b/drivers/platform/x86/think-lmi.c
+@@ -391,7 +391,7 @@ static ssize_t is_enabled_show(struct kobject *kobj, struct kobj_attribute *attr
  {
- 	struct amd_hfi_data *dev = platform_get_drvdata(pdev);
+ 	struct tlmi_pwd_setting *setting = to_tlmi_pwd_setting(kobj);
  
-+	debugfs_remove_recursive(dev->dbgfs_dir);
-+
- 	mutex_destroy(&dev->lock);
+-	return sysfs_emit(buf, "%d\n", setting->valid);
++	return sysfs_emit(buf, "%d\n", setting->pwd_enabled || setting->cert_installed);
  }
  
-@@ -396,6 +401,27 @@ static int amd_hfi_metadata_parser(struct platform_device *pdev,
- 	return ret;
- }
+ static struct kobj_attribute auth_is_pass_set = __ATTR_RO(is_enabled);
+@@ -469,7 +469,7 @@ static ssize_t new_password_store(struct kobject *kobj,
+ 		if (ret)
+ 			goto out;
  
-+static int class_capabilities_show(struct seq_file *s, void *unused)
-+{
-+	int cpu, idx;
-+
-+	seq_puts(s, "CPU #\tWLC\tPerf\tEff\n");
-+	for_each_present_cpu(cpu) {
-+		struct amd_hfi_cpuinfo *hfi_cpuinfo = per_cpu_ptr(&amd_hfi_cpuinfo, cpu);
-+
-+		seq_printf(s, "%d", cpu);
-+		for (idx = 0; idx < hfi_cpuinfo->nr_class; idx++) {
-+			seq_printf(s, "\t%d\t%d\t%d\n",
-+				   idx,
-+				   hfi_cpuinfo->amd_hfi_classes[idx].perf,
-+				   hfi_cpuinfo->amd_hfi_classes[idx].eff);
-+		}
-+	}
-+
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(class_capabilities);
-+
- static int amd_hfi_pm_resume(struct device *dev)
- {
- 	int ret, cpu;
-@@ -469,6 +495,10 @@ static int amd_hfi_probe(struct platform_device *pdev)
+-		if (tlmi_priv.pwd_admin->valid) {
++		if (tlmi_priv.pwd_admin->pwd_enabled) {
+ 			ret = tlmi_opcode_setting("WmiOpcodePasswordAdmin",
+ 					tlmi_priv.pwd_admin->password);
+ 			if (ret)
+@@ -777,7 +777,7 @@ static ssize_t certificate_store(struct kobject *kobj,
+ 				new_cert, setting->signature);
+ 	} else {
+ 		/* This is a fresh install */
+-		if (!setting->valid || !setting->password[0]) {
++		if (!setting->pwd_enabled || !setting->password[0]) {
+ 			kfree(new_cert);
+ 			return -EACCES;
+ 		}
+@@ -1019,7 +1019,7 @@ static ssize_t current_value_store(struct kobject *kobj,
+ 		 * Workstation's require the opcode to be set before changing the
+ 		 * attribute.
+ 		 */
+-		if (tlmi_priv.pwd_admin->valid && tlmi_priv.pwd_admin->password[0]) {
++		if (tlmi_priv.pwd_admin->pwd_enabled && tlmi_priv.pwd_admin->password[0]) {
+ 			ret = tlmi_opcode_setting("WmiOpcodePasswordAdmin",
+ 						  tlmi_priv.pwd_admin->password);
+ 			if (ret)
+@@ -1042,7 +1042,7 @@ static ssize_t current_value_store(struct kobject *kobj,
+ 		else
+ 			ret = tlmi_save_bios_settings("");
+ 	} else { /* old non-opcode based authentication method (deprecated) */
+-		if (tlmi_priv.pwd_admin->valid && tlmi_priv.pwd_admin->password[0]) {
++		if (tlmi_priv.pwd_admin->pwd_enabled && tlmi_priv.pwd_admin->password[0]) {
+ 			auth_str = kasprintf(GFP_KERNEL, "%s,%s,%s;",
+ 					tlmi_priv.pwd_admin->password,
+ 					encoding_options[tlmi_priv.pwd_admin->encoding],
+@@ -1215,7 +1215,7 @@ static ssize_t save_settings_store(struct kobject *kobj, struct kobj_attribute *
+ 			if (ret)
+ 				goto out;
+ 		} else if (tlmi_priv.opcode_support) {
+-			if (tlmi_priv.pwd_admin->valid && tlmi_priv.pwd_admin->password[0]) {
++			if (tlmi_priv.pwd_admin->pwd_enabled && tlmi_priv.pwd_admin->password[0]) {
+ 				ret = tlmi_opcode_setting("WmiOpcodePasswordAdmin",
+ 							  tlmi_priv.pwd_admin->password);
+ 				if (ret)
+@@ -1223,7 +1223,7 @@ static ssize_t save_settings_store(struct kobject *kobj, struct kobj_attribute *
+ 			}
+ 			ret = tlmi_save_bios_settings("");
+ 		} else { /* old non-opcode based authentication method (deprecated) */
+-			if (tlmi_priv.pwd_admin->valid && tlmi_priv.pwd_admin->password[0]) {
++			if (tlmi_priv.pwd_admin->pwd_enabled && tlmi_priv.pwd_admin->password[0]) {
+ 				auth_str = kasprintf(GFP_KERNEL, "%s,%s,%s;",
+ 						     tlmi_priv.pwd_admin->password,
+ 						     encoding_options[tlmi_priv.pwd_admin->encoding],
+@@ -1273,7 +1273,7 @@ static ssize_t debug_cmd_store(struct kobject *kobj, struct kobj_attribute *attr
+ 	if (!new_setting)
+ 		return -ENOMEM;
  
- 	schedule_work(&sched_amd_hfi_itmt_work);
+-	if (tlmi_priv.pwd_admin->valid && tlmi_priv.pwd_admin->password[0]) {
++	if (tlmi_priv.pwd_admin->pwd_enabled && tlmi_priv.pwd_admin->password[0]) {
+ 		auth_str = kasprintf(GFP_KERNEL, "%s,%s,%s;",
+ 				tlmi_priv.pwd_admin->password,
+ 				encoding_options[tlmi_priv.pwd_admin->encoding],
+@@ -1637,14 +1637,14 @@ static int tlmi_analyze(void)
+ 		goto fail_clear_attr;
  
-+	amd_hfi_data->dbgfs_dir = debugfs_create_dir("amd_hfi", arch_debugfs_dir);
-+	debugfs_create_file("class_capabilities", 0644, amd_hfi_data->dbgfs_dir, pdev,
-+			    &class_capabilities_fops);
-+
- 	return 0;
- }
+ 	if (tlmi_priv.pwdcfg.core.password_state & TLMI_PAP_PWD)
+-		tlmi_priv.pwd_admin->valid = true;
++		tlmi_priv.pwd_admin->pwd_enabled = true;
  
+ 	tlmi_priv.pwd_power = tlmi_create_auth("pop", "power-on");
+ 	if (!tlmi_priv.pwd_power)
+ 		goto fail_clear_attr;
+ 
+ 	if (tlmi_priv.pwdcfg.core.password_state & TLMI_POP_PWD)
+-		tlmi_priv.pwd_power->valid = true;
++		tlmi_priv.pwd_power->pwd_enabled = true;
+ 
+ 	if (tlmi_priv.opcode_support) {
+ 		tlmi_priv.pwd_system = tlmi_create_auth("smp", "system");
+@@ -1652,7 +1652,7 @@ static int tlmi_analyze(void)
+ 			goto fail_clear_attr;
+ 
+ 		if (tlmi_priv.pwdcfg.core.password_state & TLMI_SMP_PWD)
+-			tlmi_priv.pwd_system->valid = true;
++			tlmi_priv.pwd_system->pwd_enabled = true;
+ 
+ 		tlmi_priv.pwd_hdd = tlmi_create_auth("hdd", "hdd");
+ 		if (!tlmi_priv.pwd_hdd)
+@@ -1670,7 +1670,7 @@ static int tlmi_analyze(void)
+ 			/* Check if PWD is configured and set index to first drive found */
+ 			if (tlmi_priv.pwdcfg.ext.hdd_user_password ||
+ 					tlmi_priv.pwdcfg.ext.hdd_master_password) {
+-				tlmi_priv.pwd_hdd->valid = true;
++				tlmi_priv.pwd_hdd->pwd_enabled = true;
+ 				if (tlmi_priv.pwdcfg.ext.hdd_master_password)
+ 					tlmi_priv.pwd_hdd->index =
+ 						ffs(tlmi_priv.pwdcfg.ext.hdd_master_password) - 1;
+@@ -1680,7 +1680,7 @@ static int tlmi_analyze(void)
+ 			}
+ 			if (tlmi_priv.pwdcfg.ext.nvme_user_password ||
+ 					tlmi_priv.pwdcfg.ext.nvme_master_password) {
+-				tlmi_priv.pwd_nvme->valid = true;
++				tlmi_priv.pwd_nvme->pwd_enabled = true;
+ 				if (tlmi_priv.pwdcfg.ext.nvme_master_password)
+ 					tlmi_priv.pwd_nvme->index =
+ 						ffs(tlmi_priv.pwdcfg.ext.nvme_master_password) - 1;
+diff --git a/drivers/platform/x86/think-lmi.h b/drivers/platform/x86/think-lmi.h
+index e1975ffebeb4..4728f40143a3 100644
+--- a/drivers/platform/x86/think-lmi.h
++++ b/drivers/platform/x86/think-lmi.h
+@@ -65,7 +65,7 @@ struct tlmi_pwdcfg {
+ /* password setting details */
+ struct tlmi_pwd_setting {
+ 	struct kobject kobj;
+-	bool valid;
++	bool pwd_enabled;
+ 	char password[TLMI_PWD_BUFSIZE];
+ 	const char *pwd_type;
+ 	const char *role;
 -- 
-2.43.0
+2.47.0
 
 
