@@ -1,172 +1,159 @@
-Return-Path: <platform-driver-x86+bounces-6185-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-6187-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE889ABED6
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Oct 2024 08:33:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 188AC9ABFAA
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Oct 2024 09:03:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B7E81C213FF
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Oct 2024 06:33:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 922341F24FE2
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Oct 2024 07:03:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9ED48149DFF;
-	Wed, 23 Oct 2024 06:33:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 465AA14AD24;
+	Wed, 23 Oct 2024 07:03:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="UbCyRxy/"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="T4GWh7sj"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2044.outbound.protection.outlook.com [40.107.220.44])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16AAC224D6
-	for <platform-driver-x86@vger.kernel.org>; Wed, 23 Oct 2024 06:33:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729665204; cv=fail; b=UstzIjSnmD023XHhFJ9V9UBu5vropPoNhkT/nE+In5VfM+NtCC4VS/TGoqXIsvxxmUh4oNqDxos8D8asN3HYapmfLN41e0XLlWVgQBDibgp+GZWognYtPLxJ4uDCRlz5+P7/7kGekOVp945My36nuv45jlvSEbzEi/wz/gdZs48=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729665204; c=relaxed/simple;
-	bh=je8fVkpVkgeDr7N+z/t8YzpswML6S+Sr410n06+TBX0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Z1vtzeqP1LhVkdfzx37V0R91ccCSgKDxFJB39sHKDiimwuZQwfnXp5ire8E871zX38R/v8rCCMYeXdQ2WTVdxniLTD9+1+e2Xr7Pu99igYqS2otZ2HDC5JI9neUT7pxbI5sgTQ6hpU1mcJabPW2vhaJZjjeRLcLA4TBWpJUScG8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=UbCyRxy/; arc=fail smtp.client-ip=40.107.220.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UljrlxrnPBoFgWpkZrZ+lTOtn7tS9tI2lZaxTTqYINL4NmFWFFrKksawHabfiqw7wHwdfSmYCnTkIoqwuLXisT9B4Do2r6xCBPLvOi1jEMA1USY/QuEDczuV3CLHS2hSSSEtU8qndXk+B5QWjpaP2HsJ5kvXcdy8PkwRegiEToPM7afa0lJNsHtAzVAwQOnZZ9ilw04IfKSXuiGcT/ez75sZM69ffeVT9FpIolB3UhyR7eZOD6YtnoSkfF2aXD35W0C2beT+qRuVykt7TUbi9zDxux8TuXeJiDm3MBWL7J8lMj3KMLKe2gWWvRr56UUPoA8qKzckQskA7he0iBIEDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DLo4vz4q9TpTcX1oYkIVPk7XG+r0Obo4aZBC5KDX6o4=;
- b=KNJv5RSZqWkmMv6TZ8Zxk9CradEtkcDCgXqelCEcbeA/dM1lPTmb6vAwGz8KLUK35dIJhVVtnWGUM1btLUdbiP+Zw2KwJEHo58Q1xOXoE58uKbor7I3geaKJf1TkIWffJhSaDQKg0Ez77o4IPQqQAHqKKXAdmyaKD3bHzY3x6QassEV6s5lCCBIHUDipIxtlBLZhO3wMXqARi8pT7JZ2gimtnK47/jUgjWY0sue72AxrxiVI/GjvgI5UxEeBJxgsIvP2WPWH3RVM90LRR2TatQgrO0Tjh/2/QETq9uzipWQ53TbF2Ib6DLgG8GFlcb7GkpVkpflAqvj7PNqawiSWuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DLo4vz4q9TpTcX1oYkIVPk7XG+r0Obo4aZBC5KDX6o4=;
- b=UbCyRxy/KGndxSCuajHvWYtLv0eea/rVW8dtgBGvuV/9j2c/Djo5sV+2Oh7FBlyxYl7wQxKHTYTtmKywxtEvbVW+/z9BhtN+RHEFLhOW2xlEKrf/tpbW9uMmFHgpQNoC+hsrnzpAknU4PEXfQvTQSXSrb0st439lm3dDb+pP4ds=
-Received: from MW4PR04CA0301.namprd04.prod.outlook.com (2603:10b6:303:82::6)
- by CH2PR12MB4184.namprd12.prod.outlook.com (2603:10b6:610:a7::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.29; Wed, 23 Oct
- 2024 06:33:20 +0000
-Received: from CY4PEPF0000E9D8.namprd05.prod.outlook.com
- (2603:10b6:303:82:cafe::39) by MW4PR04CA0301.outlook.office365.com
- (2603:10b6:303:82::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.29 via Frontend
- Transport; Wed, 23 Oct 2024 06:33:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000E9D8.mail.protection.outlook.com (10.167.241.71) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8093.14 via Frontend Transport; Wed, 23 Oct 2024 06:33:19 +0000
-Received: from airavat.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 23 Oct
- 2024 01:33:17 -0500
-From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-To: <hdegoede@redhat.com>, <ilpo.jarvinen@linux.intel.com>
-CC: <platform-driver-x86@vger.kernel.org>, <Patil.Reddy@amd.com>, "Shyam
- Sundar S K" <Shyam-sundar.S-k@amd.com>
-Subject: [PATCH v3 5/5] platform/x86/amd/pmf: Add PMF driver changes to make compatible with PMF-TA
-Date: Wed, 23 Oct 2024 12:02:45 +0530
-Message-ID: <20241023063245.1404420-6-Shyam-sundar.S-k@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241023063245.1404420-1-Shyam-sundar.S-k@amd.com>
-References: <20241023063245.1404420-1-Shyam-sundar.S-k@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F983A8D0;
+	Wed, 23 Oct 2024 07:03:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729667032; cv=none; b=dq/ZB/5nWsVQwVNGZeJncwFMN8QBE3BYqCqit4kuk3m4lUI7oWxRowHZ777tP3XwW4OXkIIMmUpOQ4vkiRVITHUUz3p9n7Adja2f8GXqYFg4x6EMUbo0g/Uid6NJ9L4wNspVd/7Z4dz3SULKbOJx8/h62aSSuTg5JSa4NQdQLCY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729667032; c=relaxed/simple;
+	bh=kXnezDBNSe442Wp0C9s+qIN4YJtpiOtN2RsiZGhRlms=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j92oDKACPynwClZSf5JYthyYDlLBSqqyCn6ktQglLp/T6e/KEwXO8dM1Pl2pB5b2bfzwdVthXNI1pb0580GIjLa2PcYHoIZdZDsxewaCRyS14MLoS926epgFgDw12q8dqGGJyLkxjh67efkTwl2RE4G8qJYY/99bwMBbQXvajrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=T4GWh7sj; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1729667008; x=1730271808; i=w_armin@gmx.de;
+	bh=lITTQi1+xpDe/eRs5y9aBbZ20hdHWc0TWoYNWU0Bu/k=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=T4GWh7sj0kt2R+sHcQgs/R5eo+U2lAtSWTdSHhXN7lg8aUmRCtJ3Vi3Zf0cslCh8
+	 gir/069k0TZTC9YoXPbKdLw6RZ/+ef+c7mO1FH3lzytJQS7Dsexq+xo4S1v2UQ9Zf
+	 MLrWKAa875uMO75y5ppO7/inH5SAmh5yyYnF0BD9T6OrjmeG5QOouxx/bYR9YEgxF
+	 lZQ23hhM2aqb9X/cdi8E32lyls0Rt29+xbT7F3DV7FEUotQfkeiZy5XMga0kO2jKL
+	 fh8FGLygIDzvD/0rzWCu2CnDtYTtPWsj1vFZl/Pzb4R7408kkvmvDwbtSdgJmVO6P
+	 gk7hJcGyA4G+r05g6Q==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MVvLB-1tVNOX2WnN-00RqJg; Wed, 23
+ Oct 2024 09:03:28 +0200
+Message-ID: <e029404c-88f7-4e8a-affa-40d589412e61@gmx.de>
+Date: Wed, 23 Oct 2024 09:03:25 +0200
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D8:EE_|CH2PR12MB4184:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5e0f4712-7fc1-486b-0448-08dcf32c95de
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|376014|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?1DI4NsV9CSYIbTVqckz70ONPMA0FbKu21fifpmKgnJlzizYNPAG44jiuABQP?=
- =?us-ascii?Q?phWw+TIhKADaXiAVyQ5Nrj6DICDNG/5RtIjdDD3mhvdIYDM4/YCBxXfO8Lc/?=
- =?us-ascii?Q?8tmzNOoef7syTfE+KwZ4ul0yZLN92u/fXIevtssmVqXI07FpZA9udrdg5T0y?=
- =?us-ascii?Q?Z8HEcK02RNAkA0j4gqt86LurAj7hqRMw1JoPcB6pfkaJ43cKzhai5b7bRChN?=
- =?us-ascii?Q?aSJCC2Tnb1WTycMfrtPVQMNJFiPTD+pywsUnLtW3UODQO2bES8+dH3cT5klD?=
- =?us-ascii?Q?cliemcXEYMpqIMmSgR5ksX8/7rhxz/NlOGWr/Y/fKUBUIwS21+6UAMiRwG/p?=
- =?us-ascii?Q?isVQPgqOE0/YkKSC8nyeiFPhQ6x0PbuNitjdWwS172bMO0YEw0Ldmdo7WY+a?=
- =?us-ascii?Q?A46HdMzfjAHBdZPMw/JrBbW2/gxAwaA5WwZsMNXoE1BS2zblvdfI5jVU350z?=
- =?us-ascii?Q?UHxVciWIFpogCqk0lpTDrBMDuJ/BAzm/Vux4F1r6yPyYQw8y8wGmvD0Q1Hg0?=
- =?us-ascii?Q?3wwnEd5R6sAyQU3tUgRDjU8bJGXXEqR7IvqNagPgFLYevUTbdbexwczeZPlA?=
- =?us-ascii?Q?DOVL8Y6IhqwjPqBqRBzwxf3mXj9W2+khYOafvPIMGxoMwYGMc3Undrd7n7zL?=
- =?us-ascii?Q?r3aRfAXcrB0Mmt4UlTHqDAeaSAjXLvA1/7q++A+hbxGkrGPv82TMzWd1pLuk?=
- =?us-ascii?Q?/Lbse/7tVvAw9R9iUahVxsCY9CzopEKA4TARSjSyLRI8FRm8XLisIrOOJYAw?=
- =?us-ascii?Q?OyI1XfPtDLzpp/CEO12/qZJRa8aYu8jJFZytU1UqVm+2w2P01dn7VLTHsUm5?=
- =?us-ascii?Q?cf2HWFBWE+Tk5XAy4b0ErxCa8Pt/otk7mOUQdIAmJryKZOmgEE7nYcXwOt6y?=
- =?us-ascii?Q?WPyI51fQNfpNEnVL4f13tBSjS0H/6F3TgLvzKbTA/p5HptZTqNU85/615U99?=
- =?us-ascii?Q?6KdXxSsl50gfb+oWczO6kCEubFIqvj5+Vri315X+et5yUa59LuHXnw9qkhNc?=
- =?us-ascii?Q?+Y5+d1ZQSLwS1ORmcp0Y62rcIbOx9qa4YphSVgOGhGzz9bYDkPG7CAj7nnco?=
- =?us-ascii?Q?npey+64gEeIDuecBSgF5EO53Vs8ez4muFQapuh68xjh/0zhJe1/xRdOuNXP4?=
- =?us-ascii?Q?C0ZkzoogQFukv5ZHz0cx2ESUKrJY92cMYr+NK0KjoHwKZymPXOfKzIEn3zw7?=
- =?us-ascii?Q?MyrhzfmMWGGnPTX26XNvJth6CaYHCtL63lTL6rO9QvFeMeayX4sTgn0WjvFK?=
- =?us-ascii?Q?SZTHntPiz8XG+2fEzgw8MYJdc3suCLLrq3HM78rnhAtEzfKhQrhYncxacRNz?=
- =?us-ascii?Q?+MuhKcq50se1smis5H+Uk2jtGKDjdEUGBsrAwmkPt8lZMu4wTeVeerUNlLPU?=
- =?us-ascii?Q?DA1D5h7sEVUY4p9Dqc9gUnTIajLdVRcJ0QdYn+0hTNe91d1L7w=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2024 06:33:19.6358
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e0f4712-7fc1-486b-0448-08dcf32c95de
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000E9D8.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4184
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
+ NB04 devices
+To: Pavel Machek <pavel@ucw.cz>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ Werner Sembach <wse@tuxedocomputers.com>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+ ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
+References: <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
+ <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
+ <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
+ <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
+ <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de> <ZwlDpCPhieF3tezX@duo.ucw.cz>
+ <a796f0e7-47a8-40fa-a64e-9dd56117bf78@gmx.de>
+ <c52019d7-01b4-4585-a2d1-b44b0a773fc9@redhat.com>
+ <Zxd0ou7GpCRu0K5a@duo.ucw.cz> <35a98b67-d1eb-4aa9-9d3f-025c94cd6b0f@gmx.de>
+ <Zxf5u9jgmt9vpz2u@duo.ucw.cz>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <Zxf5u9jgmt9vpz2u@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:cuXi8m4Br6nrlYzivR7wZJwXSlMK5QyjD1PQlgXa70bII4xYI1U
+ kJda8SCxdeZiizmfIeODCMFWO/j6fI0IVQkYygtQ8SjLfdkbXvvkPWwkEOnuJBwSmi0tnFo
+ kw0TqdoX7Q5sxqq3XY65CHUnLle9h+2hGP6AKyILbxYu41yYOr2wmPaa8Ukx4sPokK13SCH
+ 7MAiATwmgVrq1uqCTqLtA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:jTr3/4093ac=;w0fY4nHWFtbC/hjK2YYpqhZXS+3
+ ZRWHmBZQwTsgcwbKsgeZSaq6I3MKbSTJMNkr4v+fdzZOPGHlZZ/BdfCJe19zxp9/tRyoXG2e6
+ syfVfCQJwOdnhWUhzQ9t+Omgjr0k7qG/b/vj82iiDiV9Fo1qdKuVLFpigjdTJKwsvmYTksJp1
+ x7d4QaphkRTL5Nj30Y3zNyECkrbVisLdEyJHop5D1Tue2qNx3D/5Qie2PQXeivDobZAEXqU6o
+ R+wPWDtoU2df2ulGBTFFDYCdSSOVAnUIuQnv1y2K/vDqnaRN5AjUOXRgvUkaGhRnCjkRaLmYe
+ hWZs/UZ/WhCu1n4+w9r7mJfXXimp1X73ALsp1YdN8HNmrQkO4jEaP2uZviFSIFJmbpOjTX4Gg
+ JjOgLAtxRmUgX6Nw5XUT/fhS0eyizJg0K53ishDAESdizDXKaUes2by97id917zGXK4ArdzkZ
+ n49fzkAsh4nhZEOmdKbY3a1uXPast54gfYTygBTe4FiCVlV8U3IYiHDPkC6cGD4C7nfw+TrBN
+ 4wbIV8bkoUwYbqlcrE8hQxQBqTO8e9fHyYgSI19pYcW2NWn9BWEQcIP0C0CRjx3bygPUJ64nM
+ prt+bV6A4VLcsmh79kyN+NiQLOYTAYJnOIQOqpV5QtyNNHOn1yWL3hjPnoAzA2eHIfAz9IWWM
+ qvc+C8JiHFKQbLMtXXcwpd3pgf39vdoFR1fuf5o3hWgj2RjRLO5jbsv18mh8MfKSugRwhUecY
+ lkKfxnBtrBOG/T8Jg9RRRzGEUdzB7Wf51DQA+SxJJ5CizIvkuR/58txj83Caw6+ZOtFYfy2fo
+ CnRKDGt+XBgGU8crz5B9OL/FHAa1ygdXRKj8Gl0tGkR7Y=
 
-The PMF driver will allocate shared buffer memory using the
-tee_shm_alloc_kernel_buf(). This allocated memory is located in the
-secure world and is used for communication with the PMF-TA.
+Am 22.10.24 um 21:15 schrieb Pavel Machek:
 
-The latest PMF-TA version introduces new structures with OEM debug
-information and additional policy input conditions for evaluating the
-policy binary. Consequently, the shared memory size must be increased to
-ensure compatibility between the PMF driver and the updated PMF-TA.
+> Hi!
+>
+>>>>> - interface for setting multiple LEDs at once
+>>>>> - interface for setting a range of LEDs at once
+>>> How are LEDs ordered? I don't believe range makes much sense.
+>> Range would allow for efficiently changing the color of all LEDs. But i agree
+>> that this can be considered optional and can be added later.
+> Yep, setting all of them makes sense. We should probably provide
+> backward-compatible interface for keyboards with single backlight, so
+> this would likely be LED class.
+>
+Good idea, the LED device could also be provided by the illumination subsystem code.
 
-Co-developed-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
-Signed-off-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
-Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
----
- drivers/platform/x86/amd/pmf/pmf.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>>>> Personally I really like the idea to just emulate a HID LampArray device
+>>>> for this instead or rolling our own API.  I believe there need to be
+>>>> strong arguments to go with some alternative NIH API and I have not
+>>>> heard such arguments yet.
+>>> If you don't want "some alternative API", we already have perfectly
+>>> working API for 2D arrays of LEDs. I believe I mentioned it before
+>>> :-). Senzrohssre.
+>> We may have to support 3D arrays of LEDs, so using a simple framebuffer
+>> would likely cause trouble.
+> Do you have pointer for device that is 3D?
 
-diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
-index a79808fda1d8..18f12aad46a9 100644
---- a/drivers/platform/x86/amd/pmf/pmf.h
-+++ b/drivers/platform/x86/amd/pmf/pmf.h
-@@ -106,7 +106,7 @@ struct cookie_header {
- #define PMF_TA_IF_VERSION_MAJOR				1
- #define TA_PMF_ACTION_MAX					32
- #define TA_PMF_UNDO_MAX						8
--#define TA_OUTPUT_RESERVED_MEM				906
-+#define TA_OUTPUT_RESERVED_MEM				922
- #define MAX_OPERATION_PARAMS					4
- 
- #define PMF_IF_V1		1
--- 
-2.34.1
+Maybe a PC case with LEDs on each corner.
+
+>
+> OpenRGB manages to map keyboard into plane... so what I'd propose is
+> this:
+>
+> Framebuffer
+> Information for each pixel:
+> 	    present ? (displays with missing pixels are pretty common)
+> 	    list of keys related to this pixel
+> 	    width, height, length (if we know them)
+>
+> Pixels map to keys M:N.
+>
+> Yes, we'll have some number of non-present pixels, but again, I
+> believe that's not uncommon due to round screens, etc.
+>
+> (But I'm fine with other interfaces, as long as they are "normal")
+>
+> Best regards,
+> 								Pavel
+
+Using an ID-based interface would allow for more flexibility and allow
+us to support 3D-arrays.
+
+Thanks,
+Armin Wolf
 
 
