@@ -1,128 +1,109 @@
-Return-Path: <platform-driver-x86+bounces-6398-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-6400-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A17C9B2EDC
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 28 Oct 2024 12:25:58 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B9649B301C
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 28 Oct 2024 13:24:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E8C8CB257D7
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 28 Oct 2024 11:25:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E1D21C2034D
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 28 Oct 2024 12:24:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D9251DA10E;
-	Mon, 28 Oct 2024 11:24:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 335091D95AA;
+	Mon, 28 Oct 2024 12:24:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=siemens.com header.i=benedikt.niedermayr@siemens.com header.b="KpsqjSJg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fV2XcULZ"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C20D71DA0F1
-	for <platform-driver-x86@vger.kernel.org>; Mon, 28 Oct 2024 11:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.65.226
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DC61D88CA
+	for <platform-driver-x86@vger.kernel.org>; Mon, 28 Oct 2024 12:24:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730114663; cv=none; b=Tv4A0W0OtzUlc3FmZVYgpROMA0dLwGYlsf3fUbp+fN5pzGp6cESl5Ml71b8peqmc7bD1NOcj31mtCUAeokgGdJ+2V037YBdkTxI9fm4oT9VjkBHa+ltDq9H/IkebrpCPduj90tB1jWIdx22ap/g9/yyHqZvt9mvpcHdn9TylUto=
+	t=1730118280; cv=none; b=pmNVHhkYfORV86ogo2NMxWcCdsqQ7+Pbgr2oNmEVKuT9T7E9h2abOJngAebRbrs07j99K1WJyuJQ959PP50+cCYLk6eYocrzJLqtfCgdGOdcrhyUYEUdwla51nsIQrtAZEEDls9Eu2vGiQTv7Y24ouRukFAd4IrFnFLxhqsHFO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730114663; c=relaxed/simple;
-	bh=ItHaAeA3t5zCok+910i2whs/c6mfv3/gAIB7CAL5qPA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=WWgeXu8pFjILqgByFuTXwnqvN340/nBheFs2eP1UODQf30FUQI7OLTnkLr0NPn2iNVPwTfVKIjnscpR1Hl9VGwt+OhZi1u+40hkxb2ZCBZE8doQveF9t9kbfenyKLiX87PC90l1YRvAJMbaoJR691GtNUMCFZh0xH1Dod1Pklbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=benedikt.niedermayr@siemens.com header.b=KpsqjSJg; arc=none smtp.client-ip=185.136.65.226
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202410281124126875a7b338f39d5a5c
-        for <platform-driver-x86@vger.kernel.org>;
-        Mon, 28 Oct 2024 12:24:12 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=benedikt.niedermayr@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=60P486yFCSDAYHWuQ7gt3t6auAm6BcPA3MNAns79R/0=;
- b=KpsqjSJgHmPb2VaxzsR3ZAijglfiQa6Pq743EGQIMQRyviHaosz8VG9MKhYelgT0hdVukr
- 3oIatBbevZS9QGGxsw+AKHPv6NFP+Tf7MFO9lcHeKMktuBiYWT0vxAiWX/sFk/t6Zz8od1HL
- HFIAotWUIxCctQtb9pnQdEVDDAycBRER41S3d1NZFP6w8Kle65rA+UcoXYYqcpOD1XzsdFyi
- +IIiA1MxFM7b2ZC8eIZJZFs8WW7oY6V36WqWfnfghWLg5KvvNHZ/9vaVZNgVb4tfU0sSwQAA
- +QofxWo69tSZcO96pED+htNF6mXyhprgt1RGDhP4ZdqkW+M49qaQucjQ==;
-From: Benedikt Niedermayr <benedikt.niedermayr@siemens.com>
-To: konstantin@linuxfoundation.org,
-	baocheng.su@siemens.com,
-	tobias.schaffner@siemens.com,
-	pavel@ucw.cz,
-	lee@kernel.org,
-	hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	wim@linux-watchdog.org,
-	linux@roeck-us.net
-Cc: linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-watchdog@vger.kernel.org,
-	felix.moessbauer@siemens.com,
-	christian.storm@siemens.com,
-	quirin.gylstorff@siemens.com,
-	chao.zeng@siemens.com
-Subject: [PATCH 1/1] MAINTAINERS: replace bouncing maintainers
-Date: Mon, 28 Oct 2024 12:23:59 +0100
-Message-Id: <20241028112359.3333152-2-benedikt.niedermayr@siemens.com>
-In-Reply-To: <20241028112359.3333152-1-benedikt.niedermayr@siemens.com>
-References: <20241028112359.3333152-1-benedikt.niedermayr@siemens.com>
+	s=arc-20240116; t=1730118280; c=relaxed/simple;
+	bh=HQ3aTVPySFKcfjxLJ+a6j4A5vf0670DONOQJZYfaZyE=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=lv+ztpf+CQk7Zjp+ibHbIi2o1yv0BlS4nCv0EEM+yk11uO/aRBYXBnDtrd3VohPXGR519F1oT3PzaBxye1oFnhW4kJbDkeN+wIr0rswsRDisTZvu/ZBympQQfMe1FtChw0m47rXxGp/Sgt3DVgyhHQWB6LNuJsPoJDuG/JGstAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fV2XcULZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 902E9C4CEEB
+	for <platform-driver-x86@vger.kernel.org>; Mon, 28 Oct 2024 12:24:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730118279;
+	bh=HQ3aTVPySFKcfjxLJ+a6j4A5vf0670DONOQJZYfaZyE=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=fV2XcULZQAB2cxOW36vXM5iRklo6t719pz0nKAGQkT5YEr5bwinVMpl1+HqSrjyBe
+	 L5c2ZFQlQNRN5YKqwNv7LlrnmeWSlwH13u5DRXd/SxCTVYlDogXqOWqedM35jfg9Ac
+	 9E9X6LSNUj1WwZ5wEp12+NVvqxqd3rqz4XvA52qLKMQfHjt3wFeo7nyUaN+T3yAQMQ
+	 kVfnH7sp8AqY7XmVwUjFngE3bQKxcx5EXLV6JGOga70Nj/5dN4rxqNSjZ6CCxYl0Ej
+	 C+wkGdKC9o08CMxCoL96Z/4uk32dL3VB4p78bjZQDJf8WwtpC+2pZVqtoVigD6SuWb
+	 EgpHLzKEwaMTQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 8998BC53BBF; Mon, 28 Oct 2024 12:24:39 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: platform-driver-x86@vger.kernel.org
+Subject: [Bug 204807] Hardware monitoring sensor nct6798d doesn't work unless
+ acpi_enforce_resources=lax is enabled
+Date: Mon, 28 Oct 2024 12:24:37 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Platform_x86
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: aaron@planetab.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-204807-215701-iwdujnbxKY@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204807-215701@https.bugzilla.kernel.org/>
+References: <bug-204807-215701@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1323861:519-21489:flowmailer
 
-Since complaints about bouncing maintainers raised [1] we have now a
-replacement for maintainers that stepped away from their duties.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D204807
 
-[1] https://www.spinics.net/lists/platform-driver-x86/msg47105.html
+--- Comment #343 from Aaron (aaron@planetab.com) ---
+Can someone please correct my basic bullet point howto on building this? I'm
+used to install.sh files doing the make dkms etc.
+Plus I don't know what to do without a dkms.conf anyway and research sugges=
+ts I
+have to write my own.
+Much documentation talks about system.map but that's apparently  ancient.=20
 
-Signed-off-by: Benedikt Niedermayr <benedikt.niedermayr@siemens.com>
----
- MAINTAINERS | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Deb 11 bullseye running 6.1.0-0.deb11.22-amd64
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a7ff3c758535..c1b39fe9e356 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20274,16 +20274,16 @@ F:	drivers/media/usb/siano/
- F:	drivers/media/usb/siano/
- 
- SIEMENS IPC LED DRIVERS
--M:	Gerd Haeussler <gerd.haeussler.ext@siemens.com>
--M:	Xing Tong Wu <xingtong.wu@siemens.com>
-+M:	Bao Cheng Su <baocheng.su@siemens.com>
-+M:	Benedikt Niedermayr <benedikt.niedermayr@siemens.com>
- M:	Tobias Schaffner <tobias.schaffner@siemens.com>
- L:	linux-leds@vger.kernel.org
- S:	Maintained
- F:	drivers/leds/simple/
- 
- SIEMENS IPC PLATFORM DRIVERS
--M:	Gerd Haeussler <gerd.haeussler.ext@siemens.com>
--M:	Xing Tong Wu <xingtong.wu@siemens.com>
-+M:	Bao Cheng Su <baocheng.su@siemens.com>
-+M:	Benedikt Niedermayr <benedikt.niedermayr@siemens.com>
- M:	Tobias Schaffner <tobias.schaffner@siemens.com>
- L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
-@@ -20292,8 +20292,8 @@ F:	include/linux/platform_data/x86/simatic-ipc-base.h
- F:	include/linux/platform_data/x86/simatic-ipc.h
- 
- SIEMENS IPC WATCHDOG DRIVERS
--M:	Gerd Haeussler <gerd.haeussler.ext@siemens.com>
--M:	Xing Tong Wu <xingtong.wu@siemens.com>
-+M:	Bao Cheng Su <baocheng.su@siemens.com>
-+M:	Benedikt Niedermayr <benedikt.niedermayr@siemens.com>
- M:	Tobias Schaffner <tobias.schaffner@siemens.com>
- L:	linux-watchdog@vger.kernel.org
- S:	Maintained
--- 
-2.34.1
+- clone git repo
+- download relevant linux kernel source
+- modify /drivers/hwmon/nct6775-platform.c with my ASUS motherboard
+- make dkms
+- make modules
+- make install
+- modprobe nct6775
 
+That's it?
+
+Thanks
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
 
