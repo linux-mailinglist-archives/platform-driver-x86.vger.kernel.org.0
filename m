@@ -1,76 +1,118 @@
-Return-Path: <platform-driver-x86+bounces-6967-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-6964-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A5269C5707
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2024 12:52:41 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 348949C57C5
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2024 13:31:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1FB16282CC9
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2024 11:52:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7BF6AB3D371
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2024 10:54:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 318A01CD1E3;
-	Tue, 12 Nov 2024 11:52:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F238C22C740;
+	Tue, 12 Nov 2024 10:37:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="P8uV3OKH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uaXaG7tb"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB0AE1AFB35
-	for <platform-driver-x86@vger.kernel.org>; Tue, 12 Nov 2024 11:52:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4DE22C73C;
+	Tue, 12 Nov 2024 10:37:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731412344; cv=none; b=DRHVcm5FKGP0nQ3EQtUu+6DW6/UH/eCm99txRT6PP8M5ACbcyAw2BsWTUFhQTEXGfFcEpgo2JFSXuCLRzYipo0vcZ4Pt7sBC6GZVCbNt39stCwxKc0H6AsHGzZwrdwiYOfz8j++LsvpO8maMNug6X3GhDX+lkQdaN2fiHCkSzcw=
+	t=1731407871; cv=none; b=dGntCpP5147iTy5Wuv/C3K6wF88sDFx+LalCxpR7c1DrzUxS2blKKBsInOsxWLfyHPMPZ1u5zxoTQ8HgGcT+NupD46IfhK71DsndMQ+4jDp8sFJhxMe+wP6ggeJ24uwRLUCp+cnuoBYjo+Xko0J9qHeDzCVchZXs7V1ai2oKNOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731412344; c=relaxed/simple;
-	bh=EwbE2g0YQMnkk1rT8tn68OgNsJTCctmQq2Fh5z7sjxI=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=PelTNnX1FvsJmnAx3grthWl+JYXf9w5ut9nM+AwwKlx2XiI+ycd5vx8n6OeNMb+DZ8pz7UI5/e5gOc1JRPoVTEeGAhUYptcixSIKAj0jfC0HovbvxXJD5ZamxHyk/+3nLxHvG0phHIF7iOd+FCM39A2y/0qP3NNkhq9bFwKNJkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=P8uV3OKH; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.96] (p5de457db.dip0.t-ipconnect.de [93.228.87.219])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 89E632FC004A
-	for <platform-driver-x86@vger.kernel.org>; Tue, 12 Nov 2024 12:52:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1731412338;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=G7xrnsFm2/h4dfx/6+2BOaG/KfwhYRLde5jElS9+hf4=;
-	b=P8uV3OKHP58ewABLLlzJZww2gQZjMZ7ZnZimHVYag1OsJ4a7CXRbrmrmr3f54EZ0EgnZeR
-	Xx2aNswVfwdNMozeHBZ+3tcnnOT5sW6ppg8SEhhGotTG1uykbdNy8nOjN+Hc+3QOnFXa4r
-	n6CLyZI4UOi+3pIJYf2EzuWIWXv6QP0=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <8847423c-22ec-4775-9119-de3e0ddb5204@tuxedocomputers.com>
-Date: Tue, 12 Nov 2024 12:52:18 +0100
+	s=arc-20240116; t=1731407871; c=relaxed/simple;
+	bh=QOvCdirU6UWPL06gwZZcW/ucIk4crvlQX68eUGa+UJI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XEotvUClOSpe++5fzENuUf3DCIGIqlO8dmjYmAH1HTLS8/tsYRZWqRYbG57RLPRhcHaoBkrMdq0Vq8RG4BbkiEZOqIkUaaDERvSNxzh8XaSmCRUeZYO8IpAd10q5xrlx+CXfae4v57vN1lpSg5rvr3KyX4vgHSO/qq21W3FUYzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uaXaG7tb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3151DC4CED7;
+	Tue, 12 Nov 2024 10:37:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731407871;
+	bh=QOvCdirU6UWPL06gwZZcW/ucIk4crvlQX68eUGa+UJI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=uaXaG7tbTh40FeN/qRv7UgEovF77ON/AKLzRZS91lqFZMGRH2jH6U4SndMPqc6d78
+	 2CoJPl//U7wau6/hLn4UYJeBuyf1JE51+mRP9ITH5aUR138YZESHL7EFP0TcLTq14s
+	 UA9rHIBd0zH2EqSL25sP85ifoF/b/UwxS9wUry0mlPLH2MQUq5MD/vunCRab5DrVT8
+	 Y2UgYHvGZmnTjSQX/+Ur/rcDktsaKcn42VdN2CN0geY1ixNSQJ/qC9nUOxkXKKw17Y
+	 Y9o+1Mn8RhK8jKUKj3/YIoPhuwF+mV6fVKYZXgUS8iHSlx1rGP8QqQwTOa8zjzl0op
+	 H/jTaZmiW+x0g==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Kurt Borja <kuurtb@gmail.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	=?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Sasha Levin <sashal@kernel.org>,
+	ilpo.jarvinen@linux.intel.com,
+	lsanche@lyndeno.ca,
+	W_Armin@gmx.de,
+	amishin@t-argos.ru,
+	platform-driver-x86@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 3/8] platform/x86: dell-smbios-base: Extends support to Alienware products
+Date: Tue, 12 Nov 2024 05:37:37 -0500
+Message-ID: <20241112103745.1653994-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241112103745.1653994-1-sashal@kernel.org>
+References: <20241112103745.1653994-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: platform-driver-x86@vger.kernel.org
-From: Werner Sembach <wse@tuxedocomputers.com>
-Subject: Why is wmi_bus_type not exported?
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 5.15.171
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: Kurt Borja <kuurtb@gmail.com>
 
-quick learning question: Why is wmi_bus_type not exported unlike, for example, 
-acpi_bus_type, and platform_bus_type?
+[ Upstream commit a36b8b84ac4327b90ef5a22bc97cc96a92073330 ]
 
-Wanted to use bus_find_device_by_name in an acpi driver that might need 
-additional infos from a wmi interface that might or might not be present.
+Fixes the following error:
 
-Kind regards,
+dell_smbios: Unable to run on non-Dell system
 
-Werner Sembach
+Which is triggered after dell-wmi driver fails to initialize on
+Alienware systems, as it depends on dell-smbios.
+
+This effectively extends dell-wmi, dell-smbios and dcdbas support to
+Alienware devices, that might share some features of the SMBIOS intereface
+calling interface with other Dell products.
+
+Tested on an Alienware X15 R1.
+
+Signed-off-by: Kurt Borja <kuurtb@gmail.com>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+Acked-by: Pali Rohár <pali@kernel.org>
+Link: https://lore.kernel.org/r/20241031154023.6149-2-kuurtb@gmail.com
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/platform/x86/dell/dell-smbios-base.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/platform/x86/dell/dell-smbios-base.c b/drivers/platform/x86/dell/dell-smbios-base.c
+index b19c5ff31a703..5b8783a7b0455 100644
+--- a/drivers/platform/x86/dell/dell-smbios-base.c
++++ b/drivers/platform/x86/dell/dell-smbios-base.c
+@@ -543,6 +543,7 @@ static int __init dell_smbios_init(void)
+ 	int ret, wmi, smm;
+ 
+ 	if (!dmi_find_device(DMI_DEV_TYPE_OEM_STRING, "Dell System", NULL) &&
++	    !dmi_find_device(DMI_DEV_TYPE_OEM_STRING, "Alienware", NULL) &&
+ 	    !dmi_find_device(DMI_DEV_TYPE_OEM_STRING, "www.dell.com", NULL)) {
+ 		pr_err("Unable to run on non-Dell system\n");
+ 		return -ENODEV;
+-- 
+2.43.0
 
 
