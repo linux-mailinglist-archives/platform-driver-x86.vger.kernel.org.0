@@ -1,187 +1,414 @@
-Return-Path: <platform-driver-x86+bounces-6969-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-6971-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A6669C5749
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2024 13:06:06 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B25A89C5966
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2024 14:44:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CABFA2842AD
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2024 12:06:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DF6F6B31411
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2024 12:15:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 038041CD1F0;
-	Tue, 12 Nov 2024 12:05:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A57311CD21A;
+	Tue, 12 Nov 2024 12:15:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="xNzxB/yA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D/aWMQhs"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2082.outbound.protection.outlook.com [40.107.243.82])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294F52309A8
-	for <platform-driver-x86@vger.kernel.org>; Tue, 12 Nov 2024 12:05:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.82
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731413143; cv=fail; b=UEXYTshyGciLEKhrOV27oJpYTUpog2WOboRVWBCZcP7lo3zfK44GqCNzrd7xafO1HXg4zqoxevJM7Tv3LzIOQUnQGskDnWvkQfieAoPzvWcJ6bVPxqfzCi9Uv0kABhWF3z84qcIute4dKsNeZN6fmDwq93tuOJym3h/z3y/Ci+I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731413143; c=relaxed/simple;
-	bh=xXbGtObNc+o0qUYXTYOKgkiMKunS0FGjly1E6A8WMDU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=E1h7IMOBRJ1CkOLEIeR5A1+yF0RRAgReW8ZPploM740pRGE0n7eeAtdaC10UggbVBtCzdd0uTmT8sTi9sh3usr9/7aQJG8k5/ekcYxJdJsVV2gUfatHwxJkETD8l4wpgtk9z5vvxonciUDajIqZJFx/sSLHbKHmhanflKFzWe+k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=xNzxB/yA; arc=fail smtp.client-ip=40.107.243.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yj3H240IhqAM5ZJtv4MTM0BwZvVSd2Ud4IDu1VyMzmHjS3em8LvQBMIbGSj3Wio1JoHBRD0o/9rTn7vXnVlAY+x7N+6mkYbGUPpcKIecOhb/r1yslqi+CyU6T7pMiyX9XMtgpmTPJ090R4evAIpkc8eyFg2YTLsHX60AFxGH14nhJrzn1Z73bvxoX3pgGUbS4436dbN8UQd4fTXGlm8Gml/GndOQ8bSbniw6TLz/KEfLFijAlqTtSzP0PHklh+iP5JPZjohlLQO0q8IDmcFKGiBHV1AYB6IYShS2gqzPBWlvbSTqcT6PP5h/49efDW3v2sSFD6MTh0h0LMbDnMbHCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dHaMh6KllCW61gKrju6d7FNke66/hSSsvBxVOthg1cE=;
- b=mYU5ltbw2Cht6myMIIfIXc1mNDsDAI/L8ji0a/k6/bXbW7bsaDYBuhmBdZI0ICUEYb0KOrZ5EtBSAXMGDfPiIp4pv7vcezlYejfDC0syQbpV8iSeJpauc7NUAmQ8UPI/0tR85HBxgF4fw51QaY7LqjamRiTb0XLT73eokyUO7Net8l3SkDEyP1+517rEnLtevHEcazUWOBYmk0PcPoFsb5pAcjMUv3kxLwYbLOPZea2/x7j7kxCwHA4pL5UgKxKpEztWNxJomQmIjFJ4asgmc6delnruure1ku51/eK3qXy6cIpqG0J0PAzeMAYhjqTGnwOMZSjupCma0x+RfAW9Kg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
- is 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=temperror action=none header.from=amd.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dHaMh6KllCW61gKrju6d7FNke66/hSSsvBxVOthg1cE=;
- b=xNzxB/yAw8kbYsaZkyfUrRIF89cAOaByya3Nxh/QoaWEd2QwCWHoajaC4FlD9u04j02VUeslKBD1yzHULjRnrpITL3vrIhqbDaclYckLP2CRnk7IpFFlWaLIZXBcEbY7s0AHkoQMxnGohBaNDqNWJOdgbMXCMnzzseJ01BNUGZk=
-Received: from PH7P221CA0050.NAMP221.PROD.OUTLOOK.COM (2603:10b6:510:33c::13)
- by MW3PR12MB4395.namprd12.prod.outlook.com (2603:10b6:303:5c::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.17; Tue, 12 Nov
- 2024 12:05:20 +0000
-Received: from CY4PEPF0000E9DA.namprd05.prod.outlook.com
- (2603:10b6:510:33c:cafe::8c) by PH7P221CA0050.outlook.office365.com
- (2603:10b6:510:33c::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.29 via Frontend
- Transport; Tue, 12 Nov 2024 12:05:20 +0000
-X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is
- 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=temperror action=none header.from=amd.com;
-Received-SPF: TempError (protection.outlook.com: error in processing during
- lookup of amd.com: DNS Timeout)
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000E9DA.mail.protection.outlook.com (10.167.241.73) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8158.14 via Frontend Transport; Tue, 12 Nov 2024 12:05:18 +0000
-Received: from amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 12 Nov
- 2024 06:05:16 -0600
-From: Suma Hegde <suma.hegde@amd.com>
-To: <platform-driver-x86@vger.kernel.org>
-CC: <ilpo.jarvinen@linux.intel.com>, <hdegoede@redhat.com>, Suma Hegde
-	<suma.hegde@amd.com>, Naveen Krishna Chatradhi
-	<naveenkrishna.chatradhi@amd.com>
-Subject: [v2 2/2] platform/x86/amd/hsmp: Change the error type
-Date: Tue, 12 Nov 2024 12:04:50 +0000
-Message-ID: <20241112120450.2407125-2-suma.hegde@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241112120450.2407125-1-suma.hegde@amd.com>
-References: <20241112120450.2407125-1-suma.hegde@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2D723099A;
+	Tue, 12 Nov 2024 12:15:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731413719; cv=none; b=ng3QY54GkoOhCN4Gbv4ObCgqh7CLyBKt1W9h5HUzE5V8QmBO6lqmX9Al3O+2Wq3Q+Jap/qkN1IZsqU7YQN0KaKjef3E/LGm9jMn8ZO3u254KwkVqQDtkZr+wkloLCXNu5ZygGaXMVso6XZLOoqKZuydytca+J9ePfjoB+wOscVY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731413719; c=relaxed/simple;
+	bh=Jqvk+2JIys7FneqU37gZzMVAjUrVda+nHXaP40mDhXg=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=UuTqezJQY16kbXgzgzTYCAoQ/HXSWZ6outIT36G873AELNs+kO5Vv/qJ6j0zic06QNHdeVdFVCS4lS1DGHchoQ62UcppUQUnH9QoZC3bu36GAH4C+5TeUI/QJwUTodCOdZONzE2FVruNxrGChwH6K8yWZ+qu0VImgEavO0lkXhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D/aWMQhs; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731413718; x=1762949718;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=Jqvk+2JIys7FneqU37gZzMVAjUrVda+nHXaP40mDhXg=;
+  b=D/aWMQhsaxCyG+hPiX7sMTj5aKIEqyxOvBy7x/O2vpQGttSPtpvMCcMN
+   xijue5+4AOmcGhOl6DTkFsV/f4wbh8bC6qhhhrs7xP8lp0vCoWxTxFX8J
+   0K9laonoKGT8h66MdPPmsbnVjpkj/67VfaasSsWlEBFtmDrO3h9jULl4p
+   Fx6C+pozHRtVIT6HnEuSAGwORxwfLakndhlQtB1Pua8jIR4zE4gpv1ncc
+   8FZrhLT7iwOL0fQw+fCiHBDy+3G1fbFoVDULujj6Q6p/UQIg0mABtVghD
+   v6ZWb8G33C87OujhtHEUPLMYQ4CSWmag6xeDoRYF9O6R7hFf2HYJRvGlt
+   Q==;
+X-CSE-ConnectionGUID: ZVO3F/R8S4CbfRF+hPNnqA==
+X-CSE-MsgGUID: fWa8fad3TGuW5L9M03WL8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="48699568"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="48699568"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 04:15:17 -0800
+X-CSE-ConnectionGUID: 04a7HOqnQ5ubzk1cvmdcbw==
+X-CSE-MsgGUID: nEBB6JovTM+XqQJy3Foi5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
+   d="scan'208";a="118370516"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.234])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 04:15:12 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Tue, 12 Nov 2024 14:15:09 +0200 (EET)
+To: Mario Limonciello <mario.limonciello@amd.com>
+cc: Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>, 
+    x86@kernel.org, "Gautham R . Shenoy" <gautham.shenoy@amd.com>, 
+    Perry Yuan <perry.yuan@amd.com>, LKML <linux-kernel@vger.kernel.org>, 
+    linux-doc@vger.kernel.org, linux-pm@vger.kernel.org, 
+    platform-driver-x86@vger.kernel.org, 
+    Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
+    Perry Yuan <Perry.Yuan@amd.com>
+Subject: Re: [PATCH v6 05/12] platform/x86: hfi: parse CPU core ranking data
+ from shared memory
+In-Reply-To: <20241104175407.19546-6-mario.limonciello@amd.com>
+Message-ID: <372796b6-0276-bd75-8aa2-75ea7934dfec@linux.intel.com>
+References: <20241104175407.19546-1-mario.limonciello@amd.com> <20241104175407.19546-6-mario.limonciello@amd.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9DA:EE_|MW3PR12MB4395:EE_
-X-MS-Office365-Filtering-Correlation-Id: 643600a7-f278-4581-272d-08dd031246eb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|376014|82310400026|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?w0up2Y6GituNvdZRrFfjMLqez81GLWOBB9DX7MJVWziYjIJXgmlIv+CmXs3/?=
- =?us-ascii?Q?1oLsIvCba9Lmr/zc5MndXtN4NRUIfW4/8/nxld7yhxG852sMYJrtIYTxNAyl?=
- =?us-ascii?Q?o+wKoaO46l74cF+fM1vCnp5jmBPAXymHpUT+gyMCcMyrXdqVctBfz/LcClSr?=
- =?us-ascii?Q?s+5KZ1RdCLgyTqWzLRpeV/ZGS0ANY9IcI8rp6SXU/MssH0x1XM90ZOHNwqrr?=
- =?us-ascii?Q?K6P3eqnVR3sjfwGJo99D4NonLf4t5Oo7FMf9oIV7K/CMirB1+3aVh0lclSET?=
- =?us-ascii?Q?XdLt4JFG948a54uQtTvPivyjLpjWGyY//d9jCM97Y0uPG3qJgaF+musX/mUh?=
- =?us-ascii?Q?jqu2AD0krb4G5Ap8Ca5Qy9f8OC5uEpxgstBnFMm7q+Zx96NzCCy9BE9UCzmP?=
- =?us-ascii?Q?xN20HgtFWmQDO6Wco5WM1NbeimOvRcuM2oMyo7FCCArdznekVIQFiyr1WlgS?=
- =?us-ascii?Q?sI4izN5ZwIQosfM0fbaWe4l02tmYn+UtiGWdu6sgT8nt/WOE23WdvOd1KUCg?=
- =?us-ascii?Q?z2Vq83pEY7L3ciKaIQLVTA2dvWtVzDry0wNy585KkjoVjwdlbWO0N7x1fZRl?=
- =?us-ascii?Q?lqm+oOyNb+vJ/5yGeNOYQEmpsFG6RprpjOEXRh40HbbqCpDHY/UpXOCcd44y?=
- =?us-ascii?Q?neSyzEAn7Y057AmVQU+6d12h0OFBNqf09JmWr+uau9yk6hPIyH+MjEHiY0CD?=
- =?us-ascii?Q?78JhtahCsXnDew9nP65KziLdqr1Xa8X6ON9H/NnflUoYdnIr/5lR3FyFjkY4?=
- =?us-ascii?Q?zy2QWWmwfoF9QAtDydfkMPLq/0XOf53SvkjDeCVJ4enoS8g71Olx5gTpnW/h?=
- =?us-ascii?Q?w7tHoKXnSvqhGqDld+fN+gn3ARuD0H6YYG0O8PTk4BONoJWVEHTF8eqK+ENq?=
- =?us-ascii?Q?hwItTmj883+rD8Y1jgxkIreUHhhtI0bwF0lDT1noTDR5KtJC4/knb4UxCmCy?=
- =?us-ascii?Q?i455BFbXe427rNtc8MGiu28cJF/Y2aXsGn9wddLChM/r2o5CRSnPlWXk6lnJ?=
- =?us-ascii?Q?7d4d8ulNAYwOiCHRu9ZEW9xFCvCUCxje2A8HDWA7jPvVHsYSySQZHIeZad0t?=
- =?us-ascii?Q?2YaiPis45jtrfyHbSQe20jvrDPz9efZT70c0RWRvWQabgkK9RhWJgkDB4PPl?=
- =?us-ascii?Q?Ink3jzqXEGrKR6mw8GtJ8P8cVl2LSRJ1EzN8Nt0gYqZb09JoNzJv1FTbQDU+?=
- =?us-ascii?Q?x4MVHEZL0q4Qmm0A+M+pn2WzqyhczEp7tmZOoniJYvd3RyITY0QAKpT08EXc?=
- =?us-ascii?Q?8xNV3AR86BLLLqNELeb4cLMtGe0EkkpV5CawM77T1Q896DLoaXONriq5jemT?=
- =?us-ascii?Q?c93lXGVVWQFxf8qjvd8fl1KsUAMuaVbDd0A9/52JKveV+75rsyctrqqr6RFC?=
- =?us-ascii?Q?Q0ERez//twxXg9XeDr8a2r75W1TjmqW3vrU5QPMsy2pjK/5CBg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2024 12:05:18.8870
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 643600a7-f278-4581-272d-08dd031246eb
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000E9DA.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4395
+Content-Type: multipart/mixed; boundary="8323328-1562858813-1731413709=:961"
 
-When file is opened in WRITE only mode, then GET messages are not allowed
-and when file is opened in READ only mode, SET messages are not allowed.
-In these scenerios, return error EPERM to userspace instead of EINVALID.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: Suma Hegde <suma.hegde@amd.com>
-Reviewed-by: Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
----
-Changes from v1:
-None, new patch(after splitting the 1st patch).
+--8323328-1562858813-1731413709=:961
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
- drivers/platform/x86/amd/hsmp/hsmp.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On Mon, 4 Nov 2024, Mario Limonciello wrote:
 
-diff --git a/drivers/platform/x86/amd/hsmp/hsmp.c b/drivers/platform/x86/amd/hsmp/hsmp.c
-index ce91b2cefca2..f29dd93fbf0b 100644
---- a/drivers/platform/x86/amd/hsmp/hsmp.c
-+++ b/drivers/platform/x86/amd/hsmp/hsmp.c
-@@ -262,7 +262,7 @@ long hsmp_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
- 		 * Execute only set/configure commands
- 		 */
- 		if (hsmp_msg_desc_table[msg.msg_id].type != HSMP_SET)
--			return -EINVAL;
-+			return -EPERM;
- 		break;
- 	case FMODE_READ:
- 		/*
-@@ -270,7 +270,7 @@ long hsmp_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
- 		 * Execute only get/monitor commands
- 		 */
- 		if (hsmp_msg_desc_table[msg.msg_id].type != HSMP_GET)
--			return -EINVAL;
-+			return -EPERM;
- 		break;
- 	case FMODE_READ | FMODE_WRITE:
- 		/*
-@@ -279,7 +279,7 @@ long hsmp_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
- 		 */
- 		break;
- 	default:
--		return -EINVAL;
-+		return -EPERM;
- 	}
- 
- 	ret = hsmp_send_message(&msg);
--- 
-2.25.1
+> From: Perry Yuan <Perry.Yuan@amd.com>
+>=20
+> When `amd_hfi` driver is loaded, it will use PCCT subspace type 4 table
+> to retrieve the shared memory address which contains the CPU core ranking
+> table. This table includes a header that specifies the number of ranking
+> data entries to be parsed and rank each CPU core with the Performance and
+> Energy Efficiency capability as implemented by the CPU power management
+> firmware.
+>=20
+> Once the table has been parsed, each CPU is assigned a ranking score
+> within its class. Subsequently, when the scheduler selects cores, it
+> chooses from the ranking list based on the assigned scores in each class,
+> thereby ensuring the optimal selection of CPU cores according to their
+> predefined classifications and priorities.
+>=20
+> Signed-off-by: Perry Yuan <Perry.Yuan@amd.com>
+> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+>  drivers/platform/x86/amd/hfi/hfi.c | 196 +++++++++++++++++++++++++++++
+>  1 file changed, 196 insertions(+)
+>=20
+> diff --git a/drivers/platform/x86/amd/hfi/hfi.c b/drivers/platform/x86/am=
+d/hfi/hfi.c
+> index 2cd71d79a22c9..708d7d18fe2f2 100644
+> --- a/drivers/platform/x86/amd/hfi/hfi.c
+> +++ b/drivers/platform/x86/amd/hfi/hfi.c
+> @@ -18,20 +18,72 @@
+>  #include <linux/io.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> +#include <linux/mailbox_client.h>
+>  #include <linux/mutex.h>
+> +#include <linux/percpu-defs.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/smp.h>
+> +#include <linux/topology.h>
+> +#include <linux/workqueue.h>
+> +
+> +#include <asm/cpu_device_id.h>
+> +
+> +#include <acpi/pcc.h>
+> +#include <acpi/cppc_acpi.h>
+> =20
+>  #define AMD_HFI_DRIVER=09=09"amd_hfi"
+> +#define AMD_HFI_MAILBOX_COUNT=091
+> +#define AMD_HETERO_RANKING_TABLE_VER=092
+> +
+>  #define AMD_HETERO_CPUID_27=090x80000027
+> +
+>  static struct platform_device *device;
+> =20
+> +/**
+> + * struct amd_shmem_info - Shared memory table for AMD HFI
+> + *
+> + * @header:=09The PCCT table header including signature, length flags an=
+d command.
+> + * @version_number:=09=09Version number of the table
+> + * @n_logical_processors:=09Number of logical processors
+> + * @n_capabilities:=09=09Number of ranking dimensions (performance, effi=
+ciency, etc)
+> + * @table_update_context:=09Command being sent over the subspace
+> + * @n_bitmaps:=09=09=09Number of 32-bit bitmaps to enumerate all the API=
+C IDs
+> + *=09=09=09=09This is based on the maximum APIC ID enumerated in the sys=
+tem
+> + * @reserved:=09=09=0924 bit spare
+> + * @table_data:=09=09=09Bit Map(s) of enabled logical processors
+> + *=09=09=09=09Followed by the ranking data for each logical processor
+> + */
+> +struct amd_shmem_info {
+> +=09struct acpi_pcct_ext_pcc_shared_memory header;
+> +=09u32=09version_number=09=09:8,
+> +=09=09n_logical_processors=09:8,
+> +=09=09n_capabilities=09=09:8,
+> +=09=09table_update_context=09:8;
+> +=09u32=09n_bitmaps=09=09:8,
+> +=09=09reserved=09=09:24;
+> +=09u32=09table_data[];
+> +} __packed;
 
+This looks naturally aligned so __packed shouldn't be necessary.
+
+Looks fine otherwise to me,
+
+Reviewed-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
+
+--=20
+ i.
+
+>  struct amd_hfi_data {
+>  =09const char=09*name;
+>  =09struct device=09*dev;
+>  =09struct mutex=09lock;
+> +
+> +=09/* PCCT table related*/
+> +=09struct pcc_mbox_chan=09*pcc_chan;
+> +=09void __iomem=09=09*pcc_comm_addr;
+> +=09struct acpi_subtable_header=09*pcct_entry;
+> +=09struct amd_shmem_info=09*shmem;
+>  };
+> =20
+> +/**
+> + * struct amd_hfi_classes - HFI class capabilities per CPU
+> + * @perf:=09Performance capability
+> + * @eff:=09Power efficiency capability
+> + *
+> + * Capabilities of a logical processor in the ranking table. These capab=
+ilities
+> + * are unitless and specific to each HFI class.
+> + */
+>  struct amd_hfi_classes {
+>  =09u32=09perf;
+>  =09u32=09eff;
+> @@ -40,23 +92,105 @@ struct amd_hfi_classes {
+>  /**
+>   * struct amd_hfi_cpuinfo - HFI workload class info per CPU
+>   * @cpu:=09=09cpu index
+> + * @apic_id:=09=09apic id of the current cpu
+>   * @cpus:=09=09mask of cpus associated with amd_hfi_cpuinfo
+>   * @class_index:=09workload class ID index
+>   * @nr_class:=09=09max number of workload class supported
+> + * @ipcc_scores:=09ipcc scores for each class
+>   * @amd_hfi_classes:=09current cpu workload class ranking data
+>   *
+>   * Parameters of a logical processor linked with hardware feedback class
+>   */
+>  struct amd_hfi_cpuinfo {
+>  =09int=09=09cpu;
+> +=09u32=09=09apic_id;
+>  =09cpumask_var_t=09cpus;
+>  =09s16=09=09class_index;
+>  =09u8=09=09nr_class;
+> +=09int=09=09*ipcc_scores;
+>  =09struct amd_hfi_classes=09*amd_hfi_classes;
+>  };
+> =20
+>  static DEFINE_PER_CPU(struct amd_hfi_cpuinfo, amd_hfi_cpuinfo) =3D {.cla=
+ss_index =3D -1};
+> =20
+> +static int find_cpu_index_by_apicid(unsigned int target_apicid)
+> +{
+> +=09int cpu_index;
+> +
+> +=09for_each_present_cpu(cpu_index) {
+> +=09=09struct cpuinfo_x86 *info =3D &cpu_data(cpu_index);
+> +
+> +=09=09if (info->topo.apicid =3D=3D target_apicid) {
+> +=09=09=09pr_debug("match APIC id %d for CPU index: %d\n",
+> +=09=09=09=09 info->topo.apicid, cpu_index);
+> +=09=09=09return cpu_index;
+> +=09=09}
+> +=09}
+> +
+> +=09return -ENODEV;
+> +}
+> +
+> +static int amd_hfi_fill_metadata(struct amd_hfi_data *amd_hfi_data)
+> +{
+> +=09struct acpi_pcct_ext_pcc_slave *pcct_ext =3D
+> +=09=09(struct acpi_pcct_ext_pcc_slave *)amd_hfi_data->pcct_entry;
+> +=09void __iomem *pcc_comm_addr;
+> +
+> +=09pcc_comm_addr =3D acpi_os_ioremap(amd_hfi_data->pcc_chan->shmem_base_=
+addr,
+> +=09=09=09=09=09amd_hfi_data->pcc_chan->shmem_size);
+> +=09if (!pcc_comm_addr) {
+> +=09=09pr_err("failed to ioremap PCC common region mem\n");
+> +=09=09return -ENOMEM;
+> +=09}
+> +
+> +=09memcpy_fromio(amd_hfi_data->shmem, pcc_comm_addr, pcct_ext->length);
+> +=09iounmap(pcc_comm_addr);
+> +
+> +=09if (amd_hfi_data->shmem->header.signature !=3D PCC_SIGNATURE) {
+> +=09=09pr_err("invalid signature in shared memory\n");
+> +=09=09return -EINVAL;
+> +=09}
+> +=09if (amd_hfi_data->shmem->version_number !=3D AMD_HETERO_RANKING_TABLE=
+_VER) {
+> +=09=09pr_err("invalid version %d\n", amd_hfi_data->shmem->version_number=
+);
+> +=09=09return -EINVAL;
+> +=09}
+> +
+> +=09for (unsigned int i =3D 0; i < amd_hfi_data->shmem->n_bitmaps; i++) {
+> +=09=09u32 bitmap =3D amd_hfi_data->shmem->table_data[i];
+> +
+> +=09=09for (unsigned int j =3D 0; j < BITS_PER_TYPE(u32); j++) {
+> +=09=09=09struct amd_hfi_cpuinfo *info;
+> +=09=09=09int apic_id =3D i * BITS_PER_TYPE(u32) + j;
+> +=09=09=09int cpu_index;
+> +
+> +=09=09=09if (!(bitmap & BIT(j)))
+> +=09=09=09=09continue;
+> +
+> +=09=09=09cpu_index =3D find_cpu_index_by_apicid(apic_id);
+> +=09=09=09if (cpu_index < 0) {
+> +=09=09=09=09pr_warn("APIC ID %d not found\n", apic_id);
+> +=09=09=09=09continue;
+> +=09=09=09}
+> +
+> +=09=09=09info =3D per_cpu_ptr(&amd_hfi_cpuinfo, cpu_index);
+> +=09=09=09info->apic_id =3D apic_id;
+> +
+> +=09=09=09/* Fill the ranking data for each logical processor */
+> +=09=09=09info =3D per_cpu_ptr(&amd_hfi_cpuinfo, cpu_index);
+> +=09=09=09for (unsigned int k =3D 0; k < info->nr_class; k++) {
+> +=09=09=09=09u32 *table =3D amd_hfi_data->shmem->table_data +
+> +=09=09=09=09=09     amd_hfi_data->shmem->n_bitmaps +
+> +=09=09=09=09=09     i * info->nr_class;
+> +
+> +=09=09=09=09info->amd_hfi_classes[k].eff =3D table[apic_id + 2 * k];
+> +=09=09=09=09info->amd_hfi_classes[k].perf =3D table[apic_id + 2 * k + 1]=
+;
+> +=09=09=09}
+> +=09=09}
+> +=09}
+> +
+> +=09return 0;
+> +}
+> +
+>  static int amd_hfi_alloc_class_data(struct platform_device *pdev)
+>  {
+>  =09struct amd_hfi_cpuinfo *hfi_cpuinfo;
+> @@ -73,20 +207,78 @@ static int amd_hfi_alloc_class_data(struct platform_=
+device *pdev)
+> =20
+>  =09for_each_present_cpu(idx) {
+>  =09=09struct amd_hfi_classes *classes;
+> +=09=09int *ipcc_scores;
+> =20
+>  =09=09classes =3D devm_kzalloc(dev,
+>  =09=09=09=09       nr_class_id * sizeof(struct amd_hfi_classes),
+>  =09=09=09=09       GFP_KERNEL);
+>  =09=09if (!classes)
+>  =09=09=09return -ENOMEM;
+> +=09=09ipcc_scores =3D devm_kcalloc(dev, nr_class_id, sizeof(int), GFP_KE=
+RNEL);
+> +=09=09if (!ipcc_scores)
+> +=09=09=09return -ENOMEM;
+>  =09=09hfi_cpuinfo =3D per_cpu_ptr(&amd_hfi_cpuinfo, idx);
+>  =09=09hfi_cpuinfo->amd_hfi_classes =3D classes;
+> +=09=09hfi_cpuinfo->ipcc_scores =3D ipcc_scores;
+>  =09=09hfi_cpuinfo->nr_class =3D nr_class_id;
+>  =09}
+> =20
+>  =09return 0;
+>  }
+> =20
+> +static int amd_hfi_metadata_parser(struct platform_device *pdev,
+> +=09=09=09=09   struct amd_hfi_data *amd_hfi_data)
+> +{
+> +=09struct acpi_pcct_ext_pcc_slave *pcct_ext;
+> +=09struct acpi_subtable_header *pcct_entry;
+> +=09struct mbox_chan *pcc_mbox_channels;
+> +=09struct acpi_table_header *pcct_tbl;
+> +=09struct pcc_mbox_chan *pcc_chan;
+> +=09acpi_status status;
+> +=09int ret;
+> +
+> +=09pcc_mbox_channels =3D devm_kcalloc(&pdev->dev, AMD_HFI_MAILBOX_COUNT,
+> +=09=09=09=09=09 sizeof(*pcc_mbox_channels), GFP_KERNEL);
+> +=09if (!pcc_mbox_channels)
+> +=09=09return -ENOMEM;
+> +
+> +=09pcc_chan =3D devm_kcalloc(&pdev->dev, AMD_HFI_MAILBOX_COUNT,
+> +=09=09=09=09sizeof(*pcc_chan), GFP_KERNEL);
+> +=09if (!pcc_chan)
+> +=09=09return -ENOMEM;
+> +
+> +=09status =3D acpi_get_table(ACPI_SIG_PCCT, 0, &pcct_tbl);
+> +=09if (ACPI_FAILURE(status) || !pcct_tbl)
+> +=09=09return -ENODEV;
+> +
+> +=09/* get pointer to the first PCC subspace entry */
+> +=09pcct_entry =3D (struct acpi_subtable_header *) (
+> +=09=09=09(unsigned long)pcct_tbl + sizeof(struct acpi_table_pcct));
+> +
+> +=09pcc_chan->mchan =3D &pcc_mbox_channels[0];
+> +
+> +=09amd_hfi_data->pcc_chan =3D pcc_chan;
+> +=09amd_hfi_data->pcct_entry =3D pcct_entry;
+> +=09pcct_ext =3D (struct acpi_pcct_ext_pcc_slave *)pcct_entry;
+> +
+> +=09if (pcct_ext->length <=3D 0)
+> +=09=09return -EINVAL;
+> +
+> +=09amd_hfi_data->shmem =3D devm_kzalloc(amd_hfi_data->dev, pcct_ext->len=
+gth, GFP_KERNEL);
+> +=09if (!amd_hfi_data->shmem)
+> +=09=09return -ENOMEM;
+> +
+> +=09pcc_chan->shmem_base_addr =3D pcct_ext->base_address;
+> +=09pcc_chan->shmem_size =3D pcct_ext->length;
+> +
+> +=09/* parse the shared memory info from the pcct table */
+> +=09ret =3D amd_hfi_fill_metadata(amd_hfi_data);
+> +
+> +=09acpi_put_table(pcct_tbl);
+> +
+> +=09return ret;
+> +}
+> +
+>  static const struct acpi_device_id amd_hfi_platform_match[] =3D {
+>  =09{"AMDI0104", 0},
+>  =09{ }
+> @@ -115,6 +307,10 @@ static int amd_hfi_probe(struct platform_device *pde=
+v)
+>  =09if (ret)
+>  =09=09return ret;
+> =20
+> +=09ret =3D amd_hfi_metadata_parser(pdev, amd_hfi_data);
+> +=09if (ret)
+> +=09=09return ret;
+> +
+>  =09return 0;
+>  }
+> =20
+>=20
+--8323328-1562858813-1731413709=:961--
 
