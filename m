@@ -1,452 +1,235 @@
-Return-Path: <platform-driver-x86+bounces-6981-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-6983-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1209C5DA2
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2024 17:45:40 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82D0B9C5D9E
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2024 17:44:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2D2EDBA6C97
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2024 16:32:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 121831F22700
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2024 16:44:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34EF920720A;
-	Tue, 12 Nov 2024 16:30:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A375A20696F;
+	Tue, 12 Nov 2024 16:44:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T+h/kx7F"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="q2fwY0As"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E40D20607F
-	for <platform-driver-x86@vger.kernel.org>; Tue, 12 Nov 2024 16:30:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21FA206951
+	for <platform-driver-x86@vger.kernel.org>; Tue, 12 Nov 2024 16:43:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731429058; cv=none; b=eLoKEdBxiV9qJJpH6ctAunot7zkLNUOnBYvQ26oXXOlsH10fuCW78AUOyFBVSERFU0ZhZXbf114penwBaWtdYJ+sDkNV4co2cFBIAa4ZggP/kOJtSsH5CvulUf2cQ0kPXr2keALl1dlxohZPuwCoBRlM6fADuj6F6kc4Ous7Jdc=
+	t=1731429843; cv=none; b=c0PNOYJOqTsEAqwnO4TYSDgAc3TmjGT8F4HronzTFT0VynLWRlvl+DLfl5IBcr74A3S5/jTv0Aj4WhJwA5SI8ebyp0Qn6w3QJGkIhS25zrCrd0yPu0ECxEY9h3Y/00xgXHpe+OKmFFwlC7rB0R5becMlRp0A9RgMxTO7LsMkDTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731429058; c=relaxed/simple;
-	bh=K34sCfVHWzdyjpBYegF9TwFwUvrY3CgIl8YaEibjQqU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HQTNfWymx8qLj9Llr/lh7tH7Kp3LBg5ty5lTvW4y0/pHCNlMf7EkLi5BIDUcINgSl2zFKzvFnk+AqY5IcMJDSu/dfX5Id59q9nBpU2hzb4dxV9jCmu0fi4MC/+H3wQyjwbrYPckXugFApu1WuY4ktK1eMKo+Z9JrFbCSFghcg5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T+h/kx7F; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731429056; x=1762965056;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=K34sCfVHWzdyjpBYegF9TwFwUvrY3CgIl8YaEibjQqU=;
-  b=T+h/kx7F8w1XDHvc5/gTdd6ieNMG2BNml0jxAdW3CWSrBtSZB76YMyDH
-   ETOSz5WVC8m3jB6ZXho2Pz+HD4UgtRQbVSz7Pa/JMO8msFxjVMzmQiGxH
-   VQVcr/GEiXiIEqD9D3bBpi9DV1q51FhZJFklv6+bPn0h3HzH2ybhROm31
-   /cWw/ccSOARKZNeLCg/tGWJ04wWcj93GExvE5E4nimQjryg2cX4Tk6NjW
-   6sJTcxbVaaeuXnyB82tRaJQvo7V/vxlaRBw0Rh9i0uXvLU/ZpalNuEgTu
-   GqjnSZcZ/2lzxtsQBUTxNolO3Lc7Sl5pDmdLR+08PTIjKImwKOJdNfwPW
-   g==;
-X-CSE-ConnectionGUID: 2B6YkmwwT5OwCkwcJK/Vgw==
-X-CSE-MsgGUID: 0ICh5IwlRPiGAZK+INzH1A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31446464"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="31446464"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 08:30:56 -0800
-X-CSE-ConnectionGUID: +oeRyrNXT1e1Ec+mSODlsg==
-X-CSE-MsgGUID: kZLInpyTQ865qVbT4POXlg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="92495845"
-Received: from awvttdev-05.aw.intel.com ([10.228.212.156])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 08:30:54 -0800
-From: "Michael J. Ruhl" <michael.j.ruhl@intel.com>
-To: intel-xe@lists.freedesktop.org,
-	platform-driver-x86@vger.kernel.org,
-	david.e.box@linux.intel.com,
-	ilpo.jarvinen@linux.intel.com,
-	andriy.shevchenko@linux.intel.com,
-	hdegoede@redhat.com,
-	rodrigo.vivi@intel.com,
-	lucas.demarchi@intel.com
-Cc: michael.j.ruhl@intel.com
-Subject: [PATCH v2 2/2] drm/xe/vsec: Support BMG devices
-Date: Tue, 12 Nov 2024 11:30:35 -0500
-Message-ID: <20241112163035.2282499-3-michael.j.ruhl@intel.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20241112163035.2282499-1-michael.j.ruhl@intel.com>
-References: <20241112163035.2282499-1-michael.j.ruhl@intel.com>
+	s=arc-20240116; t=1731429843; c=relaxed/simple;
+	bh=1gia6nK8eqGhMiydW2ka/J9gv6zg/z4fTn4RMqZ+16U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
+	 In-Reply-To:Content-Type; b=oK1sP3FxGUyEXCFtgo/0HutlF0ypo4NT+ilzY+EOWo5aMbNDAoBmHdsRHiKOcOPorn4+itqvji6VyfOQd//d1+ge1nUpix+QLYACPZEN4ja3ltHjS8A5cyBR7mmbG3WflNhzBWZHaATxr778g/ilmk86mj4LMGpr/IHT18B+OSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=q2fwY0As; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.96] (p5de457db.dip0.t-ipconnect.de [93.228.87.219])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 7D1322FC0050;
+	Tue, 12 Nov 2024 17:43:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1731429836;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GiEZ5CmcIpKxX6QgYf6xyKnErxpwOEXpqaV4Ko8aeRo=;
+	b=q2fwY0AsZuL34PD8PayduJpxGqFPP9tXoenESmr+Tmt7rLUNbjdY5LKaBzxLCjMlB+YFSe
+	yHzHoyLATxd5om7R01ddFC7luVDrHJ1pAKL3gwV8y/o5uOLCG0UrHn/9L2H7/b1Jsbvmj6
+	H/g9XhC/LOBCiYfwQLNNL4QnjKwmMbk=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <663b2c15-d03e-4ff3-b0f3-54ae8403c133@tuxedocomputers.com>
+Date: Tue, 12 Nov 2024 17:43:56 +0100
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: Why is wmi_bus_type not exported?
+To: Armin Wolf <W_Armin@gmx.de>, platform-driver-x86@vger.kernel.org
+References: <8847423c-22ec-4775-9119-de3e0ddb5204@tuxedocomputers.com>
+ <c4315d31-7bc6-4bd9-a7eb-3e53356d55e9@gmx.de>
+ <bf3dae8b-7f1f-4438-9cbe-525825d70752@tuxedocomputers.com>
+ <aa129cb8-2b1d-4912-b731-74e959b99da6@gmx.de>
+ <cc1721a1-bb2f-4dde-a8a5-3d4928439520@tuxedocomputers.com>
+ <b2c8616e-7097-4e27-b5e4-b1fb1790857e@gmx.de>
+Content-Language: en-US
+Cc: Christoffer Sandberg <cs@tuxedo.de>
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <b2c8616e-7097-4e27-b5e4-b1fb1790857e@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-The Battlemage (BMG) discrete graphics card supports the
-Platform, Monitoring Technology (PMT) feature directly
-on the primary PCI device.
+Am 12.11.24 um 17:31 schrieb Armin Wolf:
+> Am 12.11.24 um 16:10 schrieb Werner Sembach:
+>
+>>
+>> Am 12.11.24 um 13:51 schrieb Armin Wolf:
+>>> Am 12.11.24 um 13:42 schrieb Werner Sembach:
+>>>
+>>>> Hi,
+>>>>
+>>>> Am 12.11.24 um 13:01 schrieb Armin Wolf:
+>>>>> Am 12.11.24 um 12:52 schrieb Werner Sembach:
+>>>>>
+>>>>>> Hi,
+>>>>>>
+>>>>>> quick learning question: Why is wmi_bus_type not exported unlike, for
+>>>>>> example, acpi_bus_type, and platform_bus_type?
+>>>>>>
+>>>>>> Wanted to use bus_find_device_by_name in an acpi driver that might
+>>>>>> need additional infos from a wmi interface that might or might not be
+>>>>>> present.
+>>>>>>
+>>>>>> Kind regards,
+>>>>>>
+>>>>>> Werner Sembach
+>>>>>>
+>>>>>>
+>>>>> What kind of information do you have in mind? wmi_bus_type is not
+>>>>> being exported for historic reasons, i can change that if necessary.
+>>>>
+>>>> It's for the tuxedo-drivers part for the Sirius 16 Gen 1 & 2 which has
+>>>> a slow wmi and a quick acpi interface, however the quick acpi
+>>>> interface can not get the max rpm of the cooling fans, but the wmi
+>>>> interface can.
+>>>>
+>>>> Thing is for the acpi driver we might plan an earlier upstream date
+>>>> and it might get multi-odm support, while the wmi interface is and
+>>>> stays odm specific. So my idea was to only couple both drivers in a
+>>>> dynamic way using bus_find_device_by_name.
+>>>>
+>>> Interesting, how is the ACPI interface not ODM specific? Can you
+>>> elaborate a bit on how the ACPI and the WMI interfaces work?
+>>
+>> We have an ODM that was willing to include ACPI code by us in their
+>> BIOS blob and we hope that in the future we can carry that API over to
+>> other ODMs for future TUXEDO devices.
+>>
+>> In pseudocode that API looks like this:
+>>
+>> v1:
+>>
+>> void SMOD(bool mode): Toggle firmware controlled fans vs manually (aka
+>> via the commands below) controlled fans
+>> bool GMOD(): Get current SMOD setting
+>> int GCNT(): Get number of fans
+>> enum GTYP(int index): Returns "CPU-fan" or "GPU-fan"
+>> void SSPD(int index, int value): Set fan speed target as a fraction of
+>> max speed
+>> int GSPD(int index): Get current fan speed target as a fraction of max
+>> speed
+>>
+>> v2 same as v1 but with added:
+>>
+>> int GRPM(int index): Get current actual fan speed in revolutions per
+>> minute
+>> int GTMP(int index): Get temperature of thing fan with respective
+>> index is pointed at (CPU or GPU die, see GTYP)
+>>
+>> Like I said, what is missing is a "Get Max RPM" function even in v2,
+>> which we might add a future iteration, but, well this bios is now out
+>> in the wild. However these released devices have a "get info" function
+>> in the wmi code which returns the v2 infos and the max rpm.
+>>
+>> I want to write the code in a way that it probes the acpi interface
+>> for function existence and wherever something is missing tries to fall
+>> back to infos gathered from the wmi interface, but that one is
+>> implemented in a stand alone module (the tuxedo_nb04_* stuff in
+>> tuxedo-drivers) and I would like to keep it that way in honor of KISS.
+>>
+>> My plan is that the first time max rpm is pulled the acpi driver uses
+>> bus_find_device_* to get the wmi device, if present, and pulls max rpm
+>> from the driver data there and copies it over to it's own driver data.
+>> If not possible it returns a dummy value or falls back to another
+>> method. Maybe a hard coded list of max rpm values, currently only 2
+>> devices have the new interface, so it wouldn't be a long list.
+>> Directly going to the hard coded list is our current fallback plan,
+>> but it is not an elegant solution as the info is actually there, if
+>> you know what i mean?
+>>
+>> Kind regards,
+>>
+>> Werner
+>>
+> I see, we once had a similar case with the dell-wmi driver, see commit 
+> f97e058cfe80 ("platform/x86: wmi: Don't allow drivers to get each other's 
+> GUIDs"):
+>
+>     The only driver using this was dell-wmi, and it really was a hack.
+>         The driver was getting a data attribute from another driver and this
+>         type of action should not be encouraged.
+>
+>         Rather drivers that need to interact with one another should pass
+>         data back and forth via exported functions.
+>
+> I would be quite unhappy with drivers interacting with WMI devices without a 
+> proper WMI driver, but i can see your point here.
+>
+> Maybe we can keep the retrieval of the fanX_max values out of the kernel? I 
+> propose the following:
+>
+> - have a driver for your generic ACPI interface
+> - have a driver for the WMI interface (with fanX_max hwmon attributes)
+>
+> The driver for the generic ACPI interface exposes the fan speed controls as 
+> pwmX attributes if the interface does not support
+> the "Get Max RPM" function. The userspace application in this case searches 
+> for the hwmon chip exposed by the WMI driver and
+> reads the fanX_max attributes there. Then the application can convert the 
+> target fan speed into values for the pwmX attributes
+> itself.
+> If the ACPI interface however supports the "Get Max RPM" function, then it 
+> exposes fanX_max and fanX_target hwmon attributes
+> themself and the userspace application uses them directly.
+>
+> This would keep the kernel drivers simple.
+>
+> I suppose you provide some sort of OEM application for fan control?
 
-Utilize the PMT callback API to add support for the BMG
-devices.
+Yes we do.
 
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
----
- drivers/gpu/drm/xe/Makefile          |   1 +
- drivers/gpu/drm/xe/regs/xe_pmt.h     |  19 +++
- drivers/gpu/drm/xe/xe_device.c       |   7 +
- drivers/gpu/drm/xe/xe_device_types.h |   6 +
- drivers/gpu/drm/xe/xe_vsec.c         | 232 +++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_vsec.h         |  11 ++
- 6 files changed, 276 insertions(+)
- create mode 100644 drivers/gpu/drm/xe/regs/xe_pmt.h
- create mode 100644 drivers/gpu/drm/xe/xe_vsec.c
- create mode 100644 drivers/gpu/drm/xe/xe_vsec.h
+It would be a little bit harder for 3rd parties wanting to implement the hwmon 
+interface then and i'm also thinking of implementing it in the thermal subsystem 
+(albeit i did not do a proper readup on that system yet so maybe it wont work).
 
-diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
-index a93e6fcc0ad9..7730e0596299 100644
---- a/drivers/gpu/drm/xe/Makefile
-+++ b/drivers/gpu/drm/xe/Makefile
-@@ -111,6 +111,7 @@ xe-y += xe_bb.o \
- 	xe_vm.o \
- 	xe_vram.o \
- 	xe_vram_freq.o \
-+	xe_vsec.o \
- 	xe_wait_user_fence.o \
- 	xe_wa.o \
- 	xe_wopcm.o
-diff --git a/drivers/gpu/drm/xe/regs/xe_pmt.h b/drivers/gpu/drm/xe/regs/xe_pmt.h
-new file mode 100644
-index 000000000000..f45abcd96ba8
---- /dev/null
-+++ b/drivers/gpu/drm/xe/regs/xe_pmt.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2024 Intel Corporation
-+ */
-+#ifndef _XE_PMT_H_
-+#define _XE_PMT_H_
-+
-+#define SOC_BASE			0x280000
-+
-+#define BMG_PMT_BASE_OFFSET		0xDB000
-+#define BMG_DISCOVERY_OFFSET		(SOC_BASE + BMG_PMT_BASE_OFFSET)
-+
-+#define BMG_TELEMETRY_BASE_OFFSET	0xE0000
-+#define BMG_TELEMETRY_OFFSET		(SOC_BASE + BMG_TELEMETRY_BASE_OFFSET)
-+
-+#define SG_REMAP_INDEX1			XE_REG(SOC_BASE + 0x08)
-+#define   SG_REMAP_BITS			REG_GENMASK(31, 24)
-+
-+#endif
-diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-index 0e2dd691bdae..51da1ea4d39b 100644
---- a/drivers/gpu/drm/xe/xe_device.c
-+++ b/drivers/gpu/drm/xe/xe_device.c
-@@ -55,6 +55,7 @@
- #include "xe_ttm_sys_mgr.h"
- #include "xe_vm.h"
- #include "xe_vram.h"
-+#include "xe_vsec.h"
- #include "xe_wait_user_fence.h"
- #include "xe_wa.h"
- 
-@@ -365,6 +366,10 @@ struct xe_device *xe_device_create(struct pci_dev *pdev,
- 		goto err;
- 	}
- 
-+	err = drmm_mutex_init(&xe->drm, &xe->pmt.lock);
-+	if (err)
-+		goto err;
-+
- 	err = xe_display_create(xe);
- 	if (WARN_ON(err))
- 		goto err;
-@@ -759,6 +764,8 @@ int xe_device_probe(struct xe_device *xe)
- 	for_each_gt(gt, xe, id)
- 		xe_gt_sanitize_freq(gt);
- 
-+	xe_vsec_init(xe);
-+
- 	return devm_add_action_or_reset(xe->drm.dev, xe_device_sanitize, xe);
- 
- err_fini_display:
-diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
-index bccca63c8a48..13164ea2bddb 100644
---- a/drivers/gpu/drm/xe/xe_device_types.h
-+++ b/drivers/gpu/drm/xe/xe_device_types.h
-@@ -483,6 +483,12 @@ struct xe_device {
- 		struct mutex lock;
- 	} d3cold;
- 
-+	/** @pmt: Support the PMT driver callback interface */
-+	struct {
-+		/** @pmt.lock: protect access for telemetry data */
-+		struct mutex lock;
-+	} pmt;
-+
- 	/**
- 	 * @pm_callback_task: Track the active task that is running in either
- 	 * the runtime_suspend or runtime_resume callbacks.
-diff --git a/drivers/gpu/drm/xe/xe_vsec.c b/drivers/gpu/drm/xe/xe_vsec.c
-new file mode 100644
-index 000000000000..4c2d5c6e293a
---- /dev/null
-+++ b/drivers/gpu/drm/xe/xe_vsec.c
-@@ -0,0 +1,232 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright © 2024 Intel Corporation */
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
-+#include <linux/cleanup.h>
-+#include <linux/errno.h>
-+#include <linux/intel_vsec.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/pci.h>
-+#include <linux/types.h>
-+
-+#include "xe_device.h"
-+#include "xe_device_types.h"
-+#include "xe_drv.h"
-+#include "xe_mmio.h"
-+#include "xe_platform_types.h"
-+#include "xe_pm.h"
-+#include "xe_vsec.h"
-+
-+#include "regs/xe_pmt.h"
-+
-+/* PMT GUID value for BMG devices.  NOTE: this is NOT a PCI id */
-+#define BMG_DEVICE_ID 0xE2F8
-+
-+static struct intel_vsec_header bmg_telemetry = {
-+	.length = 0x10,
-+	.id = VSEC_ID_TELEMETRY,
-+	.num_entries = 2,
-+	.entry_size = 4,
-+	.tbir = 0,
-+	.offset = BMG_DISCOVERY_OFFSET,
-+};
-+
-+static struct intel_vsec_header bmg_punit_crashlog = {
-+	.length = 0x10,
-+	.id = VSEC_ID_CRASHLOG,
-+	.num_entries = 1,
-+	.entry_size = 4,
-+	.tbir = 0,
-+	.offset = BMG_DISCOVERY_OFFSET + 0x60,
-+};
-+
-+static struct intel_vsec_header bmg_oobmsm_crashlog = {
-+	.length = 0x10,
-+	.id = VSEC_ID_CRASHLOG,
-+	.num_entries = 1,
-+	.entry_size = 4,
-+	.tbir = 0,
-+	.offset = BMG_DISCOVERY_OFFSET + 0x78,
-+};
-+
-+static struct intel_vsec_header *bmg_capabilities[] = {
-+	&bmg_telemetry,
-+	&bmg_punit_crashlog,
-+	&bmg_oobmsm_crashlog,
-+	NULL
-+};
-+
-+enum xe_vsec {
-+	XE_VSEC_UNKNOWN = 0,
-+	XE_VSEC_BMG,
-+};
-+
-+static struct intel_vsec_platform_info xe_vsec_info[] = {
-+	[XE_VSEC_BMG] = {
-+		.caps = VSEC_CAP_TELEMETRY | VSEC_CAP_CRASHLOG,
-+		.headers = bmg_capabilities,
-+	},
-+	{ }
-+};
-+
-+/*
-+ * The GUID will have the following bits to decode:
-+ *   [0:3]   - {Telemetry space iteration number (0,1,..)}
-+ *   [4:7]   - Segment (SEGMENT_INDEPENDENT-0, Client-1, Server-2)
-+ *   [8:11]  - SOC_SKU
-+ *   [12:27] – Device ID – changes for each down bin SKU’s
-+ *   [28:29] - Capability Type (Crashlog-0, Telemetry Aggregator-1, Watcher-2)
-+ *   [30:31] - Record-ID (0-PUNIT, 1-OOBMSM_0, 2-OOBMSM_1)
-+ */
-+#define GUID_TELEM_ITERATION	GENMASK(3, 0)
-+#define GUID_SEGMENT		GENMASK(7, 4)
-+#define GUID_SOC_SKU		GENMASK(11, 8)
-+#define GUID_DEVICE_ID		GENMASK(27, 12)
-+#define GUID_CAP_TYPE		GENMASK(29, 28)
-+#define GUID_RECORD_ID		GENMASK(31, 30)
-+
-+#define PUNIT_TELEMETRY_OFFSET		0x0200
-+#define PUNIT_WATCHER_OFFSET		0x14A0
-+#define OOBMSM_0_WATCHER_OFFSET		0x18D8
-+#define OOBMSM_1_TELEMETRY_OFFSET	0x1000
-+
-+enum record_id {
-+	PUNIT,
-+	OOBMSM_0,
-+	OOBMSM_1,
-+};
-+
-+enum capability {
-+	CRASHLOG,
-+	TELEMETRY,
-+	WATCHER,
-+};
-+
-+static int xe_guid_decode(u32 guid, int *index, u32 *offset)
-+{
-+	u32 record_id = FIELD_GET(GUID_RECORD_ID, guid);
-+	u32 cap_type  = FIELD_GET(GUID_CAP_TYPE, guid);
-+	u32 device_id = FIELD_GET(GUID_DEVICE_ID, guid);
-+
-+	if (device_id != BMG_DEVICE_ID)
-+		return -ENODEV;
-+
-+	if (cap_type > WATCHER)
-+		return -EINVAL;
-+
-+	*offset = 0;
-+
-+	if (cap_type == CRASHLOG) {
-+		*index = record_id == PUNIT ? 2 : 4;
-+		return 0;
-+	}
-+
-+	switch (record_id) {
-+	case PUNIT:
-+		*index = 0;
-+		if (cap_type == TELEMETRY)
-+			*offset = PUNIT_TELEMETRY_OFFSET;
-+		else
-+			*offset = PUNIT_WATCHER_OFFSET;
-+		break;
-+
-+	case OOBMSM_0:
-+		*index = 1;
-+		if (cap_type == WATCHER)
-+			*offset = OOBMSM_0_WATCHER_OFFSET;
-+		break;
-+
-+	case OOBMSM_1:
-+		*index = 1;
-+		if (cap_type == TELEMETRY)
-+			*offset = OOBMSM_1_TELEMETRY_OFFSET;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int xe_pmt_telem_read(struct pci_dev *pdev, u32 guid, u64 *data, loff_t user_offset, u32 count)
-+{
-+	struct xe_device *xe = pdev_to_xe_device(pdev);
-+	void __iomem *telem_addr = xe->mmio.regs + BMG_TELEMETRY_OFFSET;
-+	u32 mem_region;
-+	u32 offset;
-+	int ret;
-+
-+	ret = xe_guid_decode(guid, &mem_region, &offset);
-+	if (ret)
-+		return ret;
-+
-+	telem_addr += offset + user_offset;
-+
-+	guard(mutex)(&xe->pmt.lock);
-+
-+	/* indicate that we are not at an appropriate power level */
-+	if (!xe_pm_runtime_get_if_active(xe))
-+		return -ENODATA;
-+
-+	/* set SoC re-mapper index register based on GUID memory region */
-+	xe_mmio_rmw32(xe_root_tile_mmio(xe), SG_REMAP_INDEX1, SG_REMAP_BITS,
-+		      REG_FIELD_PREP(SG_REMAP_BITS, mem_region));
-+
-+	memcpy_fromio(data, telem_addr, count);
-+	xe_pm_runtime_put(xe);
-+
-+	return count;
-+}
-+
-+struct pmt_callbacks xe_pmt_cb = {
-+	.read_telem = xe_pmt_telem_read,
-+};
-+
-+static const int vsec_platforms[] = {
-+	[XE_BATTLEMAGE] = XE_VSEC_BMG,
-+};
-+
-+static enum xe_vsec get_platform_info(struct xe_device *xe)
-+{
-+	if (xe->info.platform > XE_BATTLEMAGE)
-+		return XE_VSEC_UNKNOWN;
-+
-+	return vsec_platforms[xe->info.platform];
-+}
-+
-+/**
-+ * xe_vsec_init - Initialize resources and add intel_vsec auxiliary
-+ * interface
-+ * @xe: valid xe instance
-+ */
-+void xe_vsec_init(struct xe_device *xe)
-+{
-+	struct intel_vsec_platform_info *info;
-+	struct device *dev = xe->drm.dev;
-+	struct pci_dev *pdev = to_pci_dev(dev);
-+	enum xe_vsec platform;
-+
-+	platform = get_platform_info(xe);
-+	if (platform == XE_VSEC_UNKNOWN)
-+		return;
-+
-+	info = &xe_vsec_info[platform];
-+	if (!info->headers)
-+		return;
-+
-+	switch (platform) {
-+	case XE_VSEC_BMG:
-+		info->priv_data = &xe_pmt_cb;
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	/*
-+	 * Register a VSEC. Cleanup is handled using device managed
-+	 * resources.
-+	 */
-+	intel_vsec_register(pdev, info);
-+}
-+MODULE_IMPORT_NS(INTEL_VSEC);
-diff --git a/drivers/gpu/drm/xe/xe_vsec.h b/drivers/gpu/drm/xe/xe_vsec.h
-new file mode 100644
-index 000000000000..5777c53faec2
---- /dev/null
-+++ b/drivers/gpu/drm/xe/xe_vsec.h
-@@ -0,0 +1,11 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Copyright © 2024 Intel Corporation */
-+
-+#ifndef _XE_VSEC_H_
-+#define _XE_VSEC_H_
-+
-+struct xe_device;
-+
-+void xe_vsec_init(struct xe_device *xe);
-+
-+#endif
--- 
-2.44.0
-
+> In this case having the fanX_max handling here also gives
+> you full control and allows you to stay independent from the kernel 
+> development in that regard. For example you might decide
+> independently to hardcode the max. RPM values on some machines (like the two 
+> new machines) or use a different hwmon chip on
+> some other machine.
+>
+> Aside from that, i really like your approach with having a generic ACPI 
+> interface, it can potentially save you a lot of work
+> once you have the initial driver.
+Knock on wood that the generic acpi interface works out ^^.
+>
+> Thanks,
+> Armin Wolf
+>
+>>>
+>>> Thanks,
+>>> Armin Wolf
+>>>
+>>>>>
+>>>>> Thanks,
+>>>>> Armin Wolf
+>>>>>
+>>>> Kind regards,
+>>>>
+>>>> Werner
+>>>>
+>>>>
 
