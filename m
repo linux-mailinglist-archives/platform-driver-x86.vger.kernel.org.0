@@ -1,247 +1,104 @@
-Return-Path: <platform-driver-x86+bounces-6982-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-6988-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04FB59C617F
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2024 20:32:24 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F384B9C61D7
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2024 20:51:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 82B7ABA76EB
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2024 16:32:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 11EA8BC58B0
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2024 17:19:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC5C6205AAC;
-	Tue, 12 Nov 2024 16:31:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A8F4213EDC;
+	Tue, 12 Nov 2024 17:17:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="iRADIIBi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QrnNtRDq"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D37206964
-	for <platform-driver-x86@vger.kernel.org>; Tue, 12 Nov 2024 16:31:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A852076BB;
+	Tue, 12 Nov 2024 17:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731429075; cv=none; b=JRqjZpJbbNVie9pUtT9oeC+D8cu/Umfwotdk1fcIPUkIufeGaRfq0xiBDCK+BSkYRVKBpi1UQjGNPs8iq/IfULGLBmTb4xYYKyscgVJSVsyddKBzsNNnly0Q/qKKKxx8Hum76yIuJC3IJtdW6wOMs0of3GorF/DVfJWXAe/TMow=
+	t=1731431848; cv=none; b=TUAYMb3EeX7IbNEg63FS7p0SbdTvlZx6TrLKqgtIfcOXgElqtKgABPNrN0/NGLlu/vtGffM4yJJmtJOY75ubK2+mB7FgYP2y72VXlvoJnJAYiHnP6LAXLfizxX72tYSMetmZsFdXIk0rVkJEwIkAa28ZOqLh9t8sFbyJGj4L+Qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731429075; c=relaxed/simple;
-	bh=h9iVTNJlelKy0flUDMrS1Sp3bSDNWNRQ3B4nGnWYqZ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=lCLFjOx1RdI2lh2M0DEV1AG4J/xJ3TTCprnHEchdCkOYs3LYejwpF4EPGECSNLVB1uNC5kdmvBQyBeHVKXPj8fSIwtBufH74Dkpwv8Ty20PGnrWcyx9aVvURADs3okHWQh7EZZuh/CtzhMBrhKIHy0BvYsXLZo6XEHPov1jynoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=iRADIIBi; arc=none smtp.client-ip=212.227.17.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1731429069; x=1732033869; i=w_armin@gmx.de;
-	bh=Il+OzBTWkxtb3PsJDBXWL/wKveFvCLRVvJ222RqovQA=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=iRADIIBi2vALMhaELbx5D8E2/YtFalgW8i+VncuXwA7x7NJN9aVSmc9o4L9E617U
-	 7d2DLkvqykxSA3eyvWk9lXq8ZOFjPAz/fvbeH7LlWAUHTsOvy18PdnyP6kw3an4jr
-	 k5Jj0yyuPY3g7ZB7k14CLfbKGnp7c2DxjrnNzY2H62TYJkny9NJmqmUcS7SypAtC+
-	 KVo+ohQ4UUgIduYrxDOgSXv4VJFKwzWtRXjmrjSYSc57RXbW5FML51/wVk14Ovmg3
-	 /o3+PjxlvLlS6NidwBeTKBGNBXmJ7tPutOrWxn1oSwEsnO5Hr6Lm1GDrHGuJNTUjD
-	 EiQqbGwfzph3IOCCow==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MD9T7-1t1rO01eld-004WTN; Tue, 12
- Nov 2024 17:31:09 +0100
-Message-ID: <b2c8616e-7097-4e27-b5e4-b1fb1790857e@gmx.de>
-Date: Tue, 12 Nov 2024 17:31:09 +0100
+	s=arc-20240116; t=1731431848; c=relaxed/simple;
+	bh=JwYWuXfpSL5AkdZAREAFkweuJZUY7ozAMJNysu17CHE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=XZ6v6dXZaffXdhbKAzcCmIYmjwm5weNKVAExtd3YWAhfcm4CgiGt4xV0prz2aMceky1HINKqQQFtIkhYvLMHkHwv9q0C4yWig0OjFSooiUK93FFDxOgS8ko2+YP+rWK3Kq7WzeJqv/wG8gCP/DjfDYTP7c6JSrAyC5foZxrBqrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QrnNtRDq; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731431847; x=1762967847;
+  h=from:to:cc:in-reply-to:references:subject:message-id:
+   date:mime-version:content-transfer-encoding;
+  bh=JwYWuXfpSL5AkdZAREAFkweuJZUY7ozAMJNysu17CHE=;
+  b=QrnNtRDqfZ9BWGB4im5jO7yjEP1nUWTKMFytUOM6/EcTXJ87xU/ZvHMK
+   GtCKr2lT4dXrCHl0d88HdC9gXOlZPoR+4kiN9oQvJEv9GcPdyj5YVONSS
+   ouk/9WBREuNGRpDXQw/axWvh4KIzgdGqoTG9jEbpOl76n1rIsVQMyNhGZ
+   r/60dSSC4uXNX23gdJGQ/crXLoRZK27T2IBWnhxEe2RILXy5nUOU8JzWD
+   a8SVc1A64Vtf7fw6q8odLSlMuxi5SD7jjzGva/me8qWwd2tKVH6+AK3dy
+   Y+5h1QmZWuVRy2MDrxSIggjfXUNhPDZHkLRnZeZ3LoM5je2BM7fOFzoUN
+   w==;
+X-CSE-ConnectionGUID: WVAKl+egSkSKR0ljmWYoJA==
+X-CSE-MsgGUID: PiIVNmzgSTu2QnWs/8dKUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="31157146"
+X-IronPort-AV: E=Sophos;i="6.12,148,1728975600"; 
+   d="scan'208";a="31157146"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 09:17:26 -0800
+X-CSE-ConnectionGUID: k35N3V1lQfye7DmzF1Vj9w==
+X-CSE-MsgGUID: oxbK1Tq4T+6eyFQnuLacWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,148,1728975600"; 
+   d="scan'208";a="87141279"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.234])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 09:17:24 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: Jorge Lopez <jorge.lopez2@hp.com>, Hans de Goede <hdegoede@redhat.com>, 
+ platform-driver-x86@vger.kernel.org, 
+ Colin Ian King <colin.i.king@gmail.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20241107113543.17137-1-colin.i.king@gmail.com>
+References: <20241107113543.17137-1-colin.i.king@gmail.com>
+Subject: Re: [PATCH][next] platform/x86: hp: hp-bioscfg: remove redundant
+ if statement
+Message-Id: <173143183902.3180.9868160429476963926.b4-ty@linux.intel.com>
+Date: Tue, 12 Nov 2024 19:17:19 +0200
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Why is wmi_bus_type not exported?
-To: Werner Sembach <wse@tuxedocomputers.com>,
- platform-driver-x86@vger.kernel.org
-References: <8847423c-22ec-4775-9119-de3e0ddb5204@tuxedocomputers.com>
- <c4315d31-7bc6-4bd9-a7eb-3e53356d55e9@gmx.de>
- <bf3dae8b-7f1f-4438-9cbe-525825d70752@tuxedocomputers.com>
- <aa129cb8-2b1d-4912-b731-74e959b99da6@gmx.de>
- <cc1721a1-bb2f-4dde-a8a5-3d4928439520@tuxedocomputers.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <cc1721a1-bb2f-4dde-a8a5-3d4928439520@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:aCC6kbjD5CZ9PpCfLxs8+3dP9frbTIuJ+T1oz1pV9yqmvwFhnZw
- ByMnrQumXK5PBM5MkPxC2FLLDbC/DQUENxjS3KBzbaexbWA89LJndhISAchqgVmDRk1e+8f
- KovrPpzKcgFehVsz+w3vWol1ke093DiZy7Gv3gTfaunK3irJPIKoi2F9pBFI8coeoV4NxWV
- x5W0927VK1NWatr8eBSqQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:thReX2fzN1U=;nz13/UCAFxK6B6ornXeO8lM3M23
- M8YaF/7FzkZlDA++vzpbFg5Unx3YbaFC7eZwnBtkRnEYUkn7ewoJcjW4ZtAc8wq8Tx63Ax3V3
- t1PkcaWzw9BwHXSZz0DNfdTPw99l5A1dzuGKNL65H9hSdI2SQKAR0QgDKdYyUPZhujDxjBfwS
- EZrsBYXwXKpBwFoscfDRL0PtpW9D9aQnqujN+jOFhQbsFHqwQVQUJ1NTDNcsCsBX6WkSSFgXd
- gJ0rWB8qNM6OylKlxgDK7T6F6CIyrkFpzUbRwKJAKNq+0UDSVGxQbYqI5CA+KFvDNok5jWNsS
- xOCXkJttMTP2bQ2JdxqPmE5sVlemYdN7f6ubfgx6x2Ma5OXToGIo4mztmEy7+YPClLJ6K4Y3R
- yN/xezduGxaFgzKhcjwp/j+QgguxYfmUS14AHk88BOLlyv8+Q3MMFadVjRAChvMQ0WdW/sTUC
- xfgZ4wrUnBqGosmvIF5/0rvRokcDmv5Gw4OT3VuljT3XZA6n1mSXQsLYVgGurMtRAU6KPm/tF
- aYSNAuuHwDJ8KPXrj1dB+iFbTUsP3M49gOvICAdGO9C4kQU4DeWrD6iQ6ANCnWBg3PZ++dfH6
- f07qiLJc3BCVNt2YYQWHthS5nd1yMCuWNntwHY4DieAEbDs8PoQ58DaAwTSinJqoWrfLYz7b6
- jR1bPpvG9VeosGXEpmHh63o3BoFcQ5g5wZ+6HX683GwCNJb50ExS5yAkNt8J2NHHPLZedzd+a
- j/zVhUQ8rl5kNyX9QFwRodE8lXEPfC3dhkIFnaEzZ/ryDirEbFLlkSkIAZRcccEiKc4mHfAIm
- SbuXJxMDUD4RbVob7a9BPkFQ==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-Am 12.11.24 um 16:10 schrieb Werner Sembach:
+On Thu, 07 Nov 2024 11:35:43 +0000, Colin Ian King wrote:
 
->
-> Am 12.11.24 um 13:51 schrieb Armin Wolf:
->> Am 12.11.24 um 13:42 schrieb Werner Sembach:
->>
->>> Hi,
->>>
->>> Am 12.11.24 um 13:01 schrieb Armin Wolf:
->>>> Am 12.11.24 um 12:52 schrieb Werner Sembach:
->>>>
->>>>> Hi,
->>>>>
->>>>> quick learning question: Why is wmi_bus_type not exported unlike, fo=
-r
->>>>> example, acpi_bus_type, and platform_bus_type?
->>>>>
->>>>> Wanted to use bus_find_device_by_name in an acpi driver that might
->>>>> need additional infos from a wmi interface that might or might not b=
-e
->>>>> present.
->>>>>
->>>>> Kind regards,
->>>>>
->>>>> Werner Sembach
->>>>>
->>>>>
->>>> What kind of information do you have in mind? wmi_bus_type is not
->>>> being exported for historic reasons, i can change that if necessary.
->>>
->>> It's for the tuxedo-drivers part for the Sirius 16 Gen 1 & 2 which has
->>> a slow wmi and a quick acpi interface, however the quick acpi
->>> interface can not get the max rpm of the cooling fans, but the wmi
->>> interface can.
->>>
->>> Thing is for the acpi driver we might plan an earlier upstream date
->>> and it might get multi-odm support, while the wmi interface is and
->>> stays odm specific. So my idea was to only couple both drivers in a
->>> dynamic way using bus_find_device_by_name.
->>>
->> Interesting, how is the ACPI interface not ODM specific? Can you
->> elaborate a bit on how the ACPI and the WMI interfaces work?
->
-> We have an ODM that was willing to include ACPI code by us in their
-> BIOS blob and we hope that in the future we can carry that API over to
-> other ODMs for future TUXEDO devices.
->
-> In pseudocode that API looks like this:
->
-> v1:
->
-> void SMOD(bool mode): Toggle firmware controlled fans vs manually (aka
-> via the commands below) controlled fans
-> bool GMOD(): Get current SMOD setting
-> int GCNT(): Get number of fans
-> enum GTYP(int index): Returns "CPU-fan" or "GPU-fan"
-> void SSPD(int index, int value): Set fan speed target as a fraction of
-> max speed
-> int GSPD(int index): Get current fan speed target as a fraction of max
-> speed
->
-> v2 same as v1 but with added:
->
-> int GRPM(int index): Get current actual fan speed in revolutions per
-> minute
-> int GTMP(int index): Get temperature of thing fan with respective
-> index is pointed at (CPU or GPU die, see GTYP)
->
-> Like I said, what is missing is a "Get Max RPM" function even in v2,
-> which we might add a future iteration, but, well this bios is now out
-> in the wild. However these released devices have a "get info" function
-> in the wmi code which returns the v2 infos and the max rpm.
->
-> I want to write the code in a way that it probes the acpi interface
-> for function existence and wherever something is missing tries to fall
-> back to infos gathered from the wmi interface, but that one is
-> implemented in a stand alone module (the tuxedo_nb04_* stuff in
-> tuxedo-drivers) and I would like to keep it that way in honor of KISS.
->
-> My plan is that the first time max rpm is pulled the acpi driver uses
-> bus_find_device_* to get the wmi device, if present, and pulls max rpm
-> from the driver data there and copies it over to it's own driver data.
-> If not possible it returns a dummy value or falls back to another
-> method. Maybe a hard coded list of max rpm values, currently only 2
-> devices have the new interface, so it wouldn't be a long list.
-> Directly going to the hard coded list is our current fallback plan,
-> but it is not an elegant solution as the info is actually there, if
-> you know what i mean?
->
-> Kind regards,
->
-> Werner
->
-I see, we once had a similar case with the dell-wmi driver, see commit f97=
-e058cfe80 ("platform/x86: wmi: Don't allow drivers to get each other's GUI=
-Ds"):
+> The if statement performs the same action if the strcmp result is
+> true or false since there is identical code on both branches. The
+> if statement is redundant and can be replaced with just one call
+> to sysfs_remove_group.
+> 
+> 
 
-	The only driver using this was dell-wmi, and it really was a hack.
-     	The driver was getting a data attribute from another driver and this
-     	type of action should not be encouraged.
 
-     	Rather drivers that need to interact with one another should pass
-     	data back and forth via exported functions.
+Thank you for your contribution, it has been applied to my local
+review-ilpo branch. Note it will show up in the public
+platform-drivers-x86/review-ilpo branch only once I've pushed my
+local branch there, which might take a while.
 
-I would be quite unhappy with drivers interacting with WMI devices without=
- a proper WMI driver, but i can see your point here.
+The list of commits applied:
+[1/1] platform/x86: hp: hp-bioscfg: remove redundant if statement
+      commit: 4ceb681f1822819f78b747ddc189479fead43be2
 
-Maybe we can keep the retrieval of the fanX_max values out of the kernel? =
-I propose the following:
+--
+ i.
 
-- have a driver for your generic ACPI interface
-- have a driver for the WMI interface (with fanX_max hwmon attributes)
-
-The driver for the generic ACPI interface exposes the fan speed controls a=
-s pwmX attributes if the interface does not support
-the "Get Max RPM" function. The userspace application in this case searche=
-s for the hwmon chip exposed by the WMI driver and
-reads the fanX_max attributes there. Then the application can convert the =
-target fan speed into values for the pwmX attributes
-itself.
-If the ACPI interface however supports the "Get Max RPM" function, then it=
- exposes fanX_max and fanX_target hwmon attributes
-themself and the userspace application uses them directly.
-
-This would keep the kernel drivers simple.
-
-I suppose you provide some sort of OEM application for fan control? In thi=
-s case having the fanX_max handling here also gives
-you full control and allows you to stay independent from the kernel develo=
-pment in that regard. For example you might decide
-independently to hardcode the max. RPM values on some machines (like the t=
-wo new machines) or use a different hwmon chip on
-some other machine.
-
-Aside from that, i really like your approach with having a generic ACPI in=
-terface, it can potentially save you a lot of work
-once you have the initial driver.
-
-Thanks,
-Armin Wolf
-
->>
->> Thanks,
->> Armin Wolf
->>
->>>>
->>>> Thanks,
->>>> Armin Wolf
->>>>
->>> Kind regards,
->>>
->>> Werner
->>>
->>>
 
