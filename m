@@ -1,52 +1,52 @@
-Return-Path: <platform-driver-x86+bounces-7156-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-7157-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555399D327E
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Nov 2024 04:19:36 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACC389D327F
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Nov 2024 04:20:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B71C283E56
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Nov 2024 03:19:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3F824B2251D
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Nov 2024 03:19:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88EB614B08E;
-	Wed, 20 Nov 2024 03:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 575FC14B965;
+	Wed, 20 Nov 2024 03:19:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KRNp+Gx/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BGNmMMi4"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6478F3C3C
-	for <platform-driver-x86@vger.kernel.org>; Wed, 20 Nov 2024 03:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C3EE545
+	for <platform-driver-x86@vger.kernel.org>; Wed, 20 Nov 2024 03:19:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732072771; cv=none; b=VmCnJx3hPQxRu6RzLkdtC7pSZHf0TxKb1VLwTKg6EmeydK+JGrsKO3qN5wqnrxZ3ySpsbRvlAS0OKZkNUU6nfGfhzg/S8pPzEPajeBtudYE0UPoSiukjYGT9rykMAOjm4rSyeWYnna1HsgpT6EHv/7RZC2SyOks6ZpDwzBimdsU=
+	t=1732072794; cv=none; b=Y2FXso8qKlEDhAvZ/58lY8SoWNgJfCV4mZckwmWwOQaq6qbWfktK9exewGL5NFrBC4VEZs1apn7si/hjRQIWhLf4F2+sWFpWplddG5siePC3KkF67x4BZG4M/1U7Y/FQWb0sVA6QAb0pLIt+/3sHD9Y4Kz+G3Uy/6QtAUP45Nec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732072771; c=relaxed/simple;
-	bh=vA9qznyUMPaXfMF79vNegbYN1wl20vZvY6ajsrWlezk=;
+	s=arc-20240116; t=1732072794; c=relaxed/simple;
+	bh=MTa3/QuRsImwXrap8W/AcR1DQa5Zn9a6RsqfHRj6GaA=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=jbT0FzGIhD4jua8Fm2SRbkjpEp2L6Uw3HaI8Xz0A2nIvKgpExRFwy6Xe5TgureKPJQ7Zc98PRHJWUNoLCG52NM0PkGHsjO0CnhEOnI144LcxP92HKcHTymIPCO16jHW2Cm6JJthiPO+cNUHtdFc4uubondIRo56S46TCtI+5Izw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KRNp+Gx/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3B388C4CED2
-	for <platform-driver-x86@vger.kernel.org>; Wed, 20 Nov 2024 03:19:31 +0000 (UTC)
+	 Content-Type:MIME-Version; b=V6DOSzcJiYSeBTC9ZN1Mwc3CqX5PxkG+/QyKadQlc65X5afsobg1KmpCzbMq4fCv9q9bj/VtdVaTPHYGB2ULseZR7IYZpDmxddi5xYY1ru4ulWimNzdIRQFD55Hq+huw7aT6tzIFDO0Gwvh7GaTa6+vWVEpGOVRfcrrbEEsy9AU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BGNmMMi4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 12DDEC4CED1
+	for <platform-driver-x86@vger.kernel.org>; Wed, 20 Nov 2024 03:19:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732072771;
-	bh=vA9qznyUMPaXfMF79vNegbYN1wl20vZvY6ajsrWlezk=;
+	s=k20201202; t=1732072794;
+	bh=MTa3/QuRsImwXrap8W/AcR1DQa5Zn9a6RsqfHRj6GaA=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=KRNp+Gx/8FYVYJQ1nPjesUFARskhQYDSIBh25Mly8pgohfIIgMWv0J1JbYzi43jQA
-	 0LN5U5YFupsSeBdwGCR/3Zwh+QW1pfuMVHuz0HYtW6gwiy1zVXcGAspfZuBHPpTk0p
-	 K69g5kdkLpkIArzIAwOfQIinsuM0zC58FxKbvT2MSRe17/ViLuZV2flO5n/ri1NDuY
-	 SpCu51oVSE3Wluu+uRTa3Bcp8/tURuTTiARKYfDzdyb2t7h8Qzji+E2bvflWc9qFFQ
-	 r5bN8lHKhvIYL1Q77hbyjcT2U6y3sSER2X2X4zCnZa5WyqeMR5BUP+ULs8VZdnhTa4
-	 Ez/7DX44FNy9Q==
+	b=BGNmMMi4eCS1dJg6fAJq2WmBv5PoXPXvT0MuipeEonyc8HFU+oFsUfw8VhVsbZpA+
+	 1+4v8VHXAhV6Zff0TUsenxQap9KVdFRJZHMi+3PgjdVP1ZFkcpxhVwj+W/CpBIklyG
+	 dufgLcg/uUugBo8HqL5mstCEZcUw679w+sb/Qurr9D9MoeKr5ZY+wyav8TPZmR66ju
+	 lalsLYJDZ8C9ISPEqLNUjp+CwvwnjWW9OFt98Obnm/3BwaeeWLViLtf2Ep3VnPWspY
+	 Xv90sTARdW8PCDL8wva8l0K8LTjz2CVwVQ1qHgAf8tOmRvwuttwhzbg/91iYZC/GYM
+	 AR32Fcsi/vOXQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 31034CAB786; Wed, 20 Nov 2024 03:19:31 +0000 (UTC)
+	id 0A9E7CAB786; Wed, 20 Nov 2024 03:19:54 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: platform-driver-x86@vger.kernel.org
 Subject: [Bug 219515] intel_th_pci Driver Probe Failed with Error Code -107
-Date: Wed, 20 Nov 2024 03:19:30 +0000
+Date: Wed, 20 Nov 2024 03:19:53 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
@@ -62,7 +62,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-219515-215701-kgq32uJPYr@https.bugzilla.kernel.org/>
+Message-ID: <bug-219515-215701-tiWPv1jGEM@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-219515-215701@https.bugzilla.kernel.org/>
 References: <bug-219515-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -78,10 +78,10 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D219515
 
---- Comment #3 from andy.liang@hpe.com ---
-Created attachment 307251
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D307251&action=3Dedit
-Intel Corporation Ice Lake NorthPeak device
+--- Comment #4 from andy.liang@hpe.com ---
+Created attachment 307252
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D307252&action=3Dedit
+S15SP6 Dmesg
 
 --=20
 You may reply to this email to add a comment.
