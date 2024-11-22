@@ -1,52 +1,52 @@
-Return-Path: <platform-driver-x86+bounces-7245-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-7246-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C0D9D5EB5
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Nov 2024 13:21:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F499D5ED1
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Nov 2024 13:28:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 34B472838FE
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Nov 2024 12:21:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 53E812836D0
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Nov 2024 12:28:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2FB91D2F56;
-	Fri, 22 Nov 2024 12:21:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A5671DF266;
+	Fri, 22 Nov 2024 12:27:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h7kXdfz3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RWPfHCoM"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE22917BB1E
-	for <platform-driver-x86@vger.kernel.org>; Fri, 22 Nov 2024 12:21:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25BD71DEFF5
+	for <platform-driver-x86@vger.kernel.org>; Fri, 22 Nov 2024 12:27:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732278088; cv=none; b=BzkoEiBoglcqJAXmuFDITQcjoyyyYgH6u42sW9dAAlN9ms/ODwVekbENm+fpxEyn6++DOAiBo9xfozDYYMLKQEbjHAmi90ALsuIZ71QNUamdZpIsh5TbEsvZwpRk7gUcQWhpvgtgqZQC3EPjRu2Bm8f1ftwLI2w/lY8Biqd3yro=
+	t=1732278471; cv=none; b=OKYLND5WcZZGdu+yEm+GiTs/RVHvS32DJ95iYIDw6pAauqvLWia049m6e9SFAEoJVahvnmYlcVwsu6vQBrDtLXYjMJEG29hDiAtGky9SNtT3YL4ilGnl6usJpRVhQV080FycGbFB5ErysUPbIHTJlvfHj8zHdxmq6fbL/n+2Gxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732278088; c=relaxed/simple;
-	bh=FKB7PuVp98N14wMH9mZq4jBvU2lUu0/rWPV8UYldkr8=;
+	s=arc-20240116; t=1732278471; c=relaxed/simple;
+	bh=EvGEXmAl0R2AfYHfGRsuW+/bx8ja/FprPcmjxFKpoXM=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=f+sdi/Y61UwUpHUN3iREPC893O35TTo4u0QPUIWXCJmxtM7BT+zNuY4P0W3EKP9lNF01PTIjMzn+l+HIcEg0Koho4Gxd/lHXRH4ymKO5YU02wlM1QzcOme74sbOymf+vbwFVGFf81CrV5cFBehGNOO66GCB1gcjyFWJWGSAcn44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h7kXdfz3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 37C31C4CED0
-	for <platform-driver-x86@vger.kernel.org>; Fri, 22 Nov 2024 12:21:28 +0000 (UTC)
+	 Content-Type:MIME-Version; b=sd9b+Yi0oUGxZc0hzEL72838gZcXfId29asFI6aYW3yCIE9mNpoLFoxJ5itWUPDs76W3zv+Y2NQbCXXjDas1xAdjWxo5B7wN7l5vVzmvDrm7I/oSn6Zp0yN9p6RavD2qQKcf3ybe+9vpwIhviLjY+dQdA5aBXM7nXC+NWPSsr18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RWPfHCoM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A8B06C4CED1
+	for <platform-driver-x86@vger.kernel.org>; Fri, 22 Nov 2024 12:27:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732278088;
-	bh=FKB7PuVp98N14wMH9mZq4jBvU2lUu0/rWPV8UYldkr8=;
+	s=k20201202; t=1732278470;
+	bh=EvGEXmAl0R2AfYHfGRsuW+/bx8ja/FprPcmjxFKpoXM=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=h7kXdfz3OgQX/mjhMW9Jr97hp2ieXDlnE80B5yaCLFPWoL5213lFlLs/JEYQzXrev
-	 uM+6OhIbp0tWc7vGJCw0OvCi9gGVLXJ3/hiqYE9oXvzSgrg6h4HBfI/XwOw5Y06Ga2
-	 vDtXboq7wARSWdx9Dn6wjMuyWGMgC9clkybDiauwJ/wFPQYDKdByuCH9CI+2UfRe8+
-	 Qjz3eaw8LIPu2W0UtSDoAsKTQTgU1zTsx5A9EQgYQNRCJ0DVIJeawMVZndh+LtgIFN
-	 GnnRijGM33tGpR6mwTHg23Q5b7glzu0xIyxW+vLB9d/4XGE2mZil31UepCrXe6knPV
-	 RahYy205VtBNw==
+	b=RWPfHCoMpS24lBukwlv/OZjPQgjlkMKU/C5CBwLiV2liiJsbU+upUHXb74rbjVHrQ
+	 62U1bzDprovNmbF6yNsLQ3XdHni0DsT/aBAFUIq2gaykG6NjHhmPFzwFgD6XzVbtV3
+	 xEA38h19oUKoY9bKfQ2zIm+jKKq7OeWK9uX4wQfTYdoqg7Nwm3NUwVTiTTmpq6VQwb
+	 tVMfYO45lFkiYpTtK/f7oYzwyb4h54CsvcF/Dgy8gDpbgCbERgN/EytrReaIhGiU/1
+	 i4D/EHeJ1N+osu0QDi/Cbl7J44URWhV8NGyCKe+Dj1h74MTm+qN0lGuKPsVlj1GGqv
+	 AbWIMKHTVzVWA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 21D7FC53BC2; Fri, 22 Nov 2024 12:21:28 +0000 (UTC)
+	id 870CCC53BC5; Fri, 22 Nov 2024 12:27:50 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: platform-driver-x86@vger.kernel.org
 Subject: [Bug 219517] REGRESSION: charge_control missing in 6.12
-Date: Fri, 22 Nov 2024 12:21:27 +0000
+Date: Fri, 22 Nov 2024 12:27:50 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
@@ -62,7 +62,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-219517-215701-JXLPlPH0T4@https.bugzilla.kernel.org/>
+Message-ID: <bug-219517-215701-qoAZs3ZpCM@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-219517-215701@https.bugzilla.kernel.org/>
 References: <bug-219517-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -78,26 +78,10 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D219517
 
---- Comment #15 from Michael (auslands-kv@gmx.de) ---
-Hi Armin
-
-I cannot comnpile the module. I get the following error:
-
-drivers/platform/x86/asus-wmi.c: In function 'fan_boost_mode_write':
-drivers/platform/x86/asus-wmi.c:3116:38: error: 'retval' undeclared (first =
-use
-in this function)
- 3116 |                                     &retval);
-      |                                      ^~~~~~
-drivers/platform/x86/asus-wmi.c:3116:38: note: each undeclared identifier is
-reported only once for each function it appears in
-  CC [M]  drivers/platform/x86/gpd-pocket-fan.o
-drivers/platform/x86/asus-wmi.c: In function 'throttle_thermal_policy_write=
-':
-drivers/platform/x86/asus-wmi.c:3699:13: warning: unused variable 'retval'
-[-Wunused-variable]
- 3699 |         u32 retval;
-      |             ^~~~~~
+--- Comment #16 from Michael (auslands-kv@gmx.de) ---
+Update: I removed the first part of the patch (where the retval declaration=
+ was
+removed). Now the patch applies and restores correct functionality.
 
 --=20
 You may reply to this email to add a comment.
