@@ -1,104 +1,106 @@
-Return-Path: <platform-driver-x86+bounces-7413-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-7418-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 844A19E0D4F
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Dec 2024 21:48:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C4A99E0D65
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Dec 2024 21:54:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 62E68B26E16
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Dec 2024 18:45:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 77568B3DEF3
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Dec 2024 19:38:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67EF41DD866;
-	Mon,  2 Dec 2024 18:45:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2534C1DED54;
+	Mon,  2 Dec 2024 19:38:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="hmfy9Old"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D286070800
-	for <platform-driver-x86@vger.kernel.org>; Mon,  2 Dec 2024 18:45:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DDCF1DE4D0;
+	Mon,  2 Dec 2024 19:38:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733165135; cv=none; b=ZGceZwn+LoJ+Zd1j3eIUyroyD6rolh5Vz+dDzYXSkfeUcX2rtuWJsr4UausEaU5UdqJSQkb28HiSSw8jRYbcZqjIJ81Cbfk4uqAwRV3y0f7BaHoG/gGUDU2xMXK4FfVIOHA6GFbGAA7yloB8jpc+hGdKJSHhOlMCXKcze053mu4=
+	t=1733168322; cv=none; b=cA574YaWq0Dkchc+R1ZWFunURadMpDsyhUOCJxiVvcH5XxY/TcPqrLLIpkTeN+5G/W77nJ0RkE7Lr8vhw8fpizH7Mimu9eRelU07vlx8yNYTjT3jOBHp2ooMfPb1MlZAC2RyVUmlJOskvQMQXLESpeCeEogydbgXjbJTf6um5z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733165135; c=relaxed/simple;
-	bh=a28VHAXcB8s81BoSuGbCPfR6ZtQmZ/Jle00AX1M5Glo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q7bQ7pA4L+740el9xb+EgsofG5hkD/1u4WouSTreSkI4MqoX9e7momYzGU3HW3Z/TJ96Htkhqa1ejOBEx/rIq695HW5J1RtSHtKgCuDyMdYdiQYBggVRygoBy+JZ+u4aaZS9wBc33RYr6wJGeIRLYo3X7mGDh5VyhKMa2ch7JOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: lRysA8LzTo+poVSUWQUkaA==
-X-CSE-MsgGUID: u8/zVlnpQN2J/agESZ4gTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="32700968"
-X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="32700968"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 10:45:33 -0800
-X-CSE-ConnectionGUID: 1BKKAT5lSrG1s7AWUs3PTg==
-X-CSE-MsgGUID: VBlTL/RcSrqepfxZTZntTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="93364993"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 10:45:32 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andy@kernel.org>)
-	id 1tIBQH-00000003DnX-2opI;
-	Mon, 02 Dec 2024 20:45:29 +0200
-Date: Mon, 2 Dec 2024 20:45:29 +0200
-From: Andy Shevchenko <andy@kernel.org>
-To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] platform/x86: x86-android-tablets: Add Vexia EDU
- ATLA 10 EC battery driver
-Message-ID: <Z04ASf0znID9C1FN@smile.fi.intel.com>
-References: <20241116121659.57487-1-hdegoede@redhat.com>
- <20241116121659.57487-2-hdegoede@redhat.com>
- <b5b40432-77ed-2466-7d30-ce35a239d0ae@linux.intel.com>
+	s=arc-20240116; t=1733168322; c=relaxed/simple;
+	bh=CCLjKz4p9ifDEuTD7i7Xx+E3HYG987FaG9aqLLF5Qvc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hvyDtkQHULuJ+/xqD6jus6tc96/m93rsqAXLl3Aa4og+uqVeEvJtuP3MUD3cLWdsu1EziYtET+dLRT4bKg4B1ZuiQAPfkOYJQgq0GYjPG+gF0t6FH+24XF7FyxcarAjWvYUU8+rJk6BYj5+z2E+wUX5bdzO0PAxgYQQ7wgAK5OI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=hmfy9Old; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1733168316;
+	bh=CCLjKz4p9ifDEuTD7i7Xx+E3HYG987FaG9aqLLF5Qvc=;
+	h=From:Subject:Date:To:Cc:From;
+	b=hmfy9OldGu2MUnjh5a14kl54b3yqaLMbRVsQPuZUZ/2I3aAXMrmwSV0R6fWOpBiwj
+	 88wUxK5DYFYBr6xhyxGfZiGO6oouImn2Tn9vjuLChL7iG1xw2Ni0jEU1gLpWwyHXHL
+	 2Xb4DcpHl1+2nFF4K7K9E0fSi+ZmXhBT/oue2l50=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: [PATCH 0/5] platform/x86: Constify 'struct bin_attribute'
+Date: Mon, 02 Dec 2024 20:38:31 +0100
+Message-Id: <20241202-sysfs-const-bin_attr-pdx86-v1-0-9ab204c2a814@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b5b40432-77ed-2466-7d30-ce35a239d0ae@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-B4-Tracking: v=1; b=H4sIALcMTmcC/x2MQQrCMBAAvxL27IKJNYpfEZF0s9G9pCUbpKX07
+ 128zDCX2UC5CSs83AaNf6IyVQt/ckDfVD+Mkq0hnMPgDairFkWaqnYcpb5T7w3nvNwjko+Urvl
+ yM4EN5sZFlv/8+dr3A3HrrWtsAAAA
+X-Change-ID: 20241202-sysfs-const-bin_attr-pdx86-c16ca5d376ca
+To: Stuart Hayes <stuart.w.hayes@gmail.com>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ "David E. Box" <david.e.box@linux.intel.com>, 
+ Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>, 
+ Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733168316; l=1415;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=CCLjKz4p9ifDEuTD7i7Xx+E3HYG987FaG9aqLLF5Qvc=;
+ b=fbCmy4KqhmkC8aA8an75i/z6sDXnvm83lqZlF47zBtLi7BS02dQNo8YLruAaMzKuv7lKXfnj1
+ c5h2qz5EZHVBid1+d+RZT3wn4EMhn14MgU5hA0cmPj5ECHi5EZE62re
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Mon, Dec 02, 2024 at 08:34:01PM +0200, Ilpo J�rvinen wrote:
-> On Sat, 16 Nov 2024, Hans de Goede wrote:
+The sysfs core now allows instances of 'struct bin_attribute' to be
+moved into read-only memory. Make use of that to protect them against
+accidental or malicious modifications.
 
-...
+The usage of read_new/write_new/bin_attrs_new is a transition mechanism
+and will be removed after the tree-wide transition to
+const struct bin_attribute.
 
-> > +struct atla10_ec_battery_state {
-> > +	u8 status;			/* Using ACPI Battery spec status bits */
-> > +	u8 capacity;			/* Percent */
-> > +	__le16 charge_now_mAh;
-> > +	__le16 voltage_now_mV;
-> > +	__le16 current_now_mA;
-> > +	__le16 charge_full_mAh;
-> > +	__le16 temp;			/* centi degrees Celsius */
-> > +} __packed;
-> > +
-> > +struct atla10_ec_battery_info {
-> > +	__le16 charge_full_design_mAh;
-> > +	__le16 voltage_now_mV;		/* Should be design voltage, but is not ? */
-> > +	__le16 charge_full_design2_mAh;
-> > +} __packed;
-> 
-> Both struct have only naturally aligned members. Why is __packed needed?
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+Thomas Weißschuh (5):
+      platform/x86: dell: dcdbas: Constify 'struct bin_attribute'
+      platform/x86: dell_rbu: Constify 'struct bin_attribute'
+      platform/x86/intel/sdsi: Constify 'struct bin_attribute'
+      platform/x86/intel/pmt: Constify 'struct bin_attribute'
+      platform/x86/amd/hsmp: Constify 'struct bin_attribute'
 
-Wouldn't the second one give sizeof() == 8 rather than 6? Sorry, my memory
-about this in C is always flaky.
+ drivers/platform/x86/amd/hsmp/acpi.c   | 12 ++++++------
+ drivers/platform/x86/amd/hsmp/plat.c   | 12 ++++++------
+ drivers/platform/x86/dell/dcdbas.c     | 10 +++++-----
+ drivers/platform/x86/dell/dcdbas.h     |  8 --------
+ drivers/platform/x86/dell/dell_rbu.c   | 20 ++++++++++----------
+ drivers/platform/x86/intel/pmt/class.c |  4 ++--
+ drivers/platform/x86/intel/sdsi.c      | 34 +++++++++++++++++-----------------
+ 7 files changed, 46 insertions(+), 54 deletions(-)
+---
+base-commit: e70140ba0d2b1a30467d4af6bcfe761327b9ec95
+change-id: 20241202-sysfs-const-bin_attr-pdx86-c16ca5d376ca
 
+Best regards,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Thomas Weißschuh <linux@weissschuh.net>
 
 
