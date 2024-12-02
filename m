@@ -1,55 +1,56 @@
-Return-Path: <platform-driver-x86+bounces-7395-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-7397-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD929E04BD
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Dec 2024 15:23:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D419A9E053F
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Dec 2024 15:39:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3C7DB283C86
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Dec 2024 14:23:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 965CB284074
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Dec 2024 14:39:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B0BC20371E;
-	Mon,  2 Dec 2024 14:23:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAE4920DD64;
+	Mon,  2 Dec 2024 14:32:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="Hf/bBhfA"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="QsrFClBY"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A160F1FECB5;
-	Mon,  2 Dec 2024 14:23:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F38720D511;
+	Mon,  2 Dec 2024 14:32:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733149429; cv=none; b=aomcMK/wu9wY7lRddfYoIT/Na/1Br4S4EAMMIsTG4fqnxfK192G6ICLqV4C2z+IHsQwAULaHLFqgAtkZrTaqUQGQWA2MiprJG8UmCbqOnwBleUOxjAdB0KgFLR7HkezhBaqwXRIt+t91MkDOae8sX0xHjGspdbhrl0hFT3s+hz4=
+	t=1733149949; cv=none; b=ag/y+DV5+URchxo1ajDPs8BwPEFTq6K6KNHMft1CYIKMJg4uv/8KLjWwiEqXoxI3ga9s1XRdYrN4Ql+hx+kFkFZ9LtC1oYlkOfG483ROgkhzekiweyN1grJIz7ZxOR0hbKpP+KWB850Ns47/1OoJgxgilyNCvlM7n30b+pwPgk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733149429; c=relaxed/simple;
-	bh=Ao5ICESfCnEB0/KxGPrgZXMQvmXXWhoXoVh6BKt2AIE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Ur2SUbJyTDlhOxyGi6RU+hjTxLWd7wUKI4Kb5+R/MfiAVko78c/pWzSeNwTAdqKteMvNmFoZU2mKjRorCEXF2LtWQibF0DsDiGzLSiGd/5MXR3iTt9CHM14tFjPLZ5x6rt3aYok3Agu91IyoMXpwm/DCbgC5mT6RV8MVsM8EE6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=Hf/bBhfA; arc=none smtp.client-ip=212.227.15.15
+	s=arc-20240116; t=1733149949; c=relaxed/simple;
+	bh=2zFv1AtOrG66Agxpkqi+vBOS91JwpVr62yukq7E/GxI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AKeqXd0uP8kIAWO26IrEZRsb/cP80PNqONT1vpJRF9MTfwI5jsPFU51zndOaDYiRzV5Svib/ZSLs1JnXReCO1knO7oJ+drW2RPWwcXZPzAW6j1LazTbUyq9edTax0jWdVOaqMZsLbwszTxwTnuWMlueER78VEVkAHx/LmbmKo3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=QsrFClBY; arc=none smtp.client-ip=212.227.15.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1733149416; x=1733754216; i=w_armin@gmx.de;
-	bh=Ao5ICESfCnEB0/KxGPrgZXMQvmXXWhoXoVh6BKt2AIE=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:From:To:
-	 Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Hf/bBhfAq9LwBkIf6GIAbdcbe3BAXGfFtAD2L7ls6NEp8/ISSDOviVJ853ZtMtAT
-	 q7fk2LBm5KBYdaapwujRTiFZ2U/2HwuqdIsIR+oAqF+1wduedey+wJkt2vkw7ZOu4
-	 lMOFW140tNWCet2vSwsX72rLZNPQYvCmMBH3EZVEsLNsfKhQJP4q/GS30SbfwHlGr
-	 8c4kXGqLfhL4hZrC74hiDxTgi8AGRPMaIIVlMOOi5Dom0cIP9Ox2bVQYAuLZO90qE
-	 oB+RUbezJbth0AqmJjmXolVB4C7QdTMhb9/SkicasHaecpTBbJVntX9NXtGGNxwZU
-	 FUrYEY/ja9rFxpXY4g==
+	s=s31663417; t=1733149869; x=1733754669; i=w_armin@gmx.de;
+	bh=dff0OEGhYPTrkd11UE1HMB+sCm05D5j8m3PY3KktpLY=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=QsrFClBYjV5plSIK2+YlpkAJuQuMi9HqfV5hDsskX7GySktJDusKoWT62KgrU41d
+	 wSR5516+uYOactq92I0zCqhQwtPRqKnAsS4VTYckzvRQAKjg0MrLoc/fr3wQPBcvg
+	 5CBZVLczgn9tIifODeq/ygz24w+PWPO85w1K41ad5p4Wth/45B7VT66M+3ssy/7fL
+	 wa9uFREwv1BstHpSe4sPgEjG9Vt+4e0AcRhT1FBWZr/YrEHDAe+NQ5tf7dZMZp2en
+	 tXND33LpkU8lojn30OJcoZRJEnFBaKu143lGXAwPDcjs67zbikAZOcW5Hg9pxRw+J
+	 EjzfM1Qb0pxRrwwk+A==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.0.14] ([141.30.226.119]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MZTqW-1tD9V337MU-00IxWS; Mon, 02
- Dec 2024 15:23:35 +0100
-Message-ID: <c06686ad-f755-4f14-8df8-f5b47e246f98@gmx.de>
-Date: Mon, 2 Dec 2024 15:23:33 +0100
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MI5Q5-1tUXmM1Oad-001ZDQ; Mon, 02
+ Dec 2024 15:31:09 +0100
+Message-ID: <63590d1a-ea53-4cdb-b451-e83a7a3d9224@gmx.de>
+Date: Mon, 2 Dec 2024 15:31:05 +0100
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -57,148 +58,154 @@ List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] platform/x86: asus-wmi: Ignore return value when writing
- thermal policy
-From: Armin Wolf <W_Armin@gmx.de>
-To: Hans de Goede <hdegoede@redhat.com>, auslands-kv@gmx.de,
- corentin.chary@gmail.com, luke@ljones.dev
-Cc: ilpo.jarvinen@linux.intel.com, platform-driver-x86@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241124171941.29789-1-W_Armin@gmx.de>
- <13590dd6-1529-487c-842a-85b44c577811@redhat.com>
- <a56a1bed-de18-4530-aed5-ea8471962c71@gmx.de>
+Subject: Re: [PATCH v9 00/22] Add support for binding ACPI platform profile to
+ multiple drivers
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+ Maximilian Luz <luzmaximilian@gmail.com>, Lee Chun-Yi <jlee@suse.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Corentin Chary <corentin.chary@gmail.com>, "Luke D . Jones"
+ <luke@ljones.dev>, Ike Panhc <ike.pan@canonical.com>,
+ Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+ Alexis Belmonte <alexbelm48@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Ai Chao <aichao@kylinos.cn>, Gergo Koteles <soyer@irl.hu>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:ACPI" <linux-acpi@vger.kernel.org>,
+ "open list:MICROSOFT SURFACE PLATFORM PROFILE DRIVER"
+ <platform-driver-x86@vger.kernel.org>,
+ "open list:THINKPAD ACPI EXTRAS DRIVER"
+ <ibm-acpi-devel@lists.sourceforge.net>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ Matthew Schwartz <matthew.schwartz@linux.dev>
+References: <20241202055031.8038-1-mario.limonciello@amd.com>
 Content-Language: en-US
-In-Reply-To: <a56a1bed-de18-4530-aed5-ea8471962c71@gmx.de>
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <20241202055031.8038-1-mario.limonciello@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:uZgQPLWC76QF/iO8H6NqcAHN3kNPw16JZA4xNuBq9btomrzuLJO
- cmovFWm/HaIsZCJe3rgeLg11+rqJgUUVekdFLMS/CTJvNxGbQBecifKhrjS2Z3FIc6Uo9qd
- TXZ008jKtE/H38CQt3UrhBcA9RwShS9eyU+1vJ5ESxXi9YI1CfOQhnYhqlcKhDE+qeKw3tF
- yFj+tw8h8D4w8JkcRhEnA==
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:eHBOPBVM+ozXi7qQvpBCqWto44fLeja4GIMi+e5lWrFfndRsXCq
+ 4tHwZeYE8lkML/2kHdB+cqv+uaOiVwUn6DA67z8Wh/qqMKl92dVE0mU3TRLnKSPqRFfUyVZ
+ n0XiHzpWr4P9tZelasnUMN0mx54KPRzisa+dkARZvcdh6jIe4uYfZKbyRUwOTVf6XLx0klK
+ W2TjVXLlq+nmDmfUigGdw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ofpj5GPojQ8=;6hJddhfTgd3TOZTOSVWnFtqtZKA
- GNSB03rFB2tW7BEnOm9VcMlkCuzesCg3mOUFms/DMhCr6JzGdblNEJ4CJzpY2wUfAu0UUeTz4
- 0TrdB2UGrQPwwEBb0s7rrdNoe6EcGfaETfKIQGSAebKvAywscHtCNBUmNqY71FucEq79LNk3g
- gSirjDz0EQGpQbtVEiQnAI8JuuBWqApq0Mb8Q1/0WphOOVMen+pD+nbvYkhs3HaYFFOOH65et
- sUIfLozVw0Whb2FIrtYxGTOkMgIYbcZsIqL4xk9ALAimJ6w+s4Bh0ds0SocHEPQ8PNT644DSg
- IKziRbkSg6ykmUv4J0lsecGYOp4B9ao12qruR6vioYCP8sm8q3uX8huPcwqMWFV6aElWp/q/t
- XUg9TYM+hB/OjioKyzufl607hiwpRMAhqa3VHtZFwZM4P74/czHOVjzmASIu3gJ+weHS9J/IR
- OpVLGknr1KlyiTV0Mfn0myJKhkqRg2YnpzJREej1ZT/tK85raa6Eac4MPKTcdZRAEH67shqyh
- FAA4O6yr09dEqWUCm1b+a5ICEZi8txFm74hUhpSQmZG3hxx8P0B2/eRQCXl+YATYjeP3m5u5+
- StdiOAZopES2uubfrCVUIP2CwgPI4ULWZirG5PxOhON0e7pypsiOcvhjzl4nIliVDS+ZnH1QO
- oJK8GAOqJ6IYWBY1ar2fyQODdnbWoYY+0xM+Cbw5vMQzNHgR+0UGVibXkJvCOGyOi7tX7Cqta
- Zp3UmO4eoA8wnYvH62U2wtVFqY5wVUSCEl/+yKa41rMJAPiKAZH3sRPbyXWQ/Kutw4n3+3ndy
- bqsPQhFTX7EXV/2VBavQwGRabqoCd0JFoCfTR7iye7xK97nXrjtDGKLXeTifb2UB+Tpc/0sfU
- 8EFfm2uvgAl3Ygevv96IjSbjzNMqChqTT5f6un4I+y7cehn34Glhs4iafoNmLrFXRHOpUvNKz
- 2glhiS4sQYJE4z+oWLtBibBjpL7xWYXrf1RCMhR74o3LWB8PvpfAYYTFg02fEpxD3UQFlBrww
- NOczHUoegKvsqBAAHxvNqim08fc6BfDrYxp94QCqMozRh641bJ8riSbXbzoC6/aJWZ4yBqJWW
- Ptco9+cyozSCIsdzByKhiwcGZPrqrz
+UI-OutboundReport: notjunk:1;M01:P0:de05/H5W5HI=;Zgq16+20JqyrWwL8nwAn5SS32py
+ zBfg9xVBBjD1L0mo/qZyKTggO4QXFtWKClgOVxNdcLqRp5OE9dAgd/EWMHwZKWrh/jDMY6rBt
+ 7a0E4Pj1A14haKfOMLd3v5F1SrulRvVLdZD1vN7glsqS++pivTZtFyEG//E84pGFhTv3YGHd1
+ 8pUhtyic9z3c7rI8rKu+d2wfoK6WJB5ZID8C2Ia89zeuzKbK02E4HPrle3QlbOFQ7t95P+xRO
+ fQdSAtTsKy5sXcDIeNEp8KxLIC626vBXPoBktgxKWeTI16OnpKKKXPFgb6GWVO0wVPk/VSzRS
+ BNLkQLc3lren8IQz8BkOzE7PO6DeW0J+rJemZKo7niiR3bqzCgX41a3SU7/ezWAyrwBzQZkMn
+ 90wzeHD4jPdYYKL6bX1sl01x+cflWNlOueF1tqTcMqJ38ruG7q1/IpTMMvE+1kZ2S953WaolE
+ F761YMpW0knmyH9xbKvfXmyy4u+Yjxvp14mUhXHmx2r3qLT8qJ/L+Zx9zOrKew+UZPa3lDQ0v
+ tVnXEMVQ06/Bz8id3W8HhR3aRIgXUkd+GwLAwO3teVQcQC2bLCQH7j1fCvkrtuuaclNdPYWF+
+ 5z4+mRUxJ9G5GleDqspliMYspyNYMroWRTHrpeO5FbEKm63TRKg/9/CFHoQl+7a+URfUjsWsM
+ jlqKjoNFTe4SS8x5uMdOHViib6qYKOvcjI0JmojiLLjsK/J/VkxF1IneDNnCQYiXEfs6rCA8a
+ pGuhNHBAbmhTERr07HeaMJJUzCWuYedR/9bj/R7U4T2JKlCQLaSAvYld5BysBoNNiLfuGkECw
+ wR6rZvE/c1JLwnvqGXH44mEK+vjsl02oDk2DpAF2BnfmJvsdKRTwD4uhBmvopYCok8qN+TEo3
+ sDpastae1CNTN2BDeYt0o4zfzmsj4tVx8Zw28Se7N7LgFDfyaOxCAuzOYxp+znqBXvjeZAT1Y
+ bYth0pfy6FLVHzbIzDYilGXNwp6Rdrs4HDaRyOZlXW6proszH2XTJFKSN9DvWk0q1Kq5leW0v
+ 7bS+d2cCantwRLhfA8C7lVd/GN+NLMWkx/BRcHYwxLzJeoJ9unGde3oXeY4BH7vYJDaB2sLGL
+ RMcK/hicVeo/5vhEfffiCwY4jrY1Wv
 
-Am 29.11.24 um 20:29 schrieb Armin Wolf:
+Am 02.12.24 um 06:50 schrieb Mario Limonciello:
 
-> Am 25.11.24 um 10:39 schrieb Hans de Goede:
+> Currently there are a number of ASUS products on the market that happen to
+> have ACPI objects for amd-pmf to bind to as well as an ACPI platform
+> profile provided by asus-wmi.
 >
->> Hi,
->>
->> On 24-Nov-24 6:19 PM, Armin Wolf wrote:
->>> On some machines like the ASUS Vivobook S14 writing the thermal policy
->>> returns the currently writen thermal policy instead of an error code.
->>>
->>> Ignore the return code to avoid falsely returning an error when the
->>> thermal policy was written successfully.
->>>
->>> Reported-by: auslands-kv@gmx.de
->>> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=3D219517
->>> Fixes: 2daa86e78c49 ("platform/x86: asus_wmi: Support throttle
->>> thermal policy")
->>> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
->> Thanks, patch looks good to me:
->>
->> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
->>
->> Regards,
->>
->> Hans
+> The ACPI platform profile support created by amd-pmf on these ASUS
+> products is "Function 9" which is specifically for "BIOS or EC
+> notification" of power slider position. This feature is actively used
+> by some designs such as Framework 13 and Framework 16.
 >
-> I forgot to add the following tag:
+> On these ASUS designs we keep on quirking more and more of them to turn
+> off this notification so that asus-wmi can bind.
 >
-> Tested-by: auslands-kv@gmx.de
+> This however isn't how Windows works.  "Multiple" things are notified for
+> the power slider position. This series adjusts Linux to behave similarly.
 >
-> Can we pick this patch for the next fixes pull?
+> Multiple drivers can now register an ACPI platform profile and will react
+> to set requests.
 >
-> Thanks,
-> Armin Wolf
+> To avoid chaos, only positions that are common to both drivers are
+> accepted when the legacy /sys/firmware/acpi/platform_profile interface
+> is used.
 >
-Another user (Edoardo Brogiolo <brogioloedoardo@gmail.com>) reported a sim=
-ilar issue with another Asus machine,
-see https://bbs.archlinux.org/viewtopic.php?id=3D301341 for details.
+> This series also adds a new concept of a "custom" profile.  This allows
+> userspace to discover that there are multiple driver handlers that are
+> configured differently.
+>
+> This series also allows dropping all of the PMF quirks from amd-pmf.
+>
+> NOTE: Although this series changes code in acpi platform profile, I think
+>        it is better to go through the platform-x86 tree as more drivers can
+>        be introduced during the kernel cycle and should make the changes to
+>        support class interface when merging.
 
-Are there any blockers left for this patch to get accepted upstream?
+Thanks for all the good work, the whole series looks good to me.
 
 Thanks,
 Armin Wolf
 
->>> ---
->>> =C2=A0 drivers/platform/x86/asus-wmi.c | 11 ++---------
->>> =C2=A0 1 file changed, 2 insertions(+), 9 deletions(-)
->>>
->>> diff --git a/drivers/platform/x86/asus-wmi.c
->>> b/drivers/platform/x86/asus-wmi.c
->>> index ba8b6d028f9f..8bd187e8b47f 100644
->>> --- a/drivers/platform/x86/asus-wmi.c
->>> +++ b/drivers/platform/x86/asus-wmi.c
->>> @@ -3696,7 +3696,6 @@ static int
->>> asus_wmi_custom_fan_curve_init(struct asus_wmi *asus)
->>> =C2=A0 /* Throttle thermal policy
->>> ****************************************************/
->>> =C2=A0 static int throttle_thermal_policy_write(struct asus_wmi *asus)
->>> =C2=A0 {
->>> -=C2=A0=C2=A0=C2=A0 u32 retval;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u8 value;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int err;
->>>
->>> @@ -3718,8 +3717,8 @@ static int
->>> throttle_thermal_policy_write(struct asus_wmi *asus)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 value =3D asus-=
->throttle_thermal_policy_mode;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>
->>> -=C2=A0=C2=A0=C2=A0 err =3D asus_wmi_set_devstate(asus->throttle_therm=
-al_policy_dev,
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 value, &retval);
->>> +=C2=A0=C2=A0=C2=A0 /* Some machines do not return an error code as a =
-result, so we
->>> ignore it */
->>> +=C2=A0=C2=A0=C2=A0 err =3D asus_wmi_set_devstate(asus->throttle_therm=
-al_policy_dev,
->>> value, NULL);
->>>
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sysfs_notify(&asus->platform_device->de=
-v.kobj, NULL,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 "throttle_thermal_policy");
->>> @@ -3729,12 +3728,6 @@ static int
->>> throttle_thermal_policy_write(struct asus_wmi *asus)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return err;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>
->>> -=C2=A0=C2=A0=C2=A0 if (retval !=3D 1) {
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pr_warn("Failed to set thr=
-ottle thermal policy (retval):
->>> 0x%x\n",
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 re=
-tval);
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EIO;
->>> -=C2=A0=C2=A0=C2=A0 }
->>> -
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Must set to disabled if mode is togg=
-led */
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (asus->cpu_fan_curve_available)
->>> asus->custom_fan_curves[FAN_CURVE_DEV_CPU].enabled =3D false;
->>> --
->>> 2.39.5
->>>
->>
+> ---
+> v9:
+> - Rebase on top of 6.13-rc1 tag
+> - Fix LKP reported issues on patch 2
+> - Use Markus' logic update suggestion
+>
+> Mario Limonciello (22):
+>    ACPI: platform-profile: Add a name member to handlers
+>    platform/x86/dell: dell-pc: Create platform device
+>    ACPI: platform_profile: Add device pointer into platform profile
+>      handler
+>    ACPI: platform_profile: Add platform handler argument to
+>      platform_profile_remove()
+>    ACPI: platform_profile: Pass the profile handler into
+>      platform_profile_notify()
+>    ACPI: platform_profile: Move sanity check out of the mutex
+>    ACPI: platform_profile: Move matching string for new profile out of
+>      mutex
+>    ACPI: platform_profile: Use guard(mutex) for register/unregister
+>    ACPI: platform_profile: Use `scoped_cond_guard`
+>    ACPI: platform_profile: Create class for ACPI platform profile
+>    ACPI: platform_profile: Add name attribute to class interface
+>    ACPI: platform_profile: Add choices attribute for class interface
+>    ACPI: platform_profile: Add profile attribute for class interface
+>    ACPI: platform_profile: Notify change events on register and
+>      unregister
+>    ACPI: platform_profile: Only show profiles common for all handlers
+>    ACPI: platform_profile: Add concept of a "custom" profile
+>    ACPI: platform_profile: Make sure all profile handlers agree on
+>      profile
+>    ACPI: platform_profile: Check all profile handler to calculate next
+>    ACPI: platform_profile: Notify class device from
+>      platform_profile_notify()
+>    ACPI: platform_profile: Allow multiple handlers
+>    platform/x86/amd: pmf: Drop all quirks
+>    Documentation: Add documentation about class interface for platform
+>      profiles
+>
+>   .../ABI/testing/sysfs-platform_profile        |   5 +
+>   .../userspace-api/sysfs-platform_profile.rst  |  31 ++
+>   drivers/acpi/platform_profile.c               | 523 ++++++++++++++----
+>   .../surface/surface_platform_profile.c        |   8 +-
+>   drivers/platform/x86/acer-wmi.c               |  12 +-
+>   drivers/platform/x86/amd/pmf/Makefile         |   2 +-
+>   drivers/platform/x86/amd/pmf/core.c           |   1 -
+>   drivers/platform/x86/amd/pmf/pmf-quirks.c     |  66 ---
+>   drivers/platform/x86/amd/pmf/pmf.h            |   3 -
+>   drivers/platform/x86/amd/pmf/sps.c            |   4 +-
+>   drivers/platform/x86/asus-wmi.c               |   8 +-
+>   drivers/platform/x86/dell/alienware-wmi.c     |   8 +-
+>   drivers/platform/x86/dell/dell-pc.c           |  38 +-
+>   drivers/platform/x86/hp/hp-wmi.c              |   8 +-
+>   drivers/platform/x86/ideapad-laptop.c         |   6 +-
+>   .../platform/x86/inspur_platform_profile.c    |   7 +-
+>   drivers/platform/x86/thinkpad_acpi.c          |  16 +-
+>   include/linux/platform_profile.h              |   9 +-
+>   18 files changed, 541 insertions(+), 214 deletions(-)
+>   delete mode 100644 drivers/platform/x86/amd/pmf/pmf-quirks.c
 >
 
