@@ -1,193 +1,138 @@
-Return-Path: <platform-driver-x86+bounces-7427-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-7432-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E22119E2BB1
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Dec 2024 20:08:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 780879E2BBB
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Dec 2024 20:11:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0030CBE6762
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Dec 2024 16:06:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 29F57B28D98
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Dec 2024 17:16:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A796A1F8930;
-	Tue,  3 Dec 2024 16:06:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 048C81FA143;
+	Tue,  3 Dec 2024 17:16:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="lHnQZbqT";
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="lHnQZbqT"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="INQooTFH"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [96.44.175.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112031F890D;
-	Tue,  3 Dec 2024 16:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.44.175.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05FE52500C4
+	for <platform-driver-x86@vger.kernel.org>; Tue,  3 Dec 2024 17:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733241988; cv=none; b=HvWod2SqmFkg1DvrTpYJmPACvaYAqiujjHJaUP5XogQl5IHsfeqePQ7/qFGEZO9jORmXBT9peLO2EvhCbYsLOP1W/1ulVWHrIMmdWjS/0+kEXiId5r6KJkStbDewnCAKuGXOPZTlmczrBd1Ep8DRJPmEfx5NeoKk7j93DeGQbEc=
+	t=1733246195; cv=none; b=Nm8GBbFCxq2dm1sBquTwOwL+SMH/X8RgDGPy/uLQDX4AoyaNCi5rNMBuGkK+a8B+6WO+payWswb5/wlNJDv+YVXvVh5MtuvfMy9XS5OJEU7lmzS0dWzPcLuIKgOpH9N/AOBhQyuZ/xaiszX7flBGx9nkb3YrIHjGwySeijrJ7tI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733241988; c=relaxed/simple;
-	bh=VBBfv3eA4AsVsLgBF8VnP+EajJe1ALpu2GW7YHfiN/w=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:Content-Type:
-	 MIME-Version; b=BiAXw5SXoTVaegE2WpiwoTt2OQDYpyrbUID2w5o0Ic0vKQD8ynBzTdo3OHScW0i+07RqXHOrls8c/ufPc5plYzAU/yqDt/25f+eksOCqOK8i46ietWYs7/7nN3Ofn7iWv/MaV3eyP+SbZ2s6ogcwyaUF05hkjAgsKrWQdaGF+gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=lHnQZbqT; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=lHnQZbqT; arc=none smtp.client-ip=96.44.175.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1733241982;
-	bh=VBBfv3eA4AsVsLgBF8VnP+EajJe1ALpu2GW7YHfiN/w=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:From;
-	b=lHnQZbqTPw8lccD9LZoQTnjENuqFmq3M4qdXn9YwdcXuh8kaYOH60UbGnuArtEJoE
-	 Px4kL7hmZa2/uxmjqmqHUiq2gnIFhqP/9JNM4Zxjm340Kjh3IenF17vJPycyc5doEz
-	 9qzMTvJH2/Dq+wqAj7McqxgXVZICR0uf3Mza6cXQ=
-Received: from localhost (localhost [127.0.0.1])
-	by bedivere.hansenpartnership.com (Postfix) with ESMTP id 9B55D12871C9;
-	Tue, 03 Dec 2024 11:06:22 -0500 (EST)
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
- by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
- with ESMTP id OEo6FblEm0Xs; Tue,  3 Dec 2024 11:06:22 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1733241982;
-	bh=VBBfv3eA4AsVsLgBF8VnP+EajJe1ALpu2GW7YHfiN/w=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:From;
-	b=lHnQZbqTPw8lccD9LZoQTnjENuqFmq3M4qdXn9YwdcXuh8kaYOH60UbGnuArtEJoE
-	 Px4kL7hmZa2/uxmjqmqHUiq2gnIFhqP/9JNM4Zxjm340Kjh3IenF17vJPycyc5doEz
-	 9qzMTvJH2/Dq+wqAj7McqxgXVZICR0uf3Mza6cXQ=
-Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(Client did not present a certificate)
-	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 1133D128718C;
-	Tue, 03 Dec 2024 11:06:17 -0500 (EST)
-Message-ID: <7ed3b713f8901398f52d7485d59613c19ea0e752.camel@HansenPartnership.com>
-Subject: Re: [PATCH v2 09/10] sysfs: bin_attribute: add const read/write
- callback variants
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: linux@weissschuh.net
-Cc: James.Bottomley@HansenPartnership.com, Xinhui.Pan@amd.com, 
- airlied@gmail.com, ajd@linux.ibm.com, alexander.deucher@amd.com, 
- alison.schofield@intel.com, amd-gfx@lists.freedesktop.org, arnd@arndb.de, 
- bhelgaas@google.com, carlos.bilbao.osdev@gmail.com,
- christian.koenig@amd.com,  dan.j.williams@intel.com, dave.jiang@intel.com,
- dave@stgolabs.net,  david.e.box@linux.intel.com, decui@microsoft.com, 
- dennis.dalessandro@cornelisnetworks.com, dri-devel@lists.freedesktop.org, 
- fbarrat@linux.ibm.com, gregkh@linuxfoundation.org, haiyangz@microsoft.com, 
- hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com, ira.weiny@intel.com, 
- jgg@ziepe.ca, jonathan.cameron@huawei.com, kys@microsoft.com,
- leon@kernel.org,  linux-alpha@vger.kernel.org, linux-cxl@vger.kernel.org, 
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-mtd@lists.infradead.org, linux-pci@vger.kernel.org, 
- linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org, 
- linux-usb@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- logang@deltatee.com,  martin.petersen@oracle.com, mattst88@gmail.com,
- miquel.raynal@bootlin.com,  mwalle@kernel.org,
- naveenkrishna.chatradhi@amd.com,  platform-driver-x86@vger.kernel.org,
- pratyush@kernel.org, rafael@kernel.org,  richard.henderson@linaro.org,
- richard@nod.at, simona@ffwll.ch,  srinivas.kandagatla@linaro.org,
- tudor.ambarus@linaro.org, vigneshr@ti.com,  vishal.l.verma@intel.com,
- wei.liu@kernel.org
-Date: Tue, 03 Dec 2024 11:06:16 -0500
-In-Reply-To: <20241103-sysfs-const-bin_attr-v2-9-71110628844c@weissschuh.net>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+	s=arc-20240116; t=1733246195; c=relaxed/simple;
+	bh=MLx0HXKyXXM3y8y6+2+1z0+USh/AYD3UzcwSVg7LVgU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rgo/Bq3WG2CH7c/ijqyqdlk+4O8Qml23X0+aeLt2YUuUhjBShwA1LmDwKOwN6ar9Vjc+7GQ2oaXN9vmgdE48HvKo2c5AVS2OQkiIEgwY49dF7gb5pzrXiLZAQtYqFQIwKTI3Y+eJtSAYSf78XQSm51FnG/zGS5H2+y0sjlVTvko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=INQooTFH; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-434acf1f9abso53632055e9.2
+        for <platform-driver-x86@vger.kernel.org>; Tue, 03 Dec 2024 09:16:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1733246192; x=1733850992; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bfz7EKDAPFwQQLg5EGqOmoY87z8R+/d21HRHaU4rMP8=;
+        b=INQooTFHdqqQuhSunXAND/AZPy6i5KgPgYT/c8DzBDX5WCrUjBk98lEFEAM942Ivs7
+         lAJyjzjpCsqLGi7+tMmYT+x0G74Jz8HivoxUlzV3WhcuOyf+a6sVNtPllkONDiqW1odM
+         PF3WbZaId7+f9NpgikEnpCDckVvc5exmUvlojcx6d1ez+GEZV+SSsDbNgtz239WT5x4b
+         DZlK7+16mEmCGUAsK7WzUgu9Gbab+X25pj1gcpEkvGvWUcs/x2N0EwoiqfFl1KuKtvA7
+         cwC7a72bdIp+wXCETsxM7NBroPhhgfUgFDzU4TJTsPZD7XI9TosvhAovMwAqSWfvnscV
+         7wlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733246192; x=1733850992;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bfz7EKDAPFwQQLg5EGqOmoY87z8R+/d21HRHaU4rMP8=;
+        b=QTPqpOivp3CTdUDowAY/VhRhY/ykPjI78w2Amy3F9iUZYeqx5Rf2lyTqxcFzu/Fu1W
+         NdfLQl3NCeKlkilxUQhczm9i5L4Iofn3RurbocxpKsqFTTCRI6T4t8e7NYg8JFhsLWz+
+         9Vd6RANLT3JMMk+2bBRmuPlE0e5Q5ma6OXYWt4ekorqL4z/1mdKf96lFgHtp4Rmfaida
+         uLo594aldsrSsVbHZNiWa24/+21nPwNVF0u8YmKMcfoil/F3vutHQMLIviZ6DW7JH/v7
+         y980MgJj6IkKSWrlym0mq618IQxGfDS7BTl46mGNEGrMWr5JAAvI/sYgJWjE03flKcpv
+         MP/A==
+X-Forwarded-Encrypted: i=1; AJvYcCUITlgCiBlwKpcfcwNHc/yrjQFdhUIjBVJdRjVIbdI5//XHA9kWxjowkH8RoH/hBmOC3DzsRaVPgdP3G9qTieZzekb8@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcjDNJhoZesoLso4WgGJaZO1A0Dj5tVDtT1Ju8fMIFoH2tdSUu
+	kDIJ1sih8Avfp5XU9HKCvCVLxkuEw7F8Jk7x6bFKyQdgoQeQ6FUbTS4yYpgoOMk=
+X-Gm-Gg: ASbGncs9KG1QBnV6BnMPOuKidDKgsk1xjxG3Z244K2SqKhbmCa0jDkqUtKvMQT1GUPh
+	mdWGMJ2sOkTdJHIvc/87g/6FY3YfGOE8PWdPyrYbI8tiheiS4lhFRiM1lyCKCfF0ikfu8TkcSAR
+	ik9hvV93coyRBaZqewIF57awWHGnlzURY20tgQGLOgoOXqdvIuhe88OMB2RBZaZyPnmtThH2vw9
+	wuNTFTduFs+XyuIHvYJJbu0cv7/87coXipFh6+XkhUWykO73NYnSkizWXNvjUsNh+RYC6WTGd33
+	bMUt
+X-Google-Smtp-Source: AGHT+IFoPJItQ+VTXRbxuqQvrsK7cTv/Gk/LwLMIXuHO9GbWZUw4c7hfqi9jkofbnT9ohgu7PhAUAg==
+X-Received: by 2002:a05:600c:35cf:b0:431:52b7:a499 with SMTP id 5b1f17b1804b1-434d0a07e76mr27423905e9.20.1733246192302;
+        Tue, 03 Dec 2024 09:16:32 -0800 (PST)
+Received: from localhost (p5dc6838f.dip0.t-ipconnect.de. [93.198.131.143])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434b0f70cbfsm201776645e9.36.2024.12.03.09.16.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Dec 2024 09:16:31 -0800 (PST)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: linux-pwm@vger.kernel.org
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	=?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	platform-driver-x86@vger.kernel.org
+Subject: [PATCH 2/2] pwm: lpss: Define DEFAULT_SYMBOL_NAMESPACE earlier
+Date: Tue,  3 Dec 2024 18:16:15 +0100
+Message-ID:  <9f0e30c514a846aec72655a52deaed276467a07e.1733245406.git.ukleinek@kernel.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <cover.1733245406.git.ukleinek@kernel.org>
+References: <cover.1733245406.git.ukleinek@kernel.org>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1192; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=MLx0HXKyXXM3y8y6+2+1z0+USh/AYD3UzcwSVg7LVgU=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBnTzzjtz/i8uKDCaiZ5c+ovGLZgu/IacX8+/opL x1OD1Svgb6JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZ0884wAKCRCPgPtYfRL+ Tgr8B/wPprElJIbn9hU2u8ge4/4joAnkRmi39mrgL9oAOALP10H1RU8YfBaKt+whiS+3yypEWim vywS1F5ffhpg7KNG3tPQEwUTVM96cbL8ixlxatbfd9TuPyyDOON66UAXrfhO+1NP5xhMlWs5yLW GihqvnoS8cuRVUg1ErOTFGnnWQFVydOOxhLkxnR0uyybJTwtCqmPAYSig7lPrOMoYNDr/ogNzCX z4xzdCXbMYRGY31AQbQxUASQLyKXMI9YT1gcFXcWf8L6buwaagskUDKRwljaONoopVj6pog+PPh 78gNU4tnH81CRyWXaVLzAwrx8cTByxLT9+KW5zy2idk3u0ab
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-> diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
-> index
-> d17c473c1ef292875475bf3bdf62d07241c13882..d713a6445a6267145a7014f308d
-> f3bb25b8c3287 100644
-> --- a/include/linux/sysfs.h
-> +++ b/include/linux/sysfs.h
-> @@ -305,8 +305,12 @@ struct bin_attribute {
->  	struct address_space *(*f_mapping)(void);
->  	ssize_t (*read)(struct file *, struct kobject *, struct
-> bin_attribute *,
->  			char *, loff_t, size_t);
-> +	ssize_t (*read_new)(struct file *, struct kobject *, const
-> struct bin_attribute *,
-> +			    char *, loff_t, size_t);
->  	ssize_t (*write)(struct file *, struct kobject *, struct
-> bin_attribute *,
->  			 char *, loff_t, size_t);
-> +	ssize_t (*write_new)(struct file *, struct kobject *,
-> +			     const struct bin_attribute *, char *,
-> loff_t, size_t);
->  	loff_t (*llseek)(struct file *, struct kobject *, const
-> struct bin_attribute *,
->  			 loff_t, int);
->  	int (*mmap)(struct file *, struct kobject *, const struct
-> bin_attribute *attr,
-> @@ -325,11 +329,28 @@ struct bin_attribute {
->   */
->  #define sysfs_bin_attr_init(bin_attr) sysfs_attr_init(&(bin_attr)-
-> >attr)
->  
-> +typedef ssize_t __sysfs_bin_rw_handler_new(struct file *, struct
-> kobject *,
-> +					   const struct
-> bin_attribute *, char *, loff_t, size_t);
-> +
->  /* macros to create static binary attributes easier */
->  #define __BIN_ATTR(_name, _mode, _read, _write, _size)
-> {		\
->  	.attr = { .name = __stringify(_name), .mode = _mode
-> },		\
-> -	.read	=
-> _read,						\
-> -	.write	=
-> _write,						\
-> +	.read =
-> _Generic(_read,						\
-> +		__sysfs_bin_rw_handler_new * :
-> NULL,			\
-> +		default :
-> _read						\
-> +	),							
-> 	\
-> +	.read_new =
-> _Generic(_read,					\
-> +		__sysfs_bin_rw_handler_new * :
-> _read,			\
-> +		default :
-> NULL						\
-> +	),							
-> 	\
-> +	.write =
-> _Generic(_write,					\
-> +		__sysfs_bin_rw_handler_new * :
-> NULL,			\
-> +		default :
-> _write					\
-> +	),							
-> 	\
-> +	.write_new =
-> _Generic(_write,					\
-> +		__sysfs_bin_rw_handler_new * :
-> _write,			\
-> +		default :
-> NULL						\
-> +	),							
-> 	\
->  	.size	=
-> _size,						\
->  }
+DEFAULT_SYMBOL_NAMESPACE must be already defined when <linux/export.h>
+is included. So move the define above the include block.
 
-It's probably a bit late now, but you've done this the wrong way
-around.  What you should have done is added the const to .read/.write
-then added a .read_old/.write_old with the original function prototype
-and used _Generic() to switch between them.  Then when there are no
-more non const left, you can simply remove .read_old and .write_old
-without getting Linus annoyed by having to do something like this:
+With the DEFAULT_SYMBOL_NAMESPACE being defined too late, the exported
+symbols end up in the default namespace. So the modules making use of
+the symbols defined in pwm-lpss.c can import these just fine and just
+import the the PWM_LPSS namespace without any gain.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e70140ba0d2b1a30467d4af6bcfe761327b9ec95
+Fixes: a3682d2fe3c3 ("pwm: lpss: Move exported symbols to PWM_LPSS namespace")
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+---
+ drivers/pwm/pwm-lpss.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Regards,
-
-James
+diff --git a/drivers/pwm/pwm-lpss.c b/drivers/pwm/pwm-lpss.c
+index 867e2bc8c601..9519d1b06869 100644
+--- a/drivers/pwm/pwm-lpss.c
++++ b/drivers/pwm/pwm-lpss.c
+@@ -10,6 +10,8 @@
+  * Author: Alan Cox <alan@linux.intel.com>
+  */
+ 
++#define DEFAULT_SYMBOL_NAMESPACE PWM_LPSS
++
+ #include <linux/bits.h>
+ #include <linux/delay.h>
+ #include <linux/io.h>
+@@ -19,8 +21,6 @@
+ #include <linux/pm_runtime.h>
+ #include <linux/time.h>
+ 
+-#define DEFAULT_SYMBOL_NAMESPACE PWM_LPSS
+-
+ #include "pwm-lpss.h"
+ 
+ #define PWM				0x00000000
+-- 
+2.45.2
 
 
