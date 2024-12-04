@@ -1,70 +1,70 @@
-Return-Path: <platform-driver-x86+bounces-7464-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-7460-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61BC49E45FF
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Dec 2024 21:42:59 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D026169D37
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Dec 2024 20:42:56 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAE9E18E764;
-	Wed,  4 Dec 2024 20:42:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Jj9U3f7Q"
-X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 713E49E464F
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Dec 2024 22:11:45 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451C818E743
-	for <platform-driver-x86@vger.kernel.org>; Wed,  4 Dec 2024 20:42:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DD6ACB2CC34
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Dec 2024 20:42:54 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79EF118E764;
+	Wed,  4 Dec 2024 20:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YivVs09U"
+X-Original-To: platform-driver-x86@vger.kernel.org
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5DDA1632DF
+	for <platform-driver-x86@vger.kernel.org>; Wed,  4 Dec 2024 20:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733344977; cv=none; b=FDhTTONlv+pXM2BSkB432ELYt2O8tlXb0qnjPHM2N2uW/HZLLFn7wdb5hbr0VRcLr7h7voNB2eETmFOEvlGv9PlgDp28JtWtMaBeKuLV6UzbOAU8iviVnTq9/BpZE7rcVJEziDvIVCW7BeWQwDAao5SogKc7zLx5UTbjghvM1jI=
+	t=1733344971; cv=none; b=Xc+DiXoWeBcfFLhOK4TzNPdMABKAgIAXABzqvfYmvsSWu7LSmEk2/DM8nD2PhQraO5X8Ns4ph6/aPpctR62X/ETppGYwl6oTHist2SPGefxww03V1WiJGwJGizzUYb7DrhTKd/8RjIR6ktANY2iMGRvw018wa/SAcKmJ8kB8qf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733344977; c=relaxed/simple;
-	bh=FEJliLvxIwVfoI9NS7707JM7tKYDRf0Sf4DwUYmCojI=;
+	s=arc-20240116; t=1733344971; c=relaxed/simple;
+	bh=fO/umHVYVIPMxOz2R2r9ewJiDsxRbSEbYEOnX7vzjmQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mBf+pnz9uyIP4KGzkQ8Dk3kBtAYGDvc25b11oA1RiSyM5QyqLE+OSrJ/gS9YZZ+sjaJAlimpPjN6cDT7RgrHkT8gPTJ70gKEkhikX2M27DsdWoh8cs/bvJjjb6e+Ujk12yBp6ztF0JJkLLQH5yM5w+QZwDjkRe4sVvQDWJalXoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Jj9U3f7Q; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=XXu/8GMIfTrP/oWb1S3KyI+pTZPU1D/FsndndE7tgODvn4uqf1sUWE9oRDZDlYrWx376+sMabpYguVOFd5kgSCP0gyQj308hOm3CXbIzYdvg8L3YVRS2zDwHp8zur5NnHyNXHpROI6uXVdvgRQbNPFx68o+6fB2qHwJjVJ6UK5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YivVs09U; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1733344975;
+	s=mimecast20190719; t=1733344968;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dIbEHUWt+eUkluYOJbUoCwTO7fB47d3KoGRzP7J3tPo=;
-	b=Jj9U3f7QNT2SAWecudGZthGaGoUYfSGNyKyL4TGErjieBNVlUoR0aYhTkf6/xAd9OxyljT
-	yFpism5qYVt6T92L8TelZTqCV0JAHvcJcFICWp6gn71LBd8hQ03Y1rfML7fBMcke/V9WYs
-	wzzfSVCU2K+ojS9FmMlHPspj5GClpD4=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+	bh=ZBX9onTm6p0xSRWD/1T8RFX5BkiODIlCEmh3nsyxOt4=;
+	b=YivVs09Uk2Xhr8gpkIQBNOyoNv/s6tKNhpjUD4Kp24YUfohgCV18Pdou5/XI7rYosRY5dH
+	sGojSPzI3G5421DMpLnv9LyA3pZV53zq7kPsg1iXUWL2Q9n0mfJelxeMOcrB8ir12RIGZo
+	cbQ4QGlMvRrgIYIUuugIj2aDWd0Z5LA=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-449-EXK5b9CSMnmfUJlApJ6hlA-1; Wed,
- 04 Dec 2024 15:42:54 -0500
-X-MC-Unique: EXK5b9CSMnmfUJlApJ6hlA-1
-X-Mimecast-MFC-AGG-ID: EXK5b9CSMnmfUJlApJ6hlA
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-538-rp9ModPPM6G0L9rehO7OxQ-1; Wed,
+ 04 Dec 2024 15:42:47 -0500
+X-MC-Unique: rp9ModPPM6G0L9rehO7OxQ-1
+X-Mimecast-MFC-AGG-ID: rp9ModPPM6G0L9rehO7OxQ
 Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 29575195608E;
-	Wed,  4 Dec 2024 20:42:53 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 366971955F3E;
+	Wed,  4 Dec 2024 20:42:46 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.194.11])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C971D1956094;
-	Wed,  4 Dec 2024 20:42:51 +0000 (UTC)
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DD1931956094;
+	Wed,  4 Dec 2024 20:42:44 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
 	Andy Shevchenko <andy@kernel.org>
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	platform-driver-x86@vger.kernel.org
-Subject: [PATCH v3 8/8] platform/x86: x86-android-tablets: Add Bluetooth support for Vexia EDU ATLA 10
-Date: Wed,  4 Dec 2024 21:42:19 +0100
-Message-ID: <20241204204227.95757-9-hdegoede@redhat.com>
+Subject: [PATCH v3 4/8] platform/x86: serdev_helpers: Add get_serdev_controller_from_parent() helper
+Date: Wed,  4 Dec 2024 21:42:15 +0100
+Message-ID: <20241204204227.95757-5-hdegoede@redhat.com>
 In-Reply-To: <20241204204227.95757-1-hdegoede@redhat.com>
 References: <20241204204227.95757-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -76,47 +76,107 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 
-The UART used for the Bluetooth HCI on the Vexia EDU ATLA 10 is enumerated
-as a PCI device, but the ODBA7823 ACPI fwnode for the HCI expects it to
-use the more standard ACPI enumeration mode.
+The x86-android-tablets code needs to be able to get a serdev_controller
+device from a PCI parent, rather then by the ACPI HID+UID of the parent,
+because on some tablets the UARTs are enumerated as PCI devices instead
+of ACPI devices.
 
-So Bluetooth does not work out of the box. Add x86_serdev_info to make
-the x86-android-tablets manually associate the fwnode with the UART.
+Split the code to walk the device hierarchy to find the serdev_controller
+from its parents out into a get_serdev_controller_from_parent() helper
+so that the x86-android-tablets code can re-use it.
 
 Reviewed-by: Andy Shevchenko <andy@kernel.org>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/x86-android-tablets/other.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/platform/x86/serdev_helpers.h | 60 +++++++++++++++------------
+ 1 file changed, 34 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/platform/x86/x86-android-tablets/other.c b/drivers/platform/x86/x86-android-tablets/other.c
-index 3032b6337804..172c9c5d3468 100644
---- a/drivers/platform/x86/x86-android-tablets/other.c
-+++ b/drivers/platform/x86/x86-android-tablets/other.c
-@@ -715,6 +715,14 @@ static const struct x86_i2c_client_info vexia_edu_atla10_i2c_clients[] __initcon
- 	}
- };
+diff --git a/drivers/platform/x86/serdev_helpers.h b/drivers/platform/x86/serdev_helpers.h
+index 3bc7fd8e1e19..57eac75805e2 100644
+--- a/drivers/platform/x86/serdev_helpers.h
++++ b/drivers/platform/x86/serdev_helpers.h
+@@ -22,32 +22,14 @@
+ #include <linux/string.h>
  
-+static const struct x86_serdev_info vexia_edu_atla10_serdevs[] __initconst = {
-+	{
-+		.ctrl.pci.devfn = PCI_DEVFN(0x1e, 3),
-+		.ctrl_devname = "serial0",
-+		.serdev_hid = "OBDA8723",
-+	},
-+};
+ static inline struct device *
+-get_serdev_controller(const char *serial_ctrl_hid,
+-		      const char *serial_ctrl_uid,
+-		      int serial_ctrl_port,
+-		      const char *serdev_ctrl_name)
++get_serdev_controller_from_parent(struct device *ctrl_dev,
++				  int serial_ctrl_port,
++				  const char *serdev_ctrl_name)
+ {
+-	struct device *ctrl_dev, *child;
+-	struct acpi_device *ctrl_adev;
++	struct device *child;
+ 	char name[32];
+ 	int i;
+ 
+-	ctrl_adev = acpi_dev_get_first_match_dev(serial_ctrl_hid, serial_ctrl_uid, -1);
+-	if (!ctrl_adev) {
+-		pr_err("error could not get %s/%s serial-ctrl adev\n",
+-		       serial_ctrl_hid, serial_ctrl_uid ?: "*");
+-		return ERR_PTR(-ENODEV);
+-	}
+-
+-	/* get_first_physical_node() returns a weak ref */
+-	ctrl_dev = get_device(acpi_get_first_physical_node(ctrl_adev));
+-	if (!ctrl_dev) {
+-		pr_err("error could not get %s/%s serial-ctrl physical node\n",
+-		       serial_ctrl_hid, serial_ctrl_uid ?: "*");
+-		ctrl_dev = ERR_PTR(-ENODEV);
+-		goto put_ctrl_adev;
+-	}
+-
+ 	/* Walk host -> uart-ctrl -> port -> serdev-ctrl */
+ 	for (i = 0; i < 3; i++) {
+ 		switch (i) {
+@@ -67,14 +49,40 @@ get_serdev_controller(const char *serial_ctrl_hid,
+ 		put_device(ctrl_dev);
+ 		if (!child) {
+ 			pr_err("error could not find '%s' device\n", name);
+-			ctrl_dev = ERR_PTR(-ENODEV);
+-			goto put_ctrl_adev;
++			return ERR_PTR(-ENODEV);
+ 		}
+ 
+ 		ctrl_dev = child;
+ 	}
+ 
+-put_ctrl_adev:
+-	acpi_dev_put(ctrl_adev);
+ 	return ctrl_dev;
+ }
 +
- static struct gpiod_lookup_table vexia_edu_atla10_ft5416_gpios = {
- 	.dev_id = "i2c-FTSC1000",
- 	.table = {
-@@ -755,6 +763,8 @@ static int __init vexia_edu_atla10_init(struct device *dev)
- const struct x86_dev_info vexia_edu_atla10_info __initconst = {
- 	.i2c_client_info = vexia_edu_atla10_i2c_clients,
- 	.i2c_client_count = ARRAY_SIZE(vexia_edu_atla10_i2c_clients),
-+	.serdev_info = vexia_edu_atla10_serdevs,
-+	.serdev_count = ARRAY_SIZE(vexia_edu_atla10_serdevs),
- 	.gpiod_lookup_tables = vexia_edu_atla10_gpios,
- 	.init = vexia_edu_atla10_init,
- 	.use_pci = true,
++static inline struct device *
++get_serdev_controller(const char *serial_ctrl_hid,
++		      const char *serial_ctrl_uid,
++		      int serial_ctrl_port,
++		      const char *serdev_ctrl_name)
++{
++	struct acpi_device *adev;
++	struct device *parent;
++
++	adev = acpi_dev_get_first_match_dev(serial_ctrl_hid, serial_ctrl_uid, -1);
++	if (!adev) {
++		pr_err("error could not get %s/%s serial-ctrl adev\n",
++		       serial_ctrl_hid, serial_ctrl_uid ?: "*");
++		return ERR_PTR(-ENODEV);
++	}
++
++	/* get_first_physical_node() returns a weak ref */
++	parent = get_device(acpi_get_first_physical_node(adev));
++	acpi_dev_put(adev);
++	if (!parent) {
++		pr_err("error could not get %s/%s serial-ctrl physical node\n",
++		       serial_ctrl_hid, serial_ctrl_uid ?: "*");
++		return ERR_PTR(-ENODEV);
++	}
++
++	/* This puts our reference on parent and returns a ref on the ctrl */
++	return get_serdev_controller_from_parent(parent, serial_ctrl_port, serdev_ctrl_name);
++}
 -- 
 2.47.0
 
