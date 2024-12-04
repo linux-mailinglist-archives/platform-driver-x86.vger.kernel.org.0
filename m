@@ -1,135 +1,105 @@
-Return-Path: <platform-driver-x86+bounces-7447-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-7451-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F63E9E4606
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Dec 2024 21:43:58 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1E4C9E443D
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Dec 2024 20:13:56 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C306DB62792
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Dec 2024 18:00:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F9EE1693D0
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Dec 2024 19:13:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0673A1A8F67;
-	Wed,  4 Dec 2024 17:37:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97BBD1C3C17;
+	Wed,  4 Dec 2024 19:13:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UHGFRolG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qx7B6Ltc"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ECFC1A8F60
-	for <platform-driver-x86@vger.kernel.org>; Wed,  4 Dec 2024 17:37:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0AB21C3C01
+	for <platform-driver-x86@vger.kernel.org>; Wed,  4 Dec 2024 19:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733333831; cv=none; b=EnzyEcajESxhOjx/+zgdaoa2Hr7ZVmPQlmcfJplCaGEcceb11WdxzeIveg1JBBQEZ8+T6EB8PNo/48Vq07rJ7WTR6BEac2519432DC3VcvSx39FzhuZP/9OXIAPBL4AYpEwOsjlcJT1ag+Hm0JfF1Q0jdxPrALVcNctVIzqzCpA=
+	t=1733339626; cv=none; b=qmlM/d1JBAy1a9aRl2sm8PiXrl9/cbNI9yzxOcHXJpetZFhhsNkdUR7qv7bY0ZH+UkIuEGZCvRJwHB3VJlTFl/uW9tUg5esjIlvcPktfnUfvQQgVefiph2PHnpaQ0L2Ze3P2ANBNJgDq10eNJtcs6oG5T0VkKkFTgyALpSedRLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733333831; c=relaxed/simple;
-	bh=1yMhLhO5GGgUmGrEBU93kr+m9Bb1qlxTkyQg4KDPyMM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Kr+YJJNHj4UYRBttFIyALVWABI72pef7ydvXz2yqDj3sEBncvPm7BLflbi0fsYQ2ZoExPykriokF7i+HVZb25kgnmN57VlMNysQr0A7xWEs0hnWibrRDuOUditGHK5LqJZSQSj5ZuPemovw2Ici/K5QYXod7uAbejx2pbiQ+w1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UHGFRolG; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1733333829;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IvpQJwhQ1t4EMhCWDDcUdq+75ypzpEr8GpG09Kds9xc=;
-	b=UHGFRolG+ApUJeyyuJIaJzgjb0/ly65PVm2krM/Ca+/EGBOXcR2wn0/kFdgeRYj0Xkjc0P
-	HGjx8tc9ke4NAYpLHNlqk8jMqOp0U3ThxGYX13H1dyrPqkHVhjv7QTqcPxuV/LFmPxV8qj
-	BIlGgBh17toz64BmA+npZ6eXFrcAxZY=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-623-9lgX2w1nN3S8X_D-ZP47Dw-1; Wed, 04 Dec 2024 12:37:08 -0500
-X-MC-Unique: 9lgX2w1nN3S8X_D-ZP47Dw-1
-X-Mimecast-MFC-AGG-ID: 9lgX2w1nN3S8X_D-ZP47Dw
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-5cfad454c02so4863298a12.1
-        for <platform-driver-x86@vger.kernel.org>; Wed, 04 Dec 2024 09:37:07 -0800 (PST)
+	s=arc-20240116; t=1733339626; c=relaxed/simple;
+	bh=UWtC4sQPq4mDct17MPG6dh8QDLKGYB2wuVmKY+1H/NU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=icY7fyCSvw3ZRZ+FbQc1hwa8uJbLl8Y7fn/o7l+ZHCAUCNEyx7nIWtskKOgq99SwGvW0hLy6NqD7fFMnmgAUqIemPHY055+ER9ruj7mGvELjPUze4YeyfPPeAj5SGHd3VhrV0RKK2GKFOaca22D0JUMjsZgBhY2kjWUt22MR3zI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qx7B6Ltc; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a9f1d76dab1so14726266b.0
+        for <platform-driver-x86@vger.kernel.org>; Wed, 04 Dec 2024 11:13:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733339623; x=1733944423; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UWtC4sQPq4mDct17MPG6dh8QDLKGYB2wuVmKY+1H/NU=;
+        b=Qx7B6Ltc/dmkESjwolKX9yPRAzLMkeeNfUDNH5UirOLD53wq7MYHq0164QJPUNM+O0
+         7rfjVDMSkeBssIlFCevcEt9OK6JTeo2Nr/cws4LDhObabK0K6IG6O3VDAo1iRVObRFcW
+         CSn+guTODPrkoVDS80X51ir9xS5TO2xaPoppwZGOT7sg4i8PZuxCsLdrHfxkr0fCOpnU
+         im+3ehgXPLZlKMfO3UmVjBAE0/E95vkqCp1zHKInV3sHRwoO+8sP4qq924R5d17jPnV9
+         NxumNqwVV+CnKfJgSRT0wLx21aThZsUxPmWm4W/HSDIDSHBEtojvDU9B5OxzVce08h7T
+         eMBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733333827; x=1733938627;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IvpQJwhQ1t4EMhCWDDcUdq+75ypzpEr8GpG09Kds9xc=;
-        b=NySp2kJdYYw24Jv4bUll1k+Kv+CUjqxSkfaPi7daJ2iGQqofRNVvEuL8H+ztmL70/O
-         UDNCt7Xf9PdR03YH+wuAgY0KJjKR6r9W/MhwvZLs0WausDyyG4Qi8dH8ROzX12OQQVJ1
-         b6gAfgwoVGAELbmBzLIK9xqEJuvn0bqkXKuPvMpcsW62Iahix0t91ccJHh3dKg60p8R+
-         u0IMKPBMx/dba2DEkTKNmQUa7r2FJr2FyspBR6m5U7OrqhkplXpUNQBZbnyel53pgdoC
-         p3ND8YCYQ7KHsdFezFQUXS8hW8PEDbA67fpHn9Ct80WXBromol/B9KK2LI7Xr0TqCrj1
-         J17A==
-X-Forwarded-Encrypted: i=1; AJvYcCV2VWw8WXctRJQU1F2PzkgDNDLRH5gaeY5l8Vk3nZy7XTPqmgQD8eQ1RawLN/V2hkpOE4FJJ9io5rHHFWJrYlzuiCER@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2EKDc+1il5HFHapPSCxvUZeRwgw2gn7sBb1B5E08dEahEomp1
-	bCX7MUWi9uMlLDBGl7P46qvr9vZ/IuB1B1WRWsrf8a2UL8DrrAi/qbP0skO3kGu+jXUjQSu+dWp
-	f5KRaDHs1a2tnsuwcmzhAb5vgWpC/3td9rRk/yM7/wOeO2WXEAPUWuyTHD8qMgupiD4RR7Hw=
-X-Gm-Gg: ASbGncvKUn2u40dQOXz1mi3PUs3zsOK1+r5Z4hdIL1k8KTYA90RPi8yxiv1XPO1ITfW
-	WqHA5/nAWmOdn7I6UXcxYaOnbIpeGlMsataWYg/7azcU94Ef7FkGGmeGffvxktqokfFwlQEhQU5
-	bfDa/p7u8KkhmwiO02XA2otF+eacY/4JGkIzYECIn2rQ7GUoA1ZbqRSwtsYmKXrXlvjDWOSf2R6
-	3iPuYlUiWfZy53biF6GDP4uSqG8Y8h+3E82Z2GF1umZnZ2lulEoXO/IwB0mDyfVFIY2Vz46RLa5
-	za6XxTeWd8wbQ6HVxqqLyZ7RwWGDyc9kPqpoZ2upszGdZSR6JqgnQqKBKFvzDg8VUrp7HnII7ZJ
-	OwLxEilnn4eTccX3Muj0onAP0
-X-Received: by 2002:a05:6402:5186:b0:5d0:c8f4:d1db with SMTP id 4fb4d7f45d1cf-5d10cb4f11emr8097956a12.1.1733333826979;
-        Wed, 04 Dec 2024 09:37:06 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE0J9vpH+vK5qqQgiekc2+qqK+HMdvjDQGBtTupds+L0JX8ATD1AvFAuhX8woyXJJ/OyWG9eQ==
-X-Received: by 2002:a05:6402:5186:b0:5d0:c8f4:d1db with SMTP id 4fb4d7f45d1cf-5d10cb4f11emr8097927a12.1.1733333826603;
-        Wed, 04 Dec 2024 09:37:06 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d0d1874b4fsm4955801a12.37.2024.12.04.09.37.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Dec 2024 09:37:06 -0800 (PST)
-Message-ID: <c3171bf7-72f3-4dd1-bbe0-8e75fffbb716@redhat.com>
-Date: Wed, 4 Dec 2024 18:37:05 +0100
+        d=1e100.net; s=20230601; t=1733339623; x=1733944423;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UWtC4sQPq4mDct17MPG6dh8QDLKGYB2wuVmKY+1H/NU=;
+        b=rpH2ffql1atQVJg2IJD1QPl1WAKRGFEtJAZJIDmZ6D/VGn3RF2We+VPF0PbnIOn0y7
+         GViEiGoQEClQC7M8q0dB3VHl7NNcdTw/Y4BaBzXjh1a7vuBSSwxNDMNWVHZ1+tqo4lGo
+         Ki9tV6em6nzNPEoiC3ujEF++eMLLYtLXb7NcdW2Vjt/tBpvYCjcjeJ44K8pstypi0WOh
+         k8femxfWjm1UxGRUMi5BX52vNfwai4VnQg8rf1pPLhi4/ONEMr+Kid5sNhwHdLy4R4xe
+         Yq/VJZYu9bX71fTjET110iujB87AjvQ5A3mCzb15e/76+XjkTpgMHbQuEW0UahGt3lha
+         Lkgg==
+X-Forwarded-Encrypted: i=1; AJvYcCXKh4eD11OgVdXT+nxBWHc23Jafv4D7HPwFIZF7icBvjL3fjZR1bluuO14wNd5lucDzSvEIfPfAccpaJo6hZtgHoMjR@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyo2c45UAMp6muiHj+qvmIq7ZqEePTOqwsU0IU88m9ZpEUCHEjj
+	iYyjFfNgqcUvDjWmsGHkPwgZAt8AzyoPhC0mFV8nJDNaYkpMaG0+r/Grm8arYLUurN3M6W6/aCp
+	kVn91AyAFjjLN6JiITmT6X6A3+OSd2Co4
+X-Gm-Gg: ASbGnct+aGkTye1zefeyg1ynZrFUltCzgK/hq89u66otdPtQP8vKhoEPg1FUs2NQrpx
+	tWafzcx4BAe2UmBXo55CZ2mZQrm/i5CU=
+X-Google-Smtp-Source: AGHT+IFK0I78q+TOVqsd98PfQmZm4vGBGeIZq6it/toi9NAFp+IO7wVe+1+iCGYqIShabNY/3SUQaJSZDAZmkk2K4hg=
+X-Received: by 2002:a17:906:7951:b0:a99:89e9:a43d with SMTP id
+ a640c23a62f3a-aa6018d88aamr583852766b.39.1733339622919; Wed, 04 Dec 2024
+ 11:13:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] platform/x86: int3472: Fix
- skl_int3472_handle_gpio_resources() return value
-To: Andy Shevchenko <andy@kernel.org>
-Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- platform-driver-x86@vger.kernel.org
-References: <20241128154212.6216-1-hdegoede@redhat.com>
- <20241128154212.6216-3-hdegoede@redhat.com>
- <Z0iSDNyNhh3UPAN5@smile.fi.intel.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Z0iSDNyNhh3UPAN5@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20241204143807.32966-1-hdegoede@redhat.com>
+In-Reply-To: <20241204143807.32966-1-hdegoede@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 4 Dec 2024 21:13:06 +0200
+Message-ID: <CAHp75Vfw-_d1HB3-AKUnk6m-OdTGc7vcCictwkubg88wDuO2sg@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: intel: int0002_vgpio: Make the irqchip immutable
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, platform-driver-x86@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Wed, Dec 4, 2024 at 4:38=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
+wrote:
+>
+> Commit 6c846d026d49 ("gpio: Don't fiddle with irqchips marked as
+> immutable") added a warning to indicate if the gpiolib is altering the
+> internals of irqchips:
+>
+> gpio gpiochip4: (INT0002 Virtual GPIO): not an immutable chip, please con=
+sider fixing it!
+>
+> Fix this by making the irqchip in the int0002_vgpio driver immutable.
 
-On 28-Nov-24 4:53 PM, Andy Shevchenko wrote:
-> On Thu, Nov 28, 2024 at 04:42:11PM +0100, Hans de Goede wrote:
->> The INT3472 code never wants a copy of the ACPI resource to be added
->> to the list-head passed to acpi_dev_get_resources().
->>
->> Make skl_int3472_handle_gpio_resources() always return -errno or 1
->> and drop the now no longer acpi_dev_free_resource_list() call.
->>
->> Also update the inaccurate comment about the return value.
->> skl_int3472_handle_gpio_resources() was already returning 1 in the case
->> of not a GPIO resource or invalid _DSM return and not -EINVAL / -ENODEV
->> as the comment claimed.
-> 
-> ...
-> 
->> -	acpi_dev_free_resource_list(&resource_list);
-> 
-> Even though it's better to have this (no-op) call. As people may use the driver
-> as an example and then make the real leakage somewhere else.
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
 
-Ok, I'll keep the call for v2 and adjust the commit msg to match.
-
-Regards,
-
-Hans
-
-
+--=20
+With Best Regards,
+Andy Shevchenko
 
