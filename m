@@ -1,121 +1,118 @@
-Return-Path: <platform-driver-x86+bounces-7521-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-7523-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B269E5BC1
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Dec 2024 17:43:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 785269E5D48
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Dec 2024 18:35:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 90A001882BC2
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Dec 2024 16:43:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9B20518823F2
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Dec 2024 17:35:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF735224B03;
-	Thu,  5 Dec 2024 16:42:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82A6A226ECC;
+	Thu,  5 Dec 2024 17:35:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WQHOqbp4"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="osaoXBUG"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DD6226ECD;
-	Thu,  5 Dec 2024 16:42:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB4F225768;
+	Thu,  5 Dec 2024 17:35:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733416951; cv=none; b=QSfLECULeovYOcc4avUws8wWg4tpNJbtdC7giCU0DBafp7OakUzqI/KBQVzKICyc9a4JkLpoEavcIVzzVdd7ZiGk/y7KcaekNWY5rFe1BxEdMIxgKDQWx7YVvP6dHn+/23XYNk7xXC8rgNR48jNYQlwpHuQpBPUmipieXijJVK4=
+	t=1733420142; cv=none; b=ci2GCWyaYkgimgLXLfrR+Ysn7Da/L8j3RfUNyzjNHk4cqRZliGmYl+C6ZpAD8bI1wplHUFhJUt3/bvyMjr3rBpYHazPFPeU+LCEm8hBfHvyIfTe/C36DVkSy2YeNwQXmU1cyVhOoGsIKOad60505eTDbSkQN3TIvGDwf0JjIuSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733416951; c=relaxed/simple;
-	bh=uwJORr6lYv+2fD/3UybCxfQotZIsukSpSifUmgN5abY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ei+CjBCPIWqYEnBcWngOZ+7GDH9eylX3QaGWm4OFXf/VowQ3zO9+SAtm/GHmxUinYcj11pVibqLeXakg0doGr/M5sNm4/PQCSr83SReJ4ElqN9hHtXFEg/yHnSuhumlYM24792yKsse1VoDsl6pCOHbuCatgQ3uxKbeWJdikPdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WQHOqbp4; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-53e1be0ec84so1399323e87.1;
-        Thu, 05 Dec 2024 08:42:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733416948; x=1734021748; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=xL38ZgZFjgD/c1dhEQ6sIMBHQ5oRx1qiNvWMWE5O0q0=;
-        b=WQHOqbp4VyjoVrZ4sDy5ISt1uDX1kvr1ILuumD1sNPK5Niqwt+qQrFGPh0oiucZqO+
-         w93iKuPhpOTjxGObpfRteKdL8VPY11dmDAXHPoc6Nu+PY36fZHOQzoMGhxFGzgcSef1i
-         zXtYn1zLtukoy0bPl5irK3MZ16Gi9vPGnnG025mnqfo76v/ow6t4kkJ9NIFK883AXevu
-         p5GtK3vKiD5yYkIXjvxNGhy5APPuzA/jMs3Z9bnOKMIGjyOmmIIgyWisTkQlpf8m5qnQ
-         lAiLCoHy0gvOCB325HjJBf72KUsn6DXakOy/gJCk25HLPrUjonIQNLPHc5BFYAaHfllS
-         +sFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733416948; x=1734021748;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xL38ZgZFjgD/c1dhEQ6sIMBHQ5oRx1qiNvWMWE5O0q0=;
-        b=DI6WwzdPnhjxBkxgGONamBAFUMWhIRT7HMcVMMhwMRsqoR6bNESpDCRynkGJt4YeE/
-         rdqwyZS2c3KgWDHxD8DcdwbpDFgVjyGXegC2F4u27MWz8BFduqMuKUdlmhW+f5CltquL
-         dW1Zm1B+zUPGVQdJ3/h9WB4YIjY5TA/72qiQY0hnd+xpPPELhVdCRTxvsulUo4XttX7A
-         VO4wdrudCC4u5oxsToKhuXjRLhxpuLsWz2U56eydD1WvFG5Vu6U/5mHExAatKiflC1FJ
-         9gmbsj0qhgVSzJ5UsG5Jwj0UjWTTCneRxjd0CmGWgSW+OoSZd2OQo76eNZf5nK8Gs91F
-         2wGw==
-X-Forwarded-Encrypted: i=1; AJvYcCUI0/TYF+/BCUrPlTjK1kNIm5eYCWewETLFqT4bf9qrul3Mv/5x2ZMvjV+jjFXdFOHmwxHch7iMmMvApvU=@vger.kernel.org, AJvYcCWHMNQh5wcCv81i5kPHhwb+WIGe422NFc0ad3DmZJuQVUEVwfCy+wtw/PwCInvWaUiedJR+2ceAmw/OLZIKO0qjph0JQA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+Vn6qA+1g4mECvigsiSq9FVj5Jd8wVNQu/iFem05XEEnDLBUJ
-	1egBUjoeHtpK3WxvTiPjDb0tALnj+Ve7Y3oFtcZvjdThEZwhwCBy9oL5jzCRYK/vyW8P+4u/8kx
-	D202N9f04D3j4YR0T6l3FECHU65k=
-X-Gm-Gg: ASbGncsrf0rhqdp14gz9qLplgwQIEqrTXhPA1w6ZT22V5YzF+Nyt/HayPVxTTMAHeSx
-	HngrireZqsM5Xd5eMY8fpQtYWlBtBDQD8Fw==
-X-Google-Smtp-Source: AGHT+IEE5u4KC9DrYBNEk3YONZDgsrN6j2NnGhOJbTc6tQTEFRHZ8bud1/TQacX6mhHTp8Ec35zqmHGlg5KBCr4+e/s=
-X-Received: by 2002:a05:6512:3b83:b0:53d:d41e:b1a8 with SMTP id
- 2adb3069b0e04-53e129fdd48mr5668318e87.20.1733416947747; Thu, 05 Dec 2024
- 08:42:27 -0800 (PST)
+	s=arc-20240116; t=1733420142; c=relaxed/simple;
+	bh=68WNMR27/Jh6Vy7PvAle7AaTWkBct2qgXVk12kHAaEY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=uvRMqxu1HUONNWwKW4NyzS7TRNa+H0XEX5Npy4RYuLunN3PrL/DeRdd3UOrw3SXeen9rH4TFczpfiAW/9kbuvi2P97uC/6mfzobj9Gc03qtzp0729UUpG4sgr6p8WO8aSig8bTGIp580nF7VFg6MvNNORkaYT6+Rg7jzLPZauME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=osaoXBUG; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1733420137;
+	bh=68WNMR27/Jh6Vy7PvAle7AaTWkBct2qgXVk12kHAaEY=;
+	h=From:Subject:Date:To:Cc:From;
+	b=osaoXBUGfRb46luXfjCGTPlnbK7q0cEYSDeeHPKe6F5/8fT1bXolzVbZEr743sp7n
+	 OYCOlxC/xSo+G3OjW0YG7pLTN295Pga9v2NcIMjRFaP+ZC6R3UrV8BOWJePkDk1HGc
+	 yOQXl/blyJageLhTjzhHwYNhUOVSru+iMXlM/kHE=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: [PATCH 0/4] sysfs: constify bin_attribute argument of
+ sysfs_bin_attr_simple_read()
+Date: Thu, 05 Dec 2024 18:35:12 +0100
+Message-Id: <20241205-sysfs-const-bin_attr-simple-v1-0-4a4e4ced71e3@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241123133041.16042-1-sedat.dilek@gmail.com> <173315902007.13686.16854039790074639451.b4-ty@linux.intel.com>
-In-Reply-To: <173315902007.13686.16854039790074639451.b4-ty@linux.intel.com>
-Reply-To: sedat.dilek@gmail.com
-From: Sedat Dilek <sedat.dilek@gmail.com>
-Date: Thu, 5 Dec 2024 17:41:57 +0100
-Message-ID: <CA+icZUXSKmnLZGY7U4xpOBEhEz5UUh88Ko1WFFKCAwPBRwohpA@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: samsung-laptop: Rename MODULE_DESCRIPTION
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Corentin Chary <corentin.chary@gmail.com>, Hans de Goede <hdegoede@redhat.com>, 
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAFDkUWcC/x3MwQpAQBAA0F/RnE3ZSSm/IondWaZY2tlE8u82x
+ 3d5DyhHYYW2eCDyKSp7yDBlAXYZw8woLhuootoYItRbvaLdgyacJAxjShFVtmNlbGzl3ETeekO
+ QhyOyl+vfu/59P/HJDYRtAAAA
+X-Change-ID: 20241122-sysfs-const-bin_attr-simple-7c0ddb2fcf12
+To: Michael Ellerman <mpe@ellerman.id.au>, 
+ Nicholas Piggin <npiggin@gmail.com>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+ Sami Tolvanen <samitolvanen@google.com>, 
+ Daniel Gomez <da.gomez@samsung.com>, Armin Wolf <W_Armin@gmx.de>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, 
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>
+Cc: linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ linux-modules@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+ bpf@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733420137; l=1170;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=68WNMR27/Jh6Vy7PvAle7AaTWkBct2qgXVk12kHAaEY=;
+ b=T+PbqYnqnoXWLbF5FULrGKTEWzZ8sXpbVXoqId9h5bVMynN1gxzdjACjy9czZW5+/hfIaiOMY
+ 927yDeHmNmiBbYl7QYj+NHuMWTZRXQl9ozjUUHoyQqHpqA28sdx295H
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Mon, Dec 2, 2024 at 6:05=E2=80=AFPM Ilpo J=C3=A4rvinen
-<ilpo.jarvinen@linux.intel.com> wrote:
->
-> On Sat, 23 Nov 2024 14:29:28 +0100, Sedat Dilek wrote:
->
-> > Rename from "Samsung Backlight driver" to "Samsung Laptop driver".
-> >
-> >
->
->
-> Thank you for your contribution, it has been applied to my local
-> review-ilpo-fixes branch. Note it will show up in the public
-> platform-drivers-x86/review-ilpo-fixes branch only once I've pushed my
-> local branch there, which might take a while.
->
-> The list of commits applied:
-> [1/1] platform/x86: samsung-laptop: Rename MODULE_DESCRIPTION
->       commit: 3510398032b445abd034753ce86a60882f41fe27
->
-> --
->  i.
+Most users use this function through the BIN_ATTR_SIMPLE* macros,
+they can handle the switch transparently.
 
-Thanks, Ilpo.
+This series is meant to be merged through the driver core tree.
 
-The commit is now in fixes Git branch.
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+Thomas Weißschuh (4):
+      sysfs: constify bin_attribute argument of sysfs_bin_attr_simple_read()
+      platform/x86: wmi-bmof: Switch to sysfs_bin_attr_simple_read()
+      btf: Switch vmlinux BTF attribute to sysfs_bin_attr_simple_read()
+      btf: Switch module BTF attribute to sysfs_bin_attr_simple_read()
+
+ arch/powerpc/platforms/powernv/opal.c |  2 +-
+ drivers/platform/x86/wmi-bmof.c       | 12 ++----------
+ fs/sysfs/file.c                       |  2 +-
+ include/linux/sysfs.h                 |  4 ++--
+ kernel/bpf/btf.c                      | 15 ++-------------
+ kernel/bpf/sysfs_btf.c                | 12 ++----------
+ kernel/module/sysfs.c                 |  2 +-
+ 7 files changed, 11 insertions(+), 38 deletions(-)
+---
+base-commit: feffde684ac29a3b7aec82d2df850fbdbdee55e4
+change-id: 20241122-sysfs-const-bin_attr-simple-7c0ddb2fcf12
 
 Best regards,
--Sedat-
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-=
-x86.git/log/?h=3Dfixes
 
