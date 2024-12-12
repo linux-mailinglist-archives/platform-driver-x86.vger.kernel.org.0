@@ -1,198 +1,168 @@
-Return-Path: <platform-driver-x86+bounces-7728-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-7730-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08479EE95F
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Dec 2024 15:51:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C329EEB79
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Dec 2024 16:25:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C3AE918857C1
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Dec 2024 14:51:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B14B1188A285
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Dec 2024 15:20:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 035F22153E0;
-	Thu, 12 Dec 2024 14:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C141F215048;
+	Thu, 12 Dec 2024 15:20:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nYl9/Vp5"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="N6wacZTZ"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2059.outbound.protection.outlook.com [40.107.237.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4022135AC;
-	Thu, 12 Dec 2024 14:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734015105; cv=none; b=Gn6Zoxvy6xufaIHouqcvMqLJ9Rrzye6IDfkILM7nzI3nI0TUw68DkqNB+cZOCHq3lg/6kLJd5wcltdio0eEeEwRQVh69YA4TYLf6DSoIwJdBOuRmS8gL0T+OBe02Y47l3U/8LxnglIjGaHwa5YArtycACTDzNFojwZg/ZZ+S0Bc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734015105; c=relaxed/simple;
-	bh=C3UueoPQb5TI3q2csvi7noxJa26+vSnj4JeStgcfWGk=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=qHhAW8rYNUAnQMFs6gKWpPFi+0QM5EXIL9VDb/ky38M+FYLl7YWp3OCqEASVQZjmSGJpKxv6buoTgnyIo7xDPNBfzvu7sTMf8Yq3Zb+XAmH2L06NtkBuXcZ6qSdCoVvAnEEzfs08tPponUh4F8NwvHo3XZZP+Iu1riV2OR5Q1m8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nYl9/Vp5; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734015104; x=1765551104;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=C3UueoPQb5TI3q2csvi7noxJa26+vSnj4JeStgcfWGk=;
-  b=nYl9/Vp5C6fC26vv9DQiEPfFazfSI8YNpRdHTvx90OLfuq3oYf/k84ke
-   gfFT/Tl225BjLaufMCsygNEYHCjOGp2o07vcDawVSeW8XAaTxmWugZhUT
-   GeW3QxaR5ZH1tt6N0SPlb4L8tzORXVJFMO+WlrmboruGI8zeTW5droljN
-   S7IBchM6wmhisWZz/glRh5LShNjw4ob9R1xUdUq+lfInd/TLfkJY9LvkC
-   p2x/Sk33AaZLq2NZnZ86B1KGBaRF+VQ/GonyxzU0HcyFdSxCxbsEPLOp9
-   D/JSSJh9jOvsXmoyabNdvra0DUyQyx1ZhianZf2yFKz1aLX/rwz1JLvuo
-   Q==;
-X-CSE-ConnectionGUID: 7xDymELcQxq40+HDZQDqlw==
-X-CSE-MsgGUID: 2itc7dgHQLuL7WDYXZJzmQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="37278178"
-X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
-   d="scan'208";a="37278178"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 06:51:43 -0800
-X-CSE-ConnectionGUID: dqfj+1xRR/CawK0/CXYT+Q==
-X-CSE-MsgGUID: ITA4j0XbQr6FBxs2XSLmbQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
-   d="scan'208";a="101267889"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.137])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 06:51:39 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 12 Dec 2024 16:51:35 +0200 (EET)
-To: Hans de Goede <hdegoede@redhat.com>
-cc: =?ISO-8859-15?Q?Pali_Roh=E1r?= <pali@kernel.org>, 
-    Andy Shevchenko <andy@kernel.org>, Paul Menzel <pmenzel@molgen.mpg.de>, 
-    Wolfram Sang <wsa@kernel.org>, eric.piel@tremplin-utc.net, 
-    Marius Hoch <mail@mariushoch.de>, Dell.Client.Kernel@dell.com, 
-    Kai Heng Feng <kai.heng.feng@canonical.com>, 
-    platform-driver-x86@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, 
-    Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v9 0/4] i2c-i801 / dell-lis3lv02d: Move instantiation of
- lis3lv02d i2c_client from i2c-i801 to dell-lis3lv02d
-In-Reply-To: <20241209183557.7560-1-hdegoede@redhat.com>
-Message-ID: <ec2de47c-ec08-7aa8-4caa-0a4d80ba7701@linux.intel.com>
-References: <20241209183557.7560-1-hdegoede@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2ACE1487CD;
+	Thu, 12 Dec 2024 15:20:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734016844; cv=fail; b=dxiktQktNu/f1FXUB719BE8HHHM+RJ03dwja5DH+YE8MBWmyOtzMSUFFclkZ29jkfURBdIMScfDgWIBo0eMUIAaLlfWx+mgcnvEXHgSfHV+2Cdxwo9BmPJw/qmX9lyK0hJdUXnyQAt8C6iZjs+EtfZ7cnGl+uZcqz/rja7K8ZNY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734016844; c=relaxed/simple;
+	bh=KQhnfRSVSBncHfvvw5Km4RG2EMBw2CBbDMl4XgWL+LM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=r5QY+JigXtvY3pxMpKEKUjRD3Nu40Ju76nczZp5zn03yP41c1FBKbw17iQnEADU5MrqG2MOehXZs1rLD/vPLt/lDGecXJUihmb38ZcAGqx/KRGlpDCk08061YknRBmQAQm+4yI7cnXN1rn0lTaZQqMrB6WjF+LZW/uRO11sJVu4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=N6wacZTZ; arc=fail smtp.client-ip=40.107.237.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fN5YA1ewZJj8sibP3lkRsAMvt1kHk6neJrSwimE+Uo2Ru739arWlKg5koTLG0lm8apphSnSxh+yOyntGIBs9CbBIh1yBXq0YnX++v36/sn1W8blf5s4hQ0iU+zzaqafYooaBoGBzhVNvjeBGB4kQ4EXEckwKYdHN7hHrcuYQqRO/2WKaRWaHmygaHP29Heq8Cxl6vl9YocQx5SQzv5h7dw8ZwP3KxpRNqO80rYh4yoMOkiuMcleP8LO/JwUSPHZ/E3k4CQEmWx5JCAPg6w08rLpaxl5Q/I7MT0jPuSIbpsp52deV9u2RflLen+Q9WoNG0SJgvDbg5fLMgMDyy2EEOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=conp2llCC/5Ylv0bII52P/QOqvMp4AjH/hVlYQB3zjY=;
+ b=t1taTmAqOSliim828sdp5xHkj6ZQBEWLkFCb/IVceY/l1YadflQBzPwh7GS4cEsoPRSkCiHxnbl8+u/hE3MRL6iA6aM5y56oA4jPiQQGIObDQ670VzmaA+ZSvTQpxBiSBXlbckIcSuE7XRzcndFpNFKFzxSZLxIY77LWuW/NEkY7WD/XTHVy0g2qA6mMQt3zuGP1MEePdIBku3xj1FweuBWnAyxO7B/vVYBq5jliCWeFxsaLcNyJNPF1CCiuYErOYIFivC1glZqkXz2L102BBAYPEQACFXQgWhVc6cyBIibewIWvc6bA/W31eLUKrQsTrCnBYHPbKFxaee9iowpPJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=conp2llCC/5Ylv0bII52P/QOqvMp4AjH/hVlYQB3zjY=;
+ b=N6wacZTZNbSPLmDet1mEZm08PpFYoNfzOKD8EF8SlxPPUiCxzYVEnj1b5lKHL/6MStXJFzWjJkeVcOG5jWEX6+WSdTRHvKY5TGF/esdkaMbweP4LuD3kHgMu7MmVv+bFkGEtoQ6nfMdIi8eb4r6kArFb9lbTo3vt66vTTtSyuhM=
+Received: from SJ0PR05CA0088.namprd05.prod.outlook.com (2603:10b6:a03:332::33)
+ by PH7PR12MB8108.namprd12.prod.outlook.com (2603:10b6:510:2bc::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.16; Thu, 12 Dec
+ 2024 15:20:38 +0000
+Received: from SJ1PEPF000023D8.namprd21.prod.outlook.com
+ (2603:10b6:a03:332:cafe::b3) by SJ0PR05CA0088.outlook.office365.com
+ (2603:10b6:a03:332::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.15 via Frontend Transport; Thu,
+ 12 Dec 2024 15:20:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SJ1PEPF000023D8.mail.protection.outlook.com (10.167.244.73) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8272.0 via Frontend Transport; Thu, 12 Dec 2024 15:20:37 +0000
+Received: from airavat.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 12 Dec
+ 2024 09:20:33 -0600
+From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+To: Hans de Goede <hdegoede@redhat.com>, <ilpo.jarvinen@linux.intel.com>,
+	Mario Limonciello <mario.limonciello@amd.com>, Basavaraj Natikar
+	<basavaraj.natikar@amd.com>, Jiri Kosina <jikos@kernel.org>, "Benjamin
+ Tissoires" <bentiss@kernel.org>, Akshata MukundShetty
+	<akshata.mukundshetty@amd.com>, Patil Rajesh Reddy <patreddy@amd.com>
+CC: <platform-driver-x86@vger.kernel.org>, <linux-input@vger.kernel.org>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: [PATCH 0/2] Add new capabilities to PMF Smart PC
+Date: Thu, 12 Dec 2024 20:49:49 +0530
+Message-ID: <20241212151951.1922544-1-Shyam-sundar.S-k@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000023D8:EE_|PH7PR12MB8108:EE_
+X-MS-Office365-Filtering-Correlation-Id: 19204dad-a309-4edf-fa6c-08dd1ac0883e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|36860700013|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?0pgBpP+d85ruyzeEUugRZzcNYUoTDxoonZNDwlUiMOIVOJCMFI7Yxx0HGOsk?=
+ =?us-ascii?Q?iE9hwuYMj79oB47gS11GjIlPRRAgT4Uyi+nu/KObhsva4lYxY/Ns324S8H+K?=
+ =?us-ascii?Q?jp4BRIhupDL6RvM4uJSOEY8CmL7GqR13IFmdOhpi2Z2Pi/G0VruuDhm4WMJz?=
+ =?us-ascii?Q?bO42Cq1BB4GswJ3ZoWfrWjiNJywszrpkvw/9mtmKiFvLoul9Wm/fZgDZjcVZ?=
+ =?us-ascii?Q?TerYf2zo+mmXR8p4lSRHehFLtQQ0YMFO9m5sspbXI7x6BwpIlRkTYxYKhDBK?=
+ =?us-ascii?Q?HB0+DKpkd0MHjKrRqRep0iO3UPMbR9k5kk20Sp/O+/AQTAsbkyfxAMnwCstw?=
+ =?us-ascii?Q?1XfVWm0Wn6wLzoed6zecpOKX9u+KdbXCPvM5OwkzVqsQoin7Qrm3cuUw+vzp?=
+ =?us-ascii?Q?DC5pwwME5VGOQwhrHF0HzW+c02tRR4Lx2uA1+2hj/9grJYyknZHaE/+sa0Rl?=
+ =?us-ascii?Q?hsJw004C0DZXBfDPz6baU2MV2i8vQg4ToDhqHUfjvoVCuG9oa05ZqglkNkFV?=
+ =?us-ascii?Q?7KpTaq4b/w7mxtUgeul58YXdS0qpFcdEobzToJUtRO1mNcubU2/PlL2nGdVQ?=
+ =?us-ascii?Q?RXctINRlxxMGKQs3y3Q2gYfwdaqElhy0bjImI6urP7BOSlHpkaSXJlv0Lmy1?=
+ =?us-ascii?Q?3hjxwTQxTU7kTT3lUiioa2NIq7w5W05BdvNQ433eDZ2CgVOF1SvCUKCaHk9z?=
+ =?us-ascii?Q?Ox9huBbSJ1Y4qvZQQo82UODehrTzs8gd+FxWKVajWtEo6lBU09qDaUfvmji+?=
+ =?us-ascii?Q?hGSr8mcpl5GeKjBua9vFghQIdYr0TbsuGg0Vm+4hkvZPtBhU5QoOvr7uQhcT?=
+ =?us-ascii?Q?Zkj8hSava+6bShtdjlQUaI+lLCZl+7l6wKUgLed7YXkrIlpClvXiIpUEXmZK?=
+ =?us-ascii?Q?28/dPYr4CDe9nyZzZUMRXQ+Q9ghM5Va1CDHoMqxOC6wxvHLHDwEazNUk2Fv0?=
+ =?us-ascii?Q?Q0IRxIeIwQFpY34U/+7/7psOXIzZHAhxpYoC52ufuk5OM/E712nIRF8H6CgF?=
+ =?us-ascii?Q?kDvlKcnuyPUHFXKwax3TVMFqEHhl8m3J8VuPxuUW+8uP6w/scjQcynBxzW1S?=
+ =?us-ascii?Q?xEyeE0ZCpG3IVY+v9GW0iHhJ8mtDYT8YHlV5GqEbeDJQjTtQD/j4M8v/lyhj?=
+ =?us-ascii?Q?wt7lREL4uLVAh0qF0hNFVrYHhysPyI0Zh0e2xHCMcvIBJKHgF3IiQm6A33b2?=
+ =?us-ascii?Q?P8NLtr/Oc3cTcvPmYklUMX1VSbHSuwMdDpC7JWh9kqMfVI7kNy3gKNhACyEp?=
+ =?us-ascii?Q?XQgz5UannKmaPW5NNYNgsmzcC4rLhoTE2CehLJ4gusDKfgK6ctSQyTD6PO9a?=
+ =?us-ascii?Q?cL7z4I8IfFnIKTn3LQaGptw9UKn12Q8qpfYUd+jZ/96U2cJ7jQoReItBXCf2?=
+ =?us-ascii?Q?ypnOU64XMjLb7m8D/y4n8O6xF3UO2aKifGjqG+Fs7bZebCg3S5ZhroBLFqj+?=
+ =?us-ascii?Q?Q81EWpIEd+fY8GTsUeAZr+fl8CXnKhb4?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2024 15:20:37.6787
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19204dad-a309-4edf-fa6c-08dd1ac0883e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF000023D8.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8108
 
-On Mon, 9 Dec 2024, Hans de Goede wrote:
+This series introduces the following enhancements:
 
-> Hi All,
-> 
-> Here is v9 of my patch series to move the manual instantation of lis3lv02d
-> i2c_client-s for SMO88xx ACPI device from the generic i2c-i801.c code to
-> a SMO88xx specific dell-lis3lv02d driver.
-> 
-> The i2c-core and i2c-i801 dependencies have both been merged into 6.13-rc1
-> so I believe that this series is ready to be merged now .
-> 
-> Patch 2/4 does still touch the i2c-i801 code removing the quirk code which
-> is moved to the pdx86 dell-smo8800 code. I think it would be best if Ilpo
-> prepares an immutable branch with this series to be merged into both
-> pdx86/for-next and the i2c-subsystem. Andi can we get your Ack for merging
-> the i2c-i801 changes through the pdx86 tree ?
-> 
-> Moving the i2c_client instantiation has the following advantages:
-> 
-> 1. This moves the SMO88xx ACPI device quirk handling away from the generic
-> i2c-i801 module which is loaded on all Intel x86 machines to a module
-> which will only be loaded when there is an ACPI SMO88xx device.
-> 
-> 2. This removes the duplication of the SMO88xx ACPI Hardware ID (HID) table
-> between the i2c-i801 and dell-smo8800 drivers.
-> 
-> 3. This allows extending the quirk handling by adding new code and related
-> module parameters to the dell-lis3lv02d driver, without needing to modify
-> the i2c-i801 code.
-> 
-> This series also extends the i2c_client instantiation with support for
-> probing for the i2c-address of the lis3lv02d chip on devices which
-> are not yet listed in the DMI table with i2c-addresses for known models.
-> This probing is only done when requested through a module parameter.
-> 
-> Changes in v9:
-> - Rebase on top of v6.13-rc1
-> - Drop already merged i2c-core and i2c-i801 dependencies
-> 
-> Changes in v8:
-> - Address some minor review remarks from Andy
-> 
-> Changes in v7:
-> - Rebase on v6.11-rc1
-> 
-> Changes in v6:
-> - Use i2c_new_scanned_device() instead of re-inventing it
-> 
-> Changes in v5:
-> - Make match_acpi_device_ids() and match_acpi_device_ids[] __init[const]
-> - Add "Depends on I2C" to Kconfig (to fix kernel-test-robot reported issues)
-> - Add "this may be dangerous warning" to MODULE_PARM_DESC(probe_i2c_addr)
-> 
-> Changes in v4:
-> - Move the i2c_client instantiation to a new dell-lis3lv02d driver instead
->   of adding it to the dell-smo8800 driver
-> - Address a couple of other minor review comments
-> 
-> Changes in v3:
-> - Use an i2c bus notifier so that the i2c_client will still be instantiated if
->   the i801 i2c_adapter shows up later or is re-probed (removed + added again).
->   This addresses the main concern / review-comments made during review of v2.
-> - Add 2 prep patches to the i2c-core / the i2c-i801 driver to allow bus-notifier
->   use / to avoid the need to duplicate the PCI-ids of IDF i2c-i801 adapters.
-> - Switch to standard dmi_system_id matching to check both sys-vendor +
->   product-name DMI fields
-> - Drop the patch to alternatively use the st_accel IIO driver instead of
->   drivers/misc/lis3lv02d/lis3lv02d.c
-> 
-> Changes in v2:
-> - Drop "[PATCH 1/6] platform/x86: dell-smo8800: Only load on Dell laptops"
-> - Use a pci_device_id table to check for IDF (non main) i2c-i801 SMBusses
-> - Add a comment documenting the IDF PCI device ids
-> - Keep using drivers/misc/lis3lv02d/lis3lv02d.c by default
-> - Rename the module-parameter to use_iio_driver which can be set to
->   use the IIO st_accel driver instead
-> - Add a new patch adding the accelerometer address for the 2 models
->   I have tested this on to dell_lis3lv02d_devices[]
-> 
-> Since this touches files under both drivers/i2c and drivers/platform/x86
-> some subsystem coordination is necessary. I think it would be best to just
-> merge the entire series through the i2c subsystem since this touches some
-> core i2c files. As pdx86 subsys co-maintainer I'm fine with doing so.
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> Hans de Goede (4):
->   platform/x86: dell-smo8800: Move SMO88xx acpi_device_ids to
->     dell-smo8800-ids.h
->   platform/x86: dell-smo8800: Move instantiation of lis3lv02d i2c_client
->     from i2c-i801 to dell-lis3lv02d
->   platform/x86: dell-smo8800: Add a couple more models to
->     lis3lv02d_devices[]
->   platform/x86: dell-smo8800: Add support for probing for the
->     accelerometer i2c address
-> 
->  drivers/i2c/busses/i2c-i801.c                | 124 ---------
->  drivers/platform/x86/dell/Kconfig            |   1 +
->  drivers/platform/x86/dell/Makefile           |   1 +
->  drivers/platform/x86/dell/dell-lis3lv02d.c   | 252 +++++++++++++++++++
->  drivers/platform/x86/dell/dell-smo8800-ids.h |  27 ++
->  drivers/platform/x86/dell/dell-smo8800.c     |  16 +-
->  6 files changed, 282 insertions(+), 139 deletions(-)
->  create mode 100644 drivers/platform/x86/dell/dell-lis3lv02d.c
->  create mode 100644 drivers/platform/x86/dell/dell-smo8800-ids.h
+- Support for device operating states in the AMD SFH driver through the
+SRA sensor.
+- Functionality in the PMF driver to export SRA data from the SFH driver
+to the PMF, allowing it to be used as input for the PMF-TA in evaluating
+policy conditions that involve SRA sensor data.
 
-Patches 1-3 applied into review-ilpo-next branch.
+Basavaraj Natikar (1):
+  HID: amd_sfh: Add support to export device operating states
+
+Shyam Sundar S K (1):
+  platform/x86/amd/pmf: Get SRA sensor data from AMD SFH driver
+
+ drivers/hid/amd-sfh-hid/amd_sfh_common.h      |  1 +
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 22 ++++++++
+ .../amd-sfh-hid/sfh1_1/amd_sfh_interface.c    | 35 +++++++++++++
+ .../amd-sfh-hid/sfh1_1/amd_sfh_interface.h    | 20 ++++++++
+ drivers/platform/x86/amd/pmf/pmf.h            | 18 ++++++-
+ drivers/platform/x86/amd/pmf/spc.c            | 51 +++++++++++++++++++
+ include/linux/amd-pmf-io.h                    | 15 ++++++
+ 7 files changed, 161 insertions(+), 1 deletion(-)
 
 -- 
- i.
+2.34.1
 
 
