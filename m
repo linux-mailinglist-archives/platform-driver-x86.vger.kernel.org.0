@@ -1,141 +1,117 @@
-Return-Path: <platform-driver-x86+bounces-7729-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-7726-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2387F9EE965
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Dec 2024 15:55:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DF3C9EE951
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Dec 2024 15:47:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF0A3280C85
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Dec 2024 14:55:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C2623284C76
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Dec 2024 14:47:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77BF32153E0;
-	Thu, 12 Dec 2024 14:55:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E44272153F7;
+	Thu, 12 Dec 2024 14:47:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="P1rfBsof"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jt5lMQHU"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtpfb2-g21.free.fr (smtpfb2-g21.free.fr [212.27.42.10])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C1822135AC;
-	Thu, 12 Dec 2024 14:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D6E20E716;
+	Thu, 12 Dec 2024 14:47:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734015342; cv=none; b=YOBIFOeA3xHyW9xUUVZBgZSKhpZPuU+6S4B4Q8ESI4AJssAYfe6BkcVAWIO7owE2C04IbUOVz2PHkpnTab2a+9OwSkVeT/YhesKh1kN9Kbn+N8P5woi2MG5cD8yZv0wRIuV1ueiVOL+3rsKL3FITjB9/wscsmLiiqTOoM0F9IRc=
+	t=1734014850; cv=none; b=lzFlOrMSb5EvCu5ZXwPqSdUTQQDtxkshXA4m1ynCzymlX/4XXU7ohImS9/hPafBmcFGzezCKYzE995Ub4//AP7vOIWPFIB0RCndcXPumIQLJQSF/pTPsjqHE24y4EZZyIoSQVmE5aKLolt53Ebts8foarxvM+7Fn8O9VPc8JD7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734015342; c=relaxed/simple;
-	bh=uaHUoHwpv1HT3Z4534taOhnHeSNE2hMl9F4tg6u/YC0=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=NHo/OvKJp8LBkAybkeNblotYXa58+kaKFb6HXeQNmZqufLilbVEmzOg4cv+0QA7Y3uOkuXh+iWEZREDzcGurOmVue8cm1nLvnTPiVnG+28MeFlvvqR5j/tfMVGR2k1kq4u3D8rnfu+oZtxlmy/2fL0qss5LW/6VpMeba1kB8JlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=P1rfBsof; arc=none smtp.client-ip=212.27.42.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
-Received: from smtp6-g21.free.fr (smtp6-g21.free.fr [212.27.42.6])
-	by smtpfb2-g21.free.fr (Postfix) with ESMTP id 7A5E14CEFA;
-	Thu, 12 Dec 2024 15:45:30 +0100 (CET)
-Received: from [IPV6:2a02:842a:8223:5500::978] (unknown [IPv6:2a02:842a:8223:5500::978])
-	(Authenticated sender: julien.robin28@free.fr)
-	by smtp6-g21.free.fr (Postfix) with ESMTPSA id 23F11780503;
-	Thu, 12 Dec 2024 15:45:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
-	s=smtp-20201208; t=1734014723;
-	bh=uaHUoHwpv1HT3Z4534taOhnHeSNE2hMl9F4tg6u/YC0=;
-	h=Date:To:Cc:From:Subject:From;
-	b=P1rfBsofK4r89SOJp1LL0mMpR3HZwW+XgZlwUXi3d1Isw/MIA7KKzQQ9vUXOaXU9P
-	 yMM0jrW1xoRefQbnwXGKIbLwRzej7MEtwT9aEM/U8IX9jeeBgJMKC97xYYR711OYVf
-	 op5sOS4ovE6TK8Qqk2t1gayeyJ5Chsxapl0K7oygAPCGpUqC2Yohnj59foshOKuS/1
-	 JbZcgp3ovL0wn/QXCP7WX3dVey0Ud2ECiESfxqh7CWBBrufprVRqA77xD4M0Na6xKV
-	 2wfoeVuWcb8AJ9LpgSInQZTrkl5KBrOOgP23Z+JIvxsBrTXIoVMCfFjcp0VnIiwbeq
-	 cag7FD9ErcbQw==
-Message-ID: <6e56ec6c-60ad-48ea-b185-19d7064a53f2@free.fr>
-Date: Thu, 12 Dec 2024 15:45:19 +0100
+	s=arc-20240116; t=1734014850; c=relaxed/simple;
+	bh=+zs4fhABxYe5hRUYmT61bMrTFSgId4rbEFnfYJc7Swo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=dRgRtggPuWItjh/zyLHHd+UHIJrUl1/8R4P3KKIaZODApVa7L8x5G57XBvXfkhABY7aytDShwi+bZDbjX06O//9AW2IUFIyYVxWn9Ps3qM3IgFwY5CXoQIjexYrE8vOQ4WAkb2Ach7o9IzoF167EUl7VtaZhB1KhjLgeu7jfQVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jt5lMQHU; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734014849; x=1765550849;
+  h=from:to:cc:in-reply-to:references:subject:message-id:
+   date:mime-version:content-transfer-encoding;
+  bh=+zs4fhABxYe5hRUYmT61bMrTFSgId4rbEFnfYJc7Swo=;
+  b=jt5lMQHUImCwxhfjQ455JFbUeG9VayQjqrmoPVmYzz2mYHV1ZvuH/mDs
+   mAJt0WXJfk3FIPoijYrhU/g6VrALCTnYBs7wJJlOUr1/xefxcumKb8/pP
+   YxAJj6asxX7x9QF5OVDnasK2bYj68i2WmZQ8gh8vFazQ1nnWCsjraJ0Hj
+   F/jqLudsFjv3S9iwVpYCPyiXj1jHpznejFLKghjlwOhb4t4r1Nxgy5ZLE
+   AmyH8goFc9b5udCtp4og5ISNqpohJhgB2vMcd55sE7kgL4BBLYdBu7ZMd
+   QzpA04QEwBcRyIbIjlLOp25Bfb/3L/I1rOWNwxGMscw7vSMAWnlzNNGHi
+   Q==;
+X-CSE-ConnectionGUID: l72Rf87qTQWEXWSsxh6I1g==
+X-CSE-MsgGUID: 6DaouwIbSoCH5ADgXEvxpQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="51961694"
+X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
+   d="scan'208";a="51961694"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 06:47:28 -0800
+X-CSE-ConnectionGUID: 6/o/JdPER5WYmHAloDahNg==
+X-CSE-MsgGUID: YTHMn645T6qa9taktOrqGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
+   d="scan'208";a="127052030"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.137])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 06:47:24 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: Stuart Hayes <stuart.w.hayes@gmail.com>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ "David E. Box" <david.e.box@linux.intel.com>, 
+ Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>, 
+ Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20241202-sysfs-const-bin_attr-pdx86-v1-0-9ab204c2a814@weissschuh.net>
+References: <20241202-sysfs-const-bin_attr-pdx86-v1-0-9ab204c2a814@weissschuh.net>
+Subject: Re: [PATCH 0/5] platform/x86: Constify 'struct bin_attribute'
+Message-Id: <173401483637.7675.4916640925263412084.b4-ty@linux.intel.com>
+Date: Thu, 12 Dec 2024 16:47:16 +0200
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com
-Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-From: Julien ROBIN <julien.robin28@free.fr>
-Subject: Bug report: HP: WMI: Fan speed reading and PWM control fails + dmesg
- related errors
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.13.0
 
-Hello there,
+On Mon, 02 Dec 2024 20:38:31 +0100, Thomas Weißschuh wrote:
 
-Using intended WMI drivers and associated sysfs through `pwm1_enable` 
-and `pwm1` virtual files generally allows manual setting of fan speed on 
-laptops, which can be useful to set maximum speed when running rude CPU 
-and GPU tasks for example (to avoid reaching crazy temperatures).
+> The sysfs core now allows instances of 'struct bin_attribute' to be
+> moved into read-only memory. Make use of that to protect them against
+> accidental or malicious modifications.
+> 
+> The usage of read_new/write_new/bin_attrs_new is a transition mechanism
+> and will be removed after the tree-wide transition to
+> const struct bin_attribute.
+> 
+> [...]
 
-I have a new machine (HP 16-s1034nf) on which (even with latest mainline 
-kernel 6.13-rc2) this pwm fan control sysfs interface is failing, and 
-fan speed reported values are stuck to zero (even when they are 
-blowing), through hp-wpi driver.
 
-Just to be sure, I checked using "HP Omen Gaming Hub" application in 
-Windows that the hardware is actually capable of fan speed reading and 
-setting (the answer is yes).
+Thank you for your contribution, it has been applied to my local
+review-ilpo-next branch. Note it will show up in the public
+platform-drivers-x86/review-ilpo-next branch only once I've pushed my
+local branch there, which might take a while.
 
-In details:
-  - `/sys/devices/platform/hp-wmi/hwmon/hwmon6/pwm1_enable` writing 
-isn't applied (when writing "0", value is kept to "2" and writing "1" 
-says write error: Invalid argument)
-  - `/sys/devices/platform/hp-wmi/hwmon/hwmon6/pwm1` is missing
-  - `/sys/devices/platform/hp-wmi/hwmon/hwmon6/fan1_input` is always 
-stuck to 0 (even when fans are running)
-  - `/sys/devices/platform/hp-wmi/hwmon/hwmon6/fan2_input` is always 
-stuck to 0 too (this computer actually has 2 fans)
+The list of commits applied:
+[1/5] platform/x86: dell: dcdbas: Constify 'struct bin_attribute'
+      commit: f05a99b0d5f16bb82d91f602ade9a2f199c5abde
+[2/5] platform/x86: dell_rbu: Constify 'struct bin_attribute'
+      commit: e7bcc60c87369c22dfd5e3f13c0aac58a7a3e1d9
+[3/5] platform/x86/intel/sdsi: Constify 'struct bin_attribute'
+      commit: b5a3e35615948ab5faf773d4e5a0206020403538
+[4/5] platform/x86/intel/pmt: Constify 'struct bin_attribute'
+      commit: 75e76075f2df25ed4e726b722aeb3ed1afd4b12a
+[5/5] platform/x86/amd/hsmp: Constify 'struct bin_attribute'
+      commit: 2c62a6ed6fe5e084d3ef47d07087088c2e718290
 
-The interesting part of the dmesg output is the following:
-	[...]
-	input: HP WMI hotkeys as /devices/virtual/input/input15
-	ACPI BIOS Error (bug): Could not resolve symbol [\_SB.PEP.DETY], 
-AE_NOT_FOUND (20240322/psargs-332)
-	ACPI Error: Aborting method \_SB.WMID.GTPS due to previous error 
-(AE_NOT_FOUND) (20240322/psparse-529)
-	ACPI Error: Aborting method \_SB.WMID.RDCF due to previous error 
-(AE_NOT_FOUND) (20240322/psparse-529)
-	ACPI Error: Aborting method \_SB.WMID.WHCM due to previous error 
-(AE_NOT_FOUND) (20240322/psparse-529)
-	ACPI Error: Aborting method \_SB.WMID.WMAA due to previous error 
-(AE_NOT_FOUND) (20240322/psparse-529)
-	[...]
+--
+ i.
 
-All of the previous dmesg messages are disappearing when booting with 
-`module_blacklist=hp_wmi` into the Kernel command line. In place of 
-them, we got a single line:
-	[..]
-	Module hp_wmi is blacklisted
-	[..]
-
-So I understand these errors mentioning ACPI are caused by what the 
-hp_wmi driver is doing (or trying to).
-
-In order to be sure this isn't an ACPI Firmware bug from the laptop's 
-ACPI tables, I used Firmware Test Suite on "DSDT" as explained into 
-https://wiki.ubuntu.com/Kernel/Reference/WMI
-It turns out imperfections found by FWTS aren't related to the HP WMI 
-interfaces GUID. Anyway I'm still providing all of the related files and 
-results in case someone needs them.
-
-Unfortunately, going further alone is a little bit outside of my skills, 
-but I keep available for any questions and tests.
-As it's my first bug report into this mailing list, I hope I didn't make 
-too much mistakes! Sincerely sorry in advance if I did.
-
-Best regards,
-Julien ROBIN
-
-Notes:
-  - Using Debian 13/Trixie (testing)
-  - Problem still exists on latest 6.13-rc2 "pure" kernel with no DKMS 
-loaded driver
-
-I placed all of the required files (dmidecode, dmesg, kernel config, and 
-ACPI tables related stuff) into the following link:
-  - 
-https://pix-server-sorel.luoss.fr/Manual/Linux/HP-WMI/Bug-Report-2024-12-12/
 
