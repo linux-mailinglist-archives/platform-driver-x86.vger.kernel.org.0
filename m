@@ -1,16 +1,16 @@
-Return-Path: <platform-driver-x86+bounces-7747-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-7746-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45819F04D0
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 13 Dec 2024 07:31:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D53319F04D1
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 13 Dec 2024 07:31:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B1A316A08A
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 13 Dec 2024 06:31:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 45701188B441
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 13 Dec 2024 06:31:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A681B18A95A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A689A18B460;
 	Fri, 13 Dec 2024 06:31:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
 	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lBw/q/Ag"
@@ -18,18 +18,18 @@ X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819FB17AE1D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819A5154430
 	for <platform-driver-x86@vger.kernel.org>; Fri, 13 Dec 2024 06:31:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734071492; cv=none; b=CiCMCwEMxuQgcZC5d5liqZpd83ikIveRKNEx5S9I+RmmcwmLX24VvDi7/z3MIfCg3MF3uaP6qeLZrDZcnNrj1vfVOKzqQbEAtKGrosmIyKSEnfYZc0esD4F2XStmIZcj8hzPPGEzbghgKvpkYbAysahM9Ghy/Z/zLcbgovho4VA=
+	t=1734071492; cv=none; b=EWbjUP6sfJPSg4MwSW/Ep5F0gjiKj/Qu3l8fVM14fio0jvK/EAgaipA+QKags0Q6pJh8RFXR+soLAHBRF+MEtjMVtufmmt3hPzoUFKA9SLBC2GUPJbooCxLMpCdcx6T8T9STGsvbflq8h0diyoP03LTxUYOf1GxuWSCikYbu27M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1734071492; c=relaxed/simple;
 	bh=mU+bx6gthckPgKSUi5qeBNJeAYxEsp23VxcZNanuwG4=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mB0K/H4ZqG1ahUemjlO8TA/AS7cq896/6i4Y958V1ddTB36dnpxCx7i71AwIFHvzdeQY/FLNux52q23YhAp4sSsh5rzEP+tagCso0TQkmI7rQM+TRZnhd+Y3ywwY62ILbXp76vXzrGYGDb2iPfAgDoejmF5O5ZruVXLwp90oT68=
+	 Content-Type:MIME-Version; b=XFVFBCdkonwT+VhvPyp3MLRVRsW//usYkJyAZEBFE+kJVRqK3+UK/sGcSxYe5QC27JT2KtCKqhokXmKHBDKxn0iNkSoA1lQ5+0xfna3ro/hIIkRypQRe6MlH6zlWo05a3h4MNnqx3luqPZ8j4bVYHN/DLos/zeE7ps9m9NKICDA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lBw/q/Ag; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2AD84C4CED2
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2D641C4CEDD
 	for <platform-driver-x86@vger.kernel.org>; Fri, 13 Dec 2024 06:31:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1734071492;
@@ -42,7 +42,7 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	 JJ7Dr+YdUyej0euvF2LN4q0thAkPbmARqk6J6WgTezA+yM7AVIWY0IH8XtbphEF4qE
 	 Gvcg1u9odFiCw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 19D3AC41612; Fri, 13 Dec 2024 06:31:32 +0000 (UTC)
+	id 1575DC41614; Fri, 13 Dec 2024 06:31:32 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: platform-driver-x86@vger.kernel.org
 Subject: [Bug 219495] [TPM2] tpm_tis driver crashs during the boot time.
@@ -62,7 +62,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-219495-215701-asIH6jCYkd@https.bugzilla.kernel.org/>
+Message-ID: <bug-219495-215701-O6QbQpZN9h@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-219495-215701@https.bugzilla.kernel.org/>
 References: <bug-219495-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
