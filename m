@@ -1,52 +1,52 @@
-Return-Path: <platform-driver-x86+bounces-7745-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-7747-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E87A29F04BB
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 13 Dec 2024 07:23:02 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E45819F04D0
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 13 Dec 2024 07:31:35 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A87EF280D6A
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 13 Dec 2024 06:23:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B1A316A08A
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 13 Dec 2024 06:31:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A14B918B475;
-	Fri, 13 Dec 2024 06:22:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A681B18A95A;
+	Fri, 13 Dec 2024 06:31:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qv/eqKpw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lBw/q/Ag"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1A016BE20
-	for <platform-driver-x86@vger.kernel.org>; Fri, 13 Dec 2024 06:22:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819FB17AE1D
+	for <platform-driver-x86@vger.kernel.org>; Fri, 13 Dec 2024 06:31:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734070979; cv=none; b=BnlVnccTuYO+oUH85wRZg8bVUwMa+1vQ2s6ZXBnRgwhqaoqwu8FcBPj4Jx4gnGcd/h5efihMXXKlKgexANhCLpo1MzlYzo56kw04obe87EixojHiz66dxV10PoXOyLuxr5cALYehtlEylBivVf2xrdcTaby86OJd9BGz0iTAnkY=
+	t=1734071492; cv=none; b=CiCMCwEMxuQgcZC5d5liqZpd83ikIveRKNEx5S9I+RmmcwmLX24VvDi7/z3MIfCg3MF3uaP6qeLZrDZcnNrj1vfVOKzqQbEAtKGrosmIyKSEnfYZc0esD4F2XStmIZcj8hzPPGEzbghgKvpkYbAysahM9Ghy/Z/zLcbgovho4VA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734070979; c=relaxed/simple;
-	bh=RypreGBneDw7zEFqAxp6N4/byVvys2ybNq58DIKLcuA=;
+	s=arc-20240116; t=1734071492; c=relaxed/simple;
+	bh=mU+bx6gthckPgKSUi5qeBNJeAYxEsp23VxcZNanuwG4=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=poPtjhdVjlWhtE0EVexx6hcnE4zxIEtZ9LctOw35Ekbgu/W35VzZxCpIMGn6QmSV8P+vZ/T33LfOrU8L/RGiqhupFlQcvSL1ZpcuiKNAQCk+EHsQpKLE0JPx7JOuxpP2pO6aA7ShIp7bEbtfobbsM28ElvKKy8h6/8y2qjejWE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qv/eqKpw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 098EBC4CED1
-	for <platform-driver-x86@vger.kernel.org>; Fri, 13 Dec 2024 06:22:59 +0000 (UTC)
+	 Content-Type:MIME-Version; b=mB0K/H4ZqG1ahUemjlO8TA/AS7cq896/6i4Y958V1ddTB36dnpxCx7i71AwIFHvzdeQY/FLNux52q23YhAp4sSsh5rzEP+tagCso0TQkmI7rQM+TRZnhd+Y3ywwY62ILbXp76vXzrGYGDb2iPfAgDoejmF5O5ZruVXLwp90oT68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lBw/q/Ag; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2AD84C4CED2
+	for <platform-driver-x86@vger.kernel.org>; Fri, 13 Dec 2024 06:31:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734070979;
-	bh=RypreGBneDw7zEFqAxp6N4/byVvys2ybNq58DIKLcuA=;
+	s=k20201202; t=1734071492;
+	bh=mU+bx6gthckPgKSUi5qeBNJeAYxEsp23VxcZNanuwG4=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=qv/eqKpwQbvjbZSqw9kNuAEQmCMW8lnsFuYX5TnK/v0OScTjKcGogztXN0ZGr1J6N
-	 R+AFrWkE7vod+iFiUwE01eCDbhMzsZfr/a0dGujmbnETqvGvRh5U2FZKStbuqA80F9
-	 NW94gdyZpPVZGNed2d6Ute0qYtG9ie/98bOANkrik1xoMpInzKw8Ta7V49UbWmEAzG
-	 9vAHRFJvso3P/xbbvYgV74LAUt2HYsJIFHcCKijND5dtxF450COFjuQa2N6A3HhACw
-	 jHlIcA5uJ1d0OqqXEKTGyGKrX68UkrUPHi17eU8LXi/s8emTzkyWfDDNr3Pizrd1N4
-	 gnKrVTLXKQnMw==
+	b=lBw/q/Ag/Q2P/eVqpPDhcNdxkRyBiWZDeeZUGhhYT6N0p+ubwp/ftwqDeXQG6093P
+	 phMHhBuX5SzFQ39S7iHOB1+E+kBrfXxkgM81jYPrxsubPgqwlmdmyyj1OwtT6Y0dAu
+	 OBi3YS8i9L//c5DaNhnou3k1rUVQ6qWV1G4mfgDhug0RJcRhc6ypk90DrtnVMCwSlB
+	 NvMOYEnbtTJCZtuiUOyoZ3EmMijz0Qi9+5F2BLOQxitI/N2r6Pn8SaW+YMhNQbmgmk
+	 JJ7Dr+YdUyej0euvF2LN4q0thAkPbmARqk6J6WgTezA+yM7AVIWY0IH8XtbphEF4qE
+	 Gvcg1u9odFiCw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id EE2C0C4160E; Fri, 13 Dec 2024 06:22:58 +0000 (UTC)
+	id 19D3AC41612; Fri, 13 Dec 2024 06:31:32 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: platform-driver-x86@vger.kernel.org
 Subject: [Bug 219495] [TPM2] tpm_tis driver crashs during the boot time.
-Date: Fri, 13 Dec 2024 06:22:58 +0000
+Date: Fri, 13 Dec 2024 06:31:31 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
@@ -61,8 +61,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-219495-215701-PrqnAPXhKb@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-219495-215701-asIH6jCYkd@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-219495-215701@https.bugzilla.kernel.org/>
 References: <bug-219495-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -78,10 +78,17 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D219495
 
---- Comment #24 from andy.liang@hpe.com ---
-Created attachment 307354
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D307354&action=3Dedit
-ACPI TPM2 DUMP with fix
+--- Comment #25 from andy.liang@hpe.com ---
+(In reply to Stefan Berger from comment #23)
+> I suppose the binary and ascii dumps of the log are still as before.
+
+The TPM2 DUMP still shows the TPM event log size as 8MB. Thank you.
+
+--- Comment #26 from andy.liang@hpe.com ---
+(In reply to Stefan Berger from comment #23)
+> I suppose the binary and ascii dumps of the log are still as before.
+
+The TPM2 DUMP still shows the TPM event log size as 8MB. Thank you.
 
 --=20
 You may reply to this email to add a comment.
