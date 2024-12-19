@@ -1,534 +1,311 @@
-Return-Path: <platform-driver-x86+bounces-7836-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-7838-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B91C9F6E46
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Dec 2024 20:39:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 163FA9F7968
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 19 Dec 2024 11:20:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF0961889951
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Dec 2024 19:39:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D0171638D3
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 19 Dec 2024 10:20:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36D681D45FC;
-	Wed, 18 Dec 2024 19:39:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="tV7pXhxV"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4C2322256E;
+	Thu, 19 Dec 2024 10:19:46 +0000 (UTC)
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtp6-g21.free.fr (smtp6-g21.free.fr [212.27.42.6])
+Received: from n169-110.mail.139.com (n169-110.mail.139.com [120.232.169.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA84156991
-	for <platform-driver-x86@vger.kernel.org>; Wed, 18 Dec 2024 19:39:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B02222574;
+	Thu, 19 Dec 2024 10:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=120.232.169.110
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734550767; cv=none; b=sUHMj+SrrWDEsC1pqoDOuxRrlYMfhCHPDs8aVroz6IcH5JCl/pWPFoVSLE3FPvjSMdrt7kjGTErphvmI75Ru3qDLZ3ITxhJV+VBise9uY2GUmJtVuat4wHGmXR9xPncG2PlQQT+7Zvtg9yaTJMJA+ahnhIKIUm8qZ9AHoSGib6g=
+	t=1734603586; cv=none; b=jhbflt3koQUqv3kALNisJN3nWOgmtZsmcTblAGHofTfhGhJktX2XPDEWOW0Jg5anpEYqW+A7gmjapb2Nj+1MMFlXQGMA/3HNxEEACUVqzAML2k6EYNOc/ZWKHTFsBa1Ng2G+L+Biz4GG0Y+RLIpQfGBADpXDM+X3n32NRxrxrpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734550767; c=relaxed/simple;
-	bh=s4DgWbbkiSZqb9KrO9eT9TfRKxqVJ3Abd/D9GORTV3c=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=BrEv4BPXVg9t8GOcCzmWv/BBbJjwxNYDFHc4AiIFeW3OJjUVGzqcoyIePVqxm5wk1BKCGwiCLXcIe3IMH0Aa02gU4Oxc/li5zC2gj362F5nImKdzPlKmaWjjGl4pSgccTdusZvjxXeTfnYeup3YExz09UK1O96JF4gcE+WNRK5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=tV7pXhxV; arc=none smtp.client-ip=212.27.42.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
-Received: from [IPV6:2a02:842a:8223:5500::978] (unknown [IPv6:2a02:842a:8223:5500::978])
-	(Authenticated sender: julien.robin28@free.fr)
-	by smtp6-g21.free.fr (Postfix) with ESMTPSA id C86AD78050B;
-	Wed, 18 Dec 2024 20:39:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
-	s=smtp-20201208; t=1734550756;
-	bh=s4DgWbbkiSZqb9KrO9eT9TfRKxqVJ3Abd/D9GORTV3c=;
-	h=Date:From:Subject:To:Cc:From;
-	b=tV7pXhxVDKX/fDOG2TQNVZiiK+DN7JBftWsV8OqAL9STtjfRgulfBD9y0DUg68Q10
-	 i6G+z3zhO7r6cjg/HSIpgRovB3OycDiCVHsl9FRnJRMqHlkOYW3D3dv72oxBqwUUfe
-	 cIQQXHdaekOu6DEaGUbx0wVJiDYYpdggjmAvV3311YsN7l6qyksccXDLA4JsllMXcu
-	 mwfGg4R28hEXF2wWUEObfpayqAziY4OT8GN14q8rC6TYibFfcyTeaHBVjzepjFvX3i
-	 6IS6z7DpbT/h+UcqAS+W/cv4IS9UUSzySlt8t9PG6uG4Cm4Gt/ZuQzMXkwkkVf9hBh
-	 74DnC04azCQ0w==
-Message-ID: <69a3a3bf-fe56-4843-91a5-b765e53e337d@free.fr>
-Date: Wed, 18 Dec 2024 20:39:13 +0100
+	s=arc-20240116; t=1734603586; c=relaxed/simple;
+	bh=gVeuNperevnlpq5lWwsD7itOj8WjroOqnWDPKCJd1ic=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mgjmz2O1kfOp/MCi1wdFoiaynCd56stKo03mH3pm0DkD7Uc47kcADvKSVA/RoN3nt8Je4cvmGhdWudV2MVWxQMVE7Mvp0MOtFPTlmQWZDpcd4ezMH9nFVO2k2EmSIWMJtp/MIL1THwFSLWUd91NTnSJScXRA2FYqk+FNv6WgqO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com; spf=pass smtp.mailfrom=139.com; arc=none smtp.client-ip=120.232.169.110
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=139.com
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM:                                                                                        
+X-RM-SPAM-FLAG:00000000
+Received:from test-Lenovo-ThinkBook-14-Gen6.lenovo.com (unknown[123.114.236.251])
+	by rmsmtp-lg-appmail-02-12080 (RichMail) with SMTP id 2f306763f2517c0-1390d;
+	Thu, 19 Dec 2024 18:16:19 +0800 (CST)
+X-RM-TRANSID:2f306763f2517c0-1390d
+From: Jackie Dong <xy-jackie@139.com>
+To: ike.pan@canonical.com,
+	hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	bo.liu@senarytech.com,
+	kovalev@altlinux.org,
+	me@oldherl.one,
+	jaroslaw.janik@gmail.com,
+	cs@tuxedo.de,
+	songxiebing@kylinos.cn,
+	kailang@realtek.com,
+	sbinding@opensource.cirrus.com,
+	simont@opensource.cirrus.com,
+	josh@joshuagrisham.com,
+	rf@opensource.cirrus.com
+Cc: linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	mpearson-lenovo@squebb.ca,
+	waterflowdeg@gmail.com,
+	Jackie Dong <xy-jackie@139.com>,
+	Jackie Dong <dongeg1@lenovo.com>
+Subject: [PATCH 1/2] platform/x86: ideapad-laptop: Support for mic and audio leds.
+Date: Thu, 19 Dec 2024 18:15:30 +0800
+Message-Id: <20241219101531.35896-1-xy-jackie@139.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Julien ROBIN <julien.robin28@free.fr>
-Subject: [PATCH] platform/x86: hp-wmi: Add fan and thermal profile support for
- Victus 16-s1000
-To: hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com
-Cc: platform-driver-x86@vger.kernel.org
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-The following patch adds support for HP Victus 16-s1000 laptop series,
-by adding and fixing the following functionalities, which can be
-accessed through hwmon and platform_profile sysfs:
+Implement Lenovo utility data WMI calls needed to make LEDs
+work on Ideapads that support this GUID.
+This enables the mic and audio LEDs to be updated correctly.
 
-  - Functional measured fan speed reading
-  - Ability to enable and disable maximum fan speed
-  - Platform profiles full setting ability for CPU and GPU
+Tested on below samples.
+ThinkBook 13X Gen4 IMH
+ThinkBook 14 G6 ABP
+ThinkBook 16p Gen4-21J8
+ThinkBook 16p Gen8-IRL
+ThinkBook 16p G7+ ASP
 
-It sets appropriates CPU and GPU power settings both on AC and battery
-power sources, for low-power, balanced and performance modes.
-
-It has been thoroughly tested on a 16-s1034nf laptop based on a 8C9C DMI
-board name, and behavior of the driver on previous boards is left
-untouched thanks to the separated lists of DMI board names.
-
-Signed-off-by: Julien ROBIN <julien.robin28@free.fr>
+Suggested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+Signed-off-by: Jackie Dong <xy-jackie@139.com>
+Signed-off-by: Jackie Dong <dongeg1@lenovo.com>
 ---
-  /drivers/platform/x86/hp/hp-wmi.c | 304 ++++++++++++++++++++++++++++++++-
-  1 file changed, 297 insertions(+), 7 deletions(-)
+ drivers/platform/x86/ideapad-laptop.c | 157 +++++++++++++++++++++++++-
+ 1 file changed, 156 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/hp/hp-wmi.c 
-b/drivers/platform/x86/hp/hp-wmi.c
-index 81ccc96..9ce2b80 100644
---- a/drivers/platform/x86/hp/hp-wmi.c
-+++ b/drivers/platform/x86/hp/hp-wmi.c
-@@ -83,11 +83,16 @@ static const char * const 
-omen_timed_thermal_profile_boards[] = {
-  	"8BAD", "8A42"
-  };
-
--/* DMI Board names of Victus laptops */
-+/* DMI Board names of Victus 16-d1xxx laptops */
-  static const char * const victus_thermal_profile_boards[] = {
-  	"8A25"
-  };
-
-+/* DMI Board names of Victus 16-s1000 laptops */
-+static const char * const victus_s_thermal_profile_boards[] = {
-+	"8C9C"
-+};
-+
-  enum hp_wmi_radio {
-  	HPWMI_WIFI	= 0x0,
-  	HPWMI_BLUETOOTH	= 0x1,
-@@ -153,6 +158,11 @@ enum hp_wmi_gm_commandtype {
-  	HPWMI_FAN_SPEED_MAX_GET_QUERY = 0x26,
-  	HPWMI_FAN_SPEED_MAX_SET_QUERY = 0x27,
-  	HPWMI_GET_SYSTEM_DESIGN_DATA = 0x28,
-+	HPWMI_FAN_COUNT_GET_QUERY = 0x10,
-+	HPWMI_SET_GPU_THERMAL_MODES_QUERY = 0x22,
-+	HPWMI_SET_POWER_LIMITS_QUERY = 0x29,
-+	HPWMI_VICTUS_S_FAN_SPEED_GET_QUERY = 0x2D,
-+	HPWMI_FAN_SPEED_SET_QUERY = 0x2E,
-  };
-
-  enum hp_wmi_command {
-@@ -211,6 +221,11 @@ enum hp_thermal_profile_victus {
-  	HP_VICTUS_THERMAL_PROFILE_QUIET			= 0x03,
-  };
-
-+enum hp_thermal_profile_victus_s {
-+	HP_VICTUS_S_THERMAL_PROFILE_DEFAULT		= 0x00,
-+	HP_VICTUS_S_THERMAL_PROFILE_PERFORMANCE		= 0x01,
-+};
-+
-  enum hp_thermal_profile {
-  	HP_THERMAL_PROFILE_PERFORMANCE	= 0x00,
-  	HP_THERMAL_PROFILE_DEFAULT		= 0x01,
-@@ -411,6 +426,26 @@ out_free:
-  	return ret;
-  }
-
+diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
+index c64dfc56651d..acea4aa8eac3 100644
+--- a/drivers/platform/x86/ideapad-laptop.c
++++ b/drivers/platform/x86/ideapad-laptop.c
+@@ -32,6 +32,7 @@
+ #include <linux/sysfs.h>
+ #include <linux/types.h>
+ #include <linux/wmi.h>
++#include <sound/control.h>
+ #include "ideapad-laptop.h"
+ 
+ #include <acpi/video.h>
+@@ -1298,6 +1299,15 @@ static const struct key_entry ideapad_keymap[] = {
+ 	{ KE_END },
+ };
+ 
 +/*
-+ * Calling this hp_wmi_get_fan_count_userdefine_trigger function also 
-enables
-+ * and/or maintains the laptop in user defined thermal and fan states, 
-instead
-+ * of using a fallback state. After a 120 seconds timeout however, the 
-laptop
-+ * goes back to its fallback state.
++ * Input parameters to mute/unmute audio LED and Mic LED
 + */
-+static int hp_wmi_get_fan_count_userdefine_trigger(void)
++struct wmi_led_args {
++	u8 ID;
++	u8 SubID;
++	u16 Value;
++};
++
+ static int ideapad_input_init(struct ideapad_private *priv)
+ {
+ 	struct input_dev *inputdev;
+@@ -2023,15 +2033,145 @@ static void ideapad_check_features(struct ideapad_private *priv)
+ /*
+  * WMI driver
+  */
++#define IDEAPAD_ACPI_LED_MAX  (((SNDRV_CTL_ELEM_ACCESS_MIC_LED -\
++		SNDRV_CTL_ELEM_ACCESS_SPK_LED) >> SNDRV_CTL_ELEM_ACCESS_LED_SHIFT) + 1)
++
+ enum ideapad_wmi_event_type {
+ 	IDEAPAD_WMI_EVENT_ESC,
+ 	IDEAPAD_WMI_EVENT_FN_KEYS,
++	IDEAPAD_WMI_EVENT_LUD_KEYS,
+ };
+ 
++#define WMI_LUD_GET_SUPPORT 1
++#define WMI_LUD_SET_FEATURE 2
++
++#define WMI_LUD_GET_MICMUTE_LED_VER   20
++#define WMI_LUD_GET_AUDIOMUTE_LED_VER 26
++
++#define WMI_LUD_SUPPORT_MICMUTE_LED_VER   25
++#define WMI_LUD_SUPPORT_AUDIOMUTE_LED_VER 27
++
+ struct ideapad_wmi_private {
+ 	enum ideapad_wmi_event_type event;
++	struct led_classdev cdev[IDEAPAD_ACPI_LED_MAX];
+ };
+ 
++static struct wmi_device *led_wdev;
++
++enum mute_led_type {
++	MIC_MUTE,
++	AUDIO_MUTE,
++};
++
++static int ideapad_wmi_mute_led_set(enum mute_led_type led_type, struct led_classdev *led_cdev,
++				    enum led_brightness brightness)
++
 +{
-+	char fan_data[4] = { 0 };
++	struct wmi_led_args led_arg = {0, 0, 0};
++	struct acpi_buffer input;
++	acpi_status status;
 +
-+	int ret = hp_wmi_perform_query(HPWMI_FAN_COUNT_GET_QUERY, HPWMI_GM,
-+				       &fan_data, sizeof(char),
-+				       sizeof(fan_data));
-+
-+	if (ret != 0)
-+		return -EINVAL;
-+
-+	return fan_data[0]; /* Others bytes aren't providing fan count */
-+}
-+
-  static int hp_wmi_get_fan_speed(int fan)
-  {
-  	u8 fsh, fsl;
-@@ -429,6 +464,23 @@ static int hp_wmi_get_fan_speed(int fan)
-  	return (fsh << 8) | fsl;
-  }
-
-+static int hp_wmi_get_fan_speed_victus_s(int fan)
-+{
-+	char fan_data[128] = { 0 };
-+
-+	int ret = hp_wmi_perform_query(HPWMI_VICTUS_S_FAN_SPEED_GET_QUERY,
-+				       HPWMI_GM, &fan_data, sizeof(char),
-+				       sizeof(fan_data));
-+
-+	if (ret != 0)
-+		return -EINVAL;
-+
-+	if (fan >= 0 && fan < sizeof(fan_data))
-+		return fan_data[fan] * 100;
++	if (led_type == MIC_MUTE)
++		led_arg.ID = brightness == LED_ON ? 1 : 2;
++	else if (led_type == AUDIO_MUTE)
++		led_arg.ID = brightness == LED_ON ? 4 : 5;
 +	else
 +		return -EINVAL;
-+}
 +
-  static int hp_wmi_read_int(int query)
-  {
-  	int val = 0, ret;
-@@ -557,6 +609,29 @@ static int hp_wmi_fan_speed_max_set(int enabled)
-  	return enabled;
-  }
-
-+static int hp_wmi_fan_speed_reset(void)
-+{
-+	int ret;
-+	char fan_speed[2] = { 0 }; /* Restores automatic speed */
++	input.length = sizeof(struct wmi_led_args);
++	input.pointer = &led_arg;
++	status = wmidev_evaluate_method(led_wdev, 0, WMI_LUD_SET_FEATURE, &input, NULL);
 +
-+	ret = hp_wmi_perform_query(HPWMI_FAN_SPEED_SET_QUERY, HPWMI_GM,
-+				   &fan_speed, sizeof(fan_speed), 0);
-+
-+	return ret;
-+}
-+
-+static int hp_wmi_fan_speed_max_reset(void)
-+{
-+	int ret = hp_wmi_fan_speed_max_set(0);
-+
-+	if (ret)
-+		return ret;
-+
-+	/* Disabling Max fan speed on Victus s1xxx laptops needs a 2nd step: */
-+	ret = hp_wmi_fan_speed_reset();
-+	return ret;
-+}
-+
-  static int hp_wmi_fan_speed_max_get(void)
-  {
-  	int val = 0, ret;
-@@ -1472,6 +1547,127 @@ static int platform_profile_victus_set_ec(enum 
-platform_profile_option profile)
-  	return 0;
-  }
-
-+static bool is_victus_s_thermal_profile(void)
-+{
-+	const char *board_name = dmi_get_system_info(DMI_BOARD_NAME);
-+
-+	if (!board_name)
-+		return false;
-+
-+	return match_string(victus_s_thermal_profile_boards,
-+			    ARRAY_SIZE(victus_s_thermal_profile_boards),
-+			    board_name) >= 0;
-+}
-+
-+static int victus_s_gpu_thermal_profile_set(bool ctgp_enable,
-+					    bool ppab_enable,
-+					    char dstate)
-+{
-+	char gpu_settings[4];
-+	int ret;
-+
-+	gpu_settings[0] = ctgp_enable ? 0x01 : 0x00;
-+	gpu_settings[1] = ppab_enable ? 0x01 : 0x00;
-+	gpu_settings[2] = dstate;
-+	gpu_settings[3] = 0x57; /* it tells we're setting the 3 above values */
-+
-+	ret = hp_wmi_perform_query(HPWMI_SET_GPU_THERMAL_MODES_QUERY, HPWMI_GM,
-+				   &gpu_settings, sizeof(gpu_settings), 0);
-+
-+	return ret;
-+}
-+
-+static int victus_s_set_cpu_pl1_pl2(char pl1, char pl2)
-+{
-+	/* Placing 0xFF in the 2 last bytes tells we're setting PL1 and PL2 */
-+	char buffer[4] = { pl1, pl2, 0xFF, 0xFF };
-+
-+	if (pl1 == 0xFF || pl2 == 0xFF)
-+		return -EINVAL; /* the 0xFF value has a special meaning */
-+
-+	if (pl2 < pl1)
-+		return -EINVAL; /* PL2 is not supposed to be lower than PL1 */
-+
-+	/* Note: providing 0x00 as PL1 and PL2 is restoring default values */
-+
-+	int ret = hp_wmi_perform_query(HPWMI_SET_POWER_LIMITS_QUERY,
-+				       HPWMI_GM,
-+				       &buffer, sizeof(buffer), 0);
-+
-+	return ret;
-+}
-+
-+static int platform_profile_victus_s_get(struct 
-platform_profile_handler *pprof,
-+					 enum platform_profile_option *profile)
-+{
-+	/* Same behaviour as platform_profile_omen_get */
-+	return platform_profile_omen_get(pprof, profile);
-+}
-+
-+static int platform_profile_victus_s_set_ec(enum 
-platform_profile_option profile)
-+{
-+	int err, tp;
-+	bool gpu_ctgp_enable, gpu_ppab_enable;
-+	char gpu_dstate; /* Test shows 1 = 100%, 2 = 50%, 3 = 25%, 4 = 12.5% */
-+
-+	switch (profile) {
-+	case PLATFORM_PROFILE_PERFORMANCE:
-+		tp = HP_VICTUS_S_THERMAL_PROFILE_PERFORMANCE;
-+		gpu_ctgp_enable = true;
-+		gpu_ppab_enable = true;
-+		gpu_dstate = 1;
-+		break;
-+	case PLATFORM_PROFILE_BALANCED:
-+		tp = HP_VICTUS_S_THERMAL_PROFILE_DEFAULT;
-+		gpu_ctgp_enable = false;
-+		gpu_ppab_enable = true;
-+		gpu_dstate = 1;
-+		break;
-+	case PLATFORM_PROFILE_LOW_POWER:
-+		tp = HP_VICTUS_S_THERMAL_PROFILE_DEFAULT;
-+		gpu_ctgp_enable = false;
-+		gpu_ppab_enable = false;
-+		gpu_dstate = 1;
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	hp_wmi_get_fan_count_userdefine_trigger();
-+
-+	err = omen_thermal_profile_set(tp);
-+	if (err < 0) {
-+		pr_err("Failed to set platform profile %d: %d\n", profile, err);
-+		return err;
-+	}
-+
-+	err = victus_s_gpu_thermal_profile_set(gpu_ctgp_enable,
-+					       gpu_ppab_enable,
-+					       gpu_dstate);
-+	if (err < 0) {
-+		pr_err("Failed to set GPU profile %d: %d\n", profile, err);
-+		return err;
-+	}
++	if (ACPI_FAILURE(status))
++		return -EIO;
 +
 +	return 0;
 +}
 +
-+static int platform_profile_victus_s_set(struct 
-platform_profile_handler *pprof,
-+					 enum platform_profile_option profile)
++static int ideapad_wmi_audiomute_led_set(struct led_classdev *led_cdev,
++					 enum led_brightness brightness)
++
 +{
-+	int err;
-+
-+	guard(mutex)(&active_platform_profile_lock);
-+
-+	err = platform_profile_victus_s_set_ec(profile);
-+	if (err < 0)
-+		return err;
-+
-+	active_platform_profile = profile;
-+
-+	return 0;
++	return ideapad_wmi_mute_led_set(AUDIO_MUTE, led_cdev, brightness);
 +}
 +
-  static int platform_profile_victus_set(struct platform_profile_handler 
-*pprof,
-  				       enum platform_profile_option profile)
-  {
-@@ -1545,6 +1741,38 @@ static int omen_powersource_event(struct 
-notifier_block *nb,
-  	return NOTIFY_OK;
-  }
-
-+static int victus_s_powersource_event(struct notifier_block *nb,
-+				      unsigned long value,
-+				      void *data)
++static int ideapad_wmi_micmute_led_set(struct led_classdev *led_cdev,
++				       enum led_brightness brightness)
 +{
-+	struct acpi_bus_event *event_entry = data;
-+	int err;
++	return ideapad_wmi_mute_led_set(MIC_MUTE, led_cdev, brightness);
++}
 +
-+	if (strcmp(event_entry->device_class, ACPI_AC_CLASS) != 0)
-+		return NOTIFY_DONE;
++static int ideapad_wmi_leds_init(enum mute_led_type led_type, struct device *dev)
++{
++	struct ideapad_wmi_private *wpriv = dev_get_drvdata(dev);
++	struct acpi_buffer output = { ACPI_ALLOCATE_BUFFER, NULL };
++	struct acpi_buffer input;
++	union acpi_object *obj;
++	int led_version, err = 0;
++	unsigned int wmiarg;
++	acpi_status status;
 +
-+	pr_debug("Received power source device event\n");
++	if (led_type == MIC_MUTE)
++		wmiarg = WMI_LUD_GET_MICMUTE_LED_VER;
++	else if (led_type == AUDIO_MUTE)
++		wmiarg = WMI_LUD_GET_AUDIOMUTE_LED_VER;
++	else
++		return -EINVAL;
 +
-+	/*
-+	 * Switching to battery power source while Performance mode is active
-+	 * needs manual triggering of CPU power limits. Same goes when switching
-+	 * to AC power source while Performance mode is active. Other modes
-+	 * however are automatically behaving without any manual action.
-+	 * Seen on HP 16-s1034nf (board 8C9C) with F.11 BIOS version.
-+	 */
-+
-+	if (active_platform_profile == PLATFORM_PROFILE_PERFORMANCE) {
-+		pr_debug("Triggering CPU PL1/PL2 actualization\n");
-+		err = victus_s_set_cpu_pl1_pl2(0, 0);
-+		if (err)
-+			pr_warn("Failed to actualize power limits: %d\n", err);
-+
-+		return NOTIFY_DONE;
++	input.length = sizeof(wmiarg);
++	input.pointer = &wmiarg;
++	status = wmidev_evaluate_method(led_wdev, 0, WMI_LUD_GET_SUPPORT, &input, &output);
++	if (ACPI_FAILURE(status)) {
++		kfree(output.pointer);
++		return -EIO;
 +	}
++	obj = output.pointer;
++	led_version = obj->integer.value;
 +
-+	return NOTIFY_OK;
-+}
++	wpriv->cdev[led_type].max_brightness = LED_ON;
++	wpriv->cdev[led_type].dev = dev;
++	wpriv->cdev[led_type].flags = LED_CORE_SUSPENDRESUME;
 +
-  static int omen_register_powersource_event_handler(void)
-  {
-  	int err;
-@@ -1560,11 +1788,31 @@ static int 
-omen_register_powersource_event_handler(void)
-  	return 0;
-  }
-
-+static int victus_s_register_powersource_event_handler(void)
-+{
-+	int err;
-+
-+	platform_power_source_nb.notifier_call = victus_s_powersource_event;
-+	err = register_acpi_notifier(&platform_power_source_nb);
-+
-+	if (err < 0) {
-+		pr_warn("Failed to install ACPI power source notify handler\n");
-+		return err;
-+	}
-+
-+	return 0;
-+}
-+
-  static inline void omen_unregister_powersource_event_handler(void)
-  {
-  	unregister_acpi_notifier(&platform_power_source_nb);
-  }
-
-+static inline void victus_s_unregister_powersource_event_handler(void)
-+{
-+	unregister_acpi_notifier(&platform_power_source_nb);
-+}
-+
-  static int thermal_profile_setup(void)
-  {
-  	int err, tp;
-@@ -1603,6 +1851,22 @@ static int thermal_profile_setup(void)
-  		platform_profile_handler.profile_set = platform_profile_victus_set;
-
-  		set_bit(PLATFORM_PROFILE_QUIET, platform_profile_handler.choices);
-+	} else if (is_victus_s_thermal_profile()) {
-+		/*
-+		 * Being unable to retrieve laptop's current thermal profile,
-+		 * during this setup, we set it to Balanced by default.
-+		 */
-+		active_platform_profile = PLATFORM_PROFILE_BALANCED;
-+
-+		err = platform_profile_victus_s_set_ec(active_platform_profile);
-+		if (err < 0)
-+			return err;
-+
-+		platform_profile_handler.profile_get = platform_profile_victus_s_get;
-+		platform_profile_handler.profile_set = platform_profile_victus_s_set;
-+
-+		/* Adding an equivalent to HP Omen software ECO mode: */
-+		set_bit(PLATFORM_PROFILE_LOW_POWER, platform_profile_handler.choices);
-  	} else {
-  		tp = thermal_profile_get();
-
-@@ -1628,9 +1892,14 @@ static int thermal_profile_setup(void)
-  	set_bit(PLATFORM_PROFILE_PERFORMANCE, platform_profile_handler.choices);
-
-  	err = platform_profile_register(&platform_profile_handler);
--	if (err)
-+	if (err == -EEXIST) {
-+		pr_warn("A platform profile handler is already registered\n");
-  		return err;
--
-+	} else if (err) {
-+		pr_err("Platform profile handler registration fail: %d\n", err);
-+		return err;
-+	}
-+	pr_info("Registered as platform profile handler\n");
-  	platform_profile_support = true;
-
-  	return 0;
-@@ -1759,8 +2028,13 @@ static umode_t hp_wmi_hwmon_is_visible(const void 
-*data,
-  	case hwmon_pwm:
-  		return 0644;
-  	case hwmon_fan:
--		if (hp_wmi_get_fan_speed(channel) >= 0)
--			return 0444;
-+		if (is_victus_s_thermal_profile()) {
-+			if (hp_wmi_get_fan_speed_victus_s(channel) >= 0)
-+				return 0444;
-+		} else {
-+			if (hp_wmi_get_fan_speed(channel) >= 0)
-+				return 0444;
++	if (led_type == MIC_MUTE) {
++		if (led_version != WMI_LUD_SUPPORT_MICMUTE_LED_VER) {
++			dev_info(dev, "This product doesn't support mic mute LED.\n");
++			return -EIO;
 +		}
-  		break;
-  	default:
-  		return 0;
-@@ -1776,7 +2050,10 @@ static int hp_wmi_hwmon_read(struct device *dev, 
-enum hwmon_sensor_types type,
-
-  	switch (type) {
-  	case hwmon_fan:
--		ret = hp_wmi_get_fan_speed(channel);
-+		if (is_victus_s_thermal_profile())
-+			ret = hp_wmi_get_fan_speed_victus_s(channel);
-+		else
-+			ret = hp_wmi_get_fan_speed(channel);
-
-  		if (ret < 0)
-  			return ret;
-@@ -1810,11 +2087,17 @@ static int hp_wmi_hwmon_write(struct device 
-*dev, enum hwmon_sensor_types type,
-  	case hwmon_pwm:
-  		switch (val) {
-  		case 0:
-+			if (is_victus_s_thermal_profile())
-+				hp_wmi_get_fan_count_userdefine_trigger();
-  			/* 0 is no fan speed control (max), which is 1 for us */
-  			return hp_wmi_fan_speed_max_set(1);
-  		case 2:
-  			/* 2 is automatic speed control, which is 0 for us */
--			return hp_wmi_fan_speed_max_set(0);
-+			if (is_victus_s_thermal_profile()) {
-+				hp_wmi_get_fan_count_userdefine_trigger();
-+				return hp_wmi_fan_speed_max_reset();
-+			} else
-+				return hp_wmi_fan_speed_max_set(0);
-  		default:
-  			/* we don't support manual fan speed control */
-  			return -EINVAL;
-@@ -1893,6 +2176,10 @@ static int __init hp_wmi_init(void)
-  		err = omen_register_powersource_event_handler();
-  		if (err)
-  			goto err_unregister_device;
-+	} else if (is_victus_s_thermal_profile()) {
-+		err = victus_s_register_powersource_event_handler();
-+		if (err)
-+			goto err_unregister_device;
-  	}
-
-  	return 0;
-@@ -1912,6 +2199,9 @@ static void __exit hp_wmi_exit(void)
-  	if (is_omen_thermal_profile() || is_victus_thermal_profile())
-  		omen_unregister_powersource_event_handler();
-
-+	if (is_victus_s_thermal_profile())
-+		victus_s_unregister_powersource_event_handler();
++		wpriv->cdev[led_type].name = "platform::micmute";
++		wpriv->cdev[led_type].brightness_set_blocking =	&ideapad_wmi_micmute_led_set;
++		wpriv->cdev[led_type].default_trigger = "audio-micmute";
 +
-  	if (wmi_has_guid(HPWMI_EVENT_GUID))
-  		hp_wmi_input_destroy();
++		err = devm_led_classdev_register(dev, &wpriv->cdev[led_type]);
++		if (err < 0) {
++			dev_err(dev, "Could not register mic mute LED : %d\n", err);
++			led_classdev_unregister(&wpriv->cdev[led_type]);
++		}
++	} else {
++		if (led_version != WMI_LUD_SUPPORT_AUDIOMUTE_LED_VER) {
++			dev_info(dev, "This product doesn't support audio mute LED.\n");
++			return -EIO;
++		}
++		wpriv->cdev[led_type].name = "platform::mute";
++		wpriv->cdev[led_type].brightness_set_blocking =	&ideapad_wmi_audiomute_led_set;
++		wpriv->cdev[led_type].default_trigger = "audio-mute";
++
++		err = devm_led_classdev_register(dev, &wpriv->cdev[led_type]);
++		if (err < 0) {
++			dev_err(dev, "Could not register audio mute LED: %d\n", err);
++			led_classdev_unregister(&wpriv->cdev[led_type]);
++		}
++	}
++
++	kfree(obj);
++	return err;
++}
++
++static void ideapad_wmi_leds_setup(struct device *dev)
++{
++	ideapad_wmi_leds_init(MIC_MUTE, dev);
++	ideapad_wmi_leds_init(AUDIO_MUTE, dev);
++}
++
+ static int ideapad_wmi_probe(struct wmi_device *wdev, const void *context)
+ {
+ 	struct ideapad_wmi_private *wpriv;
+@@ -2043,6 +2183,12 @@ static int ideapad_wmi_probe(struct wmi_device *wdev, const void *context)
+ 	*wpriv = *(const struct ideapad_wmi_private *)context;
+ 
+ 	dev_set_drvdata(&wdev->dev, wpriv);
++
++	if (wpriv->event == IDEAPAD_WMI_EVENT_LUD_KEYS) {
++		led_wdev = wdev;
++		ideapad_wmi_leds_setup(&wdev->dev);
++	}
++
+ 	return 0;
+ }
+ 
+@@ -2088,6 +2234,9 @@ static void ideapad_wmi_notify(struct wmi_device *wdev, union acpi_object *data)
+ 				     data->integer.value | IDEAPAD_WMI_KEY);
+ 
+ 		break;
++	case IDEAPAD_WMI_EVENT_LUD_KEYS:
++		break;
++
+ 	}
+ }
+ 
+@@ -2099,10 +2248,16 @@ static const struct ideapad_wmi_private ideapad_wmi_context_fn_keys = {
+ 	.event = IDEAPAD_WMI_EVENT_FN_KEYS
+ };
+ 
++static const struct ideapad_wmi_private ideapad_wmi_context_LUD_keys = {
++	.event = IDEAPAD_WMI_EVENT_LUD_KEYS
++};
++
+ static const struct wmi_device_id ideapad_wmi_ids[] = {
+ 	{ "26CAB2E5-5CF1-46AE-AAC3-4A12B6BA50E6", &ideapad_wmi_context_esc }, /* Yoga 3 */
+ 	{ "56322276-8493-4CE8-A783-98C991274F5E", &ideapad_wmi_context_esc }, /* Yoga 700 */
+-	{ "8FC0DE0C-B4E4-43FD-B0F3-8871711C1294", &ideapad_wmi_context_fn_keys }, /* Legion 5 */
++	{ "8FC0DE0C-B4E4-43FD-B0F3-8871711C1294", &ideapad_wmi_context_fn_keys }, /* FN keys */
++	{ "CE6C0974-0407-4F50-88BA-4FC3B6559AD8", &ideapad_wmi_context_LUD_keys }, /* Util data */
++
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(wmi, ideapad_wmi_ids);
+-- 
+2.34.1
+
 
 
