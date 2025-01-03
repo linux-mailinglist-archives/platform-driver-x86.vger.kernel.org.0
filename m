@@ -1,46 +1,46 @@
-Return-Path: <platform-driver-x86+bounces-8223-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-8226-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DAF3A010B6
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  4 Jan 2025 00:07:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B46A010B8
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  4 Jan 2025 00:08:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F40EC163798
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  3 Jan 2025 23:06:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4714216340B
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  3 Jan 2025 23:07:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F5FA1C3C03;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 840761C3F06;
 	Fri,  3 Jan 2025 23:05:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="bMlhSuZ6"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="dGZHS1uy"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576D31C233E;
-	Fri,  3 Jan 2025 23:05:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1AAC1BEF99;
+	Fri,  3 Jan 2025 23:05:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735945520; cv=none; b=e9xp5hEkgB9L9qIhGaGz1AoJNeAf8i8qSCUCFWT0CpzHIi3nDWuNaasnDZ/uWV1seHRuc8WbPDPa+Z9U5GIJeafL2yXlohirZ+oYZG5yXVCqt5HjwOO6Jno3UwU1yvPeVJZHTbTK82ZuP81oFXE5/olKGSiQe8e1QFOpVx8lajo=
+	t=1735945520; cv=none; b=BfJRcBQ8FlGhXdtJo9qz79N6p5P09uOJoB9HwDvtkgD+sQrIbTj49vt+q7jV8/EQx+Dar1jU9KFBLHoiPZeDNKF2W8x7mpvrnC4QYIE1y8W9dkzeO9aSpiGKn/yOvAohPd/YnaaZvcmX4xcKmRwmGf41bNMNtahxMysIH9mC7bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1735945520; c=relaxed/simple;
-	bh=E7ejxYXjSdZnnJX5sX8/IXcBFjrKTYbqZ98oCMMDu48=;
+	bh=GuO0NT1ncu1pG9y3++xbJrVIn8xZ+9gpWgAO8XU1H5g=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hhekh3Rnec5RwwI89d5kJCwUaCbRXNBUSvCwlp/bc5Kfkod4rKXT3JTCbVu7LvXyD/WCnno7+ycEH2sDFtJvivbEMu3pR3ZAuhQUeKAtpqTpNMNAQ3R6fjr8tPegNTi6bN+/afB/Ywy7+xqkSHjpYWqI4Dzd4s8fqu4wmtKwzvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=bMlhSuZ6; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=kZq+bo8LQmPRylWGMe+TeV7i0KgXXSrIzXgEg8cAIvpWBBr6s+9NcmuejEgq2WOIupKZH2qDY6Py8ynxFTqdAWDnk9LZAzLOjriPJJdJgG/A3UzqSp41zZhx6M5wVrYelQpJIi2CHsTb810sf9gly3VxY2W91qjCgktvNItJNc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=dGZHS1uy; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1735945513;
-	bh=E7ejxYXjSdZnnJX5sX8/IXcBFjrKTYbqZ98oCMMDu48=;
+	bh=GuO0NT1ncu1pG9y3++xbJrVIn8xZ+9gpWgAO8XU1H5g=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=bMlhSuZ6jDps3/nGiXZfr8Qo1cpLqmp1nCRQLdpb78V/OL5pgfJcwIYa/CaOvQvD4
-	 DUyCjhGLXdIJBxUKoQ782f00GslGRs4L2khi1OmNRpHcP7UctbELuEWVrJlPfEv+iW
-	 J6ayCgEfkwpT5eqzhubEglm7sJPEBGyVQNJhzkvI=
+	b=dGZHS1uy2/SkVeXiAgHzNhc5u6tYWIdw8tT/4aZAuPBsLuKbhtKCjQiEvSxO4X2k8
+	 Xmd7DFs0ZF5iXcEQG8/49fVQ8ja4SHmZ4mrbYQErfA8CFJ8qmsMX0Qg66UIZ81/RJp
+	 ePpHuWDMajr5NK82Kg9Y/AvqUYWJ2XpQZEuVRumU=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sat, 04 Jan 2025 00:05:11 +0100
-Subject: [PATCH 3/6] platform/x86: think-lmi: Directly use
+Date: Sat, 04 Jan 2025 00:05:12 +0100
+Subject: [PATCH 4/6] platform/x86: hp-bioscfg: Directly use
  firmware_attributes_class
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
@@ -50,7 +50,7 @@ List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250104-firmware-attributes-simplify-v1-3-949f9709e405@weissschuh.net>
+Message-Id: <20250104-firmware-attributes-simplify-v1-4-949f9709e405@weissschuh.net>
 References: <20250104-firmware-attributes-simplify-v1-0-949f9709e405@weissschuh.net>
 In-Reply-To: <20250104-firmware-attributes-simplify-v1-0-949f9709e405@weissschuh.net>
 To: Hans de Goede <hdegoede@redhat.com>, 
@@ -62,11 +62,11 @@ Cc: Joshua Grisham <josh@joshuagrisham.com>,
  Dell.Client.Kernel@dell.com, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1735945513; l=1895;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1735945513; l=1947;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=E7ejxYXjSdZnnJX5sX8/IXcBFjrKTYbqZ98oCMMDu48=;
- b=aWnDEvPI1inx2DMtb915hPLdi+vRiFSrPiA57zezpZyk5AbXtlwqnTtMksLEElPB+sSS5xTza
- 2Y+cGh2ZIC5CTG/QCKbGYwM91U4j08Z8pJ92ucLCreTybccLMpSPr+y
+ bh=GuO0NT1ncu1pG9y3++xbJrVIn8xZ+9gpWgAO8XU1H5g=;
+ b=XW5xd5Jjy8GU3IJVZBlrzRfA0vP5auYjrcB0KajssKlXjVx5y1qNf73XzvX//ZVCaNWSHYmte
+ 3TcWQbhFraFCiV4hTJ2YxdSim5/5AACPjaUrBrpF50L8tp6wC6RmPUu
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
@@ -74,55 +74,58 @@ The usage of the lifecycle functions is not necessary anymore.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/platform/x86/think-lmi.c | 13 +++----------
- 1 file changed, 3 insertions(+), 10 deletions(-)
+ drivers/platform/x86/hp/hp-bioscfg/bioscfg.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/platform/x86/think-lmi.c b/drivers/platform/x86/think-lmi.c
-index 38de0cb20d7785d4e3b490e07edaf4d02f8f3370..323316ac6783aa343c4c6430040a4af648786880 100644
---- a/drivers/platform/x86/think-lmi.c
-+++ b/drivers/platform/x86/think-lmi.c
-@@ -194,7 +194,6 @@ static const char * const level_options[] = {
- 	[TLMI_LEVEL_MASTER] = "master",
+diff --git a/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c b/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
+index 2dc50152158a3dd0401d9d9e1de288c0d76ef937..0b277b7e37dd6b598e4fe5de6dc0ac47300a8e3b 100644
+--- a/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
++++ b/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
+@@ -24,8 +24,6 @@ struct bioscfg_priv bioscfg_drv = {
+ 	.mutex = __MUTEX_INITIALIZER(bioscfg_drv.mutex),
  };
- static struct think_lmi tlmi_priv;
--static const struct class *fw_attr_class;
- static DEFINE_MUTEX(tlmi_mutex);
  
- static inline struct tlmi_pwd_setting *to_tlmi_pwd_setting(struct kobject *kobj)
-@@ -1446,11 +1445,7 @@ static int tlmi_sysfs_init(void)
- {
- 	int i, ret;
+-static const struct class *fw_attr_class;
+-
+ ssize_t display_name_language_code_show(struct kobject *kobj,
+ 					struct kobj_attribute *attr,
+ 					char *buf)
+@@ -972,11 +970,7 @@ static int __init hp_init(void)
+ 	if (ret)
+ 		return ret;
  
 -	ret = fw_attributes_class_get(&fw_attr_class);
 -	if (ret)
--		return ret;
+-		goto err_unregister_class;
 -
--	tlmi_priv.class_dev = device_create(fw_attr_class, NULL, MKDEV(0, 0),
-+	tlmi_priv.class_dev = device_create(&firmware_attributes_class, NULL, MKDEV(0, 0),
- 			NULL, "%s", "thinklmi");
- 	if (IS_ERR(tlmi_priv.class_dev)) {
- 		ret = PTR_ERR(tlmi_priv.class_dev);
-@@ -1563,9 +1558,8 @@ static int tlmi_sysfs_init(void)
- fail_create_attr:
- 	tlmi_release_attr();
- fail_device_created:
+-	bioscfg_drv.class_dev = device_create(fw_attr_class, NULL, MKDEV(0, 0),
++	bioscfg_drv.class_dev = device_create(&firmware_attributes_class, NULL, MKDEV(0, 0),
+ 					      NULL, "%s", DRIVER_NAME);
+ 	if (IS_ERR(bioscfg_drv.class_dev)) {
+ 		ret = PTR_ERR(bioscfg_drv.class_dev);
+@@ -1043,10 +1037,9 @@ static int __init hp_init(void)
+ 	release_attributes_data();
+ 
+ err_destroy_classdev:
 -	device_destroy(fw_attr_class, MKDEV(0, 0));
 +	device_destroy(&firmware_attributes_class, MKDEV(0, 0));
- fail_class_created:
+ 
+ err_unregister_class:
 -	fw_attributes_class_put();
+ 	hp_exit_attr_set_interface();
+ 
  	return ret;
- }
- 
-@@ -1788,8 +1782,7 @@ static int tlmi_analyze(void)
- static void tlmi_remove(struct wmi_device *wdev)
+@@ -1055,9 +1048,8 @@ static int __init hp_init(void)
+ static void __exit hp_exit(void)
  {
- 	tlmi_release_attr();
+ 	release_attributes_data();
 -	device_destroy(fw_attr_class, MKDEV(0, 0));
--	fw_attributes_class_put();
 +	device_destroy(&firmware_attributes_class, MKDEV(0, 0));
+ 
+-	fw_attributes_class_put();
+ 	hp_exit_attr_set_interface();
  }
  
- static int tlmi_probe(struct wmi_device *wdev, const void *context)
 
 -- 
 2.47.1
