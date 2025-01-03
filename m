@@ -1,46 +1,47 @@
-Return-Path: <platform-driver-x86+bounces-8224-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-8223-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15D06A010B9
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  4 Jan 2025 00:08:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DAF3A010B6
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  4 Jan 2025 00:07:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5BBA7188530A
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  3 Jan 2025 23:07:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F40EC163798
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  3 Jan 2025 23:06:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F23E1D278B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F5FA1C3C03;
 	Fri,  3 Jan 2025 23:05:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="p2UlfER/"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="bMlhSuZ6"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B5A1C1F25;
-	Fri,  3 Jan 2025 23:05:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576D31C233E;
+	Fri,  3 Jan 2025 23:05:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735945520; cv=none; b=h7oahFUhFwCQX6LPd0krhmHRd0HF+38+bPrdi6fbvNyo/RMwdeeE0u9rDM1SDkYWgohcrX4zGD1RPo0v9XDSOdW7LnIvnBD+9olf7z5nJ3mEd/oF5HC3wliETm52OzNs6i5xl/uXq07Dy1wXtHLTAqwq5mjQmASSFob0cxQzpx0=
+	t=1735945520; cv=none; b=e9xp5hEkgB9L9qIhGaGz1AoJNeAf8i8qSCUCFWT0CpzHIi3nDWuNaasnDZ/uWV1seHRuc8WbPDPa+Z9U5GIJeafL2yXlohirZ+oYZG5yXVCqt5HjwOO6Jno3UwU1yvPeVJZHTbTK82ZuP81oFXE5/olKGSiQe8e1QFOpVx8lajo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1735945520; c=relaxed/simple;
-	bh=h/7xxDMHCuHgQRO1fVetToEREOiCIlqUj4Ypa1zfWFc=;
+	bh=E7ejxYXjSdZnnJX5sX8/IXcBFjrKTYbqZ98oCMMDu48=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aFQZeVdWVcB33pMoFmORYjdSldBzMR95ffA7c3Q8BX5bsEvxG4aaGShQ2sB9mgneZFpVXcqgnjD/hyJqibGBrwd2Db+IJJC+3fLWMjEprw5R9uclQMQ24oKbYbEbIe0a/raEHCrqm4stZCwzSW9RxXKg5Sg6MjBgIn9muDXTAAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=p2UlfER/; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=hhekh3Rnec5RwwI89d5kJCwUaCbRXNBUSvCwlp/bc5Kfkod4rKXT3JTCbVu7LvXyD/WCnno7+ycEH2sDFtJvivbEMu3pR3ZAuhQUeKAtpqTpNMNAQ3R6fjr8tPegNTi6bN+/afB/Ywy7+xqkSHjpYWqI4Dzd4s8fqu4wmtKwzvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=bMlhSuZ6; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1735945513;
-	bh=h/7xxDMHCuHgQRO1fVetToEREOiCIlqUj4Ypa1zfWFc=;
+	bh=E7ejxYXjSdZnnJX5sX8/IXcBFjrKTYbqZ98oCMMDu48=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=p2UlfER/g9QxyczO9XH5crGFBhuM31PodSossURTo7mcAAnCwpd9d76NzSbs3xfHc
-	 ZOzk7ncuRG2d387m4LYzyA0aTXGorHmTmUFbixSsX3Ke30voadjpC9C/XTuwCAnDM7
-	 +HvtLyNaawD/hPg2uDTSIeqJUgWHPxXFflLYPWpo=
+	b=bMlhSuZ6jDps3/nGiXZfr8Qo1cpLqmp1nCRQLdpb78V/OL5pgfJcwIYa/CaOvQvD4
+	 DUyCjhGLXdIJBxUKoQ782f00GslGRs4L2khi1OmNRpHcP7UctbELuEWVrJlPfEv+iW
+	 J6ayCgEfkwpT5eqzhubEglm7sJPEBGyVQNJhzkvI=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sat, 04 Jan 2025 00:05:10 +0100
-Subject: [PATCH 2/6] platform/x86: firmware_attributes_class: Simplify API
+Date: Sat, 04 Jan 2025 00:05:11 +0100
+Subject: [PATCH 3/6] platform/x86: think-lmi: Directly use
+ firmware_attributes_class
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -49,7 +50,7 @@ List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250104-firmware-attributes-simplify-v1-2-949f9709e405@weissschuh.net>
+Message-Id: <20250104-firmware-attributes-simplify-v1-3-949f9709e405@weissschuh.net>
 References: <20250104-firmware-attributes-simplify-v1-0-949f9709e405@weissschuh.net>
 In-Reply-To: <20250104-firmware-attributes-simplify-v1-0-949f9709e405@weissschuh.net>
 To: Hans de Goede <hdegoede@redhat.com>, 
@@ -61,108 +62,67 @@ Cc: Joshua Grisham <josh@joshuagrisham.com>,
  Dell.Client.Kernel@dell.com, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1735945513; l=3277;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1735945513; l=1895;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=h/7xxDMHCuHgQRO1fVetToEREOiCIlqUj4Ypa1zfWFc=;
- b=qvZ9Cf05LaRkooqj+2iTwvqEowZaXfrVuv690CFopE/BSQ4kJYhyOVdyN8vbLtdrYv5Tdnx5E
- Peb6eqT1s1BCRMxrtRYPJafRMKPHFixBwIh8XI3XpvACRGOujRINtn8
+ bh=E7ejxYXjSdZnnJX5sX8/IXcBFjrKTYbqZ98oCMMDu48=;
+ b=aWnDEvPI1inx2DMtb915hPLdi+vRiFSrPiA57zezpZyk5AbXtlwqnTtMksLEElPB+sSS5xTza
+ 2Y+cGh2ZIC5CTG/QCKbGYwM91U4j08Z8pJ92ucLCreTybccLMpSPr+y
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-The module core already guarantees that a module can only be unloaded
-after all other modules using its symbols have been unloaded.
-As it's already the responsibility of the drivers using
-firmware_attributes_class to clean up their devices before unloading,
-the lifetime of the firmware_attributes_class can be bound to the
-lifetime of the module.
-This enables the direct usage of firmware_attributes_class from the
-drivers, without having to go through the lifecycle functions,
-leading to simplifications for both the subsystem and its users.
+The usage of the lifecycle functions is not necessary anymore.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/platform/x86/firmware_attributes_class.c | 40 +++++++++---------------
- drivers/platform/x86/firmware_attributes_class.h |  1 +
- 2 files changed, 15 insertions(+), 26 deletions(-)
+ drivers/platform/x86/think-lmi.c | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/platform/x86/firmware_attributes_class.c b/drivers/platform/x86/firmware_attributes_class.c
-index cbc56e5db59283ba99ac0b915ac5fb2432afbdc9..87672c49e86ae3ef5b99aa99be532c1d84805adc 100644
---- a/drivers/platform/x86/firmware_attributes_class.c
-+++ b/drivers/platform/x86/firmware_attributes_class.c
-@@ -2,47 +2,35 @@
- 
- /* Firmware attributes class helper module */
- 
--#include <linux/mutex.h>
- #include <linux/module.h>
- #include "firmware_attributes_class.h"
- 
--static DEFINE_MUTEX(fw_attr_lock);
--static int fw_attr_inuse;
--
--static const struct class firmware_attributes_class = {
-+const struct class firmware_attributes_class = {
- 	.name = "firmware-attributes",
+diff --git a/drivers/platform/x86/think-lmi.c b/drivers/platform/x86/think-lmi.c
+index 38de0cb20d7785d4e3b490e07edaf4d02f8f3370..323316ac6783aa343c4c6430040a4af648786880 100644
+--- a/drivers/platform/x86/think-lmi.c
++++ b/drivers/platform/x86/think-lmi.c
+@@ -194,7 +194,6 @@ static const char * const level_options[] = {
+ 	[TLMI_LEVEL_MASTER] = "master",
  };
-+EXPORT_SYMBOL_GPL(firmware_attributes_class);
-+
-+static __init int fw_attributes_class_init(void)
-+{
-+	return class_register(&firmware_attributes_class);
-+}
-+module_init(fw_attributes_class_init);
-+
-+static __exit void fw_attributes_class_exit(void)
-+{
-+	class_unregister(&firmware_attributes_class);
-+}
-+module_exit(fw_attributes_class_exit);
+ static struct think_lmi tlmi_priv;
+-static const struct class *fw_attr_class;
+ static DEFINE_MUTEX(tlmi_mutex);
  
- int fw_attributes_class_get(const struct class **fw_attr_class)
+ static inline struct tlmi_pwd_setting *to_tlmi_pwd_setting(struct kobject *kobj)
+@@ -1446,11 +1445,7 @@ static int tlmi_sysfs_init(void)
  {
--	int err;
+ 	int i, ret;
+ 
+-	ret = fw_attributes_class_get(&fw_attr_class);
+-	if (ret)
+-		return ret;
 -
--	mutex_lock(&fw_attr_lock);
--	if (!fw_attr_inuse) { /*first time class is being used*/
--		err = class_register(&firmware_attributes_class);
--		if (err) {
--			mutex_unlock(&fw_attr_lock);
--			return err;
--		}
--	}
--	fw_attr_inuse++;
- 	*fw_attr_class = &firmware_attributes_class;
--	mutex_unlock(&fw_attr_lock);
- 	return 0;
+-	tlmi_priv.class_dev = device_create(fw_attr_class, NULL, MKDEV(0, 0),
++	tlmi_priv.class_dev = device_create(&firmware_attributes_class, NULL, MKDEV(0, 0),
+ 			NULL, "%s", "thinklmi");
+ 	if (IS_ERR(tlmi_priv.class_dev)) {
+ 		ret = PTR_ERR(tlmi_priv.class_dev);
+@@ -1563,9 +1558,8 @@ static int tlmi_sysfs_init(void)
+ fail_create_attr:
+ 	tlmi_release_attr();
+ fail_device_created:
+-	device_destroy(fw_attr_class, MKDEV(0, 0));
++	device_destroy(&firmware_attributes_class, MKDEV(0, 0));
+ fail_class_created:
+-	fw_attributes_class_put();
+ 	return ret;
  }
- EXPORT_SYMBOL_GPL(fw_attributes_class_get);
  
- int fw_attributes_class_put(void)
+@@ -1788,8 +1782,7 @@ static int tlmi_analyze(void)
+ static void tlmi_remove(struct wmi_device *wdev)
  {
--	mutex_lock(&fw_attr_lock);
--	if (!fw_attr_inuse) {
--		mutex_unlock(&fw_attr_lock);
--		return -EINVAL;
--	}
--	fw_attr_inuse--;
--	if (!fw_attr_inuse) /* No more consumers */
--		class_unregister(&firmware_attributes_class);
--	mutex_unlock(&fw_attr_lock);
- 	return 0;
+ 	tlmi_release_attr();
+-	device_destroy(fw_attr_class, MKDEV(0, 0));
+-	fw_attributes_class_put();
++	device_destroy(&firmware_attributes_class, MKDEV(0, 0));
  }
- EXPORT_SYMBOL_GPL(fw_attributes_class_put);
-diff --git a/drivers/platform/x86/firmware_attributes_class.h b/drivers/platform/x86/firmware_attributes_class.h
-index 8e0f47cfdf92eb4dc8722b7d8371916af0d84efa..ef6c3764a83497ad7e75b0102154c92ce476e5ae 100644
---- a/drivers/platform/x86/firmware_attributes_class.h
-+++ b/drivers/platform/x86/firmware_attributes_class.h
-@@ -7,6 +7,7 @@
  
- #include <linux/device/class.h>
- 
-+extern const struct class firmware_attributes_class;
- int fw_attributes_class_get(const struct class **fw_attr_class);
- int fw_attributes_class_put(void);
- 
+ static int tlmi_probe(struct wmi_device *wdev, const void *context)
 
 -- 
 2.47.1
