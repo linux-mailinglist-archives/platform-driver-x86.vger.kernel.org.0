@@ -1,47 +1,47 @@
-Return-Path: <platform-driver-x86+bounces-8331-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-8333-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A01AA04785
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 Jan 2025 18:06:01 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15442A04788
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 Jan 2025 18:06:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51B4B1622BD
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 Jan 2025 17:05:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E7801888BBE
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 Jan 2025 17:06:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8138B1F2C43;
-	Tue,  7 Jan 2025 17:05:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51A7C1F3D52;
+	Tue,  7 Jan 2025 17:05:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Rt4RupGF"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="d8KBKxYF"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCB519067C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC4B18A943;
 	Tue,  7 Jan 2025 17:05:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736269556; cv=none; b=sn9OvABkL7zgvR3uFk7zoN91hLiUjFQbRyicnfZsKsmrGAmqZwZrmiNkaQNgM38m65wCipxxINb1RWaS1YRZCq3K13k3V8EFUlvvhY1BTmWiDsLemnKN4AZPiK9lfN4MVZfl7OS5sTtIDJ7HyLROUzIGmmlQ5nzr+gNOgP1e1/I=
+	t=1736269557; cv=none; b=CRg3y5UapDnx9SixZlddXarZMAqlSakvD9EKh5WKrsZKy7+viKEZ4a2s3r00r7HC351TeJJxQRjb6cH0unH6Cjjfb67SaeIHfRyniTzAH1HHQWXZ6eGsUW9MEa8iqBHFrOltawJz3IQ9uKcQogLxb8xyGzds3iyJaUV2pLZMecM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736269556; c=relaxed/simple;
-	bh=yNNlOwuwUck/rfdk469DMvvgBeUt5/vpuC6Rm//UInk=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=lL/n05MmYWX7Y5FbgDmIdlAZ65SB3nQl0m/9BUqPzSKfCuGQkQi1c/4GTlW5NpVB1oFwONyo1XJzHgVxyoeV9/5kGQtv+sSfPhh1LnbYtKBX4zq0G1Jzs6oiKJiTjNwKVt7GA5i6NiP8vJfMXsB7UafixaH6gKyWZgFKMqgmOZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Rt4RupGF; arc=none smtp.client-ip=159.69.126.157
+	s=arc-20240116; t=1736269557; c=relaxed/simple;
+	bh=D9e3IIpmKAdeBMfMaTPg+oFMfCvFGt0p2+6XpKnJvIw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=DQJlqv9P1vdqv99MVOZ+eM69kDrEKucr2sMgiYy3UzXfPVUek3SX0A1+HscM+6UX18mlETpxRedVLeuOd3605CdW/2tNLNOsVhAmVVa796iXfpfS5l7IvnZgHM67Hfz7ytlPFUwueeJHRn8RFd8AMZSD8Zl8dtm87ZUOMJhTO8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=d8KBKxYF; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1736269549;
-	bh=yNNlOwuwUck/rfdk469DMvvgBeUt5/vpuC6Rm//UInk=;
-	h=From:Subject:Date:To:Cc:From;
-	b=Rt4RupGF31XfFuR1lHYyWhnh6aehZQKKENWWf1v3m1UL89oKmYpVeOlH9CPuPU6T+
-	 eo43SDOtLkSSpr8R2OemFURwhylGeU6gbfMykW27SsibuNOS2h1PIlbmAfU+3F7JNv
-	 JEnzjRnK2lA1g5yVEcgTxZ1Zelp8Jue3YRdcYmd0=
+	bh=D9e3IIpmKAdeBMfMaTPg+oFMfCvFGt0p2+6XpKnJvIw=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=d8KBKxYF6VYJ302vPrEqMcWBhmE5PdIIDJHLyEhmre4De391y21wy2LYmjSSujd0N
+	 u3b5d+scTof4JxlaraXFOEw8TvoeeBMbBxUxeQCmIoo52cN7rxWNxCsuzPXLxuucxb
+	 wlHqYpAcIrgXpBtHoo2IUOPTvfC7ZiVWhXli2aDQ=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: [PATCH 0/2] platform/x86: firmware_attributes_class: Provide a
+Date: Tue, 07 Jan 2025 18:05:37 +0100
+Subject: [PATCH 1/2] platform/x86: firmware_attributes_class: Provide a
  highlevel interface
-Date: Tue, 07 Jan 2025 18:05:36 +0100
-Message-Id: <20250107-pdx86-firmware-attributes-v1-0-9d75c04a3b52@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -50,10 +50,9 @@ List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAOBefWcC/x3MywqEMAxA0V+RrA20ZTqKvyIuMpqOWfggrQ8Q/
- 93i8izuvSCyCkdoiguUd4myzBm2LKAfaf4zypANzjhvrKlwHc76i0F0OkgZKSWV35Y4Inlbefo
- 4H3qC3K/KQc733Xb3/QCOtdDnawAAAA==
-X-Change-ID: 20250107-pdx86-firmware-attributes-a5175a425fca
+Message-Id: <20250107-pdx86-firmware-attributes-v1-1-9d75c04a3b52@weissschuh.net>
+References: <20250107-pdx86-firmware-attributes-v1-0-9d75c04a3b52@weissschuh.net>
+In-Reply-To: <20250107-pdx86-firmware-attributes-v1-0-9d75c04a3b52@weissschuh.net>
 To: Hans de Goede <hdegoede@redhat.com>, 
  =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
  Armin Wolf <W_Armin@gmx.de>
@@ -61,11 +60,11 @@ Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
  Joshua Grisham <josh@joshuagrisham.com>, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1736269549; l=1194;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1736269549; l=8103;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=yNNlOwuwUck/rfdk469DMvvgBeUt5/vpuC6Rm//UInk=;
- b=gos5rAqp4CS0LnXA50sEXKfNuKa5UNjJEAhb38A9E/iCxP6b4dnM7iSlC0xHgJXaTk9rhqR3j
- x/nRMT0wDCOApkqvJjWduEImftBXTJe3Y8ZAhSKbb40V5k5dT9tRRxv
+ bh=D9e3IIpmKAdeBMfMaTPg+oFMfCvFGt0p2+6XpKnJvIw=;
+ b=6luckhMX8m4J4XkKBQXtnYp7B7c3XatvaF4x62UtbPuQLNpFFMgE0OSV2WdE6thqPNY2hrnMM
+ uSVzWEjCnV9CtriJAY3PUATVdX10ZKhevxpjnmdo68v2uDSwtWndIQw
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
@@ -73,31 +72,228 @@ Currently each user of firmware_attributes_class has to manually set up
 kobjects, devices, etc.
 Provide a higher level API which takes care of the low-level details.
 
-Also provide a test driver for the new API.
-
-Based upon pdx86/for-next and my firmware_attributes simplification
-series[0].
-
-[0] https://lore.kernel.org/lkml/20250104-firmware-attributes-simplify-v1-0-949f9709e405@weissschuh.net/
-
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
-Thomas Weißschuh (2):
-      platform/x86: firmware_attributes_class: Provide a highlevel interface
-      platform/x86: firmware_attributes_class: Add test driver
-
- drivers/platform/x86/Kconfig                     |  12 ++
- drivers/platform/x86/Makefile                    |   1 +
  drivers/platform/x86/firmware_attributes_class.c | 146 +++++++++++++++++++++++
  drivers/platform/x86/firmware_attributes_class.h |  37 ++++++
- drivers/platform/x86/firmware_attributes_test.c  |  78 ++++++++++++
- 5 files changed, 274 insertions(+)
----
-base-commit: 25f05112995242b5a7ec1a91fbcb4dab66719af2
-change-id: 20250107-pdx86-firmware-attributes-a5175a425fca
+ 2 files changed, 183 insertions(+)
 
-Best regards,
+diff --git a/drivers/platform/x86/firmware_attributes_class.c b/drivers/platform/x86/firmware_attributes_class.c
+index 736e96c186d9dc6d945517f090e9af903e93bbf4..70ceae5215820098b017bfda991a3c2a7824c98e 100644
+--- a/drivers/platform/x86/firmware_attributes_class.c
++++ b/drivers/platform/x86/firmware_attributes_class.c
+@@ -2,6 +2,9 @@
+ 
+ /* Firmware attributes class helper module */
+ 
++#include <linux/device/class.h>
++#include <linux/device.h>
++#include <linux/kobject.h>
+ #include <linux/module.h>
+ #include "firmware_attributes_class.h"
+ 
+@@ -22,6 +25,149 @@ static __exit void fw_attributes_class_exit(void)
+ }
+ module_exit(fw_attributes_class_exit);
+ 
++static ssize_t fw_attributes_sysfs_show(struct kobject *kobj, struct attribute *attr, char *buf)
++{
++	struct firmware_attributes_device *fwadev = to_firmware_attribute_device(kobj);
++	const struct firmware_attribute *fw_attr = to_firmware_attribute(attr);
++
++	if (!fw_attr->show)
++		return -EIO;
++
++	return fw_attr->show(fwadev, fw_attr, buf);
++}
++
++static ssize_t fw_attributes_sysfs_store(struct kobject *kobj, struct attribute *attr,
++					 const char *buf, size_t count)
++{
++	struct firmware_attributes_device *fwadev = to_firmware_attribute_device(kobj);
++	const struct firmware_attribute *fw_attr = to_firmware_attribute(attr);
++
++	if (!fw_attr->store)
++		return -EIO;
++
++	return fw_attr->store(fwadev, fw_attr, buf, count);
++}
++
++static const struct sysfs_ops fw_attributes_sysfs_ops = {
++	.show	= fw_attributes_sysfs_show,
++	.store	= fw_attributes_sysfs_store,
++};
++
++static void fw_attributes_attr_release(struct kobject *kobj)
++{
++	struct firmware_attributes_device *fwadev = to_firmware_attribute_device(kobj);
++	struct device *cdev;
++
++	cdev = fwadev->dev;
++
++	kfree(fwadev);
++	device_unregister(cdev);
++}
++
++static const struct kobj_type fw_attributes_attr_type = {
++	.sysfs_ops	= &fw_attributes_sysfs_ops,
++	.release	= fw_attributes_attr_release,
++};
++
++DEFINE_FREE(firmware_attributes_device_unregister, struct firmware_attributes_device *,
++	    if (_T) firmware_attributes_device_unregister(_T))
++
++struct firmware_attributes_device *
++firmware_attributes_device_register(struct device *parent, const char *name,
++				    const struct attribute_group **groups, void *data)
++{
++	struct firmware_attributes_device *fwadev = NULL;
++	struct device *cdev = NULL;
++	int ret;
++
++	fwadev = kzalloc(sizeof(*fwadev), GFP_KERNEL);
++	if (!fwadev)
++		return ERR_PTR(-ENOMEM);
++
++	cdev = device_create(&firmware_attributes_class, parent, MKDEV(0, 0), "%s", name);
++	if (IS_ERR(cdev))
++		return ERR_CAST(cdev);
++
++	fwadev->data = data;
++	fwadev->dev = cdev;
++
++	ret = kobject_init_and_add(&fwadev->attributes, &fw_attributes_attr_type, &cdev->kobj,
++				   "attributes");
++	if (ret) {
++		device_del(cdev);
++		return ERR_PTR(ret);
++	}
++
++	if (groups) {
++		ret = sysfs_create_groups(&fwadev->attributes, groups);
++		if (ret) {
++			firmware_attributes_device_unregister(fwadev);
++			return ERR_PTR(ret);
++		}
++
++		kobject_uevent(&fwadev->dev->kobj, KOBJ_CHANGE);
++	}
++
++	return fwadev;
++}
++EXPORT_SYMBOL_GPL(firmware_attributes_device_register);
++
++void firmware_attributes_device_unregister(struct firmware_attributes_device *fwadev)
++{
++	kobject_del(&fwadev->attributes);
++	kobject_put(&fwadev->attributes);
++}
++EXPORT_SYMBOL_GPL(firmware_attributes_device_unregister);
++
++static void devm_firmware_attributes_device_release(void *data)
++{
++	struct firmware_attributes_device *fwadev = data;
++
++	firmware_attributes_device_unregister(fwadev);
++}
++
++struct firmware_attributes_device *
++devm_firmware_attributes_device_register(struct device *parent, const char *name,
++					 const struct attribute_group **groups, void *data)
++{
++	struct firmware_attributes_device *fwadev;
++	int ret;
++
++	fwadev = firmware_attributes_device_register(parent, name, groups, data);
++	if (IS_ERR(fwadev))
++		return fwadev;
++
++	ret = devm_add_action_or_reset(parent, devm_firmware_attributes_device_release, fwadev);
++	if (ret)
++		return ERR_PTR(ret);
++
++	return fwadev;
++}
++EXPORT_SYMBOL_GPL(devm_firmware_attributes_device_register);
++
++static ssize_t firmware_attributes_type_show(struct firmware_attributes_device *fwadev,
++					     const struct firmware_attribute *attr, char *buf)
++{
++	if (attr == &_firmware_attribute_type_string)
++		return sysfs_emit(buf, "string\n");
++	else if (attr == &_firmware_attribute_type_enumeration)
++		return sysfs_emit(buf, "enumeration\n");
++	else if (attr == &_firmware_attribute_type_integer)
++		return sysfs_emit(buf, "integer\n");
++	else
++		return -EIO;
++}
++
++#define __FW_TYPE_ATTR	__ATTR(type, 0444, firmware_attributes_type_show, NULL)
++
++const struct firmware_attribute _firmware_attribute_type_string = __FW_TYPE_ATTR;
++EXPORT_SYMBOL_GPL(_firmware_attribute_type_string);
++const struct firmware_attribute _firmware_attribute_type_enumeration = __FW_TYPE_ATTR;
++EXPORT_SYMBOL_GPL(_firmware_attribute_type_enumeration);
++const struct firmware_attribute _firmware_attribute_type_integer = __FW_TYPE_ATTR;
++EXPORT_SYMBOL_GPL(_firmware_attribute_type_integer);
++
+ MODULE_AUTHOR("Mark Pearson <markpearson@lenovo.com>");
++MODULE_AUTHOR("Thomas Weißschuh <linux@weissschuh.net>");
+ MODULE_DESCRIPTION("Firmware attributes class helper module");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/platform/x86/firmware_attributes_class.h b/drivers/platform/x86/firmware_attributes_class.h
+index d27abe54fcf9812a2f0868eec5426bbc8e7eb21c..66837ad9f65b8ca501dee73f48c01f2710d86bf5 100644
+--- a/drivers/platform/x86/firmware_attributes_class.h
++++ b/drivers/platform/x86/firmware_attributes_class.h
+@@ -5,8 +5,45 @@
+ #ifndef FW_ATTR_CLASS_H
+ #define FW_ATTR_CLASS_H
+ 
++#include <linux/device.h>
+ #include <linux/device/class.h>
++#include <linux/sysfs.h>
+ 
+ extern const struct class firmware_attributes_class;
+ 
++struct firmware_attributes_device {
++	struct device *dev;
++	struct kobject attributes;
++	void *data;
++};
++
++struct firmware_attribute {
++	struct attribute attr;
++	ssize_t (*show)(struct firmware_attributes_device *fwadev,
++			const struct firmware_attribute *attr, char *buf);
++	ssize_t (*store)(struct firmware_attributes_device *fwadev,
++			 const struct firmware_attribute *attr, const char *buf, size_t count);
++};
++
++#define to_firmware_attribute(_a) container_of_const(_a, struct firmware_attribute, attr)
++#define to_firmware_attribute_device(_s) \
++	container_of_const(_s, struct firmware_attributes_device, attributes)
++
++extern const struct firmware_attribute _firmware_attribute_type_string;
++#define firmware_attribute_type_string ((struct attribute *)&_firmware_attribute_type_string.attr)
++extern const struct firmware_attribute _firmware_attribute_type_enumeration;
++#define firmware_attribute_type_enumeration ((struct attribute *)&_firmware_attribute_type_enumeration.attr)
++extern const struct firmware_attribute _firmware_attribute_type_integer;
++#define firmware_attribute_type_integer ((struct attribute *)&_firmware_attribute_type_integer.attr)
++
++struct firmware_attributes_device * __must_check
++firmware_attributes_device_register(struct device *parent, const char *name,
++				    const struct attribute_group **groups, void *data);
++
++void firmware_attributes_device_unregister(struct firmware_attributes_device *fwadev);
++
++struct firmware_attributes_device * __must_check
++devm_firmware_attributes_device_register(struct device *parent, const char *name,
++					 const struct attribute_group **groups, void *data);
++
+ #endif /* FW_ATTR_CLASS_H */
+
 -- 
-Thomas Weißschuh <linux@weissschuh.net>
+2.47.1
 
 
