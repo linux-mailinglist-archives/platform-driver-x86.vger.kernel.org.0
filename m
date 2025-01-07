@@ -1,203 +1,136 @@
-Return-Path: <platform-driver-x86+bounces-8332-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-8334-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B391DA04786
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 Jan 2025 18:06:01 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32614A047F4
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 Jan 2025 18:16:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 93BB616242E
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 Jan 2025 17:05:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5068F7A1104
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 Jan 2025 17:16:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82DFC1F2C48;
-	Tue,  7 Jan 2025 17:05:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 738F21F668E;
+	Tue,  7 Jan 2025 17:15:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Bm/ndyVZ"
+	dkim=pass (1024-bit key) header.d=t-8ch.de header.i=@t-8ch.de header.b="ITRw6rtn"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD00199236;
-	Tue,  7 Jan 2025 17:05:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B21D1F3D4C;
+	Tue,  7 Jan 2025 17:15:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736269556; cv=none; b=NGNAERxpnYMKMAKo/HwV0lf8I21XzSYUoOYTz7EheRoEpuMuq6j7F6x2jjNGO+3ei/hTbY05ZeWjdEngOSZrIwTzEdgkE3bQUWiAdL6LgXfpUKwDemDS+gvkCJ548WpM6bCwIwzQihWh1ot+JhZqN5CFWEMmENCmvGo3b/YJzAc=
+	t=1736270115; cv=none; b=Curl4VckTy50TTWQmPNmAxHzKy9QG7DaPsGdquhZPO04qy0l0GszXGkKDAKfb/g+eeB6oxsaeVYc79WCmvx+m2xcT0RFhOY6nw8hpdNbNpWMIeGabKc8GCZZvjd7pQ5XDhgyRmYXEJqfyxFGyZSlsDfvrgFYdbRXz3iXod3cqVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736269556; c=relaxed/simple;
-	bh=v8v2bwASK20xizpHeRN3fIY6330Ur6fWSwRWF082iT8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mrZfOnMeS+zod00eyTy5aXIHEjJY8CmsOoR/OaXbFf+qhFw8HTKfEU1zoySH2wqPwuZ7z+/cu+tON62nw7dhkSKbj+/5V8Y/k7SCvp7kqU+ii1IdgJ1B4qOaViL1FRjUeQVyEllqXHThUlzp7wESmnkNiyctKnRsbbom36IdTBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Bm/ndyVZ; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1736269549;
-	bh=v8v2bwASK20xizpHeRN3fIY6330Ur6fWSwRWF082iT8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Bm/ndyVZZSUnbd9yyH/un0AI8ox80kMeF5Hgi/XSjFSGLxG3JZjzOX/XQUMsD7i1x
-	 U8nQktalOT9oFtZLF7fw5YutT0s4nffDdgXqN0PVC6JiQ5B7/jpCBmYaMCRij1Pry6
-	 EWQave0P5qb5ZRSQsUVjfwFCMaMMrSQRoJSKWVpU=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Tue, 07 Jan 2025 18:05:38 +0100
-Subject: [PATCH 2/2] platform/x86: firmware_attributes_class: Add test
- driver
+	s=arc-20240116; t=1736270115; c=relaxed/simple;
+	bh=7GvcBgmCQu8yAzhhjQrKSKMNcd0lBDlK2iTz18DqqdQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bMfg80Ux5ar4DfUcS5PMRGdeB6jEY6o0yiNW77PbNMM9M0xodRUC/qn9FrBqPtKQjUKfUX80GQHGSxMFN6DF3X73+xiXeTo93N74+t/gFiSny3O8oQz4UabareDGy4SrUGrAzO0FkcCURHHe8cONyvZJgIK5zHBZYrbOw3ABJw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=t-8ch.de; spf=pass smtp.mailfrom=t-8ch.de; dkim=pass (1024-bit key) header.d=t-8ch.de header.i=@t-8ch.de header.b=ITRw6rtn; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=t-8ch.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-8ch.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=t-8ch.de; s=mail;
+	t=1736270108; bh=7GvcBgmCQu8yAzhhjQrKSKMNcd0lBDlK2iTz18DqqdQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ITRw6rtnyJDsWLCpn/uUsvqJ5gaTgvmlNGJXKSbAsrbnhE//MyvYnXY/QMhxVsdDF
+	 3H8VMjLY+Lbe5in3hxpO+v9JgqdH4gK/uCwMCQKi0cnXNAoYFeOi/bvhks3CqPZ3Ln
+	 aXq7z3DC1h9zfcdZ6PReyqaQk1vLxQAkal+ho+nY=
+Date: Tue, 7 Jan 2025 18:15:07 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+To: Joshua Grisham <josh@joshuagrisham.com>
+Cc: Armin Wolf <W_Armin@gmx.de>, ilpo.jarvinen@linux.intel.com, 
+	hdegoede@redhat.com, platform-driver-x86@vger.kernel.org, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] platform/x86: samsung-galaxybook: Add
+ samsung-galaxybook driver
+Message-ID: <d9c46324-ff88-4ee3-aa9b-a187a2caf22f@t-8ch.de>
+References: <20241226153031.49457-1-josh@joshuagrisham.com>
+ <0fbe58a9-ecca-437f-aa30-9d3a17c2bd43@gmx.de>
+ <CAMF+KeYdshNex2h4kLJari=kXVxgcOZw7GDutJrV6vKC0PTe6A@mail.gmail.com>
+ <a8011f0f-1d44-42ec-9089-2da31f3852e2@gmx.de>
+ <CAMF+KeZm8LCGsCZ9bosNYRCbv847CcZr+0mWeZtDQsk5QFRuyg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250107-pdx86-firmware-attributes-v1-2-9d75c04a3b52@weissschuh.net>
-References: <20250107-pdx86-firmware-attributes-v1-0-9d75c04a3b52@weissschuh.net>
-In-Reply-To: <20250107-pdx86-firmware-attributes-v1-0-9d75c04a3b52@weissschuh.net>
-To: Hans de Goede <hdegoede@redhat.com>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Armin Wolf <W_Armin@gmx.de>
-Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Joshua Grisham <josh@joshuagrisham.com>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1736269549; l=4401;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=v8v2bwASK20xizpHeRN3fIY6330Ur6fWSwRWF082iT8=;
- b=V7yWoSkmBka4u4h8tJQhlCci/yAwcYoP/YKl6/0+QUR4JtrPRLKuDOR0U0KgdhyoqpSd7hxaT
- t4L1NuigaX3A5mahTxK7c7cB9L/k2UPavTXmTna6qfPGdEU829R+g13
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+In-Reply-To: <CAMF+KeZm8LCGsCZ9bosNYRCbv847CcZr+0mWeZtDQsk5QFRuyg@mail.gmail.com>
 
-The driver showcases the use of the new subsystem API.
+On 2025-01-07 16:09:51+0100, Joshua Grisham wrote:
+> Hi again Armin! I think I am finally with you on most of this, I think
+> jet lag and general craziness made me a little extra dense for a week
+> or two :)
+> 
+> Den lör 4 jan. 2025 kl 07:28 skrev Armin Wolf <W_Armin@gmx.de>:
+> >
+> > The reason for the firmware-attribute class original was that driver could export BIOS settings
+> > to userspace applications, together with some metadata (min/max values, etc).
+> >
+> > Because of this the exact meaning of each firmware attribute is usually only known to the user
+> > changing those firmware attributes.
+> >
+> > Your driver is a bit special in that it knows the meaning of each firmware attribute. However
+> > you still have to follow the firmware-attribute class ABI since userspace applications do not
+> > know this.
+> >
+> 
+> Yes ok, as said, I am with you all now on this I think :)
+> 
+> As a prototype for v5 I have created a new struct for each "firmware
+> attribute" that helps me keep everything linked together with all of
+> the different sub attributes for each different "fw attribute"
+> including allowing a link back to my samsung_galaxybook instance
+> without using the global pointer. At the end of the day, if I wanted
+> to avoid using a global pointer, I needed a way to grab the private
+> data based on either the kobj or the attr parameters to the show/store
+> method of these individual sub attributes within each "firmware
+> attribute", so what I have done is added the kobj_attribute as a
+> struct member and then manually init+filled this kobj_attributes
+> during probe, so I can now grab the parent struct instance using
+> container_of() within the show/store functions which then gets me to
+> my pointer. I thought about using the kset or something else for this
+> but it seemed like kobj_attribute supported being a struct member
+> better and gave the least amount of headaches from what I could tell.
+> 
+> After trying to fight my way through this problem, I have an idea of
+> what a better "dream scenario" would for me as a user/consumer of the
+> firmware attributes interface -- namely that there is some kind of way
+> to register and unregister by "type" (e.g. "I want a new enumeration
+> fw attr; here is its parent, its name, and all of the functions for
+> show/store of the required attributes, plus a data pointer that I can
+> pack together with my attribute/somehow reach within the show/store
+> functions"). I have handled a bit of this myself now in the working v5
+> of samsung-galaxybook (just a minimal version of what it requires) but
+> as said it currently relies on creating the kobj_attributes (at least
+> those where I need the pointer) as struct members that I can later use
+> with container_of() instead of creating static ones using the various
+> __ATTR.. macros.
+> 
+> Please feel free to say if any of this sounds totally (or partially?)
+> off, otherwise I will try to test a bit more, clean up, and work
+> through any checkpatch exceptions and get this sent as a v5.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/platform/x86/Kconfig                    | 12 ++++
- drivers/platform/x86/Makefile                   |  1 +
- drivers/platform/x86/firmware_attributes_test.c | 78 +++++++++++++++++++++++++
- 3 files changed, 91 insertions(+)
+Please take a look at my recent series[0].
 
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 0258dd879d64be389f4dd9bc309fe089f23cc798..2a0e828657d2f07074944d6c42dc204fc8825a42 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -1065,6 +1065,18 @@ source "drivers/platform/x86/x86-android-tablets/Kconfig"
- config FW_ATTR_CLASS
- 	tristate
- 
-+config FW_ATTR_TEST
-+	tristate "Firmware attribute test driver"
-+	select FW_ATTR_CLASS
-+	help
-+	  This driver provides a test user of the firmware attribute subsystem.
-+
-+	  An instance is created at /sys/class/firmware-attributes/test/
-+	  container various example attributes.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called firmware_attributes_test.
-+
- config INTEL_IMR
- 	bool "Intel Isolated Memory Region support"
- 	depends on X86_INTEL_QUARK && IOSF_MBI
-diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-index e1b142947067475ee5472400a5a1cd20d79e12bd..610a1ca850a4353fd490e43b214a9e5872d2d28d 100644
---- a/drivers/platform/x86/Makefile
-+++ b/drivers/platform/x86/Makefile
-@@ -121,6 +121,7 @@ obj-$(CONFIG_TOPSTAR_LAPTOP)	+= topstar-laptop.o
- 
- # Platform drivers
- obj-$(CONFIG_FW_ATTR_CLASS)		+= firmware_attributes_class.o
-+obj-$(CONFIG_FW_ATTR_TEST)		+= firmware_attributes_test.o
- obj-$(CONFIG_SERIAL_MULTI_INSTANTIATE)	+= serial-multi-instantiate.o
- obj-$(CONFIG_MLX_PLATFORM)		+= mlx-platform.o
- obj-$(CONFIG_TOUCHSCREEN_DMI)		+= touchscreen_dmi.o
-diff --git a/drivers/platform/x86/firmware_attributes_test.c b/drivers/platform/x86/firmware_attributes_test.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..84f6a92e5163378c655f30ac022d513d7df5a18c
---- /dev/null
-+++ b/drivers/platform/x86/firmware_attributes_test.c
-@@ -0,0 +1,78 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/module.h>
-+#include <linux/sysfs.h>
-+#include "firmware_attributes_class.h"
-+
-+struct fw_attr_test_data {
-+	char attr1_value[PAGE_SIZE];
-+};
-+
-+static ssize_t test_attr1_default_value_show(struct firmware_attributes_device *fwadev,
-+					     const struct firmware_attribute *attr, char *buf)
-+{
-+	return sysfs_emit(buf, "default 1\n");
-+}
-+
-+static struct firmware_attribute test_attr1_default_value = __ATTR(default_value, 0444,
-+								   test_attr1_default_value_show,
-+								   NULL);
-+
-+static ssize_t test_attr1_current_value_show(struct firmware_attributes_device *fwadev,
-+					     const struct firmware_attribute *attr, char *buf)
-+{
-+	struct fw_attr_test_data *data = fwadev->data;
-+
-+	return sysfs_emit(buf, "%s\n", data->attr1_value);
-+}
-+
-+static ssize_t test_attr1_current_value_store(struct firmware_attributes_device *fwadev,
-+					      const struct firmware_attribute *attr,
-+					      const char *buf, size_t count)
-+{
-+	struct fw_attr_test_data *data = fwadev->data;
-+
-+	return strscpy(data->attr1_value, buf);
-+}
-+
-+static struct firmware_attribute test_attr1_current_value = __ATTR(current_value, 0644,
-+								   test_attr1_current_value_show,
-+								   test_attr1_current_value_store);
-+
-+static struct attribute *test_attr1_attrs[] = {
-+	firmware_attribute_type_string,
-+	&test_attr1_default_value.attr,
-+	&test_attr1_current_value.attr,
-+	NULL
-+};
-+
-+static const struct attribute_group test_attr1_group = {
-+	.name	= "attr1",
-+	.attrs	= test_attr1_attrs,
-+};
-+
-+static const struct attribute_group *test_attr_groups[] = {
-+	&test_attr1_group,
-+	NULL
-+};
-+
-+static struct firmware_attributes_device *fwadev;
-+
-+static int __init fw_test_init(void)
-+{
-+	static struct fw_attr_test_data data = {
-+		.attr1_value = "attr1",
-+	};
-+
-+	fwadev = firmware_attributes_device_register(NULL, "test", test_attr_groups, &data);
-+	return PTR_ERR_OR_ZERO(fwadev);
-+}
-+module_init(fw_test_init);
-+
-+static void __exit fw_test_exit(void)
-+{
-+	firmware_attributes_device_unregister(fwadev);
-+}
-+module_exit(fw_test_exit);
-+
-+MODULE_LICENSE("GPL");
+It provides an API similar to what you propose.
+Currently it does not provide an even higher level API with predefined
+structs for enumeration attributes etc. That is intentional for now as
+it is also meant to handle custom attribute types.
+Nothing would prevent a creation of such a convenience API on top of my
+series, however.
 
--- 
-2.47.1
+We'd need some coordination about landing the different patches,
+but that shouldn't really be a problem.
 
+> <snip>
+
+Thomas
+
+[0] https://lore.kernel.org/lkml/20250107-pdx86-firmware-attributes-v1-0-9d75c04a3b52@weissschuh.net/
 
