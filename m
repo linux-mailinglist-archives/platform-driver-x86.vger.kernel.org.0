@@ -1,251 +1,162 @@
-Return-Path: <platform-driver-x86+bounces-8437-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-8425-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D55A07B68
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jan 2025 16:12:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51321A07B3E
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jan 2025 16:09:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 42FB21638E6
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jan 2025 15:12:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 519763A833C
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jan 2025 15:09:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15890224891;
-	Thu,  9 Jan 2025 15:09:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F06C21E0AF;
+	Thu,  9 Jan 2025 15:08:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HUOWJ5zw"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="sgZSDne0"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCE0224888;
-	Thu,  9 Jan 2025 15:09:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F0521C9E7
+	for <platform-driver-x86@vger.kernel.org>; Thu,  9 Jan 2025 15:08:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736435387; cv=none; b=UDH1I9741LmR2GYlz8OGgoYqp5NzlUBidzVghmjSCv3ax3Bm/ZoDtieT5wUWIRgVJwmt64CW6yaPSPVpaGM1xrRiNjA5VCCyo2ZvsLiIljKUCL/aILBthZdlgwEKA0YbOKv7Cf90nbRQycUEkrOKHb2i3TYNdopQ7XZQIQibuLE=
+	t=1736435312; cv=none; b=Eeh6GhXSm6hZhn2mLp5jaXVZmvQBEEotxLwQwAcBD7YQ3jirkD4ue0Kr5WGwIr9GJRtvk2YgfS0VGVvbTITicqr+eGQODGieHExwW9jZis67C5bDfb7p2q/qIC0m1zfzNyusxMejLkokh0JEsqJl3BYbn7Rxpe34mchQQqsQIpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736435387; c=relaxed/simple;
-	bh=ueES1CpHxkIOmIdddrXeMAV9rO12JLZzujSA/AYR5iA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uo94KCC1jqqPLNVMee30SkJ9Kj5Zscky/aarmPF4xXALOO88Bd9SCcdqKrdAxjkE4tI7xigTh31GS8tOck/U32BDSRnWiazIHAFS+ErPFVtxoAtaql2qv/6X1UHicmd7jvGEYD0NbuHVDABlgVI4PdMdSgU7+LlDvx0aLuZbyek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HUOWJ5zw; arc=none smtp.client-ip=209.85.217.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4aff31b77e8so427887137.1;
-        Thu, 09 Jan 2025 07:09:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736435384; x=1737040184; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tXWFMX8a8Q4Pv2GPHLPCd0mT4LshIMD7WrNQh2s1+XA=;
-        b=HUOWJ5zwI6QVQBYyLBzSXQLAkG+H6cfWWZJV4G8+WvRDpoY1D2xMjqmqIG4vyE7eU/
-         W9yY61mMKeu8FdMW5moV4pMG38D3tf6qJ8uUqW1SL0j5M6DFF5Cn8SJZyqKlxHOigrUg
-         p5IBWitrMDuCJKOxMCNWoCBsfoIa9pJR0LPtnpb9HEaTqsS8Az74qI/peQa17eKWjuKH
-         0FuZqcRTeSkpviF+r2oKD6KwoR8HkftzyxdWeOHxLu7yFp8grDtCO8wKLQJ5mOblrKw0
-         dEZZYAwWv0h7totJf3+mtVOToYC+a6dbr6zrAWr5vGSFSPc481mkCo23MTJA8inVuQZ8
-         Z6Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736435384; x=1737040184;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tXWFMX8a8Q4Pv2GPHLPCd0mT4LshIMD7WrNQh2s1+XA=;
-        b=hl5BxvMDD6hSX2hDC3ldhM8NfzAzWxfOXAGtSCnz0r9/Ix+Ef/0HjWhkc1MXCsY8iU
-         NWNdy3dy1vXRforO3JR45u1KzV/05OTl8M5qyTumECtMPlzP0Fwcy6TAaRtsIub4+GIY
-         vhMmGHkzketHjYs4z/ww1f0EeEX2xhf0OEaifSFTndem9nKQoW7IkydJLLT6fd+Tm7D7
-         FlSdqPGmk/CltP8XISN33m7iAYTi+ccsr9Pw+D+yCqj021C77NcK7Ifqyu3eNOg5vVdQ
-         PwHmpFuf88mkLKpiMqYtIrDVWGzBh2eyhrl4lOS04kfLrkBNknyhEOiDL8xHJEwPxFfb
-         Of5w==
-X-Forwarded-Encrypted: i=1; AJvYcCV13LOjadxFlbyaBl/E5+23Xxee+d7cilUSf3VY4RwVMg5dltdh0EdCONbm9z+ZEmO1YE2F9A9vjeoPrgc2@vger.kernel.org, AJvYcCXk44Op/K9gMqhvZWgcJwUuTtF587360UXCDtkJ08P9Z/P/8HOniPBAnrG2f4RZsn+oiaUFyZcX2F2r@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxr9lFese2+RGEw6+aULeaHfUpYVnIpW/3B8ARYJc8pecpZPTer
-	UpzQSndGvRT9CnVNc0KfscTpBYTM/JdCAgj20NiDon2aPzE32x6Le/1V0VCc
-X-Gm-Gg: ASbGnctXeqvjGgWAq7n8Mqsk2ttdo9DUIR2a+pcZmAeEZbfUVveaE4qDpLSL3ZsnqXT
-	xMiJRdsYztDlknhjReDlcsLe19iZQ2V4hZr4Kag/6GOCcr6cc74b0ATReaidJRjs0HbfsR4EVFJ
-	svGu7JxSFBl+LRpTvo7hyR7AAGY3xG76ek/iJ6HKaYpnWkyF6D60RFGmAkaXnQSJt0bFFb3xKzh
-	kPphfuEZVEtJGfCa8Z49dRWaOYSX8jXrtuduHmCPyGIaDh51sQnL1GX1EoYES95
-X-Google-Smtp-Source: AGHT+IHTsiyxTdRhLAyXTzqH/vzYBKjh+K4a/SbVvKlT32OwOtIjQS0SYK32yrgF2TjbYCaJTMQ51w==
-X-Received: by 2002:a05:6102:cc6:b0:4b2:bc6a:2e8b with SMTP id ada2fe7eead31-4b3d0ef6127mr5990268137.3.1736435383993;
-        Thu, 09 Jan 2025 07:09:43 -0800 (PST)
-Received: from localhost.localdomain ([2800:bf0:82:1159:1ea9:11b1:7af9:1277])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b608f4a5ddsm1019887137.11.2025.01.09.07.09.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jan 2025 07:09:43 -0800 (PST)
-From: Kurt Borja <kuurtb@gmail.com>
-To: platform-driver-x86@vger.kernel.org
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Mario Limonciello" <mario.limonciello@amd.com>,
-	"Armin Wolf" <W_Armin@gmx.de>,
-	Joshua Grisham <josh@joshuagrisham.com>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	"Hans de Goede" <hdegoede@redhat.com>,
-	Kurt Borja <kuurtb@gmail.com>,
-	Maximilian Luz <luzmaximilian@gmail.com>,
-	"Lee, Chun-Yi" <jlee@suse.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Corentin Chary <corentin.chary@gmail.com>,
-	"Luke D. Jones" <luke@ljones.dev>,
-	Lyndon Sanche <lsanche@lyndeno.ca>,
-	Ike Panhc <ike.pan@canonical.com>,
-	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Colin Ian King <colin.i.king@gmail.com>,
-	Alexis Belmonte <alexbelm48@gmail.com>,
-	Ai Chao <aichao@kylinos.cn>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	Gergo Koteles <soyer@irl.hu>,
-	Dell.Client.Kernel@dell.com,
-	ibm-acpi-devel@lists.sourceforge.net
-Subject: [PATCH 18/18] ACPI: platform_profile: Add documentation
-Date: Thu,  9 Jan 2025 10:06:31 -0500
-Message-ID: <20250109150731.110799-19-kuurtb@gmail.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250109150731.110799-1-kuurtb@gmail.com>
-References: <20250109150731.110799-1-kuurtb@gmail.com>
+	s=arc-20240116; t=1736435312; c=relaxed/simple;
+	bh=vNdLR0JloERF06YiA7vH/MVNHsjFyRr9YYqzSw3F8Ys=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D0aitPo9UNH8S+7i22Ih053sY7vEtNOZ6Kuu26lfblgdfARduwqfa/zYErxYptJfIiIIFeHVfTgUVDgwziopnNovyEMXPpnqWYNa22VnXwO17IOsiMGDcglgatdkXRs7fRtwcWXTKA/T3Y6fVcGWQvOny44rg4ORH5UQmWpSmaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=sgZSDne0; arc=none smtp.client-ip=212.227.17.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1736435306; x=1737040106; i=w_armin@gmx.de;
+	bh=f8od1lEXfwPOxINOTWonWmKIGVU35VQkrn7TwAGSOwU=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=sgZSDne0AJOVyc17FQfia8sC2zQBDn8oIjykAkj0LhKqgl9JmZTqPuYAzKc1F8t/
+	 SeI3EUtPPO8R/M7HiD0Tjt7HsNX3Azhynk32PU+wKWw9YBpMEd5NrV9wMgwHPrtw5
+	 XroC6OHsoWhqNbDP83yHyTFuQwM4exoMp4E/zJ7+JVqtOux1ROjF/quIyLTCjrKFF
+	 lrp9gCLJcSy+mN6AAqgKNcx6eo9ObxnAl8vBdywUxy17ynJcjAzIlv8CoNvAkUZsF
+	 6XCgLpWKcBpc1yQXb1HMKET+/CUJu8Ooq6cSsxlZgSVF4IcSo/rahzWHPq8gf1QTJ
+	 IhrDuZp6WOdtBF/7kw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [172.16.100.132] ([141.76.182.72]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N1fmq-1tcGwL3SZM-013PLQ; Thu, 09
+ Jan 2025 16:08:25 +0100
+Message-ID: <ea8468ab-430e-4336-b1c5-6f6bc566950b@gmx.de>
+Date: Thu, 9 Jan 2025 16:08:25 +0100
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: amdgpu 4k@120Hz / HDMI 2.1
+To: Mischa Baars <mjbaars1977.backup@gmail.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, =?UTF-8?Q?Michel_D=C3=A4nzer?=
+ <michel.daenzer@mailbox.org>, platform-driver-x86@vger.kernel.org
+References: <CA+b5WFEXPJ==vruf-6DHrhS7j3pnTaj_EQE08BimxqyaNvktQQ@mail.gmail.com>
+ <d1028755-6a7a-4db4-bd4b-e5a2d682af61@amd.com>
+ <CA+b5WFFa4hMeGnN0J2xd=FpU2Cxe_AjapWBpTFjfNhzUSOUAzA@mail.gmail.com>
+ <0281e6f7-4ccd-4369-9182-d1580c9e6bc5@amd.com>
+ <CA+b5WFEv1Qj3NYcwXaZz1EYW9omj7FmB8FdSKZnixsMNoi1+DQ@mail.gmail.com>
+ <ddd7bf09-31aa-4e4a-93ea-b1336ced8578@amd.com>
+ <CA+b5WFGDstoJTjgaT+hm4r-78zup1pLa2Ada7PqbTY=wCutSbA@mail.gmail.com>
+ <98b3392f-2860-4a32-a769-b4dcd3f5dbbe@amd.com>
+ <CA+b5WFGkDJhpRRywQLx2okttXGasBu6K8ScLZyakKrk1+FZWAw@mail.gmail.com>
+ <5321c9af-6df7-4bf0-98b2-d6c4b2861374@mailbox.org>
+ <CA+b5WFFkhQUcFO_45_6xmC4fk_GEFqbASt9rhGqBBYsothsHxQ@mail.gmail.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <CA+b5WFFkhQUcFO_45_6xmC4fk_GEFqbASt9rhGqBBYsothsHxQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:x2HjE0F4AFrTLWyaSJpuwbQgpqHxWe/c8Ud0MnoZloGm4L/pewm
+ /ZouRqEbUvAijmsciQC4CT36bPZbxNhFXijSQYh2bLfnRNLq+wHKgKm+d6nXroHe3pNKI20
+ d/OBTImBCceA4QlliGYLjklYtajYM8Jzrq2ackeJrrjqm2BxZFJelKiuBsYtbskwoxNquNv
+ dEL08E24soXMY3Nx4UeAw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:ah7sHLqDqLk=;Ti7WNj/5kdz4JGQ3ZnCtVGE1HQF
+ AI3HCdwYT3pN4E+tdqE0BtGKM1h2JJOs4BHUEvp8iKjYt4202C4qFBZa34HTctqRzJWNidqYS
+ R5MtrASGVxAyxJcjcYBxrwKm2/h1NwUK8TKPVWBzSj6K51GrcdCDQqgIdgbQkPZwr31y2JFA2
+ 1fiHmFRTV623DXfRKU1VlLjIEhXeVKvgx3oNL+kWTZFu0K0pJy7Lfhz9+nZSqfhwkx578wDCB
+ O7uMlnxaLrT2PxT8kmeL2bm6dlqEv8b0Eeec7FBtuvvSUpAy+rtFnVIl9W6BJm97cy6p5zceM
+ gJoxOlsnKsGCdKotEHecNsJ6dwaImmCgdldT7BpG8Znr/4DLQaHKzA/99KWz9yFQRg0JVsXOA
+ vxE9E56uYR9+w5eYCZ6L30HPxZ1esrlmZPtqJRq2ETexUwqGNEOrScspQ4/YRLcesGUJIMc0E
+ q7FYQp+UNt9lZb0p6H5hTPj/6uuePkZYgJQNJrPVZC5BBUPGOqqswnf1B3PF7ya1sI3wyYezd
+ nrq7Zd2KxuHheyjctO9YCwORxi5Xh4Q6El/uWJa2oRdvoQcGX+Woi7jLdZ2hvY5i2p+kwYKJo
+ YWappXR/xPWIfjjP5x+217N4+SmHJuS8OoXJWz14OXCX4Mxfl9in//Qp6VSGZNTO4czdri3Ky
+ kweyqOAYB2dup6gR+HY4ss0XjasHMtew+I6CYstgEwD6BOQyjXgRensu/7UQucAcOFH92GYry
+ ZAr3CvlZGGZOnFF5RUlVVWClYXdRyfz+Tuiozv7L6kdHywj6VeNdadlRe6OKfUW2cqRCyqVmi
+ 5B4fFQXyXE9T9Nf6pQ2I6aq1lX50IqnTBhBgNKuVzVcESfFMFoKdO6+0zoxF7pEFK3S5r80+V
+ UZnFhUwFU5iyjva8O/WYg/yNI+m88qbfgVPrQ/hyWFWP5ThaU8RGy7zGrF8ubyX9f/2mY7yE/
+ OeflF4ClduCZn51uBVCQmgMmJSsCTmGlBWd1/NZVfHsT5uX2wLYZsAzFOFAL47+Ek2f8FAUPU
+ m9wSMYjh3slWVb4AN9reLEJ1SIX3Wbb1tv77Uu1I6P1X3UeOULnhKaQohcwGSlD135k14lnJJ
+ 0t1luoqzxUSOPZopwwjkhLWRa/m7cV
 
-Add kerneldoc and sysfs class documentation.
+Am 09.01.25 um 10:19 schrieb Mischa Baars:
+> On Mon, Jan 6, 2025 at 4:30=E2=80=AFAM Mario Limonciello
+> <mario.limonciello@amd.com> wrote:
+>
+>> When new specifications are made available it's not like the old one
+>> suddenly becomes "open", so I don't see any reason that a new
+>> specification would change anything.
+> I paid about =E2=82=AC3000 for my new PC, including =E2=82=AC300 for the=
+ graphics card
+> with HDMI 2.1 output and about =E2=82=AC2000 for my new Samsung OLED TV =
+with 4
+> HDMI 2.1 inputs, and now you are telling me that I will not be able to
+> utilize them fully because the cable specification has not been made
+> publicly available?
+>
+> Did someone forget to pay the people that design the cables? Because
+> that is what it sounds like. Why does Linux stay behind?
 
-Signed-off-by: Kurt Borja <kuurtb@gmail.com>
----
- .../ABI/testing/sysfs-class-platform-profile  | 44 +++++++++++++++++++
- drivers/acpi/platform_profile.c               | 33 ++++++++++++++
- 2 files changed, 77 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-class-platform-profile
+Sadly the HDMI forum only provides the HDMI specification under a special =
+license which
+prohibits implementing it in open source drivers.
 
-diff --git a/Documentation/ABI/testing/sysfs-class-platform-profile b/Documentation/ABI/testing/sysfs-class-platform-profile
-new file mode 100644
-index 000000000000..59486dc4313f
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-class-platform-profile
-@@ -0,0 +1,44 @@
-+What:		/sys/class/platform-profile/platform-profile-X/name
-+Date:		January 2025
-+Description:	Name of the class device given by the driver.
-+
-+		RO
-+
-+What:		/sys/class/platform-profile/platform-profile-X/choices
-+Date:		January 2025
-+Description:	This file contains a space-separated list of profiles supported for this device.
-+
-+		Drivers must use the following standard profile-names:
-+
-+		====================	========================================
-+		low-power		Low power consumption
-+		cool			Cooler operation
-+		quiet			Quieter operation
-+		balanced		Balance between low power consumption
-+					and performance
-+		balanced-performance	Balance between performance and low
-+					power consumption with a slight bias
-+					towards performance
-+		performance		High performance operation
-+		custom			Driver defined custom profile
-+		====================	========================================
-+
-+		RO
-+
-+What:		/sys/class/platform-profile/platform-profile-X/profile
-+Date:		January 2025
-+Description:	Reading this file gives the current selected profile for this
-+		device. Writing this file with one of the strings from
-+		platform_profile_choices changes the profile to the new value.
-+
-+		This file can be monitored for changes by polling for POLLPRI,
-+		POLLPRI will be signalled on any changes, independent of those
-+		changes coming from a userspace write; or coming from another
-+		source such as e.g. a hotkey triggered profile change handled
-+		either directly by the embedded-controller or fully handled
-+		inside the kernel.
-+
-+		This file may also emit the string 'custom' to indicate
-+		that the driver is using a driver defined custom profile.
-+
-+		RW
-diff --git a/drivers/acpi/platform_profile.c b/drivers/acpi/platform_profile.c
-index 8c79ecab8a6d..5d74675c5419 100644
---- a/drivers/acpi/platform_profile.c
-+++ b/drivers/acpi/platform_profile.c
-@@ -426,6 +426,10 @@ static const struct attribute_group platform_profile_group = {
- 	.is_visible = profile_class_is_visible,
- };
- 
-+/**
-+ * platform_profile_notify - Notify class device and legacy sysfs interface
-+ * @dev: The class device
-+ */
- void platform_profile_notify(struct device *dev)
- {
- 	scoped_cond_guard(mutex_intr, return, &profile_lock) {
-@@ -435,6 +439,11 @@ void platform_profile_notify(struct device *dev)
- }
- EXPORT_SYMBOL_GPL(platform_profile_notify);
- 
-+/**
-+ * platform_profile_cycle - Cycles profiles available on all registered class devices
-+ *
-+ * Return: 0 on success, -errno on failure
-+ */
- int platform_profile_cycle(void)
- {
- 	enum platform_profile_option next = PLATFORM_PROFILE_LAST;
-@@ -478,6 +487,15 @@ int platform_profile_cycle(void)
- }
- EXPORT_SYMBOL_GPL(platform_profile_cycle);
- 
-+/**
-+ * platform_profile_register - Creates and registers a platform profile class device
-+ * @dev: Parent device
-+ * @name: Name of the class device
-+ * @drvdata: Driver data that will be attached to the class device
-+ * @ops: Platform profile's mandatory operations
-+ *
-+ * Return: pointer to the new class device on success, ERR_PTR on failure
-+ */
- struct device *platform_profile_register(struct device *dev, const char *name,
- 					 void *drvdata,
- 					 const struct platform_profile_ops *ops)
-@@ -548,6 +566,12 @@ struct device *platform_profile_register(struct device *dev, const char *name,
- }
- EXPORT_SYMBOL_GPL(platform_profile_register);
- 
-+/**
-+ * platform_profile_remove - Unregisters a platform profile class device
-+ * @dev: Class device
-+ *
-+ * Return: 0
-+ */
- int platform_profile_remove(struct device *dev)
- {
- 	struct platform_profile_handler *pprof = to_pprof_handler(dev);
-@@ -573,6 +597,15 @@ static void devm_platform_profile_release(struct device *dev, void *res)
- 	platform_profile_remove(*ppdev);
- }
- 
-+/**
-+ * devm_platform_profile_register - Device managed version of platform_profile_register
-+ * @dev: Parent device
-+ * @name: Name of the class device
-+ * @drvdata: Driver data that will be attached to the class device
-+ * @ops: Platform profile's mandatory operations
-+ *
-+ * Return: pointer to the new class device on success, ERR_PTR on failure
-+ */
- struct device *devm_platform_profile_register(struct device *dev, const char *name,
- 					      void *drvdata,
- 					      const struct platform_profile_ops *ops)
--- 
-2.47.1
+Since membership inside the HDMI forum costs 15000$ annually, i suspect th=
+at the HDMI forum
+is abusing its power to force people to join (and pay).
 
+I can feel your disappointment, but there is nothing we can do which does =
+not land us in court :(.
+
+Thanks,
+Armin Wolf
+
+> On Mon, Jan 6, 2025 at 4:41=E2=80=AFPM Michel D=C3=A4nzer <michel.daenze=
+r@mailbox.org> wrote:
+>> On 2024-12-31 13:42, Mischa Baars wrote:
+>>> In the meantime I also checked the framerate synchronization through
+>>> glxgears at different resolutions and framerates. This does function
+>>> as expected. Although I haven't yet inspected the glxgears source
+>>> codes in detail, the OpenGL double buffering must be functional up to
+>>> some level. This means that the problem must be confined to GTK and
+>>> the GtkGLArea widget. Using GDK_BACKEND=3Dx11 I do get a double buffer=
+ed
+>>> context, but the default buffer does not alternate between GL_FRONT
+>>> and GL_BACK.
+>> Yeah, that's not how double-buffering works in GL. The draw buffer is a=
+lways GL_BACK, SwapBuffers doesn't affect that (it just may internally cha=
+nge which actual buffer GL_BACK refers to).
+>>
+>> I don't see more context about the issue you're investigating, any poin=
+ters?
+>>
+>>
+>> --
+>> Earthling Michel D=C3=A4nzer       \        GNOME / Xwayland / Mesa dev=
+eloper
+>> https://redhat.com             \               Libre software enthusias=
+t
 
