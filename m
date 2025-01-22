@@ -1,124 +1,200 @@
-Return-Path: <platform-driver-x86+bounces-8904-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-8907-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21CEAA187D9
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Jan 2025 23:46:51 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74195A18A13
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jan 2025 03:40:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF78B188B4F8
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Jan 2025 22:46:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 237DD1881428
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jan 2025 02:40:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40CF21F8934;
-	Tue, 21 Jan 2025 22:46:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="k5vJlgkH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECFCC15667D;
+	Wed, 22 Jan 2025 02:34:18 +0000 (UTC)
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4400B1F78E8
-	for <platform-driver-x86@vger.kernel.org>; Tue, 21 Jan 2025 22:46:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A73354764;
+	Wed, 22 Jan 2025 02:34:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737499606; cv=none; b=himH907of2zMgui8RWM4BTXxxW2pdHsUcuLKIAzgU2sXwCStDnpFMSiYCOl5XjOZn+6+xfvb0EQar/NhiN7BiUeDaEKL8iZisZg9eRoRNg73o7FlJzLSrKOS1LaNmpruw57cpbhcvpE+suvo24YusHTjHuYEZxEKXLFVFYoueqI=
+	t=1737513258; cv=none; b=aLBQh6w/ulWuP2PIlyFuiy6KEAPi4qNoY6OB6ddNbglelZvlGKFoFIRngjUeuMcGWJ14d2N4UHEO3+NgTmqKcG4YsMCtgxlm+DJQASyNjY5uVsVkQiwnBV+cD7Hvrh0q0PL9dtNRAe/AS8K1vLD5BZNRvz2jXeuwY/p6kLOFXW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737499606; c=relaxed/simple;
-	bh=cchUDxLgaZgqrg5IdavzBbBrud0K8o1mfxpHf4FdIzE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HX6TnjtKNEJlNfJu0LT8rT4zFk5Qs0QqNVlHWABNcdEobkITdprKPH9l9HV0Af4kQu4unr73kzPIzuHAiOTG1yO1EqTVWVzt6vSTu2m+wO1s1C1/XKsyqvJS9epF5CdutCt5PDH10dnZXgRPoxaKYFins+y+NpOgbNqZ0QVZuT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=k5vJlgkH; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5401b7f7141so5601104e87.1
-        for <platform-driver-x86@vger.kernel.org>; Tue, 21 Jan 2025 14:46:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737499602; x=1738104402; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ueW7eUjPjy3W4d+buLXQsQex+GgJG2cqiwpbba6ZqaM=;
-        b=k5vJlgkHazK3G4izUV3bm6Dhvb+ma1cPCU6E/Q9z2hybsE0E75qnXwsTR+4kAp95pK
-         +pYRJ2spybab3o8ji/eqim+qkympI5u4SZq7Qn6d3+a11FEW5/O9zqLHKZFgA8FrNBht
-         9g7KS2yqvxHiQ/2onbBVQ2RPeZnRBazBkMKnuCuvMtJkhe6XY2E229PSPpiV2ysnugtl
-         l9y+TeCnrFy+DsE90w/YY1WQ1eeyW3+tMJ3qHg7+wJsDgwClqBytyf/UKK08GnZ3fg5S
-         JTkYayen+eQ+NjJ0g5KdlXYwGcY272kdMOm00NNxBQ4i63pTM7b6yGsgn3ceXl4NPKds
-         4J4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737499602; x=1738104402;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ueW7eUjPjy3W4d+buLXQsQex+GgJG2cqiwpbba6ZqaM=;
-        b=nv/PyvrdPaREbP1YXeM6ft8EHOOL4++G/CAMR02OA+mveHGQ1LyJTWN7JzNTetfu3+
-         bQPRog43JZ47r3PXb0x+0p8gJUB6M/qqcPJm5ILvF7+7Ym12mA3CVWS4N3idFm8ppIDD
-         um+jMtSzjgQRDOq8rBdiJDME6gSpRDu34IWWTx4RTd6ct4igEURQQCRnrMkcGmae0hce
-         F+iSXW2PRrrxb5qLDnW1zUgX2pmZq1UTMWZa/Dnz9raMXU210kdyxj2PGEVV9ym1dTyA
-         aF13SfeocwN4grlRN8WNLbYpg8mcP9Zg7if17hZOigDy/IAsj+mlCQjpupRIlzyI/4he
-         EN0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU6nlmz6HZ4vOoAAP2+Y3YNyILI7BqtMvZe3Ts6HLcMC7fRaJbPRoZsLFPsYw5qKksMZY9nITL6KhK4OYfkk2uQdSQY@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQxOUCV2MmoMJLw3lZRqY/NUsV1ny/+BP1mKcTmXvGOkVdMEY5
-	qfdXhHjlIdSk2LQEnTWhmySsO1i+MNGmv+/FJMP3eDlHqkAKNI3rZ6L+LcWWLgGXJly+THxKjrT
-	Eh+56K/zSZayUwGmcRLR0HwZZ1Hc5m0B1u4qt6A==
-X-Gm-Gg: ASbGncs1Mk5BYIXU0OEhoEMxk/Z3qj+HQ6tA8Llp5T43xhMclJs8XXk/EfaOjtDA64d
-	Qr/XCxsb/vGsonMXJAtHVYh7FwzyzSwEx+p09ZLMRgrWHm8USvw==
-X-Google-Smtp-Source: AGHT+IEH2jyoBhV/SK5lQRQDm7lzkjaNOHM97pS3ty1f8wVYFKlEYyxgzOmAVMMsZcT3pzYTriHKr1F8gqt4Je+Iy9k=
-X-Received: by 2002:ac2:4e0e:0:b0:542:297f:4f68 with SMTP id
- 2adb3069b0e04-5439c1b85fdmr7417123e87.0.1737499602318; Tue, 21 Jan 2025
- 14:46:42 -0800 (PST)
+	s=arc-20240116; t=1737513258; c=relaxed/simple;
+	bh=ahL/0Ai3hbmd4fgtPdz9MFVO3eMVv9sVRtU0Vxotbj0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Ku3gTH4DA7GtVTZ38PtKPQWLK5O3nXAGHk29a2rGOtwxlHwXzQ/7TOphRQoLcyJlqB4Pc8Y7Gy43BXmizTzyZ0OjSYxA7N/4RkzRrGap3bak3Bnrkw/+z7Pl3JrfbDozUIP8aUtZSeIKho/fQeg6G1iSZhhHFfxQAQQa5AYX9JE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Yd7PV04n7zRln3;
+	Wed, 22 Jan 2025 10:31:42 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0615818006C;
+	Wed, 22 Jan 2025 10:34:12 +0800 (CST)
+Received: from kwepemn100009.china.huawei.com (7.202.194.112) by
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 22 Jan 2025 10:34:11 +0800
+Received: from [10.67.121.59] (10.67.121.59) by kwepemn100009.china.huawei.com
+ (7.202.194.112) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 22 Jan
+ 2025 10:34:09 +0800
+Message-ID: <9575c823-4f77-8037-a4be-075b2e35d6f1@huawei.com>
+Date: Wed, 22 Jan 2025 10:34:08 +0800
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1733245406.git.ukleinek@kernel.org> <3a99048a52aeee356d01dbf7f2f06e6e0826ed78.1733245406.git.ukleinek@kernel.org>
- <Z09YJGifvpENYNPy@smile.fi.intel.com> <ipkpvzuv7eogcfeamvkwxjsazg33umoykuij7zz3sfhlahtn2x@tr3gok7bbmco>
-In-Reply-To: <ipkpvzuv7eogcfeamvkwxjsazg33umoykuij7zz3sfhlahtn2x@tr3gok7bbmco>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 21 Jan 2025 23:46:31 +0100
-X-Gm-Features: AbW1kva7ncBM2IeIDV5HoVet9AYIR2oav9OGUDSRHE3DOyoTMfl974H2vwt4VHo
-Message-ID: <CACRpkdYwhMa=obX1nqy1VAD93LPp6HkSvX9X2L-k6bOAORzBXQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] pwm: lpss: Move namespace import into a header
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: linux-pwm@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, platform-driver-x86@vger.kernel.org, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v1 00/21] hwmon: Fix the type of 'config' in struct
+ hwmon_channel_info to u64
+To: Armin Wolf <W_Armin@gmx.de>
+CC: <linux-hwmon@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<arm-scmi@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<linux-rtc@vger.kernel.org>, <oss-drivers@corigine.com>,
+	<linux-rdma@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
+	<linuxarm@huawei.com>, <linux@roeck-us.net>, <jdelvare@suse.com>,
+	<kernel@maidavale.org>, <pauk.denis@gmail.com>, <james@equiv.tech>,
+	<sudeep.holla@arm.com>, <cristian.marussi@arm.com>, <matt@ranostay.sg>,
+	<mchehab@kernel.org>, <irusskikh@marvell.com>, <andrew+netdev@lunn.ch>,
+	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <saeedm@nvidia.com>, <leon@kernel.org>,
+	<tariqt@nvidia.com>, <louis.peens@corigine.com>, <hkallweit1@gmail.com>,
+	<linux@armlinux.org.uk>, <kabel@kernel.org>, <hdegoede@redhat.com>,
+	<ilpo.jarvinen@linux.intel.com>, <alexandre.belloni@bootlin.com>,
+	<krzk@kernel.org>, <jonathan.cameron@huawei.com>, <zhanjie9@hisilicon.com>,
+	<zhenglifeng1@huawei.com>, <liuyonglong@huawei.com>
+References: <20250121064519.18974-1-lihuisong@huawei.com>
+ <03b138e9-688f-4ebc-bd01-3d54fd20e525@gmx.de>
+From: "lihuisong (C)" <lihuisong@huawei.com>
+In-Reply-To: <03b138e9-688f-4ebc-bd01-3d54fd20e525@gmx.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemn100009.china.huawei.com (7.202.194.112)
 
-On Mon, Dec 16, 2024 at 9:46=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@baylibre.com> wrote:
 
-> Andy and I disagree about this change. If you happen to not have the
-> patch in your inbox, see
-> https://lore.kernel.org/linux-pwm/3a99048a52aeee356d01dbf7f2f06e6e0826ed7=
-8.1733245406.git.ukleinek@kernel.org/
+在 2025/1/21 22:12, Armin Wolf 写道:
+> Am 21.01.25 um 07:44 schrieb Huisong Li:
 >
-> Would you please volunteer as the impartial judge here as you're the
-> upstream maintainer of drivers/pinctrl/intel/pinctrl-intel.c?
-
-What about those wise lines from Torvalds in
-Documentation/process/management-style.rst:
-
-  The name of the game is to **avoid** having to make a decision.  In
-  particular, if somebody tells you "choose (a) or (b), we really need you
-  to decide on this", you're in trouble as a manager.  The people you
-  manage had better know the details better than you, so if they come to
-  you for a technical decision, you're screwed.  You're clearly not
-  competent to make that decision for them.
-
-> The TL;DR; is: Do you prefer a single MODULE_IMPORT_NS() in a header, or
-> should every consumer driver explicitly have its own MODULE_IMPORT_NS()
-> invokation?
-
-Intuitively I personally prefer using macros like that in every instance
-(in every consumer driver). But it's not like I can give any good reason
-for it, just intuition and what I would do.
-
-Yours,
-Linus Walleij
+>> The hwmon_device_register() is deprecated. When I try to repace it with
+>> hwmon_device_register_with_info() for acpi_power_meter driver, I 
+>> found that
+>> the power channel attribute in linux/hwmon.h have to extend and is more
+>> than 32 after this replacement.
+>>
+>> However, the maximum number of hwmon channel attributes is 32 which is
+>> limited by current hwmon codes. This is not good to add new channel
+>> attribute for some hwmon sensor type and support more channel attribute.
+>>
+>> This series are aimed to do this. And also make sure that 
+>> acpi_power_meter
+>> driver can successfully replace the deprecated hwmon_device_register()
+>> later.
+>
+> Hi,
+>
+> what kind of new power attributes do you want to add to the hwmon API?
+The attributes you list is right.
+>
+> AFAIK the acpi-power-meter driver supports the following attributes:
+>
+>     power1_accuracy            -> HWMON_P_ACCURACY
+>     power1_cap_min            -> HWMON_P_CAP_MIN
+>     power1_cap_max            -> HWMON_P_CAP_MAX
+>     power1_cap_hyst            -> HWMON_P_CAP_HYST
+>     power1_cap            -> HWMON_P_CAP
+>     power1_average            -> HWMON_P_AVERAGE
+>     power1_average_min        -> HWMON_P_AVERAGE_MIN
+>     power1_average_max        -> HWMON_P_AVERAGE_MAX
+>     power1_average_interval        -> HWMON_P_AVERAGE_INTERVAL
+>     power1_average_interval_min    -> HWMON_P_AVERAGE_INTERVAL_MIN
+>     power1_average_interval_max    -> HWMON_P_AVERAGE_INTERVAL_MAX
+>     power1_alarm            -> HWMON_P_ALARM
+>     power1_model_number
+>     power1_oem_info
+>     power1_serial_number
+>     power1_is_battery
+>     name                -> handled by hwmon core
+>
+> The remaining attributes are in my opinion not generic enough to add 
+> them to the generic
+> hwmon power attributes. I think you should implement them as a 
+> attribute_group which can
+> be passed to hwmon_device_register_with_info() using the 
+> "extra_groups" parameter.
+>
+This is a good idea. Thanks.
+>
+>>
+>> Huisong Li (21):
+>>    hwmon: Fix the type of 'config' in struct hwmon_channel_info to u64
+>>    media: video-i2c: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    net: aquantia: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    net: nfp: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    net: phy: marvell: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    net: phy: marvell10g: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    rtc: ab-eoz9: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    rtc: ds3232: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    w1: w1_therm: w1: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    net: phy: aquantia: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    hwmon: (asus_wmi_sensors) Fix type of 'config' in struct
+>>      hwmon_channel_info to u64
+>>    hwmon: (hp-wmi-sensors) Fix type of 'config' in struct
+>>      hwmon_channel_info to u64
+>>    hwmon: (mr75203) Fix the type of 'config' in struct 
+>> hwmon_channel_info
+>>      to u64
+>>    hwmon: (pwm-fan) Fix the type of 'config' in struct 
+>> hwmon_channel_info
+>>      to u64
+>>    hwmon: (scmi-hwmon) Fix the type of 'config' in struct
+>>      hwmon_channel_info to u64
+>>    hwmon: (tmp401) Fix the type of 'config' in struct hwmon_channel_info
+>>      to u64
+>>    hwmon: (tmp421) Fix the type of 'config' in struct hwmon_channel_info
+>>      to u64
+>>    net/mlx5: Fix the type of 'config' in struct hwmon_channel_info to 
+>> u64
+>>    platform/x86: dell-ddv: Fix the type of 'config' in struct
+>>      hwmon_channel_info to u64
+>>    hwmon: (asus-ec-sensors) Fix the type of 'config' in struct
+>>      hwmon_channel_info to u64
+>>    hwmon: (lm90) Fix the type of 'config' in struct 
+>> hwmon_channel_info to
+>>      u64
+>>
+>>   drivers/hwmon/asus-ec-sensors.c               |   6 +-
+>>   drivers/hwmon/asus_wmi_sensors.c              |   8 +-
+>>   drivers/hwmon/hp-wmi-sensors.c                |   6 +-
+>>   drivers/hwmon/hwmon.c                         |   4 +-
+>>   drivers/hwmon/lm90.c                          |   4 +-
+>>   drivers/hwmon/mr75203.c                       |   6 +-
+>>   drivers/hwmon/pwm-fan.c                       |   4 +-
+>>   drivers/hwmon/scmi-hwmon.c                    |   6 +-
+>>   drivers/hwmon/tmp401.c                        |   4 +-
+>>   drivers/hwmon/tmp421.c                        |   2 +-
+>>   drivers/media/i2c/video-i2c.c                 |  12 +-
+>>   .../ethernet/aquantia/atlantic/aq_drvinfo.c   |  14 +-
+>>   .../net/ethernet/mellanox/mlx5/core/hwmon.c   |   8 +-
+>>   .../net/ethernet/netronome/nfp/nfp_hwmon.c    |  40 +--
+>>   drivers/net/phy/aquantia/aquantia_hwmon.c     |  32 +-
+>>   drivers/net/phy/marvell.c                     |  24 +-
+>>   drivers/net/phy/marvell10g.c                  |  24 +-
+>>   drivers/platform/x86/dell/dell-wmi-ddv.c      |   6 +-
+>>   drivers/rtc/rtc-ab-eoz9.c                     |  24 +-
+>>   drivers/rtc/rtc-ds3232.c                      |  24 +-
+>>   drivers/w1/slaves/w1_therm.c                  |  12 +-
+>>   include/linux/hwmon.h                         | 300 +++++++++---------
+>>   22 files changed, 205 insertions(+), 365 deletions(-)
+>>
+> .
 
