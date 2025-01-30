@@ -1,175 +1,201 @@
-Return-Path: <platform-driver-x86+bounces-9081-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-9084-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90BD4A2341F
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 Jan 2025 19:51:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33269A234D2
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 Jan 2025 20:49:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EED641664F7
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 Jan 2025 18:51:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DBF518843B7
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 Jan 2025 19:49:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44D6418FDCE;
-	Thu, 30 Jan 2025 18:51:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09B7B1F0E47;
+	Thu, 30 Jan 2025 19:49:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="YrsFpKD7"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="AsUK9YYh"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2061.outbound.protection.outlook.com [40.107.92.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28EF01BEF84;
-	Thu, 30 Jan 2025 18:51:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738263077; cv=none; b=SvfvXeWV7dLOrmL/bMkSXawR0OJDtyt+ZUqxAhAgzi2FNwXgTG5H7CZTpmUN/+FhQLdhkyuiCOLoZC16svrExljKo7iFmW8ng4CrUsGBIJBQeUJkkPAmU+oKz2ePjuF9XCPg2Elj9ilwc2tz0Y678qB9aK8sL7gIBvvqRYjMUTw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738263077; c=relaxed/simple;
-	bh=AY6y/Upb7xXfL5BBLdq3Flb4SGxbpApJndQuezqqpz4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YR5W4KTaWkQxbbi7gFobichln5hvHvl2/MmthKYp5WnKQR3wzc7jPBE4UIPb0gFaDpuq/dCTI7Aem9eG8/8JLIj9/j2COeO/Q5o27LHaHAE6ifFDtH4SzP6QHAyEL9TbXWmgW8nv9hG7EfvMSn9d6bPwWIqOHkK743sE0WC9KY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=YrsFpKD7; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1738263070;
-	bh=AY6y/Upb7xXfL5BBLdq3Flb4SGxbpApJndQuezqqpz4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YrsFpKD7eZDdv+tfF90Ff6tZPSeDK2ReNTXoy/RmwQvNENlgptTdQH6bCuI0lNXEu
-	 Ja+svrVPArVXSgDxHIbcMIvBF+MiBVI3Maz8EpyiY4HLH/q3YCg97kiV2d5FeMu/pO
-	 OLzvACfPQLNk+DCK4jzixWrga5tcgaZ7pm3Pn8GM=
-Date: Thu, 30 Jan 2025 19:51:09 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Joshua Grisham <josh@joshuagrisham.com>
-Cc: Kurt Borja <kuurtb@gmail.com>, W_Armin@gmx.de, 
-	ilpo.jarvinen@linux.intel.com, hdegoede@redhat.com, platform-driver-x86@vger.kernel.org, 
-	corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8] platform/x86: samsung-galaxybook: Add
- samsung-galaxybook driver
-Message-ID: <c952132b-c0ef-4f8d-a93c-46cdb8f5cad3@t-8ch.de>
-References: <20250118202632.8352-1-josh@joshuagrisham.com>
- <e67bf708-be8a-4331-b250-d2f31e38536b@t-8ch.de>
- <CAMF+Keb5UzEUeim=33JR=Vv8qK7xqGn_jjNdtZMQTFtrpKrgSA@mail.gmail.com>
- <D7B8WVUD7F4B.1BL2WE2BNRCX6@gmail.com>
- <CAMF+Kebx4sU+0p+pFaH1Lz4q1xApM8iS9UAYP=sZnE2GDa32ww@mail.gmail.com>
- <628d5725-2d20-4298-862d-ad0e47782d15@t-8ch.de>
- <CAMF+KeaM2DhOX3h+HyUBDXp9xNtFAuw+7ooZp1XEJQxdp6CVKg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F41A1898FB;
+	Thu, 30 Jan 2025 19:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.61
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738266577; cv=fail; b=b+NG/tjr86AqaS6u7XQ9bTQUq+YmDaUBWPp1+1WsMT2NUwWVSB6zlfMu8vghRL2hGDcnrFNWopS26AW5FaCSi1hoMF44p7Ea2PYUaVobgeyUp/3LeJobR/HGdEfKtfxPmLP3qbWmzhjeC3IrU3OAkRxSDlHInng72JD3wieT2xA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738266577; c=relaxed/simple;
+	bh=W0dqkEnc0TRexxPaQoP6GeBcIUjTUTEvkbs01xpIuMY=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=thamWCN6WlNn686Ey4rEaX9FQ5CQTp/3cP5ReRXwJ/q5Va/SR9G6crKH9562YgRp1oC50iAU0hX3vfjjbIkNkFIN91mTWVrozFsuFnkfKhzLkSkQBqTJ4Gb3h/5QFnk+f0gpYGRVqKB/eazXUmVSj8a70R/+t1+2OcYMwrRJj6Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=AsUK9YYh; arc=fail smtp.client-ip=40.107.92.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jzo13yvS9p/Y6cm6KyGteS3nFkKqDEqkBZ1n5sQx2zUFM/wRdFq/Da2OhYEy7mV7OiMJQYRSm71hCkFTrF9fTx63DOoCRRLN99xN8EwrA9BF2HDk4VUD5rBdloXm9+z6sKCnYmrQtq+F6pX/6qPBCcYq/yqrRrJTegK1WK5NFpp2JnKlxFCM6ONAOXDmUovtnZ1I6HQL0P1hTEnYTrCwoaLmghKWzhfL9YOQTaAEC/P3iegrage7WyChfUwzQKWSritPEpfXRxpcBDyRcLP23C5N8fzamszQmHTosBWXeOFEunZ8pRUjZzz69t8lWEBR929kjsvl62EKi2LwJGRSAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=97dlXtaRVI3Rui1U9HH5zYCKQX7e15xtdEXV8C9mbQg=;
+ b=HQRglvTNHr392nhc3qX2jJQWltHTWB8EPMJ2IYpKNkzT3Ej2iZ3cdUaK7v9NUoevXIjdIFyxQiTfFesbIDeidYw7RAyQZaGyET+6N9ku0n00Cobk1RfFTPg30bP/LbfWxEIywERv02p5H5P1x+92mk0EqEoL85JvjFVL97Fj0miQvkeZqRy/yvWL+VFJF/5yjCELalLjgg7uXmXhZrHvrrB/5qZ3dsfamc9CHyczFtpNpm+HqJlDuse/pHE4LZgFqbXx1O459pe4eS1GM0sRgodAiEmzP1i1kHerg7ADtpWJr26YQ8WWYvkUxwl/1KCY/6i3mQv/IlrUPcl/bZt91w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=97dlXtaRVI3Rui1U9HH5zYCKQX7e15xtdEXV8C9mbQg=;
+ b=AsUK9YYhxdJ1tCbuMJs/n7upIoknKwxiOSjYnp5jJOmg1EycctR3B6/7gU+KB3/Wyxu0hD9TtUdx29dPV63S4ci6xKbqSOfsLNnrLe87roM9j40z1oCkPFHSAjHAFjLxG8G+uQkFyBq32f57e0h3aWaxObVjEvc5bKMRH/4pUwM=
+Received: from BN6PR17CA0047.namprd17.prod.outlook.com (2603:10b6:405:75::36)
+ by PH7PR12MB6419.namprd12.prod.outlook.com (2603:10b6:510:1fd::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.20; Thu, 30 Jan
+ 2025 19:49:29 +0000
+Received: from BN2PEPF00004FBD.namprd04.prod.outlook.com
+ (2603:10b6:405:75:cafe::64) by BN6PR17CA0047.outlook.office365.com
+ (2603:10b6:405:75::36) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8356.22 via Frontend Transport; Thu,
+ 30 Jan 2025 19:49:29 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN2PEPF00004FBD.mail.protection.outlook.com (10.167.243.183) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8398.14 via Frontend Transport; Thu, 30 Jan 2025 19:49:29 +0000
+Received: from [127.0.1.1] (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 30 Jan
+ 2025 13:49:28 -0600
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+Subject: [PATCH v4 0/3] AMD NB and SMN rework
+Date: Thu, 30 Jan 2025 19:48:54 +0000
+Message-ID: <20250130-wip-x86-amd-nb-cleanup-v4-0-b5cc997e471b@amd.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMF+KeaM2DhOX3h+HyUBDXp9xNtFAuw+7ooZp1XEJQxdp6CVKg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKbXm2cC/3WOzQ6CMBCEX8X07OJ2C4V48j2MhwKLNJFCWsQfw
+ rtbSPTm8Uvmm5lZBPaWgzjuZuF5ssH2LkK634mqNe7KYOvIgpBSSajhYQd4FhpMV4Mrobqxcfc
+ BtCoUl3VT1JSJKA+eG/vcis+XyKUJDKU3rmrXutEOh86Ekf0abm0Ye//aTky0Kr89qSVJTKRWO
+ UqQ8DJvdsk1XnOmO8UTSdV3Yl2Y1FfMUGJOREWaJ0ohpgr/m8uyfAAJ0iGmBQEAAA==
+X-Change-ID: 20241206-wip-x86-amd-nb-cleanup-6383ebdf8d25
+To: <x86@kernel.org>, Mario Limonciello <mario.limonciello@amd.com>, "Yazen
+ Ghannam" <yazen.ghannam@amd.com>, Suma Hegde <Suma.Hegde@amd.com>, "Naveen
+ Krishna Chatradhi" <naveenkrishna.chatradhi@amd.com>, Carlos Bilbao
+	<carlos.bilbao.osdev@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
+	=?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+CC: <linux-kernel@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>
+X-Mailer: b4 0.15-dev-d23a9
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF00004FBD:EE_|PH7PR12MB6419:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4f32c3e4-1481-4586-3cd7-08dd416735a9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700013|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?dGZoVlg1UkF3TERnQlF4akVLTytYZWJXS2h6MUM5Y0EwV3RwVy8za1hEcFpV?=
+ =?utf-8?B?dzZFT0pRQVMxd0dFOVF6MFU0aS81bXVadlg5R2t1aEsxckRDTk42ekNhcGlS?=
+ =?utf-8?B?Rlp0S1pKMkp0ME4yY0NtVTFraStIQjlOVWNOQUN0VE5TcHY5Tjk4L2xLTWRW?=
+ =?utf-8?B?bXRCcXltT0RBUEdzTDhzNjFaREIrTDRVL2lsVllGd2JYQlhYT1RQUGJZOGJS?=
+ =?utf-8?B?Y2RZazlDU0dJL2I4K2ZMK0VWRHFUYjZ5eU5ibGU1anM4cVcwNExDMVIvMDRV?=
+ =?utf-8?B?MHlzZzJpc2QrcGlYSXFzWHFsOW1sVHMzZnREaGwzR2I5ZnNvK1lqVitsL0VP?=
+ =?utf-8?B?VlNjeUxudDZCdEJCU1ZuWWFaazdMcGI1cm9QODh5WlhYSGNaS25EUzlOT0F5?=
+ =?utf-8?B?VGFMWGQyYlAxaWN0L3c0dGYydTFCYTJNZXkzS0d5MTZySGM2Sm1wWmtBVVdU?=
+ =?utf-8?B?dmhXT1J3YXVadFdOV1YrcnVkZ3BBV2tVUUY1cXVyS1lycEt5aVk3SVNzNlBm?=
+ =?utf-8?B?SERGcFJYbWNoNTNFL2E3K2kycXJsTXB4SkxnanJUeEN5TGVpSWlDd29vVFkw?=
+ =?utf-8?B?R1lMcmFNL0pCQU5WY2oyelJSSSt0OXR2RlRTN0tnM2YybE1PbU5FZUxzWU5n?=
+ =?utf-8?B?UUQ5RHRDUFV5SFhRWmpWU0RESWpuWit2SWNNSFpJa0U3UXBKTVZZV0kyeXBi?=
+ =?utf-8?B?SXJSbDNpVSsvbnh3V0szVHgxcEFVNzlPcGtqL0J1YVJxRkNBYzBjcFJ5YmdP?=
+ =?utf-8?B?bjZOdjJUc3FrRW1mdUs5bk12YW5FUVNHamwrOEQvS1ZGaWMzVTlzSGJ4Q1hN?=
+ =?utf-8?B?Yk8xTFZVOXFoZ1FwWnRYeFBSZVNsZFE5a3Y4c3VqYWNqWjk3aTU4U2l3eE1L?=
+ =?utf-8?B?TmJXbFRWYjFtUDFndE42V05oUUVBTkhSeGlpanBNcE1MWDhGQ2ZCODlZUkhZ?=
+ =?utf-8?B?ZC91c1dWU3dhSFRtS2RRb2IzREZXL3NpV1IzMzlsUTlBblRCcDBjaEFrMXBY?=
+ =?utf-8?B?VmxMKzArc2VvMXRnTUFreHRaL0VvSFNwcHNaZm1KOGxUY0FSblZWUk1wRlM5?=
+ =?utf-8?B?RXRFZUkwRWZoeUMzblZaQVlvWDc3R2VKSnczeUI0aGpVZUJhNTVhMy9NRUU5?=
+ =?utf-8?B?bnNGVUp0cllGWXN4dmVFZHh6VG44UWdraGVJOHlDdU1vMWhjOHZSbVNyMFJJ?=
+ =?utf-8?B?aGtxVlgrWjBQZUJBTEcxR1ArNXh0dkJHNTR4NDFNL0lsb1VRUVdHakJzQ1NJ?=
+ =?utf-8?B?bGxpVy9kRzVqa0FyZjBCYm40anJUb2JseUV4WjVSSUdhcnAvV1d5ZUIxeTNT?=
+ =?utf-8?B?cVNKczlNUTB3RjR3bTBBeGVqZklCYjhsbnZBRXl2QUxxdlhrS0NiekwwOHpQ?=
+ =?utf-8?B?MkpjL2txcGIrRXFjdmZ1TnFLeEt2WUVHOWFONktSQ3QwMzlZSnZlcmkraFBY?=
+ =?utf-8?B?VzB1QmRGZk16YW5OWkhURFNJQnNSemtLdWxsQkh6SGhQMHYreUp2RTdaVCt2?=
+ =?utf-8?B?M1UxNWw2MVkrMW1paGJnMTlQblBNcVJtakZxY1Z1VXFsWUZjbVljZS8rNGVz?=
+ =?utf-8?B?ajRZbVJmcG1TNnB2Q2JrTkJYN2J4WVViTUV4cjE4OVBTWE5VaHVYUElqRnVt?=
+ =?utf-8?B?ZDF3bVg0OWI1M2JSOXVqZVM5Z1VUazYyMDFOZGU4WEU1Sm9FTE9CUkZwME5y?=
+ =?utf-8?B?Z3hrdTh3TVZkbXNPbmlVS1M4WkRaWUdjQmdOQ2k3b3RLMTFTNzZXOEpNb21U?=
+ =?utf-8?B?ZHpINHcyVHhYV0VldTVhNE5XVFE2VnhMNUo3Z3FQWE12d1J5SitiV3pqQjBk?=
+ =?utf-8?B?V09xT1J3akI5L2tCSEJNcEU3UXRhTGFsQlFiNlhnK0l6UXowWnNaU3IzcHpG?=
+ =?utf-8?B?Zk54OVdaS3YyTWdIWngyeXFlcW03cDJHT0l4U3QrU0J1YnVPaldUYXVGcFpV?=
+ =?utf-8?Q?xDzFz3V0bHGa5bT7kFc76r9lIEZeez7o?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2025 19:49:29.3417
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f32c3e4-1481-4586-3cd7-08dd416735a9
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF00004FBD.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6419
 
-On 2025-01-30 18:17:47+0100, Joshua Grisham wrote:
-> Den tis 28 jan. 2025 kl 22:17 skrev Thomas Weißschuh <linux@weissschuh.net>:
-> >
-> > Hi Joshua,
-> >
-> > sorry for the late reply.
-> >
-> > On 2025-01-28 20:17:53+0100, Joshua Grisham wrote:
-> > > Thank you Kurt!
-> > >
-> > > Den lör 25 jan. 2025 kl 16:06 skrev Kurt Borja <kuurtb@gmail.com>:
-> > > >
-> > > > Now I understand the original problem better. I didn't consider this
-> > > > possibility when designing the callback.
-> > > >
-> > > > While this is a fine solution I believe Thomas' EOPNOTSUPP solution is
-> > > > the way to go. I think positive err value would be the safest but you
-> > > > should wait for the advice of someone with more experience.
-> > > >
-> > > > Aside from that I really like how the whole platform profile sections
-> > > > works now. Good design choices :)
-> > > >
-> > > > ~ Kurt
-> > > >
-> > > > > <snip>
-> > >
-> > > Regarding using this positive error code internally within the module,
-> > > I thought about maybe adding a comment to galaxybook_probe() before
-> > > all of the inits which describe this a bit -- do you all think this
-> > > will be helpful or is it clear enough / does not matter and can be
-> > > skipped?
-> >
-> > To me that sounds reasonable.
-> >
-> > <snip>
-> >
-> > > If this comment (you all are welcome to suggest wording tweaks as
-> > > well, of course!) plus the few other small tweaks make sense then I
-> > > can prep this to send as a new version. But I am holding a bit in
-> > > hopes that the 6.14 stuff gets merged to pdx86 for-next so that I can
-> > > go ahead with implementing Thomas's new power supply extension
-> > > interface at the same time.
-> >
-> > Nice :-)
-> >
-> > <snip>
-> 
-> Hi Thomas! I have been looking into this now and it seems I have
-> gotten it working using the new power_supply_register_extension
-> without too much fuss. It seems like a nice API but especially helpful
-> when there are multiple attributes (in this case there is only 1, but
-> still feels "nicer" than manually creating sysfs files!).
+Hi all,
 
-There are also some functional improvements :-)
+This revision includes the remaining patches not yet accepted.
 
-> One thing I noticed was that, as I still needed a pointer to the
-> battery's struct power_supply, then it seemed to still work best if I
-> left in the existing battery hook (devm_battery_hook_register) and
-> then within the add_battery callback I could take the pointer to the
-> struct power_supply to hang my new power_supply_ext onto.  Essentially
-> much of the code for the "init" + using a battery hook that I had from
-> before is still the same, I have just replaced manually creating the
-> sysfs file (and its show/store callbacks) with the extension and then
-> implemented the callbacks to get/set the value from power_supply_ext
-> instead. Does this sound basically as you would have expected?
+The only major change is to fix a build issue for an exported function.
 
-Yes.
+Thanks,
+Yazen
 
-> Regarding the possibility for the module to be loaded multiple times
-> and/or if one of these devices suddenly had multiple battery devices,
-> is there anything within power supply extension framework that will
-> handle multiple instances (e.g. auto-appending a number to the name or
-> something like with LED classes) or would this case need to be somehow
-> covered in each individual implementation (e.g. samsung-galaxybook)?
+---
+Changes in v4:
+- Includes patches left out of v3. 
+- Fix build issue for amd_smn_hsmp_rdwr(). Used Suma's suggestion.
+- Link to v3: https://lore.kernel.org/r/20250107222847.3300430-1-yazen.ghannam@amd.com
 
-First some nitpicking about the wording:
-A module can only ever be loaded once at the same time.
-However the driver from the module can be probed and bound multiple
-times.
+Changes in v3:
+- Based on public branch from Boris. 
+- Add check for not finding any 'misc' devices during init. 
+- Link to v2: https://lore.kernel.org/r/20241206161210.163701-1-yazen.ghannam@amd.com
 
-The extensions are hanging off the original struct power_supply.
-The battery hook will be called for each battery and then it can add a
-dedicated extension instance for each one.
+Changes in v2:
+- Rebase HSMP changes on latest upstream rework.
+- Keep Node and SMN code together.
+- Link to v1: https://lore.kernel.org/r/20241023172150.659002-1-yazen.ghannam@amd.com
 
-> I had not really covered this so well either when just manually
-> creating the sysfs attribute (working assumption is that
-> device_create_file() would have failed if trying to create the same
-> file more than once under the same battery device, which would have
-> lead to a probe fail and the module unloaded for this "second"
-> instance ? ) and not sure what exactly the best approach would be
-> without giving it a bit more thought.. but maybe you can think about
-> this a bit when I send v9 of the patch up in just a few minutes :)
->
-> This is again a super "corner case" and it would certainly be very
-> weird if one of these devices suddenly had multiple instances of one
-> of the supporting ACPI device IDs so I am not sure if it would ever
-> really be a reasonable possibility. More than one battery in the same
-> device seems more likely, but not super reasonable either given that
-> one of the hallmarks of these devices is "thin and light" then I would
-> guess it is not likely there would ever be one with multiple
-> batteries?
+---
+Mario Limonciello (2):
+      x86/amd_node: Add SMN offsets to exclusive region access
+      x86/amd_node: Add support for debugfs access to SMN registers
 
-More than one battery should work fine. Your hook gets called for each.
-If you think that doesn't make sense just restrict the hook to a single
-instance. For an example see drivers/power/supply/cros_charge-control.c
-The same can be done for ACPI device, but I think many drivers share
-this issue and don't have any handling for that.
+Yazen Ghannam (1):
+      x86/amd_node, platform/x86/amd/hsmp: Have HSMP use SMN through AMD_NODE
+
+ arch/x86/include/asm/amd_nb.h         |   1 -
+ arch/x86/include/asm/amd_node.h       |  13 +++
+ arch/x86/kernel/amd_nb.c              |   1 -
+ arch/x86/kernel/amd_node.c            | 149 ++++++++++++++++++++++++++++++++++
+ drivers/platform/x86/amd/hsmp/Kconfig |   2 +-
+ drivers/platform/x86/amd/hsmp/acpi.c  |   7 +-
+ drivers/platform/x86/amd/hsmp/hsmp.c  |   1 -
+ drivers/platform/x86/amd/hsmp/hsmp.h  |   3 -
+ drivers/platform/x86/amd/hsmp/plat.c  |  36 +++-----
+ 9 files changed, 179 insertions(+), 34 deletions(-)
+---
+base-commit: 25cb07b28aa8f42f3123a7b0bd09ea1d9a24fa28
+change-id: 20241206-wip-x86-amd-nb-cleanup-6383ebdf8d25
+
 
