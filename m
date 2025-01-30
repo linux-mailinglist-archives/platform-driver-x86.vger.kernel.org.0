@@ -1,320 +1,394 @@
-Return-Path: <platform-driver-x86+bounces-9083-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-9086-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D4A5A234CF
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 Jan 2025 20:49:43 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 269EDA23722
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 Jan 2025 23:15:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7836B1636B3
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 Jan 2025 19:49:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 487491888781
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 Jan 2025 22:15:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FB2A1A724C;
-	Thu, 30 Jan 2025 19:49:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E95721F193F;
+	Thu, 30 Jan 2025 22:14:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="SwzdO8Y/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gJWn4Fup"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2065.outbound.protection.outlook.com [40.107.94.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C21187848;
-	Thu, 30 Jan 2025 19:49:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738266577; cv=fail; b=FRPc5uDavsSrGCGd3JvGISdu38SK14rOzLhpsIKLHSgDM2XaYmq9KumMcVQ+9HhZYz7qfd1cIi5j9f+jdRPsEnbfpNYaHnqN0iKIjUqJNsijLLQveORWoAxyVAGNyNpD/SdIm5qHwpH92hdf7esHVl046WMoyS42vsbJGi2mjzY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738266577; c=relaxed/simple;
-	bh=0L/NO2bFoNcrjwJ8k46RGGJUmgyswR6hUP6Rg3XC2zo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=lokDuoB2gvBJek9yXMpUHLIHw/epNPJiuZZQ8dDJ2SDlI19CF8oyIP/Fqwq8rXyIOkP6gzFVSxBj+Lr0ysLtum1lDCICttHC6sHhlUT26rpQhfdhkfuOiMuihBavrgq08a/pURVAp8y5ppNBqo4EK/MMIOJxB+FQXEDy1/mH85g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=SwzdO8Y/; arc=fail smtp.client-ip=40.107.94.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ti2yD+StJ9tg9EE8X7m37BJPPYCVF8hiM85cOI+KjKcJ/GHEz/SYTztf3LsyJ0DRWsnJemhXO3/eD1W1OK0MGQxhwLvO0B7zRGHcLc09rnlN5CZOD+nZc9Qoclrij0y22q67CQneNKnML2+JNkaPX8MBG+ZfnDdzfG3N5VyucNeFaAeO8U7ilgSHTPuSh24UPmeOqJ2QHAOSG2Iz7NQLDbRMDAfUHwHt9lkS1vr3XHo9R4twC7la2HRNsXdNbWhUTfEnYq/KA6C+e2yM99IeX1N/I3eEM7IHMyaHi85yvFKusE81gVCK/MXtiAlkVjqn3uCccLDiIIC+7HP9lzvVRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Tl0Yb47Ce6h7xIl60bicbNfmAbkKWxP44UTv241J3Gs=;
- b=slS4yeE2+4wmNqdHNiU3j9mqMfyHThGWVuOmz1oNtjvkSqWID+grIp1jGYEVwpEUfXanSac3IX6JjijbSz6/zRWhn005k6sYA4H5pKMK9d03SwARTo+DuHTpEvcMf78yvkxaL4hrYbeQasSljvg27y/m8DrAuOf1YRXjW900z89YgUDS4ZsphGK+vfd5RgqPlFZr8ANH1uhtkJpB2ZneVbl8li4KUKwNFjaTSvp7j0ZCmKjYo8ED4giuX0iAAolJ5kGLFTf70wCkOMp3N3eNxvHrJH8Vdxq2THpnpZr13mLg+ozRLZhZRyfn7S9jIqWkcIy+2dJWVTfy8R+HGDkpjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tl0Yb47Ce6h7xIl60bicbNfmAbkKWxP44UTv241J3Gs=;
- b=SwzdO8Y/NG+o/pAL66PMPzJyj1x7OBKPpBdT75Pd6Bm1UhAM8bkw+xQnqsIFqcVjl4Uq/fi3T68SXfpXOuRFEx43BXocwQeqfzbbxyMifaQJfBDwWqU/fL9Vuit0mMH0nRpst7UkyLlg+vj8TrjYvJ4LdTuuqOL4bq1/MTIGyCg=
-Received: from BN6PR17CA0039.namprd17.prod.outlook.com (2603:10b6:405:75::28)
- by SA0PR12MB7004.namprd12.prod.outlook.com (2603:10b6:806:2c0::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.18; Thu, 30 Jan
- 2025 19:49:31 +0000
-Received: from BN2PEPF00004FBD.namprd04.prod.outlook.com
- (2603:10b6:405:75:cafe::42) by BN6PR17CA0039.outlook.office365.com
- (2603:10b6:405:75::28) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.20 via Frontend Transport; Thu,
- 30 Jan 2025 19:49:31 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN2PEPF00004FBD.mail.protection.outlook.com (10.167.243.183) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8398.14 via Frontend Transport; Thu, 30 Jan 2025 19:49:31 +0000
-Received: from [127.0.1.1] (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 30 Jan
- 2025 13:49:30 -0600
-From: Yazen Ghannam <yazen.ghannam@amd.com>
-Date: Thu, 30 Jan 2025 19:48:57 +0000
-Subject: [PATCH v4 3/3] x86/amd_node: Add support for debugfs access to SMN
- registers
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042C61F12F8;
+	Thu, 30 Jan 2025 22:14:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738275297; cv=none; b=RT3gsslDPxzzSBf6TNreMPIJu0B/oXQRsTMCZoQYVgb74km/Z6aBo8Nhr8X/MEzGQxbhNDo010jhvvcvjpKt4DXyOnea+YxVk109NmEoqwrOlFlSeC4dnEep1d76A7OBRSO4GNYSp3iDWsLrgJHnVBWyUBzeUisIEgWdfuNL7jA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738275297; c=relaxed/simple;
+	bh=nZeIcXk+g1AN59UdrfZD3xV4Z8ZK2+hAv8aw0JH66JI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QPzbslS8X4f1prcNI+OXGr9fSAev5Poq62kAqTWk4skgAp17yhqs4WJealsDGmGfw137ESvDTEegsRUR0eJVdNs009tCm66tTqsoAq59BOkaC1t1PhzFBKGscV0dwRZYXxWoNXxIMJFqjflX6iVGsv0ACAQZgc+3efcJ3w72mzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gJWn4Fup; arc=none smtp.client-ip=209.85.167.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3ebb4aae80dso591606b6e.2;
+        Thu, 30 Jan 2025 14:14:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738275295; x=1738880095; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XkCIT5fr45Mrw6Mw0REjFDmGlM7aCZjHShzrCHNS+9I=;
+        b=gJWn4Fupl8Q0K8QmVT/q/T8nUvwW+aUnB5VuuhhUjqsn4sTm80mRfVro9nV1zvLBej
+         G9oejAot4XJ8p/JdUbI/sa9OvhV6Qjbvi1Getmh6f3V49Q+fX3GNemQXtV15KlKUE/BI
+         Z53vPYSpxJBxAHVTKfzHmQEsiR4fmaBD1kifPCVGO+uIM7ndAMKq8FDZ0YXzX2YDNchU
+         tFyMIu9TrqmyTBHsuzmyozKgpQa+ZxiiLJaEhp63j3+PwAaAXViFLZsoe7Ud/IPAEDEy
+         lSM/ccb9AAOeG/RJd/9m6TpDPfMW2QrLKKApA6QGQR4cHo7q3etYQXXya8bQy4qB6RO7
+         rOSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738275295; x=1738880095;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XkCIT5fr45Mrw6Mw0REjFDmGlM7aCZjHShzrCHNS+9I=;
+        b=UbcYsZZbso9epE5lKxsKkPjpsrd8Cnyc2PUskjVI+5f+rWAl/DNZNRNMSl6sAuZCsE
+         J9iQkl2Ag8mlzffVViEq1zkCMSn2+N38/Np5P3LS89sJoGXeJxf2LoYh+QXNVky8MYKt
+         8/Gn5tlsRPWnc2ToVdZG+bqZC77HQy9ZxehMXFN4HqExxKP5H8WSEfxAywAI8LOCQgYn
+         E7nAQNDeFGU0HMbQse6PT2tt213GJarVQUTO8aDywfamd9JPEaKx8YTP6faNVYWXBuEY
+         coJ44ER2g7ABKKiMdv3n1snkvhpgaxf4TlW11zRFwSOheBJySC/5C4A99k1yipXnb6jo
+         OvRA==
+X-Forwarded-Encrypted: i=1; AJvYcCVeGvZ5eGSEiORI3u/6Z8qxAOPVMzjnBxzkZW1HeNdFhRRo7xFhfCmNcJOg1mdjGGfDz/CE3pLsvBCea4xtcOoNFeOP@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2RsEb+slTQOSR2NdGqKBPx14skyv+5JmvFY9D2ANlPMiZdlJ3
+	ieBrywB/GCClqNQHfK/3kyy7nYL0GSO44xdfo289GMq7hQAiDAPs
+X-Gm-Gg: ASbGncujESz0mY2O4pWaxYPcNpnOO9AWlBYURqg0nTn8y3L5L0HGZs/yQ7xEc1BfXYR
+	HCGdyUZsoHMHA1D8DM6MesOQV61gdryjomTHnPpp9NORQVGfl+ZzKW0rfv9Gs4UdEvGsMZ/Tvxb
+	ozbAakU2RvCJvpO+w4svbajjNvOBVLBlmDy74HLfMiqlfk/7gD1jfZzYxK7wfdn6ix/1Cj7PoiT
+	9aRIUsGlz5LPmxK+zAKT6UatA73GRARtzLf9uBGGdHyAHhSaB8SQRzIB3mIQGyNIYSsOgDi5ctD
+	qGheRgfSQiVnuZv2Wg7SUXDPnuk/lpQCBJFMyre4QW2L5IPBJbRfYLsZTDVKRkGR+TJnc6A=
+X-Google-Smtp-Source: AGHT+IETfVQFR7Fx2mKQzN53I4jvHbAFXshooqYTQm2QXMgNMBXjv87849uHNkpp8c3dilWjfbXuHw==
+X-Received: by 2002:a05:6871:a10c:b0:261:16da:decb with SMTP id 586e51a60fabf-2b32eff0d2emr5345842fac.11.1738275294842;
+        Thu, 30 Jan 2025 14:14:54 -0800 (PST)
+Received: from [10.7.51.199] (syn-076-187-124-123.res.spectrum.com. [76.187.124.123])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2b35623d225sm666354fac.27.2025.01.30.14.14.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Jan 2025 14:14:54 -0800 (PST)
+Message-ID: <91f7912f-e1d3-471a-bc45-e928d0de1e62@gmail.com>
+Date: Thu, 30 Jan 2025 16:14:52 -0600
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250130-wip-x86-amd-nb-cleanup-v4-3-b5cc997e471b@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/3] x86/amd_node, platform/x86/amd/hsmp: Have HSMP use
+ SMN through AMD_NODE
+To: Yazen Ghannam <yazen.ghannam@amd.com>, x86@kernel.org,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Suma Hegde <Suma.Hegde@amd.com>,
+ Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
 References: <20250130-wip-x86-amd-nb-cleanup-v4-0-b5cc997e471b@amd.com>
-In-Reply-To: <20250130-wip-x86-amd-nb-cleanup-v4-0-b5cc997e471b@amd.com>
-To: <x86@kernel.org>, Mario Limonciello <mario.limonciello@amd.com>, "Yazen
- Ghannam" <yazen.ghannam@amd.com>, Suma Hegde <Suma.Hegde@amd.com>, "Naveen
- Krishna Chatradhi" <naveenkrishna.chatradhi@amd.com>, Carlos Bilbao
-	<carlos.bilbao.osdev@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
-	=?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-CC: <linux-kernel@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>
-X-Mailer: b4 0.15-dev-d23a9
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF00004FBD:EE_|SA0PR12MB7004:EE_
-X-MS-Office365-Filtering-Correlation-Id: 80691a9b-99e1-43c6-90ee-08dd416736e1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700013|376014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WFU1dmRpNEorMzZNYU5VZ1hoaFhxQm9KbWRrV0loaWNLdkI4R3RnUnBueldu?=
- =?utf-8?B?TDhnNkZVVHZ6N2oyNlpzTTdOS3ZRSmF0TTEyYXRYMlFSZzA4QUFXMGdTNXVa?=
- =?utf-8?B?QWE1R3FaUC9kQnVaczFua3lRUVVabURrRzE5Tll2N0M3QUpKZ01ySDVPbTBT?=
- =?utf-8?B?alpSVGY2cENTWTdrUTJONU5RTEhTN0dmUUNqeG0rY0J1ZXhvWWpKL3FuenVU?=
- =?utf-8?B?OGhWQ2dpaFUzR2dubklsSXVLWUR5OWQ3THBaN1B5emNmQXFPTFFyeG9GRlVW?=
- =?utf-8?B?SWtiODRjbStpQjBkVWoxY0xDbGNUL2Y1TlNOMUJKcDNzUlJJRFBRUi9LcjRi?=
- =?utf-8?B?Z2Q2QUtzZjZXR2dCYThZUEpBVnZVZHRWZi9CNkFUSzVlZURvNm9JSTJmYWl1?=
- =?utf-8?B?SVA1WjYxYmhCRFgyS3h1KzZXTkFPRFlxVS93YXNQUDBFb2krb0IyalhXRUFo?=
- =?utf-8?B?ZTMrdFBQUVI5YmdiQkQ2OEkyY3JUSWRBMWFBUXBiTHRqWWVmbEtWakhyVk9G?=
- =?utf-8?B?TXNxYTkyVzlqcmJQZ0lzWVQrL0lsUWFoMlc0ZEdteForeCt5SURPTkhuc3hI?=
- =?utf-8?B?MmsySnNZVWJib0VkV2VuNzVhVlI3VHhEM28wYzd5cmJHSndiS0ZYTGluV1Bv?=
- =?utf-8?B?WUxwVlFCWHc1aUw0dXd5eTVrU2FGL3NoWHN4NlErR0xybjJ5SURZeFYwNXVr?=
- =?utf-8?B?ZkNOVXRwQThieTJyYkN6OFFoK0kycFhhRmV4VVFCRU1waDBGL055SkU4dno1?=
- =?utf-8?B?MmRSb1Biem5SekxiNi8yN0Iyem5OdEkxbTZJQVN4ZXN0SEhmU25lRWYzYmpH?=
- =?utf-8?B?RlBVNUVoVDhEajlhN0FTMkttck5hRitPbzdqcFBwbktzOGNQSDh6NSt5M0Jy?=
- =?utf-8?B?Rzh1c3ZaQ3o3NU1wNHhMMlhqdElEYnB5OGhwcUxXQ3dmODZCWThsdS8vdGdL?=
- =?utf-8?B?M3VSOHk2ZG9UTXRieXo4S3p1OXF4RFFhRlRaRHNmbDJzVjVhQml6QnFpUzBp?=
- =?utf-8?B?cHFJYmV0czFGR1ptTHRRWHMyeXdNK1NMd2IzSEVnRklwVmRsMWxoWlZhVCts?=
- =?utf-8?B?WjNaK0VEcllWTEZPamM0R0ZIcDkzcFliS082RnJoM0JiK1VmNWxOVEdOZTlm?=
- =?utf-8?B?dmpleU9jdU5MMGJLdjBrR2VyNnEyUzVlKzZCTmZqWld4Zlo0ZHczeHA5alo3?=
- =?utf-8?B?YUFyUVhVSkZ1cW5iWXRENUJlRTNaWEt3aGhKekczS2pTM1RmVU9RZGk0a3hl?=
- =?utf-8?B?Z0l3WkxBSjVVV1pLZk5ZMjlINkhtUXFmVlNYR3Y4K2wrSFNHUnl5Z1loeVNS?=
- =?utf-8?B?RGRBZjBFRTBvNnhnNDZRVVAvelRBZDJUb0drQjVUeFRFUzVqMVNkTkwxTTI3?=
- =?utf-8?B?TW1zMjI1dnNuREhqeHpSOWFpS0t2elIrUjltV01XMkowQnd4S01ycnlUZ00v?=
- =?utf-8?B?REVWTHdPM2FwNVFBWWJ1bXFmc3FFdEVQRFNqbGFSY1N5YUVqcEcyYUg5eXNa?=
- =?utf-8?B?QkI3aE1xTkw2TzJjN3Q3dVc0dHpDbk81bFQxK3paeW9WRnBUamw1c0tFU01K?=
- =?utf-8?B?NUp4WUVaUW5YYUN6a04xSkpHSDcyOTJIb3plMVJua1J6dS9WdVZZeGdRRjYr?=
- =?utf-8?B?dktsMVMvU3ozcnovNHd6TEo1WGcxZHRldjh5MmNSRHRSRk00c2hLRE5hMk04?=
- =?utf-8?B?Z3JkczhTa09hVFlmd0xoUXFuVVBFN3VUOHFoc3prY3BnTWZGVWlvK1J6VGFI?=
- =?utf-8?B?ems0M2NOZHNoa1p1ZUp1UExnUzhweER4TDdXaEF3Q2J1K21NTkhycmJaMTB1?=
- =?utf-8?B?L2ZIb0wzanN5WnBMRGp5UzNzN1gyK01pQTB6VHYyMjlkdnpKYnJwRVJvbm1h?=
- =?utf-8?B?d29CRldwV2JyZStxQm5yNWludEU2K2x2OUJXVm9qQnRxRVJacjlmVHkrOVZr?=
- =?utf-8?Q?RBbIBNdnPCM=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2025 19:49:31.3886
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80691a9b-99e1-43c6-90ee-08dd416736e1
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF00004FBD.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB7004
+ <20250130-wip-x86-amd-nb-cleanup-v4-1-b5cc997e471b@amd.com>
+Content-Language: en-US
+From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+In-Reply-To: <20250130-wip-x86-amd-nb-cleanup-v4-1-b5cc997e471b@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+On 1/30/25 13:48, Yazen Ghannam wrote:
 
-There are certain registers on AMD Zen systems that can only be
-accessed through SMN.
+> The HSMP interface is just an SMN interface with different offsets.
+>
+> Define an HSMP wrapper in the SMN code and have the HSMP platform driver
+> use that rather than a local solution.
+>
+> Also, remove the "root" member from AMD_NB, since there are no more
+> users of it.
+>
+> Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+> ---
+>
+> Notes:
+>     Link:
+>     https://lore.kernel.org/20241213152206.385573-1-yazen.ghannam@amd.com
+>     
+>     v2.2->v4
+>     * Was left out of v3 set.
+>     * Fix build issue for amd_smn_hsmp_rdwr().
+>     
+>     v2.1-v2.2:
+>     * Include <linux/build_bug.h> for static_assert()
+>     
+>     v2->v2.1:
+>     * Include static_assert() and comment for sysfs attributes.
+>     
+>     v1->v2:
+>     * Rebase on recent HSMP rework.
+>
+>  arch/x86/include/asm/amd_nb.h         |  1 -
+>  arch/x86/include/asm/amd_node.h       | 13 +++++++++++++
+>  arch/x86/kernel/amd_nb.c              |  1 -
+>  arch/x86/kernel/amd_node.c            |  9 +++++++++
+>  drivers/platform/x86/amd/hsmp/Kconfig |  2 +-
+>  drivers/platform/x86/amd/hsmp/acpi.c  |  7 ++++---
+>  drivers/platform/x86/amd/hsmp/hsmp.c  |  1 -
+>  drivers/platform/x86/amd/hsmp/hsmp.h  |  3 ---
+>  drivers/platform/x86/amd/hsmp/plat.c  | 36 ++++++++++++-----------------------
+>  9 files changed, 39 insertions(+), 34 deletions(-)
+>
+> diff --git a/arch/x86/include/asm/amd_nb.h b/arch/x86/include/asm/amd_nb.h
+> index 4c4efb93045e..adfa0854cf2d 100644
+> --- a/arch/x86/include/asm/amd_nb.h
+> +++ b/arch/x86/include/asm/amd_nb.h
+> @@ -27,7 +27,6 @@ struct amd_l3_cache {
+>  };
+>  
+>  struct amd_northbridge {
+> -	struct pci_dev *root;
+>  	struct pci_dev *misc;
+>  	struct pci_dev *link;
+>  	struct amd_l3_cache l3_cache;
+> diff --git a/arch/x86/include/asm/amd_node.h b/arch/x86/include/asm/amd_node.h
+> index 113ad3e8ee40..002c3afbd30f 100644
+> --- a/arch/x86/include/asm/amd_node.h
+> +++ b/arch/x86/include/asm/amd_node.h
+> @@ -30,7 +30,20 @@ static inline u16 amd_num_nodes(void)
+>  	return topology_amd_nodes_per_pkg() * topology_max_packages();
+>  }
+>  
+> +#ifdef CONFIG_AMD_NODE
+>  int __must_check amd_smn_read(u16 node, u32 address, u32 *value);
+>  int __must_check amd_smn_write(u16 node, u32 address, u32 value);
+>  
+> +/* Should only be used by the HSMP driver. */
+> +int __must_check amd_smn_hsmp_rdwr(u16 node, u32 address, u32 *value, bool write);
+> +#else
+> +static inline int __must_check amd_smn_read(u16 node, u32 address, u32 *value) { return -ENODEV; }
+> +static inline int __must_check amd_smn_write(u16 node, u32 address, u32 value) { return -ENODEV; }
+> +
+> +static inline int __must_check amd_smn_hsmp_rdwr(u16 node, u32 address, u32 *value, bool write)
+> +{
+> +	return -ENODEV;
+> +}
+> +#endif /* CONFIG_AMD_NODE */
+> +
+>  #endif /*_ASM_X86_AMD_NODE_H_*/
+> diff --git a/arch/x86/kernel/amd_nb.c b/arch/x86/kernel/amd_nb.c
+> index 11fac09e3a8c..24d7a87edf9c 100644
+> --- a/arch/x86/kernel/amd_nb.c
+> +++ b/arch/x86/kernel/amd_nb.c
+> @@ -73,7 +73,6 @@ static int amd_cache_northbridges(void)
+>  	amd_northbridges.nb = nb;
+>  
+>  	for (i = 0; i < amd_northbridges.num; i++) {
+> -		node_to_amd_nb(i)->root = amd_node_get_root(i);
+>  		node_to_amd_nb(i)->misc = amd_node_get_func(i, 3);
+>  
+>  		/*
+> diff --git a/arch/x86/kernel/amd_node.c b/arch/x86/kernel/amd_node.c
+> index d2ec7fd555c5..65045f223c10 100644
+> --- a/arch/x86/kernel/amd_node.c
+> +++ b/arch/x86/kernel/amd_node.c
+> @@ -97,6 +97,9 @@ static DEFINE_MUTEX(smn_mutex);
+>  #define SMN_INDEX_OFFSET	0x60
+>  #define SMN_DATA_OFFSET		0x64
+>  
+> +#define HSMP_INDEX_OFFSET	0xc4
+> +#define HSMP_DATA_OFFSET	0xc8
+> +
+>  /*
+>   * SMN accesses may fail in ways that are difficult to detect here in the called
+>   * functions amd_smn_read() and amd_smn_write(). Therefore, callers must do
+> @@ -179,6 +182,12 @@ int __must_check amd_smn_write(u16 node, u32 address, u32 value)
+>  }
+>  EXPORT_SYMBOL_GPL(amd_smn_write);
+>  
+> +int __must_check amd_smn_hsmp_rdwr(u16 node, u32 address, u32 *value, bool write)
+> +{
+> +	return __amd_smn_rw(HSMP_INDEX_OFFSET, HSMP_DATA_OFFSET, node, address, value, write);
+> +}
+> +EXPORT_SYMBOL_GPL(amd_smn_hsmp_rdwr);
+> +
+>  static int amd_cache_roots(void)
+>  {
+>  	u16 node, num_nodes = amd_num_nodes();
+> diff --git a/drivers/platform/x86/amd/hsmp/Kconfig b/drivers/platform/x86/amd/hsmp/Kconfig
+> index 7d10d4462a45..d6f7a62d55b5 100644
+> --- a/drivers/platform/x86/amd/hsmp/Kconfig
+> +++ b/drivers/platform/x86/amd/hsmp/Kconfig
+> @@ -7,7 +7,7 @@ config AMD_HSMP
+>  	tristate
+>  
+>  menu "AMD HSMP Driver"
+> -	depends on AMD_NB || COMPILE_TEST
+> +	depends on AMD_NODE || COMPILE_TEST
+>  
+>  config AMD_HSMP_ACPI
+>  	tristate "AMD HSMP ACPI device driver"
+> diff --git a/drivers/platform/x86/amd/hsmp/acpi.c b/drivers/platform/x86/amd/hsmp/acpi.c
+> index 444b43be35a2..c1eccb3c80c5 100644
+> --- a/drivers/platform/x86/amd/hsmp/acpi.c
+> +++ b/drivers/platform/x86/amd/hsmp/acpi.c
+> @@ -10,7 +10,6 @@
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+>  #include <asm/amd_hsmp.h>
+> -#include <asm/amd_nb.h>
+>  
+>  #include <linux/acpi.h>
+>  #include <linux/device.h>
+> @@ -24,6 +23,8 @@
+>  
+>  #include <uapi/asm-generic/errno-base.h>
+>  
+> +#include <asm/amd_node.h>
+> +
+>  #include "hsmp.h"
+>  
+>  #define DRIVER_NAME		"amd_hsmp"
+> @@ -321,8 +322,8 @@ static int hsmp_acpi_probe(struct platform_device *pdev)
+>  		return -ENOMEM;
+>  
+>  	if (!hsmp_pdev->is_probed) {
+> -		hsmp_pdev->num_sockets = amd_nb_num();
+> -		if (hsmp_pdev->num_sockets == 0 || hsmp_pdev->num_sockets > MAX_AMD_SOCKETS)
+> +		hsmp_pdev->num_sockets = amd_num_nodes();
+> +		if (hsmp_pdev->num_sockets == 0 || hsmp_pdev->num_sockets > MAX_AMD_NUM_NODES)
+>  			return -ENODEV;
+>  
+>  		hsmp_pdev->sock = devm_kcalloc(&pdev->dev, hsmp_pdev->num_sockets,
+> diff --git a/drivers/platform/x86/amd/hsmp/hsmp.c b/drivers/platform/x86/amd/hsmp/hsmp.c
+> index 03164e30b3a5..a3ac09a90de4 100644
+> --- a/drivers/platform/x86/amd/hsmp/hsmp.c
+> +++ b/drivers/platform/x86/amd/hsmp/hsmp.c
+> @@ -8,7 +8,6 @@
+>   */
+>  
+>  #include <asm/amd_hsmp.h>
+> -#include <asm/amd_nb.h>
+>  
+>  #include <linux/acpi.h>
+>  #include <linux/delay.h>
+> diff --git a/drivers/platform/x86/amd/hsmp/hsmp.h b/drivers/platform/x86/amd/hsmp/hsmp.h
+> index e852f0a947e4..af8b21f821d6 100644
+> --- a/drivers/platform/x86/amd/hsmp/hsmp.h
+> +++ b/drivers/platform/x86/amd/hsmp/hsmp.h
+> @@ -21,8 +21,6 @@
+>  
+>  #define HSMP_ATTR_GRP_NAME_SIZE	10
+>  
+> -#define MAX_AMD_SOCKETS 8
+> -
+>  #define HSMP_CDEV_NAME		"hsmp_cdev"
+>  #define HSMP_DEVNODE_NAME	"hsmp"
+>  
+> @@ -41,7 +39,6 @@ struct hsmp_socket {
+>  	void __iomem *virt_base_addr;
+>  	struct semaphore hsmp_sem;
+>  	char name[HSMP_ATTR_GRP_NAME_SIZE];
+> -	struct pci_dev *root;
+>  	struct device *dev;
+>  	u16 sock_ind;
+>  	int (*amd_hsmp_rdwr)(struct hsmp_socket *sock, u32 off, u32 *val, bool rw);
+> diff --git a/drivers/platform/x86/amd/hsmp/plat.c b/drivers/platform/x86/amd/hsmp/plat.c
+> index 02ca85762b68..b9782a078dbd 100644
+> --- a/drivers/platform/x86/amd/hsmp/plat.c
+> +++ b/drivers/platform/x86/amd/hsmp/plat.c
+> @@ -10,14 +10,16 @@
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+>  #include <asm/amd_hsmp.h>
+> -#include <asm/amd_nb.h>
+>  
+> +#include <linux/build_bug.h>
+>  #include <linux/device.h>
+>  #include <linux/module.h>
+>  #include <linux/pci.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/sysfs.h>
+>  
+> +#include <asm/amd_node.h>
+> +
+>  #include "hsmp.h"
+>  
+>  #define DRIVER_NAME		"amd_hsmp"
+> @@ -34,28 +36,12 @@
+>  #define SMN_HSMP_MSG_RESP	0x0010980
+>  #define SMN_HSMP_MSG_DATA	0x00109E0
+>  
+> -#define HSMP_INDEX_REG		0xc4
+> -#define HSMP_DATA_REG		0xc8
+> -
+>  static struct hsmp_plat_device *hsmp_pdev;
+>  
+>  static int amd_hsmp_pci_rdwr(struct hsmp_socket *sock, u32 offset,
+>  			     u32 *value, bool write)
+>  {
+> -	int ret;
+> -
+> -	if (!sock->root)
+> -		return -ENODEV;
+> -
+> -	ret = pci_write_config_dword(sock->root, HSMP_INDEX_REG,
+> -				     sock->mbinfo.base_addr + offset);
+> -	if (ret)
+> -		return ret;
+> -
+> -	ret = (write ? pci_write_config_dword(sock->root, HSMP_DATA_REG, *value)
+> -		     : pci_read_config_dword(sock->root, HSMP_DATA_REG, value));
+> -
+> -	return ret;
+> +	return amd_smn_hsmp_rdwr(sock->sock_ind, sock->mbinfo.base_addr + offset, value, write);
+>  }
+>  
+>  static ssize_t hsmp_metric_tbl_plat_read(struct file *filp, struct kobject *kobj,
+> @@ -95,7 +81,12 @@ static umode_t hsmp_is_sock_attr_visible(struct kobject *kobj,
+>   * Static array of 8 + 1(for NULL) elements is created below
+>   * to create sysfs groups for sockets.
+>   * is_bin_visible function is used to show / hide the necessary groups.
+> + *
+> + * Validate the maximum number against MAX_AMD_NUM_NODES. If this changes,
+> + * then the attributes and groups below must be adjusted.
+>   */
+> +static_assert(MAX_AMD_NUM_NODES == 8);
+> +
+>  #define HSMP_BIN_ATTR(index, _list)					\
+>  static const struct bin_attribute attr##index = {			\
+>  	.attr = { .name = HSMP_METRICS_TABLE_NAME, .mode = 0444},	\
+> @@ -159,10 +150,7 @@ static int init_platform_device(struct device *dev)
+>  	int ret, i;
+>  
+>  	for (i = 0; i < hsmp_pdev->num_sockets; i++) {
+> -		if (!node_to_amd_nb(i))
+> -			return -ENODEV;
+>  		sock = &hsmp_pdev->sock[i];
+> -		sock->root			= node_to_amd_nb(i)->root;
+>  		sock->sock_ind			= i;
+>  		sock->dev			= dev;
+>  		sock->mbinfo.base_addr		= SMN_HSMP_BASE;
+> @@ -305,11 +293,11 @@ static int __init hsmp_plt_init(void)
+>  		return -ENOMEM;
+>  
+>  	/*
+> -	 * amd_nb_num() returns number of SMN/DF interfaces present in the system
+> +	 * amd_num_nodes() returns number of SMN/DF interfaces present in the system
+>  	 * if we have N SMN/DF interfaces that ideally means N sockets
+>  	 */
+> -	hsmp_pdev->num_sockets = amd_nb_num();
+> -	if (hsmp_pdev->num_sockets == 0 || hsmp_pdev->num_sockets > MAX_AMD_SOCKETS)
+> +	hsmp_pdev->num_sockets = amd_num_nodes();
+> +	if (hsmp_pdev->num_sockets == 0 || hsmp_pdev->num_sockets > MAX_AMD_NUM_NODES)
+>  		return ret;
+>  
+>  	ret = platform_driver_register(&amd_hsmp_driver);
+>
 
-Introduce a new interface that provides debugfs files for accessing SMN.
-As this introduces the capability for userspace to manipulate the
-hardware in unpredictable ways, taint the kernel when writing.
+Reviewed-by: Carlos Bilbao <carlos.bilbao@kernel.org>
 
-Include a kernel parameter to enable the debugfs interface. This is
-intentionally left undocumented to discourage use of the interface.
 
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
----
-
-Notes:
-    Link:
-    https://lore.kernel.org/20241206161210.163701-17-yazen.ghannam@amd.com
-    
-    v2->v4:
-    * Was left out of v3.
-    * No change.
-    
-    v1->v2:
-    * Use TAINT_CPU_OUT_OF_SPEC.
-    * Add parameter to enable debugfs interface.
-    * Validate node input from user.
-
- arch/x86/kernel/amd_node.c | 99 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 99 insertions(+)
-
-diff --git a/arch/x86/kernel/amd_node.c b/arch/x86/kernel/amd_node.c
-index ac571948cb35..b670fa85c61b 100644
---- a/arch/x86/kernel/amd_node.c
-+++ b/arch/x86/kernel/amd_node.c
-@@ -8,6 +8,7 @@
-  * Author: Yazen Ghannam <Yazen.Ghannam@amd.com>
-  */
- 
-+#include <linux/debugfs.h>
- #include <asm/amd_node.h>
- 
- /*
-@@ -192,6 +193,87 @@ int __must_check amd_smn_hsmp_rdwr(u16 node, u32 address, u32 *value, bool write
- }
- EXPORT_SYMBOL_GPL(amd_smn_hsmp_rdwr);
- 
-+static struct dentry *debugfs_dir;
-+static u16 debug_node;
-+static u32 debug_address;
-+
-+static ssize_t smn_node_write(struct file *file, const char __user *userbuf,
-+			      size_t count, loff_t *ppos)
-+{
-+	u16 node;
-+	int ret;
-+
-+	ret = kstrtou16_from_user(userbuf, count, 0, &node);
-+	if (ret)
-+		return ret;
-+
-+	if (node >= amd_num_nodes())
-+		return -ENODEV;
-+
-+	debug_node = node;
-+	return count;
-+}
-+
-+static int smn_node_show(struct seq_file *m, void *v)
-+{
-+	seq_printf(m, "0x%08x\n", debug_node);
-+	return 0;
-+}
-+
-+static ssize_t smn_address_write(struct file *file, const char __user *userbuf,
-+				 size_t count, loff_t *ppos)
-+{
-+	int ret;
-+
-+	ret = kstrtouint_from_user(userbuf, count, 0, &debug_address);
-+	if (ret)
-+		return ret;
-+
-+	return count;
-+}
-+
-+static int smn_address_show(struct seq_file *m, void *v)
-+{
-+	seq_printf(m, "0x%08x\n", debug_address);
-+	return 0;
-+}
-+
-+static int smn_value_show(struct seq_file *m, void *v)
-+{
-+	u32 val;
-+	int ret;
-+
-+	ret = amd_smn_read(debug_node, debug_address, &val);
-+	if (ret)
-+		return ret;
-+
-+	seq_printf(m, "0x%08x\n", val);
-+	return 0;
-+}
-+
-+static ssize_t smn_value_write(struct file *file, const char __user *userbuf,
-+			       size_t count, loff_t *ppos)
-+{
-+	u32 val;
-+	int ret;
-+
-+	ret = kstrtouint_from_user(userbuf, count, 0, &val);
-+	if (ret)
-+		return ret;
-+
-+	add_taint(TAINT_CPU_OUT_OF_SPEC, LOCKDEP_STILL_OK);
-+
-+	ret = amd_smn_write(debug_node, debug_address, val);
-+	if (ret)
-+		return ret;
-+
-+	return count;
-+}
-+
-+DEFINE_SHOW_STORE_ATTRIBUTE(smn_node);
-+DEFINE_SHOW_STORE_ATTRIBUTE(smn_address);
-+DEFINE_SHOW_STORE_ATTRIBUTE(smn_value);
-+
- static int amd_cache_roots(void)
- {
- 	u16 node, num_nodes = amd_num_nodes();
-@@ -239,6 +321,15 @@ static int reserve_root_config_spaces(void)
- 	return 0;
- }
- 
-+static bool enable_dfs;
-+
-+static int __init amd_smn_enable_dfs(char *str)
-+{
-+	enable_dfs = true;
-+	return 1;
-+}
-+__setup("amd_smn_debugfs_enable", amd_smn_enable_dfs);
-+
- static int __init amd_smn_init(void)
- {
- 	int err;
-@@ -259,6 +350,14 @@ static int __init amd_smn_init(void)
- 	if (err)
- 		return err;
- 
-+	if (enable_dfs) {
-+		debugfs_dir = debugfs_create_dir("amd_smn", arch_debugfs_dir);
-+
-+		debugfs_create_file("node",	0600, debugfs_dir, NULL, &smn_node_fops);
-+		debugfs_create_file("address",	0600, debugfs_dir, NULL, &smn_address_fops);
-+		debugfs_create_file("value",	0600, debugfs_dir, NULL, &smn_value_fops);
-+	}
-+
- 	return 0;
- }
- 
-
--- 
-2.43.0
+Thanks, Carlos
 
 
