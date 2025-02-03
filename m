@@ -1,53 +1,53 @@
-Return-Path: <platform-driver-x86+bounces-9181-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-9183-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F09A26239
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  3 Feb 2025 19:25:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C542A26240
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  3 Feb 2025 19:25:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5591B1884DBF
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  3 Feb 2025 18:25:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B027D1637FA
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  3 Feb 2025 18:25:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FB0A20F070;
-	Mon,  3 Feb 2025 18:24:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E31B220FA9A;
+	Mon,  3 Feb 2025 18:24:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="EYhfz47u"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="aWhPhmlR"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F2B20E33D;
-	Mon,  3 Feb 2025 18:24:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B888820E038;
+	Mon,  3 Feb 2025 18:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738607064; cv=none; b=Tg1mTASY4/WiAuM7yDvqOJdnVAqFmMBhrWjX6o+/M2p4vrlAy8C3XKKfBrzucIriNPDm6fWnbZCSrwluGQNPIldO7fL7pOcW8cPgw8J95lyNWjYT+DrLAkLrtJE6woKD5KLg/yyg1leKhvjiqbv35qB6hS0G2EFJ2JZU50CFsvg=
+	t=1738607071; cv=none; b=GyAYXBRn2PGkHY/gU+2M5rPqtwvAaIOejedGcKV4zN5Wm4zmJ6zHNPbEU+HErsiu/h/oEhpdZjCwixUN5gdd/8izhp4sPLDUln1J2bUYYG73y41LeOC75vCjgXuRlO5WKFrpbCoSeNZSUnyEHNbcHzt8mgXMyMmL1yDTeNksEfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738607064; c=relaxed/simple;
-	bh=HIb6t8E7LQ7JSCBI6Dj5eLaEJ9aC6SKaBsGchOM7ARY=;
+	s=arc-20240116; t=1738607071; c=relaxed/simple;
+	bh=ID+lTHjLVqPJ/7xdhI9bJLFn9teO4+JhdZK9zVjbwuc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=dZnpURr9zfPs50hxfOuRPtIhcFf9KFncqqu/ppfnFIiTGWIDZHnwEzAe0bHA20MDyM2Hm8uwsaR+ounFesqi+ytse8TTGV+n+x0UxtiKAx4FTQR4U8b6gRrh05+V9Mx9pW7kzmSRXFwJRe33fyi0auz5qdcvZMrUWzxqqSXwGc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=EYhfz47u; arc=none smtp.client-ip=212.227.17.22
+	 MIME-Version; b=g+IpM6UDBaxELt6dSREMQqVWzBr6uxL5mAV23c5lD6pKlC7Z0a9aCeKfOhaG61zNBFMdIDpdKN6RAuFL6Cj3kjPlHL6SbMIyck+7ykmfFCAb03FGI3z9XfC725W49Dui4focqCcunj6Zkq7oCOufHcU3R2KvsBVqaLI4v99Dwhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=aWhPhmlR; arc=none smtp.client-ip=212.227.17.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1738607037; x=1739211837; i=w_armin@gmx.de;
-	bh=m5VMaHKaGDZ2JNZWT7Ky6TMwO3RkLaIA2ds+xOAxaFE=;
+	s=s31663417; t=1738607039; x=1739211839; i=w_armin@gmx.de;
+	bh=RuoP/0xYYt9z3bJOrdWbm40zFLkGkpfWsyjNl2p49Lk=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=EYhfz47uu3Fq4mSHb0EyWUe5NwdJr2GqZf78dCbPjMoL8GvVSeYM2Nfbcbz+E7YO
-	 4lCtG1zSAfEXxDBwssw+2xi7yLL8v9X++eUV3uNEaCtGJ3OOFU1nF9Pzpx5hkeeEt
-	 6svKsm221E3J52Tse+E0l/AMN7D/M5pnwNxliJ/wVs8EFFEZp80vVs3UdSfOUXUQs
-	 HjgZ/E5/DJ/OhfXEOGZZXeOEWRW2zBt9nZKe31Ls3J9zwcNa8YOEIA5A4xOObo6cu
-	 HaO7u8d8rdTdhgWtrb3OsC/Z0MKEdk8ZRe57PR587nesKIUUuXT8Ny0cIuxPeL5Z/
-	 XGwWcsDZQPvZ9ZhCSw==
+	b=aWhPhmlRArsn+pDgJ2w/O1mTO55kfaAAZn58tcZ+hb2T/3SNnY7FghUnQx4ZaDHI
+	 6aQ2VvbDUNusgIJorWP9rBDNlIvzLjvBjG8tL5/+NLu+j2MromQvTN4p+zx684FjM
+	 0B/iK7Usdp6gX4v4pYatzKA7aXInMEpKiZaIbI9jV8OBrD16sqalIxqID2XESWPaG
+	 Gc5/XCsQpZgqRri7wix1JPchGYmsm2q+mT+HAnGZXoM8Z4DMOiUvWjJM/993J55V6
+	 qgK5b5jpYxbkqEkE1//ZUNvhSL0JkLp3bcCcgnYa3/Fr4InePKvr0ofCeih/J1IBg
+	 Uz6qFEXEUE+dqQ9bqA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from mx-amd-b650.fritz.box ([91.14.238.232]) by mail.gmx.net
  (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1Mnpru-1t4Lpf01JS-00qf2Z; Mon, 03 Feb 2025 19:23:57 +0100
+ 1N4zAy-1tFxlr1lkC-0106gf; Mon, 03 Feb 2025 19:23:59 +0100
 From: Armin Wolf <W_Armin@gmx.de>
 To: james@equiv.tech,
 	markpearson@lenovo.com,
@@ -61,9 +61,9 @@ Cc: jdelvare@suse.com,
 	platform-driver-x86@vger.kernel.org,
 	corbet@lwn.net,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 6/7] platform/x86: wmi: Call WCxx methods when setting data blocks
-Date: Mon,  3 Feb 2025 19:23:21 +0100
-Message-Id: <20250203182322.384883-7-W_Armin@gmx.de>
+Subject: [PATCH 7/7] platform/x86: wmi: Update documentation regarding the GUID-based API
+Date: Mon,  3 Feb 2025 19:23:22 +0100
+Message-Id: <20250203182322.384883-8-W_Armin@gmx.de>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250203182322.384883-1-W_Armin@gmx.de>
 References: <20250203182322.384883-1-W_Armin@gmx.de>
@@ -74,86 +74,61 @@ List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:wJKVaiQ90liEE4ly+HiOLBV2YkrEPWP4bFa7ew7ygtsUik8JC/z
- rxv+Am7Wzw2c1j6LwfxDids/9neF3YXzYJIdS35Kvs1OAukqYvWqMd9WUW8qRbH3txuIVSC
- L6BIiRtuPQTXkXNFeHzbKYKr3YW5vCH/7iwJOBEf7IE2q5/2V28O8646iV7qjzxPw1ZmXHz
- QDvk+rDxm6pu5zOlv3Gdg==
+X-Provags-ID: V03:K1:6wNh6ZLBhn/RTk1uI75rS1eo+d5PKvpI3IUTypVYdaxgUADGLyB
+ agytg809oy6KvZRjQsDGpuJIZGos0r92nQZiAeCHicdZvD45ZewgETSrltkawq/BR/DG+kX
+ pk7uINd1aSzUocKO13d3sH+DEW55aonnzupH/qTr2lsT02YPDiQZmuDVHJhzyA4Ay4URbvo
+ 7XFix0eHzgYs+YE8+IE2Q==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:SMHMKT8+Ssk=;/QSOaX2z6MYhigkkUAVfrXnus3i
- ixDbU9R4DvvfGsHdadyDfmKLrtLGL/IbFuCjkgSS7TY1L2o1bMMCPg7tYB6KnBbDRWx2v966i
- aDtxdvPsXGlKRlJf1dOJ0UyYAWSSGZyTcU9G9KWay0qfESteYNwnIU8v7jJmcd7BeKix+Tca0
- WgXSUV92+4FcjIPw5LKcGOqV+VqQ4iHNh3Bt7YY69m1Wq2axpEWQhztSRd07sKVhcCN/cKScB
- 5McWu/jt+fuWGy5bfVqM0TjT2KFnU2F+NBiJ5y8wRRRcKykTDfos2imUM26iYFljqW9FDtbSt
- NmyJw7rfqWu9msIuG93Fe2kBXpuViOFmHGc1oB2DAq8mlGF1RSjeTjZnhOgWejn9F7RJdwUTe
- TFvqSGFEN3kNXNNFUXeIqa9egBwKZ+q1d9PnyHt6d20hFhVSMEv6PgU2/wLCBEOezkhNvMPeO
- o/VWJSk2DOiJxDG37IZzGQ/rQqUNeIofp/w5EDqSRXbxFGVqW/9Ux4gZ9XmgRRTSgb3+GhxHY
- osbHnnJSp9qfID3/yzHc3QsURsI/hIR3qoAw1hfuJPHLYTdSJAOdeOVEFWA1IXqoqrMNcwLKC
- eEaQzo6B3zMDkK9hbzOhB7q90B4vMXcjrh7r/PYdGp68diPNMx8XdzEnvGHZdJedD7hjEelvt
- kC5mUtGq1y8occKRNGh3X/sxXKUeRMuPnvvUODuI36uRjwCVw+5LGAZhKlQTyO4kKEw2K7Ilo
- EnYIJzeOQA7HxYKk73xn1Hz+sB9I4Z5iX8QL1V4hV7fnjW8D1XTTrqUPeVNAJzPpYTk8ztaRu
- MSDu/dCySs2owaN1VoBNq4yX1chDQ6ctPEdC0OFdBSoZBLvDAZ6mIp4oPKQh8e5CLl75tIU22
- bqgc8icpUmJdV8YTrtB9wQ/FoCgxq856wIlXvqdFB6crA+/el350fKDqzLARXmEppUnVHjLwe
- FdHRnA3A3JsB3tFxveSTV6MngZnFRZK9lMGEJ2ef/7ZjEEH1rKJyIUa4wuka8AfTAv/ORO0Qu
- NL6/sifaidndwD7fosPXp6EfBhw54yNqRV26YVrL83cB1pdjk8Xj+exQJXvtCf8F0L3mmrTgi
- 9IsVcbmiVdV5rStUAni+8/suvhQdPNnBa7LX7Drk2T+5Wg6aW73qG3Tggsqd9YlD+3E/ZO3hY
- 5tgky+383HYiajDjAglmsHyhbu3qlBkxOov1oy7F+W9ijeZFpGnXS9IFgWeKNJY/nQRF+ms7u
- w6NeyvK566i7EV3K3DR/lYw+JNiLCS1WqVdQ9dThFSI/nDa0+D+qOUcnk08WT/WwiEYcnQRGk
- fWfT5X156ao5UIR1KpTdi5wzjzXtYDD5pYYoEQ6+gSl3t4K1Lp3ttBh63LNVyUJTRUNyXTBvC
- wx74tlLfRGbkwdCQ==
+UI-OutboundReport: notjunk:1;M01:P0:9wiWRpfj7xw=;LWzqhLjD36c8j2gTfbmciDyXoWM
+ OIZz1QSBdDMriNr/kZMaAdiE0rIIC3xw/qwJDo6Ejm/LKvJLiVV3yNqx7Or2LKHswMBubkLA/
+ 3jS8uC1sLk2Ca9lAhAy0gY52OFMoeCUYA4jodICWzNJHv08vI0rMyEPIN6sruLwcvQpwqkLzV
+ djJ1mqnwRDV6W1QKA581rAkLuNPQu02RRtHArPnKJPDEqayk41dR2+vbEPit5CSxnaTITOxny
+ tiJugjKXIQzi2/A7gcxvbt/UXXK9teD9kOGHYp5JZ+TzGAmWyTT2OnFPOhehKWdxiSFdgm/zt
+ 7zMJt3RlbJnBNpwwBXviprf7E1q1Rsh3oq6gh3iRGOgnBr8qasPwL5Z5cj2DtyhnUmpq+u/dQ
+ BwqZukMRki+A3NuenpSlGMNP/lFR9XAzzwYCOFDwTuzOm8sOBIlZfHKqleSyMVQaP9ihxVaxl
+ 9VbZw+d/Uo68vBMUjXzNr7tXdf4K9bipBQ0vypWTu+Kv+2p/Pq0/9UlpDyodiHpMdhixm2iJe
+ I+fnzs1nbQHFeKRInHI7jldHZvxTmsXromwTf56gqajE7w5rh0SvIH1Vv+YU/A6abO6m18thb
+ reFWPsdeXsDP+Dj6B9wcWVpXBVDhiQ6lD6LhYJCmu7oW9sFz4xFKaPxGqnwg+mDqAA6i8kNBx
+ LWu6oG3LvtH2cJr3xMEyJ041nDzzefswavSQzXPmobPxsMn5hs7v3cGAFcU4Y8kS2Z4B5fEm1
+ MDbwekjN5PsFMEkEq2F6M3n3/B5JIgbi8MrxvsrCJauO2HelHITumQZpakqBhkivWP8T0H6na
+ 7CWFF+4r76b1HndoSz/EN3Z53uZ66hFFHX+WldBkcNFL3GQoScDYXG5aCJ8lAYxv5eVbJZ8y/
+ EFYSPVdYStBV5+VaN9Av6EIOPGDjQnMtNGku0aDn0qRjRzuQdP23vd6K8sKxec5woSwiwF7n8
+ XBPgKVrWiemorU29olBzIQlOKRoWNPDiEcmoRiBp8lp2rG8ECYtAwdpmLYmw0SFkQCoMAvODh
+ CGm6N26miQ2PBKoJT+EhiMmUefpvDKNlRWtD4tJublZTiS7ydszhzCi3UgpeAt3C7yRqY+csP
+ tj5Yh7lo8X8OLDF+pwehWPJqWawztz4ncPFdLSp38t+7MY254rqXQlcWptx5/v+S7gPhVRcxN
+ bYe9XTlN4q04YTy8ignR7uxZHC9mpi1JCMFtK7dx0g4Alkb4+CNf5MIF0jIR6MnYxMciHtRHt
+ btvNxJPRcGYCyoTB6ucii4zoAHtkxcHU/Qnvqm1SUw3xdt5+3BUpzoVSLZbw4/twdBV+A4kYn
+ V6SdPj/krlLVoKdPsoGOCDxkte0OHWwhveg0AGTXiXmyzE=
 
-After performing some tests with a custom SSDT table available at
-https://github.com/Wer-Wolf/acpi-wmi-ssdt i found out that Windows
-also enables data block collection even when the data block is
-being set.
-
-Emulate this behaviour to avoid confusing the ACPI firmware.
-The bus-based API already implements this behaviour, so only the
-legacy GUID-based API needs to be changed.
+Warn WMI driver developers to not use GUID-based and non-GUID-based
+functions for querying WMI data blocks and handling WMI events
+simultaneously on the same device, as this will corrupt the WMI device
+state and might thus lead to erratic behaviour.
 
 Signed-off-by: Armin Wolf <W_Armin@gmx.de>
 =2D--
- Documentation/wmi/acpi-interface.rst | 3 +++
- drivers/platform/x86/wmi.c           | 6 ++++++
- 2 files changed, 9 insertions(+)
+ Documentation/wmi/driver-development-guide.rst | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/wmi/acpi-interface.rst b/Documentation/wmi/acpi=
--interface.rst
-index 06fb7fcf4413..f1b28835d23c 100644
-=2D-- a/Documentation/wmi/acpi-interface.rst
-+++ b/Documentation/wmi/acpi-interface.rst
-@@ -89,6 +89,9 @@ Similar to the ``WExx`` ACPI methods, except that it con=
-trols data collection
- instead of events and thus the last two characters of the ACPI method nam=
-e are
- the method ID of the data block to enable/disable.
+diff --git a/Documentation/wmi/driver-development-guide.rst b/Documentatio=
+n/wmi/driver-development-guide.rst
+index f7e1089a0559..99ef21fc1c1e 100644
+=2D-- a/Documentation/wmi/driver-development-guide.rst
++++ b/Documentation/wmi/driver-development-guide.rst
+@@ -96,6 +96,10 @@ on a given machine.
+ Because of this, WMI drivers should use the state container design patter=
+n as described in
+ Documentation/driver-api/driver-model/design-patterns.rst.
 
-+Those ACPI methods are also called before setting data blocks to match th=
-e
-+behaviour of the Windows driver.
++.. warning:: Using both GUID-based and non-GUID-based functions for query=
+ing WMI data blocks and
++             handling WMI events simultaneously on the same device is gua=
+ranteed to corrupt the
++             WMI device state and might lead to erratic behaviour.
 +
- _WED ACPI method
- ----------------
+ WMI method drivers
+ ------------------
 
-diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
-index 01d4ac480930..2b2e405955cd 100644
-=2D-- a/drivers/platform/x86/wmi.c
-+++ b/drivers/platform/x86/wmi.c
-@@ -461,8 +461,14 @@ acpi_status wmi_set_block(const char *guid_string, u8=
- instance, const struct acp
- 	if (IS_ERR(wdev))
- 		return AE_ERROR;
-
-+	if (wmi_device_enable(wdev, true) < 0)
-+		dev_warn(&wdev->dev, "Failed to enable device\n");
-+
- 	status =3D  wmidev_block_set(wdev, instance, in);
-
-+	if (wmi_device_enable(wdev, false) < 0)
-+		dev_warn(&wdev->dev, "Failed to disable device\n");
-+
- 	wmi_device_put(wdev);
-
- 	return status;
 =2D-
 2.39.5
 
