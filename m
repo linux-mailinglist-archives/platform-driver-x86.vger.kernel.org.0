@@ -1,138 +1,212 @@
-Return-Path: <platform-driver-x86+bounces-9320-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-9322-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18D69A2D382
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  8 Feb 2025 04:33:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E53D2A2D3E5
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  8 Feb 2025 05:56:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3BD27188DF55
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  8 Feb 2025 03:34:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BF821674FC
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  8 Feb 2025 04:56:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 204431547E7;
-	Sat,  8 Feb 2025 03:33:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40E66194096;
+	Sat,  8 Feb 2025 04:56:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JrWCyfyD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TsD/02yM"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E5A611E;
-	Sat,  8 Feb 2025 03:33:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851EC137E;
+	Sat,  8 Feb 2025 04:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738985631; cv=none; b=MYuhKtwlYrH887i1B5PoEajS76d9jwCxArey3Pt1wDSLaLFCYHjQFHRq3OjAQtBaYBIelkc/oTzM06BPoPckRXEGVUjcsdE+UTFmuTTxyQHxE2YsSO2wo8xKrRNUe9bd9ojab4WFTK5AdYg9mHHVIm06dWruedVLlj5ZK/gMKwk=
+	t=1738990593; cv=none; b=WVIBieXnO9ZTSdcVepX3l5lugG0S+PSrPKjQzdqYpZkFpN/WRoMVmXb2Kxhq0ZFnfD888HEpxVQ7dMC1CY/8yzZA4iAceOZW/vN9f/ItV3rAea+d2vT5HA3Xkpk1GPsAaxXXt+Nrcm/Sou3EKutulV3VYShY0D3POmPtMi5Hvls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738985631; c=relaxed/simple;
-	bh=E4ef/ftjH8Y83ESfkZ/ek4OwMIc3mSgBksj42G9pEyE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ul9pRFqSUXXvr9Yc1YIcaYE0qjvZCEVE+Q18dqvfLisHYZ34HyDCEg5aAnlsz5Lgjeo1I4MWZITUj/gSjv+76nofXiM2ugqM8g8uXs2eswBgBGDFM6pqnMmEmSNeHG9/yzfmFLFnuEhXr0AzE6GBm6wpzsw/fPFNmX2js0YZKII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JrWCyfyD; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738985629; x=1770521629;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=E4ef/ftjH8Y83ESfkZ/ek4OwMIc3mSgBksj42G9pEyE=;
-  b=JrWCyfyDRTOUk0ngRY1C6TlxxztxhAuYGx0241kebH9QXtskTfEqynL7
-   LcP5cQHqCRGFLlx8g/bRNaQh+/b36nGXmXJxGXuWxAlql40gede9SWN2I
-   ek4aDW99n4kC+Bixd2+Ep9m24/yDbQJybBqqaM/bvdK9TG0A13tGJ4+RU
-   vUMj6cxeF6dvmgJ4aPo6yCJiajnURrPfQxfwkdrhNuuPZoLGX3i9unG1z
-   apfqvCfHYdiNR7iNYjCaipJ7uRoI87R8TJp+vIHOOpFxyy1+BiBsJuvZ2
-   fKrpQPHhzQaGpkosgpeNSrz62QsfvjrxV4wZGqWMRmGPtc5ETCIT6vkfu
-   w==;
-X-CSE-ConnectionGUID: IYAVMl0NSkuhQGMCWUWMTg==
-X-CSE-MsgGUID: UkVjxFPiS7eiJ1jNRFIsyA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="39541413"
-X-IronPort-AV: E=Sophos;i="6.13,268,1732608000"; 
-   d="scan'208";a="39541413"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 19:33:48 -0800
-X-CSE-ConnectionGUID: KfrjFuMpRnayDLYzhLb9nA==
-X-CSE-MsgGUID: nahwQkBJSY+cDoGI/mkrIA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,268,1732608000"; 
-   d="scan'208";a="111621205"
-Received: from choongyo-mobl.gar.corp.intel.com (HELO [10.247.21.123]) ([10.247.21.123])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 19:33:41 -0800
-Message-ID: <71887246-d30f-4134-8c6d-b379477b2457@linux.intel.com>
-Date: Sat, 8 Feb 2025 11:33:38 +0800
+	s=arc-20240116; t=1738990593; c=relaxed/simple;
+	bh=1xH0rXlxslCsvMagEgTmTkga4D1lQaTTjagj+kgbe+M=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=EHTpD3KOzqAWpaT1oG8uqKiWbJWLNjBL7JvKr7BejsiPWoe+Kd2Ousy9LJN5I9231Ml4K7keJCjUXkntmheXHAIPugBSEo3mSO4fbfXX7qEk0OzhNi6tRkafII4ehMLJABud3G3KuuFIdjghGssi9OrE++xGq6jm4gH07+doD3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TsD/02yM; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6f6ae4846c7so22766447b3.1;
+        Fri, 07 Feb 2025 20:56:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738990590; x=1739595390; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tDTR9wmDUXxWBvJfcOonLq9hCC3mb/PA0wHV0DIQuyY=;
+        b=TsD/02yMVg5yxP2iFsyeUjFkWjesFddX/Vf1DCCqJRp/Fm1ny2HoK14NIIW6FR2Qc+
+         tfhKc3XzVHW/LoNodWHOTIL9L6lWhkA9u+cBefuUPPdY13N4O3DoVT7u1YvVO1Aes4rG
+         qfxqb9TBVHieK4LXVwLG0yWFNYS9q4tFmRcEAnI+zFzewned2mnwr3Z/EDZNTUBXhwC5
+         Icp4NzAnc7/cFBdVhlwwtKU9BPXWrYJNUUokhhXP3GY8TYmgckig6zZcdwl4Ezk2lGC1
+         C3KbO8pAFnZO6bREjma6w+5uNO4U0B3uOGax2CShbpzO3W0F1Taru9z5WnAhtnHZUgbk
+         qIYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738990590; x=1739595390;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=tDTR9wmDUXxWBvJfcOonLq9hCC3mb/PA0wHV0DIQuyY=;
+        b=Cb7eGtNIj2l0ZhYWYt8NML2Ki7/vq2G3dG+tAkDbKBPUbsTMF3SOiPhfLtRVTv+Svr
+         NRt07mCpjFM5AHlQgR1nbLsh5Ci2gQhabq3A48LK2HliRIe/ockQ8DZadhyH7VD0b+Et
+         XCwvjf4Jm/ZEchCXC4Hvc1j/W9tq1TJhnJcIvFV2DKKIxsXOjERh4rImYmiURY/Y+Da4
+         efBWFUnIwvfKv3mSi29qAiJjfI6hSWgto3RGiOI0M1N/U1Bkvoi3olhulP2kVpmP1z7W
+         /6svIela6SDQCTS6eFw2lkx06uCs1zEmW71y2a3NMi4B0r4qIiieFSk+LiyE6i6Pk2GR
+         zLpw==
+X-Forwarded-Encrypted: i=1; AJvYcCX4iAT+fN72GhNdR4YnJuRY+zkfVjwZWfkfeIWC470mDJDF3mGZT/E6G0M59DqKYZ5Ke8zkxCiBFhCARW1S26uobyvzVA==@vger.kernel.org, AJvYcCX62RskSW1HbvLVs8JglyTWCgyhh3EonIzUXTZjYAYg9KJzJg3t/y4fYSlAb/O4ly+vG3v0VQ9fkHHFNew=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9xVXXvuSVVPtTR0DgH9aL+MjIMcr39VOKrAgvjRAv6pVLFx9s
+	I8IpbTnkCBjiquc2rn4j7a+X0ZHRTveO9d1Alon3FeltezRUZCsfkqlZ/A==
+X-Gm-Gg: ASbGncvYSsncsvuDK3JFz/kcjAMN9Vn5PRNn/5QRHHe/2A5yJFQA59VzLvHIQ4zccXu
+	bUh6VLmAJVl+iFbb7D9jD3196Het1/kf4otR1lZnDDs1UZPU6UmGz+3d1m/3GnvFVhcOt58qpsO
+	25qLbcT7PY+itoiViSExx3qfYx3HLGITHt60r2ehG5ttl0Ml+ug0upBTk5Symx1fh7aLI04TuQM
+	aBE9A8SldMcFHRip1b7YtAc2aCjyv1zfFaxbWQCp0sPj5EPAQC42vG6g1OHMnxksendcMJPGNaA
+	zdhtqgc=
+X-Google-Smtp-Source: AGHT+IGl0nFf/LVFmPHl00CIJamXl59Pe4edXJOlNf7Ij4zjfD8DLqu9S13x5U4uEfr+7ZMij6oXPg==
+X-Received: by 2002:a05:690c:6087:b0:6ef:652b:91cf with SMTP id 00721157ae682-6f9b2981ae8mr55437877b3.27.1738990590281;
+        Fri, 07 Feb 2025 20:56:30 -0800 (PST)
+Received: from localhost ([2800:bf0:82:3d2:4207:a956:ebad:2a64])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6f99ff6a8c2sm7886057b3.77.2025.02.07.20.56.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Feb 2025 20:56:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v7 2/7] net: pcs: xpcs: re-initiate clause 37
- Auto-negotiation
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>,
- Simon Horman <horms@kernel.org>, Jose Abreu <joabreu@synopsys.com>,
- Jose Abreu <Jose.Abreu@synopsys.com>,
- David E Box <david.e.box@linux.intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H . Peter Anvin" <hpa@zytor.com>,
- Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
- David E Box <david.e.box@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Jiawen Wu <jiawenwu@trustnetic.com>,
- Mengyuan Lou <mengyuanlou@net-swift.com>,
- Heiner Kallweit <hkallweit1@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Richard Cochran <richardcochran@gmail.com>,
- Serge Semin <fancer.lancer@gmail.com>, x86@kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- platform-driver-x86@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org
-References: <20250206131859.2960543-1-yong.liang.choong@linux.intel.com>
- <20250206131859.2960543-3-yong.liang.choong@linux.intel.com>
- <Z6TVmdCZeWerAZKP@shell.armlinux.org.uk>
- <564ede5d-9f53-40be-9305-63f63b384e15@linux.intel.com>
- <12e86fbe-9515-4b81-951c-8bf86e2939d6@lunn.ch>
-Content-Language: en-US
-From: Choong Yong Liang <yong.liang.choong@linux.intel.com>
-In-Reply-To: <12e86fbe-9515-4b81-951c-8bf86e2939d6@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 07 Feb 2025 23:56:27 -0500
+Message-Id: <D7MSPR52PB4E.N0X1UFVQOODZ@gmail.com>
+Cc: <hdegoede@redhat.com>, <ilpo.jarvinen@linux.intel.com>,
+ <mario.limonciello@amd.com>, <platform-driver-x86@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] platform/x86: thinkpad_acpi: Fix registration of tpacpi
+ platform driver
+From: "Kurt Borja" <kuurtb@gmail.com>
+To: "Mark Pearson" <mpearson-lenovo@squebb.ca>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <mpearson-lenovo@squebb.ca>
+ <20250208091438.5972-1-mpearson-lenovo@squebb.ca>
+In-Reply-To: <20250208091438.5972-1-mpearson-lenovo@squebb.ca>
 
+Hi Mark,
 
+On Sat Feb 8, 2025 at 4:14 AM -05, Mark Pearson wrote:
+> When reviewing and testing the recent platform profile changes I had
+> missed that they prevent the tpacpi platform driver from registering.
+> This error is seen in the kernel logs, and the various tpacpi entries
+> are not created:
+> [ 7550.642171] platform thinkpad_acpi: Resources present before probing
 
-On 7/2/2025 9:32 pm, Andrew Lunn wrote:
->> Good point. I cannot find this scenario in the datasheet. Please allow me
->> some time to test this scenario. I will update you with the results.
-> 
-> By data sheet, do you mean documentation from Synopsis, or is this an
-> internal document? Assuming the hardware engineers have not hacked up
-> the Synopsis IP too much, the Synopsis documentation is probably the
-> most accurate you have.
-> 
->>> What about 1000BASE-X when AN is enabled or disabled and then switching
->>> to SGMII?
->>>
->> According to the datasheet, a soft reset is required.
-> 
-> Do you know if this is specific to Intels integration of the Synopsis
-> IP, or this is part of the core licensed IP?
-> 
-> We need to understand when we need a quirk because intel did something
-> odd, or it is part of the licensed IP and should happen for all
-> devices using the IP.
-> 
-> 	Andrew
-> 
+This happens because in thinkpad_acpi_module_init(), ibm_init() is
+called before platform_driver_register(&tpacpi_pdriver), therefore
+devm_platform_profile_register() is called before tpacpi_pdev probes.
 
-Hi Andrew,
+As you can verify in [1], in the probing sequence, the driver core
+verifies the devres list is empty, which in this case is not because of
+the devm_ call.
 
-Thank you for your questions. Just to clarify, when I mention the 
-"datasheet," I am referring to the documentation from "Synopsis - 
-DesignWare Cores Ethernet PCS" and not specific to Intel's documentation.
+>
+> I believe this is because the platform_profile driver registers the
+> device as part of it's initialisation in devm_platform_profile_register,
+> and the thinkpad_acpi driver later fails as the resource is already used.
+>
+> Modified thinkpad_acpi so that it has a separate platform driver for the
+> profile handling, leaving the existing tpacpi_pdev to register
+> successfully.
+
+While this works, it does not address the problem directly. Also it is
+discouraged to create "fake" platform devices [2].
+
+May I suggest moving tpacpi_pdriver registration before ibm_init()
+instead, so ibm_init_struct's .init callbacks can use devres?
+
+Thanks for noticing this!
+
+~ Kurt
+
+[1] https://elixir.bootlin.com/linux/v6.13.1/source/drivers/base/dd.c#L626
+[2] https://lore.kernel.org/rust-for-linux/2025020620-skedaddle-olympics-17=
+35@gregkh/
+
+>
+> Tested on X1 Carbon G12.
+>
+> Fixes: 31658c916fa6 ("platform/x86: thinkpad_acpi: Use devm_platform_prof=
+ile_register()")
+>
+> Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+> ---
+>  drivers/platform/x86/thinkpad_acpi.c | 18 +++++++++++++++++-
+>  1 file changed, 17 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/=
+thinkpad_acpi.c
+> index 1fcb0f99695a..1dd8f3cc5eda 100644
+> --- a/drivers/platform/x86/thinkpad_acpi.c
+> +++ b/drivers/platform/x86/thinkpad_acpi.c
+> @@ -270,6 +270,7 @@ enum tpacpi_hkey_event_t {
+>  #define TPACPI_DRVR_NAME TPACPI_FILE
+>  #define TPACPI_DRVR_SHORTNAME "tpacpi"
+>  #define TPACPI_HWMON_DRVR_NAME TPACPI_NAME "_hwmon"
+> +#define TPACPI_PROFILE_DRVR_NAME TPACPI_NAME "_profile"
+> =20
+>  #define TPACPI_NVRAM_KTHREAD_NAME "ktpacpi_nvramd"
+>  #define TPACPI_WORKQUEUE_NAME "ktpacpid"
+> @@ -962,6 +963,7 @@ static const struct proc_ops dispatch_proc_ops =3D {
+> =20
+>  static struct platform_device *tpacpi_pdev;
+>  static struct platform_device *tpacpi_sensors_pdev;
+> +static struct platform_device *tpacpi_profile_pdev;
+>  static struct device *tpacpi_hwmon;
+>  static struct device *tpacpi_pprof;
+>  static struct input_dev *tpacpi_inputdev;
+> @@ -10646,7 +10648,8 @@ static int tpacpi_dytc_profile_init(struct ibm_in=
+it_struct *iibm)
+>  			"DYTC version %d: thermal mode available\n", dytc_version);
+> =20
+>  	/* Create platform_profile structure and register */
+> -	tpacpi_pprof =3D devm_platform_profile_register(&tpacpi_pdev->dev, "thi=
+nkpad-acpi",
+> +	tpacpi_pprof =3D devm_platform_profile_register(&tpacpi_profile_pdev->d=
+ev,
+> +						      "thinkpad-acpi-profile",
+>  						      NULL, &dytc_profile_ops);
+>  	/*
+>  	 * If for some reason platform_profiles aren't enabled
+> @@ -11815,6 +11818,8 @@ static void thinkpad_acpi_module_exit(void)
+> =20
+>  	if (tpacpi_sensors_pdev)
+>  		platform_device_unregister(tpacpi_sensors_pdev);
+> +	if (tpacpi_profile_pdev)
+> +		platform_device_unregister(tpacpi_profile_pdev);
+>  	if (tpacpi_pdev)
+>  		platform_device_unregister(tpacpi_pdev);
+>  	if (proc_dir)
+> @@ -11901,6 +11906,17 @@ static int __init thinkpad_acpi_module_init(void=
+)
+>  		thinkpad_acpi_module_exit();
+>  		return ret;
+>  	}
+> +
+> +	tpacpi_profile_pdev =3D platform_device_register_simple(TPACPI_PROFILE_=
+DRVR_NAME,
+> +							      PLATFORM_DEVID_NONE, NULL, 0);
+> +	if (IS_ERR(tpacpi_profile_pdev)) {
+> +		ret =3D PTR_ERR(tpacpi_profile_pdev);
+> +		tpacpi_profile_pdev =3D NULL;
+> +		pr_err("unable to register platform profile device\n");
+> +		thinkpad_acpi_module_exit();
+> +		return ret;
+> +	}
+> +
+>  	tpacpi_sensors_pdev =3D platform_device_register_simple(
+>  						TPACPI_HWMON_DRVR_NAME,
+>  						PLATFORM_DEVID_NONE, NULL, 0);
+
 
