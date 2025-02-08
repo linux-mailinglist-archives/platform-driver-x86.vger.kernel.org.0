@@ -1,108 +1,87 @@
-Return-Path: <platform-driver-x86+bounces-9321-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-9323-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279A5A2D3B5
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  8 Feb 2025 05:16:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A25BEA2D3FA
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  8 Feb 2025 06:16:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CDB797A53E9
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  8 Feb 2025 04:15:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 38BD016C8F1
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  8 Feb 2025 05:16:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5154D1547C9;
-	Sat,  8 Feb 2025 04:15:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EC0517DE2D;
+	Sat,  8 Feb 2025 05:16:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="j6IYOxx7";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="JJ5dTTSG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H3ewHPgc"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401281865EB;
-	Sat,  8 Feb 2025 04:14:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4F91E515;
+	Sat,  8 Feb 2025 05:16:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738988101; cv=none; b=MiZBDpUBxjp12trGhW6mRYb1dNbSyF0kU7uL5CI0sy/LA26N5syZ/F7c6/7SyMu8U2SxOvd8Z3yvHDSOJ5WIMjM/5AjhfBh1/7UpUSIiWFW3tTQJT/VCYCDeDiWwC6zqZjlRYVck4uaf1nkH2ERUcAled86IH8uEkm3/nLADG5k=
+	t=1738991814; cv=none; b=tQDd9rFNxCQmR1v6ym/2LMY+vh92HKj4zcuPndXlNHFGR8c6Aky1wQG3ANlDgPphxR0N+IsoFER1sU8TTy+CrdXiOtF1MVq9tIJecs9ywWEvfI3iYNKgLSUYUNP9XbTrUqC/2TTLpwLSoh2PEZvZ05i+Flx2r2sJl7cBGrkqvFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738988101; c=relaxed/simple;
-	bh=fzmp6WVSt1hQtLgHLGDRJ34QhxuBlCOOQ/83wZJkBBU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J+Bbu+wCWBgedfIi9TW0HZdOcEdXpdZOmrritJ1vrsX2k4YKi7YFSaaPwLVLJkVWf4UIqVtk3Kw98S6jnlyBBC8de/Czhg5yMki+YG7PcugY79AMWYcxPBy24kTaRh7WigG/h2z1dnCKFAmRuLmAhkgWA8OcpMLGo6UTE3bzbI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=j6IYOxx7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=JJ5dTTSG; arc=none smtp.client-ip=202.12.124.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
-Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id D54542540198;
-	Fri,  7 Feb 2025 23:14:56 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Fri, 07 Feb 2025 23:14:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1738988096; x=
-	1739074496; bh=JtF8sxBvfgNNsJVOgPTReVDv4+8cuPEbOaKRQ9cp9es=; b=j
-	6IYOxx7mcd+hbsEbmnjdoyiJ4elzEZGrmCPidsq1QFuas8LKFAk/lDC40lVouFo3
-	uSViChp+M2uJE9+t3yXSUAJbAIxRQru7bMdc+i0jCM8KA/Iw83KBjozdBIhLKG3k
-	TE1wVarj+bkeXbjqK3+YIIteabTqfXZkCf4+YqtI2ohzI006LjISCnENEcSX7tIP
-	fKeTOCfZCbEEtCyrSN1fb5IATzFFkvOZzAGgU3EE2//xx8dI3hE85EL3kSlrnuAC
-	Fu3SB4hmsnmUFkxZKGvlng/HA4c2rgYv2bkS1cfJKW6qUmlKmI4583HICu5feym5
-	lEVzmMAxJUuTDzB1Xny1A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1738988096; x=1739074496; bh=J
-	tF8sxBvfgNNsJVOgPTReVDv4+8cuPEbOaKRQ9cp9es=; b=JJ5dTTSG/p1pUJ6fO
-	R/Fo1YY56uWOFl+ukCDWvTZEYMS7K0ygKERXvksmkUrKMPKBmkPUAwbAQ4xsMn5c
-	jYfcbVOVS8HiFRToq2RJo3RuGuuLCgCfzS8V6CUnrDqEHKnGyOqZPpHkd7hO2Zkf
-	7udt/lKOTjwXNjmBMjR5oyBL713z1v7ifISeORsFmcRucNzG7hr1JogberA7P6/K
-	oA+hkpY09SOazWcxuFOUZn8nxsHuroiuJydk/TXhclyWSULrHQ7wzjAzEiOHNXFH
-	DKxz+yDGGNEvniUKkeZoSKNHCqq0fHAZL3lfQ+a9qA4rzYKEJx3CeEy/pqFzlRJj
-	PPhIQ==
-X-ME-Sender: <xms:QNqmZ5MgUN1qQ5c6hiEnE6kjB9XqyROzMW4uvXW0UfASUrQtnPeAXw>
-    <xme:QNqmZ78M3AF6D2HAPJV1p8IXWSJxr4mCmvu0Llwnzb7UF0rpU83SJwoVft2DxxalY
-    1yf0IU-UVo7xHWU3k8>
-X-ME-Received: <xmr:QNqmZ4RfmddLG_wmJvwQ-bYSpCiioJVAKJJgH82Y7EBoGetI-YoHS2iGbpR0lEpHknT4y_-lRRh6pRirKnDMyKN_59Qj>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefuddulecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecuogetfedtuddqtdduuc
-    dludehmdenucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhm
-    peforghrkhcurfgvrghrshhonhcuoehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvg
-    gssgdrtggrqeenucggtffrrghtthgvrhhnpeeftddvjeefleffvefhgfejjeehudetteei
-    geeugfekhffhgeejudeuteehgfdvffenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdr
-    tggrpdhnsggprhgtphhtthhopeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhope
-    hmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggrpdhrtghpthhtohephhgu
-    vghgohgvuggvsehrvgguhhgrthdrtghomhdprhgtphhtthhopehilhhpohdrjhgrrhhvih
-    hnvghnsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhgrrhhiohdrlhhi
-    mhhonhgtihgvlhhlohesrghmugdrtghomhdprhgtphhtthhopehkuhhurhhtsgesghhmrg
-    hilhdrtghomhdprhgtphhtthhopehplhgrthhfohhrmhdqughrihhvvghrqdigkeeisehv
-    ghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlse
-    hvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:QNqmZ1uvsWLNAqLhyJSy-5isNfnb4Fa7cMKf8OkSRh-D80gGIRfFBA>
-    <xmx:QNqmZxcwW3ezBGe-8T72IidKxT98neCAblFRbonhE2cOwAV7KyirHg>
-    <xmx:QNqmZx3AIocGzUJR9jytvSoI0VRYbRF4tD4IxIh5HtNgVDxw6HEdug>
-    <xmx:QNqmZ99rv3VWYPwfAlaVMunYESOH5j9uEBAZoVYjkaToWXwtBqWraQ>
-    <xmx:QNqmZwwxL_ClhcZDKfBQtdSabNeYmRmV9yZCxylWT0829--fXPEqdid2>
-Feedback-ID: ibe194615:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 7 Feb 2025 23:14:55 -0500 (EST)
-From: Mark Pearson <mpearson-lenovo@squebb.ca>
-To: mpearson-lenovo@squebb.ca
-Cc: hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	mario.limonciello@amd.com,
-	kuurtb@gmail.com,
-	platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] platform/x86: thinkpad_acpi: Fix registration of tpacpi platform driver
-Date: Sat,  8 Feb 2025 04:14:31 -0500
-Message-ID: <20250208091438.5972-1-mpearson-lenovo@squebb.ca>
+	s=arc-20240116; t=1738991814; c=relaxed/simple;
+	bh=Wh95MniglZrxJYV1WBtECKZ07EvFPp3vsPwJ2IF32No=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EyoCzTSPJVg7VqO3EvJp2GA/RIIcfp8QlJ71YnuewVAP3i577gCRn39iRobUI7dnNZzDyZrKNijAvhEZMuk9bDwPqUm6jbUYyjOMTVaPyJHAAvuTL2S+XYA2Qpu2PQoxUbKLGybplOqpNoeVZdmGXi+W9LTkmgZdJdhhfbrGWCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H3ewHPgc; arc=none smtp.client-ip=209.85.219.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e5b22d35268so2563330276.3;
+        Fri, 07 Feb 2025 21:16:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738991812; x=1739596612; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Br0fmd3voz2egE/wkBW55eYvDvDY6vZCi/PhKJu8ARo=;
+        b=H3ewHPgcYVHFNOQiyZu6r0Vf7wYZn7k8d1oQgfBQHoBDwseoXtyeM2CKRwPQlucc/y
+         aZvV9g5lrLeZOG8F2qSOXtjbnJM+TbuKsY03NQszfcw8PP1hZ59dhSewfbxPzfFJiCWd
+         AcobIYXF8j0CZY1V4FJtsBRJqwS9SwLExK9B05i4aEw99Q/bBO6kAsWc4VjuZ6rMYVJm
+         AUwLkawhm5zuOJn00EHssHjXBBNpI3/hrddy70uUb8JAUGhTpJyrqMaETJP0JeeGfiQd
+         mnHrkKqjaI6gG8iyjzs6BdMPDSCe0lTmvyaZFDIAyvbnIY/u3E7qc4SvvuQvFWE48/UY
+         eZyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738991812; x=1739596612;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Br0fmd3voz2egE/wkBW55eYvDvDY6vZCi/PhKJu8ARo=;
+        b=Kkl+qb1OMIV+6iHxuvJBCxuQt11D/GN/4+V1x1ASuBFFiUKViWehiGYSFL2UqEPfUm
+         E0CXdAbMJQxVkj+xTc+fScNMs8JCMWzODZAP1tiOY0hmF22EzFhd9IQT3m5COhYmjoTK
+         EPXpvLPFF8JFs6xE8obU8UT4AWuMwBgF69iT+yyPMx0PG0RonNRimFw7yTgM5PcVE9lR
+         IYUsl4YWt68/Jwirx2N3VazLrcbbSWN+HLKP9afQl5T0VSTw7+IOHnBJyNw0LC6J14Tp
+         y9wT4QhJr6zug/ul7qKbT+Fs6pmd0Fikgcf5UZXSWlRw9Bw2CMj0J7YfXz6MsRGYdHG8
+         tGtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW7FxBMPcgtKjmncqvFIT3fNPP0z1AFsZq+8UW6oOXNbxx7qda5KCbVXZY30mvnA/pCjhoHZ+Uu2Wh3Ep8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFtzDb2pTGBddwFLbNOthff6oi7oDIh58+OR3GHmR/mzQXqZcZ
+	Vl4MYSSfaRdWS4WgddLhAS0XmnVd+j2xHAZODhXsXrgusa00gf9A
+X-Gm-Gg: ASbGncua4j3sEjuWC/2kdHaRF8DbzEaKZ1DpMbz2H9bJqb8UIQpnGasgd4zH5ZfpDDs
+	20qHP3pBlPsNH18hUOzwGM+P4l5vp6xUa/ntJOfng4djGcGBAUZFBCVRuGdwA4RIk1ciN5/NBzZ
+	M2BhTiYJtFNJVBtQ+7KyQISZnnBt05IfKZ+Tv89mnwy/9Chf+3/xIroq4PdT3O9TbjNr1k7Mxeo
+	QlWHtYHaO4Q41hHeIb1mSZEYv1QMv286XZN9A//qwQT12300KEflKeoekRKkhyh4fEHFuituWoS
+	c0aFvNqcCp1Ov4qavPVrgVQ=
+X-Google-Smtp-Source: AGHT+IGX0riAH/3hApp4kFdJC0CnmcgG5Sr9IQVM/ydCvzjfY7h3u4L6L2aSCDPhoFJv0xhXauaPHg==
+X-Received: by 2002:a05:6902:168e:b0:e57:3dbc:bbbb with SMTP id 3f1490d57ef6-e5b462b5caemr5549968276.44.1738991811607;
+        Fri, 07 Feb 2025 21:16:51 -0800 (PST)
+Received: from localhost.localdomain ([2800:bf0:82:3d2:4207:a956:ebad:2a64])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e5b3a1f00e0sm1207670276.2.2025.02.07.21.16.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Feb 2025 21:16:50 -0800 (PST)
+From: Kurt Borja <kuurtb@gmail.com>
+To: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	"Armin Wolf" <W_Armin@gmx.de>
+Cc: platform-driver-x86@vger.kernel.org,
+	"Hans de Goede" <hdegoede@redhat.com>,
+	Dell.Client.Kernel@dell.com,
+	linux-kernel@vger.kernel.org,
+	Kurt Borja <kuurtb@gmail.com>
+Subject: [PATCH 00/10] HWMON support + DebugFS + Improvements
+Date: Sat,  8 Feb 2025 00:16:04 -0500
+Message-ID: <20250208051614.10644-1-kuurtb@gmail.com>
 X-Mailer: git-send-email 2.48.1
-In-Reply-To: <mpearson-lenovo@squebb.ca>
-References: <mpearson-lenovo@squebb.ca>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -111,86 +90,60 @@ List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When reviewing and testing the recent platform profile changes I had
-missed that they prevent the tpacpi platform driver from registering.
-This error is seen in the kernel logs, and the various tpacpi entries
-are not created:
-[ 7550.642171] platform thinkpad_acpi: Resources present before probing
+Hi, all :)
 
-I believe this is because the platform_profile driver registers the
-device as part of it's initialisation in devm_platform_profile_register,
-and the thinkpad_acpi driver later fails as the resource is already used.
+Seeing that the alienware-wmi rework patchset is almost done I wanted to
+get ahead on development and submit these series.
 
-Modified thinkpad_acpi so that it has a separate platform driver for the
-profile handling, leaving the existing tpacpi_pdev to register
-successfully.
+The main highlight is of course HWMON + manual fan control support
+(patches 7 and 8) which is highly requested by the few users who
+contacted me privately. I took a similar approach to the dell-wmi-ddv
+driver (thanks Armin!) and cached sensor readings for better
+performance.
 
-Tested on X1 Carbon G12.
+As always, your feedback is very appreciated!
 
-Fixes: 31658c916fa6 ("platform/x86: thinkpad_acpi: Use devm_platform_profile_register()")
+Based on pdx86/for-next, depends on [1].
 
-Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+~ Kurt
 ---
- drivers/platform/x86/thinkpad_acpi.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+[1] https://lore.kernel.org/platform-driver-x86/20250207154610.13675-1-kuurtb@gmail.com/
 
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 1fcb0f99695a..1dd8f3cc5eda 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -270,6 +270,7 @@ enum tpacpi_hkey_event_t {
- #define TPACPI_DRVR_NAME TPACPI_FILE
- #define TPACPI_DRVR_SHORTNAME "tpacpi"
- #define TPACPI_HWMON_DRVR_NAME TPACPI_NAME "_hwmon"
-+#define TPACPI_PROFILE_DRVR_NAME TPACPI_NAME "_profile"
- 
- #define TPACPI_NVRAM_KTHREAD_NAME "ktpacpi_nvramd"
- #define TPACPI_WORKQUEUE_NAME "ktpacpid"
-@@ -962,6 +963,7 @@ static const struct proc_ops dispatch_proc_ops = {
- 
- static struct platform_device *tpacpi_pdev;
- static struct platform_device *tpacpi_sensors_pdev;
-+static struct platform_device *tpacpi_profile_pdev;
- static struct device *tpacpi_hwmon;
- static struct device *tpacpi_pprof;
- static struct input_dev *tpacpi_inputdev;
-@@ -10646,7 +10648,8 @@ static int tpacpi_dytc_profile_init(struct ibm_init_struct *iibm)
- 			"DYTC version %d: thermal mode available\n", dytc_version);
- 
- 	/* Create platform_profile structure and register */
--	tpacpi_pprof = devm_platform_profile_register(&tpacpi_pdev->dev, "thinkpad-acpi",
-+	tpacpi_pprof = devm_platform_profile_register(&tpacpi_profile_pdev->dev,
-+						      "thinkpad-acpi-profile",
- 						      NULL, &dytc_profile_ops);
- 	/*
- 	 * If for some reason platform_profiles aren't enabled
-@@ -11815,6 +11818,8 @@ static void thinkpad_acpi_module_exit(void)
- 
- 	if (tpacpi_sensors_pdev)
- 		platform_device_unregister(tpacpi_sensors_pdev);
-+	if (tpacpi_profile_pdev)
-+		platform_device_unregister(tpacpi_profile_pdev);
- 	if (tpacpi_pdev)
- 		platform_device_unregister(tpacpi_pdev);
- 	if (proc_dir)
-@@ -11901,6 +11906,17 @@ static int __init thinkpad_acpi_module_init(void)
- 		thinkpad_acpi_module_exit();
- 		return ret;
- 	}
-+
-+	tpacpi_profile_pdev = platform_device_register_simple(TPACPI_PROFILE_DRVR_NAME,
-+							      PLATFORM_DEVID_NONE, NULL, 0);
-+	if (IS_ERR(tpacpi_profile_pdev)) {
-+		ret = PTR_ERR(tpacpi_profile_pdev);
-+		tpacpi_profile_pdev = NULL;
-+		pr_err("unable to register platform profile device\n");
-+		thinkpad_acpi_module_exit();
-+		return ret;
-+	}
-+
- 	tpacpi_sensors_pdev = platform_device_register_simple(
- 						TPACPI_HWMON_DRVR_NAME,
- 						PLATFORM_DEVID_NONE, NULL, 0);
+
+Kurt Borja (10):
+  platform/x86: alienware-wmi-wmax: Rename thermal related symbols
+  platform/x86: alienware-wmi-wmax: Refactor is_awcc_thermal_mode()
+  platform/x86: alienware-wmi-wmax: Improve internal AWCC API
+  platform/x86: alienware-wmi-wmax: Modify supported_thermal_profiles[]
+  platform/x86: alienware-wmi-wmax: Improve platform profile probe
+  platform/x86: alienware-wmi-wmax: Add support for the "custom" thermal
+    profile
+  platform/x86: alienware-wmi-wmax: Add HWMON support
+  platform/x86: alienware-wmi-wmax: Add support for manual fan control
+  platform/x86: alienware-wmi-wmax: Add a DebugFS interface
+  platform/x86: alienware-wmi: Improve and update documentation
+
+ Documentation/wmi/devices/alienware-wmi.rst   | 390 +++------
+ drivers/platform/x86/dell/Kconfig             |   1 +
+ .../platform/x86/dell/alienware-wmi-wmax.c    | 793 +++++++++++++++---
+ 3 files changed, 792 insertions(+), 392 deletions(-)
+
+
+base-commit: e75394bbf4838857f57b6c5d00f1e56c46cd6c11
+prerequisite-patch-id: 2e54a1278aabd3810a2e501ab8f001af5f83e45c
+prerequisite-patch-id: d9e78e1086bb0fc8df23678f91fcf2e219d73f81
+prerequisite-patch-id: db9c0c4b1b0dacf365d9aa4644282e32a3e80634
+prerequisite-patch-id: c9cf42516931054b8a292774b9c86416246da36c
+prerequisite-patch-id: a047966c43a92c41a01858aed9b74470324f9e4f
+prerequisite-patch-id: 32293f8c9ed39c076c30f7bcf9ab8105ff8dd4f4
+prerequisite-patch-id: 100391541e9ca8c1a49b1e48a3f99128b0d14b5d
+prerequisite-patch-id: e7cffaa05f5212b70520d3d80c23f1804007b349
+prerequisite-patch-id: 4f9219d3b1f6281b1815f9ac5e823aa59e85f588
+prerequisite-patch-id: c37756f4b1e7f61c0dac0f3cbe68b95838ecce84
+prerequisite-patch-id: fdf58a28326cec768d5f45252dd7b1f189532623
+prerequisite-patch-id: 0a0fd32bdc83a8676eeda30e25f93c2edd3b6d3c
+prerequisite-patch-id: 4c85aa2b99a106907639075a2fc455f312a14b4f
+prerequisite-patch-id: bb7c74dd242bf773f06e531090ec63cc17b1ac69
 -- 
 2.48.1
 
