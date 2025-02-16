@@ -1,698 +1,143 @@
-Return-Path: <platform-driver-x86+bounces-9537-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-9541-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94BFA37246
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 16 Feb 2025 07:22:55 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66855A37726
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 16 Feb 2025 20:34:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E8FC16ED66
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 16 Feb 2025 06:22:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 787607A2F46
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 16 Feb 2025 19:33:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E06D91494C2;
-	Sun, 16 Feb 2025 06:22:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 511C01A4F3C;
+	Sun, 16 Feb 2025 19:33:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="RC471Vhl"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="rAdIPGvM"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1B486344;
-	Sun, 16 Feb 2025 06:22:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E637F1A2860;
+	Sun, 16 Feb 2025 19:33:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739686970; cv=none; b=Ku1d3+/v/t7jS8lzUaUcquGyVTo7sSMDHOhxOlNjF99XrvhHiQK6YVRNpR/xuOa+3osZAdveK+vRxlaw/t9THl946oxfwR4sz9W4MKwhUGHm4xYnxW5HorQ5ARVIXLIBl8yKjHJ4d12pBiXjS1OgxPNOL5aq3X4+qb1JOUQVGe8=
+	t=1739734403; cv=none; b=czsB/F+U6oPrRoWskZf1D505ptcBI5EAgGqww12fhnKZ+kl0n5SfaDeDgvPAhyQDNTyUaBqKwo6ziTgg9Bm2kcqVzzuV1XHk/72fE8PeVf3qNJGZNPMjI/mzEW8CQ1U05jp4svGm+XQ+6jKuGk7JGXFuZwJfjoh7gfVUzV48Osw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739686970; c=relaxed/simple;
-	bh=WOU/nIoQOZRokrfbkinDVyck6ARf8XJ0g25+zTy39lM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k7nedgbCxXOjw1epaLes+ZJ1JL/a89jzIDN1WjICcdjb1MwcscxEx/9BnkzgxpGMb6W0JhkgIN+rtPNc54/RK3gr6WjRwcUkdF7ZGBjiT+AEV0L/IovvuhZHidwvhUxA8dYDejQMP6/iBFYUcw8hmmI3Oi9qDFZRr+ENItItsEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=RC471Vhl; arc=none smtp.client-ip=212.227.15.19
+	s=arc-20240116; t=1739734403; c=relaxed/simple;
+	bh=WJV/XDNncV3HMhaU1OkQyuWjHFhef1ztCgpi83LVLx0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WnEMGFZNypGgLfLM8mKcFEbulz2Z6QFQYp4zuy/UPMzHnV1HgSUOl1iK14cWFmjpDa14MSZWbfVMU0u96zMkQa7QbcqQsItYDEW+8ap2GOSPvkff3GH8k/i/gvKdJyCfMDQRVTU55Txf8qOjeF4YOGCxPMGu6WkYB9wA4iZFOSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=rAdIPGvM; arc=none smtp.client-ip=212.227.15.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1739686956; x=1740291756; i=w_armin@gmx.de;
-	bh=f2VfAQc/X3awpEWdGvpOmSfPZtxt5IxKbTaicqbm5BE=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=RC471Vhl4SfhaEjQniNSO2rmT320ytm8GrEQFiEM6q9JJrc5PLw53IZ0TsdUsewH
-	 HwHO2HlnHOnnDwLR4Z6j/zoy+0nN8RCUcjb9KYBGA+Gfs919ttI/zbQSZ1I0D3e2X
-	 MxGASQ+l0rXUxXTp0LKLd1WNVq/K4t5Z94nAQTYoqAJgO6PLMyTJR5txm6ALC/fvF
-	 E+1V8XESckOsoNAED4+jAQTnkipJBkTrxNpixKH5AbIUJmUkUASv5/GC7RgsMuU50
-	 RUPNXEqe8JB+n4OX5POvkT8pRSfkq7rDs5d/m5KGwdUM/soqfVYBDFmAGCEklzadx
-	 yXd3eWVxW4wbAONyGg==
+	s=s31663417; t=1739734377; x=1740339177; i=w_armin@gmx.de;
+	bh=5SxkcnujTlMkxclqqkcog9uUjawTQI9K/xGxAcUUiqY=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=rAdIPGvMneGt5JWjYN867QM9Q0DF5zLKHhpoBmrQYkv7zqzUDRASrOQ7hO2oQEg4
+	 oOvX9/8JUG7i+pmQ0nWuZ5YD5l+uwYsOvzXnZXKmSRws7FY6bWzlUpo3Pckem0ifI
+	 R04QA5W9Hq70SijenQVarViXB2Dy266/NBPdrnaOJoxNEv6h5ao4aYSZcXH8Asrrm
+	 yvuzu8rLcK44BHi3p0OCkJbEX5DzwP41NetdhYbBeBAAJE2gp/Im9DnaS+gKWe+SA
+	 sqNYTnWykbIRP7nipOMLIdFKNMlMFDEcMrR6f+Y5c4oZNv/VWcxnCVaCQGW60suf1
+	 wuslnRNgaTBolsOhMA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.69] ([87.177.78.219]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MOzOw-1u08au1gyq-00K7qa; Sun, 16
- Feb 2025 07:22:36 +0100
-Message-ID: <b65ffe38-78a3-4d37-b1d1-366bc6870665@gmx.de>
-Date: Sun, 16 Feb 2025 07:22:34 +0100
+Received: from mx-amd-b650.fritz.box ([87.177.78.219]) by mail.gmx.net
+ (mrgmx004 [212.227.17.190]) with ESMTPSA (Nemesis) id
+ 1M59C2-1tkqJY3cIe-004mIN; Sun, 16 Feb 2025 20:32:57 +0100
+From: Armin Wolf <W_Armin@gmx.de>
+To: james@equiv.tech,
+	markpearson@lenovo.com,
+	jorge.lopez2@hp.com
+Cc: jdelvare@suse.com,
+	linux@roeck-us.net,
+	linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	platform-driver-x86@vger.kernel.org,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 0/8] platform/x86: wmi: Rework WMI device enabling
+Date: Sun, 16 Feb 2025 20:32:43 +0100
+Message-Id: <20250216193251.866125-1-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/10] platform/x86: alienware-wmi: Improve and update
- documentation
-To: Kurt Borja <kuurtb@gmail.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: platform-driver-x86@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
- Dell.Client.Kernel@dell.com, linux-kernel@vger.kernel.org
-References: <20250208051614.10644-1-kuurtb@gmail.com>
- <20250208051614.10644-11-kuurtb@gmail.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <20250208051614.10644-11-kuurtb@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ue3JR2/GTY4zxdomKfu1BKey4nUbweEI1ZaNi6iFnNh41XfdClr
- dYlUN4k+logL0t9+MJRYnAITnSJeOF8Of9kROAqRmBTbGARflxWN148SZMJRh3KQ/FJCv53
- pUqLdYbrfQYhcYOvaJcr+QiVmISTFT5wdw5RrczIRFO0qypL5VaF//kTYcPSeIZtPADUG/u
- EqkwODL+UE6sP3G0a4iJQ==
+X-Provags-ID: V03:K1:E9HBntScjkVmVXA/RGU9WXs5GzImI8Q5X8772CBP2g8NU7m/q5o
+ gD23GUCkgFW/DXUEj5q1iZmJ5FAAooM8lpLPX8BA6EkLJygVlRSXaqEjNnJXGNBWBJDLJFj
+ 8ennt/4GXSDzNz0l74igPpfxYKGsVTw1ljyefKGPV00UjN5YAHMxyPMO955cmmG1eP5xCij
+ aIVtIJdF9rk1dx77tCPEA==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ltCTqu1jXZQ=;Tz/hWeJwRN9rz0CVVDAEmafdGVl
- THAwT4CDw89FAX9/3Tv0hEEjA3qXh6zQZfK5xL6dfY3qRxeYjTL/GLx2Rw2mf4gvrxxSl1kLU
- hC3pciwNEPFJyJQMCtuIFwui/1uBfnvaTsAYMJkhbUst7ou1PzwdOwUFPRehm6NMp2pzGtjUi
- Ka8+1dUXW4X2E+xY1jyBuwdxwLDenIUN3muAgsJdkfxhBZJOKvK87YdGwcGcbnt3cZF4V337v
- MxJyM9P5i+fGQMgHeubbNSXh5A8AvXlO/9RvJ4VlKdXZ4k9yAn3OrY98sqyzphyEl7YEsse9c
- rk3MzsiDkmYoJHceq5b2HVrU+jMSWDx804HHuyD+v1FkLfFqrQiGZKEOyykXvb0dSUZnBYxCv
- WIVYfAfV7KB6koH3EUz1nC7hMhcPG6yLKaYLVJNtHiXOJTSsaNw1ZsJ9p8DByXn/JzH5uhXgN
- JwKiIL7DMbICw7Dq1h/50i77RG5NCjyHPm/WHt4Bh3fwXcG+vBNxnSk45FFU8ErQ5NUdoQ8IF
- ktRfJc9lq3ZLaG9WXqCX3k9x8MrE0Rdxmb9dckcT1jkROJAcspCYUgXcjODrrHNLneQro9p6u
- 1zimmhPMR9i/N465zyyzhxuRomv5igTn5IYomq/MvplwQcAvYyOEtGvi6m0b1ZycV7ZYQyZSc
- vXMhmvq2fWLnGcWYjSKsKRM7d6/xLs1VUVLi3cGkcG9/vSei8heN9E4XJ2yLgE3TWvn9+cBzl
- zoNQqffxD7XnblKh9YP+FJCfLCeJi3nBa39gQZWgt92oT6SVVNk9NQf5tGwEF3OiGN6KtQLXg
- gQhON+W5wQFwQNxxZ9hVhusB2ljIFiTLQMh+mjbwiKMc4ZDsiULsmrz6tFjg7DhkAGNV+LBcS
- YCJ/nq3V1WtAmvSXYp61uj9PfivfhvvjZuVQR5W32P0zuA9MTYnj5fflW+O8p60grBlWgUrdX
- 22B4jQbci6KX4vSZXI/VjU4iaGtA8Oz952SOILBP56sY3WZitjnBu7/toCRc/fM9OAUpV+snu
- WTHZbk0g8CnAYtUdQJT8xMqLkPubaIgmaqEh8h663fm2EFMvasDjBc6BWFaZCFuX29rF9LMti
- QXqyPYrchqvYt1zbj4j/qmZ3WEM3umJb/CBaeagRXVVwe9eQOGZpmDL1BnJZc56dGNk/M43av
- 04yWHYBCg/lu2JxIti0a/bWh3c3cCDwdr4qU7yeVZTj7WA44N6A3DUmgE+ULzI9COUDYaXCB3
- CbtTqxVsnZGNIkOQuFQYcN0QWfsYZQNBImO8J5Cm4Gds+QpJVGv8ZNJW+44RcQQkJJqslMUHU
- P2+TM40I0iz3VJgAqkU2qbFeY3ZQvHF0SsMXtHjMXrBvGvmjE8vDDsA08yuUmV9mSZxUlBg/o
- QdOy0GSRE+N7r0xY+7vM6UwK9CsWVjwP/sXD4Bws5TGPoBYghx9Lts5Hzp/fIY+SVYZgaqXgv
- YnhIko1NabrRcT3ccAVrVuTawAO8=
+UI-OutboundReport: notjunk:1;M01:P0:wKyUm7eqFOA=;oV8SorG/pKw1gx7VoIRfah3gMob
+ 55qNoJ9jz/wxCTxZQc35Orx0cT7WgdSgZV96PovOQhy2vYrEF3zdEHE+opdmehVM/eVNOKQhp
+ 9/o/9lHgJ29cCkRtAjcg7MgkvzqE2SFr30OkZIQ7jhlNJrWUyXEXABy4AsRDUAxeQn64c2byI
+ uROM1ENssbACUGleJ5QgBljiwv03lUBYBvjrwquOX9AeXLWlXAXnTJSoUnsxqDnCiprZ+lY2e
+ ZY3WVp2OKiX497vNmpH6xnTngg+b6clJUcjaaFQKvVp3YpiqyvLUfqs7G8rytkayHpZLcFsxZ
+ RrtJzhKSHfsXN2M0EotP+CpPwtuiUdqXXklXwYUjLPWCQ358Y0DAYT1x0/DoQhk8BQ2VXlTYA
+ Kfo/kYK6Cd7IuT6/BCGoB3WjzRKJR/rnaxeKVNwJJ0wbnAj/p92bRnxai26ayyA1LH7e8yOFP
+ 9wUo5dGpfEC2A5Yerw3M15QIbHWEJ4MhevvOeUD6gvLmnLR8gK369W4c+ABC9uwx9Yxt9NgHA
+ 9pxqnRQI+WScmkWIaEEOcVBZrqas8OM+4m4JXim/NrND42n/9QZTovkFYeNL8uYFXhvayCGa6
+ ZzmIcg6U5ddCFVICpANRnIuB4zn5M62W05Dq63qlBhPBSXunaP8Mhdnp7I15sc26bk1xpbPx1
+ X3xN4X0crc5ZIBG6zF2yCprNBQHJvEjVz8OcLfud16HO3YsqvHs1PtVAFlB0eP9Nlbvaj6eMr
+ Jr3rkM6YQdBOLOG2TxdYP6TPQwkmEKxbb2B7Lj8OsIzknDh8Q/6FptUphDxYuZjdlr9jUzC/p
+ 6+7AN1wdQXwcTdHkoRLYOqolOB0QX+2U9aHKyMpPnP2ifcTKSxY6qqVmJ2On5DA5skE5YLM9b
+ NmOBype6LsRJ9xW56xNO2KFfPfi/xw9dAC9OJL+sDJat6t+qQ79jd1FJ9wHNYsOmYVLd+jWE3
+ y219ZOl9kM0rFP0dVQehqT61ZkoW+GpQbxS5PREImBqDXZGcDPkuLBMDAj7y0ZMFUHmcfS2+P
+ 7TJt7kqvduS4xy3wdLkVSp7kfejBbnIt6djOVDjRBwaitjn4ZWqFsSCw54q1SdkBRhxNBxRxT
+ pXSg5lafIPkKzWrCCl7f9WhMun4g3oj7iZCzsAHlgw2uxWJBQiymSmxowbvOaJP8bMid07lJN
+ /5/RdzreZOZwb0NB2ceQXnns5gj6FyavPKRA4TyA551b6+W/6lx5vVsxnHcUjVDCZm062HZVf
+ U1oIJfPW08fmieyqPcVz3woOdW8eWZD2c3DDOBnyNZTfcj2WB+RO6chO3OdF29+WfQRhqCKJI
+ 7kbuc2HGA3+Kbp/6Y7KJRBx+8MLQM8q1ju5ZWHMv1WJR8/1beR8HTWjDhQo0DpxhZlVK/PwJi
+ s1o9sAMQ2R5qn6zpNy6LXlRh1/qxf6x8NgB4WpTdaNxvAiVliO/95rXBPorWZuAXsspewN0ku
+ /YZ7Hfg==
 
-Am 08.02.25 um 06:16 schrieb Kurt Borja:
+This patch series reworks how WMI devices are enabled and disabled
+to improve the compatibility with various firmware implementations.
 
-> Use tables to describe method operations instead of using pseudo-code.
-> Drop unknown method descriptions to avoid redundancy. Drop GPIO section
-> as it is currently irrelevant to this driver. Update Thermal_Information
-> method documentation. Add one more helpful developer to the kudos sectio=
-n.
->
-> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
-> ---
->   Documentation/wmi/devices/alienware-wmi.rst | 390 ++++++--------------
->   1 file changed, 122 insertions(+), 268 deletions(-)
->
-> diff --git a/Documentation/wmi/devices/alienware-wmi.rst b/Documentation=
-/wmi/devices/alienware-wmi.rst
-> index ddc5e561960e..2bb3abfd9cd7 100644
-> --- a/Documentation/wmi/devices/alienware-wmi.rst
-> +++ b/Documentation/wmi/devices/alienware-wmi.rst
-> @@ -11,7 +11,7 @@ The WMI device WMAX has been implemented for many Alie=
-nware and Dell's G-Series
->   models. Throughout these models, two implementations have been identif=
-ied. The
->   first one, used by older systems, deals with HDMI, brightness, RGB, am=
-plifier
->   and deep sleep control. The second one used by newer systems deals pri=
-marily
-> -with thermal, overclocking, and GPIO control.
-> +with thermal control and overclocking.
->
->   It is suspected that the latter is used by Alienware Command Center (A=
-WCC) to
->   manage manufacturer predefined thermal profiles. The alienware-wmi dri=
-ver
-> @@ -69,9 +69,6 @@ data using the `bmfdec <https://github.com/pali/bmfdec=
->`_ utility:
->      [WmiMethodId(164), Implemented, read, write, Description("Tobii Cam=
-era Power Off.")] void TobiiCameraPowerOff([out] uint32 argr);
->    };
->
-> -Some of these methods get quite intricate so we will describe them usin=
-g
-> -pseudo-code that vaguely resembles the original ASL code.
-> -
->   Methods not described in the following document have unknown behavior.
->
->   Argument Structure
-> @@ -87,175 +84,136 @@ ID 0xA0, the argument you would pass to the method=
- is 0xA001.
->   Thermal Methods
->   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> -WMI method Thermal_Information([in] uint32 arg2, [out] uint32 argr)
-> --------------------------------------------------------------------
-> -
-> -::
-> -
-> - if BYTE_0(arg2) =3D=3D 0x01:
-> -         argr =3D 1
-> -
-> - if BYTE_0(arg2) =3D=3D 0x02:
-> -         argr =3D SYSTEM_DESCRIPTION
-> -
-> - if BYTE_0(arg2) =3D=3D 0x03:
-> -         if BYTE_1(arg2) =3D=3D 0x00:
-> -                 argr =3D FAN_ID_0
-> -
-> -         if BYTE_1(arg2) =3D=3D 0x01:
-> -                 argr =3D FAN_ID_1
-> -
-> -         if BYTE_1(arg2) =3D=3D 0x02:
-> -                 argr =3D FAN_ID_2
-> -
-> -         if BYTE_1(arg2) =3D=3D 0x03:
-> -                 argr =3D FAN_ID_3
-> -
-> -         if BYTE_1(arg2) =3D=3D 0x04:
-> -                 argr =3D SENSOR_ID_CPU | 0x0100
-> -
-> -         if BYTE_1(arg2) =3D=3D 0x05:
-> -                 argr =3D SENSOR_ID_GPU | 0x0100
-> -
-> -         if BYTE_1(arg2) =3D=3D 0x06:
-> -                 argr =3D THERMAL_MODE_QUIET_ID
-> -
-> -         if BYTE_1(arg2) =3D=3D 0x07:
-> -                 argr =3D THERMAL_MODE_BALANCED_ID
-> -
-> -         if BYTE_1(arg2) =3D=3D 0x08:
-> -                 argr =3D THERMAL_MODE_BALANCED_PERFORMANCE_ID
-> -
-> -         if BYTE_1(arg2) =3D=3D 0x09:
-> -                 argr =3D THERMAL_MODE_PERFORMANCE_ID
-> -
-> -         if BYTE_1(arg2) =3D=3D 0x0A:
-> -                 argr =3D THERMAL_MODE_LOW_POWER_ID
-> -
-> -         if BYTE_1(arg2) =3D=3D 0x0B:
-> -                 argr =3D THERMAL_MODE_GMODE_ID
-> -
-> -         else:
-> -                 argr =3D 0xFFFFFFFF
-> -
-> - if BYTE_0(arg2) =3D=3D 0x04:
-> -         if is_valid_sensor(BYTE_1(arg2)):
-> -                 argr =3D SENSOR_TEMP_C
-> -         else:
-> -                 argr =3D 0xFFFFFFFF
-> -
-> - if BYTE_0(arg2) =3D=3D 0x05:
-> -         if is_valid_fan(BYTE_1(arg2)):
-> -                 argr =3D FAN_RPM()
-> -
-> - if BYTE_0(arg2) =3D=3D 0x06:
-> -         skip
-> -
-> - if BYTE_0(arg2) =3D=3D 0x07:
-> -         argr =3D 0
-> -
-> - If BYTE_0(arg2) =3D=3D 0x08:
-> -         if is_valid_fan(BYTE_1(arg2)):
-> -                 argr =3D 0
-> -         else:
-> -                 argr =3D 0xFFFFFFFF
-> -
-> - if BYTE_0(arg2) =3D=3D 0x09:
-> -         if is_valid_fan(BYTE_1(arg2)):
-> -                 argr =3D FAN_UNKNOWN_STAT_0()
-> -
-> -         else:
-> -                 argr =3D 0xFFFFFFFF
-> -
-> - if BYTE_0(arg2) =3D=3D 0x0A:
-> -         argr =3D THERMAL_MODE_BALANCED_ID
-> -
-> - if BYTE_0(arg2) =3D=3D 0x0B:
-> -         argr =3D CURRENT_THERMAL_MODE()
-> -
-> - if BYTE_0(arg2) =3D=3D 0x0C:
-> -         if is_valid_fan(BYTE_1(arg2)):
-> -                 argr =3D FAN_UNKNOWN_STAT_1()
-> -         else:
-> -                 argr =3D 0xFFFFFFFF
-> -
-> -Operation 0x02 returns a *system description* buffer with the following
-> -structure:
-> -
-> -::
-> -
-> - out[0] -> Number of fans
-> - out[1] -> Number of sensors
-> - out[2] -> 0x00
-> - out[3] -> Number of thermal modes
-> +WMI method GetFanSensors([in] uint32 arg2, [out] uint32 argr)
-> +-------------------------------------------------------------
->
-> -Operation 0x03 list all available fan IDs, sensor IDs and thermal profi=
-le
-> -codes in order, but different models may have different number of fans =
-and
-> -thermal profiles. These are the known ranges:
-> ++--------------------+------------------------------------+------------=
---------+
-> +| Operation (Byte 0) | Description                        | Arguments  =
-        |
-> ++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D+
-> +| 0x01               | Get the number of fans for a given | - Byte 1: F=
-an ID   |
-> +|                    | fan ID.                            |            =
-        |
-> ++--------------------+------------------------------------+------------=
---------+
-> +| 0x02               | Get the temperature sensor ID      | - Byte 1: F=
-an ID   |
-> +|                    | related to a fan sensor ID         |            =
-        |
-> ++--------------------+------------------------------------+------------=
---------+
+The first three patches make sure that no WMI driver using the WMI bus
+infrastructure is using the deprecated GUID-based API to access the
+underlying WMI device.
 
-After looking at a acpidump from a alienware machine i discovered that ope=
-ration 0x02
-takes a second argument which acts like an index.
+The fourth patch is a unrelated cleanup patch.
 
-Could it be that operation 0x01 actually returns the number of temperature=
- sensors
-associated with a given fan which can then be queried using operation 0x02=
-?
+The last four patches finally rework the WMI device enabling inside
+the WMI core and update the documentation.
 
->
-> -* Fan IDs: from 2 up to 4
-> -* Sensor IDs: 2
-> -* Thermal profile codes: from 1 up to 7
-> +WMI method Thermal_Information([in] uint32 arg2, [out] uint32 argr)
-> +-------------------------------------------------------------------
->
-> -In total BYTE_1(ARG2) may range from 0x5 up to 0xD depending on the mod=
-el.
-> ++--------------------+------------------------------------+------------=
---------+
-> +| Operation (Byte 0) | Description                        | Arguments  =
-        |
-> ++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D+
-> +| 0x01               | Unknown.                           | - None     =
-        |
-> ++--------------------+------------------------------------+------------=
---------+
-> +| 0x02               | Get system description number with | - None     =
-        |
-> +|                    | the following structure:           |            =
-        |
-> +|                    |                                    |            =
-        |
-> +|                    | - Byte 0: Number of fans           |            =
-        |
-> +|                    | - Byte 1: Number of temperature    |            =
-        |
-> +|                    |   sensors                          |            =
-        |
-> +|                    | - Byte 2: Unknown                  |            =
-        |
-> +|                    | - Byte 3: Number of thermal        |            =
-        |
-> +|                    |   profiles                         |            =
-        |
-> ++--------------------+------------------------------------+------------=
---------+
-> +| 0x03               | List an ID or resource at a given  | - Byte 1: I=
-ndex    |
-> +|                    | index. Fan IDs, temperature IDs,   |            =
-        |
-> +|                    | unknown IDs and thermal profile    |            =
-        |
-> +|                    | IDs are listed in that exact       |            =
-        |
-> +|                    | order.                             |            =
-        |
-> +|                    |                                    |            =
-        |
-> +|                    | Operation 0x02 is used to know     |            =
-        |
-> +|                    | which indexes map to which         |            =
-        |
-> +|                    | resources.                         |            =
-        |
-> +|                    |                                    |            =
-        |
-> +|                    | **Returns:** ID at a given index   |            =
-        |
-> ++--------------------+------------------------------------+------------=
---------+
-> +| 0x04               | Get the current temperature for a  | - Byte 1: S=
-ensor   |
-> +|                    | given temperature sensor.          |   ID       =
-        |
-> ++--------------------+------------------------------------+------------=
---------+
-> +| 0x05               | Get the current RPM for a given    | - Byte 1: F=
-an ID   |
-> +|                    | fan.                               |            =
-        |
-> ++--------------------+------------------------------------+------------=
---------+
-> +| 0x06               | Get fan speed percentage. (not     | - Byte 1: F=
-an ID   |
-> +|                    | implemented in every model)        |            =
-        |
-> ++--------------------+------------------------------------+------------=
---------+
-> +| 0x07               | Unknown.                           | - Unknown  =
-        |
-> ++--------------------+------------------------------------+------------=
---------+
-> +| 0x08               | Get minimum RPM for a given FAN    | - Byte 1: F=
-an ID   |
-> +|                    | ID.                                |            =
-        |
-> ++--------------------+------------------------------------+------------=
---------+
-> +| 0x09               | Get maximum RPM for a given FAN    | - Byte 1: F=
-an ID   |
-> +|                    | ID.                                |            =
-        |
-> ++--------------------+------------------------------------+------------=
---------+
-> +| 0x09               | Get maximum RPM for a given FAN    | - Byte 1: F=
-an ID   |
-> +|                    | ID.                                |            =
-        |
-> ++--------------------+------------------------------------+------------=
---------+
+The WMI core patches have been tested on a Dell Inspiron 3505, but
+the remaining patches are mostly compile-tested only.
 
-Duplicated entry here.
+Changes since v2:
+- add Reviewed-by, Acked-by and Tested-by tags
+- use devres to disable the WMI device
 
-Other than that the new documentation looks quite good.
+Armin Wolf (8):
+  hwmon: (hp-wmi-sensors) Use the WMI bus API when accessing sensors
+  platform/x86: think-lmi: Use ACPI object when extracting strings
+  platform/x86: think-lmi: Use WMI bus API when accessing BIOS settings
+  platform/x86: hp-bioscfg: Use wmi_instance_count()
+  platform/x86: wmi: Use devres to disable the WMI device
+  platform/x86: wmi: Rework WCxx/WExx ACPI method handling
+  platform/x86: wmi: Call WCxx methods when setting data blocks
+  platform/x86: wmi: Update documentation regarding the GUID-based API
 
-Thanks,
-Armin Wolf
+ Documentation/wmi/acpi-interface.rst          |   3 +
+ .../wmi/driver-development-guide.rst          |   4 +
+ drivers/hwmon/hp-wmi-sensors.c                |   4 +-
+ drivers/platform/x86/hp/hp-bioscfg/bioscfg.c  |  13 +-
+ drivers/platform/x86/think-lmi.c              |  51 +++----
+ drivers/platform/x86/think-lmi.h              |   2 +
+ drivers/platform/x86/wmi.c                    | 141 ++++++++++--------
+ 7 files changed, 116 insertions(+), 102 deletions(-)
 
-> +| 0x0A               | Get balanced thermal profile ID.   | - None     =
-        |
-> ++--------------------+------------------------------------+------------=
---------+
-> +| 0x0B               | Get current thermal profile ID.    | - None     =
-        |
-> ++--------------------+------------------------------------+------------=
---------+
-> +| 0x0C               | Get current `boost` value for a    | - Byte 1: F=
-an ID   |
-> +|                    | given fan ID.                      |            =
-        |
-> ++--------------------+------------------------------------+------------=
---------+
->
->   WMI method Thermal_Control([in] uint32 arg2, [out] uint32 argr)
->   ---------------------------------------------------------------
->
-> -::
-> -
-> - if BYTE_0(arg2) =3D=3D 0x01:
-> -         if is_valid_thermal_profile(BYTE_1(arg2)):
-> -                 SET_THERMAL_PROFILE(BYTE_1(arg2))
-> -                 argr =3D 0
-> -
-> - if BYTE_0(arg2) =3D=3D 0x02:
-> -         if is_valid_fan(BYTE_1(arg2)):
-> -                 SET_FAN_SPEED_MULTIPLIER(BYTE_2(arg2))
-> -                 argr =3D 0
-> -         else:
-> -                 argr =3D 0xFFFFFFFF
-> -
-> -.. note::
-> -   While you can manually change the fan speed multiplier with this met=
-hod,
-> -   Dell's BIOS tends to overwrite this changes anyway.
-> ++--------------------+------------------------------------+------------=
---------+
-> +| Operation (Byte 0) | Description                        | Arguments  =
-        |
-> ++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D+
-> +| 0x01               | Activate a given thermal profile.  | - Byte 1: T=
-hermal  |
-> +|                    |                                    |   profile I=
-D       |
-> ++--------------------+------------------------------------+------------=
---------+
-> +| 0x02               | Set a `boost` value for a given    | - Byte 1: F=
-an ID   |
-> +|                    | fan ID.                            | - Byte 2: B=
-oost    |
-> ++--------------------+------------------------------------+------------=
---------+
->
->   These are the known thermal profile codes:
->
-> -::
-> -
-> - CUSTOM                         0x00
-> -
-> - BALANCED_USTT                  0xA0
-> - BALANCED_PERFORMANCE_USTT      0xA1
-> - COOL_USTT                      0xA2
-> - QUIET_USTT                     0xA3
-> - PERFORMANCE_USTT               0xA4
-> - LOW_POWER_USTT                 0xA5
-> -
-> - QUIET                          0x96
-> - BALANCED                       0x97
-> - BALANCED_PERFORMANCE           0x98
-> - PERFORMANCE                    0x99
-> -
-> - GMODE                          0xAB
-> -
-> -Usually if a model doesn't support the first four profiles they will su=
-pport
-> -the User Selectable Thermal Tables (USTT) profiles and vice-versa.
-> -
-> -GMODE replaces PERFORMANCE in G-Series laptops.
-> ++------------------------------+----------+------+
-> +| Thermal Profile              | Type     | ID   |
-> ++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D+
-> +| Custom                       | Special  | 0x00 |
-> ++------------------------------+----------+------+
-> +| G-Mode                       | Special  | 0xAB |
-> ++------------------------------+----------+------+
-> +| Quiet                        | Legacy   | 0x96 |
-> ++------------------------------+----------+------+
-> +| Balanced                     | Legacy   | 0x97 |
-> ++------------------------------+----------+------+
-> +| Balanced Performance         | Legacy   | 0x98 |
-> ++------------------------------+----------+------+
-> +| Performance                  | Legacy   | 0x99 |
-> ++------------------------------+----------+------+
-> +| Balanced                     | USTT     | 0xA0 |
-> ++------------------------------+----------+------+
-> +| Balanced Performance         | USTT     | 0xA1 |
-> ++------------------------------+----------+------+
-> +| Cool                         | USTT     | 0xA2 |
-> ++------------------------------+----------+------+
-> +| Quiet                        | USTT     | 0xA3 |
-> ++------------------------------+----------+------+
-> +| Performance                  | USTT     | 0xA4 |
-> ++------------------------------+----------+------+
-> +| Low Power                    | USTT     | 0xA5 |
-> ++------------------------------+----------+------+
-> +
-> +If a model supports the User Selectable Thermal Tables (USTT) profiles,=
- it will
-> +not support the Legacy profiles and vice-versa.
-> +
-> +Every model supports the CUSTOM (0x00) thermal profile. GMODE replaces
-> +PERFORMANCE in G-Series laptops.
->
->   WMI method GameShiftStatus([in] uint32 arg2, [out] uint32 argr)
->   ---------------------------------------------------------------
->
-> -::
-> -
-> - if BYTE_0(arg2) =3D=3D 0x1:
-> -         TOGGLE_GAME_SHIFT()
-> -         argr =3D GET_GAME_SHIFT_STATUS()
-> -
-> - if BYTE_0(arg2) =3D=3D 0x2:
-> -         argr =3D GET_GAME_SHIFT_STATUS()
-> ++--------------------+------------------------------------+------------=
---------+
-> +| Operation (Byte 0) | Description                        | Arguments  =
-        |
-> ++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D+
-> +| 0x01               | Toggle *Game Shift*.               | - None     =
-        |
-> ++--------------------+------------------------------------+------------=
---------+
-> +| 0x02               | Get *Game Shift* status.           | - None     =
-        |
-> ++--------------------+------------------------------------+------------=
---------+
->
->   Game Shift Status does not change the fan speed profile but it could b=
-e some
->   sort of CPU/GPU power profile. Benchmarks have not been done.
-> @@ -267,131 +225,27 @@ Thermal_Information does not list it.
->   G-key on Dell's G-Series laptops also changes Game Shift status, so bo=
-th are
->   directly related.
->
-> -WMI method GetFanSensors([in] uint32 arg2, [out] uint32 argr)
-> --------------------------------------------------------------
-> -
-> -::
-> -
-> - if BYTE_0(arg2) =3D=3D 0x1:
-> -        if is_valid_fan(BYTE_1(arg2)):
-> -                argr =3D 1
-> -        else:
-> -                argr =3D 0
-> -
-> - if BYTE_0(arg2) =3D=3D 0x2:
-> -        if is_valid_fan(BYTE_1(arg2)):
-> -                if BYTE_2(arg2) =3D=3D 0:
-> -                        argr =3D=3D SENSOR_ID
-> -                else
-> -                        argr =3D=3D 0xFFFFFFFF
-> -        else:
-> -                argr =3D 0
-> -
->   Overclocking Methods
->   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> -.. warning::
-> -   These methods have not been tested and are only partially reverse
-> -   engineered.
-> -
-> -WMI method Return_OverclockingReport([out] uint32 argr)
-> --------------------------------------------------------
-> -
-> -::
-> -
-> - CSMI (0xE3, 0x99)
-> - argr =3D 0
-> -
-> -CSMI is an unknown operation.
-> -
-> -WMI method Set_OCUIBIOSControl([in] uint32 arg2, [out] uint32 argr)
-> --------------------------------------------------------------------
-> -
-> -::
-> -
-> - CSMI (0xE3, 0x99)
-> - argr =3D 0
-> -
-> -CSMI is an unknown operation.
-> -
-> -WMI method Clear_OCFailSafeFlag([out] uint32 argr)
-> ---------------------------------------------------
-> -
-> -::
-> -
-> - CSMI (0xE3, 0x99)
-> - argr =3D 0
-> -
-> -CSMI is an unknown operation.
-> -
-> -
->   WMI method MemoryOCControl([in] uint32 arg2, [out] uint32 argr)
->   ---------------------------------------------------------------
->
->   AWCC supports memory overclocking, but this method is very intricate a=
-nd has
->   not been deciphered yet.
->
-> -GPIO methods
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -
-> -These methods are probably related to some kind of firmware update syst=
-em,
-> -through a GPIO device.
-> -
-> -.. warning::
-> -   These methods have not been tested and are only partially reverse
-> -   engineered.
-> -
-> -WMI method FWUpdateGPIOtoggle([in] uint32 arg2, [out] uint32 argr)
-> -------------------------------------------------------------------
-> -
-> -::
-> -
-> - if BYTE_0(arg2) =3D=3D 0:
-> -         if BYTE_1(arg2) =3D=3D 1:
-> -                 SET_PIN_A_HIGH()
-> -         else:
-> -                 SET_PIN_A_LOW()
-> -
-> - if BYTE_0(arg2) =3D=3D 1:
-> -         if BYTE_1(arg2) =3D=3D 1:
-> -                 SET_PIN_B_HIGH()
-> -
-> -         else:
-> -                 SET_PIN_B_LOW()
-> -
-> - else:
-> -         argr =3D 1
-> -
-> -WMI method ReadTotalofGPIOs([out] uint32 argr)
-> -----------------------------------------------
-> -
-> -::
-> -
-> - argr =3D 0x02
-> -
-> -WMI method ReadGPIOpPinStatus([in] uint32 arg2, [out] uint32 argr)
-> -------------------------------------------------------------------
-> -
-> -::
-> -
-> - if BYTE_0(arg2) =3D=3D 0:
-> -         argr =3D PIN_A_STATUS
-> -
-> - if BYTE_0(arg2) =3D=3D 1:
-> -         argr =3D PIN_B_STATUS
-> -
->   Other information Methods
->   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
->
->   WMI method ReadChassisColor([out] uint32 argr)
->   ----------------------------------------------
->
-> -::
-> -
-> - argr =3D CHASSIS_COLOR_ID
-> +Returns the chassis color internal ID.
->
->   Acknowledgements
->   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> -Kudos to `AlexIII <https://github.com/AlexIII/tcc-g15>`_ for documentin=
-g
-> -and testing available thermal profile codes.
-> +Kudos to `AlexIII <https://github.com/AlexIII/tcc-g15>`_ and
-> +`T-Troll <https://github.com/T-Troll/alienfx-tools/>`_ for documenting =
-and
-> +testing some of this device's functionality, making it possible to gene=
-ralize
-> +this driver.
+=2D-
+2.39.5
+
 
