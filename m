@@ -1,150 +1,147 @@
-Return-Path: <platform-driver-x86+bounces-9595-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-9597-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54450A3A718
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 18 Feb 2025 20:13:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F9EA3A727
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 18 Feb 2025 20:15:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6F424188D74A
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 18 Feb 2025 19:12:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 569C7165399
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 18 Feb 2025 19:13:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 650EE1EFF93;
-	Tue, 18 Feb 2025 19:09:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5A2C2356D7;
+	Tue, 18 Feb 2025 19:10:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vHd56J4b"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LD2OLZnt"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E0D1EFF8F;
-	Tue, 18 Feb 2025 19:09:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 215A11EB5C0;
+	Tue, 18 Feb 2025 19:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739905757; cv=none; b=hEvdBoPil3F8NrUDZrgWL2ps2kzciUy+Oe/g+BGhzOnBppkBlaHJeIsex/8RTRxIzpJK1PBjtiLfCbQIJerTHRdwUidE1YWsoLvv2Qfe7MkEZ/xuuuUdF/2y1ms/l0UfiqBLFvn6Facr18znmPajj+q7krupU0Zy0T9fpNWVvJc=
+	t=1739905801; cv=none; b=jIX4uYWCoburYNVPfySJy+h5coVWOp2QPZn1kDLTcv1vsmLFils3MHk/SKF4jRq2AqwXv/biymgYBC2PvGjEnxWB2+2PNfFoACiS6KNEJKZEELM+GHKC2vbuZP0QR/ee88Oe3vh8C4WfVscMCHrBblRAW/z2Uh6HiIavTzmsZCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739905757; c=relaxed/simple;
-	bh=3a2aiKieSWb1qeAo/5/1a29z/LlaFpGijoR/tz4zb+Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IDrJwZ4kxQ1BC3gA6IB1ZG4XtJGHlQ/+r1KV7uLJZrQZRD5cascDlx/bIm+3ot+UDbtMFSHu4/bUsaKWr9j7cMLcvIh0B4WouKLuFi/gvgHCVWymh7OrtMY7MQ0RXlayUZecINEp9mABVImkHPQ7ozeduwOQ5ONizUo74sj6eig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vHd56J4b; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A4B2C4CEE2;
-	Tue, 18 Feb 2025 19:09:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739905757;
-	bh=3a2aiKieSWb1qeAo/5/1a29z/LlaFpGijoR/tz4zb+Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vHd56J4bBmHA9XnvNr7WiwE5lzEPPSTgfAMBbSOw49Hq/0j6jqN3bY4LAhIeQZXpC
-	 DT7e4ltB+t5geG0ru2zkQbnWghEEkxlRXywH7xeNZhYOe3jdxC8ENYeKqvNWTKQwuZ
-	 GP98ehz2CWvV5MEWfq5wYSVbAV8PKLNXXHlmMAZKftkR22GVdEwzXWlVh/FG524H09
-	 mmi/ZuhZta2hMpQe6RI4hAGx8ybkIJNHLrd4BUGHxy7+W9Xry+MKpW22SWcWGJJgbS
-	 pJU0xy0L7xyL6RBG5uwdikMvl4YPRk0SpGJzgQwuxUzP0JvmHyHznDpA7LD+1CQtx0
-	 wUq5FBW9UUF4A==
-From: Mario Limonciello <superm1@kernel.org>
-To: Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
-	Perry Yuan <perry.yuan@amd.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Huang Rui <ray.huang@amd.com>,
-	"Gautham R . Shenoy" <gautham.shenoy@amd.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	platform-driver-x86@vger.kernel.org (open list:AMD HETERO CORE HARDWARE FEEDBACK DRIVER),
-	linux-kernel@vger.kernel.org (open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-pm@vger.kernel.org (open list:AMD PSTATE DRIVER)
-Subject: [PATCH v8 13/13] x86/itmt: Add debugfs file to show core priorities
-Date: Tue, 18 Feb 2025 13:08:22 -0600
-Message-ID: <20250218190822.1039982-14-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250218190822.1039982-1-superm1@kernel.org>
-References: <20250218190822.1039982-1-superm1@kernel.org>
+	s=arc-20240116; t=1739905801; c=relaxed/simple;
+	bh=lXn4v5JsnT7T3CKTx48NSASkpRG4iPPRkLsp9BEySfY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=jo58S78Q9ICTSCvAxqn3htqJDidnEJnd5IoG1o6ltkWobYbEQMuvYM6WaH2EypPTRXvoHeuwfygVzkw+TEZj6R+2lf0i4qqvAWkwtVbMyBnkQ6woiQuaj4maYsq6LeZZazLwoD6Y9xDscPah6zNiq25Ah5s2f+A0UqVB9NPYYpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LD2OLZnt; arc=none smtp.client-ip=209.85.221.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-520a473d2adso1890211e0c.2;
+        Tue, 18 Feb 2025 11:09:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739905799; x=1740510599; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lXn4v5JsnT7T3CKTx48NSASkpRG4iPPRkLsp9BEySfY=;
+        b=LD2OLZnt/9BjEvICMYbhZjAQxIPIDRiGXhsod2Wo+HmtMEpe+hbTqcP8S4IuBEog7K
+         rNoTc/RY29mKiuNVOhlLP2Om8v/jH1bzvitL0Rrvo3XUPHVjkgcN70QHIczeGLwBcMyn
+         ++gTmWuCBKLZh/OFxwcnD9bp8TtFRH8Job/f/Vbd7YRJql+/FJ6yM/6A20tskoyd42+J
+         aiXKvhnPkIfIWT3hf5N3g2cpY3ul5emMXyzmkLZT9GLL0QWWog3yH8KCc51lJm/gZGve
+         ST9mnT+p9Oq70TcqMfQSXI2O5mOwkd2qEHWuMhTN4kOoiZ6EWwkk13egUFI8VxYJ+iY0
+         0Reg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739905799; x=1740510599;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=lXn4v5JsnT7T3CKTx48NSASkpRG4iPPRkLsp9BEySfY=;
+        b=c8ArEaCbGe8OooVp3kI2ziZx6H1MZsThzycO81PM2DJy+YeKWRoOJlr8tpJXjih4Bd
+         mMNqbcO0BMvctVBz1slv8RWLTzS3yiUqZ0hRqWuTz9L2X9ECTCgBfMbP+L/xBEvRGdzY
+         y7mw4nkssWXOLTFluXH5aaVHKVPdwSBQKb9WBNMOnUQsw2JxD21PmRnvKpSzEg48F/Wj
+         atWtP/vPs1XZbexsH1nX92+NMGutRfQeG0v8O6HLMqiFjerhbMVzSThKNn1M9F3S4R6A
+         ncAYuq5r2/5fpiYYUhkTULXqpOFFNmK32YUqLvgUgZbSytEg02qGjUPEP2lEX47/rF3B
+         jrrA==
+X-Forwarded-Encrypted: i=1; AJvYcCUy02gdyeafV+PkZotitgMz+nKuUJlUn8Jld7pcYZCPxaH/N6T0JuOJu782kSEdg6VNhPhOkLBVYsNtK7Y=@vger.kernel.org, AJvYcCXHfSIwCJpRGqEnUOblkG1crYt/lGQQyFbHqwir7I9m1PRfOnZ95Hgs0c3qLxMz6LWVTHk8uE9q1OMVTE4H4xhDmpvwbA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxDiKSpt+gjjoQvMIbjJcctStc6kWLFjmi7Mt+WiHq5/u9iw+p
+	DW77OcfrahHh01SDO2aW3dE8EBPAmrBRffHEHCC8JGOCL4Ua6Z2K
+X-Gm-Gg: ASbGncvCVl00BmZatOCthyLg5JKic6tOUwZxk5NPaAYUEG9YPSxFXBfKhUJUVW4B5J4
+	zcBmi6GG21AMltoEjhFQQiZN1zSXeg7K4w2G9vVCH0l4cj+S9qv4uO1cpLXNbcSESx+/Zhvrnrb
+	n3uY+x4ktE04DOliauu3V2Qs4xsDasBfZPfvUg8o5gDV9hraGaQJIJdcYDeX1v++4mCbRXF83/D
+	n9BU6MPTZ9Siz4AjXZVXxNp57EmLmwvQ6Vl4n+XzPE9atZMRn/uGbe0a7Js5GZYXuXIKK9XHa5o
+	RRZjmCU=
+X-Google-Smtp-Source: AGHT+IGhGHn1OSq1/KyiMdFiNJ/FWPMnxHif0EI/0h3HHaJEpRGDOTCue5uNkfKSt2He6QDmbLceGQ==
+X-Received: by 2002:a05:6122:1686:b0:520:60c2:3f3 with SMTP id 71dfb90a1353d-521c441d9e3mr497554e0c.4.1739905798992;
+        Tue, 18 Feb 2025 11:09:58 -0800 (PST)
+Received: from localhost ([2800:bf0:82:3d2:9e61:1a62:1a8c:3e62])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-520a3430c00sm1810703e0c.0.2025.02.18.11.09.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Feb 2025 11:09:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 18 Feb 2025 14:09:56 -0500
+Message-Id: <D7VT4O9N3KD3.3DK9CY1TODOMR@gmail.com>
+Subject: Re: [PATCH] platform/x86: dell: Use *-y instead of *-objs in
+ Makefile
+From: "Kurt Borja" <kuurtb@gmail.com>
+To: =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: "Hans de Goede" <hdegoede@redhat.com>,
+ <platform-driver-x86@vger.kernel.org>, "LKML"
+ <linux-kernel@vger.kernel.org>, =?utf-8?q?Pali_Roh=C3=A1r?=
+ <pali@kernel.org>, <Dell.Client.Kernel@dell.com>, "Matthew Garrett"
+ <mjg59@srcf.ucam.org>, "Andy Shevchenko"
+ <andriy.shevchenko@linux.intel.com>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250214214535.4947-1-kuurtb@gmail.com>
+ <cc0f1964-ae37-4cfb-b5d2-da2e2a97e522@linux.intel.com>
+In-Reply-To: <cc0f1964-ae37-4cfb-b5d2-da2e2a97e522@linux.intel.com>
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+On Mon Feb 17, 2025 at 3:58 AM -05, Ilpo J=C3=A4rvinen wrote:
+> On Fri, 14 Feb 2025, Kurt Borja wrote:
+>
+>> The `objs` suffix is reserved for user-space tools. Use the `y` suffix
+>> instead, which is usually used for kernel drivers.
+>>=20
+>> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
+>> ---
+>> Hi all,
+>>=20
+>> I based this patch on top of the for-next branch.
+>>=20
+>> Ilpo, if you prefer this patch to be based on top of the fixes branch,
+>> let me know. I'd submit two separate patches, one for alienware-wmi, on
+>> top of the for-next branch and one for the other drivers, on top of
+>> fixes.
+>
+> Thanks for the fix.
+>
+> I took this through for-next branch to not make our lives unnecessarily=
+=20
+> complicated. If there would be only handful of -objs, I might have decide=
+=20
+> otherwise but this (wrong) pattern is really widespread so removing a few=
+=20
+> drops from the ocean is not going to sound us the finish line fanfare. Bu=
+t=20
+> it's still an important step towards the right direction, regardless.
+>
+> TBH, I didn't know the distinction either until Andy explained it (and=20
+> like you, would have just copied the pattern if one was readily=20
+> available). But I've never really deep dived into the kernel's build=20
+> system anyway.
 
-Multiple drivers can report priorities to ITMT. To aid in debugging
-any issues with the values reported by drivers introduce a debugfs
-file to read out the values.
+I will finish the job for this subsystem, so no one copies this pattern
+again :p
 
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
-v8:
- * New patch
+>
+> I wonder why checkpatch doesn't catch it, or does it? At least there are=
+=20
+> no "objs" strings in its source.
 
- arch/x86/kernel/itmt.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+It doesn't actually. Not even with --strict.
 
-diff --git a/arch/x86/kernel/itmt.c b/arch/x86/kernel/itmt.c
-index 9cea1fc36c18f..243a769fdd97b 100644
---- a/arch/x86/kernel/itmt.c
-+++ b/arch/x86/kernel/itmt.c
-@@ -59,6 +59,18 @@ static ssize_t sched_itmt_enabled_write(struct file *filp,
- 	return result;
- }
- 
-+static int sched_core_priority_show(struct seq_file *s, void *unused)
-+{
-+	int cpu;
-+
-+	seq_puts(s, "CPU #\tPriority\n");
-+	for_each_possible_cpu(cpu)
-+		seq_printf(s, "%d\t%d\n", cpu, arch_asym_cpu_priority(cpu));
-+
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(sched_core_priority);
-+
- static const struct file_operations dfs_sched_itmt_fops = {
- 	.read =         debugfs_read_file_bool,
- 	.write =        sched_itmt_enabled_write,
-@@ -67,6 +79,7 @@ static const struct file_operations dfs_sched_itmt_fops = {
- };
- 
- static struct dentry *dfs_sched_itmt;
-+static struct dentry *dfs_sched_core_prio;
- 
- /**
-  * sched_set_itmt_support() - Indicate platform supports ITMT
-@@ -102,6 +115,14 @@ int sched_set_itmt_support(void)
- 		return -ENOMEM;
- 	}
- 
-+	dfs_sched_core_prio = debugfs_create_file("sched_core_priority", 0644,
-+						  arch_debugfs_dir, NULL,
-+						  &sched_core_priority_fops);
-+	if (IS_ERR_OR_NULL(dfs_sched_core_prio)) {
-+		dfs_sched_core_prio = NULL;
-+		return -ENOMEM;
-+	}
-+
- 	sched_itmt_capable = true;
- 
- 	sysctl_sched_itmt_enabled = 1;
-@@ -133,6 +154,8 @@ void sched_clear_itmt_support(void)
- 
- 	debugfs_remove(dfs_sched_itmt);
- 	dfs_sched_itmt = NULL;
-+	debugfs_remove(dfs_sched_core_prio);
-+	dfs_sched_core_prio = NULL;
- 
- 	if (sysctl_sched_itmt_enabled) {
- 		/* disable sched_itmt if we are no longer ITMT capable */
--- 
-2.43.0
-
+--=20
+ ~ Kurt
 
