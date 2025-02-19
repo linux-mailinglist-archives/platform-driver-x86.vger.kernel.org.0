@@ -1,31 +1,31 @@
-Return-Path: <platform-driver-x86+bounces-9627-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-9626-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FFC1A3B8AD
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Feb 2025 10:26:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC40A3B8D4
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Feb 2025 10:28:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 282C5188FAEA
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Feb 2025 09:21:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4601F3BD7E3
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Feb 2025 09:21:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 057061E5B89;
-	Wed, 19 Feb 2025 09:17:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B06391E231A;
+	Wed, 19 Feb 2025 09:17:09 +0000 (UTC)
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798571E1025
-	for <platform-driver-x86@vger.kernel.org>; Wed, 19 Feb 2025 09:17:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2BD1CAA8E
+	for <platform-driver-x86@vger.kernel.org>; Wed, 19 Feb 2025 09:17:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739956629; cv=none; b=LA6P8hYR7sudF7giUAMgIfh93rLGOOzNW/+56fipyeXmQv7zy7lbMExia+4PRU5SX5QmW29mFCFcuiSnDu5tfYAIHoW+jGZ2cAk74SWJ1Qw1uE46QXN2N2R6royH5ttVaBnVRZGJpbGikZQs/g/hY6vIza3FXmJSq6stJmm86kw=
+	t=1739956629; cv=none; b=Q6AFUoH4IbxVbJJOJirAjMkO3SgoaAIW8A3if/VpB5UeWhYbNZv9a4U3ib0K80H+ty6WLT3ReCEuCq7X2EwrFJ5vRJju90Mt9K7oXBH3ZkDUnpWIkrJLOMfhOFRXGKDqQs326s9sfYpiJNKGcjlbPcfYU+eR9Qo7SPrFGPV2JIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1739956629; c=relaxed/simple;
-	bh=4ke9dKLnrrvkEyZZL+qEaE56MEYHQE4XPBp/l49zfQM=;
+	bh=HMZQPXlE/GBYUYWDCXKq+y9Wkg3KfJTtuU7DIfPDt9M=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DCm2X3IBXKCPzZgmvJ37V3FN7mZB5OOu8DNkQwxdY0TWx5CKnY3dIVln6SCT8tJcWKlkkVuIjU99u+nSGniQYM9xOZD8QF78h49FmNIEcL/OIy5UwLraWxsA2x0zbw0JWeShScFFUAgZMKlTalvcJzaboeU84Nb+7B3zDmXi6+4=
+	 Content-Type:MIME-Version; b=GJ2wf5Fi292I+cEXFlmf6hWpnRt2d8UHMSQ/5bsJ8WQAg1uWACrGW0vWLWK06MRCHifUO+LHVvy++V3EyTtJkYifcXO3EuxJLIR0KtdjuRMktjZcM1XWfIBIl2WqNTY84hnvZHPmEfxRZolTPqPDwEFhMSqqt7rexPwnAxEbNPA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -33,19 +33,20 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1tkgBq-00054L-0R; Wed, 19 Feb 2025 10:16:22 +0100
+	id 1tkgBq-00054h-Ak; Wed, 19 Feb 2025 10:16:22 +0100
 Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1tkgBo-001jq4-02;
-	Wed, 19 Feb 2025 10:16:20 +0100
+	id 1tkgBp-001jq7-2H;
+	Wed, 19 Feb 2025 10:16:21 +0100
 Received: from pza by lupine with local (Exim 4.96)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1tkgBn-0002pp-2m;
-	Wed, 19 Feb 2025 10:16:19 +0100
-Message-ID: <983b40e8b1996ccd0c98a76e65f77ed0bc5b50fb.camel@pengutronix.de>
-Subject: Re: [PATCH v4 2/8] reset: mpfs: use the auxiliary device creation
+	id 1tkgBp-0002qA-1n;
+	Wed, 19 Feb 2025 10:16:21 +0100
+Message-ID: <89d52c01503e2dbd2e23cce1ff9eb037e59eec5a.camel@pengutronix.de>
+Subject: Re: [PATCH v4 6/8] reset: eyeq: drop device_set_of_node_from_dev()
+ done by parent
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: Jerome Brunet <jbrunet@baylibre.com>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>, Dave Ertman <david.m.ertman@intel.com>, Ira
@@ -75,11 +76,11 @@ Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org, 
  linux-mips@vger.kernel.org, linux-clk@vger.kernel.org, imx@lists.linux.dev,
   linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org
-Date: Wed, 19 Feb 2025 10:16:19 +0100
-In-Reply-To: <20250218-aux-device-create-helper-v4-2-c3d7dfdea2e6@baylibre.com>
+Date: Wed, 19 Feb 2025 10:16:21 +0100
+In-Reply-To: <20250218-aux-device-create-helper-v4-6-c3d7dfdea2e6@baylibre.com>
 References: 
 	<20250218-aux-device-create-helper-v4-0-c3d7dfdea2e6@baylibre.com>
-	 <20250218-aux-device-create-helper-v4-2-c3d7dfdea2e6@baylibre.com>
+	 <20250218-aux-device-create-helper-v4-6-c3d7dfdea2e6@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4-2 
@@ -95,12 +96,17 @@ X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expand
 X-PTX-Original-Recipient: platform-driver-x86@vger.kernel.org
 
 On Di, 2025-02-18 at 20:29 +0100, Jerome Brunet wrote:
-> The auxiliary device creation of this driver is simple enough to
-> use the available auxiliary device creation helper.
+> From: Th=C3=A9o Lebrun <theo.lebrun@bootlin.com>
 >=20
-> Use it and remove some boilerplate code.
+> Our parent driver (clk-eyeq) now does the
+> 	device_set_of_node_from_dev(dev, dev->parent)
+> call through the newly introduced devm_auxiliary_device_create() helper.
 >=20
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Doing it again in the reset-eyeq probe would be redundant.
+> Drop both the WARN_ON() and the device_set_of_node_from_dev() call.
+> Also fix the following comment that talks about "our newfound OF node".
+>=20
+> Signed-off-by: Th=C3=A9o Lebrun <theo.lebrun@bootlin.com>
 > Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 
 Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
