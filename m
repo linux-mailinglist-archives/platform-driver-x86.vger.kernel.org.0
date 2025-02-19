@@ -1,116 +1,113 @@
-Return-Path: <platform-driver-x86+bounces-9626-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-9628-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC40A3B8D4
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Feb 2025 10:28:08 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6066A3BB2B
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Feb 2025 11:06:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4601F3BD7E3
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Feb 2025 09:21:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C4438188EFD0
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Feb 2025 10:07:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B06391E231A;
-	Wed, 19 Feb 2025 09:17:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 059071D5142;
+	Wed, 19 Feb 2025 10:06:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FbKiZkQg"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2BD1CAA8E
-	for <platform-driver-x86@vger.kernel.org>; Wed, 19 Feb 2025 09:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D42B315B971
+	for <platform-driver-x86@vger.kernel.org>; Wed, 19 Feb 2025 10:06:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739956629; cv=none; b=Q6AFUoH4IbxVbJJOJirAjMkO3SgoaAIW8A3if/VpB5UeWhYbNZv9a4U3ib0K80H+ty6WLT3ReCEuCq7X2EwrFJ5vRJju90Mt9K7oXBH3ZkDUnpWIkrJLOMfhOFRXGKDqQs326s9sfYpiJNKGcjlbPcfYU+eR9Qo7SPrFGPV2JIg=
+	t=1739959615; cv=none; b=alOAC9bZe1ER0qKfi9hB48Sp80O3ezo7zgZWNyULCHzuSj9tj/QFThiqgg3klfleFXqAWuINwLGB/RVC1i5QfMXukRgeQbUlCcbJFUUSkacI7y+2A98y5T730yTWhbvrUrp5Qn+3LGvG94XhRSQddI4B2EeKlCUtDbVdnG805DY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739956629; c=relaxed/simple;
-	bh=HMZQPXlE/GBYUYWDCXKq+y9Wkg3KfJTtuU7DIfPDt9M=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GJ2wf5Fi292I+cEXFlmf6hWpnRt2d8UHMSQ/5bsJ8WQAg1uWACrGW0vWLWK06MRCHifUO+LHVvy++V3EyTtJkYifcXO3EuxJLIR0KtdjuRMktjZcM1XWfIBIl2WqNTY84hnvZHPmEfxRZolTPqPDwEFhMSqqt7rexPwnAxEbNPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1tkgBq-00054h-Ak; Wed, 19 Feb 2025 10:16:22 +0100
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1tkgBp-001jq7-2H;
-	Wed, 19 Feb 2025 10:16:21 +0100
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1tkgBp-0002qA-1n;
-	Wed, 19 Feb 2025 10:16:21 +0100
-Message-ID: <89d52c01503e2dbd2e23cce1ff9eb037e59eec5a.camel@pengutronix.de>
-Subject: Re: [PATCH v4 6/8] reset: eyeq: drop device_set_of_node_from_dev()
- done by parent
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Jerome Brunet <jbrunet@baylibre.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Dave Ertman <david.m.ertman@intel.com>, Ira
- Weiny <ira.weiny@intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Danilo
- Krummrich <dakr@kernel.org>, Conor Dooley <conor.dooley@microchip.com>,
- Daire McNamara <daire.mcnamara@microchip.com>, Douglas Anderson
- <dianders@chromium.org>,  Andrzej Hajda <andrzej.hajda@intel.com>, Neil
- Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,  Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Hans de Goede
- <hdegoede@redhat.com>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=
- <ilpo.jarvinen@linux.intel.com>,  Bryan O'Donoghue
- <bryan.odonoghue@linaro.org>, Vladimir Kondratiev
- <vladimir.kondratiev@mobileye.com>, Gregory CLEMENT
- <gregory.clement@bootlin.com>, =?ISO-8859-1?Q?Th=E9o?= Lebrun
- <theo.lebrun@bootlin.com>,  Michael Turquette <mturquette@baylibre.com>,
- Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>, Shawn Guo
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Kevin Hilman <khilman@baylibre.com>,  Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>
-Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-clk@vger.kernel.org, imx@lists.linux.dev,
-  linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org
-Date: Wed, 19 Feb 2025 10:16:21 +0100
-In-Reply-To: <20250218-aux-device-create-helper-v4-6-c3d7dfdea2e6@baylibre.com>
-References: 
-	<20250218-aux-device-create-helper-v4-0-c3d7dfdea2e6@baylibre.com>
-	 <20250218-aux-device-create-helper-v4-6-c3d7dfdea2e6@baylibre.com>
+	s=arc-20240116; t=1739959615; c=relaxed/simple;
+	bh=2rNefNk4d8k03KvHlinOxaAgUt1eZZxZvdwOHZwpbCQ=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=N3jOf/0M1Eg43Qc8qu8hNhpH0Uz+QGjOmT6zmhu4LU7LvPMoNi271PdvLgHWIptFNRKvkptfhLG5Jeec3LEK4RMfwu20xLeMJLVy9E5H4El2uyJXUhWiJ3SsXturmNSxSEUwyx5Tnddangd2t6dJjto/LFF6wQhnQsMt6CseeRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FbKiZkQg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 514F8C4CEE7
+	for <platform-driver-x86@vger.kernel.org>; Wed, 19 Feb 2025 10:06:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739959615;
+	bh=2rNefNk4d8k03KvHlinOxaAgUt1eZZxZvdwOHZwpbCQ=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=FbKiZkQgjswuCw9PYD944ugoqV1ZVoOe+OHRhzTwkdqKB4o+1seROw4oGbROBPHhV
+	 V+LNi6uCdD9auMKpTa4Mgi5P3N9JI+vA+2KGcH5FqOifcxyjbvAaIX7qvc3LcogAbR
+	 z0Xc52+5w/Aizcy0A0pp2ym7b7JLq7v6otUs5WKg7fvwUK44FuK8Yf1T2xPd8mrR2w
+	 5Wm69m2PPghUA2jupHr7DPTkHNEvPX71RmM7WLuCthK/IMp4Jc3XJhcJfQnGkHxqLf
+	 8q7ffWNWP9HYsXk2g+IPtmnseZQ0APO10ooNTWnrRmNSF++tZgjVfDRlT0ACP04FG5
+	 pswMfmRSV5TVQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 3EC5EC41614; Wed, 19 Feb 2025 10:06:55 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: platform-driver-x86@vger.kernel.org
+Subject: [Bug 218863] [BAD FIRMWARE] amd-pmf AMDI0102:00: ta invoke cmd init
+ failed err: 60005
+Date: Wed, 19 Feb 2025 10:06:54 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: CC drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Product: Platform Specific/Hardware
+X-Bugzilla-Component: x86-64
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: yaroslav@lll.gd
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: shyam-sundar.s-k@amd.com
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-218863-215701-kUv6XRRqGE@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218863-215701@https.bugzilla.kernel.org/>
+References: <bug-218863-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: platform-driver-x86@vger.kernel.org
 
-On Di, 2025-02-18 at 20:29 +0100, Jerome Brunet wrote:
-> From: Th=C3=A9o Lebrun <theo.lebrun@bootlin.com>
->=20
-> Our parent driver (clk-eyeq) now does the
-> 	device_set_of_node_from_dev(dev, dev->parent)
-> call through the newly introduced devm_auxiliary_device_create() helper.
->=20
-> Doing it again in the reset-eyeq probe would be redundant.
-> Drop both the WARN_ON() and the device_set_of_node_from_dev() call.
-> Also fix the following comment that talks about "our newfound OF node".
->=20
-> Signed-off-by: Th=C3=A9o Lebrun <theo.lebrun@bootlin.com>
-> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D218863
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Yaroslav (yaroslav@lll.gd) changed:
 
-regards
-Philipp
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |yaroslav@lll.gd
+
+--- Comment #36 from Yaroslav (yaroslav@lll.gd) ---
+Have the same message
+
+System:
+
+  Host: elitebook Kernel: 6.13.3-cachyos1.fc41.x86_64 arch: x86_64 bits: 64
+    compiler: gcc v: 14.2.1 clocksource: tsc
+  Desktop: KDE Plasma v: 6.3.0 tk: Qt v: N/A wm: kwin_wayland with: krunner
+    vt: 2 dm: SDDM Distro: Fedora Linux 41 (KDE Plasma)
+Machine:
+  Type: Laptop System: HP product: HP EliteBook 845 14 inch G10 Notebook PC
+  Mobo: HP model: 8B6E v: KBC Version 60.34.00
+    part-nu: 818N0EA#ABU UEFI: HP v: 82 Ver. 01.07.00
+    date: 11/14/2024
+CPU:
+  model: AMD Ryzen 9 PRO 7940HS w/ Radeon 780M
+
+[    5.375196] amd-pmf AMDI0102:00: ta invoke cmd init failed err: 60005
+[    5.396214] amd-pmf AMDI0102:00: registered PMF device successfully
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching someone on the CC list of the bug.=
 
