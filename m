@@ -1,204 +1,191 @@
-Return-Path: <platform-driver-x86+bounces-9709-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-9711-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56CD9A44608
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Feb 2025 17:28:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1526A44C8B
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Feb 2025 21:22:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EFFAA1691C6
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Feb 2025 16:27:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA2743A93FD
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Feb 2025 20:21:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2471818E054;
-	Tue, 25 Feb 2025 16:27:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 844B1212B0D;
+	Tue, 25 Feb 2025 20:17:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="tNP/9R0o"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="OJWfAvqA"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3044183CB0;
-	Tue, 25 Feb 2025 16:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FB4D20F094;
+	Tue, 25 Feb 2025 20:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740500856; cv=none; b=nuS33hCiEUi2e0+Ts2vMXJ5Mjbfq7ZbLpAlsipAkC7WMcX4IoOIHoknyMOaMWWfS4++c0tsDDAe9DqhiwMz7R1rVdAh5qzv2iidxVXZ1Q78AaM/6lLgIyAM5dCqPo8f9b/RvQ20taPOH4mH1G2ge2PiUdyym9VnC8iodXYUJYks=
+	t=1740514642; cv=none; b=KK4jxZUkaiBLNJOls5BVl2G4A2EYBVPyqBMskkeJaESrT4CZxCXSv3EfdTDYEAmXx2UcSXmBgbD2moUwS81i2iq+n4bUeY5BtTE75RM+vawXlyAHLNIYeoOBNHU6b2HO8+0ZAw51av3qmoLzP/ORXgFP3riZgQxFClAOygiNz3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740500856; c=relaxed/simple;
-	bh=BdJtZnTV2i07SNC32yy0QgGJM8y0+NMRw9EmWllffYk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=X7mkq2C5OvZduYvCm69P8SyeHT2Wj4sud4G/7oupN0hFy1u6J6rekSON5/E1zQsAgtiYnG5+ync5RD28ZR6Z97eu+Ei/0KbEKnWKH77C73Dm49NJ4nGMMgxea3NVK4iMpA77w1RxaOaddvQxmptz+/+3ktqUyT+Jvv69FbwfFxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=tNP/9R0o; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id 16C972E0904A;
-	Tue, 25 Feb 2025 18:27:24 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1740500845;
-	bh=NnGd3+Erk9r9ZZ2TFe6MqU7NYineZtnKsCzncysHX0s=;
-	h=Received:From:Subject:To;
-	b=tNP/9R0oSfESPQvz6pGPWLQN7SYMjYF109sGAiCVnAcvKQyc4FJikUZ2y/kOXaczp
-	 scQ+s5tlnY9dzvRRR+gkXLwGBFF5iIL1AxIVUAx6tkugK26vIpUzcNF8waqK7CoVZu
-	 U/cpy3SJ7h9xl/Py+0j5oH6KwBMHv99F5CtCl0wQ=
-Authentication-Results: linux1587.grserver.gr;
-        spf=pass (sender IP is 209.85.208.170) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f170.google.com
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-30613802a59so60210751fa.0;
-        Tue, 25 Feb 2025 08:27:24 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUHM9XlKBIkKC8BYIbEM/4fXekR8ofFfQyRLhWDJTO4QAF20STNBBNzSK2htSVaPN0iUVxIFGE0Lvxe@vger.kernel.org,
- AJvYcCWOGnnRXvWVdPmnadjcvR12mJUELGay17EmXP0SQIzRsaaP3B2prXjuQG3sO5DsgFOGpwTXCbOHpa2vFqXg@vger.kernel.org,
- AJvYcCWSD8SRbWQT5MekTgn+zRF4HpB6dCY+l4Ty1+rg3HbJgmv8bgeq2y0wAxkvcglRadpbcVfDn+uJEtEGUUD1mxvnlxlBgA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyiJiO+7aC/kBN4tdlPJccXgGK4C+ejEopqgJYXCPx5IH3cKzh2
-	p8d9UEfdrfa1Y9NrALQNryBTUvKb+7bxobg7C3ou4e2uOjJye0Wkm/lFslZXxjPjkdnEXztdfdT
-	Nq6O8LLG0rfSj8f/wvK/CIW8nyAw=
-X-Google-Smtp-Source: 
- AGHT+IFsEd4oylDEyrfYtIXluntvlN8HJd7l3mUHfTBfJ4KDbootcyCrzrgRIjvvg0uN4xvbU3BUYWc5Q5DfEy0x9AI=
-X-Received: by 2002:a2e:9ecd:0:b0:308:fedf:8c12 with SMTP id
- 38308e7fff4ca-30b79133d87mr2041851fa.5.1740500843364; Tue, 25 Feb 2025
- 08:27:23 -0800 (PST)
+	s=arc-20240116; t=1740514642; c=relaxed/simple;
+	bh=QWXk938u1ZUtRQ0fT2TND4jKL/fO2qpP0R5WJKK3KXc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=jZ0gu8yg+jKmKTVfiM6psDY6m4Q3K7OPUjzvmDy4zaz9C8ZaU8VwQpub6rEl2pNOPtkfMuxij+C8RNqFhSHizShePgbSApQwXr1iCAOWn0XsSE7Whfw13WsAiMPGSaLswLEOkZqsPSo3n6/dOIqBo5tyAllHvwlzUCKR6vEhLQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=OJWfAvqA; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 920F4203CDFC;
+	Tue, 25 Feb 2025 12:17:19 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 920F4203CDFC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1740514639;
+	bh=pRPTMwC85c4lYLBd5/aEkvEtme0QilCw7nKJr8ytgmI=;
+	h=From:Subject:Date:To:Cc:From;
+	b=OJWfAvqAxjSS6nUkULU00Pa8nQ9u9kKy42lXSCjyZ4ZUUOElAuQC0IJLL8YdgMxy4
+	 fRHYXp6qo5lzLvyA3yVmWt3cKN1fewJPyBbSi8i8x+l37gp4hdCbMSActzutlKgtXo
+	 djKAYQpE3vAmx4Iwoj2HThNeFrxgkdmyOVA8YA+8=
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+Subject: [PATCH v3 00/16] Converge on using secs_to_jiffies() part two
+Date: Tue, 25 Feb 2025 20:17:14 +0000
+Message-Id: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250224195059.10185-1-lkml@antheas.dev>
- <1c0c988b-8fe6-4857-9556-6ac6880b76ff@app.fastmail.com>
- <633bbd2d5469db5595f66c9eb6ea3172ab7c56b7.camel@ljones.dev>
- <CAGwozwGmDHMRbURuCvWsk8VTJEf-eFXTh+mamB1sKaHX5DO8WA@mail.gmail.com>
- <f5d39d3c932a78a5021877230c212c620edc586e.camel@ljones.dev>
- <CAGwozwEWZxWzcTjPby4OeUz+CCXbvQAkvCExo-Qc7=r-0-6BCg@mail.gmail.com>
- <5cff4286-2800-4bc0-b243-5244d19a64b7@gmx.de>
-In-Reply-To: <5cff4286-2800-4bc0-b243-5244d19a64b7@gmx.de>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Tue, 25 Feb 2025 17:27:10 +0100
-X-Gmail-Original-Message-ID: 
- <CAGwozwFS_D4k-Q-QUums8FMZ82p_5-RzBvZZJX1k7_YP2E1cfg@mail.gmail.com>
-X-Gm-Features: AQ5f1JpbOG7dozqD-mEqecwiGnoINaSfPy5IByhYBSLlH1eBPPJoAtDSCeMqdxM
-Message-ID: 
- <CAGwozwFS_D4k-Q-QUums8FMZ82p_5-RzBvZZJX1k7_YP2E1cfg@mail.gmail.com>
-Subject: Re: [PATCH 0/3] ACPI: platform_profile: fix legacy sysfs with
- multiple handlers
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: Luke Jones <luke@ljones.dev>, Mark Pearson <mpearson-lenovo@squebb.ca>,
-	"Limonciello, Mario" <mario.limonciello@amd.com>,
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Len Brown <lenb@kernel.org>,
- "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	linux-kernel@vger.kernel.org,
-	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- me@kylegospodneti.ch
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <174050084442.5352.9862764441592976971@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEslvmcC/43NMRKCMBCF4aswqV1nExDQyns4FjFsZB0hThKjj
+ sPdDTY2FpT/K773FoE8UxC74i08JQ7sxhzlqhCm1+OZgLvcQqGqpJINGDcm8nkPZAJEBxe2Ngt
+ w0z5CfDiwVYWy0bq2dSOyc/Nk+fn9OBxz9xyi86/vZZLzOusblKpdoCcJCFtdk7F4UiW2+yuP9
+ +d6YONdcDaujRvE/JPUz1ZYLrFVtrsGN61GaTuk//Y0TR+h+4siOAEAAA==
+X-Change-ID: 20241217-converge-secs-to-jiffies-part-two-f44017aa6f67
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay <ogabbay@kernel.org>, 
+ Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, 
+ James Smart <james.smart@broadcom.com>, 
+ Dick Kennedy <dick.kennedy@broadcom.com>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
+ David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>, 
+ Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens Axboe <axboe@kernel.dk>, 
+ Xiubo Li <xiubli@redhat.com>, Damien Le Moal <dlemoal@kernel.org>, 
+ Niklas Cassel <cassel@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
+ "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Frank Li <Frank.Li@nxp.com>, 
+ Mark Brown <broonie@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Henrique de Moraes Holschuh <hmh@hmh.eng.br>, 
+ Selvin Xavier <selvin.xavier@broadcom.com>, 
+ Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>
+Cc: cocci@inria.fr, linux-kernel@vger.kernel.org, 
+ linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-sound@vger.kernel.org, linux-btrfs@vger.kernel.org, 
+ ceph-devel@vger.kernel.org, linux-block@vger.kernel.org, 
+ linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-nvme@lists.infradead.org, 
+ linux-spi@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
+ ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org, 
+ Easwar Hariharan <eahariha@linux.microsoft.com>, 
+ Takashi Iwai <tiwai@suse.de>, Carlos Maiolino <cmaiolino@redhat.com>
+X-Mailer: b4 0.14.2
 
-On Tue, 25 Feb 2025 at 16:56, Armin Wolf <W_Armin@gmx.de> wrote:
->
-> Am 25.02.25 um 03:26 schrieb Antheas Kapenekakis:
->
-> >> If these "scripts" use `platform_profile_choices` to get their
-> >> selections and verify they are available then there should be zero
-> >> breakage. If they don't then they should be updated to be correct.
-> > Yeah, if any Asus users wrote scripts for their laptops to e.g., "echo
-> > quiet | sudo tee /sys/firmware/acpi/platform_profile" or used TLP let
-> > them spend a few days finding out why kernel 6.14 does not work. They
-> > should have written a 300 line bash script instead.
->
-> Hi,
->
-> using "echo quiet | sudo tee /sys/firmware/acpi/platform_profile" is quite
-> brittle, as some hardware will populate the available profiles dynamically.
->
-> Still breaking userspace is indeed not an option here, so we have to think
-> of something else.
+This is the second series (part 1*) that converts users of msecs_to_jiffies() that
+either use the multiply pattern of either of:
+- msecs_to_jiffies(N*1000) or
+- msecs_to_jiffies(N*MSEC_PER_SEC)
 
-e.g., for example I had a tdp handler for the ally and had to
-transplant it to thermal_throttle_profile when the breakage with
-amd_pmf started happening.
+where N is a constant or an expression, to avoid the multiplication.
 
-> snip
->
-> This whole driver was likely written by someone as a hobby, so you already
-> depend on a hobby here.
->
-> That being said, i agree that fixes have a priority over new features, and
-> i think everyone agrees on that.
+The conversion is made with Coccinelle with the secs_to_jiffies() script
+in scripts/coccinelle/misc. Attention is paid to what the best change
+can be rather than restricting to what the tool provides.
 
-Indeed.In which case, saying people should use your hobby code perhaps
-is a bit overreaching. Haha.
+Andrew has kindly agreed to take the series through mm.git modulo the
+patches maintainers want to pick through their own trees.
 
-> Maybe the current strategy of the legacy platform-profile interface can be extended
-> without introducing the "secondary handler" concept.
->
-> The current strategy only advertises platform profiles supported by all handlers, and
-> as you pointed out this causes problems for users on certain devices.
->
-> I was thinking that be can change this strategy to advertise all platform profiles supported
-> by at least one handler can then do something like this:
->
->   - handler 1: supports low_power, balanced and performance
->
->   - handler 2: supports quiet, balanced and balanced-performance
->
-> -> legacy interface advertises low_power, quiet, balanced, balanced-performance and performance
->
-> When setting low_power, the closes equivalent is picked for handlers which do not support low_power:
->
->   - handler 1: setting low_power
->
->   - handler 2: setting quiet
->
-> When setting quiet, the same happens:
->
->   - handler 1: setting balanced
->
->   - handler 2: setting quiet
->
-> Basically all profiles get treated like a range:
->
-> low_power <- lower end of the performance range
-> cool,
-> quiet,
-> balanced,
-> balanced-performance,
-> performance <- upper end of the performance range
->
-> The only problem will be that getting the current platform profile would be more difficult, as
-> the legacy handler has to determine the lowest currently selected platform profile.
->
-> Would this approach be OK?
->
-> Thanks,
-> Armin Wolf
->
+This series is based on next-20250225
 
-So the way this patch series is designed is that the new
-/sys/class/platform-profileX works exactly the same.
+Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 
-Then, when asus-wmi is loaded, regardless of whether amd-pmf is
-loaded, you get quiet, balanced, and performance. Like it was before.
-Setting it to quiet makes amd-pmf use its low power setting. And it
-will work the same with all WMI drivers, regardless of whether they
-use cool, low-power, quiet, or balanced-power
+* https://lore.kernel.org/all/20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com/
 
-When asus-wmi is unloaded, you get low-power, balanced, and
-performance. As you would with amd-pmf on its own. 0 ABI changes.
+---
+Changes in v3:
+- Change commit message prefix from libata: zpodd to ata: libata-zpodd: in patch 8 (Damien)
+- Split up overly long line in patch 9 (Christoph)
+- Fixup unnecessary line break in patch 14 (Ilpo)
+- Combine v1 and v2
+- Fix some additional hunks in patch 2 (scsi: lpfc) which the more concise script missed
+- msecs_to_jiffies -> msecs_to_jiffies() in commit messages throughout
+- Bug in secs_to_jiffies() uncovered by LKP merged in 6.14-rc2: bb2784d9ab4958 ("jiffies: Cast to unsigned long in secs_to_jiffies() conversion")
+- Link to v2: https://lore.kernel.org/r/20250203-converge-secs-to-jiffies-part-two-v2-0-d7058a01fd0e@linux.microsoft.com
 
-Series is small enough so that if you don't like it, it is easy to
-refactor out during the 6.15 merge window.
+Changes in v2:
+- Remove unneeded range checks in rbd and libceph. While there, convert some timeouts that should have been fixed in part 1. (Ilya)
+- Fixup secs_to_jiffies.cocci to be a bit more verbose
+- Link to v1: https://lore.kernel.org/r/20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com
 
-$ cat /sys/firmware/acpi/platform_profile_choices
-quiet balanced performance
-$ sudo rmmod asus-nb-wmi
-$ cat /sys/firmware/acpi/platform_profile_choices
-low-power balanced performance
+---
+Easwar Hariharan (16):
+      coccinelle: misc: secs_to_jiffies: Patch expressions too
+      scsi: lpfc: convert timeouts to secs_to_jiffies()
+      accel/habanalabs: convert timeouts to secs_to_jiffies()
+      ALSA: ac97: convert timeouts to secs_to_jiffies()
+      btrfs: convert timeouts to secs_to_jiffies()
+      rbd: convert timeouts to secs_to_jiffies()
+      libceph: convert timeouts to secs_to_jiffies()
+      ata: libata-zpodd: convert timeouts to secs_to_jiffies()
+      xfs: convert timeouts to secs_to_jiffies()
+      power: supply: da9030: convert timeouts to secs_to_jiffies()
+      nvme: convert timeouts to secs_to_jiffies()
+      spi: spi-fsl-lpspi: convert timeouts to secs_to_jiffies()
+      spi: spi-imx: convert timeouts to secs_to_jiffies()
+      platform/x86/amd/pmf: convert timeouts to secs_to_jiffies()
+      platform/x86: thinkpad_acpi: convert timeouts to secs_to_jiffies()
+      RDMA/bnxt_re: convert timeouts to secs_to_jiffies()
 
-Antheas
+ .../accel/habanalabs/common/command_submission.c   |  2 +-
+ drivers/accel/habanalabs/common/debugfs.c          |  2 +-
+ drivers/accel/habanalabs/common/device.c           |  2 +-
+ drivers/accel/habanalabs/common/habanalabs_drv.c   |  2 +-
+ drivers/ata/libata-zpodd.c                         |  3 +-
+ drivers/block/rbd.c                                |  8 ++---
+ drivers/infiniband/hw/bnxt_re/qplib_rcfw.c         |  2 +-
+ drivers/nvme/host/core.c                           |  6 ++--
+ drivers/platform/x86/amd/pmf/acpi.c                |  2 +-
+ drivers/platform/x86/thinkpad_acpi.c               |  2 +-
+ drivers/power/supply/da9030_battery.c              |  3 +-
+ drivers/scsi/lpfc/lpfc.h                           |  3 +-
+ drivers/scsi/lpfc/lpfc_els.c                       | 11 +++---
+ drivers/scsi/lpfc/lpfc_hbadisc.c                   |  2 +-
+ drivers/scsi/lpfc/lpfc_init.c                      | 10 +++---
+ drivers/scsi/lpfc/lpfc_scsi.c                      | 12 +++----
+ drivers/scsi/lpfc/lpfc_sli.c                       | 41 +++++++++-------------
+ drivers/scsi/lpfc/lpfc_vport.c                     |  2 +-
+ drivers/spi/spi-fsl-lpspi.c                        |  2 +-
+ drivers/spi/spi-imx.c                              |  2 +-
+ fs/btrfs/disk-io.c                                 |  6 ++--
+ fs/xfs/xfs_icache.c                                |  2 +-
+ fs/xfs/xfs_sysfs.c                                 |  8 ++---
+ include/linux/ceph/libceph.h                       | 12 +++----
+ net/ceph/ceph_common.c                             | 18 ++++------
+ net/ceph/osd_client.c                              |  3 +-
+ scripts/coccinelle/misc/secs_to_jiffies.cocci      | 10 ++++++
+ sound/pci/ac97/ac97_codec.c                        |  3 +-
+ 28 files changed, 82 insertions(+), 99 deletions(-)
+---
+base-commit: 0226d0ce98a477937ed295fb7df4cc30b46fc304
+change-id: 20241217-converge-secs-to-jiffies-part-two-f44017aa6f67
+
+Best regards,
+-- 
+Easwar Hariharan <eahariha@linux.microsoft.com>
+
 
