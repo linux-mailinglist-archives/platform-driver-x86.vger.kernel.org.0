@@ -1,193 +1,267 @@
-Return-Path: <platform-driver-x86+bounces-9851-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-9853-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D934A4ACC2
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Mar 2025 17:15:43 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 466B5A4ACF0
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Mar 2025 17:53:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6ADB517026A
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Mar 2025 16:15:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4DC567A8254
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Mar 2025 16:52:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDC2C1DF25A;
-	Sat,  1 Mar 2025 16:15:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 400231E260A;
+	Sat,  1 Mar 2025 16:52:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="Qy7I7jum"
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="NQZf2PaV"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD4A2CA8;
-	Sat,  1 Mar 2025 16:15:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20AE1BC4E;
+	Sat,  1 Mar 2025 16:52:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740845738; cv=none; b=pYaDuupjqzdQEkIfEWLl/AN6w2qZ5YHC7tTghAqlfuEH3J1vsGLDVltf1HCjV2/fxe3Q1UM1Zf/9Su8rdAtXvTzcCbUK4COfGyTRCS0syCJjbfmBnhgjggvN1NwppB3ySwUSUXWiB1OktGymkAkAFQnCaU5Qxvx/c76MhAadx/I=
+	t=1740847977; cv=none; b=DlW6IuL88NYxDR+ISWEYrWgmlZNradxXMPYtJK0QGvnbrwCIQkQE/h5jN88vE7rqGq/B6aSQDyBddvhH/Ytd/2/BIVdK8w9t9W10VtLsCj6GGRpAnxrcaONhmreyAwhZBbyKuQOkRMmia3K8bxoaIVE/5f3tyJR+RNJu9rLkPrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740845738; c=relaxed/simple;
-	bh=rO1haNxXJjWBYp2kLi6/7nyMr/AhMrO1WGMIJIAY850=;
+	s=arc-20240116; t=1740847977; c=relaxed/simple;
+	bh=EtH6s5jgHBHpq+UeSpVmwS2IVll6p+F7gfz3idKWJes=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LIp0ARQjbt5mZCWsggs6E45x0I3UX0z8iwEVVLQ4r8MBoRYmeQwuTzvrbuL7ByGi+qjWwna/rzLV0TTxLUNBrktHq2j+IGikPCtNvaSKYQ4xHMV7CIy/mQCN7h005s3xtrfr8ViB/4TdJ3LK1FceUMittNGILfgb6HWXK21t9Hw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=Qy7I7jum; arc=none smtp.client-ip=185.138.42.100
+	 To:Cc:Content-Type; b=P3WN1ue42bkNh3WduHxpnZqT+joAHoIctAcAXBwPk4DogoxuRppA6s376MAieYiQkIxbsjwYSHVCny+6sFNv9/jS8spukePk5/qVKnwOCjtim/XUjfpItnzRhWCSwD0zGRfm4Daf71COnHeVagYuA/h2XIn3u8PCvlqZOsoCCFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=NQZf2PaV; arc=none smtp.client-ip=185.138.42.100
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id 55EE82E09033;
-	Sat,  1 Mar 2025 18:15:32 +0200 (EET)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id 3B5412E091F6;
+	Sat,  1 Mar 2025 18:52:50 +0200 (EET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1740845733;
-	bh=3/AcPH/u9ITuQ7NTcxKxHIGPzA5C4yDHZ1oG//9xL9A=;
+	s=default; t=1740847970;
+	bh=/K+9yPV0rVI1Pu6RNGxoSlQNZJd9C3fezbM3H7s5WvY=;
 	h=Received:From:Subject:To;
-	b=Qy7I7jumfuV1+6qe11a+LHkimOGE+WVlADM1JE4cUX8STdtvrpceFwnCt5saoU90J
-	 kUCbM+TYMu6C1QNHJg6e83QQ0O5EJy74bK9SOAReaBrvQpSXhRVIiTr6bJUwb9qBbX
-	 Cx7CaoJR/tou9VSDtl4Pr1cg/z3xkGHO5pogA1fc=
+	b=NQZf2PaVT/ggTRC3lKb7OWk+4oNQzs7qlJhejIK+YkxKnU3T1tUqxQViPrWLmG50w
+	 5bGPrzJ9sZOSbOboJcuAmZMeB5EEKg7irtovduGpGlKUM+lERS757zEwabo/LOeNMO
+	 IQcBZ/hqkIPnpRWn2z1PdBN9kPIVWjfSpkKjgyHU=
 Authentication-Results: linux1587.grserver.gr;
-        spf=pass (sender IP is 209.85.167.54) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lf1-f54.google.com
+        spf=pass (sender IP is 209.85.208.175) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f175.google.com
 Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-54959d1a856so572140e87.1;
-        Sat, 01 Mar 2025 08:15:32 -0800 (PST)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-30baa27b209so3574691fa.0;
+        Sat, 01 Mar 2025 08:52:50 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCUhKevkT218i8u9HZkseIOlEsFmb3k3uEfaExWWzNDqB5jv3U13j2oCMFdTLxAyw9CZ5sqBfyrhGWFe@vger.kernel.org,
- AJvYcCVNl6FsqFfZ+krCj8oISJVCqiu4XBrAubs/3n6CJ4ss8PecvjYGRSAuaAi8j7ybqv1T1YjAzTVMZOtBw4e/gmFhDW4Xdg==@vger.kernel.org,
- AJvYcCXSMKZfTAu9mt4smJ1hX4FcQuX6q8qAmkFK3cfwkn4mm8PmvytGCo6P+i8Wcy1z4tSa72gmRDl4KQiL+ixF@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRcqpHjgqRDH0026J8YeJevPn4ToVCf+aR38RB2X2FdxrF4WOn
-	YIlMD+yOtjx3PwFGS7+ZfMJdl4zdUbslRT9YBKXsTYN+YOMtW+7fLscYOmVIqkOm4qsHLNC3tDC
-	adgTCAPn9WccBbYwoDJwjVbQXba4=
+ AJvYcCUOSb1Q3FKSVYBT4TDKUhZxJiTSSPfQRArqTuXcIFnpVfl9346PGYEm7qSIQc6F/vZ4/BqHo/vq742xAF5uEl60c6FOCw==@vger.kernel.org,
+ AJvYcCVHCKcqeMfF4tepflqckRXc/wU8MSidCaypakkABECiNTVrzzTSQSmpOmHjMfk7AggE9UWsYNOwjVg=@vger.kernel.org,
+ AJvYcCWJbRr/CAGT0Fw2gPeGCAJQdReeihcyJUaRtPq6d1TUKInEjfpYdA2iMrm1PCI5iepYxmCubEc10DE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyhj8OZsv68FaHuiHY42xDPsN6CePuC8qMYN06O1XzXyd/hRb1l
+	uyNXBqCJIdPEx3DMSR/cDwZZLmvdsBVEVmWgfTedPF+vyVUVqiYFhQRuyLgk1zMeQaZbR4XoUr4
+	DCXqSdAWPoOWfiMvdAcvkjZ7n/Kc=
 X-Google-Smtp-Source: 
- AGHT+IHbExRxjvJB9s6yCP7YhEA0jsc9zdBDbT7Z0uVUbMlGSC9o/vHqoa+g+ZdfS5ZlUnTKYhTY7lpQoxNLucKzu4Q=
-X-Received: by 2002:ac2:4f03:0:b0:546:1ea9:6230 with SMTP id
- 2adb3069b0e04-549432ccb0dmr4259256e87.1.1740845731596; Sat, 01 Mar 2025
- 08:15:31 -0800 (PST)
+ AGHT+IGDs1MaRpOD4AHlBaR6b11hPeTB4lBrJBLU1S1N7P+E76x9HIXGgOF4b+S8s6+e/C1FkMeFtPjtI+J870dkMdY=
+X-Received: by 2002:a2e:8759:0:b0:308:fa1d:1fed with SMTP id
+ 38308e7fff4ca-30b9345c27cmr26104851fa.34.1740847969510; Sat, 01 Mar 2025
+ 08:52:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250228170155.2623386-1-superm1@kernel.org>
- <20250228170155.2623386-2-superm1@kernel.org>
- <D84F6QF8EU3D.3RUI1PKXP2DZ3@gmail.com>
- <6f56571a-3090-4323-a29d-008b916abf39@kernel.org>
- <CAGwozwGFLQxGEQ-nb+d9yrikz=fx+u48mpTYUyUtvgFD-9ypQg@mail.gmail.com>
- <09674d15-d639-4cb3-837a-9575f0028a76@kernel.org>
- <CAGwozwFm1HeLNtJNGOdQCe_poWeNNeOB=3EzizFx_p2rB-RXbQ@mail.gmail.com>
- <59634335-9365-454b-8f07-1b8f564e5f29@kernel.org>
-In-Reply-To: <59634335-9365-454b-8f07-1b8f564e5f29@kernel.org>
+References: <20250222161824.172511-1-lkml@antheas.dev>
+ <20250222161824.172511-7-lkml@antheas.dev>
+ <7C8385B2-9E18-4AE2-A3C3-A4F2E0931D53@gmail.com>
+ <CAGwozwFFOCE0J7FLUgDHnd5xEgjSpAhM02UTSBnXJq1YsvdYFg@mail.gmail.com>
+ <611B4C30-091F-41BC-876C-59314D7F1E5E@gmail.com>
+In-Reply-To: <611B4C30-091F-41BC-876C-59314D7F1E5E@gmail.com>
 From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Sat, 1 Mar 2025 17:15:20 +0100
+Date: Sat, 1 Mar 2025 17:52:38 +0100
 X-Gmail-Original-Message-ID: 
- <CAGwozwEVDkArYZLg+pvZrh02TtGM4+6EH5GCRpjxEAwMH4xZ+A@mail.gmail.com>
-X-Gm-Features: AQ5f1JpmW8KqGpSi_TpKYo-21bQ3yyMuN7mTCy2oKRPXp15Soz8cMWKb2QL5Mvs
+ <CAGwozwG6=XZyujL4CMhe8keqw879LNgZC7N+JQ2v8xrB=3KF-Q@mail.gmail.com>
+X-Gm-Features: AQ5f1JqSrC9X_VlRK5MW4MhIH3hSTUoP-RMmD5bTnoEKbVGQGkY0J_nyOctr8tg
 Message-ID: 
- <CAGwozwEVDkArYZLg+pvZrh02TtGM4+6EH5GCRpjxEAwMH4xZ+A@mail.gmail.com>
-Subject: Re: [PATCH 1/3] ACPI: platform_profile: Add support for hidden
- choices
-To: Mario Limonciello <superm1@kernel.org>
-Cc: Kurt Borja <kuurtb@gmail.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	"Luke D . Jones" <luke@ljones.dev>, Mark Pearson <mpearson-lenovo@squebb.ca>,
-	"open list:AMD PMF DRIVER" <platform-driver-x86@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:ACPI" <linux-acpi@vger.kernel.org>,
- "Derek J . Clark" <derekjohn.clark@gmail.com>,
-	me@kylegospodneti.ch, Denis Benato <benato.denis96@gmail.com>,
-	Mario Limonciello <mario.limonciello@amd.com>, Armin Wolf <W_Armin@gmx.de>
+ <CAGwozwG6=XZyujL4CMhe8keqw879LNgZC7N+JQ2v8xrB=3KF-Q@mail.gmail.com>
+Subject: Re: [PATCH v2 06/12] hwmon: (oxp-sensors) Add turbo led support to X1
+ devices
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>
+Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-pm@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+	Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+	Joaquin Ignacio Aramendia <samsagax@gmail.com>,
+ Kevin Greenberg <kdgreenberg234@protonmail.com>,
+	Joshua Tam <csinaction@pm.me>, Parth Menon <parthasarathymenon@gmail.com>,
+	Eileen <eileen@one-netbook.com>
 Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <174084573283.17645.2878387510956579562@linux1587.grserver.gr>
+X-PPP-Message-ID: <174084797066.436.7521568956309165847@linux1587.grserver.gr>
 X-PPP-Vhost: antheas.dev
 X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
 X-Virus-Status: Clean
 
-On Sat, 1 Mar 2025 at 17:04, Mario Limonciello <superm1@kernel.org> wrote:
+On Sat, 1 Mar 2025 at 17:42, Derek J. Clark <derekjohn.clark@gmail.com> wrote:
 >
 >
 >
-> On 3/1/25 08:06, Antheas Kapenekakis wrote:
-> > On Sat, 1 Mar 2025 at 14:52, Mario Limonciello <superm1@kernel.org> wrote:
+> On March 1, 2025 7:54:22 AM PST, Antheas Kapenekakis <lkml@antheas.dev> wrote:
+> >On Sat, 1 Mar 2025 at 16:14, Derek J. Clark <derekjohn.clark@gmail.com> wrote:
 > >>
-> >>>>> Let me know what you think!
-> >>>>
-> >>>> I don't really like that profiles can get out of sync, this is asking
-> >>>> for a non-deterministic behavior that can be difficult to diagnose
-> >>>> issues and also difficult for userspace to work with.
-> >>>
-> >>> I agree with Mario here. Imagine two drivers, one with low-power and
-> >>> one with quiet. They both begin at performance.
-> >>>
-> >>> Then, userspace software gets confused (incl. ppd) and sets firmware
-> >>> profile to low-power. The latter gets left in performance, causing
-> >>> excess drain.
-> >>>
-> >>> I do not believe the legacy interface should be deprecated. Right now,
-> >>> amd-pmf is a NOOP in most devices
 > >>
-> >> "Most" devices is not accurate.  There are a lot of devices that it does
-> >> enable.  In the gaming space right now it's often behaving as a no-op.
+> >>
+> >> On February 22, 2025 8:18:17 AM PST, Antheas Kapenekakis <lkml@antheas.dev> wrote:
+> >> >The X1 and X1 mini lineups feature an LED nested within their turbo
+> >> >button. When turbo takeover is not enabled, the turbo button allows
+> >> >the device to switch from 18W to 25W TDP. When the device is in the
+> >> >25W TDP mode, the LED is turned on.
+> >> >
+> >> >However, when we engage turbo takeover, the turbo led remains on its
+> >> >last state, which might be illuminated and cannot be currently
+> >> >controlled. Therefore, add the register that controls it under sysfs,
+> >> >to allow userspace to turn it off once engaging turbo takeover and
+> >> >then control it as they wish.
+> >> >
+> >> >As part of researching this topic, I verified that other OneXPlayer
+> >> >devices do not have a turbo led, which makes this feature only
+> >> >applicable to X1 and X1 mini devices.
+> >>
+> >> Antheas,
+> >>
+> >> Do you mean a turbo LED That can be set via EC? OXP devices have had an LED to indicate turbo all the way back to the 1S and mini AMD. I'm not sure if they can be set prior to X1, but this is incorrect as posted.
 > >
-> > That would be a fair description. Can you give some examples of
-> > devices that use the interface? Devices with and without vendor
-> > software.
->
-> Off hand the Framework 13 and 16 AMD both use PMF exclusively.  So do a
-> bunch of HP commercial laptops.
-
-I will ask Kyle to check it out.
-
-> Mark can keep me honest, but I want to say the Strix Thinkpad laptops
-> have both PMF and vendor interface (thinkpad-acpi).
-
-Hm, yeah that would be interesting to hear about
-
->   >>
-> >> "Power mode" is a concept, it doesn't just apply to configuring sPPT and
-> >> fPPT.  I envisage that a vendor that actively uses PMF and their own
-> >> interface would be changing different things by the different interfaces.
-> >>
-> >> For "example" PMF may reconfigure sPPT, fPPT, STT and STAPM but their
-> >> driver may notify their EC to change a fan curve.
-> >
-> > No. If PMF changes these values it also needs to change the fan curve
-> > itself via the BIOS notification. Doing otherwise would lead to
-> > situations where users do not install the vendor driver and cook their
-> > device.
->
-> Fan curves are just that; curves.  They just control how quickly fans
-> ramp up not whether or not they "work".
-
-The APU reaches a similar temperature (Tctl) across a wide TDP range,
-so temperature cannot be used on its own to determine fan speed.
-Manufacturers that provide different fan curves depending on the TDP
-mode usually cap the maximum fan speed on low TDPs. So you can get
-funny situations where the device is set to 30W, but the fan runs as
-if its using 10W leading to thermal soaking. So it is very important
-for those to be inline.
-
-> But in any case; that's a firmware issue not a platform profile design
-> issue.
-
-It would be a hypothetical scenario. I do not expect such a device to exist.
-
-> > So I expect that when PMF controls things it controls
-> > everything. I would expect if vendors fallback to the pmf firmware
-> > notifications while also providing vendor software there would be some
-> > synergy between them, such as changing which fan preset is selected by
-> > the PMF interface.
+> >Do not confuse the keyboard LED button with the turbo button. The X1
+> >has two LEDs. Only the turbo one can be controlled.
 > >
 >
-> I can't control what vendors do; it's their decision how to manage their
-> systems.  All I can do is provide infrastructure to help.
+> This would be pretty difficult to do. On the 1S it has the text TURBO. This video shows it at 09:40
+>
+> https://youtu.be/AYrVKLD2J_k?si=bnwwQKY7MdqbbnCY
+>
+> It would be better to just point out that it became configurable on the X1.
 
-This was more of my intuition of how I would expect amd-pmf
-integration to be done in Windows where one of the drivers might be
-missing.
+I asked around and I think the OXP 2, MiniPro, and OneXFly models do
+not have it. I can edit the comment and say I added it for the X1.
 
-Since only thinkpads are expected to do both, perhaps Mark can check
-out how they work. I have a thinkpad that is 11th gen intel.
+If you have an 1S, can you use rweverything and find the register for it?
 
-Antheas
+> >> >Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> >> >---
+> >> > drivers/hwmon/oxp-sensors.c | 84 +++++++++++++++++++++++++++++++++++++
+> >> > 1 file changed, 84 insertions(+)
+> >> >
+> >> >diff --git a/drivers/hwmon/oxp-sensors.c b/drivers/hwmon/oxp-sensors.c
+> >> >index 1c01636582d7..9c43ec0fc994 100644
+> >> >--- a/drivers/hwmon/oxp-sensors.c
+> >> >+++ b/drivers/hwmon/oxp-sensors.c
+> >> >@@ -101,6 +101,12 @@ static enum oxp_board board;
+> >> >  */
+> >> > #define OXP_X1_CHARGE_BYPASS_MASK_S3S5 0x02
+> >> >
+> >> >+/* X1 Turbo LED */
+> >> >+#define OXP_X1_TURBO_LED_REG           0x57
+> >> >+
+> >> >+#define OXP_X1_TURBO_LED_OFF           0x01
+> >> >+#define OXP_X1_TURBO_LED_ON            0x02
+> >> >+
+> >>
+> >> Not a blocker for me on this series, but we should consider looking at creating some enums in the future to capture functionality in a more concise way. There are quite a few define's at this point and enums offer a little bit of value validation.
+> >
+> >There should probably be a refactor in the future. Yes. I would tend
+> >towards using a driver struct...
+> >
+> >> > enum charge_type_value_index {
+> >> >       CT_OFF,
+> >> >       CT_S0,
+> >> >@@ -466,6 +472,73 @@ static ssize_t tt_toggle_show(struct device *dev,
+> >> >
+> >> > static DEVICE_ATTR_RW(tt_toggle);
+> >> >
+> >> >+/* Callbacks for turbo toggle attribute */
+> >> >+static umode_t tt_led_is_visible(struct kobject *kobj,
+> >> >+                                  struct attribute *attr, int n)
+> >> >+{
+> >> >+      switch (board) {
+> >> >+      case oxp_x1:
+> >> >+              return attr->mode;
+> >> >+      default:
+> >> >+              break;
+> >> >+      }
+> >> >+      return 0;
+> >> >+}
+> >> >+
+> >> >+static ssize_t tt_led_store(struct device *dev,
+> >> >+                             struct device_attribute *attr, const char *buf,
+> >> >+                             size_t count)
+> >> >+{
+> >> >+      u8 reg, val;
+> >> >+      int rval;
+> >> >+      bool value;
+> >> >+
+> >> >+      rval = kstrtobool(buf, &value);
+> >> >+      if (rval)
+> >> >+              return rval;
+> >> >+
+> >> >+      switch (board) {
+> >> >+      case oxp_x1:
+> >> >+              reg = OXP_X1_TURBO_LED_REG;
+> >> >+              val = value ? OXP_X1_TURBO_LED_ON : OXP_X1_TURBO_LED_OFF;
+> >> >+              break;
+> >> >+      default:
+> >> >+              return -EINVAL;
+> >> >+      }
+> >> >+      rval = write_to_ec(reg, val);
+> >> >+
+> >> >+      if (rval)
+> >> >+              return rval;
+> >> >+
+> >> >+      return count;
+> >> >+}
+> >> >+
+> >> >+static ssize_t tt_led_show(struct device *dev,
+> >> >+                            struct device_attribute *attr, char *buf)
+> >> >+{
+> >> >+      int retval;
+> >> >+      u8 reg;
+> >> >+      long enval;
+> >> >+      long val;
+> >> >+
+> >> >+      switch (board) {
+> >> >+      case oxp_x1:
+> >> >+              reg = OXP_2_TURBO_SWITCH_REG;
+> >> >+              enval = OXP_X1_TURBO_LED_ON;
+> >> >+              break;
+> >> >+      default:
+> >> >+              return -EINVAL;
+> >> >+      }
+> >> >+
+> >> >+      retval = read_from_ec(reg, 1, &val);
+> >> >+      if (retval)
+> >> >+              return retval;
+> >> >+
+> >> >+      return sysfs_emit(buf, "%d\n", val == enval);
+> >> >+}
+> >> >+
+> >> >+static DEVICE_ATTR_RW(tt_led);
+> >> >+
+> >> > /* Callbacks for turbo toggle attribute */
+> >> > static bool charge_control_supported(void)
+> >> > {
+> >> >@@ -894,8 +967,19 @@ static struct attribute_group oxp_tt_toggle_attribute_group = {
+> >> >       .attrs = oxp_tt_toggle_attrs,
+> >> > };
+> >> >
+> >> >+static struct attribute *oxp_tt_led_attrs[] = {
+> >> >+      &dev_attr_tt_led.attr,
+> >> >+      NULL
+> >> >+};
+> >> >+
+> >> >+static struct attribute_group oxp_tt_led_attribute_group = {
+> >> >+      .is_visible = tt_led_is_visible,
+> >> >+      .attrs = oxp_tt_led_attrs,
+> >> >+};
+> >> >+
+> >> > static const struct attribute_group *oxp_ec_groups[] = {
+> >> >       &oxp_tt_toggle_attribute_group,
+> >> >+      &oxp_tt_led_attribute_group,
+> >> >       NULL
+> >> > };
+> >> >
+> >> - Derek
+>
+> - Derek
 
