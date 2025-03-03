@@ -1,233 +1,179 @@
-Return-Path: <platform-driver-x86+bounces-9894-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-9905-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA7AA4DE47
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  4 Mar 2025 13:50:04 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 489A0A4E0C4
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  4 Mar 2025 15:26:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A9284189CB52
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  4 Mar 2025 12:49:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F3D9B7A2119
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  4 Mar 2025 14:25:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28461204088;
-	Tue,  4 Mar 2025 12:49:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E4B92063D4;
+	Tue,  4 Mar 2025 14:24:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WAJj4ufg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dmgxez1k"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from beeline3.cc.itu.edu.tr (beeline3.cc.itu.edu.tr [160.75.25.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18D620371A;
-	Tue,  4 Mar 2025 12:49:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0363D206F2D
+	for <platform-driver-x86@vger.kernel.org>; Tue,  4 Mar 2025 14:24:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=160.75.25.117
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741098269; cv=pass; b=EKMXOwqtoaVO8RdNuN9R7Fvpoj9D4wtK9QLzqUOsphoM/Ms8MZnWnt0rE60fn7gAEpAXuIeTbU5K1+1YN+efQYA85mQB6GkaCr7qdQyrywsZvgzhJGPGxWU5HzWUhU7hkB5HUFT7Ua+0WBl/JRCNEHiCecqbiyg0LDtXXTBV9pY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741098269; c=relaxed/simple;
+	bh=SK1S7HC+F0RX5MreBPa9cOuVM4xw7HiLj2Szt7QCPUU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=llAdmT335Wr7rMZu6BH0FPAE+eMWbS/w7/a9wDy6NAtFaddaiKI3XYNLfhjixXWcGKkhCXb5vw6gRbRi0AVs9Csvqruxp4tsucv3ko9W699K52GBVtTJ3D0YwYht97rCO7TKY8yK/rFIgzlIBYXrXnpNw02sk+cG6sbgTNjfSRU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=cc.itu.edu.tr; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dmgxez1k; arc=none smtp.client-ip=198.175.65.21; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; arc=pass smtp.client-ip=160.75.25.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cc.itu.edu.tr
+Received: from lesvatest1.cc.itu.edu.tr (lesvatest1.cc.itu.edu.tr [10.146.128.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by beeline3.cc.itu.edu.tr (Postfix) with ESMTPS id 79B5340CF137
+	for <platform-driver-x86@vger.kernel.org>; Tue,  4 Mar 2025 17:24:26 +0300 (+03)
+X-Envelope-From: <root@cc.itu.edu.tr>
+Authentication-Results: lesvatest1.cc.itu.edu.tr;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dmgxez1k
+Received: from lesva1.cc.itu.edu.tr (unknown [160.75.70.79])
+	by lesvatest1.cc.itu.edu.tr (Postfix) with ESMTP id 4Z6d9m1xrgzFw8r
+	for <platform-driver-x86@vger.kernel.org>; Tue,  4 Mar 2025 17:19:56 +0300 (+03)
+Received: by le1 (Postfix, from userid 0)
+	id 8E5E04274D; Tue,  4 Mar 2025 17:19:44 +0300 (+03)
+Authentication-Results: lesva1.cc.itu.edu.tr;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dmgxez1k
+X-Envelope-From: <linux-kernel+bounces-541239-bozkiru=itu.edu.tr@vger.kernel.org>
+Authentication-Results: lesva2.cc.itu.edu.tr;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dmgxez1k
+Received: from fgw2.itu.edu.tr (fgw2.itu.edu.tr [160.75.25.104])
+	by le2 (Postfix) with ESMTP id 0772E426DC
+	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 12:10:35 +0300 (+03)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by fgw2.itu.edu.tr (Postfix) with SMTP id B2C1F2DCE0
+	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 12:10:35 +0300 (+03)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1DBC9168C03
+	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 09:09:41 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D872E1F0E32;
+	Mon,  3 Mar 2025 09:09:27 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1FE1DF721;
+	Mon,  3 Mar 2025 09:09:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741092544; cv=none; b=HGsdGbYu7w1/Q+KDTtk3jQWprySZJHV4K/LtalV0gLKgawGcldIJZQjy2Y8ytewo/CHOJDYJUlrgyTtojxOHjguPdvti0pb8g+OJcE+drxVILmXeuMYiBtsqte0o4yB3XWnFFzNrF8qd6TPoYNZc4CNZNzgPSsw+F56JebkncHg=
+	t=1740992965; cv=none; b=XpwmTRzSe7SYubWx9rE5s5ktJ5Vbi5xYhNqy5WUNpIu7BBZg/fjphMGBsjejy1kQvW1yJmJgVz7vJBJwk/qXfXiq8KFIBQIs5t5RPlwyHzg/MANZuY7MugM2U09RfZX0ev3ldD6JzC84S5/qIyFkS8A3AaQFiVjYrBQ0/1SptBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741092544; c=relaxed/simple;
-	bh=0FZFdC1tRdwLVtrDbtDFNISFcCK7ikk1PXNFfS1nJDg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=itfW+fz3B9aJtC2cVKKlriVIbtxrfPy6WskmppAzbczRK9jWAQEuGNz2X2jGkesS2Y+KSm+DnZA51YRvZAI05KsSanxDuov76lwZwC1/miwdo+QahcVQRhGL9Jd6anQHVD9XMDFNMco55DTgFrghD8VGTS1yyF97xqkG2Byn/80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WAJj4ufg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1B0CC4CEE5;
-	Tue,  4 Mar 2025 12:49:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741092543;
-	bh=0FZFdC1tRdwLVtrDbtDFNISFcCK7ikk1PXNFfS1nJDg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=WAJj4ufgzSzxtIpa4ko/ukacAix4o+ZMrI5LWbYxWTskM5pJjJZ9DQEd8+S8fUPYK
-	 /IiLm28nt1Bj8TJeWNIDHWVfo4CNRmjRF3kfLK5tNI/KEi2yLbvMtx264zRYQipkYz
-	 7vF+sleT7+uGP6WBj3vcIAKFfg7tY7dy5voiH+wqaOt1J/W+bE5MS5CGub8vfji6Ce
-	 L1/okvWZ8EmNrzbKCKlzP4h8SpbY7VneT+2fbOkzxgzC4fmWyDnCuKOUA8+6cya1q1
-	 V/rrJheHMkOwp1X+YkNzu3wchDPiB46nrhljv0AAlKm0tKmG5+DL7Vkmr7DrA1ywhJ
-	 k7Pcbil7VSjNQ==
-Message-ID: <23d6c735-e94f-4d43-87b0-ff119941fcac@kernel.org>
-Date: Tue, 4 Mar 2025 06:49:00 -0600
+	s=arc-20240116; t=1740992965; c=relaxed/simple;
+	bh=SK1S7HC+F0RX5MreBPa9cOuVM4xw7HiLj2Szt7QCPUU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=n4PBAXPNtsfsQBO4B0QNkvWzVLv2GPFaK7CvqEhfal4rXtsgL9/LmzK8VWURTy2FcBuq8bQgP3nAezZP1MA5jsfaiNezvPfVxTjP2T4vU9xiGEaHo7hjuyjQH+jCBJD5HNlWjAomwiL5Wbg89Q9YZ2EvCRV61iCHNaAjHWV4s50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dmgxez1k; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740992964; x=1772528964;
+  h=from:to:cc:in-reply-to:references:subject:message-id:
+   date:mime-version:content-transfer-encoding;
+  bh=SK1S7HC+F0RX5MreBPa9cOuVM4xw7HiLj2Szt7QCPUU=;
+  b=dmgxez1k+bNXiZk3rJFilqg43r/gkMIwly0wDZIbnQf0pJ0RrojuifzF
+   n+Qy35HqLDDv79hcTJne5PYdrjjlgt57u2TAA/l1AmWb/+RvfFyWa2pgR
+   5xMQskhO/5/dDBzGPS4c+/9I0+FK+GGlH2ZLLQ/BRwzDrVZCR15EMHIis
+   7IZBpfvrie8Zka4aW5nevgb+pFXJToRyF2AAz2W7qdWci4pQLg0G3gUJl
+   AT4xCd1I5FMV9Sxyu8JgnQMpf7+jvbTh2pkAhnbXwF8CIC+tF+SSKNEp1
+   SOzVeE/MYEuGKmgltVf4KW2pej63q09cOv0f8xGKsPB3kJk8ScPjKKpX/
+   w==;
+X-CSE-ConnectionGUID: 1LuNZc6tTjO8CcGvGycE1Q==
+X-CSE-MsgGUID: bOuWak5ARBO0YDOvXuRASQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="41771196"
+X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; 
+   d="scan'208";a="41771196"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 01:09:23 -0800
+X-CSE-ConnectionGUID: KI32nAl3QpW+0soO/P2K+Q==
+X-CSE-MsgGUID: iR1NtjSnRn2CkFWbNEzgVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; 
+   d="scan'208";a="117951324"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.14])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 01:09:18 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Hans de Goede <hdegoede@redhat.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Pengyu Luo <mitltlatltl@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+ linux-hwmon@vger.kernel.org
+In-Reply-To: <20250214180656.28599-1-mitltlatltl@gmail.com>
+References: <20250214180656.28599-1-mitltlatltl@gmail.com>
+Subject: Re: [PATCH v7 0/3] platform: arm64: Huawei Matebook E Go embedded
+ controller
+Message-Id: <174099295441.1736.4659664887828946482.b4-ty@linux.intel.com>
+Date: Mon, 03 Mar 2025 11:09:14 +0200
+Precedence: bulk
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] ACPI: platform_profile: Treat quiet and low power
- the same
-To: Antheas Kapenekakis <lkml@antheas.dev>, Kurt Borja <kuurtb@gmail.com>
-Cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Hans de Goede
- <hdegoede@redhat.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, "Luke D . Jones" <luke@ljones.dev>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- "open list:AMD PMF DRIVER" <platform-driver-x86@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:ACPI" <linux-acpi@vger.kernel.org>,
- "Derek J . Clark" <derekjohn.clark@gmail.com>, me@kylegospodneti.ch,
- Denis Benato <benato.denis96@gmail.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-References: <20250304064745.1073770-1-superm1@kernel.org>
- <20250304064745.1073770-2-superm1@kernel.org>
- <CAGwozwHniWGQ7qK6FYD_WK5zNjkro7-Q1nTcFPAuWDt9UQ+noA@mail.gmail.com>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <CAGwozwHniWGQ7qK6FYD_WK5zNjkro7-Q1nTcFPAuWDt9UQ+noA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
+X-ITU-Libra-ESVA-Information: Please contact Istanbul Teknik Universitesi for more information
+X-ITU-Libra-ESVA-ID: 4Z6d9m1xrgzFw8r
+X-ITU-Libra-ESVA: No virus found
+X-ITU-Libra-ESVA-From: root@cc.itu.edu.tr
+X-ITU-Libra-ESVA-Watermark: 1741702963.848@9RcbDKVuYeTOSl2MnfcImQ
+X-ITU-MailScanner-SpamCheck: not spam
 
+On Sat, 15 Feb 2025 02:06:53 +0800, Pengyu Luo wrote:
 
-
-On 3/4/25 02:38, Antheas Kapenekakis wrote:
-> On Tue, 4 Mar 2025 at 07:48, Mario Limonciello <superm1@kernel.org> wrote:
->>
->> From: Mario Limonciello <mario.limonciello@amd.com>
->>
->> When two drivers don't support all the same profiles the legacy interface
->> only exports the common profiles.
->>
->> This causes problems for cases where one driver uses low-power but another
->> uses quiet because the result is that neither is exported to sysfs.
->>
->> If one platform profile handler supports quiet and the other
->> supports low power treat them as the same for the purpose of
->> the sysfs interface.
->>
->> Fixes: 688834743d67 ("ACPI: platform_profile: Allow multiple handlers")
->> Reported-by: Antheas Kapenekakis <lkml@antheas.dev>
->> Closes: https://lore.kernel.org/platform-driver-x86/e64b771e-3255-42ad-9257-5b8fc6c24ac9@gmx.de/T/#mc068042dd29df36c16c8af92664860fc4763974b
->> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->> ---
->>   drivers/acpi/platform_profile.c | 38 ++++++++++++++++++++++++++++++---
->>   1 file changed, 35 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/acpi/platform_profile.c b/drivers/acpi/platform_profile.c
->> index 2ad53cc6aae53..d9a7cc5891734 100644
->> --- a/drivers/acpi/platform_profile.c
->> +++ b/drivers/acpi/platform_profile.c
->> @@ -73,8 +73,20 @@ static int _store_class_profile(struct device *dev, void *data)
->>
->>          lockdep_assert_held(&profile_lock);
->>          handler = to_pprof_handler(dev);
->> -       if (!test_bit(*bit, handler->choices))
->> -               return -EOPNOTSUPP;
->> +       if (!test_bit(*bit, handler->choices)) {
->> +               switch (*bit) {
->> +               case PLATFORM_PROFILE_QUIET:
->> +                       *bit = PLATFORM_PROFILE_LOW_POWER;
->> +                       break;
->> +               case PLATFORM_PROFILE_LOW_POWER:
->> +                       *bit = PLATFORM_PROFILE_QUIET;
->> +                       break;
->> +               default:
->> +                       return -EOPNOTSUPP;
->> +               }
->> +               if (!test_bit(*bit, handler->choices))
->> +                       return -EOPNOTSUPP;
->> +       }
->>
->>          return handler->ops->profile_set(dev, *bit);
->>   }
->> @@ -252,8 +264,16 @@ static int _aggregate_choices(struct device *dev, void *data)
->>          handler = to_pprof_handler(dev);
->>          if (test_bit(PLATFORM_PROFILE_LAST, aggregate))
->>                  bitmap_copy(aggregate, handler->choices, PLATFORM_PROFILE_LAST);
->> -       else
->> +       else {
->> +               /* treat quiet and low power the same for aggregation purposes */
->> +               if (test_bit(PLATFORM_PROFILE_QUIET, handler->choices) &&
->> +                   test_bit(PLATFORM_PROFILE_LOW_POWER, aggregate))
->> +                       set_bit(PLATFORM_PROFILE_QUIET, aggregate);
->> +               else if (test_bit(PLATFORM_PROFILE_LOW_POWER, handler->choices) &&
->> +                        test_bit(PLATFORM_PROFILE_QUIET, aggregate))
->> +                       set_bit(PLATFORM_PROFILE_LOW_POWER, aggregate);
->>                  bitmap_and(aggregate, handler->choices, aggregate, PLATFORM_PROFILE_LAST);
->> +       }
+> This adds binding, drivers and the DT support for the Huawei Matebook E Go
+> (sc8280xp-based) Embedded Controller which is also found in Huawei Matebook
+> E Go LTE (sc8180x-based), but I don't have the sc8180x one to perform
+> tests, so this series enable support for sc8280xp variant only, this series
+> provides the following features:
 > 
-> So you end up showing both? If that's the case, isn't it equivalent to
-> just make amd-pmf show both quiet and low-power?
+> - battery and charger information report
+> - charging thresholds control
+> - FN lock (An alternative method)
+> - LID switch detection
+> - Temperature sensors
+> - USB Type-C altmode
+> - USB Type-C PD(high power)
 > 
-> I guess it is not ideal for framework devices. But if asus devices end
-> up showing both, then it should be ok for framework devices to show
-> both.
-> 
-> I like the behavior of the V1 personally.
-
-No; this doesn't cause it to show both.  It only causes one to show up. 
-I confirmed it with a contrived situation on my laptop that forced 
-multiple profile handlers that supported a mix.
+> [...]
 
 
-# cat /sys/firmware/acpi/platform_profile*
-low-power
-low-power balanced performance
+Thank you for your contribution, it has been applied to my local
+review-ilpo-next branch. Note it will show up in the public
+platform-drivers-x86/review-ilpo-next branch only once I've pushed my
+local branch there, which might take a while.
 
-# cat /sys/class/platform-profile/platform-profile-*/profile
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-quiet
-low-power
+The list of commits applied:
+[1/3] dt-bindings: platform: Add Huawei Matebook E Go EC
+      commit: defcf2fb30f7bf128c0be5e571f4db2b7fff66cc
+[2/3] platform: arm64: add Huawei Matebook E Go EC driver
+      commit: 7636f090d02e791918bb3c924e695880123d0c59
+[3/3] arm64: dts: qcom: gaokun3: Add Embedded Controller node
+      commit: 0b6d8f9d2df78116afb159df05bbccf13a51b758
 
-> 
->>          return 0;
->>   }
->> @@ -305,6 +325,13 @@ static int _aggregate_profiles(struct device *dev, void *data)
->>          if (err)
->>                  return err;
->>
->> +       /* treat low-power and quiet as the same */
->> +       if ((*profile == PLATFORM_PROFILE_LOW_POWER &&
->> +            val == PLATFORM_PROFILE_QUIET) ||
->> +           (*profile == PLATFORM_PROFILE_QUIET &&
->> +            val == PLATFORM_PROFILE_LOW_POWER))
->> +               *profile = val;
->> +
->>          if (*profile != PLATFORM_PROFILE_LAST && *profile != val)
->>                  *profile = PLATFORM_PROFILE_CUSTOM;
->>          else
->> @@ -531,6 +558,11 @@ struct device *platform_profile_register(struct device *dev, const char *name,
->>                  dev_err(dev, "Failed to register platform_profile class device with empty choices\n");
->>                  return ERR_PTR(-EINVAL);
->>          }
->> +       if (test_bit(PLATFORM_PROFILE_QUIET, pprof->choices) &&
->> +           test_bit(PLATFORM_PROFILE_LOW_POWER, pprof->choices)) {
->> +               dev_err(dev, "Failed to register platform_profile class device with both quiet and low-power\n");
->> +               return ERR_PTR(-EINVAL);
->> +       }
-> 
-> Can you avoid failing here? It caused a lot of issues in the past (the
-> WMI driver bails). a dev_err should be enough. Since you do not fail
-> maybe it can be increased to dev_crit.
-> 
-> There is at least one driver that implements both currently, and a fix
-> would have to precede this patch.
+--
+ i.
 
-Oh, acer-wmi?  Kurt; can you please comment?  Are both simultaneous?
-
-> 
->>
->>          guard(mutex)(&profile_lock);
->>
->> --
->> 2.43.0
->>
 
 
