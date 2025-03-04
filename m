@@ -1,165 +1,348 @@
-Return-Path: <platform-driver-x86+bounces-9926-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-9925-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3CA1A4E872
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  4 Mar 2025 18:22:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5DAFA4E997
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  4 Mar 2025 18:44:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E11427A9BB0
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  4 Mar 2025 17:16:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3BDC38802C2
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  4 Mar 2025 16:53:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E221427C177;
-	Tue,  4 Mar 2025 16:55:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2947C27BF89;
+	Tue,  4 Mar 2025 16:31:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fNAA+wUv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E51xbQYb"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from beeline2.cc.itu.edu.tr (beeline2.cc.itu.edu.tr [160.75.25.116])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535BE26A0CF
-	for <platform-driver-x86@vger.kernel.org>; Tue,  4 Mar 2025 16:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=160.75.25.116
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741107336; cv=pass; b=Mll+O2fYGt0j3Wu71vLuLtTjFa1o5uFBeky/idwgr0LI2PHdGOoSmPpSs4DsX/D6+KujSFExx6heaPrhcR/9yDkzXeTLThbSCGcT9gkn3dO7J90NIrxBZMf8lxx/bwnvfavZUpWbojozzOsJ1JCAGvwDBxD7Orl8uvQ9zoJz1qE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741107336; c=relaxed/simple;
-	bh=0qludJOfcE14GoAIem005xbhxqzGG+FTiqdROwQN3BM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ZtuNB5AqGTVkjsPt6Sj798POw8j2MWpmNbQvY/urmh0Ojya+Szs7yEDV6UyA+QTIZ3kJ4yi2Jro2ZvZdLhrEL+MrqUOSXoiZy2ALSwTU9reUZbOZA3QT7Z5aizJcZX3UWKHDqKsekWOrKjPyTznRD1jCWDD8q63Ba6pAZTg+oM8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=cc.itu.edu.tr; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fNAA+wUv; arc=none smtp.client-ip=198.175.65.13; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; arc=pass smtp.client-ip=160.75.25.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cc.itu.edu.tr
-Received: from lesvatest1.cc.itu.edu.tr (lesvatest1.cc.itu.edu.tr [10.146.128.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by beeline2.cc.itu.edu.tr (Postfix) with ESMTPS id C9FEB408B65A
-	for <platform-driver-x86@vger.kernel.org>; Tue,  4 Mar 2025 19:55:33 +0300 (+03)
-X-Envelope-From: <root@cc.itu.edu.tr>
-Authentication-Results: lesvatest1.cc.itu.edu.tr;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fNAA+wUv
-Received: from lesva1.cc.itu.edu.tr (unknown [160.75.70.79])
-	by lesvatest1.cc.itu.edu.tr (Postfix) with ESMTP id 4Z6h023jq3zG3Ky
-	for <platform-driver-x86@vger.kernel.org>; Tue,  4 Mar 2025 19:26:42 +0300 (+03)
-Received: by le1 (Postfix, from userid 0)
-	id C8C0442728; Tue,  4 Mar 2025 19:26:41 +0300 (+03)
-Authentication-Results: lesva1.cc.itu.edu.tr;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fNAA+wUv
-X-Envelope-From: <linux-kernel+bounces-541731-bozkiru=itu.edu.tr@vger.kernel.org>
-Authentication-Results: lesva2.cc.itu.edu.tr;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fNAA+wUv
-Received: from fgw1.itu.edu.tr (fgw1.itu.edu.tr [160.75.25.103])
-	by le2 (Postfix) with ESMTP id D297D41EAF
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 15:47:42 +0300 (+03)
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by fgw1.itu.edu.tr (Postfix) with SMTP id 1F3373063EFE
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 15:47:41 +0300 (+03)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C75227A4A1E
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 12:46:35 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C8F121148A;
-	Mon,  3 Mar 2025 12:47:03 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F7C20F09F;
-	Mon,  3 Mar 2025 12:46:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2217627BF90;
+	Tue,  4 Mar 2025 16:31:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741006020; cv=none; b=ERlBBaydM9zUWlYVTKQXBpITP9AVxeM4oKatIUl9lVpfzkhQF5KCJMlSjWcrTD6fPEux0Wa5Lr3aMyI7wJqp/aMpQ6hKFO1U/PH8gIJER23rn78FeR6YD4fGL+arsbmFHrO8nMwtZN7MtsqnROL00c4tp8MSIQ4BPRQwTYTQV1o=
+	t=1741105875; cv=none; b=golZGGEuQ2soIciPKuiT/3CqFU0pzxhSa5I/RLqD0zl6AhTb9XpVkpW8SOFmWMQ14aAn9hzLmcBzZNZB2O/zoIY3wQKIL/pQ4nOyxj3V9uSfpctoOlvQIGh869OoAcoxx8FfrKJHqiO+/GF++9UEWsFC7ryVA3SkyhMAumUs/Ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741006020; c=relaxed/simple;
-	bh=0qludJOfcE14GoAIem005xbhxqzGG+FTiqdROwQN3BM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Jzvx06l1OKphS9V9lO1rsExrLdF2ti4VbKZAKn2x2bKWfgmTUFrXmiqVg2i4HME3Fta7Z2N/BVwkk/pKLAApU6FIBIUazgZxp9C+e8S1oX44B57MPBdYzywYe18K7I4Fw1JtAKXlmdcb+gLvl9ifrYcYfDgxrCGa/5pcGUdM69Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fNAA+wUv; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1741105875; c=relaxed/simple;
+	bh=/YJ9yPU9Qot21uQi+eiSh1qLYYbIQ5QG7UZGe0XhN0E=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=r57hZ/aqzHPGsstulHc2SFbWYZs3yO/Hyn8P0cpkB3g376w5M6EsgEOD1DIBZrlFde/4ql6SqIf8QoUDiw8on506PqHYdwAaDR0IzKnd5oXkZ6j4KkeycGFZlYSODlM6JBgqrDIc9355EscvNEgGyhm+ExV16AbZhsW1Vf5tpok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E51xbQYb; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741006020; x=1772542020;
-  h=from:to:cc:in-reply-to:references:subject:message-id:
-   date:mime-version:content-transfer-encoding;
-  bh=0qludJOfcE14GoAIem005xbhxqzGG+FTiqdROwQN3BM=;
-  b=fNAA+wUvfoIxXATdquivs0nGpurQxiGjNazAMZV4I5ZCqIsleCMmfd4O
-   NR/ZCM9+wniY7h92xyg0oMvvKBy/GTadPS1UNhkLYhj8k10KGOrAOCqBB
-   aZf8VWge/VFHqAXeDsXavJRjfJmrbSJfoWSDn+WH56ecAO2gqpVVRq7vj
-   ZcaW5KuLsxloDJXAjuanw0baS5ZPK9xBPXp/5/8Td0+SCFjoxJv6jjEnA
-   6Z0JNTcDdJbpYmh/7G+xbQ6+W2DdIYAp7h2BUbyRgSZEHPvRn57oh9UMO
-   fExzR7yRbAzJPmPZ9r3sMbcVRE7KbQW8ev2QzvWVvqnkNNHtz+yPCMMsV
-   A==;
-X-CSE-ConnectionGUID: OskG2H6QT/+x9zt5hvn5kg==
-X-CSE-MsgGUID: 90l+vabwQHqQGRkreHiiuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="52855671"
-X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; 
-   d="scan'208";a="52855671"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 04:46:59 -0800
-X-CSE-ConnectionGUID: KrBcVbT4QiiUFiYfHKifQA==
-X-CSE-MsgGUID: YwnYZf91TJSzbsb5SRL8hQ==
+  t=1741105874; x=1772641874;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=/YJ9yPU9Qot21uQi+eiSh1qLYYbIQ5QG7UZGe0XhN0E=;
+  b=E51xbQYb9DZDoLod9sYltkDs4VxZWH0Bi+BVViPMsJnmot4UMvN9lu0L
+   riyoSgksmJQD125D8hHHWDTROCKss+zSBQ5QwXDrhPdR0krRJYsDV+Whx
+   /W21pmbdsqH+l8B4fYV8wwCbHnM9TnobhpB1DGG69tFPOHZ2bxgCuX/Jo
+   cDhgv08pO3O1ZHeHO5113jWkHX5KKfes8QDfw1lg2XfYIUxQC7lARzGN4
+   chFjy+K0D8VB2ezpDZQWwWF7R31dqLTnksMwTFnDt6KA/qy3iQPOSfrq9
+   YYCC6fAK32viOl4OYgyVZecGtQm/Ks0cKAoetmB74jxKbL5URQyB7XF6C
+   g==;
+X-CSE-ConnectionGUID: Ib266fKyQ7S++eHPqx5Tzg==
+X-CSE-MsgGUID: h1Zo8rVVR1emVVPgsK1kWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="41745790"
+X-IronPort-AV: E=Sophos;i="6.14,220,1736841600"; 
+   d="scan'208";a="41745790"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 08:31:13 -0800
+X-CSE-ConnectionGUID: U6WujrHUTP6r995x93RaWQ==
+X-CSE-MsgGUID: LeDlO4+iTVeu+Qc+YjpJDA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; 
-   d="scan'208";a="148809753"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.14])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 04:46:56 -0800
+X-IronPort-AV: E=Sophos;i="6.14,220,1736841600"; 
+   d="scan'208";a="123349493"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.220])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 08:31:09 -0800
 From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- ibm-acpi-devel@lists.sourceforge.net, Mingcong Bai <jeffbai@aosc.io>
-Cc: Kexy Biscuit <kexybiscuit@aosc.io>, Fan Yang <804284660@qq.com>, 
- Xi Ruoyao <xry111@xry111.site>, 
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>, 
- Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20250221164825.77315-1-jeffbai@aosc.io>
-References: <20250221164825.77315-1-jeffbai@aosc.io>
-Subject: Re: [PATCH] platform/x86: thinkpad_acpi: Add battery quirk for
- ThinkPad X131e
-Message-Id: <174100601148.2518.13620286604796793066.b4-ty@linux.intel.com>
-Date: Mon, 03 Mar 2025 14:46:51 +0200
-Precedence: bulk
+Date: Tue, 4 Mar 2025 18:31:06 +0200 (EET)
+To: Kurt Borja <kuurtb@gmail.com>
+cc: Armin Wolf <W_Armin@gmx.de>, platform-driver-x86@vger.kernel.org, 
+    Hans de Goede <hdegoede@redhat.com>, Dell.Client.Kernel@dell.com, 
+    LKML <linux-kernel@vger.kernel.org>, Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v2 07/10] platform/x86: alienware-wmi-wmax: Add HWMON
+ support
+In-Reply-To: <D87MG1SMP0WA.1EXT0WKP65DQR@gmail.com>
+Message-ID: <93a4ce49-1d16-4569-8b4b-554bf26a002a@linux.intel.com>
+References: <20250225222500.23535-1-kuurtb@gmail.com> <20250225222500.23535-8-kuurtb@gmail.com> <a85825d5-7718-93f4-e837-849323ef4387@linux.intel.com> <D87MG1SMP0WA.1EXT0WKP65DQR@gmail.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
-X-ITU-Libra-ESVA-Information: Please contact Istanbul Teknik Universitesi for more information
-X-ITU-Libra-ESVA-ID: 4Z6h023jq3zG3Ky
-X-ITU-Libra-ESVA: No virus found
-X-ITU-Libra-ESVA-From: root@cc.itu.edu.tr
-X-ITU-Libra-ESVA-Watermark: 1741712014.79838@2QVEOu2MScVHFCyZbYRJyQ
-X-ITU-MailScanner-SpamCheck: not spam
+Content-Type: multipart/mixed; boundary="8323328-1823786508-1741105866=:931"
 
-On Sat, 22 Feb 2025 00:48:24 +0800, Mingcong Bai wrote:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-> Based on the dmesg messages from the original reporter:
-> 
-> [    4.964073] ACPI: \_SB_.PCI0.LPCB.EC__.HKEY: BCTG evaluated but flagged as error
-> [    4.964083] thinkpad_acpi: Error probing battery 2
-> 
-> Lenovo ThinkPad X131e also needs this battery quirk.
-> 
-> [...]
+--8323328-1823786508-1741105866=:931
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
+On Tue, 4 Mar 2025, Kurt Borja wrote:
 
-Thank you for your contribution, it has been applied to my local
-review-ilpo-fixes branch. Note it will show up in the public
-platform-drivers-x86/review-ilpo-fixes branch only once I've pushed my
-local branch there, which might take a while.
+> On Tue Mar 4, 2025 at 10:53 AM -05, Ilpo J=C3=A4rvinen wrote:
+> > On Tue, 25 Feb 2025, Kurt Borja wrote:
+> >
+> >> All models with the "AWCC" WMAX device support monitoring fan speed an=
+d
+> >> temperature sensors. Expose this feature through the HWMON interface.
+> >>=20
+> >> Sensor readings are cached for 1 second before refreshing them to
+> >> mitigate the performance cost of calling WMI methods.
+> >>=20
+> >> Cc: Guenter Roeck <linux@roeck-us.net>
+> >> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
+> >> ---
+> >>  drivers/platform/x86/dell/Kconfig             |   1 +
+> >>  .../platform/x86/dell/alienware-wmi-wmax.c    | 403 +++++++++++++++++=
++
+> >>  2 files changed, 404 insertions(+)
+> >>=20
+> >> diff --git a/drivers/platform/x86/dell/Kconfig b/drivers/platform/x86/=
+dell/Kconfig
+> >> index f8a0dffcaab7..85a57c01aaad 100644
+> >> --- a/drivers/platform/x86/dell/Kconfig
+> >> +++ b/drivers/platform/x86/dell/Kconfig
+> >> @@ -43,6 +43,7 @@ config ALIENWARE_WMI_WMAX
+> >>  =09bool "Alienware WMAX WMI device driver"
+> >>  =09default y
+> >>  =09depends on ALIENWARE_WMI
+> >> +=09depends on HWMON
+> >>  =09select ACPI_PLATFORM_PROFILE
+> >>  =09help
+> >>  =09 Alienware WMI driver with AlienFX LED, HDMI, amplifier, deep slee=
+p and
+> >> diff --git a/drivers/platform/x86/dell/alienware-wmi-wmax.c b/drivers/=
+platform/x86/dell/alienware-wmi-wmax.c
+> >> index bbe87f91fcb6..818023a5b205 100644
+> >> --- a/drivers/platform/x86/dell/alienware-wmi-wmax.c
+> >> +++ b/drivers/platform/x86/dell/alienware-wmi-wmax.c
+> >> @@ -9,10 +9,13 @@
+> >>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> >> =20
+> >>  #include <linux/bitfield.h>
+> >> +#include <linux/bitmap.h>
+> >>  #include <linux/bits.h>
+> >>  #include <linux/dmi.h>
+> >> +#include <linux/hwmon.h>
+> >>  #include <linux/moduleparam.h>
+> >>  #include <linux/platform_profile.h>
+> >> +#include <linux/units.h>
+> >>  #include <linux/wmi.h>
+> >>  #include "alienware-wmi.h"
+> >> =20
+> >> @@ -25,6 +28,7 @@
+> >>  #define WMAX_METHOD_BRIGHTNESS=09=09=090x3
+> >>  #define WMAX_METHOD_ZONE_CONTROL=09=090x4
+> >> =20
+> >> +#define AWCC_METHOD_GET_FAN_SENSORS=09=090x13
+> >>  #define AWCC_METHOD_THERMAL_INFORMATION=09=090x14
+> >>  #define AWCC_METHOD_THERMAL_CONTROL=09=090x15
+> >>  #define AWCC_METHOD_GAME_SHIFT_STATUS=09=090x25
+> >> @@ -38,6 +42,10 @@
+> >>  /* Arbitrary limit based on supported models */
+> >>  #define AWCC_MAX_RES_COUNT=09=09=0916
+> >> =20
+> >> +static bool force_hwmon;
+> >> +module_param_unsafe(force_hwmon, bool, 0);
+> >> +MODULE_PARM_DESC(force_hwmon, "Force probing for HWMON support withou=
+t checking if the WMI backend is available");
+> >> +
+> >>  static bool force_platform_profile;
+> >>  module_param_unsafe(force_platform_profile, bool, 0);
+> >>  MODULE_PARM_DESC(force_platform_profile, "Forces auto-detecting therm=
+al profiles without checking if WMI thermal backend is available");
+> >> @@ -47,16 +55,19 @@ module_param_unsafe(force_gmode, bool, 0);
+> >>  MODULE_PARM_DESC(force_gmode, "Forces G-Mode when performance profile=
+ is selected");
+> >> =20
+> >>  struct awcc_quirks {
+> >> +=09bool hwmon;
+> >>  =09bool pprof;
+> >>  =09bool gmode;
+> >>  };
+> >> =20
+> >>  static struct awcc_quirks g_series_quirks =3D {
+> >> +=09.hwmon =3D true,
+> >>  =09.pprof =3D true,
+> >>  =09.gmode =3D true,
+> >>  };
+> >> =20
+> >>  static struct awcc_quirks generic_quirks =3D {
+> >> +=09.hwmon =3D true,
+> >>  =09.pprof =3D true,
+> >>  =09.gmode =3D false,
+> >>  };
+> >> @@ -154,9 +165,18 @@ static const struct dmi_system_id awcc_dmi_table[=
+] __initconst =3D {
+> >>  =09},
+> >>  };
+> >> =20
+> >> +enum AWCC_GET_FAN_SENSORS_OPERATIONS {
+> >> +=09AWCC_OP_GET_TOTAL_FAN_TEMPS=09=09=3D 0x01,
+> >> +=09AWCC_OP_GET_FAN_TEMP_ID=09=09=09=3D 0x02,
+> >> +};
+> >> +
+> >>  enum AWCC_THERMAL_INFORMATION_OPERATIONS {
+> >>  =09AWCC_OP_GET_SYSTEM_DESCRIPTION=09=09=3D 0x02,
+> >>  =09AWCC_OP_GET_RESOURCE_ID=09=09=09=3D 0x03,
+> >> +=09AWCC_OP_GET_TEMPERATURE=09=09=09=3D 0x04,
+> >> +=09AWCC_OP_GET_FAN_RPM=09=09=09=3D 0x05,
+> >> +=09AWCC_OP_GET_FAN_MIN_RPM=09=09=09=3D 0x08,
+> >> +=09AWCC_OP_GET_FAN_MAX_RPM=09=09=09=3D 0x09,
+> >>  =09AWCC_OP_GET_CURRENT_PROFILE=09=09=3D 0x0B,
+> >>  };
+> >> =20
+> >> @@ -179,6 +199,12 @@ enum AWCC_SPECIAL_THERMAL_CODES {
+> >>  =09AWCC_SPECIAL_PROFILE_GMODE=09=09=3D 0xAB,
+> >>  };
+> >> =20
+> >> +enum AWCC_TEMP_SENSOR_TYPES {
+> >> +=09AWCC_TEMP_SENSOR_CPU=09=09=09=3D 0x01,
+> >> +=09AWCC_TEMP_SENSOR_GPU=09=09=09=3D 0x06,
+> >> +=09AWCC_TEMP_SENSOR_LAST
+> >> +};
+> >> +
+> >>  enum awcc_thermal_profile {
+> >>  =09AWCC_PROFILE_USTT_BALANCED,
+> >>  =09AWCC_PROFILE_USTT_BALANCED_PERFORMANCE,
+> >> @@ -215,6 +241,15 @@ struct wmax_u32_args {
+> >>  =09u8 arg3;
+> >>  } __packed;
+> >> =20
+> >> +struct awcc_fan_data {
+> >> +=09unsigned long *related_temps;
+> >> +=09unsigned long *auto_channels_temp;
+> >> +=09u32 total_temps;
+> >> +=09u32 min_rpm;
+> >> +=09u32 max_rpm;
+> >> +=09u8 id;
+> >> +};
+> >> +
+> >>  struct awcc_priv {
+> >>  =09struct wmi_device *wdev;
+> >>  =09union {
+> >> @@ -230,6 +265,11 @@ struct awcc_priv {
+> >> =20
+> >>  =09struct device *ppdev;
+> >>  =09u8 supported_profiles[PLATFORM_PROFILE_LAST];
+> >> +
+> >> +=09struct device *hwdev;
+> >> +=09struct awcc_fan_data **fan_data;
+> >> +=09unsigned int temp_sensors_size;
+> >> +=09unsigned long *temp_sensors;
+> >>  };
+> >> =20
+> >>  static const enum platform_profile_option awcc_mode_to_platform_profi=
+le[AWCC_PROFILE_LAST] =3D {
+> >> @@ -494,6 +534,19 @@ static int __awcc_wmi_command(struct wmi_device *=
+wdev, u32 method_id,
+> >>  =09return 0;
+> >>  }
+> >> =20
+> >> +static inline int awcc_get_fan_sensors(struct wmi_device *wdev, u8 op=
+eration,
+> >> +=09=09=09=09       u8 fan_id, u8 index, u32 *out)
+> >> +{
+> >> +=09struct wmax_u32_args args =3D {
+> >> +=09=09.operation =3D operation,
+> >> +=09=09.arg1 =3D fan_id,
+> >> +=09=09.arg2 =3D index,
+> >> +=09=09.arg3 =3D 0,
+> >> +=09};
+> >> +
+> >> +=09return __awcc_wmi_command(wdev, AWCC_METHOD_GET_FAN_SENSORS, &args=
+, out);
+> >> +}
+> >> +
+> >>  static inline int awcc_thermal_information(struct wmi_device *wdev, u=
+8 operation,
+> >>  =09=09=09=09=09   u8 arg, u32 *out)
+> >>  {
+> >> @@ -564,6 +617,343 @@ static inline int awcc_op_get_resource_id(struct=
+ wmi_device *wdev, u8 index, u32
+> >>  =09return __awcc_wmi_command(wdev, AWCC_METHOD_THERMAL_INFORMATION, &=
+args, out);
+> >>  }
+> >> =20
+> >> +/*
+> >> + * HWMON
+> >> + *  - Provides temperature and fan speed monitoring as well as manual=
+ fan
+> >> + *    control
+> >> + */
+> >> +static umode_t awcc_hwmon_is_visible(const void *drvdata, enum hwmon_=
+sensor_types type,
+> >> +=09=09=09=09     u32 attr, int channel)
+> >> +{
+> >> +=09const struct awcc_priv *priv =3D drvdata;
+> >> +
+> >> +=09switch (type) {
+> >> +=09case hwmon_temp:
+> >> +=09=09if (channel < priv->temp_count)
+> >> +=09=09=09return 0444;
+> >> +
+> >> +=09=09break;
+> >
+> > IMO, these could be written as:
+> > =09=09return channel < priv->temp_count ? 0444 : 0;
+>=20
+> Ack.
+>=20
+> >
+> >> +=09case hwmon_fan:
+> >> +=09=09if (channel < priv->fan_count)
+> >> +=09=09=09return 0444;
+> >> +
+> >> +=09=09break;
+> >> +=09case hwmon_pwm:
+> >> +=09=09if (channel < priv->fan_count)
+> >> +=09=09=09return 0444;
+> >> +
+> >> +=09=09break;
+> >> +=09default:
+> >> +=09=09break;
+> >> +=09}
+> >> +
+> >> +=09return 0;
+> >> +}
+> >> +
+> >> +static int awcc_hwmon_read(struct device *dev, enum hwmon_sensor_type=
+s type,
+> >> +=09=09=09   u32 attr, int channel, long *val)
+> >> +{
+> >> +=09struct awcc_priv *priv =3D dev_get_drvdata(dev);
+> >> +=09struct awcc_fan_data *fan;
+> >> +=09u32 state;
+> >> +=09int ret;
+> >> +=09u8 temp;
+> >> +
+> >> +=09switch (type) {
+> >> +=09case hwmon_temp:
+> >> +=09=09temp =3D find_nth_bit(priv->temp_sensors, U8_MAX, channel);
+> >> +=09=09if (temp >=3D U8_MAX)
+> >
+> > It cannot be larger than as its type is u8??
+>=20
+> Thanks, I forgot to change this! U8_MAX should be replaced with
+> priv->temp_sensors_size.
 
-The list of commits applied:
-[1/1] platform/x86: thinkpad_acpi: Add battery quirk for ThinkPad X131e
-      commit: d0d10eaedcb53740883d7e5d53c5e15c879b48fb
+I recall seeing another similar line somewhere else in the file so please=
+=20
+take a look at that as well.
 
---
+> Thank you for reviewing this set! :)
+>=20
+>=20
+
+--=20
  i.
 
-
+--8323328-1823786508-1741105866=:931--
 
