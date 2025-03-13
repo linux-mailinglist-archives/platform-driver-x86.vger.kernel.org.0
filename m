@@ -1,102 +1,111 @@
-Return-Path: <platform-driver-x86+bounces-10163-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-10165-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D45C8A5F513
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 13 Mar 2025 14:01:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B3A7A5F725
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 13 Mar 2025 15:00:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4449B3BA8E6
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 13 Mar 2025 13:00:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8C9A19C240D
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 13 Mar 2025 14:00:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1185E266B73;
-	Thu, 13 Mar 2025 13:01:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADBC36F073;
+	Thu, 13 Mar 2025 14:00:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QU4Fotet"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="hhVk+t1k"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826DF18DF65;
-	Thu, 13 Mar 2025 13:00:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF3B267B85;
+	Thu, 13 Mar 2025 14:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741870860; cv=none; b=J1YI8Q9v5kJRBfWQmalkBiYQpR7hvlPiS+h/5Udn2JDPbPRlZHo/crRUvbBNSZooGX8/yd8YUITLXjMLneXk/tQNye0HAdlY4CBeajY304NbCu1xS8SC/Jyja/d38grB113t2uh9myEdrO+n/kOSNXEzdkLp92Rf8gUGBtNa8aQ=
+	t=1741874437; cv=none; b=hmPadaCusR0fTwb5p/iuAkftEm/Cm/aWLg0Vu1AElbRCnI8RcT8w9slW2rC/obRHuVz8l/Ck4YxfS40ypVJROftfV3L5XUEWJsEpbPc9HmR02xh2jg3tois44ywM+EOC7nqN58qlZfKiaO1+OFVcJ9ASbvzG/cxsehgga3Nlld4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741870860; c=relaxed/simple;
-	bh=SDYy/g2KE1CiW0cC7LQL6eKyByrj3fUGqqCT9sOLOeM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dRoS8i0rrSIZD7aqWCnBLUZW8xFppLIvqeI93U+jfEQwd/3IkaNPRKAwYo0oqqyWSnTGZegHn26yLKyPj1fgqEe+I/35HqU7SvRPZk685ODwXUk2zoddaclcA5bOM8PYU62guzf2NiOzJk/ZL9OxUFoCbXPySwY+N2concCIC7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QU4Fotet; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741870858; x=1773406858;
-  h=from:to:cc:in-reply-to:references:subject:message-id:
-   date:mime-version:content-transfer-encoding;
-  bh=SDYy/g2KE1CiW0cC7LQL6eKyByrj3fUGqqCT9sOLOeM=;
-  b=QU4Fotete3aSlLhWRxRWsuZ+eqoJaeu/6j8zNcGuCcDQdDEyUPBEz4bO
-   3z+r+0wylV/9mjNjDCEbB5Y/hMBU7+TtqmOIYFUwcmu//9dl5jbjt/6pl
-   6qABbcdQyXeG5oF/d9PGU6zrXA0fiFOMob2SmKGZBU5pvEZJ6K6LfeNnN
-   NpagZlICNIv3qtfQoGpgNzc5owqCJUFJWrBq9zYMLMEX1IUUHOG4eMec8
-   QhAra5hvUPqTat2Yh6P6mypeTT6Xg+B9kpMMbZIbRmOhAQoFs+qWnyHCh
-   Hovy0qNq2uuexM2zBTf03z/Vk/gY+cIc6EPR72OwrqXM6x6HPpt/c84ut
-   Q==;
-X-CSE-ConnectionGUID: qx9Dc7SjRO+m4IGiGJL86A==
-X-CSE-MsgGUID: pejiSxEUQaOXL7moxmL5BA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="68339388"
-X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
-   d="scan'208";a="68339388"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 06:00:57 -0700
-X-CSE-ConnectionGUID: NMLPc5kETuKAqeCw1Q37hA==
-X-CSE-MsgGUID: 0/NCzJHxQa+dS5ZIXO/7Yw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
-   d="scan'208";a="121157649"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.195])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 06:00:55 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Hans de Goede <hdegoede@redhat.com>, 
- Sanket Goswami <Sanket.Goswami@amd.com>, 
- platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org, 
- kernel-janitors@vger.kernel.org
-In-Reply-To: <65e2fffb-a1cb-4297-b725-661d6b790a05@stanley.mountain>
-References: <65e2fffb-a1cb-4297-b725-661d6b790a05@stanley.mountain>
-Subject: Re: [PATCH next] platform/x86/amd/pmc: fix leak in probe()
-Message-Id: <174187085032.11107.7565915146990042639.b4-ty@linux.intel.com>
-Date: Thu, 13 Mar 2025 15:00:50 +0200
+	s=arc-20240116; t=1741874437; c=relaxed/simple;
+	bh=OORnarBLZoM8w6pBuDPCN02BbzmkfN+e2BeRwda/AvA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sVZDrSL4UJ9rPLYfLL5c2C21n5pNrhRNDr6NjITYOgoSAIjFz773xg+qhVcFY6v9q5wdOi9InHdVPKd9e3sRRmANUR+35w0kbwNWXImdDi8QUOytW5ud+ybhI052D6so9HjQnDW44pVi6blRXiAXs2mqOx95SBo9b8tVTvaxCPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=hhVk+t1k; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from wse-pc.fritz.box (p5b164989.dip0.t-ipconnect.de [91.22.73.137])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 918132FC0189;
+	Thu, 13 Mar 2025 15:00:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1741874430;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=FOFSQNyM0icOexkDUVBuOK+NmfzXRAGy8joQIWnow0k=;
+	b=hhVk+t1kY+j0SNARpZONHmRni3bVnmdG8LUi8AnolLBmkpIkLKNfStEu/gAj5Krb+36qyp
+	QupbeFA1zP+T3xUM2E50lD0oarvPoEFlL4+DsanTHDNY2KRY4jO8yTFxPYg/UeConBE9vJ
+	OU+ogc5jN5QwGRNyjT4SHDGIK1aGsKg=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: ilpo.jarvinen@linux.intel.com,
+	hdegoede@redhat.com
+Cc: linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	Werner Sembach <wse@tuxedocomputers.com>
+Subject: [PATCH v4 1/1] Input: atkbd - Fix TUXEDO NB02 notebook keyboards
+Date: Thu, 13 Mar 2025 14:31:47 +0100
+Message-ID: <20250313140028.617291-1-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 12 Mar 2025 11:31:57 +0300, Dan Carpenter wrote:
+Some notebooks send Super + Control + KEY_ZENKAKUHANKAKU¹ upon pressing the
+touchpad toggle key.
 
-> Call pci_dev_put(rdev) before returning.
-> 
-> 
+It can be mapped to correctly touggle the touchpad purely in userspace with
+these patches:
 
+- https://gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/merge_requests/810
+- https://invent.kde.org/plasma/kwin/-/merge_requests/7278
+- https://invent.kde.org/plasma/plasma-desktop/-/merge_requests/2873
 
-Thank you for your contribution, it has been applied to my local
-review-ilpo-next branch. Note it will show up in the public
-platform-drivers-x86/review-ilpo-next branch only once I've pushed my
-local branch there, which might take a while.
+But as you can see, this requires per desktop environment patches. GNOME already
+has the correct mapping and KDE does with the patches above, but smaller ones
+might also need patches.
 
-The list of commits applied:
-[1/1] platform/x86/amd/pmc: fix leak in probe()
-      commit: 01db3d1ff43aeedeaf11c8bc9d09493ec00c8f4a
+As an alternative soltuion I also wanted to suggest this i8042 filter + virtual
+input device.
 
---
- i.
+v2: Coding style fixes
+v3: Send F21 keypress via virtual input device instead of serio interrupts
+v4: Add cover letter
+    Fix copy paste error "GPL-2.0-only" to "GPL-2.0-or-later"
+    Add missing Copyright lines
+
+Werner Sembach (1):
+  Input: atkbd - Fix TUXEDO NB02 notebook keyboards touchpad toggle key
+
+ MAINTAINERS                                 |   6 ++
+ drivers/platform/x86/Kconfig                |   2 +
+ drivers/platform/x86/Makefile               |   3 +
+ drivers/platform/x86/tuxedo/Kbuild          |   8 ++
+ drivers/platform/x86/tuxedo/Kconfig         |   8 ++
+ drivers/platform/x86/tuxedo/nb02/Kbuild     |   9 ++
+ drivers/platform/x86/tuxedo/nb02/Kconfig    |  17 ++++
+ drivers/platform/x86/tuxedo/nb02/platform.c | 107 ++++++++++++++++++++
+ 8 files changed, 160 insertions(+)
+ create mode 100644 drivers/platform/x86/tuxedo/Kbuild
+ create mode 100644 drivers/platform/x86/tuxedo/Kconfig
+ create mode 100644 drivers/platform/x86/tuxedo/nb02/Kbuild
+ create mode 100644 drivers/platform/x86/tuxedo/nb02/Kconfig
+ create mode 100644 drivers/platform/x86/tuxedo/nb02/platform.c
+
+-- 
+2.43.0
 
 
