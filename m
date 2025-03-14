@@ -1,136 +1,123 @@
-Return-Path: <platform-driver-x86+bounces-10194-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-10196-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B560A61075
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Mar 2025 12:56:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E129A61141
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Mar 2025 13:31:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 801AF3BC1BD
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Mar 2025 11:56:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B986D17B776
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Mar 2025 12:31:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 036A11FDA92;
-	Fri, 14 Mar 2025 11:56:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D3FE20298F;
+	Fri, 14 Mar 2025 12:28:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IWrmmagk"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DcRiIABm"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B511FDA66;
-	Fri, 14 Mar 2025 11:56:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0482C201246;
+	Fri, 14 Mar 2025 12:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741953378; cv=none; b=Qe7Msyg+AI283bms2yg7rSif/jvsmxQSBdpzVQd7UJy4kyd1ebPiEW0vq7XJ9yX8mGtfvL/ZMxx3o9nYEcTuraGD2V4Yb86RdDV8h3w7wrivTDR4ZM2EGPkh+6S+YUYimd6diets7XEsL01VI3DmxlLuMimrfQO+I8jOTOOknvc=
+	t=1741955319; cv=none; b=sM8pbQzDTGJTZrBJdfzJ/oEsS4ZVd0Zx4ir8apd2fb1y7+Vh4jUs342vzbtJCfjcwRp+Umg2JdpD/+JMbsvysA3qGGQcF/1HYZhwHnew/MoZa1p31l6CTJvLMs1PSLKzvHIEaM0C3cH73nm91NcHzxaMMsjnvPk5dC9k0Mtru8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741953378; c=relaxed/simple;
-	bh=saN+oyAs7en/yrR6Un/aRcgUQkDXElpe0GDCuKxLkJk=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=UjBw/ceSrxGC9ZYUYu0Fhe7Ll72fS32kogKYDsgQ2q5Yz0+NvlghztWnk32kjNykL9TLw02b3Sm5GnB7J0DKSSv12TAOwyyrW02SexaXWSSCNHbQjaN9B0crqNzvbbKHi0r4lbI0yY7oIOwLvgscGMVHCTlvQYALwQkjedRvjDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IWrmmagk; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741953377; x=1773489377;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=saN+oyAs7en/yrR6Un/aRcgUQkDXElpe0GDCuKxLkJk=;
-  b=IWrmmagkse325YJEW6aezqhyCr3E5pbnDUgpoiuImcZtSNTHRk6E2RT6
-   xYmRARBAJEC9JatFkNDDJYGlIelMstJT1eZIYUTcPeNjNUBitE04x4AjI
-   LtBhVQ9QSyBEUMBDh9dMxuwYdWcCvqfebgP/7Lx4kFAz1ityXvVBzPb7t
-   uQHV1DKCHIJ8jIxzX7D6CFZZNePm5v4pvIJhbGIAQrd8NGv/emaK0zjVD
-   DS55MlyKStR359t98hewSuRFG3oMtwPoItUkUyeRL4pKqMMgCNytaJN9k
-   5DY3BcpIxos+E5MT5vWLSRgJ7m+8IZdrAKneV7TvkMKQI5yg50webOzdi
-   w==;
-X-CSE-ConnectionGUID: ySmjTaK7TD+GELOXAmlBhw==
-X-CSE-MsgGUID: dkTG25RZS9yDUPNGWb2STA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="65561234"
-X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="65561234"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 04:56:11 -0700
-X-CSE-ConnectionGUID: NFvoujGuSVKWWoxL9f8j+w==
-X-CSE-MsgGUID: 9PG90Pj9RLaCqHhmrgkl5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="121044011"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.56])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 04:56:07 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Fri, 14 Mar 2025 13:56:04 +0200 (EET)
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-cc: Choong Yong Liang <yong.liang.choong@linux.intel.com>, 
-    Hans de Goede <hdegoede@redhat.com>, 
-    =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-    David E Box <david.e.box@linux.intel.com>, 
-    platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] platform/x86: intel_pmc_ipc: add option to build
- without ACPI
-In-Reply-To: <CAHp75Vcjqv+j9gkZiQ_LtYE1F7YH8ZweHVTa31AbPht8_Knnkg@mail.gmail.com>
-Message-ID: <2a00773a-b887-7966-36de-0e2b93359912@linux.intel.com>
-References: <20250313085526.1439092-1-yong.liang.choong@linux.intel.com> <CAHp75Vcjqv+j9gkZiQ_LtYE1F7YH8ZweHVTa31AbPht8_Knnkg@mail.gmail.com>
+	s=arc-20240116; t=1741955319; c=relaxed/simple;
+	bh=klMC5/G+XXKWK1/4aNII/hB//YRrPjWupxCwKflvsZc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UAdQDr9gujlYP7sGCrWlhU6B9XZsZhJXT0NB0dFzdCVu1amkEwyIhOoBTLD4azNREqCAlUDxlUMlwOzdS0x+WjLK1L1NOS9sjvW50jFT7noI+6Qn/tvYF90UCx8bnYh/KIf53iqRpgLLa25C3qWwbeDPc5TMMjTXPp/notSDKP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DcRiIABm; arc=none smtp.client-ip=209.85.161.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5fd0adce179so882853eaf.2;
+        Fri, 14 Mar 2025 05:28:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741955317; x=1742560117; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KlJlsNrADwfk/WswqbOtJdzenxkh/DAhh8ltAuIyzso=;
+        b=DcRiIABmBv4eYxfwyfCAl45RtMJFevOM41UVtHcN0ms5S4hiw5AwXgXPvLo/pqLBQP
+         9oSHjImjIEJIUBZyewYKSBESXgMWOOoOF06QVu4qXtr2cIvNFxtxZ+IR3Y++WhOqV9BL
+         jh7OBLcyYt/Y/unWj4xIZ3guEPaeBus7w7pqLi7XnkHziBNfGX81H6QkRiDi/+z7DBtg
+         Hen2sfiZAi6Gvi2Z2DzC5bAGSCPmhp/Qxh6F94Rd/pfqtIa6rvB/pKBAqaYOhluLqZG6
+         mHcK6bZgyrr3vk1w/dl/bIHxiKtM4bSoj54kvjvUkzjh08CSLEnSkNXJquVu/5wv5mlx
+         kP/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741955317; x=1742560117;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KlJlsNrADwfk/WswqbOtJdzenxkh/DAhh8ltAuIyzso=;
+        b=I1E5njbghUlelimOgzNZ8a7DizzGJ3C3vX+Z5wt6OsVJkK+a5RrUIE3buxEo2CSCv8
+         n8haH63Wb83A45cRaJqhni3ojPUbH25PoAukyIPf5loR4sjigRKJOq/Kk6fGD5M85tL1
+         vWTVRPB8RWrTkSV+Wv9mm13CiGN84HM39+PlZJ4jbAfZlOGA+tZx220BkeqAKPtiwrn7
+         tiKsfgvw6ME+2LYLg7iRd98ikIvVu51i6YqHZ0Ko7AdgHrd0if3RqYKMbzSusKDy21my
+         DeDFFh/EM1VpulUDhbiWnpmX+7FQhnL0yLCaVy6N67Gh8dvrrIiybHzgBTBAdnt0rgwV
+         gPrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXTRfutDTgrUxpm7U5QT2OV8JawfPch1mz8MpN21BxYSgLdb5BczZOyT5NjdPDKJRiud+sAL57QdqxqCC4=@vger.kernel.org, AJvYcCXiY+bDoeRK21T8e4Cc9K33FnE8hkeodhXjUA0mhN5K0p4FjTt9nPc1B/0GVBPRDafe1yb3BJIzqRdpOKDIw82DEzV8SA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/qTgtYEfZEOnNYYu4gQDH8WZJoe8/BaFM/XKMfq7QRi+6QQHd
+	ybf0pAb3MsMCRL3q08gUiNo9d6a7yNaacj/7sK1Bl2d3Pjg572ewnm/DE4XhX+o9EFcKNpvxdbj
+	PFgnwkGSTgUWVlGNL/nOUwNyraek=
+X-Gm-Gg: ASbGncujaFL1ajCplzCp0fUjJau4wqcYVhF/hrnE24Jatrrk1CFZMbaMG06L7kxkARF
+	nfpQZsCaEps4H6ISdMDHVIQTckrFwX2JcJrMwhO4Ze4cS0VsJ6v0AjXrcCxy1bpLgz8HtVtfQSl
+	6unejB6F+fPt0DDVYwYZpSCf0lWDvT50rdbFzeIuPu3mrGZSgss7qhPla/bnPP
+X-Google-Smtp-Source: AGHT+IHii+40cEpqtFlvTurXoBG+9FfqAiGsJIzzx2PLkMDkg6GfMo6DOeNGhNO06/Gu6CgK57oRdIbLgFz+7Ep5nzg=
+X-Received: by 2002:a05:6820:1e0b:b0:601:ce76:c46a with SMTP id
+ 006d021491bc7-601e44426a4mr1063308eaf.0.1741955315435; Fri, 14 Mar 2025
+ 05:28:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-2117771442-1741953364=:10784"
+References: <20250313151744.34010-1-gasper.nemgar@gmail.com>
+ <4f1d9817-60b1-433d-b7a8-f37057e0980a@canonical.com> <f581c3d25a270801de35b7d0380cbd13c4c4a131.camel@irl.hu>
+In-Reply-To: <f581c3d25a270801de35b7d0380cbd13c4c4a131.camel@irl.hu>
+From: =?UTF-8?Q?Ga=C5=A1per_Nemgar?= <gasper.nemgar@gmail.com>
+Date: Fri, 14 Mar 2025 13:28:09 +0100
+X-Gm-Features: AQ5f1Jq3_ssz15EqUKb5dhebvDtIJUaFBwLS6ptmObQw_gA2Eg16SPz_MgyicFY
+Message-ID: <CAKi4K-j-j_SdKOAvxSWeQ9qPN-tMVicQ_nbKkNDvm8rEsY_N3g@mail.gmail.com>
+Subject: Re: [PATCH] Fixed ideapad-laptop driver to support Yoga 9 2 in 1
+ 14imh9 unknown keys
+To: Gergo Koteles <soyer@irl.hu>
+Cc: Ike Panhc <ike.pan@canonical.com>, linux-kernel@vger.kernel.org, 
+	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hello,
+This specific laptop has one star with s in the middle which is
+already handled by the driver and is assigned to key favourites.
+There is another button with only a star, I think it is ok to assign
+it to KEY_PROG1.
 
---8323328-2117771442-1741953364=:10784
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Thanks, Ga=C5=A1per
 
-On Thu, 13 Mar 2025, Andy Shevchenko wrote:
 
-> On Thu, Mar 13, 2025 at 10:55=E2=80=AFAM Choong Yong Liang
-> <yong.liang.choong@linux.intel.com> wrote:
-> >
-> > From: David E. Box <david.e.box@linux.intel.com>
-> >
-> > Introduce a configuration option that allows users to build the
-> > intel_pmc_ipc driver without ACPI support. This is useful for
-> > systems where ACPI is not available or desired.
-> >
-> > Based on the discussion from the patch [1], it was necessary to
-> > provide this option to accommodate specific use cases.
->=20
-> > Link: https://patchwork.kernel.org/project/netdevbpf/patch/202502271215=
-22.1802832-6-yong.liang.choong@linux.intel.com/#26280764 [1]
->=20
-> >
->=20
-> No blank line here, but I think Hans or Ilpo may tweak this when applying=
-=2E
->=20
-> Otherwise LGTM,
-> Reviewed-by: Andy Shevchenko <andy@kernel.org>
-> Thanks!
-
-Hi both,
-
-The original commit went through net-next tree so I cannot take this into=
-=20
-pdx86 tree until after the merge window. It seems low impact enough that=20
-coordinating with the netdev might not be worth the effort.
-
-To get it going through net-next tree, you'd need to submit v3 so that in=
-=20
-addition to the current receipients, all relevant netdev people & ML are=20
-included as receipients. But I'd be fine if you leave it until after the=20
-merge window and I can then handle it then.
-
-> > Signed-off-by: David E. Box <david.e.box@linux.intel.com>
-> > Co-developed-by: Choong Yong Liang <yong.liang.choong@linux.intel.com>
-> > Signed-off-by: Choong Yong Liang <yong.liang.choong@linux.intel.com>
-
---=20
- i.
-
---8323328-2117771442-1741953364=:10784--
+On Fri, 14 Mar 2025 at 12:52, Gergo Koteles <soyer@irl.hu> wrote:
+>
+> Hi Ga=C5=A1per,
+>
+> On 3/13/25 23:17, Ga=C5=A1per Nemgar wrote:
+> >       /* Specific to some newer models */
+> >       { KE_KEY,       0x3e | IDEAPAD_WMI_KEY, { KEY_MICMUTE } },
+> >       { KE_KEY,       0x3f | IDEAPAD_WMI_KEY, { KEY_RFKILL } },
+> > +     /*Star- (User Asignable Key)*/
+>
+> Asignable -> Assignable?
+> Could you please add a space before/after the body of the comment?
+>
+> > +     { KE_KEY,       0x44 | IDEAPAD_WMI_KEY, { KEY_PROG1 } },
+>
+> Other Ideapads map this star key to KEY_FAVORITES, for consistency I
+> think it would be better if this one mapped there too.
+>
+> Thanks,
+> Gergo
+>
+>
 
