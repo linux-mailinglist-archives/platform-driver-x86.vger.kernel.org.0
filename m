@@ -1,125 +1,78 @@
-Return-Path: <platform-driver-x86+bounces-10193-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-10195-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1685EA61033
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Mar 2025 12:41:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3036A6107E
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Mar 2025 12:58:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5AE811703DE
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Mar 2025 11:41:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 049284628D0
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Mar 2025 11:58:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E872E1FDA8E;
-	Fri, 14 Mar 2025 11:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EoU7Qg5y"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F6B51FDE1B;
+	Fri, 14 Mar 2025 11:57:51 +0000 (UTC)
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787E73C6BA;
-	Fri, 14 Mar 2025 11:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888061FCFFC;
+	Fri, 14 Mar 2025 11:57:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741952510; cv=none; b=kRPEayBrMicKcxOYlMx4dqZniJi8nVgxQGlyQjNKLYTHTdaxfYH73iDbLWq34IZ/winsFfvxJGgZtNWyl690ckAH6wvz9p0gYWErNS8TvwUvoLJlQiddM4JFu0+zJMupxdS/Cfz+PcZxvkoqiHwVnBq+HtJUwXndQdC+AIM8ipQ=
+	t=1741953471; cv=none; b=nY8Z4xYpBD9bT+mxxc9m8Fs2IfOHLd86dLxib+DRhcnvZNxIvaGdB0tH9Eg6rHLXZwOZ/DFuaVm6iH1P9oWpwG6wCJGhTSl+sXe3E4PhQQzsdqdSinx5B3gqzlMyLMdMebHgfAjPXapi44nV03wowdWdaWBP0iCrUAstOq0FOtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741952510; c=relaxed/simple;
-	bh=b+N4iAe5kZXWBX3ZlJCpdxKPlfsWdwzYPJJb1b47u5s=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=h+hXdm6hzRMmc8W5ZYXEMQaplvp5O8t+OH/vLFKUIavUTdrLzO/b1G30LMrAdoRLUvDbN5CNTU57Wm3ykv8yt18tTs9458EnqLhbHRyy9g0Y1/HQWbjufHZRRMOzZ0tZy3kgufxxyNhLka20dlLNMzn3Sp2xEp7gZyfxHm4iYJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EoU7Qg5y; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741952508; x=1773488508;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=b+N4iAe5kZXWBX3ZlJCpdxKPlfsWdwzYPJJb1b47u5s=;
-  b=EoU7Qg5y5XDh9nUgUyKP8H5lOrVBwckkrikvC0GgR6r//wPaxuDiE71X
-   lpkcoapkpKTEaeMcjbo3aLxe9KHOYEQHRobendqAysm3fLA07v8dQ8Yc/
-   ihaDZx4aX2DGsW1ptjXVYsL2ZfGfTw+3rCo+bE7mtOcNoUZQbgfVvYtaT
-   8cHqz9CG1cUNLnQaNPxtZ8SWj856xK1kZJuubOG/7yOVCbcH3dh/QwitM
-   GWUwn77SEpexYNl+9PhjCnX/U5eF0Zf9DHJZRKKMORaOU8fCNlmfw6sMT
-   ETapo3oPoZ3eWnt6A9nkq6z6vqkgGd2qFxOrAUSdjvuzoZLqdLiZndiw6
-   A==;
-X-CSE-ConnectionGUID: nzmskUHBRl206N5wtsbtZw==
-X-CSE-MsgGUID: Na3l5NV+T4aT64XR5Mq+xg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="42966325"
-X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="42966325"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 04:41:47 -0700
-X-CSE-ConnectionGUID: 5997ZYRHSdSt+bVBmBzgSA==
-X-CSE-MsgGUID: QyQiBgrPTNW+IKa338ajcw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="125878045"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.56])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 04:41:46 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Fri, 14 Mar 2025 13:41:42 +0200 (EET)
-To: Chenyuan Yang <chenyuan0y@gmail.com>
-cc: W_Armin@gmx.de, Hans de Goede <hdegoede@redhat.com>, 
-    platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] platform/x86: wmi: Add Null check for device
-In-Reply-To: <20250313162820.3688298-1-chenyuan0y@gmail.com>
-Message-ID: <ff53debd-05bd-3a7f-89a5-2110b8103fad@linux.intel.com>
-References: <20250313162820.3688298-1-chenyuan0y@gmail.com>
+	s=arc-20240116; t=1741953471; c=relaxed/simple;
+	bh=UfCfTas+IK7+xkJrASy6gnygHRZDQSaRR3jZQ2Q8c68=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ny6HiZo5YBcJjDl03IDEd3MQV+ACvnRdyMhv7GVB6aHKNsBOcAHvD+ncLLhjJm/j4TBIYllrPNa5xgfNEqvae0BsaqA8TcAjyW+qLENBkF10cO9rV6GCtQK1VWd2w2a0LPh9HKocY0dp1fl9s/5hcRa6o1w9hFFlaL9sKbCobAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from [192.168.2.19] (51b6855d.dsl.pool.telekom.hu [::ffff:81.182.133.93])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 0000000000087004.0000000067D41888.0002BE31; Fri, 14 Mar 2025 12:52:40 +0100
+Message-ID: <f581c3d25a270801de35b7d0380cbd13c4c4a131.camel@irl.hu>
+Subject: Re: [PATCH] Fixed ideapad-laptop driver to support Yoga 9 2 in 1
+ 14imh9 unknown keys
+From: Gergo Koteles <soyer@irl.hu>
+To: Ike Panhc <ike.pan@canonical.com>,
+  =?UTF-8?Q?Ga=C5=A1per?= Nemgar <gasper.nemgar@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+  "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
+Date: Fri, 14 Mar 2025 12:52:39 +0100
+In-Reply-To: <4f1d9817-60b1-433d-b7a8-f37057e0980a@canonical.com>
+References: <20250313151744.34010-1-gasper.nemgar@gmail.com>
+	 <4f1d9817-60b1-433d-b7a8-f37057e0980a@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 
-On Thu, 13 Mar 2025, Chenyuan Yang wrote:
+Hi Ga=C5=A1per,
 
-Hi,
+On 3/13/25 23:17, Ga=C5=A1per Nemgar wrote:
+>  	/* Specific to some newer models */
+>  	{ KE_KEY,	0x3e | IDEAPAD_WMI_KEY, { KEY_MICMUTE } },
+>  	{ KE_KEY,	0x3f | IDEAPAD_WMI_KEY, { KEY_RFKILL } },
+> +	/*Star- (User Asignable Key)*/
 
-Could you please be consistent in style and write "NULL" also in the 
-shortlog in the subject.
+Asignable -> Assignable?
+Could you please add a space before/after the body of the comment?
 
-> Not all devices have an ACPI companion fwnode, so device might be NULL.
-> This is similar to the commit cd2fd6eab480
-> ("platform/x86: int3472: Check for adev == NULL").
+> +	{ KE_KEY,	0x44 | IDEAPAD_WMI_KEY, { KEY_PROG1 } },
 
-Please fold the paragraph normally.
+Other Ideapads map this star key to KEY_FAVORITES, for consistency I
+think it would be better if this one mapped there too.
 
-> Add a check for device not being set and return -ENODEV in that case to
-> avoid a possible NULL pointer deref in parse_wdg().
-> 
-> Note, acpi_wmi_probe() under the same file has such a check.
+Thanks,
+Gergo
 
-Hmm, is this a bogus fix, as parse_wdg() is only called from 
-acpi_wmi_probe() so how can ACPI companion turn NULL in between??
-
-How was this problem found??
-
-> Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
-> ---
->  drivers/platform/x86/wmi.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
-> index 646370bd6b03..54e697838c1e 100644
-> --- a/drivers/platform/x86/wmi.c
-> +++ b/drivers/platform/x86/wmi.c
-> @@ -1091,6 +1091,9 @@ static int parse_wdg(struct device *wmi_bus_dev, struct platform_device *pdev)
->  	u32 i, total;
->  	int retval;
->  
-> +	if (!device)
-> +		return -ENODEV;
-> +
->  	status = acpi_evaluate_object(device->handle, "_WDG", NULL, &out);
->  	if (ACPI_FAILURE(status))
->  		return -ENXIO;
-> 
-
--- 
- i.
 
 
