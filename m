@@ -1,143 +1,220 @@
-Return-Path: <platform-driver-x86+bounces-10547-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-10558-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5162BA6E4C0
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Mar 2025 21:55:06 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5BFCA6E531
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Mar 2025 22:11:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3EB6D188D3EB
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Mar 2025 20:55:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A994A7A935B
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Mar 2025 21:10:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28B1E1DE4C1;
-	Mon, 24 Mar 2025 20:54:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDB211E7C1E;
+	Mon, 24 Mar 2025 21:08:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SAEuEXtJ"
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="XLbIkTzk"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BAC1C8613;
-	Mon, 24 Mar 2025 20:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12BB190462;
+	Mon, 24 Mar 2025 21:08:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742849696; cv=none; b=Ho7vVGCr/dxIdGMHgUFZZwxE/69by0iOZLL8jXl6ipY7bRWtMdQEzU8AsXFPvNZhbGzy7ycxdHIUU7DB1mqN9AQzV6ocLsc345mTYsV2OafrSu7odIFk21RR01ac8QVX0mZaN+gcV3ef2bvNn/fG8V6MbxoJGa6ydOVWDq3Az8s=
+	t=1742850511; cv=none; b=FYcbsHEFyBRad2CrMuJjtyHV7n4jv655kQHYMzgc2EI+3SNY26aApd8qnrid2PVMRBxc52hm5HfY5J5Q87DA01TGOgP/wNks5TzXqwvJNWGMifcryCmkaN6R8czNRpneo6BcqRS7ssfU7MQeUUjCCGbyB7ik5UsSyxtpNKAP4/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742849696; c=relaxed/simple;
-	bh=Ih3dm7Ri0bjLLtlXwUEcgqHbaGBSlGEP0HDK6EZifIc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fymaCqjZm5sZHeuXZHr/gNq11phCZs35JfciXU2D4vQW7pF5H/oCb7GRnYdG6wonxO1R+IzWZ8Xu9YGAdtefxqsbUWsiyFv9gGU7BjS9fbVdqwN4ZGy65SKrh/LTMOJgklIlsrDnIlGhMHG4nUGrTCYIjBEeK4Xpp7hafLdWyhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SAEuEXtJ; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742849694; x=1774385694;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Ih3dm7Ri0bjLLtlXwUEcgqHbaGBSlGEP0HDK6EZifIc=;
-  b=SAEuEXtJ+PP4rnaToDDQ5xCzUyy7sK4I1atJCPkxzU4eeYIM75kZD+I5
-   Q3pbW79lWQMFtTuIyzRzb7NxflmLKtNve3rH7fOYzcghdrKSQtIr6MM34
-   gu5zKo74+dmQCJeHo12pluf30PLTGzLDHBGPdDgeK02/joVbQlLy7ag/u
-   PKzQVp6H3tOwS0HMLD/3ZoZZZRrS1iUcA9lEjFxocWM+u0Kp3/Tw69Wbm
-   0reOHhHLzARpu+jySUH90lVH3PIVecFsgn77ljfmZS9Xc/XICD+Qx/5Jc
-   OgMEhd9DShPu1hvh2CCITiXTZTcFJOBV/QgpZfeXaBeFCtdFhmpIyv2SE
-   w==;
-X-CSE-ConnectionGUID: yS8gWklDQgWgKzlxZUFOAw==
-X-CSE-MsgGUID: JY/TDvcXR2yKYBVEyLLRCg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="43234423"
-X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; 
-   d="scan'208";a="43234423"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 13:54:52 -0700
-X-CSE-ConnectionGUID: Zmeu89P2QuSLb8C/HFnKng==
-X-CSE-MsgGUID: UofD0F5QTGu80NmV8o/snw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; 
-   d="scan'208";a="124186393"
-Received: from xpardee-mobl.amr.corp.intel.com (HELO [10.124.17.122]) ([10.124.17.122])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 13:54:52 -0700
-Message-ID: <1405ee5c-de05-4f67-a747-98412e4b0017@linux.intel.com>
-Date: Mon, 24 Mar 2025 13:54:38 -0700
+	s=arc-20240116; t=1742850511; c=relaxed/simple;
+	bh=ZD3wx4hNUz9BZe1/e+hobcWMQ+fpJHCUnKBkTo77P6Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=QJw6TZQ4OFYf2Rz4G1+e0WjkvXnoRczBxRPhdKzuUNQEKvrZcZWKeJ0Yn7JdOn3FiRBkuQrzfjA4CEIbY1LoPplG5jUbWjs7UluZv85kT86ZOq40tfrfUfH7vg9G2eki3dl8NQe7AooHm617W2T0xjM0hpdEo9hVY7M5VCQA4qM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=XLbIkTzk; arc=none smtp.client-ip=185.138.42.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+Received: from localhost.localdomain (unknown [IPv6:2a05:f6c2:511b:0:cbc0:999f:73ad:33bd])
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id A87E12E09D8F;
+	Mon, 24 Mar 2025 23:02:03 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1742850125;
+	bh=kOiMKB/AIMqxzK9oXdhi8MBWksAEM6at8+RYbcDHfEc=; h=From:To:Subject;
+	b=XLbIkTzkwpKb8OyChZzP60fYA4RBvEz+tK8x+DJVCF168awwZVLxR0viPDqUy5Gyh
+	 sYBxH7StU5+UvYOu5wvg8OaLCHDwjhISBSjwGBDRSHk+Zf3GCzeO3/7ZZfLcsahmGB
+	 fnpUOGUTia4S1h6i0c0DJRlx++3+9WB9vxPmKFsg=
+Authentication-Results: linux1587.grserver.gr;
+	spf=pass (sender IP is 2a05:f6c2:511b:0:cbc0:999f:73ad:33bd) smtp.mailfrom=lkml@antheas.dev smtp.helo=localhost.localdomain
+Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
+From: Antheas Kapenekakis <lkml@antheas.dev>
+To: platform-driver-x86@vger.kernel.org,
+	linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Corentin Chary <corentin.chary@gmail.com>,
+	"Luke D . Jones" <luke@ljones.dev>,
+	Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Antheas Kapenekakis <lkml@antheas.dev>
+Subject: [PATCH v4 01/11] HID: asus: refactor init sequence per spec
+Date: Mon, 24 Mar 2025 22:01:41 +0100
+Message-ID: <20250324210151.6042-2-lkml@antheas.dev>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250324210151.6042-1-lkml@antheas.dev>
+References: <20250324210151.6042-1-lkml@antheas.dev>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] platform/x86: intel/pmc: Fix iounmap call for valid
- addresses
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: irenic.rajneesh@gmail.com, david.e.box@linux.intel.com,
- Hans de Goede <hdegoede@redhat.com>, platform-driver-x86@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>, linux-pm@vger.kernel.org
-References: <20250319224410.788273-1-xi.pardee@linux.intel.com>
- <66c1a0f1-7d7a-da07-e80f-027964c503b8@linux.intel.com>
-Content-Language: en-US
-From: Xi Pardee <xi.pardee@linux.intel.com>
-In-Reply-To: <66c1a0f1-7d7a-da07-e80f-027964c503b8@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: 
+ <174285012484.21685.17753773909563545833@linux1587.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
+X-Virus-Status: Clean
 
+Currently, asus_kbd_init() uses a reverse engineered init sequence
+from Windows, which contains the handshakes from multiple programs.
+Keep the main one, which is 0x5a (meant for brightness drivers).
 
-On 3/21/2025 7:49 AM, Ilpo Järvinen wrote:
-> On Wed, 19 Mar 2025, Xi Pardee wrote:
->
->> pmc_core_clean_structure() is called when generic_core_init() fails.
->> generic_core_init() could fail before ioremap() is called to get
->> a valid regbase for pmc structure. The current code does not check
->> regbase before calling iounmap(). Add a check to fix it.
-> Hi,
->
-> The approach that calls the same "full cleanup" function as deinit uses
-> when init function fails midway is very error prone as once again is
-> demonstrated. Is this the only error handling problem? Are you 100% sure?
->
-> Think about it, init is x% (<100%) done when it fails, then it calls a
-> function that tries to undo 100%. One needs to add lots of special logic
-> to handle 0-100% rollback into that cleanup function. The init function,
-> on the other hand, knows exactly where it was so it can rollback just what
-> is needed and not even try to rollback for more.
->
-> It's also very inconsistent to rollback ssram_pcidev in this file as ssram
-> code was moved into core_ssram so I think the ssram deinit should be moved
-> there too.
->
-> I think these init functions should be converted to do proper rollback
-> within the init function(s) to avoid very hard to track error handling.
-> I tried to check the error handling now in the pmc driver and after I
-> would have needed to jump between the files, I gave up.
+In addition, perform a get_response and check if the response is the
+same. To avoid regressions, print an error if the response does not
+match instead of rejecting device.
 
-Hi,
+Then, refactor asus_kbd_get_functions() to use the same ID it is called
+with, instead of hardcoding it to 0x5a so that it may be used for 0x0d
+in the future.
 
-Thanks for the comments! Will move the error handing code for init 
-function to init function in next cycle.
+Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+---
+ drivers/hid/hid-asus.c | 82 +++++++++++++++++++++++-------------------
+ 1 file changed, 46 insertions(+), 36 deletions(-)
 
-I will send out a new version to separate SSRAM device handling code to 
-a new PCI driver and remove ssram_pcidev field from pmcdev in next cycle.
+diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+index 46e3e42f9eb5f..8d4df1b6f143b 100644
+--- a/drivers/hid/hid-asus.c
++++ b/drivers/hid/hid-asus.c
+@@ -48,7 +48,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+ #define FEATURE_REPORT_ID 0x0d
+ #define INPUT_REPORT_ID 0x5d
+ #define FEATURE_KBD_REPORT_ID 0x5a
+-#define FEATURE_KBD_REPORT_SIZE 16
++#define FEATURE_KBD_REPORT_SIZE 64
+ #define FEATURE_KBD_LED_REPORT_ID1 0x5d
+ #define FEATURE_KBD_LED_REPORT_ID2 0x5e
+ 
+@@ -388,14 +388,41 @@ static int asus_kbd_set_report(struct hid_device *hdev, const u8 *buf, size_t bu
+ 
+ static int asus_kbd_init(struct hid_device *hdev, u8 report_id)
+ {
+-	const u8 buf[] = { report_id, 0x41, 0x53, 0x55, 0x53, 0x20, 0x54,
+-		     0x65, 0x63, 0x68, 0x2e, 0x49, 0x6e, 0x63, 0x2e, 0x00 };
++	/*
++	 * Asus handshake identifying us as a driver (0x5A)
++	 * 0x5A then ASCII for "ASUS Tech.Inc."
++	 * 0x5D is for userspace Windows applications.
++	 *
++	 * The handshake is first sent as a set_report, then retrieved
++	 * from a get_report to verify the response.
++	 */
++	const u8 buf[] = { report_id, 0x41, 0x53, 0x55, 0x53, 0x20,
++		0x54, 0x65, 0x63, 0x68, 0x2e, 0x49, 0x6e, 0x63, 0x2e, 0x00 };
++	u8 *readbuf;
+ 	int ret;
+ 
+ 	ret = asus_kbd_set_report(hdev, buf, sizeof(buf));
+-	if (ret < 0)
+-		hid_err(hdev, "Asus failed to send init command: %d\n", ret);
++	if (ret < 0) {
++		hid_err(hdev, "Asus failed to send handshake: %d\n", ret);
++		return ret;
++	}
+ 
++	readbuf = kzalloc(FEATURE_KBD_REPORT_SIZE, GFP_KERNEL);
++	if (!readbuf)
++		return -ENOMEM;
++
++	ret = hid_hw_raw_request(hdev, report_id, readbuf,
++				 FEATURE_KBD_REPORT_SIZE, HID_FEATURE_REPORT,
++				 HID_REQ_GET_REPORT);
++	if (ret < 0) {
++		hid_err(hdev, "Asus failed to receive handshake ack: %d\n", ret);
++	} else if (memcmp(readbuf, buf, sizeof(buf)) != 0) {
++		hid_err(hdev, "Asus handshake returned invalid response: %*ph\n",
++			FEATURE_KBD_REPORT_SIZE, readbuf);
++		// Do not return error if handshake is wrong to avoid regressions
++	}
++
++	kfree(readbuf);
+ 	return ret;
+ }
+ 
+@@ -417,7 +444,7 @@ static int asus_kbd_get_functions(struct hid_device *hdev,
+ 	if (!readbuf)
+ 		return -ENOMEM;
+ 
+-	ret = hid_hw_raw_request(hdev, FEATURE_KBD_REPORT_ID, readbuf,
++	ret = hid_hw_raw_request(hdev, report_id, readbuf,
+ 				 FEATURE_KBD_REPORT_SIZE, HID_FEATURE_REPORT,
+ 				 HID_REQ_GET_REPORT);
+ 	if (ret < 0) {
+@@ -540,42 +567,25 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
+ 	unsigned char kbd_func;
+ 	int ret;
+ 
+-	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
+-		/* Initialize keyboard */
+-		ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
+-		if (ret < 0)
+-			return ret;
+-
+-		/* The LED endpoint is initialised in two HID */
+-		ret = asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID1);
+-		if (ret < 0)
+-			return ret;
+-
+-		ret = asus_kbd_init(hdev, FEATURE_KBD_LED_REPORT_ID2);
+-		if (ret < 0)
+-			return ret;
++	ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
++	if (ret < 0)
++		return ret;
+ 
+-		if (dmi_match(DMI_PRODUCT_FAMILY, "ProArt P16")) {
+-			ret = asus_kbd_disable_oobe(hdev);
+-			if (ret < 0)
+-				return ret;
+-		}
+-	} else {
+-		/* Initialize keyboard */
+-		ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
+-		if (ret < 0)
+-			return ret;
++	/* Get keyboard functions */
++	ret = asus_kbd_get_functions(hdev, &kbd_func, FEATURE_KBD_REPORT_ID);
++	if (ret < 0)
++		return ret;
+ 
+-		/* Get keyboard functions */
+-		ret = asus_kbd_get_functions(hdev, &kbd_func, FEATURE_KBD_REPORT_ID);
++	if (dmi_match(DMI_PRODUCT_FAMILY, "ProArt P16")) {
++		ret = asus_kbd_disable_oobe(hdev);
+ 		if (ret < 0)
+ 			return ret;
+-
+-		/* Check for backlight support */
+-		if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
+-			return -ENODEV;
+ 	}
+ 
++	/* Check for backlight support */
++	if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
++		return -ENODEV;
++
+ 	drvdata->kbd_backlight = devm_kzalloc(&hdev->dev,
+ 					      sizeof(struct asus_kbd_leds),
+ 					      GFP_KERNEL);
+-- 
+2.49.0
 
-
-Thanks!
-
-Xi
-
->> Fixes: 1b8c7b843c00 ("platform/x86:intel/pmc: Discover PMC devices")
->> Signed-off-by: Xi Pardee <xi.pardee@linux.intel.com>
->> ---
->>   drivers/platform/x86/intel/pmc/core.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/platform/x86/intel/pmc/core.c b/drivers/platform/x86/intel/pmc/core.c
->> index 7a1d11f2914f..de5fc06232e5 100644
->> --- a/drivers/platform/x86/intel/pmc/core.c
->> +++ b/drivers/platform/x86/intel/pmc/core.c
->> @@ -1471,7 +1471,7 @@ static void pmc_core_clean_structure(struct platform_device *pdev)
->>   	for (i = 0; i < ARRAY_SIZE(pmcdev->pmcs); ++i) {
->>   		struct pmc *pmc = pmcdev->pmcs[i];
->>   
->> -		if (pmc)
->> +		if (pmc && pmc->regbase)
->>   			iounmap(pmc->regbase);
 
