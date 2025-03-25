@@ -1,102 +1,132 @@
-Return-Path: <platform-driver-x86+bounces-10574-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-10577-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9213AA6FACF
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Mar 2025 13:13:08 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86589A7067C
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Mar 2025 17:16:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3760A3B4D5C
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Mar 2025 12:11:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CD8CC17608A
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Mar 2025 16:14:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F0C8256C96;
-	Tue, 25 Mar 2025 12:11:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 025B025D54A;
+	Tue, 25 Mar 2025 16:14:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZZd3WC2h"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Y5U72Cnp"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3A2256C71;
-	Tue, 25 Mar 2025 12:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF3625D1E2
+	for <platform-driver-x86@vger.kernel.org>; Tue, 25 Mar 2025 16:14:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742904698; cv=none; b=S+YkQ1vkw4G12KFbR91+XFLURUuv/GikRGWPrhiqDAoEFqgymn8GiKWwrcj6Oi+T2Uhx2PooJ8n0pUgi1Jb5Z7uF35LkfMX2ojjoTHJ9fDTqlhHYndwu5GY/AmM697OsAxt/Wc39hrmwZW/1ZWYMLiUcU8sO+VwYh8Nuf08b5UY=
+	t=1742919252; cv=none; b=bvmT8Ec0Zpm47Q0EscN4AarifK4jRfEBQ4lnxH3zv84RMmMyrRfOXwVBXM51w8LzldL1lYXxXqj52jVg7YA3VTRRganDfHdDSE1MIPdCKM25cRfjIGf1iIwAFe+quOtDgHhKQmRwzaV/0VT/w4B9ykTbfgGgl19429lqF0ykd1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742904698; c=relaxed/simple;
-	bh=wstB9AYDKQp+WL9io6XrHHPxJMW99imT4RaGNLRLzAw=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=LVxCoTbcf8AQQj1GwKO059isVU4cjnHtqlGS+UKk0kYSyufKR7MibtbPNTuh5P1p8mpEzz2chGfM6kYLc8nWD9+VMPeFYOc6whkhtl9iFMg7H6RxGKb0quPitj0VMzsZici494XWbyH8K6mR7gGvjgAFmB1AJUBeOKDDkuHz/B4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZZd3WC2h; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71F22C4CEE4;
-	Tue, 25 Mar 2025 12:11:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742904697;
-	bh=wstB9AYDKQp+WL9io6XrHHPxJMW99imT4RaGNLRLzAw=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=ZZd3WC2hM36Sa5eiVCCAac6uxEfggZwWvCxBl/y5L12DHUSG8mjwm8K/2vc0HngpM
-	 djJsfHWqZc+YBqK/g7u4lSduKC80M/Vus7xObeB57HceX7H7p3HhVBaoe7LnXKl/Gh
-	 /IsGfWan8RRotnMErichDAKCWJeOAoQSLzH63OsMIb/eQ6J0oeNDxHRuEyGoYov4sU
-	 kk80yK8rFqCbn0kIws9ZFdY+PEUTmCbHYqd5dGbbsDqsDcngaBuscck4xiSYccSk87
-	 EA921+7RPd4aC3qo31uZGqNUM7cxVMQnpj/Znt1mc/1AJQH6LVn/XDKzgLkDfsDKk3
-	 9oEuOt1Kt+j9Q==
-Date: Tue, 25 Mar 2025 13:11:34 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Antheas Kapenekakis <lkml@antheas.dev>
-cc: kernel test robot <lkp@intel.com>, platform-driver-x86@vger.kernel.org, 
-    linux-input@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>, 
-    Corentin Chary <corentin.chary@gmail.com>, 
-    "Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>, 
-    =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: Re: [PATCH v4 09/11] HID: asus: add basic RGB support
-In-Reply-To: <CAGwozwFnu+eQv+qe3XyfcNEjwjFoH23K0ixssEp7m=5Xnh4nhQ@mail.gmail.com>
-Message-ID: <p1q83s69-8850-8008-o9qq-son994s5q5oo@xreary.bet>
-References: <20250324210151.6042-10-lkml@antheas.dev> <202503251316.lPXAIXIV-lkp@intel.com> <CAGwozwFnu+eQv+qe3XyfcNEjwjFoH23K0ixssEp7m=5Xnh4nhQ@mail.gmail.com>
+	s=arc-20240116; t=1742919252; c=relaxed/simple;
+	bh=X4fLaiEfQCIm2PSn/YWEi92HKYjJ2iM17SBkJ8IpL/M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QNaNzgd3SOJe4gkNfra3SFrBCS8QD3xDdh2W8FCPmOhhAy+vjLN4UEjMj/QWPkQxw3VfqwbBAbDdQeDv2YbgR2B2BN4XL0qI/+40n7A/uIXHLYrTuYmu0vRw4axMeDlQK9B4oU0f69fj/KkOcRYiQqcljjKFz/l/ytZbhfzCaaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Y5U72Cnp; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1742919250;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=H/EsX8uTQNO6K3/yNjPPo3yfThFUcxiCC8Iu923/z80=;
+	b=Y5U72CnpMPn/i2WBtznmDNvOfV3z26Ke3dE2V1EW8b9P707RB/nWTwQLz8zIjF/O52namc
+	kzQU0fEwBcAWcOdhSWAL6n4isyPSx74ZbVJziUxx+XeP84b1z94vh+i8GduIvW6ShXDvOF
+	cw7TRaaCkbubbuCtkfeAkWm+G/XfNv8=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-178-Wu0QKsuKORSWeL6a-sQvrw-1; Tue,
+ 25 Mar 2025 12:14:04 -0400
+X-MC-Unique: Wu0QKsuKORSWeL6a-sQvrw-1
+X-Mimecast-MFC-AGG-ID: Wu0QKsuKORSWeL6a-sQvrw_1742919243
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6E4B6187DB94;
+	Tue, 25 Mar 2025 16:13:50 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.44.32.136])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2DA9A180A802;
+	Tue, 25 Mar 2025 16:13:46 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Dan Scally <djrscally@gmail.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hao Yao <hao.yao@intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	platform-driver-x86@vger.kernel.org,
+	linux-media@vger.kernel.org
+Subject: [PATCH 0/8] platform/x86: int3472: Add handshake pin support
+Date: Tue, 25 Mar 2025 17:13:32 +0100
+Message-ID: <20250325161340.342192-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Tue, 25 Mar 2025, Antheas Kapenekakis wrote:
+New Intel Meteor Lake based laptops with IPU6 cameras have a new type 0x12
+pin defined in the INT3472 sensor companion device which describes
+the sensor's GPIOs.
 
-> > [auto build test ERROR on 38fec10eb60d687e30c8c6b5420d86e8149f7557]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Antheas-Kapenekakis/HID-asus-refactor-init-sequence-per-spec/20250325-051852
-> > base:   38fec10eb60d687e30c8c6b5420d86e8149f7557
-> > patch link:    https://lore.kernel.org/r/20250324210151.6042-10-lkml%40antheas.dev
-> > patch subject: [PATCH v4 09/11] HID: asus: add basic RGB support
-> > config: riscv-randconfig-002-20250325 (https://download.01.org/0day-ci/archive/20250325/202503251316.lPXAIXIV-lkp@intel.com/config)
-> > compiler: riscv64-linux-gcc (GCC) 14.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250325/202503251316.lPXAIXIV-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202503251316.lPXAIXIV-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    riscv64-linux-ld: drivers/hid/hid-asus.o: in function `asus_kbd_register_leds':
-> > >> drivers/hid/hid-asus.c:676:(.text+0x23f8): undefined reference to `devm_led_classdev_multicolor_register_ext'
-> >
-> 
-> Since I have been getting this error by test robot often, what is the
-> canonical way to check that KConfig is correct before sending patches?
-> 
-> I will try to fix the KConfig and send it later today
+This pin is primarily used on designs with a Lattice FPGA chip which is
+capable of running the sensor independently of the main CPU for features
+like presence detection. This pin needs to be driven high to make the FPGA
+run the power-on sequence of the sensor. After driving the pin high
+the FPGA "firmware" needs 25ms to comlpete the power-on sequence.
 
-You either need to add driver's dependency on LEDS_CLASS_MULTICOLOR, or 
-ifdef those parts out in case it's not set.
+This series implements support for this by modelling the handshake GPIO
+as a GPIO driven 'dvdd' regulator with an enable-time of 25 ms, also see:
 
-Thanks,
+https://lore.kernel.org/platform-driver-x86/59f672c3-6d87-4ec7-9b7f-f44fe2cce934@redhat.com/
+
+Patch   1   Is an unrelated cleanup which I had lying around
+Patches 2-7 Prepare + Implement the handshake GPIO
+Patch   8   Is a small patch adding some extra debugging to GPIO remapping
+
+This series applies on top of pdx86/for-next, for testing with 6.14 this
+patch needs to be cherry-picked first:
+https://web.git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/commit/?id=81b251c66bdfe263fb5e7a16838512ddaeed77df
+
+Regards,
+
+Hans
+
+
+Hans de Goede (8):
+  platform/x86: int3472: Add skl_int3472_register_clock() helper
+  platform/x86: int3472: Stop setting a supply-name for GPIO regulators
+  platform/x86: int3472: Drop unused gpio field from struct
+    int3472_gpio_regulator
+  platform/x86: int3472: Rework AVDD second sensor quirk handling
+  platform/x86: int3472: Make regulator supply name configurable
+  platform/x86: int3472: Prepare for registering more then 1 GPIO
+    regulator
+  platform/x86: int3472: Add handshake pin support
+  platform/x86: int3472: Debug log when remapping pins
+
+ drivers/platform/x86/intel/int3472/Makefile   |   3 +-
+ .../x86/intel/int3472/clk_and_regulator.c     | 163 ++++++------------
+ drivers/platform/x86/intel/int3472/common.h   |  45 +++--
+ drivers/platform/x86/intel/int3472/discrete.c |  37 +++-
+ .../x86/intel/int3472/discrete_quirks.c       |  22 +++
+ 5 files changed, 139 insertions(+), 131 deletions(-)
+ create mode 100644 drivers/platform/x86/intel/int3472/discrete_quirks.c
 
 -- 
-Jiri Kosina
-SUSE Labs
+2.49.0
 
 
