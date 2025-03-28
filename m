@@ -1,144 +1,117 @@
-Return-Path: <platform-driver-x86+bounces-10668-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-10669-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FE94A74BEC
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Mar 2025 15:04:08 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8046AA74BE3
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Mar 2025 15:02:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 289C63B2E8A
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Mar 2025 13:55:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4A2967A37B2
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Mar 2025 14:01:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FE831A315A;
-	Fri, 28 Mar 2025 13:53:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A20117A2EE;
+	Fri, 28 Mar 2025 14:02:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RIka5lbH"
+	dkim=pass (2048-bit key) header.d=3mdeb.com header.i=@3mdeb.com header.b="AfUTVqXD"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from 8.mo582.mail-out.ovh.net (8.mo582.mail-out.ovh.net [178.33.42.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1E419B3EC;
-	Fri, 28 Mar 2025 13:53:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B061BF58
+	for <platform-driver-x86@vger.kernel.org>; Fri, 28 Mar 2025 14:02:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.33.42.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743170008; cv=none; b=VqULDSc9IJliqmzGx8q0P9orfz90Z+YuHiu/6nNEFPqocqetvuy9L53h/SybwIsptyZf1gNMvEDLt+BO9HfHmmR0MmtydLloyJrx0/RityLdSixDEQZSESsttITYKY+yzCvN397qhOeVQgL5M0tyFY3Q2FTAFusM72Sbbu2YzbM=
+	t=1743170526; cv=none; b=KRN/k5dvxAGwQqel6xUWPfhjmBmlKb6pN1laOUfvWOzepCkPUcWgICb3+3ppw05fNWHxtSr5++XZPjEluHk6y0kzaufPbF1KRq5Greg7ZUWjuMJ3G1YVaekKEGmyLgaSVrqPWLG2YvcYPMDmuLCXzudCWWgpkTexIvtxGnIkTKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743170008; c=relaxed/simple;
-	bh=3Dn8vmmuL4UVaiBoLpANoM0FbUsJKWkUjAYehvrVTbg=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=la4RHtqTnuNF+QnKTp/gLS3P+DfY655vTo7phjyBirWcHWk+F1VgjMMjRJkFCXcZfSMLETjHlZJ0vOFyvyA1jxUNeSPwhuE4KKT+zsLlo8Rli2Otnro1qY1Foqb9PeCN3ghFoyIaUXGawgRjX0Anz9hwHUCI6hIaXYsX7GNiNOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RIka5lbH; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743170006; x=1774706006;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=3Dn8vmmuL4UVaiBoLpANoM0FbUsJKWkUjAYehvrVTbg=;
-  b=RIka5lbHEOFReT94qA/yhsJ1BDiIY+R4tHfJpa2nZDAFTWbecO6eFIJt
-   h03J1+GUdDyZf6FbAjfYknB0FCi68zF+rejrTbQaA9qxPCyG7vcHOqfe7
-   5H0U1LsM0sL2CagFU1NHw0NzOF73skM4tP3CNHgKAwzsJXseZexDBfi3D
-   3P/dyqBCnPlV99OYLHS6iDNbSKA7zhFhoHx0y+/oBmn2XOWMgYEhEpYQm
-   5BVAn3CmTKHwGseFG+oTSTWYmSNMS6/w7p/hk4axKEiWI0d4LkfS4/vH7
-   sfQReCZ72zkOdhjgDD1eXd024q6qskVAykkaVcRpaLCdpYUay+ZqxT7uN
-   g==;
-X-CSE-ConnectionGUID: lVPeGv+FQ8SCLy/4rSWm1Q==
-X-CSE-MsgGUID: gN+9f2K5TieDjAodYKCXGA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="48402411"
-X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; 
-   d="scan'208";a="48402411"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 06:53:25 -0700
-X-CSE-ConnectionGUID: 8p6xV5CMQJKdozzX85jl+g==
-X-CSE-MsgGUID: UDoALrd/T262kbwaU8U4/g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; 
-   d="scan'208";a="125214951"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.43])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 06:53:22 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Fri, 28 Mar 2025 15:53:19 +0200 (EET)
-To: Arefev <arefev@swemel.ru>
-cc: Corentin Chary <corentin.chary@gmail.com>, 
-    "Luke D. Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>, 
-    platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-    lvc-project@linuxtesting.org
-Subject: Re: [PATCH] asus-laptop: Fix an uninitialized variable
-In-Reply-To: <c7f5f4cc-c187-4402-91dd-4d0096e396fa@swemel.ru>
-Message-ID: <ddd60b0f-47a5-c93b-f055-d6900dfbd7de@linux.intel.com>
-References: <20250325095739.20310-1-arefev@swemel.ru> <88f06d15-0f98-2f24-7e68-eefb6434f108@linux.intel.com> <c7f5f4cc-c187-4402-91dd-4d0096e396fa@swemel.ru>
+	s=arc-20240116; t=1743170526; c=relaxed/simple;
+	bh=oaeF4PSL9pJrT5nCEtpIutiAM3jBpBAF/la/vmlBwJM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CU4PgzKuop+Bt2G/FGKRrqrtu2FN+dYPSwNqHPq9Tx5PKJCHQ5n9WVg72/z2aFTFYgI5cPFiCZCOmugcY6l12Quha5gso4jjmaWeNNtqYN0XVfQz8VE6HGymotf31xPpeQnlmnADH50LlLtbbG17MGpV6gv51h4gGAavzZKVTJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=3mdeb.com; spf=pass smtp.mailfrom=3mdeb.com; dkim=pass (2048-bit key) header.d=3mdeb.com header.i=@3mdeb.com header.b=AfUTVqXD; arc=none smtp.client-ip=178.33.42.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=3mdeb.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=3mdeb.com
+Received: from director3.ghost.mail-out.ovh.net (unknown [10.109.148.200])
+	by mo582.mail-out.ovh.net (Postfix) with ESMTP id 4ZPMdr6KGWz1TQJ
+	for <platform-driver-x86@vger.kernel.org>; Fri, 28 Mar 2025 14:01:52 +0000 (UTC)
+Received: from ghost-submission-5b5ff79f4f-dt6n8 (unknown [10.111.182.240])
+	by director3.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 2E2F11FEBC;
+	Fri, 28 Mar 2025 14:01:52 +0000 (UTC)
+Received: from 3mdeb.com ([37.59.142.107])
+	by ghost-submission-5b5ff79f4f-dt6n8 with ESMTPSA
+	id qSp9L8+r5mfPyQAA/S+2gA
+	(envelope-from <michal.kopec@3mdeb.com>); Fri, 28 Mar 2025 14:01:52 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-107S0017ee9eba3-2fb7-4d11-936e-8e6b35aafc31,
+                    A89BE30734CE273C0743E56753A14E38265E1AE9) smtp.auth=michal.kopec@3mdeb.com
+X-OVh-ClientIp:213.192.77.249
+From: =?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal.kopec@3mdeb.com>
+To: hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com
+Cc: platform-driver-x86@vger.kernel.org,
+	piotr.krol@3mdeb.com,
+	maciej.pijanowski@3mdeb.com,
+	michal.kopec@3mdeb.com
+Subject: [PATCH v2 0/1] platform/x86: Introduce dasharo-acpi platform driver
+Date: Fri, 28 Mar 2025 15:01:31 +0100
+Message-ID: <20250328140132.1303512-1-michal.kopec@3mdeb.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-342882028-1743169999=:932"
-
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323328-342882028-1743169999=:932
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 12380395376205958413
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddujedugeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomhepofhitghhrghlucfmohhpvggtuceomhhitghhrghlrdhkohhpvggtseefmhguvggsrdgtohhmqeenucggtffrrghtthgvrhhnpeduledtfffgueeugfffieeivdfhfeeutdfhffeigedttdefheektedvgefgueeugfenucfkphepuddvjedrtddrtddruddpvddufedrudelvddrjeejrddvgeelpdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpehmihgthhgrlhdrkhhophgvtgesfehmuggvsgdrtghomhdpnhgspghrtghpthhtohepuddprhgtphhtthhopehplhgrthhfohhrmhdqughrihhvvghrqdigkeeisehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehkedvmgdpmhhouggvpehsmhhtphhouhht
+DKIM-Signature: a=rsa-sha256; bh=//aJP8q/mJxcNNnqF4b+YzeNrE8e3kUw3e3C6Yt7lsM=;
+ c=relaxed/relaxed; d=3mdeb.com; h=From; s=ovhmo3617313-selector1;
+ t=1743170513; v=1;
+ b=AfUTVqXDP2oElY7UndnOAI9u/0AebOqG8agmDEGAQWIqUVyAUCL2pchJL2tMFJQN8xAwPEof
+ iFuTc6TJ+h2VhWRWYLqWTN9OL2MyODRp76zXKVgE+qGZAY32MBDm1c4O19xtkAQrSJTWFzbUN+/
+ Nod6mjLMQhPQeVJjNcS1hKSFSv6xN/uIfF5kfhDFHyqVZcgsFDMIkU/h7/v8bT+Cf5fbr3yJ6Oz
+ R/htKMz0oRDKdmFGTBP4saDLKFBsMgCihdUoGkax3qENyd8Zd6SujS+a4NgegyuNaY0ehupcoTv
+ IHu1IsLFoEzjADgT+P/9NJH+rFsSirmhpBDymFI+1Lnhw==
 
-On Wed, 26 Mar 2025, Arefev wrote:
+Introduce a driver for devices running Dasharo firmware. The driver
+supports thermal monitoring using a new ACPI interface in Dasharo. The
+initial version supports monitoring fan speeds, fan PWM duty cycles and
+system temperatures as well as determining which specific interfaces are
+implemented by firmware.
 
-> 25.03.2025 14:18, Ilpo J=C3=A4rvinen =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Tue, 25 Mar 2025, Denis Arefev wrote:
-> >=20
-> > > The value returned by the acpi_evaluate_integer() function is not
-> > > checked, but the result is not always successful, so an uninitialized
-> > > 'val' variable may be used in calculations.
-> > >=20
-> > > Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> > >=20
-> > > Fixes: b23910c2194e ("asus-laptop: Pegatron Lucid accelerometer")
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Denis Arefev <arefev@swemel.ru>
-> > > ---
-> > >   drivers/platform/x86/asus-laptop.c | 2 +-
-> > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/drivers/platform/x86/asus-laptop.c
-> > > b/drivers/platform/x86/asus-laptop.c
-> > > index d460dd194f19..b74b7d0eb6c2 100644
-> > > --- a/drivers/platform/x86/asus-laptop.c
-> > > +++ b/drivers/platform/x86/asus-laptop.c
-> > > @@ -427,7 +427,7 @@ static int asus_pega_lucid_set(struct asus_laptop
-> > > *asus, int unit, bool enable)
-> > >   static int pega_acc_axis(struct asus_laptop *asus, int curr, char
-> > > *method)
-> > >   {
-> > >   =09int i, delta;
-> > > -=09unsigned long long val;
-> > > +=09unsigned long long val =3D PEGA_ACC_CLAMP;
-> > >   =09for (i =3D 0; i < PEGA_ACC_RETRIES; i++) {
-> > >   =09=09acpi_evaluate_integer(asus->handle, method, NULL, &val);
-> > Shouldn't you handle the error from acpi_evaluate_integer() properly
-> > instead?
-> >=20
-> Apparently, the developer realized that the output is very noisy and
-> therefore created an algorithm that will surely return a good result.
->=20
-> I did not check the return value, because if acpi_evaluate_integer()
-> cannot read the values of accelerometers, 'val' will remain
-> uninitialized and will be used in further calculations.
+It has been tested on a NovaCustom laptop running pre-release Dasharo
+firmware, which implements fan and thermal monitoring for the CPU and
+the discrete GPU, if present.
 
-But if ACPI doesn't provide a value, why should that clamp value be used=20
-instead? I'd tend to think curr would be more suitable "default".
+Changes in v2:
+- Remove redundant copyright information
+- Turn dasharo_fill_* functions into single dasharo_fill_feature_caps
+  function
+- Code style fixes
+- Turn large if / else blocks into switch / case
+- Fix possible positive return values in hwmon read handler
+- Change while loops to for loops
+- Add local variable for data->sensors[data->sensors_count] in
+  dasharo_fill_feature_caps
+- Replace snprintf with scnprintf per Ilpo's review
+- Keep the "ok" path silent
 
-But shouldn't the loop either use continue to retry or the function=20
-return curr right away if acpi_evaluate_integer() returns an error?
+Changes in V3:
+- Simplify dasharo_read_value_by_cap_idx arguments and rename to
+  dasharo_read_channel
 
-I just don't see how your patch improves situation here despite silencing=
-=20
-the checker tool.
+Michał Kopeć (1):
+  platform/x86: Introduce dasharo-acpi platform driver
 
---=20
- i.
+ drivers/platform/x86/Kconfig        |  10 +
+ drivers/platform/x86/Makefile       |   3 +
+ drivers/platform/x86/dasharo-acpi.c | 375 ++++++++++++++++++++++++++++
+ 3 files changed, 388 insertions(+)
+ create mode 100644 drivers/platform/x86/dasharo-acpi.c
 
---8323328-342882028-1743169999=:932--
+-- 
+2.49.0
+
 
