@@ -1,74 +1,72 @@
-Return-Path: <platform-driver-x86+bounces-10858-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-10860-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EA15A7E451
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Apr 2025 17:28:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C99A7E475
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Apr 2025 17:32:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DEE5D19E0068
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Apr 2025 15:21:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CEEBD189D5F9
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Apr 2025 15:24:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27DAB1F8921;
-	Mon,  7 Apr 2025 15:19:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE7581EB5CE;
+	Mon,  7 Apr 2025 15:24:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KJAsLIQI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fjouDqhk"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A9D71F76D3;
-	Mon,  7 Apr 2025 15:19:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56EBA1F754E
+	for <platform-driver-x86@vger.kernel.org>; Mon,  7 Apr 2025 15:24:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744039194; cv=none; b=qRG+qM4ppp08/iTV4n7xAYu/yUIJi6wNVVs/WV2ShQLiWqc8KWiLwzaECBbVzApj4O9FK5Le9cc+M36173IHqFRdBJuuX74jUHdR25cemyGxhZC/6/nHPODmtUVsWddNGK/Lv60JmBeNV+3E6bwLgZf3M48Gyan4pYTXtdz/p8s=
+	t=1744039458; cv=none; b=IBpbSESSGlwcyruHlaCSUpYBqU7Xcf3qo2ylqr2jpzIfn/lzMTPBP2nT4S6McSkVyV529kuaBlheyN+k/cWS2qdUr2MOziYg6q5l9YNJZdINf6u2NCIHUPXvrtDFd7bl0QUngdJK5DAYlf0naYjxw3zUpx3zFFXEDeCI4wRTAGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744039194; c=relaxed/simple;
-	bh=Uv8tsfdGNY/eBUeej0wD8UqHXmEaL3zCsQGg2SVHWOE=;
+	s=arc-20240116; t=1744039458; c=relaxed/simple;
+	bh=bGwcxgJ5xPsKO+720mSNK35hGvXFfiCjKaX9VUo7n6Q=;
 	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=MyR2xsMUeOxrvvOFNh3F8hAiW8Ai+0d7kxORAaI4T+uXqiQrNVN6A9S1ta1DJV2er8LPkJYR4d2u0UKF+qxqXIggjYzqvCm9RgU21mAAl1XGUM7iDwd041SiEAgzJr5QIPNQBl2aTVw6iSCIk0/sutHVv2Y1XBJyYT0XZO8wEGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KJAsLIQI; arc=none smtp.client-ip=192.198.163.12
+	 MIME-Version:Content-Type; b=sqxhHG+DB8s6cHjYOwb2n8KiHNjsvo4DYIcihGNOEhKr7JnO+WwAL7MVnmlt0bRyhYGBlWwgvwSuVowb8AzbYkn0ckL63fswMT0vqxxt4nqVjPBBoC8TvM5KtPgHlagOXaUX0XvOzcGIUvCoFlHgeDLvTSkX3gAHAgVmpnaAXN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fjouDqhk; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744039192; x=1775575192;
+  t=1744039457; x=1775575457;
   h=from:date:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=Uv8tsfdGNY/eBUeej0wD8UqHXmEaL3zCsQGg2SVHWOE=;
-  b=KJAsLIQIedyRSFWJgOEzFFZTvIpXfJ6+7jXDtopGvTO95yfA5uTJla+y
-   Q3nFnPbWhhZHTplV4Flx4hUkBXBK8yKVrhEp7P7PEje7pXjhS5saOqITP
-   wXgYPHyi4efKrpkIdZZFwuUYAwp17zftTP20tZkHumQ2ewJsXO3wg0KyU
-   PW03vBeJSVsaDdE+j5WkCmV3D+3CqSkjGRW/YxN6OYE/Uz8zwZJiQiQKI
-   Hp0GlETXex3Q7qzwW1di+h9lstSbqxSGCOjmustnEiFm3vQHWWE654p2d
-   +IgqgKXm5LrjnXqUcY6t12tC1RHEPpnrQTVJAyH7qvjPDlpIB5zoNv+sW
+  bh=bGwcxgJ5xPsKO+720mSNK35hGvXFfiCjKaX9VUo7n6Q=;
+  b=fjouDqhkdyt0lC2bqfJo/B+Gq0ZPhZq74blnicmIfS+MQocuFjoBb0rj
+   Bjkd1eRXr4WdL9sDtI5byaGgz0OTjo4rdqt1UjfXpWs5bYFe5IguPJj60
+   I0x5ppghv1yEwsT/S+BA4Z9qs6TCV3LJluCNuCxOkbHnhk3VwprHsL3kE
+   TIIlmaPfMDQgOQUW7RJcqwB45CktUDoQJ+ox3p2qswBCf7YORe0KkAQIG
+   COtq/sJ3j2wt5iqv8wzvUyS2Va6iCaN7YVzX6Ruwk8ksG0lCqNzStkPj5
+   DFXpWHM2uZdzNrngkwsYtPXLro7M2vBUTngmUBX2fuSzGxOPtUxnGnKc6
    w==;
-X-CSE-ConnectionGUID: plyvz2FpSqqKvWhC/7HgFA==
-X-CSE-MsgGUID: RRXk32zOTtuC60zYkpLCBA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="49283581"
+X-CSE-ConnectionGUID: Fuhs+YksS0eDVWTdiQxPiQ==
+X-CSE-MsgGUID: N/tbdLItRi27pP16duTVcw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="49284429"
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="49283581"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 08:19:51 -0700
-X-CSE-ConnectionGUID: f0+4JNQCQrGunD0Q19cLUw==
-X-CSE-MsgGUID: Hkl9TmMHRUGBXL5vAfxwiw==
+   d="scan'208";a="49284429"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 08:24:16 -0700
+X-CSE-ConnectionGUID: cQ2N6GL4Tvu9LDxIWxg5zg==
+X-CSE-MsgGUID: afHeb/rURGWTbtOYHa/LDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="151179868"
+   d="scan'208";a="127856521"
 Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.229])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 08:19:49 -0700
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 08:24:15 -0700
 From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 7 Apr 2025 18:19:46 +0300 (EEST)
-To: Mario Limonciello <superm1@kernel.org>
-cc: mario.limonciello@amd.com, Shyam-sundar.S-k@amd.com, 
-    Hans de Goede <hdegoede@redhat.com>, Yijun Shen <Yijun.Shen@dell.com>, 
-    stable@vger.kernel.org, Yijun Shen <Yijun_Shen@Dell.com>, 
-    platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v2] platform/x86: amd: pmf: Fix STT limits
-In-Reply-To: <20250407133645.783434-1-superm1@kernel.org>
-Message-ID: <60e43790-bbeb-29b3-dcf1-7311439e15cc@linux.intel.com>
-References: <20250407133645.783434-1-superm1@kernel.org>
+Date: Mon, 7 Apr 2025 18:24:12 +0300 (EEST)
+To: Hans de Goede <hdegoede@redhat.com>
+cc: Andy Shevchenko <andy@kernel.org>, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 1/2] platform/x86: x86-android-tablets: Add "9v" to Vexia
+ EDU ATLA 10 tablet symbols
+In-Reply-To: <ba58d467-1525-496b-b8ba-b14aa04307a1@redhat.com>
+Message-ID: <6268e571-1422-c020-4445-bd20b683b003@linux.intel.com>
+References: <20250407092017.273124-1-hdegoede@redhat.com> <Z_OoouVSgw1xOpur@smile.fi.intel.com> <ba58d467-1525-496b-b8ba-b14aa04307a1@redhat.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -77,138 +75,32 @@ List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Mon, 7 Apr 2025, Mario Limonciello wrote:
-
-> From: Mario Limonciello <mario.limonciello@amd.com>
+On Mon, 7 Apr 2025, Hans de Goede wrote:
+> On 7-Apr-25 12:27, Andy Shevchenko wrote:
+> > On Mon, Apr 07, 2025 at 11:20:15AM +0200, Hans de Goede wrote:
+> >> The Vexia EDU ATLA 10 tablet comes in 2 different versions with
+> >> significantly different mainboards. The only outward difference is that
+> >> the charging barrel on one is marked 5V and the other is marked 9V.
+> >>
+> >> Both need to be handled by the x86-android-tablets code. Add 9v to
+> >> the symbols for the existing support for the 9V Vexia EDU ATLA 10 tablet
+> >> symbols to prepare for adding support for the 5V version.
+> >>
+> >> All this patch does is s/vexia_edu_atla10_info/vexia_edu_atla10_9v_info/
+> > 
+> > And period :-)
+> > 
+> > All this patch does is s/vexia_edu_atla10_info/vexia_edu_atla10_9v_info/.
 > 
-> On some platforms it has been observed that STT limits are not being applied
-> properly causing poor performance as power limits are set too low.
+> It feels a bit silly to send a v2 just to add a period to the commit msg.
 > 
-> STT limits that are sent to the platform are supposed to be in Q8.8
-> format.  Convert them before sending.
-> 
-> Reported-by: Yijun Shen <Yijun.Shen@dell.com>
-> Fixes: 7c45534afa443 ("platform/x86/amd/pmf: Add support for PMF Policy Binary")
-> Cc: stable@vger.kernel.org
-> Tested-By: Yijun Shen <Yijun_Shen@Dell.com>
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> ---
-> v2:
->  * Handle cases for auto-mode, cnqf, and sps as well
-> ---
->  drivers/platform/x86/amd/pmf/auto-mode.c | 4 ++--
->  drivers/platform/x86/amd/pmf/cnqf.c      | 4 ++--
->  drivers/platform/x86/amd/pmf/sps.c       | 8 ++++----
->  drivers/platform/x86/amd/pmf/tee-if.c    | 4 ++--
->  4 files changed, 10 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/amd/pmf/auto-mode.c b/drivers/platform/x86/amd/pmf/auto-mode.c
-> index 02ff68be10d01..df37f8a84a007 100644
-> --- a/drivers/platform/x86/amd/pmf/auto-mode.c
-> +++ b/drivers/platform/x86/amd/pmf/auto-mode.c
-> @@ -120,9 +120,9 @@ static void amd_pmf_set_automode(struct amd_pmf_dev *dev, int idx,
->  	amd_pmf_send_cmd(dev, SET_SPPT_APU_ONLY, false, pwr_ctrl->sppt_apu_only, NULL);
->  	amd_pmf_send_cmd(dev, SET_STT_MIN_LIMIT, false, pwr_ctrl->stt_min, NULL);
->  	amd_pmf_send_cmd(dev, SET_STT_LIMIT_APU, false,
-> -			 pwr_ctrl->stt_skin_temp[STT_TEMP_APU], NULL);
-> +			 pwr_ctrl->stt_skin_temp[STT_TEMP_APU] << 8, NULL);
+> Ilpo do you want me to send a v2 of this series?
 
-Hi Mario,
-
-Could we add some helper on constructing the fixed-point number from the 
-integer part as this magic shifting makes the intent somewhat harder to 
-follow just by reading the code itself?
-
-I hoped that include/linux/ would have had something for this but it seems 
-generic fixed-point helpers are almost non-existing except for very 
-specific use cases such as averages so maybe add a helper only for this 
-driver for now as this will be routed through fixes branch so doing random 
-things i include/linux/ might not be preferrable and would require larger 
-review audience.
-
-What I mean for general helpers is that it would be nice to have something 
-like DECLARE_FIXEDPOINT() similar to DECLARE_EWMA() macro (and maybe a 
-signed variant too) which creates a few helper functions for the given 
-name prefix. It seems there's plenty of code which would benefit from such 
-helpers and would avoid the need to comment the fixed-point operations 
-(not to speak of how many of such ops likely lack the comment). So at 
-least keep that in mind for naming the helpers so the conversion to
-a generic helper could be done smoothly.
+No, you don't have to send a new version because of that. I'll try to 
+remember to add the period there while applying but I won't have regrets 
+if I fail to remember it, TBH. :-)
 
 -- 
  i.
 
->  	amd_pmf_send_cmd(dev, SET_STT_LIMIT_HS2, false,
-> -			 pwr_ctrl->stt_skin_temp[STT_TEMP_HS2], NULL);
-> +			 pwr_ctrl->stt_skin_temp[STT_TEMP_HS2] << 8, NULL);
->  
->  	if (is_apmf_func_supported(dev, APMF_FUNC_SET_FAN_IDX))
->  		apmf_update_fan_idx(dev, config_store.mode_set[idx].fan_control.manual,
-> diff --git a/drivers/platform/x86/amd/pmf/cnqf.c b/drivers/platform/x86/amd/pmf/cnqf.c
-> index bc8899e15c914..6a5ecc05961d9 100644
-> --- a/drivers/platform/x86/amd/pmf/cnqf.c
-> +++ b/drivers/platform/x86/amd/pmf/cnqf.c
-> @@ -81,9 +81,9 @@ static int amd_pmf_set_cnqf(struct amd_pmf_dev *dev, int src, int idx,
->  	amd_pmf_send_cmd(dev, SET_SPPT, false, pc->sppt, NULL);
->  	amd_pmf_send_cmd(dev, SET_SPPT_APU_ONLY, false, pc->sppt_apu_only, NULL);
->  	amd_pmf_send_cmd(dev, SET_STT_MIN_LIMIT, false, pc->stt_min, NULL);
-> -	amd_pmf_send_cmd(dev, SET_STT_LIMIT_APU, false, pc->stt_skin_temp[STT_TEMP_APU],
-> +	amd_pmf_send_cmd(dev, SET_STT_LIMIT_APU, false, pc->stt_skin_temp[STT_TEMP_APU] << 8,
->  			 NULL);
-> -	amd_pmf_send_cmd(dev, SET_STT_LIMIT_HS2, false, pc->stt_skin_temp[STT_TEMP_HS2],
-> +	amd_pmf_send_cmd(dev, SET_STT_LIMIT_HS2, false, pc->stt_skin_temp[STT_TEMP_HS2] << 8,
->  			 NULL);
->  
->  	if (is_apmf_func_supported(dev, APMF_FUNC_SET_FAN_IDX))
-> diff --git a/drivers/platform/x86/amd/pmf/sps.c b/drivers/platform/x86/amd/pmf/sps.c
-> index d3083383f11fb..ec10db1bfa5ec 100644
-> --- a/drivers/platform/x86/amd/pmf/sps.c
-> +++ b/drivers/platform/x86/amd/pmf/sps.c
-> @@ -198,9 +198,9 @@ static void amd_pmf_update_slider_v2(struct amd_pmf_dev *dev, int idx)
->  	amd_pmf_send_cmd(dev, SET_STT_MIN_LIMIT, false,
->  			 apts_config_store.val[idx].stt_min_limit, NULL);
->  	amd_pmf_send_cmd(dev, SET_STT_LIMIT_APU, false,
-> -			 apts_config_store.val[idx].stt_skin_temp_limit_apu, NULL);
-> +			 apts_config_store.val[idx].stt_skin_temp_limit_apu << 8, NULL);
->  	amd_pmf_send_cmd(dev, SET_STT_LIMIT_HS2, false,
-> -			 apts_config_store.val[idx].stt_skin_temp_limit_hs2, NULL);
-> +			 apts_config_store.val[idx].stt_skin_temp_limit_hs2 << 8, NULL);
->  }
->  
->  void amd_pmf_update_slider(struct amd_pmf_dev *dev, bool op, int idx,
-> @@ -217,9 +217,9 @@ void amd_pmf_update_slider(struct amd_pmf_dev *dev, bool op, int idx,
->  		amd_pmf_send_cmd(dev, SET_STT_MIN_LIMIT, false,
->  				 config_store.prop[src][idx].stt_min, NULL);
->  		amd_pmf_send_cmd(dev, SET_STT_LIMIT_APU, false,
-> -				 config_store.prop[src][idx].stt_skin_temp[STT_TEMP_APU], NULL);
-> +				 config_store.prop[src][idx].stt_skin_temp[STT_TEMP_APU] << 8, NULL);
->  		amd_pmf_send_cmd(dev, SET_STT_LIMIT_HS2, false,
-> -				 config_store.prop[src][idx].stt_skin_temp[STT_TEMP_HS2], NULL);
-> +				 config_store.prop[src][idx].stt_skin_temp[STT_TEMP_HS2] << 8, NULL);
->  	} else if (op == SLIDER_OP_GET) {
->  		amd_pmf_send_cmd(dev, GET_SPL, true, ARG_NONE, &table->prop[src][idx].spl);
->  		amd_pmf_send_cmd(dev, GET_FPPT, true, ARG_NONE, &table->prop[src][idx].fppt);
-> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
-> index d6a871f0d8ff2..7096923107929 100644
-> --- a/drivers/platform/x86/amd/pmf/tee-if.c
-> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
-> @@ -142,7 +142,7 @@ static void amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_
->  
->  		case PMF_POLICY_STT_SKINTEMP_APU:
->  			if (dev->prev_data->stt_skintemp_apu != val) {
-> -				amd_pmf_send_cmd(dev, SET_STT_LIMIT_APU, false, val, NULL);
-> +				amd_pmf_send_cmd(dev, SET_STT_LIMIT_APU, false, val << 8, NULL);
->  				dev_dbg(dev->dev, "update STT_SKINTEMP_APU: %u\n", val);
->  				dev->prev_data->stt_skintemp_apu = val;
->  			}
-> @@ -150,7 +150,7 @@ static void amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_
->  
->  		case PMF_POLICY_STT_SKINTEMP_HS2:
->  			if (dev->prev_data->stt_skintemp_hs2 != val) {
-> -				amd_pmf_send_cmd(dev, SET_STT_LIMIT_HS2, false, val, NULL);
-> +				amd_pmf_send_cmd(dev, SET_STT_LIMIT_HS2, false, val << 8, NULL);
->  				dev_dbg(dev->dev, "update STT_SKINTEMP_HS2: %u\n", val);
->  				dev->prev_data->stt_skintemp_hs2 = val;
->  			}
-> 
 
