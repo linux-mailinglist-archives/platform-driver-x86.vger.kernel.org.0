@@ -1,132 +1,147 @@
-Return-Path: <platform-driver-x86+bounces-10823-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-10859-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D109A7DFF3
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Apr 2025 15:50:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2313A7E458
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Apr 2025 17:29:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 030127A3448
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Apr 2025 13:48:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B022171AE6
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Apr 2025 15:21:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CC1D18DF93;
-	Mon,  7 Apr 2025 13:49:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EDF41F8745;
+	Mon,  7 Apr 2025 15:21:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FdxEgxTa"
+	dkim=pass (2048-bit key) header.d=3mdeb.com header.i=@3mdeb.com header.b="f9U1/uqC"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from 7.mo583.mail-out.ovh.net (7.mo583.mail-out.ovh.net [178.32.124.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673CF188596
-	for <platform-driver-x86@vger.kernel.org>; Mon,  7 Apr 2025 13:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46652140E3C
+	for <platform-driver-x86@vger.kernel.org>; Mon,  7 Apr 2025 15:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.32.124.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744033778; cv=none; b=ZZjuCAM0QNA8Gus4lyiFG0rS9DqaV994JFZchhkP7kSBE61Y33o3Il+F5gTZHUdJK/ec9X6J06E9NwbBYpk1WvadDyE6ZvpCW+q2A+nx0VNzFOfGjpNIEJuyOtjpWJ9f3gUhzpmB8phtvenh8hc/AI1Bzpbm8TDvSF1XeJTFf7E=
+	t=1744039285; cv=none; b=G9ghGNsX8w2gtMODa8TTfdh+cxHjELyiB8Asiab7KmAYJiOfmhD9TQf7uwv1TFWHiq6iU5Y6QGBwFG7poYdymUL7fYRliZdD/ThixX9hJKu735XLfNLgFeDWwwIe1/7P7jn+R0qU/GF5BNXV544kdF2BdRJQ6nrDX8crxghJDiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744033778; c=relaxed/simple;
-	bh=M++UUTDzRKImZQdqbhoKv26o3chBYX3cA5ideJTdPFI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tttPPb6IgAswxRZ9paAEpqUOwir4X8p/zVivVPTqw23DJRLoMTn3nWHHbZ8SEzHMWcjsjrS9ZaIEhBzRDTvnRuf/KRjRVnNRPAAGlc3zoeV//APMjxY2Eoylxr3YuUYCxZpvSaSQkZp8HKHXXA3k0cXpop3ffQ5gmmYYQO7BWOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FdxEgxTa; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1744033775;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hCP1rGdk3Dh4Y0nOzYs0ZPOkBRfiIHmAKrJSH55swt4=;
-	b=FdxEgxTavYJx6PCuwn8CcvakGDE6pNQExzp/SS1E0adEFj3qLP3U872OsO23vcHmim9DDG
-	ZAITIIi5VdlQYi7FgUZu5N0Ti+J1vixICKnEuUNqEgzPYqghs9F+EzdnABl/Bpziac4GJX
-	mfP6ZoTI7iec0Lcwod/ULGE+xhc1hvg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-350-LNth603mOgOK_Mdx1mywwg-1; Mon, 07 Apr 2025 09:49:34 -0400
-X-MC-Unique: LNth603mOgOK_Mdx1mywwg-1
-X-Mimecast-MFC-AGG-ID: LNth603mOgOK_Mdx1mywwg_1744033773
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-391345e3aa3so2560555f8f.0
-        for <platform-driver-x86@vger.kernel.org>; Mon, 07 Apr 2025 06:49:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744033768; x=1744638568;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hCP1rGdk3Dh4Y0nOzYs0ZPOkBRfiIHmAKrJSH55swt4=;
-        b=ZpYpYPzycfprxkMDRiQGffwrVB48jiee60IwCHBPtTL088Tq5K6lTehdnwh3PXSZeK
-         USYKLa4/439s3cey8aY5+a8gq0+rxHSPCe3h62LbNXEBIHY5CJxeoUwE5K3BgYtw97u/
-         GeNekHavLyFKldhyPBB7Hf3+4DFMevKe4jir81kISeeBGve6TBH1D710Az1uK+DZQ26o
-         3f3bBuiNyYJ60LLojKbI5WNgGxZRXMmSqrASdZHNyT/OxLIaxzzL8R6CbB1JJlRh6y/h
-         O6JOtbsICzfoVMM7swmHYJBWBpJ5KoG7Rd5aOJdhicZ5XM0XXavDTyVK1JLmmxbdHYyp
-         Iyzw==
-X-Forwarded-Encrypted: i=1; AJvYcCV6RC9OrOsJVumgzJM+Usqu0YKUrwUptEj9tcpTFb9RDe2EXFJ3ZVGu/juDnNi2nn9oTIqHPCS4oWqcehuu2W2nIxJX@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwAeDkAuhte9xDjvl7OVndlFa09uYd10uO/aSrxSuq/IjQK/t1
-	NXnJCz0p33jNitkuThud3dUvDRL6HRo6X/MnMpYvhLEPHvIUjbUvDCmBYWfV50Pl3H9g8sQYD18
-	4KG/52M7jjoI30ZJcrBBaq+okR1ufI7mq1CCwRl+1ujFesFwSz0wVtECUXbmUdUkvC3Qz4KeJ+Q
-	7S+io=
-X-Gm-Gg: ASbGncupAyxhjF9yTsEaJI41Op2V3ttNqs+w01jMuiwb4Jpo8Yf8IV5P/AbPmogyaH2
-	ZAy3gIwBq7dmkHQ5vzi56KsUYi374fZiospGO30YN0lOodnbnEIZJvBGkMjMxnrY5PCtJm0hMjQ
-	eTs2+bXussN9YManyiUDkz1Pyah16/HEJ+02Mn96SIwKXUC/m+dPx14PAC8LL15CRCclVmLG24x
-	KdCrP37iUfZNrUwLr1W0WHAse1zRZJa7KeM5je0GXZ9XF85KhR/Sxh0iVnikXPAMWtJQzHrC2t1
-	KRPqk/5m2VVmhMoJl7E=
-X-Received: by 2002:a05:6000:2281:b0:39c:cc7:3c97 with SMTP id ffacd0b85a97d-39d6fd3646cmr5552091f8f.50.1744033767967;
-        Mon, 07 Apr 2025 06:49:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHtFvpPSvoCeXkH8Cli95ndUJBw7IlJTO6Zx62PTij8gWVZUajgEetyKCS9u+A6dctp5wFYIw==
-X-Received: by 2002:a05:6000:2281:b0:39c:cc7:3c97 with SMTP id ffacd0b85a97d-39d6fd3646cmr5552081f8f.50.1744033767634;
-        Mon, 07 Apr 2025 06:49:27 -0700 (PDT)
-Received: from [10.40.98.122] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c301b9d55sm11912823f8f.42.2025.04.07.06.49.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Apr 2025 06:49:27 -0700 (PDT)
-Message-ID: <ba58d467-1525-496b-b8ba-b14aa04307a1@redhat.com>
-Date: Mon, 7 Apr 2025 15:49:26 +0200
+	s=arc-20240116; t=1744039285; c=relaxed/simple;
+	bh=ri/Q71c6p0NfoGvBcO9l27Ztt6As2I80kAoK2yHHV3g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=a8+XPciHjl1aOLi+7iwET590dlUIVk4kXt7JjYPr5KYq6xnSzBaBkUY7VIDOQLGp62HjA45J4r8nupR/GJSktKzGsuPSnrHZvWU//oZYdI6vu82XXKiwWF9IechtjYy9HFtk33VUbprMjIQ7AtEtmrDxhGbBezcd4vqyHyEw6Fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=3mdeb.com; spf=pass smtp.mailfrom=3mdeb.com; dkim=pass (2048-bit key) header.d=3mdeb.com header.i=@3mdeb.com header.b=f9U1/uqC; arc=none smtp.client-ip=178.32.124.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=3mdeb.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=3mdeb.com
+Received: from director9.ghost.mail-out.ovh.net (unknown [10.108.25.23])
+	by mo583.mail-out.ovh.net (Postfix) with ESMTP id 4ZWTdC3Yfhz1Ryk
+	for <platform-driver-x86@vger.kernel.org>; Mon,  7 Apr 2025 12:52:31 +0000 (UTC)
+Received: from ghost-submission-5b5ff79f4f-kfbdm (unknown [10.108.42.198])
+	by director9.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 090071FEC8;
+	Mon,  7 Apr 2025 12:52:29 +0000 (UTC)
+Received: from 3mdeb.com ([37.59.142.99])
+	by ghost-submission-5b5ff79f4f-kfbdm with ESMTPSA
+	id v4jKLY3K82fdGgAAEArC2g
+	(envelope-from <michal.kopec@3mdeb.com>); Mon, 07 Apr 2025 12:52:29 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-99G00366dd81de-80f8-4d6f-ba43-ad97daa944b4,
+                    49FEA267915985A1F78C17A329F0406DF60E39EF) smtp.auth=michal.kopec@3mdeb.com
+X-OVh-ClientIp:213.192.77.249
+From: =?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal.kopec@3mdeb.com>
+To: hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	tomasz.pakula.oficjalny@gmail.com,
+	jdelvare@suse.com,
+	linux@roeck-us.net
+Cc: platform-driver-x86@vger.kernel.org,
+	piotr.krol@3mdeb.com,
+	maciej.pijanowski@3mdeb.com,
+	michal.kopec@3mdeb.com,
+	linux-hwmon@vger.kernel.org
+Subject: [PATCH v7 0/1] platform/x86: Introduce dasharo-acpi platform driver
+Date: Mon,  7 Apr 2025 14:52:09 +0200
+Message-ID: <20250407125210.215794-1-michal.kopec@3mdeb.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] platform/x86: x86-android-tablets: Add "9v" to Vexia
- EDU ATLA 10 tablet symbols
-To: Andy Shevchenko <andy@kernel.org>
-Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- platform-driver-x86@vger.kernel.org
-References: <20250407092017.273124-1-hdegoede@redhat.com>
- <Z_OoouVSgw1xOpur@smile.fi.intel.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Z_OoouVSgw1xOpur@smile.fi.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 14595884920276716953
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddtvdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomhepofhitghhrghlucfmohhpvggtuceomhhitghhrghlrdhkohhpvggtseefmhguvggsrdgtohhmqeenucggtffrrghtthgvrhhnpeduledtfffgueeugfffieeivdfhfeeutdfhffeigedttdefheektedvgefgueeugfenucfkphepuddvjedrtddrtddruddpvddufedrudelvddrjeejrddvgeelpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepmhhitghhrghlrdhkohhpvggtseefmhguvggsrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhlrghtfhhorhhmqdgurhhivhgvrhdqgiekieesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheekfegmpdhmohguvgepshhmthhpohhuth
+DKIM-Signature: a=rsa-sha256; bh=aA5fdCb3DjkZEhHkgEsxx15UGiq5j/wbfgoVeM7TrIM=;
+ c=relaxed/relaxed; d=3mdeb.com; h=From; s=ovhmo3617313-selector1;
+ t=1744030351; v=1;
+ b=f9U1/uqC/Np8G3fAEdN6Rd/1cVl2u7OeIUbklA+aw41bx2AWY5FSTSw0L9fa7yZFy9S8OUpm
+ eWxevyP8hGoZezhRHeOPtObXl7/b4G2DN5BAI3x7nyeRmdCVXsB0jlfieLp2oHF02Kb2WaDBdhs
+ qJF/TTEFdWNbel/xk4GAuPPM1VQtd0cOI0fIh7feW0SXXStkyY0B1Hq9fqd18kJW4Gfo6sCZ0Jy
+ 26AvhjOkmnolxX3HslVcDREnGXcPtn9wagXNCh7Ac5ONDf3F5Z/h4NWhAZVqpu3PuZaaUTKPK+n
+ cJvNnHdgRzKZtKBRk1uAlkwrebYEouHYy1x1CIhQyqTIg==
 
-Hi,
+Introduce a driver for devices running Dasharo firmware. The driver
+supports thermal monitoring using a new ACPI interface in Dasharo. The
+initial version supports monitoring fan speeds, fan PWM duty cycles and
+system temperatures as well as determining which specific interfaces are
+implemented by firmware.
 
-On 7-Apr-25 12:27, Andy Shevchenko wrote:
-> On Mon, Apr 07, 2025 at 11:20:15AM +0200, Hans de Goede wrote:
->> The Vexia EDU ATLA 10 tablet comes in 2 different versions with
->> significantly different mainboards. The only outward difference is that
->> the charging barrel on one is marked 5V and the other is marked 9V.
->>
->> Both need to be handled by the x86-android-tablets code. Add 9v to
->> the symbols for the existing support for the 9V Vexia EDU ATLA 10 tablet
->> symbols to prepare for adding support for the 5V version.
->>
->> All this patch does is s/vexia_edu_atla10_info/vexia_edu_atla10_9v_info/
-> 
-> And period :-)
-> 
-> All this patch does is s/vexia_edu_atla10_info/vexia_edu_atla10_9v_info/.
+It has been tested on a NovaCustom laptop running pre-release Dasharo
+firmware, which implements fan and thermal monitoring for the CPU and
+the discrete GPU, if present.
 
-It feels a bit silly to send a v2 just to add a period to the commit msg.
+Changes in v2:
+- Remove redundant copyright information
+- Turn dasharo_fill_* functions into single dasharo_fill_feature_caps
+  function
+- Code style fixes
+- Turn large if / else blocks into switch / case
+- Fix possible positive return values in hwmon read handler
+- Change while loops to for loops
+- Add local variable for data->sensors[data->sensors_count] in
+  dasharo_fill_feature_caps
+- Replace snprintf with scnprintf per Ilpo's review
+- Keep the "ok" path silent
 
-Ilpo do you want me to send a v2 of this series?
+Changes in V3:
+- Simplify dasharo_read_value_by_cap_idx arguments and rename to
+  dasharo_read_channel
 
-Regards,
+Changes in V4:
+- Remove unnecessary linebreaks
+- Simplify naming of variables
+- Constify zone lookup table
+- Remove unneeded includes
+- Switch to platform_device API
+- Remove unneeded driver remove handler
+- Add myself to MAINTAINERS
 
-Hans
+Changes in V5:
+- Fix up the MAINTAINERS entry
+- Use PTR_ERR_OR_ZERO for the hwmon pointer in the register func
+- Simplify if blocks in dasharo_hwmon_read
+- Use ACPI_FAILURE instead of !ACPI_SUCCESS
 
+Changes in V6:
+- Validate input parameters in dasharo_read_channel
+- Add default return code in dasharo_hwmon_read
+- Return error if invalid channel is requested in hwmon_read_string
+- Add missing include for ARRAY_SIZE
+- Align line continuations in dasharo_probe
+
+Changes in V7:
+- Use cap count for bound checking in dasharo_read_channel
+
+Michał Kopeć (1):
+  platform/x86: Introduce dasharo-acpi platform driver
+
+ MAINTAINERS                         |   6 +
+ drivers/platform/x86/Kconfig        |  10 +
+ drivers/platform/x86/Makefile       |   3 +
+ drivers/platform/x86/dasharo-acpi.c | 357 ++++++++++++++++++++++++++++
+ 4 files changed, 376 insertions(+)
+ create mode 100644 drivers/platform/x86/dasharo-acpi.c
+
+-- 
+2.49.0
 
 
