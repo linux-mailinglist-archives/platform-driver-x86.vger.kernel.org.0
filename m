@@ -1,414 +1,169 @@
-Return-Path: <platform-driver-x86+bounces-10894-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-10896-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4087A8040F
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  8 Apr 2025 14:05:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4EEBA803FD
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  8 Apr 2025 14:05:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C2E224656ED
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  8 Apr 2025 11:57:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C8CAC19E432D
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  8 Apr 2025 12:00:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29E73269895;
-	Tue,  8 Apr 2025 11:56:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E917269D08;
+	Tue,  8 Apr 2025 11:59:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fux3SAqG"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Xklge4he"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDEF2690F9
-	for <platform-driver-x86@vger.kernel.org>; Tue,  8 Apr 2025 11:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263E026983B
+	for <platform-driver-x86@vger.kernel.org>; Tue,  8 Apr 2025 11:59:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744113363; cv=none; b=PeoxT986Dx9q79ZLjV/JTgr5GqRqoCd0M+3FYvKZY647C8YNBHkzHtpxwbgnw8Lwltk9XD+O+rvuM2Va0ollS37UPESas91k7XW7G4Blg+ELsnqlO41v+RPVgHLSF9M3C1hl4wLvbatT5fFYwbdz5ey+5qJ9jNUdRus2g7YkZrE=
+	t=1744113575; cv=none; b=T3LOD+lnfMp2Vyv1WurTMEdnw6ZnhPHafoRpdDysBha3OfyeM3jkMT11EQpaU4tQFdgt9b97zv0B/GFAvufb67WxMcz05u3C/qD0iZg76QlqpbqtZwo/ZUfl4N7Kh/iS0TM8ZFuK28JBDVLfsR5H5zGLo+Xa0Up9VZ0KuoGq+QY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744113363; c=relaxed/simple;
-	bh=jE2Nwy15ZDuY6TJgBcQREp7HTQcvQBzrFxX+lVFv384=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=CDtEB1VlmAW2Px7610U2xM2kf/mmCBBiuqknkLmvLrLYFg1Hk1kqP0CMfyWvgaOTLVXSHG/PCJEtBUt8bWxxmRNKIAckurZYf1UpH90aDpY6ygaWMPPUlAWr0XXzNOhcTITqU1DrtAMKZHOgbV48msW79GNADYzHtVYvpJfp1gA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fux3SAqG; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744113362; x=1775649362;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=jE2Nwy15ZDuY6TJgBcQREp7HTQcvQBzrFxX+lVFv384=;
-  b=Fux3SAqGSJbTHrNrzKql5tmWL2b69fYjT3onlxjHgBy4XLDpcbxrDaMK
-   +b7F/yygiMoP7xh3Syfmz5ER/PJmGnYmO0LQ12g5ToIBLSNve+xo7UNGm
-   5g6isLBnf1rWq/CTHT+8xAPfB7e9wX17/8tvPNZc93gpZiXdyayHCsE3f
-   yWb2Hv/au2b6RPWefMpUhWAaxi1B+qInoWQFy38qnRgevaXwHHlf/6foZ
-   cmAc+DZ2Zvm4nUdeN9kXtCS8hJAMSV4WklkBN7gJvEsEC3ImMR8FbUwjw
-   ck/oQIRCWOVwdBjIYUVsGs5nFqMqClr3Ul0CmwCCYer+PXCzkF14jPHqG
-   A==;
-X-CSE-ConnectionGUID: QrZScwfGTmajwPJp4/sJ9w==
-X-CSE-MsgGUID: P3K2KfW0QBOJOkRF7X/fhw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="49337579"
-X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
-   d="scan'208";a="49337579"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 04:56:01 -0700
-X-CSE-ConnectionGUID: 7SBURMocTpK//AWWFLz9tQ==
-X-CSE-MsgGUID: l5ewH7uiRK+XJXIkJK2B6g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
-   d="scan'208";a="128757686"
-Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.244.125])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 04:55:58 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 8 Apr 2025 14:55:55 +0300 (EEST)
-To: Vadim Pasternak <vadimp@nvidia.com>
-cc: Hans de Goede <hdegoede@redhat.com>, Michael Shych <michaelsh@nvidia.com>, 
-    Ciju Rajan K <crajank@nvidia.com>, Felix Radensky <fradensky@nvidia.com>, 
-    Oleksandr Shamray <oleksandrs@nvidia.com>, 
-    "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
-Subject: RE: [PATCH platform-next v7 1/8] platform/mellanox mlxreg-hotplug:
- Add support for new flavor of capability registers
-In-Reply-To: <PH7PR12MB6668F830AED259DC278122C2AFA02@PH7PR12MB6668.namprd12.prod.outlook.com>
-Message-ID: <34fb9d19-0a4c-aafd-971d-80ba4c8e6f0b@linux.intel.com>
-References: <20250327163855.48294-1-vadimp@nvidia.com> <20250327163855.48294-2-vadimp@nvidia.com> <beaf923c-c637-aa84-c102-f5a9f2605715@linux.intel.com> <PH7PR12MB6668F830AED259DC278122C2AFA02@PH7PR12MB6668.namprd12.prod.outlook.com>
+	s=arc-20240116; t=1744113575; c=relaxed/simple;
+	bh=6Q4B7GpyPTFBkWAifzFqT2Yt0K6BppXaJfVIu5w/IjI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V4Klf60MQClkVKrH/ZnYDZWhUWLCsIYbStM8j9nyy2zeY45JbfQuGIZNbJGyoa/OYCNOFe+/rw8N2mPiIeI5WqQrtCaslIcJfh0jXDP/L0wY9k1wWoKr2MQ80k5GxaXq3us4ddI5NDJ6hpCZUWXFY23rUTufOjEse9wscvU2sew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Xklge4he; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 538BkvHx014154
+	for <platform-driver-x86@vger.kernel.org>; Tue, 8 Apr 2025 11:59:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=NEuaNgipirFcEWokWSaWAS/H
+	yieGaYJXo6f7MVJMQQ8=; b=Xklge4heqEb6htj8B5O7IHd428xO57ftGWanUiIw
+	mR4/sOdbi8VjXnwUa/ND193G+DoZbkPHxW2lv0gGqWArKaC4QvbiMDqbKNYNn0RF
+	QVwRWcIUMVSe9xonU831+uYGwXOTZ17u7ZTIoMDhD7tO1bEtxkzMZZ39nOSo7AwW
+	w3Wg1ispeItWnd1UvoIbgN1aDTOo/NYdJhqKlDXO0EFK5isRGO7hg2LaSSEawevu
+	ftk6T7ByD0kTjgLBRvUix5cFS0MPr2WbshmO3ILW20l4gSXfoXM3mfraDwCcXWXJ
+	fQytu+NoPZiBJqSR3yhMlc9oLW4/uxFhMHFSFd23bIDFqQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twpm7kyy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <platform-driver-x86@vger.kernel.org>; Tue, 08 Apr 2025 11:59:32 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7c5c77aff78so1607420785a.0
+        for <platform-driver-x86@vger.kernel.org>; Tue, 08 Apr 2025 04:59:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744113571; x=1744718371;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NEuaNgipirFcEWokWSaWAS/HyieGaYJXo6f7MVJMQQ8=;
+        b=F05nvZuYHcuOYbsp7094dnTO9oXKQEOMV+RqSjf/UVUWn2FDfbVYaJlBITObP+jOfb
+         1hZk4YD7nW9LAcdUr7z1obLlZUqa5ZLslE95+ZWftaVoonSwosnUAXUqx2XBZt7GP7kx
+         xO5NiBsFvTM2tcH1NI0n27bHG3WLex6OBTCkxNV6gRRroGd9HgA27Pi80muJ3fw0GmO9
+         Jjdo+tVqjqJ8Tvtbv7/rdl1eePFDiZ4syey52fjUg9A2gknxltLNBVmnSuU8MWLpfc6V
+         lJsB2dfUP85D5itklb7euO7Tm7eW4K6Mq50QZXJZw8jFq54olWbi7Hos0o6fc20Tbun/
+         ircw==
+X-Forwarded-Encrypted: i=1; AJvYcCWC3cX/ybPXWTj99b/E7Q+ODElEhQP7W+Q0npKTx4Q/fdKKtbiLcEj6baqrx8xXCBCiXtD/SSoYNuCAMorZEq4dv+MV@vger.kernel.org
+X-Gm-Message-State: AOJu0YztYrzn5r1AA4UOefxOK/nJDPDp/ZXJ+hB8CVojkJ/361K8Vosm
+	sFMH/VhnC0a+u2RQ0xnhr1FUWPZyfGT4Db4OsOKz8X4W87mJk+8MPMQQhkEa9I3QUKDVKBDmlVn
+	L4talKfFqfd2fsWDdplhC/OiIfalVTWN+nV74TpmLxv0IsK9fZMGRC72vM6dU5mk/jMSoDQkq
+X-Gm-Gg: ASbGnctQ0iaezwyod+cBMDU5ru1GgMn2GLk9ae0YiqMc/qWcJtuCFClTJsboezm8noE
+	CH34ngX7j7yZsh9nTQeGbUKMMe7GRMPGfOhOuMzyRg6RIQEGJ7AZ/+gblBFmJBa6iVSAOkNf8YF
+	nFogleyhaPaQzSW/SLOu8/vwZVIPbzXiOJJbWc8taqQH2LfojF+xBP39J/+R3XkcmXiJ8HuaIS+
+	IsiDfB1xtml9xEJ/NbN3NOGDN29xBFRuHyy1L/5Cutv3DqD5ahKuulEUTBhU+bbz0wUmlvg3FXq
+	vvXou0Oke5jWLl8Vd7TuhG/PFlw5siXaBJ6YdMe+4jX4MOKPgRwYNb3GS6S/IcoAw88wbaw0MhI
+	ok68=
+X-Received: by 2002:a05:620a:4452:b0:7c5:5d4b:e63b with SMTP id af79cd13be357-7c774dd611emr2077712085a.38.1744113570969;
+        Tue, 08 Apr 2025 04:59:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEO0pdqrUOojsKZC0LUZebfwayX/lBneIGD6ckCJRsQXTk8bZ4JOWxGmFcuR+OIU3QqcGFMkQ==
+X-Received: by 2002:a05:620a:4452:b0:7c5:5d4b:e63b with SMTP id af79cd13be357-7c774dd611emr2077706885a.38.1744113570585;
+        Tue, 08 Apr 2025 04:59:30 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54c1e5ab4e1sm1507877e87.23.2025.04.08.04.59.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Apr 2025 04:59:28 -0700 (PDT)
+Date: Tue, 8 Apr 2025 14:59:25 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Anusha Srivatsa <asrivats@redhat.com>,
+        Paul Kocialkowski <paulk@sys-base.io>,
+        Dmitry Baryshkov <lumag@kernel.org>,
+        =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>,
+        Hui Pu <Hui.Pu@gehealthcare.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+        imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+Subject: Re: [PATCH 17/34] drm/msm/dsi: convert to devm_drm_bridge_alloc() API
+Message-ID: <megx72fwv3xljmimtftryg6ueusjd2f3wv37u2lstdrjt2vlyf@3w32pt3ozivr>
+References: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
+ <20250407-drm-bridge-convert-to-alloc-api-v1-17-42113ff8d9c0@bootlin.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323328-628838978-1744112998=:930"
-Content-ID: <231e67cb-5262-686b-6db5-156a4c32ea06@linux.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250407-drm-bridge-convert-to-alloc-api-v1-17-42113ff8d9c0@bootlin.com>
+X-Proofpoint-GUID: Cg9bPzcKRuViUbmVVecdZTTUSpYb37qB
+X-Proofpoint-ORIG-GUID: Cg9bPzcKRuViUbmVVecdZTTUSpYb37qB
+X-Authority-Analysis: v=2.4 cv=MpRS63ae c=1 sm=1 tr=0 ts=67f50fa4 cx=c_pps a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=P-IC7800AAAA:8 a=COk6AnOGAAAA:8 a=tVI0ZWmoAAAA:8 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8
+ a=MqdoT2xZwiyagvIbdbwA:9 a=CjuIK1q_8ugA:10 a=NFOGd7dJGGMPyQGDc5-O:22 a=d3PnA9EDa4IxuAV0gXij:22 a=TjNXssC_j7lpFel5tvFf:22 a=-BPWgnxRz2uhmvdm1NTO:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-08_04,2025-04-08_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ mlxlogscore=804 clxscore=1011 priorityscore=1501 impostorscore=0
+ spamscore=0 bulkscore=0 suspectscore=0 malwarescore=0 adultscore=0
+ phishscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504080085
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Mon, Apr 07, 2025 at 04:23:32PM +0200, Luca Ceresoli wrote:
+> This is the new API for allocating DRM bridges.
+> 
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> 
+> ---
+> 
+> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Cc: Marijn Suijten <marijn.suijten@somainline.org>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Sean Paul <sean@poorly.run>
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi_manager.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
 
---8323328-628838978-1744112998=:930
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <7e787589-2c4b-cb15-9c01-03eefc43b61f@linux.intel.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-On Fri, 28 Mar 2025, Vadim Pasternak wrote:
->=20
-> > -----Original Message-----
-> > From: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
-> > Sent: Friday, 28 March 2025 15:45
-> > To: Vadim Pasternak <vadimp@nvidia.com>
-> > Cc: Hans de Goede <hdegoede@redhat.com>; Michael Shych
-> > <michaelsh@nvidia.com>; Ciju Rajan K <crajank@nvidia.com>; Felix Radens=
-ky
-> > <fradensky@nvidia.com>; Oleksandr Shamray <oleksandrs@nvidia.com>;
-> > platform-driver-x86@vger.kernel.org
-> > Subject: Re: [PATCH platform-next v7 1/8] platform/mellanox mlxreg-hotp=
-lug:
-> > Add support for new flavor of capability registers
-> >=20
-> > On Thu, 27 Mar 2025, Vadim Pasternak wrote:
-> >=20
-> > > The hotplug platform data is common across various systems, but the
-> > > hotplug driver should only configure instances relevant to specific
-> > > systems.
-> > >
-> > > For example, platform hotplug data might contain descriptions for
-> > > fan1, fan2, ..., fan{n}, while some systems are equipped with all 'n'
-> > > fans, others with less. This applies to power controllers, ASICs, and
-> > > other components as well.
-> > >
-> > > The 'capability' register in 'mlxreg_core_item' structure specifies
-> > > the total number of elements. All registers are 8 bits wide. When the
-> > > number of attributes exceeds 8 bits, they are distributed across
-> > > multiple hotplug register sets. The 'capability' register provides th=
-e
-> > > total count across all sets.
-> > > Example for 20 attributes:
-> > > - Set 1: attributes 1-8.
-> > > - Set 2: attributes 9-16.
-> > > - Set 3: attributes 17-20.
-> > >
-> > > The content of the 'capability' register in 'mlxreg_core_data'
-> > > structure depends on presence of the 'slot' field in this structure:
-> > > - If both 'capability' and 'slot' fields are provided: register conta=
-ins
-> > >   count of elements.
-> > > - Otherwise: register contains bitmask.
-> > >
-> > > Use slot parameter to determine whether capability register contains
-> > > bitmask or counter.
-> >=20
-> > Thanks, this is much more understandable now that you updated this, how=
-ever, I
-> > still find it in mismatch with the code.
-> >=20
-> > > This change reduces unnecessary duplication of hotplug structures
-> > > between different systems - the same structure can be used for system=
-s
-> > > equipped with 4, 12, or 18 fans.
-> > >
-> > > Reviewed-by: Felix Radensky <fradensky@nvidia.com>
-> > > Signed-off-by: Vadim Pasternak <vadimp@nvidia.com>
-> > > ---
-> > > v6->v7
-> > > Revised after comment pointed out by Ilpo:
-> > > - Renove capability_mask field.
-> > > - Modify comments and commit text.
-> > > v5->v6
-> > > Revised after comments pointed out by Ilpo:
-> > > - Drop 'capability_bit' from structure 'mlxreg_core_data', since it i=
-s
-> > >   not used.
-> > > ---
-> > >  drivers/platform/mellanox/mlxreg-hotplug.c | 29
-> > > +++++++++++++++++++---
-> > >  1 file changed, 26 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/platform/mellanox/mlxreg-hotplug.c
-> > > b/drivers/platform/mellanox/mlxreg-hotplug.c
-> > > index 0ce9fff1f7d4..bec12bc73e67 100644
-> > > --- a/drivers/platform/mellanox/mlxreg-hotplug.c
-> > > +++ b/drivers/platform/mellanox/mlxreg-hotplug.c
-> > > @@ -274,7 +274,22 @@ static int mlxreg_hotplug_attr_init(struct
-> > mlxreg_hotplug_priv_data *priv)
-> > >  =09=09=09if (ret)
-> > >  =09=09=09=09return ret;
-> > >
-> > > -=09=09=09item->mask =3D GENMASK((regval & item->mask) - 1, 0);
-> > > +=09=09=09if (!regval)
-> > > +=09=09=09=09continue;
-> > > +
-> > > +=09=09=09/*
-> > > +=09=09=09 * The 'regval' contains a bitmask or count of attributes
-> > to be handled.
-> > > +=09=09=09 * When the 'capability' register is configured, for 'item'
-> > it specifies the
-> > > +=09=09=09 * total number of elements. All registers are 8 bits
-> > wide. If the number of
-> > > +=09=09=09 * attributes exceeds 8 bits, they are distributed across
-> > multiple hotplug
-> > > +=09=09=09 * register sets. The 'capability' register provides the
-> > total count across
-> > > +=09=09=09 * all sets.
-> > > +=09=09=09 * Example for 20 attributes:
-> > > +=09=09=09 * - Set 1: attributes 1-8.
-> > > +=09=09=09 * - Set 2: attributes 9-16.
-> > > +=09=09=09 * - Set 3: attributes 17-20.
-> > > +=09=09=09 */
-> > > +=09=09=09item->mask =3D GENMASK(((regval % 8) & item->mask) -
-> > 1, 0);
-> >=20
-> > Okay so this matches the case for Set 3 but what code handles Set 1 & 2=
- that
-> > should be set to 0xff ?
-> >=20
-> > How does it even determine which of those sets the item belongs to?
-> >=20
-> > I don't see those two things done anywhere in the code so please help m=
-e, is my
-> > understanding of the code lacking or is this code missing something?
->=20
-> Hi Ilpo,
->=20
-> Yes, you are right, it still not good - need identification of the set.
-> Actually, we don't have such hardware yet, which requires extension which=
- I am trying
-> to provide in this patch.
->=20
-> The intension is to add common infrastructure for the case when system is=
- equipped is for
-> example with 6, 12, 20, 24 fans.
-> For covering 20 fans, register space should have 3 register sets (status/=
-event/mask) for
-> each eight. The 'capability' register value will be 20.
-> The superset configuration will be like below.
->=20
-> static struct mlxreg_core_data mlxplat_mlxcpld_xdr_fan_items_data[] =3D {
-> =09{
-> =09=09.label =3D "fan1",
-> =09=09.reg =3D MLXPLAT_CPLD_LPC_REG_FAN_OFFSET,
-> =09=09.mask =3D BIT(0),
-> =09=09.slot =3D 1,
-> =09=09.capability =3D MLXPLAT_CPLD_LPC_REG_FAN_DRW_CAP_OFFSET,
-> =09=09.bit =3D BIT(0),
-> =09=09.hpdev.nr =3D MLXPLAT_CPLD_NR_NONE,
-> =09},
-> ...
-> =09{
-> =09=09.label =3D "fan8",
-> =09=09.reg =3D MLXPLAT_CPLD_LPC_REG_FAN_OFFSET,
-> =09=09.mask =3D BIT(7),
-> =09=09.slot =3D 8,
-> =09=09.capability =3D MLXPLAT_CPLD_LPC_REG_FAN_DRW_CAP_OFFSET,
-> =09=09.bit =3D BIT(7),
-> =09=09.hpdev.nr =3D MLXPLAT_CPLD_NR_NONE,
-> =09},
-> };
->=20
-> static struct mlxreg_core_data mlxplat_mlxcpld_xdr_fan2_items_data[] =3D =
-{
-> =09{
-> =09=09.label =3D "fan9",
-> =09=09.reg =3D MLXPLAT_CPLD_LPC_REG_FAN2_OFFSET,
-> =09=09.mask =3D BIT(0),
-> =09=09.slot =3D 9,
-> =09=09.capability =3D MLXPLAT_CPLD_LPC_REG_FAN_DRW_CAP_OFFSET,
-> =09=09.bit =3D BIT(0),
-> =09=09.hpdev.nr =3D MLXPLAT_CPLD_NR_NONE,
-> =09},
-> ...
-> =09{
-> =09=09.label =3D "fan16",
-> =09=09.reg =3D MLXPLAT_CPLD_LPC_REG_FAN2_OFFSET,
-> =09=09.mask =3D BIT(7),
-> =09=09.slot =3D 16,
-> =09=09.capability =3D MLXPLAT_CPLD_LPC_REG_FAN_DRW_CAP_OFFSET,
-> =09=09.bit =3D BIT(7),
-> =09=09.hpdev.nr =3D MLXPLAT_CPLD_NR_NONE,
-> =09},
-> };
->=20
-> static struct mlxreg_core_data mlxplat_mlxcpld_xdr_fan3_items_data[] =3D =
-{
-> =09{
-> =09=09.label =3D "fan17",
-> =09=09.reg =3D MLXPLAT_CPLD_LPC_REG_FAN2_OFFSET,
-> =09=09.mask =3D BIT(0),
-> =09=09.slot =3D 17,
-> =09=09.capability =3D MLXPLAT_CPLD_LPC_REG_FAN_DRW_CAP_OFFSET,
-> =09=09.bit =3D BIT(0),
-> =09=09.hpdev.nr =3D MLXPLAT_CPLD_NR_NONE,
-> =09},
-> ...
-> =09{
-> =09=09.label =3D "fan24",
-> =09=09.reg =3D MLXPLAT_CPLD_LPC_REG_FAN2_OFFSET,
-> =09=09.mask =3D BIT(7),
-> =09=09.slot =3D 24,
-> =09=09.capability =3D MLXPLAT_CPLD_LPC_REG_FAN_DRW_CAP_OFFSET,
-> =09=09.bit =3D BIT(7),
-> =09=09.hpdev.nr =3D MLXPLAT_CPLD_NR_NONE,
-> =09},
-> };
->=20
-> For 'item' structure need to add additional filed to identify the group.
-> Let's say the filed 'last_slot' with the last slot number in this group.
->=20
-> static struct mlxreg_core_item mlxplat_mlxcpld_xdr_items[] =3D {
-> ...
-> =09{
-> =09=09.data =3D mlxplat_mlxcpld_xdr_fan_items_data,
-> =09=09.aggr_mask =3D MLXPLAT_CPLD_AGGR_MASK_NG_DEF,
-> =09=09.reg =3D MLXPLAT_CPLD_LPC_REG_FAN_OFFSET,
-> =09=09.mask =3D MLXPLAT_CPLD_FAN_XDR_MASK,
-> =09=09.capability =3D MLXPLAT_CPLD_LPC_REG_FAN_DRW_CAP_OFFSET,
-> =09=09.last_slot =3D 8, -> need to add filed to identify the last slot in=
- item
-> =09=09.count =3D ARRAY_SIZE(mlxplat_mlxcpld_xdr_fan_items_data),
-> =09=09.inversed =3D 1,
-> =09=09.health =3D false,
-> =09},
-> =09{
-> =09=09.data =3D mlxplat_mlxcpld_xdr_fan2_items_data,
-> =09=09.aggr_mask =3D MLXPLAT_CPLD_AGGR_MASK_NG_DEF,
-> =09=09.reg =3D MLXPLAT_CPLD_LPC_REG_FAN2_OFFSET,
-> =09=09.mask =3D MLXPLAT_CPLD_FAN_XDR_MASK,
-> =09=09.capability =3D MLXPLAT_CPLD_LPC_REG_FAN_DRW_CAP_OFFSET,
-> =09=09.last_slot =3D 16, -> need to add filed to identify the last slot i=
-n item
-> =09=09.count =3D ARRAY_SIZE(mlxplat_mlxcpld_xdr_fan2_items_data),
-> =09=09.inversed =3D 1,
-> =09=09.health =3D false,
-> =09},
-> =09{
-> =09=09.data =3D mlxplat_mlxcpld_xdr_fan3_items_data,
-> =09=09.aggr_mask =3D MLXPLAT_CPLD_AGGR_MASK_NG_DEF,
-> =09=09.reg =3D MLXPLAT_CPLD_LPC_REG_FAN3_OFFSET,
-> =09=09.mask =3D MLXPLAT_CPLD_FAN_XDR_MASK,
-> =09=09.capability =3D MLXPLAT_CPLD_LPC_REG_FAN_DRW_CAP_OFFSET,
-> =09=09.last_slot =3D 24, -> need to add filed to identify the last slot i=
-n item
-> =09=09.count =3D ARRAY_SIZE(mlxplat_mlxcpld_xdr_fan3_items_data),
-> =09=09.inversed =3D 1,
-> =09=09.health =3D false,
-> =09},
->=20
-> Then to treat it as:
-> =09regval =3D regval >=3D item->last_slot ? 8 : item->last_slot - regval;
-> =09item->mask =3D GENMASK((regval & item->mask) - 1, 0);
->=20
-> So, for 20 elements, value of 'capability' is 20, 'item->mask' for all gr=
-oups 0xff.
->=20
-> For the 1-st group: 'regval' is set 8 and 'item->mask' 0xff.
-> For the 2-nd group: 'regval' is set 8 and 'item->mask' 0xff.
-> For the 3-rd group: 'regval' is set 24 - 20 and and 'item->mask' 0x0f.
->=20
-> Probably I'll remove this patch from the current patch set and send this
-> as a separate patch, including only the above change.
-> What do you think?
->
-> Thank you very much and sorry.
-
-Hi,
-
-What's the hurry with untested code for HW that isn't there yet to test=20
-with? It's not like I'd expect it to take long time to get this series=20
-finished and included once you actually can test it (assuming it won't=20
-take many weeks to address simple comments and send updated version of
-the series).
-
---=20
- i.
-
-> Vadim.
->=20
-> >=20
-> > Note that I'm also a bit unsure if one iteration of the main for loop i=
-n this
-> > function handles one of those sets on each iteration or if there would =
-be
-> > additional loop required to handle the multi-set case within this if bl=
-ock (you
-> > don't call any variable "set" in this function so I'm not able to make =
-the
-> > connection fully between the description and the code).
-> >=20
-> >=20
-> > (I'm really sorry I feel like I'm just dragging this on and on but I ca=
-nnot shake the
-> > feeling something is still wrong with this code).
-> >=20
-> > >  =09=09}
-> > >
-> > >  =09=09data =3D item->data;
-> > > @@ -294,7 +309,15 @@ static int mlxreg_hotplug_attr_init(struct
-> > mlxreg_hotplug_priv_data *priv)
-> > >  =09=09=09=09if (ret)
-> > >  =09=09=09=09=09return ret;
-> > >
-> > > -=09=09=09=09if (!(regval & data->bit)) {
-> > > +=09=09=09=09/*
-> > > +=09=09=09=09 * In case slot field is provided, capability
-> > register contains
-> > > +=09=09=09=09 * counter, otherwise bitmask. Skip non-
-> > relevant entries if slot
-> > > +=09=09=09=09 * is set and exceeds counter. Othewise validate
-> > entry by matching
-> > > +=09=09=09=09 * bitmask.
-> > > +=09=09=09=09 */
-> > > +=09=09=09=09if (data->slot > regval)
-> > > +=09=09=09=09=09break;
-> > > +=09=09=09=09if (!(regval & data->bit) && !data->slot) {
-> > >  =09=09=09=09=09data++;
-> > >  =09=09=09=09=09continue;
-> > >  =09=09=09=09}
-> > > @@ -611,7 +634,7 @@ static int mlxreg_hotplug_set_irq(struct
-> > mlxreg_hotplug_priv_data *priv)
-> > >  =09=09=09=09if (ret)
-> > >  =09=09=09=09=09goto out;
-> > >
-> > > -=09=09=09=09if (!(regval & data->bit))
-> > > +=09=09=09=09if (!(regval & data->bit) && !data->slot)
-> > >  =09=09=09=09=09item->mask &=3D ~BIT(j);
-> > >  =09=09=09}
-> > >  =09=09}
-> > >
---8323328-628838978-1744112998=:930--
+-- 
+With best wishes
+Dmitry
 
