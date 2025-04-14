@@ -1,440 +1,245 @@
-Return-Path: <platform-driver-x86+bounces-11026-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-11028-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED3E6A88582
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Apr 2025 16:45:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A8E8A887F6
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Apr 2025 18:07:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 72816567526
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Apr 2025 14:28:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3602E3ADFB8
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Apr 2025 16:06:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 430872D026C;
-	Mon, 14 Apr 2025 14:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83B6619F130;
+	Mon, 14 Apr 2025 16:07:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="scX/tRZA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ck8w8nHb"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737F32820D4;
-	Mon, 14 Apr 2025 14:05:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7322119992D;
+	Mon, 14 Apr 2025 16:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744639505; cv=none; b=k25R2H663RJPtN/Go/+wPZXmF8G/HMNZzkffrddi0ww5E8Z9Ioz1UU9diru6pr18iMpzRCqGLZSITF/NN0iAfLNrbBLDpDko6TKMKTCWzdHD9Y+FDFQeg2f6+pbkXHGGL1jpi13hCTCLcV1LERjj3I3WGXh4sbBmOrq3qgt+eVU=
+	t=1744646823; cv=none; b=k+WZDgT4WPy687cUGvE1EFDiTmMaexSqZHhyOoo9Ivcd7DRccRM+ftg4ssJRYfRKwSDLLz2s0fcTeVHbrDVQD7tERr+AEV3yLpPNSYbC3CaSekPLajfILqm+3PR2Q2ttIkECfFBSIvFw9H+0arc0E+IlvvKxu9hf67WqYbsyMLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744639505; c=relaxed/simple;
-	bh=/4ocoLvf4S8bhG2FxJMmMl4doxS3PVW64uGPLox8axQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jROJrO7Gt7m5DbRZHs1jw91Gl9pMlzmqrFjhXVLVa9tD6hMZtto4unAJditbLouO0QvghfZGIqKquMo1V5qIkeLvxFdFe8LUwAmInIJR/I5M9wHMdwo93sXsV4naNqEinOaiR0EjG1wUm711fe2IQCsprOhoszEq+6pPVHAsv/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=scX/tRZA; arc=none smtp.client-ip=212.227.15.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1744639500; x=1745244300; i=w_armin@gmx.de;
-	bh=MvP0U8fmpFwBQqte82N05PcRTzTzpZHT4tUaFTJQPj8=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=scX/tRZAPhfBP/fWF6HjfDOgPtUUdwogN8yWJppU3lEaAxEuV8OaU01lXIgbUBDF
-	 ntqPaiJLgdoTWMUJRt/DN/hLLXsr2esOcwa17s+gUqhHld1APv6z35B4evXWcJFnG
-	 3KiWF10vJohp3o4SZznFheceyg5Fz+WJMfJW3mF7Qct9yLC1Ey/4jcbK3q9KVvD2B
-	 hX634paBxwb3qF/f0ShoNpE6yu6++DHs//kLbcKdM0CByTTIG2Y4fHZ70AJuOyx02
-	 IhAxLQLLC+qpEmj2MDjzxj+jkjFs0atsAcXqlfCDMRQVs04ZSwqw+K6mFnPjvoi5z
-	 9AQ4PwZJJkW5jaAUEg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from mx-amd-b650.fritz.box ([87.177.78.219]) by mail.gmx.net
- (mrgmx004 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 1MAfUo-1ttN921KG0-004a8c; Mon, 14 Apr 2025 16:05:00 +0200
-From: Armin Wolf <W_Armin@gmx.de>
-To: hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	lkml@antheas.dev
-Cc: platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] platform/x86: msi-wmi-platform: Workaround a ACPI firmware bug
-Date: Mon, 14 Apr 2025 16:04:53 +0200
-Message-Id: <20250414140453.7691-2-W_Armin@gmx.de>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250414140453.7691-1-W_Armin@gmx.de>
-References: <20250414140453.7691-1-W_Armin@gmx.de>
+	s=arc-20240116; t=1744646823; c=relaxed/simple;
+	bh=5vyO76akIVHyQuw1CpphmbHreZZbR27cRV4ouM7NqB8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jm2eA5qPdpXiYd0OSZVlHQf0U/EooWVo5y5GAEwyPTtp2NlwAORdYZGR9xvq8wesQSvyynM+9hib2GGAn4Pe2GLwEo5dOclSINRV5GLQt5M3C805q7gd89TfFOCwxuPZsjBagCe78IPcMki6NNwB+Nga/wmJAcwwZ03KNf0SkYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ck8w8nHb; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744646821; x=1776182821;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=5vyO76akIVHyQuw1CpphmbHreZZbR27cRV4ouM7NqB8=;
+  b=ck8w8nHbI6Uq2gdMrN3Z3+Puo1UTdiEJAfaR+pGSFDYs8jpEqVoLXi9n
+   LY63UWcoYBG11xbTc4ak2ozUm7ytXLNwYHd3xen8QuZM1M+r27iSPYHwg
+   fIgpzI6LZq69yrn/OYvU/v8+awEeMOgmmskQgP0KtuIKgHzjOqw0xfaz+
+   AuMP0pia7mvUCGRGw9KYNiaFiUQ2NJ/99mhQZIf+ajZeOPZRXl9fLqz57
+   nQ8T34QXvti4qhyvK6UwMZc50NbMkr3Nq7O77+d9Dd2VXitnkyZtiAfvA
+   pGvvsNX34Hh+pOsjLak4iegTacyAG3zOqtPaP5srb8Ed7JFTSfaXPqXKD
+   g==;
+X-CSE-ConnectionGUID: G8MrIndxRIaoZgznX/R4/w==
+X-CSE-MsgGUID: ngH3izHJSI6FsVSLlOISMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="46291715"
+X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; 
+   d="scan'208";a="46291715"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 09:06:55 -0700
+X-CSE-ConnectionGUID: pl5lA5UeTgqD9X8UesyxZA==
+X-CSE-MsgGUID: AMfTgzeaQTWQnFAqKmcJOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; 
+   d="scan'208";a="134843313"
+Received: from spandruv-desk1.amr.corp.intel.com ([10.125.109.3])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 09:06:55 -0700
+Message-ID: <f673452d7afc4419120f2cdb32e5033c35f22229.camel@linux.intel.com>
+Subject: Re: [PATCH] platform/x86/intel-uncore-freq: fix inconsistent state
+ on init failure
+From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To: Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ shouyeliu <shouyeliu@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ platform-driver-x86@vger.kernel.org,  LKML <linux-kernel@vger.kernel.org>
+Date: Mon, 14 Apr 2025 09:06:54 -0700
+In-Reply-To: <1feb5888-5ec8-67aa-9775-e1bea6b8b9fe@linux.intel.com>
+References: <20250414092132.40369-1-shouyeliu@gmail.com>
+	 <1feb5888-5ec8-67aa-9775-e1bea6b8b9fe@linux.intel.com>
+Autocrypt: addr=srinivas.pandruvada@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mQGNBGYHNAsBDAC7tv5u9cIsSDvdgBBEDG0/a/nTaC1GXOx5MFNEDL0LWia2p8Asl7igx
+ YrB68fyfPNLSIgtCmps0EbRUkPtoN5/HTbAEZeJUTL8Xdoe6sTywf8/6/DMheEUzprE4Qyjt0HheW
+ y1JGvdOA0f1lkxCnPXeiiDY4FUqQHr3U6X4FPqfrfGlrMmGvntpKzOTutlQl8eSAprtgZ+zm0Jiwq
+ NSiSBOt2SlbkGu9bBYx7mTsrGv+x7x4Ca6/BO9o5dIvwJOcfK/cXC/yxEkr1ajbIUYZFEzQyZQXrT
+ GUGn8j3/cXQgVvMYxrh3pGCq9Q0Q6PAwQYhm97ipXa86GcTpP5B2ip9xclPtDW99sihiL8euTWRfS
+ TUsEI+1YzCyz5DU32w3WiXr3ITicaMV090tMg9phIZsjfFbnR8hY03n0kRNWWFXi/ch2MsZCCqXIB
+ oY/SruNH9Y6mnFKW8HSH762C7On8GXBYJzH6giLGeSsbvis2ZmV/r+LmswwZ6ACcOKLlvvIukAEQE
+ AAbQ5U3Jpbml2YXMgUGFuZHJ1dmFkYSA8c3Jpbml2YXMucGFuZHJ1dmFkYUBsaW51eC5pbnRlbC5j
+ b20+iQHRBBMBCAA7FiEEdki2SeUi0wlk2xcjOqtdDMJyisMFAmYHNAsCGwMFCwkIBwICIgIGFQoJC
+ AsCBBYCAwECHgcCF4AACgkQOqtdDMJyisMobAv+LLYUSKNuWhRN3wS7WocRPCi3tWeBml+qivCwyv
+ oZbmE2LcxYFnkcj6YNoS4N1CHJCr7vwefWTzoKTTDYqz3Ma0D0SbR1p/dH0nDgN34y41HpIHf0tx0
+ UxGMgOWJAInq3A7/mNkoLQQ3D5siG39X3bh9Ecg0LhMpYwP/AYsd8X1ypCWgo8SE0J/6XX/HXop2a
+ ivimve15VklMhyuu2dNWDIyF2cWz6urHV4jmxT/wUGBdq5j87vrJhLXeosueRjGJb8/xzl34iYv08
+ wOB0fP+Ox5m0t9N5yZCbcaQug3hSlgp9hittYRgIK4GwZtNO11bOzeCEMk+xFYUoa5V8JWK9/vxrx
+ NZEn58vMJ/nxoJzkb++iV7KBtsqErbs5iDwFln/TRJAQDYrtHJKLLFB9BGUDuaBOmFummR70Rbo55
+ J9fvUHc2O70qteKOt5A0zv7G8uUdIaaUHrT+VOS7o+MrbPQcSk+bl81L2R7TfWViCmKQ60sD3M90Y
+ oOfCQxricddC
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:XXKSQDY1Fs8CNtEEcKvY0XcGO/PIKjZONhMvXIanGrxob8zMabk
- JT3JrK2QMd2TxQENteweYmKoiP2R+7KT38Vlyyh1WQTlJeTlz/jQEW04a1XdJ9TmNS4FOq2
- w9m1PNPyz3y5QirAoLkosWvjqNC8ijQT3Qgdbv+SSZyX2OwYJtqAlUOJsVdcc1OUeryG8Im
- 0RMrC0dIOW6uQX38Wm2Fw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:iInYpDG3F0s=;+H7/605fpbIUxqqSlUhA+/nlmOA
- ZhF9OJN4VzsWuy6zRdLLdxMYm+c4/9feoSZfMAsDP424UcQfG+alhh/bNiyerGXlXcbEnBUX9
- jlgjRwPqlfJ96KJHdRCQ29RTXZsIU9xhVPTS9I6hHSywpF92YVdxCgSyHGFq8ceJGiVM372f4
- LbJyP6nbrWnhRYbCkyh22HRnB2hqr8l/F+kpjDNfBWkWS6zLSqW4e/6DR8C95x9jmw1zM9fjf
- aFeXo1Ud3a5YQ+kcqlsFeV1g3eY5eQZsrcMn1xlYOD3ymNMBYagQi1iEKV0+hbvZYDlSs/QIW
- TpcF0Yt+dT+4WUKH9WrESfW5+6xvrqia8BzjBh+yj70QpSTyhMcsjvJ+xyNcSSXBP5cX6ywvp
- VSJtKHAHK7GTEUmp0p7MEzU08m6VeWfUj2dqnwCXmjKnDtW8NjE/kN2V4ceurCF3CVjNj/sDI
- Pb4cttXFDB6OG+rN9zC/9giJZkUJ9ZQeM9Dr5ColWyAQZABUdBHcPpe3Ehw+yoQHjA+7/ywPz
- ssKrFqmcHBTArIO2k4vhiJjoCKCq8wguSNE2z0U31LW7HybV5LUWdAPlQKK4XYLH7tQRd4qtG
- LENGyHm6/M6xQsnWL+gqZbfwT3/nVAfD7bMGc5AB8ZZCSPxE6b1XujAfiasyIyI3wQyETkoZE
- eKK2UPet9LR0Ty05/mJuUN0ETyRPnIcF0BCxhx1/3YzoJ3Nmi+a/XBtnjV6nkKmcCegslHaGI
- G3qt0gAMRCMfCspiAX6FeBalmrFZENHJRbpkZdu0Zt6BRz9vum5wi505Nmg7yZlsV9x6OL7dX
- nw5Mk46LiMwo2eZ2i9RRLoYt3tbeGcO4XgOrEPXPRZnN3vXulUPmbtTgfr45FmAVM2EDxVYiN
- pI3kAsI3Hx06dCD+3t1/U5HgnxVL+2JYBpUUeXFWrEy/7NGB3LNZmj4/tCgt0oRgS/85sXYOQ
- Cf7njvytjf4BHQFh4ifiitXDRGNM/iBl1FDN9JziwwcPtqKn3e3Lna9WyEZWWpJbueJcCu+iq
- Qltu2WgFGWahXoMTS65YSm40LPTcOZKzbtPaNambo7zP6vYd3pNjLLa8+fIYRHCP9Q6//4EBe
- CartpTKAxwxBtEKBmVzyAsCTShonNGpx8K0QdFLe72h8SSIbqy7oRu8bR1kO4hOPcvjCkTY5+
- dUvJR8o60DpbCvItY3VMHzgGlFyJtcml//2WqAbvK+FjSzaBEKa4pwj2PkYBt7BP+v2GJgG1P
- C2/JVEHqxtmkLaxKXEAfgBF6ZfjiMfyxU7dKd9km0Dl8ccS3nbcaBBHdlavxnwYdBTTmcl4ai
- 5Qdzvn/0TMa0Ta8XuQ01KR6zcJae+e9FrWza8O0IwNMd6R5BSnpsUB5f4v0xgsSEAXIclgBwq
- +FbWGzI8bQ/67+NSh79kcV+1ZCRIr5/Jm/LXKO+MQ5ri4O72pV6cJ8/Ubk0EzSVKKqMWEBHrm
- sVnj7aDf3FeZsue61NWdOvUOIaILkedvdgkNCRDyXk6HYICdV
 
-The ACPI byte code inside the ACPI control method responsible for
-handling the WMI method calls uses a global buffer for constructing
-the return value, yet the ACPI control method itself is not marked
-as "Serialized".
-This means that calling WMI methods on this WMI device is not
-thread-safe, as concurrent WMI method calls will corrupt the global
-buffer.
+On Mon, 2025-04-14 at 13:41 +0300, Ilpo J=C3=A4rvinen wrote:
+> On Mon, 14 Apr 2025, shouyeliu wrote:
+>=20
+> > When uncore_event_cpu_online() fails to initialize a control CPU
+> > (e.g.,
+> > due to memory allocation failure or uncore_freq_add_entry()
+> > errors),
+> > the code leaves stale entries in uncore_cpu_mask after that online
+> > CPU
+> > will not try to call uncore_freq_add_entry, resulting in no sys
+> > interface.
+>=20
+> Please add () after any name that refers to a C function (you're not
+> even=20
+> being consistent here as you had it in some cases but not here).
+>=20
+> Please try to split the very long sentence a bit and make it more
+> obvious=20
+> what causes what as the current wording is a bit vague, did you mean:
+> uncore_event_cpu_online() will not call uncore_freq_add_entry() for
+> another CPU that is being onlined or something along those lines?
+>=20
+> Will this change work/matter? Documentation/core-api/cpu_hotplug.rst
+> says=20
+> about cpuhp_setup_state():
+>=20
+> "If a callback fails for CPU N then the teardown callback for CPU
+> =C2=A00 .. N-1 is invoked to rollback the operation. The state setup
+> fails,
+> =C2=A0the callbacks for the state are not installed and in case of dynami=
+c
+> =C2=A0allocation the allocated state is freed."
+>=20
 
-Fix this by serializing the WMI method calls using a mutex.
+Yes, cpuhp_setup_state() will fail and which will result in clean up.
+So any fail of any fail uncore_event_cpu_online() will result in no sys
+entries.
 
-Cc: <stable@vger.kernel.org> # 6.x.x: 609e303: platform/x86: msi-wmi-platf=
-orm: Rename "data" variable
-Fixes: 9c0beb6b29e7 ("platform/x86: wmi: Add MSI WMI Platform driver")
-Tested-by: Antheas Kapenekakis <lkml@antheas.dev>
-Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-=2D--
-Changes since v2:
- - add necessary tag for stable
+I think here the intention is to keep sys entries, which will not
+happen with this patch.
 
-Changes since v1:
- - split variable renaming into separate patch
-=2D--
- .../wmi/devices/msi-wmi-platform.rst          |  4 +
- drivers/platform/x86/msi-wmi-platform.c       | 91 ++++++++++++-------
- 2 files changed, 63 insertions(+), 32 deletions(-)
+For confirmation on 6.14 kernel, I forced failure on CPU 10:
 
-diff --git a/Documentation/wmi/devices/msi-wmi-platform.rst b/Documentatio=
-n/wmi/devices/msi-wmi-platform.rst
-index 31a136942892..73197b31926a 100644
-=2D-- a/Documentation/wmi/devices/msi-wmi-platform.rst
-+++ b/Documentation/wmi/devices/msi-wmi-platform.rst
-@@ -138,6 +138,10 @@ input data, the meaning of which depends on the subfe=
-ature being accessed.
- The output buffer contains a single byte which signals success or failure=
- (``0x00`` on failure)
- and 31 bytes of output data, the meaning if which depends on the subfeatu=
-re being accessed.
+[595799.696873] intel_uncore_init=20
+[595799.700102] uncore_event_cpu_online cpu:0
+[595799.704240] uncore_event_cpu_online cpu:1
+[595799.708360] uncore_event_cpu_online cpu:2
+[595799.712505] uncore_event_cpu_online cpu:3
+[595799.716633] uncore_event_cpu_online cpu:4
+[595799.720755] uncore_event_cpu_online cpu:5
+[595799.724953] uncore_event_cpu_online cpu:6
+[595799.729158] uncore_event_cpu_online cpu:7
+[595799.733409] uncore_event_cpu_online cpu:8
+[595799.737674] uncore_event_cpu_online cpu:9
+[595799.741954] uncore_event_cpu_online cpu:10
+[595799.746134] Force CPU 10 to fail online
+[595799.750182] uncore_event_cpu_offline cpu:0
+[595799.754508] uncore_event_cpu_offline cpu:1
+[595799.758834] uncore_event_cpu_offline cpu:2
+[595799.763238] uncore_event_cpu_offline cpu:3
+[595799.767558] uncore_event_cpu_offline cpu:4
+[595799.771832] uncore_event_cpu_offline cpu:5
+[595799.776178] uncore_event_cpu_offline cpu:6
+[595799.780506] uncore_event_cpu_offline cpu:7
+[595799.784862] uncore_event_cpu_offline cpu:8
+[595799.789247] uncore_event_cpu_offline cpu:9
+[595799.793540] intel_uncore_init cpuhp_setup_state failed
+[595799.798776] intel_uncore_init failed
 
-+.. note::
-+   The ACPI control method responsible for handling the WMI method calls =
-is not thread-safe.
-+   This is a firmware bug that needs to be handled inside the driver itse=
-lf.
-+
- WMI method Get_EC()
- -------------------
 
-diff --git a/drivers/platform/x86/msi-wmi-platform.c b/drivers/platform/x8=
-6/msi-wmi-platform.c
-index e15681dfca8d..dc5e9878cb68 100644
-=2D-- a/drivers/platform/x86/msi-wmi-platform.c
-+++ b/drivers/platform/x86/msi-wmi-platform.c
-@@ -10,6 +10,7 @@
- #include <linux/acpi.h>
- #include <linux/bits.h>
- #include <linux/bitfield.h>
-+#include <linux/cleanup.h>
- #include <linux/debugfs.h>
- #include <linux/device.h>
- #include <linux/device/driver.h>
-@@ -17,6 +18,7 @@
- #include <linux/hwmon.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/mutex.h>
- #include <linux/printk.h>
- #include <linux/rwsem.h>
- #include <linux/types.h>
-@@ -76,8 +78,13 @@ enum msi_wmi_platform_method {
- 	MSI_PLATFORM_GET_WMI		=3D 0x1d,
- };
+Thanks,
+Srinivas
 
--struct msi_wmi_platform_debugfs_data {
-+struct msi_wmi_platform_data {
- 	struct wmi_device *wdev;
-+	struct mutex wmi_lock;	/* Necessary when calling WMI methods */
-+};
-+
-+struct msi_wmi_platform_debugfs_data {
-+	struct msi_wmi_platform_data *data;
- 	enum msi_wmi_platform_method method;
- 	struct rw_semaphore buffer_lock;	/* Protects debugfs buffer */
- 	size_t length;
-@@ -132,8 +139,9 @@ static int msi_wmi_platform_parse_buffer(union acpi_ob=
-ject *obj, u8 *output, siz
- 	return 0;
- }
 
--static int msi_wmi_platform_query(struct wmi_device *wdev, enum msi_wmi_p=
-latform_method method,
--				  u8 *input, size_t input_length, u8 *output, size_t output_length)
-+static int msi_wmi_platform_query(struct msi_wmi_platform_data *data,
-+				  enum msi_wmi_platform_method method, u8 *input,
-+				  size_t input_length, u8 *output, size_t output_length)
- {
- 	struct acpi_buffer out =3D { ACPI_ALLOCATE_BUFFER, NULL };
- 	struct acpi_buffer in =3D {
-@@ -147,9 +155,15 @@ static int msi_wmi_platform_query(struct wmi_device *=
-wdev, enum msi_wmi_platform
- 	if (!input_length || !output_length)
- 		return -EINVAL;
 
--	status =3D wmidev_evaluate_method(wdev, 0x0, method, &in, &out);
--	if (ACPI_FAILURE(status))
--		return -EIO;
-+	/*
-+	 * The ACPI control method responsible for handling the WMI method calls
-+	 * is not thread-safe. Because of this we have to do the locking ourself=
-.
-+	 */
-+	scoped_guard(mutex, &data->wmi_lock) {
-+		status =3D wmidev_evaluate_method(data->wdev, 0x0, method, &in, &out);
-+		if (ACPI_FAILURE(status))
-+			return -EIO;
-+	}
-
- 	obj =3D out.pointer;
- 	if (!obj)
-@@ -170,13 +184,13 @@ static umode_t msi_wmi_platform_is_visible(const voi=
-d *drvdata, enum hwmon_senso
- static int msi_wmi_platform_read(struct device *dev, enum hwmon_sensor_ty=
-pes type, u32 attr,
- 				 int channel, long *val)
- {
--	struct wmi_device *wdev =3D dev_get_drvdata(dev);
-+	struct msi_wmi_platform_data *data =3D dev_get_drvdata(dev);
- 	u8 input[32] =3D { 0 };
- 	u8 output[32];
- 	u16 value;
- 	int ret;
-
--	ret =3D msi_wmi_platform_query(wdev, MSI_PLATFORM_GET_FAN, input, sizeof=
-(input), output,
-+	ret =3D msi_wmi_platform_query(data, MSI_PLATFORM_GET_FAN, input, sizeof=
-(input), output,
- 				     sizeof(output));
- 	if (ret < 0)
- 		return ret;
-@@ -231,7 +245,7 @@ static ssize_t msi_wmi_platform_write(struct file *fp,=
- const char __user *input,
- 		return ret;
-
- 	down_write(&data->buffer_lock);
--	ret =3D msi_wmi_platform_query(data->wdev, data->method, payload, data->=
-length, data->buffer,
-+	ret =3D msi_wmi_platform_query(data->data, data->method, payload, data->=
-length, data->buffer,
- 				     data->length);
- 	up_write(&data->buffer_lock);
-
-@@ -277,17 +291,17 @@ static void msi_wmi_platform_debugfs_remove(void *da=
-ta)
- 	debugfs_remove_recursive(dir);
- }
-
--static void msi_wmi_platform_debugfs_add(struct wmi_device *wdev, struct =
-dentry *dir,
-+static void msi_wmi_platform_debugfs_add(struct msi_wmi_platform_data *dr=
-vdata, struct dentry *dir,
- 					 const char *name, enum msi_wmi_platform_method method)
- {
- 	struct msi_wmi_platform_debugfs_data *data;
- 	struct dentry *entry;
-
--	data =3D devm_kzalloc(&wdev->dev, sizeof(*data), GFP_KERNEL);
-+	data =3D devm_kzalloc(&drvdata->wdev->dev, sizeof(*data), GFP_KERNEL);
- 	if (!data)
- 		return;
-
--	data->wdev =3D wdev;
-+	data->data =3D drvdata;
- 	data->method =3D method;
- 	init_rwsem(&data->buffer_lock);
-
-@@ -298,82 +312,82 @@ static void msi_wmi_platform_debugfs_add(struct wmi_=
-device *wdev, struct dentry
-
- 	entry =3D debugfs_create_file(name, 0600, dir, data, &msi_wmi_platform_d=
-ebugfs_fops);
- 	if (IS_ERR(entry))
--		devm_kfree(&wdev->dev, data);
-+		devm_kfree(&drvdata->wdev->dev, data);
- }
-
--static void msi_wmi_platform_debugfs_init(struct wmi_device *wdev)
-+static void msi_wmi_platform_debugfs_init(struct msi_wmi_platform_data *d=
-ata)
- {
- 	struct dentry *dir;
- 	char dir_name[64];
- 	int ret, method;
-
--	scnprintf(dir_name, ARRAY_SIZE(dir_name), "%s-%s", DRIVER_NAME, dev_name=
-(&wdev->dev));
-+	scnprintf(dir_name, ARRAY_SIZE(dir_name), "%s-%s", DRIVER_NAME, dev_name=
-(&data->wdev->dev));
-
- 	dir =3D debugfs_create_dir(dir_name, NULL);
- 	if (IS_ERR(dir))
- 		return;
-
--	ret =3D devm_add_action_or_reset(&wdev->dev, msi_wmi_platform_debugfs_re=
-move, dir);
-+	ret =3D devm_add_action_or_reset(&data->wdev->dev, msi_wmi_platform_debu=
-gfs_remove, dir);
- 	if (ret < 0)
- 		return;
-
- 	for (method =3D MSI_PLATFORM_GET_PACKAGE; method <=3D MSI_PLATFORM_GET_W=
-MI; method++)
--		msi_wmi_platform_debugfs_add(wdev, dir, msi_wmi_platform_debugfs_names[=
-method - 1],
-+		msi_wmi_platform_debugfs_add(data, dir, msi_wmi_platform_debugfs_names[=
-method - 1],
- 					     method);
- }
-
--static int msi_wmi_platform_hwmon_init(struct wmi_device *wdev)
-+static int msi_wmi_platform_hwmon_init(struct msi_wmi_platform_data *data=
-)
- {
- 	struct device *hdev;
-
--	hdev =3D devm_hwmon_device_register_with_info(&wdev->dev, "msi_wmi_platf=
-orm", wdev,
-+	hdev =3D devm_hwmon_device_register_with_info(&data->wdev->dev, "msi_wmi=
-_platform", data,
- 						    &msi_wmi_platform_chip_info, NULL);
-
- 	return PTR_ERR_OR_ZERO(hdev);
- }
-
--static int msi_wmi_platform_ec_init(struct wmi_device *wdev)
-+static int msi_wmi_platform_ec_init(struct msi_wmi_platform_data *data)
- {
- 	u8 input[32] =3D { 0 };
- 	u8 output[32];
- 	u8 flags;
- 	int ret;
-
--	ret =3D msi_wmi_platform_query(wdev, MSI_PLATFORM_GET_EC, input, sizeof(=
-input), output,
-+	ret =3D msi_wmi_platform_query(data, MSI_PLATFORM_GET_EC, input, sizeof(=
-input), output,
- 				     sizeof(output));
- 	if (ret < 0)
- 		return ret;
-
- 	flags =3D output[MSI_PLATFORM_EC_FLAGS_OFFSET];
-
--	dev_dbg(&wdev->dev, "EC RAM version %lu.%lu\n",
-+	dev_dbg(&data->wdev->dev, "EC RAM version %lu.%lu\n",
- 		FIELD_GET(MSI_PLATFORM_EC_MAJOR_MASK, flags),
- 		FIELD_GET(MSI_PLATFORM_EC_MINOR_MASK, flags));
--	dev_dbg(&wdev->dev, "EC firmware version %.28s\n",
-+	dev_dbg(&data->wdev->dev, "EC firmware version %.28s\n",
- 		&output[MSI_PLATFORM_EC_VERSION_OFFSET]);
-
- 	if (!(flags & MSI_PLATFORM_EC_IS_TIGERLAKE)) {
- 		if (!force)
- 			return -ENODEV;
-
--		dev_warn(&wdev->dev, "Loading on a non-Tigerlake platform\n");
-+		dev_warn(&data->wdev->dev, "Loading on a non-Tigerlake platform\n");
- 	}
-
- 	return 0;
- }
-
--static int msi_wmi_platform_init(struct wmi_device *wdev)
-+static int msi_wmi_platform_init(struct msi_wmi_platform_data *data)
- {
- 	u8 input[32] =3D { 0 };
- 	u8 output[32];
- 	int ret;
-
--	ret =3D msi_wmi_platform_query(wdev, MSI_PLATFORM_GET_WMI, input, sizeof=
-(input), output,
-+	ret =3D msi_wmi_platform_query(data, MSI_PLATFORM_GET_WMI, input, sizeof=
-(input), output,
- 				     sizeof(output));
- 	if (ret < 0)
- 		return ret;
-
--	dev_dbg(&wdev->dev, "WMI interface version %u.%u\n",
-+	dev_dbg(&data->wdev->dev, "WMI interface version %u.%u\n",
- 		output[MSI_PLATFORM_WMI_MAJOR_OFFSET],
- 		output[MSI_PLATFORM_WMI_MINOR_OFFSET]);
-
-@@ -381,7 +395,8 @@ static int msi_wmi_platform_init(struct wmi_device *wd=
-ev)
- 		if (!force)
- 			return -ENODEV;
-
--		dev_warn(&wdev->dev, "Loading despite unsupported WMI interface version=
- (%u.%u)\n",
-+		dev_warn(&data->wdev->dev,
-+			 "Loading despite unsupported WMI interface version (%u.%u)\n",
- 			 output[MSI_PLATFORM_WMI_MAJOR_OFFSET],
- 			 output[MSI_PLATFORM_WMI_MINOR_OFFSET]);
- 	}
-@@ -391,19 +406,31 @@ static int msi_wmi_platform_init(struct wmi_device *=
-wdev)
-
- static int msi_wmi_platform_probe(struct wmi_device *wdev, const void *co=
-ntext)
- {
-+	struct msi_wmi_platform_data *data;
- 	int ret;
-
--	ret =3D msi_wmi_platform_init(wdev);
-+	data =3D devm_kzalloc(&wdev->dev, sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->wdev =3D wdev;
-+	dev_set_drvdata(&wdev->dev, data);
-+
-+	ret =3D devm_mutex_init(&wdev->dev, &data->wmi_lock);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret =3D msi_wmi_platform_init(data);
- 	if (ret < 0)
- 		return ret;
-
--	ret =3D msi_wmi_platform_ec_init(wdev);
-+	ret =3D msi_wmi_platform_ec_init(data);
- 	if (ret < 0)
- 		return ret;
-
--	msi_wmi_platform_debugfs_init(wdev);
-+	msi_wmi_platform_debugfs_init(data);
-
--	return msi_wmi_platform_hwmon_init(wdev);
-+	return msi_wmi_platform_hwmon_init(data);
- }
-
- static const struct wmi_device_id msi_wmi_platform_id_table[] =3D {
-=2D-
-2.39.5
+> >=20
+>=20
+> Fixes tag?
+>=20
+> > Signed-off-by: shouyeliu <shouyeliu@gmail.com>
+>=20
+> The correct format for tags is documented in=20
+> Documentation/process/5.Posting.rst:
+>=20
+> tag: Full Name <email address>
+>=20
+> > ---
+> > =C2=A0.../x86/intel/uncore-frequency/uncore-frequency.c=C2=A0=C2=A0=C2=
+=A0 | 12
+> > ++++++++----
+> > =C2=A01 file changed, 8 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/drivers/platform/x86/intel/uncore-frequency/uncore-
+> > frequency.c b/drivers/platform/x86/intel/uncore-frequency/uncore-
+> > frequency.c
+> > index 40bbf8e45fa4..1de0a4a9d6cd 100644
+> > --- a/drivers/platform/x86/intel/uncore-frequency/uncore-
+> > frequency.c
+> > +++ b/drivers/platform/x86/intel/uncore-frequency/uncore-
+> > frequency.c
+> > @@ -146,15 +146,13 @@ static int uncore_event_cpu_online(unsigned
+> > int cpu)
+> > =C2=A0{
+> > =C2=A0	struct uncore_data *data;
+> > =C2=A0	int target;
+> > +	int ret;
+> > =C2=A0
+> > =C2=A0	/* Check if there is an online cpu in the package for
+> > uncore MSR */
+> > =C2=A0	target =3D cpumask_any_and(&uncore_cpu_mask,
+> > topology_die_cpumask(cpu));
+> > =C2=A0	if (target < nr_cpu_ids)
+> > =C2=A0		return 0;
+> > =C2=A0
+> > -	/* Use this CPU on this die as a control CPU */
+> > -	cpumask_set_cpu(cpu, &uncore_cpu_mask);
+> > -
+> > =C2=A0	data =3D uncore_get_instance(cpu);
+> > =C2=A0	if (!data)
+> > =C2=A0		return 0;
+> > @@ -163,7 +161,13 @@ static int uncore_event_cpu_online(unsigned
+> > int cpu)
+> > =C2=A0	data->die_id =3D topology_die_id(cpu);
+> > =C2=A0	data->domain_id =3D UNCORE_DOMAIN_ID_INVALID;
+> > =C2=A0
+> > -	return uncore_freq_add_entry(data, cpu);
+> > +	ret =3D uncore_freq_add_entry(data, cpu);
+> > +	if (!ret) {
+> > +		/* Use this CPU on this die as a control CPU */
+> > +		cpumask_set_cpu(cpu, &uncore_cpu_mask);
+> > +	}
+> > +
+> > +	return ret;
+>=20
+> Please reverse to logic such that you return early on error, which is
+> the=20
+> usual error handling pattern.
+>=20
+> > =C2=A0}
+> > =C2=A0
+> > =C2=A0static int uncore_event_cpu_offline(unsigned int cpu)
+> >=20
+>=20
 
 
