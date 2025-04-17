@@ -1,238 +1,218 @@
-Return-Path: <platform-driver-x86+bounces-11158-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-11161-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AFDBA92346
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Apr 2025 19:00:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B5F6A9246B
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Apr 2025 19:53:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DE2F319E82A1
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Apr 2025 17:00:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E21BC164E84
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Apr 2025 17:53:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BB49255237;
-	Thu, 17 Apr 2025 17:00:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 685FC256C7B;
+	Thu, 17 Apr 2025 17:53:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IE4aIZQD"
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="varjrbVA"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466BA254840;
-	Thu, 17 Apr 2025 17:00:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383342561B3;
+	Thu, 17 Apr 2025 17:53:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744909227; cv=none; b=sPZhwiBryjLoDaeQXI6b8QDuKVUrq2zFd1hAEbNpPe52bWmJGY1Eub46x+Noa/9f0UA1EeTiWlHzDLOKouaGaTYFZDVe1lQGZYls6PzLTT8Wg6vw5gte2zIWnh8/2bYgZn2nqvaBJl3sw6pX2IHjeGF6ogGEyd1qms0muXljQc8=
+	t=1744912411; cv=none; b=EDwyPFPFlv8JbiIAXeioNSJomVBJW4mg7Bd4vOrqZvGxWBxx3fWIW+L1p42xVxQX6ZhF2ft50y8Qyyypwwyzmr7oafIWJCgcnxHLJsyD62Kz0hFH5uUhhRnI/uClJvGWnX0q8bQWi/WyNOXoaCdk12uzSKLVmAwbuAurFtQgNkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744909227; c=relaxed/simple;
-	bh=j59LvdPcdSSaggSdypS7MpNAXq5tHl3BNvsDiB/3LXc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CoskCqkEvBDfXZ0Lt9ltAZyoqV17JAP9cBV315bc8btF0Q457BQjHTbt3B0OC3Cx9mvCdHQrZIeQhyJO7bHpMeNU84AB1PFb8wDsceTl9qLoPsBfU9yxlk99LmXKbWycen9f8cdM53yDgZVwyoWvwXKT63DDx2fcxAxgqVIaNxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IE4aIZQD; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744909225; x=1776445225;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=j59LvdPcdSSaggSdypS7MpNAXq5tHl3BNvsDiB/3LXc=;
-  b=IE4aIZQDlMwO13jmDxB8P60R4aVfoDavdr0cOEGOTfcFB7IQOB94Rb/Q
-   s9Pw+S67YpqEs7PkJUeDZ/n1yKsQ2bBmNmIaqANpbUyF+Nr7h+RxHZlXF
-   lLrzlKNAbvNZJd+wgGF0R/NcF+qj5o6IU6t9Hf6bPtxovpVyjFbub4g1z
-   xnsBETDNLRaxHMFuije76eiYfNfi2ekIu+8qalPnawyw7snNcRVWa5/8O
-   GT/qDalrK0gnEVl24kcAQYYgAatd4pxY6v4UhNrNvRyQlUxSjirYbh5Nf
-   ap2fk4fETiM7PjQF+nCLMmNhJV32UTv8grwWqZo4THJcd2OWkhl4JOH3z
-   g==;
-X-CSE-ConnectionGUID: ZmSQE6q2QF2qDrm0Wf32JA==
-X-CSE-MsgGUID: cYzOk0IHR4Oqertzcj+e9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11406"; a="57896208"
-X-IronPort-AV: E=Sophos;i="6.15,219,1739865600"; 
-   d="scan'208";a="57896208"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 10:00:23 -0700
-X-CSE-ConnectionGUID: mCYYlD+rRRuSrMfT5j8iyw==
-X-CSE-MsgGUID: 7M/wPTY4QCmxxS3R/NjNmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,219,1739865600"; 
-   d="scan'208";a="131411700"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.16])
-  by fmviesa010.fm.intel.com with ESMTP; 17 Apr 2025 10:00:23 -0700
-From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To: hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com
-Cc: platform-driver-x86@vger.kernel.org,
+	s=arc-20240116; t=1744912411; c=relaxed/simple;
+	bh=pCVqQAYpCVhJ9wCywF07NW7d/d4nUha3lxeyYF/oaJU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JvW2md9ajrh3foHcJigBB0Xe8uKnZY9Qll5zt9sG+88q/oKJ9FBNlIbNtg0MynAThMYAwmeYbcsOdKz1+4sHwk+SmlzZ1Vz+wv3I6/8KADX0c7fZy+9kFxRz757K9ZkS8403gnqCLTKxstsoGB9AW3Ph7Yvikef9AEKlNrp/T0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=varjrbVA; arc=none smtp.client-ip=185.138.42.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+Received: from localhost.localdomain (unknown [IPv6:2a05:f6c2:511b:0:cbc0:999f:73ad:33bd])
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id 2767D2E081B2;
+	Thu, 17 Apr 2025 20:53:16 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1744912398;
+	bh=ou5+D4xBER3uZ7V2MSrInn3i2yL3RLmePJoaKMwXTN4=; h=From:To:Subject;
+	b=varjrbVAnnB0SNmVqGevnTzm845+fmYf68Q8KafLS2QZTYTeA/vvmVvwihLLgtsTP
+	 3RndL1yNtxK0vXWJ1XWzQrnny+K3MhO3QurAzj94g3oGyUhF/a/hsmS6KELSkAEAwE
+	 CGuqrQMbWyj2t+qV/NzfFPEPOwLPG4op/7Xo+RBY=
+Authentication-Results: linux1587.grserver.gr;
+	spf=pass (sender IP is 2a05:f6c2:511b:0:cbc0:999f:73ad:33bd) smtp.mailfrom=lkml@antheas.dev smtp.helo=localhost.localdomain
+Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
+From: Antheas Kapenekakis <lkml@antheas.dev>
+To: platform-driver-x86@vger.kernel.org
+Cc: linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Joaquin Ignacio Aramendia <samsagax@gmail.com>,
+	Derek J Clark <derekjohn.clark@gmail.com>,
+	Kevin Greenberg <kdgreenberg234@protonmail.com>,
+	Joshua Tam <csinaction@pm.me>,
+	Parth Menon <parthasarathymenon@gmail.com>,
+	Eileen <eileen@one-netbook.com>,
 	linux-kernel@vger.kernel.org,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH 2/2] platform/x86: ISST: Support SST-PP revision 2
-Date: Thu, 17 Apr 2025 10:00:11 -0700
-Message-ID: <20250417170011.1243858-3-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250417170011.1243858-1-srinivas.pandruvada@linux.intel.com>
-References: <20250417170011.1243858-1-srinivas.pandruvada@linux.intel.com>
+	sre@kernel.org,
+	linux@weissschuh.net,
+	ilpo.jarvinen@linux.intel.com,
+	hdegoede@redhat.com,
+	mario.limonciello@amd.com,
+	Antheas Kapenekakis <lkml@antheas.dev>
+Subject: [PATCH v9 00/15] hwmon: (oxpsensors) Add devices, features,
+ fix ABI and move to platform/x86
+Date: Thu, 17 Apr 2025 19:52:55 +0200
+Message-ID: <20250417175310.3552671-1-lkml@antheas.dev>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: 
+ <174491239800.24547.816808875078412525@linux1587.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
+X-Virus-Status: Clean
 
-SST PP revision 2 added fabric 1 P0, P1 and Pm frequencies. Export them
-by using a new IOCTL ISST_IF_GET_PERF_LEVEL_FABRIC_INFO. This IOCTL
-requires platforms with SST PP revision 2 or higher.
+This four part series updates the oxpsensors module to bring it in line
+with its Windows OneXPlayer counterpart. First, it adds support for all
+2024, 2025 OneXPlayer handhelds and their special variants. Then, it moves
+the module to platform/x86 to allow for including more EC features.
 
-To accommodate potential future increases in fabric count and avoid ABI
-changes, support is extended for up to 8 fabrics.
+Then, it adds the new charge limiting and bypass features that were first
+introduced in the X1 and retrofit to older OneXFly variants and for
+controlling the turbo led found in the X1 models. For Bypass, it adds a new
+charge_behaviour variant called inhibit-charge-s0.
 
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Finally, it performs a minor refactor by moving around switch statements
+into their own functions, in order to allow for fixing the pwm1_enable ABI
+in the final patch. Currently, pwm1_enable sets the fan to auto with the
+value 0 and allows manual control with the value 1. This patch makes it
+so 0 sets the fan to full speed, 1 sets the fan to manual control, and
+2 sets the fan to auto. This requires both setting enable and the fan
+speed when the enable sysfs is written to as 0, hence the refactor.
+
+As this is a minor ABI break and there is userspace software relying
+on this previous behavior, the last patch also changes the /name of the
+hwmon endpoint to "oxp_ec" from "oxpec" (mirroring WMI module conventions)
+such that userspace software that relied on the previous behavior can be
+retrofit to the new kernel while enabling correct functionality on old
+and new kernels. Failing that, software that is not updated will just
+stop controlling the fans, ensuring no malignant behavior.
+
 ---
- .../intel/speed_select_if/isst_tpmi_core.c    | 66 +++++++++++++++++++
- include/uapi/linux/isst_if.h                  | 26 ++++++++
- 2 files changed, 92 insertions(+)
+V8: https://lore.kernel.org/all/20250322103606.680401-1-lkml@antheas.dev/
+V7: https://lore.kernel.org/all/20250319181044.392235-1-lkml@antheas.dev/
+V6: NA
+V5: https://lore.kernel.org/all/20250317155349.1236188-1-lkml@antheas.dev/
+V4: https://lore.kernel.org/all/20250311165406.331046-1-lkml@antheas.dev/
+V3: https://lore.kernel.org/all/20250309112114.1177361-1-lkml@antheas.dev/
 
-diff --git a/drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c b/drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c
-index bc4089d3d421..b868ea0ce8f6 100644
---- a/drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c
-+++ b/drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c
-@@ -1016,6 +1016,7 @@ static int isst_if_set_perf_feature(void __user *argp)
- 
- #define SST_PP_INFO_10_OFFSET	80
- #define SST_PP_INFO_11_OFFSET	88
-+#define SST_PP_INFO_12_OFFSET	96
- 
- #define SST_PP_P1_SSE_START	0
- #define SST_PP_P1_SSE_WIDTH	8
-@@ -1068,6 +1069,15 @@ static int isst_if_set_perf_feature(void __user *argp)
- #define SST_PP_CORE_RATIO_PM_FABRIC_START	48
- #define SST_PP_CORE_RATIO_PM_FABRIC_WIDTH	8
- 
-+#define SST_PP_CORE_RATIO_P0_FABRIC_1_START	0
-+#define SST_PP_CORE_RATIO_P0_FABRIC_1_WIDTH	8
-+
-+#define SST_PP_CORE_RATIO_P1_FABRIC_1_START	8
-+#define SST_PP_CORE_RATIO_P1_FABRIC_1_WIDTH	8
-+
-+#define SST_PP_CORE_RATIO_PM_FABRIC_1_START	16
-+#define SST_PP_CORE_RATIO_PM_FABRIC_1_WIDTH	8
-+
- static int isst_if_get_perf_level_info(void __user *argp)
- {
- 	struct isst_perf_level_data_info perf_level;
-@@ -1167,6 +1177,59 @@ static int isst_if_get_perf_level_info(void __user *argp)
- 	return 0;
- }
- 
-+static int isst_if_get_perf_level_fabric_info(void __user *argp)
-+{
-+	struct isst_perf_level_fabric_info perf_level_fabric;
-+	struct tpmi_per_power_domain_info *power_domain_info;
-+	int start = SST_PP_CORE_RATIO_P0_FABRIC_START;
-+	int width = SST_PP_CORE_RATIO_P0_FABRIC_WIDTH;
-+	int offset = SST_PP_INFO_11_OFFSET;
-+	int i;
-+
-+	if (copy_from_user(&perf_level_fabric, argp, sizeof(perf_level_fabric)))
-+		return -EFAULT;
-+
-+	power_domain_info = get_instance(perf_level_fabric.socket_id,
-+					 perf_level_fabric.power_domain_id);
-+	if (!power_domain_info)
-+		return -EINVAL;
-+
-+	if (perf_level_fabric.level > power_domain_info->max_level)
-+		return -EINVAL;
-+
-+	if (power_domain_info->pp_header.feature_rev < 2)
-+		return -EINVAL;
-+
-+	if (!(power_domain_info->pp_header.level_en_mask & BIT(perf_level_fabric.level)))
-+		return -EINVAL;
-+
-+	/* For revision 2, maximum number of fabrics is 2 */
-+	perf_level_fabric.max_fabrics = 2;
-+
-+	for (i = 0; i < perf_level_fabric.max_fabrics; i++) {
-+		_read_pp_level_info("p0_fabric_freq_mhz", perf_level_fabric.p0_fabric_freq_mhz[i],
-+				    perf_level_fabric.level, offset, start, width,
-+				    SST_MUL_FACTOR_FREQ)
-+		start += width;
-+
-+		_read_pp_level_info("p1_fabric_freq_mhz", perf_level_fabric.p1_fabric_freq_mhz[i],
-+				    perf_level_fabric.level, offset, start, width,
-+				    SST_MUL_FACTOR_FREQ)
-+		start += width;
-+
-+		_read_pp_level_info("pm_fabric_freq_mhz", perf_level_fabric.pm_fabric_freq_mhz[i],
-+				    perf_level_fabric.level, offset, start, width,
-+				    SST_MUL_FACTOR_FREQ)
-+		offset = SST_PP_INFO_12_OFFSET;
-+		start = 0;
-+	}
-+
-+	if (copy_to_user(argp, &perf_level_fabric, sizeof(perf_level_fabric)))
-+		return -EFAULT;
-+
-+	return 0;
-+}
-+
- #define SST_PP_FUSED_CORE_COUNT_START	0
- #define SST_PP_FUSED_CORE_COUNT_WIDTH	8
- 
-@@ -1453,6 +1516,9 @@ static long isst_if_def_ioctl(struct file *file, unsigned int cmd,
- 	case ISST_IF_GET_PERF_LEVEL_INFO:
- 		ret = isst_if_get_perf_level_info(argp);
- 		break;
-+	case ISST_IF_GET_PERF_LEVEL_FABRIC_INFO:
-+		ret = isst_if_get_perf_level_fabric_info(argp);
-+		break;
- 	case ISST_IF_GET_PERF_LEVEL_CPU_MASK:
- 		ret = isst_if_get_perf_level_mask(argp);
- 		break;
-diff --git a/include/uapi/linux/isst_if.h b/include/uapi/linux/isst_if.h
-index 0df1a1c3caf4..8197a4800604 100644
---- a/include/uapi/linux/isst_if.h
-+++ b/include/uapi/linux/isst_if.h
-@@ -375,6 +375,30 @@ struct isst_perf_level_data_info {
- 	__u16 trl_freq_mhz[TRL_MAX_LEVELS][TRL_MAX_BUCKETS];
- };
- 
-+#define MAX_FABRIC_COUNT	8
-+
-+/**
-+ * struct isst_perf_level_fabric_info - Structure to get SST-PP fabric details
-+ * @socket_id:		Socket/package id
-+ * @power_domain_id:	Power Domain id
-+ * @level:		SST-PP level for which caller wants to get information
-+ * @max_fabrics:	Count of fabrics in resonse
-+ * @p0_fabric_freq_mhz: Fabric (Uncore) maximum frequency
-+ * @p1_fabric_freq_mhz: Fabric (Uncore) TDP frequency
-+ * @pm_fabric_freq_mhz: Fabric (Uncore) minimum frequency
-+ *
-+ * Structure used to get information on frequencies for fabrics.
-+ */
-+struct isst_perf_level_fabric_info {
-+	__u8 socket_id;
-+	__u8 power_domain_id;
-+	__u16 level;
-+	__u16 max_fabrics;
-+	__u16 p0_fabric_freq_mhz[MAX_FABRIC_COUNT];
-+	__u16 p1_fabric_freq_mhz[MAX_FABRIC_COUNT];
-+	__u16 pm_fabric_freq_mhz[MAX_FABRIC_COUNT];
-+};
-+
- /**
-  * struct isst_perf_level_cpu_mask - Structure to get SST-PP level CPU mask
-  * @socket_id:	Socket/package id
-@@ -471,5 +495,7 @@ struct isst_turbo_freq_info {
- #define ISST_IF_GET_BASE_FREQ_INFO	_IOR(ISST_IF_MAGIC, 14, struct isst_base_freq_info *)
- #define ISST_IF_GET_BASE_FREQ_CPU_MASK	_IOR(ISST_IF_MAGIC, 15, struct isst_perf_level_cpu_mask *)
- #define ISST_IF_GET_TURBO_FREQ_INFO	_IOR(ISST_IF_MAGIC, 16, struct isst_turbo_freq_info *)
-+#define ISST_IF_GET_PERF_LEVEL_FABRIC_INFO _IOR(ISST_IF_MAGIC, 17,\
-+						struct isst_perf_level_fabric_info *)
- 
- #endif
+Changes since V8:
+    - Fix nits by Ilpo
+    - No functionality changes (battery check was a NOOP)
+
+Changes since V7:
+    - Add rename to ABI switch patch, for rebase friendliness (this is
+      moreso for my sanity as I will be the one rebasing)
+    - Fix 2 other nits by Thomas
+
+Changes since V6:
+    - Fix compile error due to extra const. My bad on that one, did a
+      double check on a device too.
+
+Changes since V5:
+    - Separate doc entries with Fixes as by Mario
+    - Add sysfs file name to subject as per Thomas
+    - Make tt_led and tt_turbo const as per Thomas
+    - Align a couple of structs as per Thomas
+    - Remove excess battery check as per Thomas
+    - For Thomas: devices without a BIOS update battery control is a NOOP
+      OXP is a boutique manufacturer for now, so gathering information
+      about old devices to add BIOS checks is not practical unfortunately
+
+Changes since V4:
+    - Fix nits by Hans
+    - change inhibit-charge-s0 to inhibit-charge-awake
+    - use devm_battery_hook_register and power_supply_unregister_extension
+      (based on cros driver)
+    - move charge behavior patches to the end to make the rest of the series
+      easier to merge
+    - CC platform-x86 and power maintainers
+
+Changes since V3:
+    - Fix nits by Derek
+    - Remove the hwmon documentation as it is not required for platform
+      drivers (suggested by Guenter)
+    - Add ACPI_BATTERY and HWMON depends to Kconfig
+      (reported by kernel robot)
+    - Homogenize driver into following reverse xmas convention
+
+Changes since V2:
+    - Add ack by Guenter, move platform move patch to be third (not first
+      to allow for device support backport to lts kernels)
+    - Rework patch text, especially in the refactor patches as per Derek
+    - Change bypass to use charge_behaviour instead of charge_type, as that
+      ABI supports capability detection and is more appropriate
+    - Move battery attach to probe instead of init
+    - Fix bug where reading tt_led would instead use the turbo register
+
+Changes since V1:
+    - Add X1 Pro, F1 Pro variants
+    - Fix minor typo in initial patches
+    - Convert oxp-sensors into a platform driver, as it is no longer
+      considered a hwmon driver.
+    - Add sysfs documentation and myself to the MAINTAINERS file
+    - Update documentation to state that this is the OneXPlayer/AOKZOE
+      platform driver, and that support for Ayaneo/OPI is provided until
+      they gain their own platform driver.
+
+Antheas Kapenekakis (15):
+  hwmon: (oxp-sensors) Distinguish the X1 variants
+  hwmon: (oxp-sensors) Add all OneXFly variants
+  platform/x86: oxpec: Move hwmon/oxp-sensors to platform/x86
+  ABI: testing: sysfs-class-oxp: add missing documentation
+  ABI: testing: sysfs-class-oxp: add tt_led attribute documentation
+  platform/x86: oxpec: Rename ec group to tt_toggle
+  platform/x86: oxpec: Add turbo led support to X1 devices
+  platform/x86: oxpec: Move pwm_enable read to its own function
+  platform/x86: oxpec: Move pwm value read/write to separate functions
+  platform/x86: oxpec: Move fan speed read to separate function
+  platform/x86: oxpec: Adhere to sysfs-class-hwmon and enable pwm on 2
+  platform/x86: oxpec: Follow reverse xmas convention for tt_toggle
+  power: supply: add inhibit-charge-awake to charge_behaviour
+  platform/x86: oxpec: Add charge threshold and behaviour to OneXPlayer
+  platform/x86: oxpec: Rename rval to ret in tt_toggle
+
+ Documentation/ABI/testing/sysfs-class-power   |  11 +-
+ Documentation/ABI/testing/sysfs-platform-oxp  |  25 +
+ Documentation/hwmon/index.rst                 |   2 +-
+ Documentation/hwmon/oxp-sensors.rst           |  89 ---
+ MAINTAINERS                                   |   7 +-
+ drivers/hwmon/Kconfig                         |  11 -
+ drivers/hwmon/Makefile                        |   1 -
+ drivers/platform/x86/Kconfig                  |  13 +
+ drivers/platform/x86/Makefile                 |   3 +
+ .../oxp-sensors.c => platform/x86/oxpec.c}    | 636 ++++++++++++++----
+ drivers/power/supply/power_supply_sysfs.c     |   7 +-
+ drivers/power/supply/test_power.c             |   1 +
+ include/linux/power_supply.h                  |   1 +
+ 13 files changed, 547 insertions(+), 260 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-platform-oxp
+ delete mode 100644 Documentation/hwmon/oxp-sensors.rst
+ rename drivers/{hwmon/oxp-sensors.c => platform/x86/oxpec.c} (52%)
+
+
+base-commit: 8ffd015db85fea3e15a77027fda6c02ced4d2444
 -- 
-2.48.1
+2.49.0
 
 
