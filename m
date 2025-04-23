@@ -1,145 +1,122 @@
-Return-Path: <platform-driver-x86+bounces-11338-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-11341-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0769A99045
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Apr 2025 17:18:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31978A993E1
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Apr 2025 18:05:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3DE9B5A81C2
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Apr 2025 15:12:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5B2034A22FA
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Apr 2025 15:53:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CD7B2918F6;
-	Wed, 23 Apr 2025 15:07:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1762F29B761;
+	Wed, 23 Apr 2025 15:39:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dWipDlHi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I1CESpb3"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD2A2820AF;
-	Wed, 23 Apr 2025 15:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52025284685;
+	Wed, 23 Apr 2025 15:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745420824; cv=none; b=cBgWr7ulf76TeOUnFfZ9DunNP5Z5DU8z/wXHRIO6foKO/uCgZk0PFwiSxNzr4bCxb0cLMtHw+y0v2cTZYsYqMyZnfBfgt5ZwUAW+J1Ev/1f69+Mu0XMBjgUrZq/sVcjZMBHWQ2+QFI8JxNxvYy2rXmCBJBLpX2Fc0X8J2/EfLKA=
+	t=1745422757; cv=none; b=geFVQBCldWazizg3mG+Y4CKVE8flt6IhMsB5QA27DH/YXM1DYM+IK7f89WzMzCToZ7Uv7/kZcxI1VFROBHJpwPaY3zbhe9ZmD6pFp82IsrG49WP9o+xaWoUilWPZt6/VUFBwCJ5TtzjQYTqJQmBug74kFiniTf5RSTpK3GlF+rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745420824; c=relaxed/simple;
-	bh=1IBSmbrEamwkd/uYLGHmz0tlnktc/QQDObId3PwCnwo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Lv8CB16f4dYO/nPDmxBDh1IZIUacGBsq9to5u7AiH4wI2HW2p4JKAHtnZfx8gBsO584XeL+qfUmhZ3i/O5hb+7F299yuyOYkdSpkkNCiCIAZp6WXTLioKiE/6GjKiPL6w7+4D4hCOKcSUubHvoGjMc/td8TIt9JIrj+FYIyxWi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dWipDlHi; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745420823; x=1776956823;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=1IBSmbrEamwkd/uYLGHmz0tlnktc/QQDObId3PwCnwo=;
-  b=dWipDlHic63JJPApLQ405dC1dDjv5d+2IXyuN6RSkg7nGdDpk4ZMzKR/
-   Zdp+tsg/cQw3ZRx+HYet8QcdTrBEU9hmwrKQIPsrqq8K+x9KQICrA8s28
-   lWOHPfuHpPNR7QkOWd/EMgNqGxuvO4+uOoyHhd7AHDc555d9KgsGGau+w
-   B1MS6FoOwyqdW2Jl2ff63nHSdBBwAJezuVYNzjHg/mCuIgf8ZrJuaIWa8
-   ixiiQjX4ItAnR1ALPMbAaHAS0vu40Hl+GOy20sG1w0pwrOkliSwxAnqqC
-   yU9Qs6IOBA4dEWExxsbPeuiNxYOMeYtHFuvH0fbmLqQv8CnEVjjrKot12
-   Q==;
-X-CSE-ConnectionGUID: o4lj1H3WR76hO8eYRqHwDA==
-X-CSE-MsgGUID: nbHfQE3HSKembeNU+nYUEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="47147855"
-X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="47147855"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 08:07:02 -0700
-X-CSE-ConnectionGUID: iDsVbrwbSiG0hLFroBu7Nw==
-X-CSE-MsgGUID: 1WJHMlZ7QNWJ5G37ZY206Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="132256914"
-Received: from tfalcon-desk.amr.corp.intel.com (HELO [10.124.221.81]) ([10.124.221.81])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 08:06:59 -0700
-Message-ID: <6211378e-955b-47f4-8688-ec93728f0087@intel.com>
-Date: Wed, 23 Apr 2025 08:06:58 -0700
+	s=arc-20240116; t=1745422757; c=relaxed/simple;
+	bh=g8o74qgPUiRwXVRyK/BERAq+dsSuVIqbL2PhqxEof7E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l1g9gxMeVFtlcvRLMICrVqV+W81EpOSh5VKLEWxAQhWWxSHopFBJQIAo/GqvIXb2G3rtRy2KJZ1Ke88Vmpcii+cRB6m3fYPz4Uc3wUVY7hgDHobfxYN4FdDjcgPx4uQ0C52B9jOYFK0CRry9rr1RG2XNWbKebZXRGYb7NybZ7W4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I1CESpb3; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-acacb8743a7so189040366b.1;
+        Wed, 23 Apr 2025 08:39:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745422752; x=1746027552; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g8o74qgPUiRwXVRyK/BERAq+dsSuVIqbL2PhqxEof7E=;
+        b=I1CESpb3YL3pxsGxGc6cukCMUrGxfZfqMKIJJoYni6LrZa+hO3D5iLFRbsTrpTMHr2
+         NaDKEULxf12R/3vQ6BOjoDa/9a3lnXNwb5Us+/tl3ZOSj6KgEEsZeHZWkkvDyrNTnL+p
+         T8V6i0XyFHlJjWCl0j+SoTVkhaTKfclgAum4iNn5489LCLA6WdwuuFcmZ2GhkSoTWzHo
+         RUbIFD4l4vHneFFCyngsyLJIqCmgA3f9/vMZ+FrVe/0NRpXRfBk7oK+ICpC0+FeVb92t
+         LuX842367p/qrOxFrm6VUGrCQ4EG2nYHbsREDXc1QKMCCOCfuwgkbdyD6fdnceFsrRxi
+         Kw4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745422752; x=1746027552;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g8o74qgPUiRwXVRyK/BERAq+dsSuVIqbL2PhqxEof7E=;
+        b=KgvGr0iX5A+qqXYXi3MrvrY4UlZW0e2Rby4fhk1yU+Bl3hGai/OLZyLrvOw3Nx2mSC
+         RuDUWI9uj4Jo9dXewpOZpQd8brkTy+YV9Roz6lsRr0GgNZerial0m+iBkBSaHu7RkKjl
+         dR7ZIV1ZzIIxAwhb8jRB+JSVTXSk1IP3KN3tcKPoX3865aMAutAw60oFLUZkk0CGZbUh
+         mmn/riOwNiNe1jTgc1APPWGl6kxMJyldZlspi45kmqLfLdbMrXw/SFXOl6lln2H1kqrm
+         Nkm3/58EihI24F/FJSaDre0u8SqjQfDSH3wW9tm5b+3VtBd4WxGBuWODobzOU1hsF1bM
+         SERA==
+X-Forwarded-Encrypted: i=1; AJvYcCU0kPyaXFcF/bGtVLmfc7Rocsbhz2tVU6hJ0ZwiL969F5S/vBBgmZ6GvNfn/CcsJJzBBgl7UYA1/xFGQseTAeHQvIqjOA==@vger.kernel.org, AJvYcCVAe58MEErZW2fAlKmtdWib8UAkKI+MiV79a/DnzJHWAw5vHUiLCu91/O0B653VwkCZdKF+qyKYcHoXmA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywtte9r2RWru1acEhPuw/g+3EPvTRxCq1L+k17E8Xqy82d9uIpc
+	Ls7OX9H/HmExfdvtuIAgqQXkkQStv09Ip+tLlRbepr3O/iCCTy9Q4ABp69MlQ2SsMEnz49Rs/GB
+	IYOcj2BxMygXMv5GecqTCZEzB2BY=
+X-Gm-Gg: ASbGncvcbKkmMrVQob7Q05Gibjy3qWHtSlci3+EALHPGrI0aL7U4W8ha1lPY+bdOsRB
+	6qgpbPExGbZz/cvaiCkvX8/hB7pfLdZs+7jmymBv/ytC3NzofirLif6GqeQn4m7j5tc7mZwctRb
+	XA1lXP5FrzzaKdNIA0l8CaW4KW
+X-Google-Smtp-Source: AGHT+IGHDKUSF8JBWX2LR8EO4tKAK/iL+VHWfmlIK8VSF74lfcqcLWNJtvC/cJLnKqFok28nXMzjIUXVDJY8zzFFhYU=
+X-Received: by 2002:a17:907:7f86:b0:aca:d276:fa5 with SMTP id
+ a640c23a62f3a-ace3ef0beffmr399752966b.0.1745422752323; Wed, 23 Apr 2025
+ 08:39:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 03/34] x86/msr: Rename rdpmcl() to rdpmcq()
-To: Sean Christopherson <seanjc@google.com>, "Xin Li (Intel)" <xin@zytor.com>
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-hyperv@vger.kernel.org,
- virtualization@lists.linux.dev, linux-pm@vger.kernel.org,
- linux-edac@vger.kernel.org, xen-devel@lists.xenproject.org,
- linux-acpi@vger.kernel.org, linux-hwmon@vger.kernel.org,
- netdev@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, acme@kernel.org,
- jgross@suse.com, andrew.cooper3@citrix.com, peterz@infradead.org,
- namhyung@kernel.org, mark.rutland@arm.com,
- alexander.shishkin@linux.intel.com, jolsa@kernel.org, irogers@google.com,
- adrian.hunter@intel.com, kan.liang@linux.intel.com, wei.liu@kernel.org,
- ajay.kaher@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
- tony.luck@intel.com, pbonzini@redhat.com, vkuznets@redhat.com,
- luto@kernel.org, boris.ostrovsky@oracle.com, kys@microsoft.com,
- haiyangz@microsoft.com, decui@microsoft.com
-References: <20250422082216.1954310-1-xin@zytor.com>
- <20250422082216.1954310-4-xin@zytor.com> <aAj5F9IZXG7MB0ai@google.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <aAj5F9IZXG7MB0ai@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250417111337.38142-1-hdegoede@redhat.com> <20250417111337.38142-6-hdegoede@redhat.com>
+ <aAErdSgr_F8L7Sgw@smile.fi.intel.com> <09254093-8962-3d53-bf56-78eebb23fdd5@linux.intel.com>
+In-Reply-To: <09254093-8962-3d53-bf56-78eebb23fdd5@linux.intel.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 23 Apr 2025 18:38:35 +0300
+X-Gm-Features: ATxdqUHbr3HsMjNqYfx_8omQCeiZtfH_V_z21X-A3tCaTwqrXLc0-Xuvc73IlX0
+Message-ID: <CAHp75VeS6HhgdgOrLM2y6wa7op0wnUQ8wdijbCj1QrNK4CcO0g@mail.gmail.com>
+Subject: Re: [PATCH v4 5/9] platform/x86: int3472: Make regulator supply name configurable
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>, 
+	Dan Scally <djrscally@gmail.com>, Alan Stern <stern@rowland.harvard.edu>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Hao Yao <hao.yao@intel.com>, 
+	Bingbu Cao <bingbu.cao@intel.com>, Duane <duanek@chorus.net>, 
+	platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 4/23/25 07:28, Sean Christopherson wrote:
-> Now that rdpmc() is gone, i.e. rdpmcl/rdpmcq() is the only helper, why not simply
-> rename rdpmcl() => rdpmc()?  I see no point in adding a 'q' qualifier; it doesn't
-> disambiguate anything and IMO is pure noise.
+On Wed, Apr 23, 2025 at 4:58=E2=80=AFPM Ilpo J=C3=A4rvinen
+<ilpo.jarvinen@linux.intel.com> wrote:
+> On Thu, 17 Apr 2025, Andy Shevchenko wrote:
+> > On Thu, Apr 17, 2025 at 01:13:33PM +0200, Hans de Goede wrote:
+> > > This is a preparation patch for registering multiple regulators, whic=
+h
+> > > requires a different supply-name for each regulator. Make supply-name
+> > > a parameter to skl_int3472_register_regulator() and use con-id to set=
+ it
+> > > so that the existing int3472_gpio_map remapping can be used with it.
+> > >
+> > > Since supply-name is a parameter now, drop the fixed
+> > > skl_int3472_regulator_map_supplies[] array and instead add lower- and
+> > > upper-case mappings of the passed-in supply-name to the regulator.
+> >
+> > With a comment and static_assert() LGTM now,
+> > Reviewed-by: Andy Shevchenko <andy@kernel.org>
+>
+> In the lack of context what this refers to exactly, can you confirm those
+> are already present so no updates are required to v4? Thanks.
 
-That makes total sense to me.
+It should be read that way "since Hans *added* a comment _and_
+static_assert() the change LGTM now", i.o.w. no updates required by
+me.
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
