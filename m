@@ -1,122 +1,118 @@
-Return-Path: <platform-driver-x86+bounces-11341-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-11339-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31978A993E1
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Apr 2025 18:05:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4665DA993F4
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Apr 2025 18:06:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5B2034A22FA
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Apr 2025 15:53:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 595C54A0027
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Apr 2025 15:52:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1762F29B761;
-	Wed, 23 Apr 2025 15:39:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 471F8290BC1;
+	Wed, 23 Apr 2025 15:38:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I1CESpb3"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="K64VmT7X"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52025284685;
-	Wed, 23 Apr 2025 15:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F19E529008D;
+	Wed, 23 Apr 2025 15:38:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745422757; cv=none; b=geFVQBCldWazizg3mG+Y4CKVE8flt6IhMsB5QA27DH/YXM1DYM+IK7f89WzMzCToZ7Uv7/kZcxI1VFROBHJpwPaY3zbhe9ZmD6pFp82IsrG49WP9o+xaWoUilWPZt6/VUFBwCJ5TtzjQYTqJQmBug74kFiniTf5RSTpK3GlF+rs=
+	t=1745422708; cv=none; b=sxLyxw49LyPMHJHZvObkNpaUGH7XJ26Jr8CD39ALNtMNgz/d2xdmPCsghDGfLvE4DaQqFU7Kq2eZn79YG+CnVatN3FcjO5+UNH29aFomFXTOc385S4pMwH2BujBXIbEAhwlBEHmJwM9L/4FQwGrIKbvzEuTNaQqUw7lCu8u7X14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745422757; c=relaxed/simple;
-	bh=g8o74qgPUiRwXVRyK/BERAq+dsSuVIqbL2PhqxEof7E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l1g9gxMeVFtlcvRLMICrVqV+W81EpOSh5VKLEWxAQhWWxSHopFBJQIAo/GqvIXb2G3rtRy2KJZ1Ke88Vmpcii+cRB6m3fYPz4Uc3wUVY7hgDHobfxYN4FdDjcgPx4uQ0C52B9jOYFK0CRry9rr1RG2XNWbKebZXRGYb7NybZ7W4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I1CESpb3; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-acacb8743a7so189040366b.1;
-        Wed, 23 Apr 2025 08:39:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745422752; x=1746027552; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g8o74qgPUiRwXVRyK/BERAq+dsSuVIqbL2PhqxEof7E=;
-        b=I1CESpb3YL3pxsGxGc6cukCMUrGxfZfqMKIJJoYni6LrZa+hO3D5iLFRbsTrpTMHr2
-         NaDKEULxf12R/3vQ6BOjoDa/9a3lnXNwb5Us+/tl3ZOSj6KgEEsZeHZWkkvDyrNTnL+p
-         T8V6i0XyFHlJjWCl0j+SoTVkhaTKfclgAum4iNn5489LCLA6WdwuuFcmZ2GhkSoTWzHo
-         RUbIFD4l4vHneFFCyngsyLJIqCmgA3f9/vMZ+FrVe/0NRpXRfBk7oK+ICpC0+FeVb92t
-         LuX842367p/qrOxFrm6VUGrCQ4EG2nYHbsREDXc1QKMCCOCfuwgkbdyD6fdnceFsrRxi
-         Kw4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745422752; x=1746027552;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g8o74qgPUiRwXVRyK/BERAq+dsSuVIqbL2PhqxEof7E=;
-        b=KgvGr0iX5A+qqXYXi3MrvrY4UlZW0e2Rby4fhk1yU+Bl3hGai/OLZyLrvOw3Nx2mSC
-         RuDUWI9uj4Jo9dXewpOZpQd8brkTy+YV9Roz6lsRr0GgNZerial0m+iBkBSaHu7RkKjl
-         dR7ZIV1ZzIIxAwhb8jRB+JSVTXSk1IP3KN3tcKPoX3865aMAutAw60oFLUZkk0CGZbUh
-         mmn/riOwNiNe1jTgc1APPWGl6kxMJyldZlspi45kmqLfLdbMrXw/SFXOl6lln2H1kqrm
-         Nkm3/58EihI24F/FJSaDre0u8SqjQfDSH3wW9tm5b+3VtBd4WxGBuWODobzOU1hsF1bM
-         SERA==
-X-Forwarded-Encrypted: i=1; AJvYcCU0kPyaXFcF/bGtVLmfc7Rocsbhz2tVU6hJ0ZwiL969F5S/vBBgmZ6GvNfn/CcsJJzBBgl7UYA1/xFGQseTAeHQvIqjOA==@vger.kernel.org, AJvYcCVAe58MEErZW2fAlKmtdWib8UAkKI+MiV79a/DnzJHWAw5vHUiLCu91/O0B653VwkCZdKF+qyKYcHoXmA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywtte9r2RWru1acEhPuw/g+3EPvTRxCq1L+k17E8Xqy82d9uIpc
-	Ls7OX9H/HmExfdvtuIAgqQXkkQStv09Ip+tLlRbepr3O/iCCTy9Q4ABp69MlQ2SsMEnz49Rs/GB
-	IYOcj2BxMygXMv5GecqTCZEzB2BY=
-X-Gm-Gg: ASbGncvcbKkmMrVQob7Q05Gibjy3qWHtSlci3+EALHPGrI0aL7U4W8ha1lPY+bdOsRB
-	6qgpbPExGbZz/cvaiCkvX8/hB7pfLdZs+7jmymBv/ytC3NzofirLif6GqeQn4m7j5tc7mZwctRb
-	XA1lXP5FrzzaKdNIA0l8CaW4KW
-X-Google-Smtp-Source: AGHT+IGHDKUSF8JBWX2LR8EO4tKAK/iL+VHWfmlIK8VSF74lfcqcLWNJtvC/cJLnKqFok28nXMzjIUXVDJY8zzFFhYU=
-X-Received: by 2002:a17:907:7f86:b0:aca:d276:fa5 with SMTP id
- a640c23a62f3a-ace3ef0beffmr399752966b.0.1745422752323; Wed, 23 Apr 2025
- 08:39:12 -0700 (PDT)
+	s=arc-20240116; t=1745422708; c=relaxed/simple;
+	bh=mohsE5Vqds5YWoBBauAQ6zbZMHHjxudeDOZFcUECQs8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EOwJkf73MG2ed2ZcdoakioypfoqL4ziCGnOLY8bAe1RdolVHu7ms4QSy6IXtRkTOBtfI5O4dpCsba7logVeQl1axQU+9gotpnTt1GT+2M15741/GVo/XQXsu8s5BA9k2bSdNWaRTSPVOsDPG5lAf23LndzgmPOj5CiiGP77I4mU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=K64VmT7X; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from wse-pc.fritz.box (host-88-217-226-44.customer.m-online.net [88.217.226.44])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 8853A2FC004A;
+	Wed, 23 Apr 2025 17:38:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1745422695;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=CsrRfvsK8H5f4CKApG2FFAZq+/r8/VdgR/k9Hykvb58=;
+	b=K64VmT7XZRMb9FTkx2QowrKV68X8S7Lro4gaTowt5LoivnkohCW8lgsYC8EdaDYnJ6bJZ7
+	AMrKAkaqWPvVvE0Rmt8vCSSRn5nGuCZseFHekQW9GyBQ+mPD/AaS944W9uHNrGulEBRveJ
+	1dqrKfwnpLeOy3E7+ldGDexWAv6kpr8=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	bentiss@kernel.org
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	Werner Sembach <wse@tuxedocomputers.com>
+Subject: [PATCH v8 0/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO NB04 devices
+Date: Wed, 23 Apr 2025 17:33:09 +0200
+Message-ID: <20250423153804.64395-1-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250417111337.38142-1-hdegoede@redhat.com> <20250417111337.38142-6-hdegoede@redhat.com>
- <aAErdSgr_F8L7Sgw@smile.fi.intel.com> <09254093-8962-3d53-bf56-78eebb23fdd5@linux.intel.com>
-In-Reply-To: <09254093-8962-3d53-bf56-78eebb23fdd5@linux.intel.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 23 Apr 2025 18:38:35 +0300
-X-Gm-Features: ATxdqUHbr3HsMjNqYfx_8omQCeiZtfH_V_z21X-A3tCaTwqrXLc0-Xuvc73IlX0
-Message-ID: <CAHp75VeS6HhgdgOrLM2y6wa7op0wnUQ8wdijbCj1QrNK4CcO0g@mail.gmail.com>
-Subject: Re: [PATCH v4 5/9] platform/x86: int3472: Make regulator supply name configurable
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>, 
-	Dan Scally <djrscally@gmail.com>, Alan Stern <stern@rowland.harvard.edu>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Hao Yao <hao.yao@intel.com>, 
-	Bingbu Cao <bingbu.cao@intel.com>, Duane <duanek@chorus.net>, 
-	platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 23, 2025 at 4:58=E2=80=AFPM Ilpo J=C3=A4rvinen
-<ilpo.jarvinen@linux.intel.com> wrote:
-> On Thu, 17 Apr 2025, Andy Shevchenko wrote:
-> > On Thu, Apr 17, 2025 at 01:13:33PM +0200, Hans de Goede wrote:
-> > > This is a preparation patch for registering multiple regulators, whic=
-h
-> > > requires a different supply-name for each regulator. Make supply-name
-> > > a parameter to skl_int3472_register_regulator() and use con-id to set=
- it
-> > > so that the existing int3472_gpio_map remapping can be used with it.
-> > >
-> > > Since supply-name is a parameter now, drop the fixed
-> > > skl_int3472_regulator_map_supplies[] array and instead add lower- and
-> > > upper-case mappings of the passed-in supply-name to the regulator.
-> >
-> > With a comment and static_assert() LGTM now,
-> > Reviewed-by: Andy Shevchenko <andy@kernel.org>
->
-> In the lack of context what this refers to exactly, can you confirm those
-> are already present so no updates are required to v4? Thanks.
+@Ilpos you can ignore my small question from my last e-mail. The spec file
+of the firmware wants the struct to be zeroed (albeit it does also work if
+not) so I implemented it like that.
 
-It should be read that way "since Hans *added* a comment _and_
-static_assert() the change LGTM now", i.o.w. no updates required by
-me.
+v2: - Integrated Armins feedback and fixed kernel test robot warnings.
+v3: - Fixed borked subject line of v2.
+v4: - Remove unrequired WMI mutex.
+    - Move device checking from probe to init.
+    - Fix device checking working exactly reverse as it should.
+    - Fix null pointer dereference because,
+        hdev->driver_data != hdev->dev.driver_data.
+v5: - Move everything to subfolder nb04 in preparation for the eventual
+        upstreaming of other tuxedo-driver parts.
+    - Integrated Ilpos coding style feedback.
+    - Use dev_set/get_drvdata() based on Armins feedback.
+v6: - Integrated more of Ilpo coding style feedback from a different LKML
+        patch-thread (less files, local functions prefixed with a short
+        string).
+v7: - Integrated more of Ilpos feedback e.g.:
+        - Use cleanup.h
+        - replace some if cases with a pointer in driver_data
+        - coding style oversights
+v8: - Integrated more of Ilpos feedback
+    - Typo fix spotted by Alok
 
---=20
-With Best Regards,
-Andy Shevchenko
+Werner Sembach (1):
+  platform/x86/tuxedo: Add virtual LampArray for TUXEDO NB04 devices
+
+ MAINTAINERS                                 |   6 +
+ drivers/platform/x86/Kconfig                |   2 +
+ drivers/platform/x86/Makefile               |   3 +
+ drivers/platform/x86/tuxedo/Kconfig         |   8 +
+ drivers/platform/x86/tuxedo/Makefile        |   8 +
+ drivers/platform/x86/tuxedo/nb04/Kconfig    |  15 +
+ drivers/platform/x86/tuxedo/nb04/Makefile   |  10 +
+ drivers/platform/x86/tuxedo/nb04/wmi_ab.c   | 916 ++++++++++++++++++++
+ drivers/platform/x86/tuxedo/nb04/wmi_util.c |  91 ++
+ drivers/platform/x86/tuxedo/nb04/wmi_util.h | 109 +++
+ 10 files changed, 1168 insertions(+)
+ create mode 100644 drivers/platform/x86/tuxedo/Kconfig
+ create mode 100644 drivers/platform/x86/tuxedo/Makefile
+ create mode 100644 drivers/platform/x86/tuxedo/nb04/Kconfig
+ create mode 100644 drivers/platform/x86/tuxedo/nb04/Makefile
+ create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_ab.c
+ create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_util.c
+ create mode 100644 drivers/platform/x86/tuxedo/nb04/wmi_util.h
+
+-- 
+2.43.0
+
 
