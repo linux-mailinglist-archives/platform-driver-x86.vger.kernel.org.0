@@ -1,154 +1,152 @@
-Return-Path: <platform-driver-x86+bounces-11330-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-11332-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADFAA98C83
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Apr 2025 16:13:10 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28CC0A98CA5
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Apr 2025 16:19:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 03F1F1899222
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Apr 2025 14:13:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 682BA3B3946
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Apr 2025 14:18:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A937D27978B;
-	Wed, 23 Apr 2025 14:13:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32FBE27978B;
+	Wed, 23 Apr 2025 14:19:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lyndeno.ca header.i=@lyndeno.ca header.b="D0RoE7Nj";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="XkA4TT/H"
+	dkim=pass (2048-bit key) header.d=heusel.eu header.i=christian@heusel.eu header.b="BAOFkM/f"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52912701A5;
-	Wed, 23 Apr 2025 14:13:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4957327933E
+	for <platform-driver-x86@vger.kernel.org>; Wed, 23 Apr 2025 14:18:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745417584; cv=none; b=rYXTd4fwOdgAUmsNH4xHFFYv6cBdCAYji94Bq9aMd5pp1cZVu/pJeQipGEUz+xPrNJYB+L7x0F8dnpZBZRb8al540+wkp0Zfd2aT0deU5x2zNqVM5QMYgH6B+o+/yozNl5JP1yngedZKf/DI5byu5Cqf6+qpfqDOCmUdhTnl9DU=
+	t=1745417940; cv=none; b=jjVNrExFSq8X8lxj7pyH/H+DEPLk8FZNfJUpiFLmDao00LL/Q0BlC8Lj7hUYBfRVS3E7KJj6OJOnBx0uuGWCbx/rH1ht0/lRM1v6D+TlojGXvb+XuJB/4JbAbZBJFzikqBDDlSjLY3gzQUSF0w/N/55Z8blGmdH2O72ZI7iMMOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745417584; c=relaxed/simple;
-	bh=PjwZWD346ibdR/6vUhrLL4BPFca74P6cBBLnBwcTHGU=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=GpjTGY59TufzRO6I/lah1tkiSCj2QVMspEpaceeUgoLOSc4yGtI2x6zwcd379rqfvkb22dyigYuFzcsnLVwN5SKgwinswoh5ojQkMnsP5uFR14rZR+X0HHoNmZkCs/yZKmHSD2jDF2JRJgKE6qCt5VQOSX6c3niTP4ZgGsSCvos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lyndeno.ca; spf=pass smtp.mailfrom=lyndeno.ca; dkim=pass (2048-bit key) header.d=lyndeno.ca header.i=@lyndeno.ca header.b=D0RoE7Nj; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=XkA4TT/H; arc=none smtp.client-ip=202.12.124.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lyndeno.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lyndeno.ca
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id AA52211400A6;
-	Wed, 23 Apr 2025 10:12:59 -0400 (EDT)
-Received: from phl-imap-10 ([10.202.2.85])
-  by phl-compute-06.internal (MEProxy); Wed, 23 Apr 2025 10:12:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lyndeno.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1745417579;
-	 x=1745503979; bh=avDcGee6fBbgjgoFmtOPzOoVyWrBc05rlWydS5w/gyI=; b=
-	D0RoE7NjGpALb8xSLS/mnRdtuMPPCkJJhMnClZzvtdaI7/Fu97nC5JJCDPp+L5qL
-	Z6vztw/f/Ujp3MbXUkQSGFmm8GO3hxUzMETpPxDGHWCbOszVamlu/lh9/W21iaHM
-	6Eco1cexUiDs6HPlfNoK9o3h0OtpZVWWA134Ii1uer/AGhBnIKjjdnE2y2z2AJ36
-	rihvSiBRVo1KwWWuvJew+ZfeRaOagLUF3MrUhzEq4APgNNQYiJiJ8p6yZNXxgLLL
-	rukeX9S2QxDdnNcIu0v3yvkvBRiC+BNLTcPOFvPpysh/cW7FKFAl7wlnpDZf4XO+
-	PlBQ+iX/4AeR6487qFmG1Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1745417579; x=
-	1745503979; bh=avDcGee6fBbgjgoFmtOPzOoVyWrBc05rlWydS5w/gyI=; b=X
-	kA4TT/HG7q7sJGdm9dL0VvUkpo7zyHuKXhFQE4vkxWevb1Vuj4p41T2dUU4HmeMh
-	+TZMzw8RuGQlDfnX5cSF9HHA07sAfFtQNPJl7w8/7Gl5CRkJwq5Ko/dSGqBrLiUr
-	I/mgKuKI/26pbXC5neWnbyuggPExf6H8zQMIlm98sxW3ij0kH0RXQMluZeqXAb4l
-	Aq0h39DD9MMyvtbnhvHaAIxWBK6Z+JLZca7c+Nd7Tb3bUBi1D+QaURX2rz0NAQ8e
-	4BMlzq1B1lf2tIiQ9kHiz2m+3QqgibNOWJn6K3kI6JYlhEQfyIy/SsA1ntssrI1E
-	iWJMINapec2FRM2SdyYAA==
-X-ME-Sender: <xms:a_UIaCtxiRIDMPNMRcMkq2AJjcQZkJkXYQt8FhIQW3CnGtLzjXF1Sw>
-    <xme:a_UIaHfty0U99OTPGISdC1iimFdtgDk0okcIoTZXapjivwdmOlwLzstry-LqUWGfA
-    NYXW8Rjv6mn6vNCRaY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvgeeikedtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
-    tddtnecuhfhrohhmpedfnfihnhguohhnucfurghntghhvgdfuceolhhsrghntghhvgeslh
-    ihnhguvghnohdrtggrqeenucggtffrrghtthgvrhhnpedufedtuefffeekudejheehuddv
-    vedvhfetueeuffdvtdevtdelleelhfdvkeejvdenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpehlshgrnhgthhgvsehlhihnuggvnhhordgtrgdp
-    nhgspghrtghpthhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgrrh
-    hiohdrlhhimhhonhgtihgvlhhlohesrghmugdrtghomhdprhgtphhtthhopehkuhhurhht
-    sgesghhmrghilhdrtghomhdprhgtphhtthhopehilhhpohdrjhgrrhhvihhnvghnsehlih
-    hnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhho
-    uhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohephhguvghgohgvuggvsehrvgguhhgrth
-    drtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgv
-    lhdrohhrghdprhgtphhtthhopehplhgrthhfohhrmhdqughrihhvvghrqdigkeeisehvgh
-    gvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:a_UIaNxdQQKgpVXPP5tftjnAAuvd3h5OFgiPbQF3Luier2DN9gHHmw>
-    <xmx:a_UIaNMK3EM27Zq1PvO5ELTf-SgYJZMvJGOZqXPZsZ9MgCT3oj3y6g>
-    <xmx:a_UIaC_yMcfBWY1f9ZBh6pkWrZ6Oa0370Dex7_17N-jdzFmr6vxJag>
-    <xmx:a_UIaFX0FDbZA4TbwjNSWc_HcUXu4amEJ6wAJR6ozegRGJm71_c0Eg>
-    <xmx:a_UIaPDXMmiVckaqgSja_AyLng-CHv2IEyHJZZR8SJB1LNIHEFxSnPeM>
-Feedback-ID: i1719461a:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 2BBD03C0068; Wed, 23 Apr 2025 10:12:59 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1745417940; c=relaxed/simple;
+	bh=5L7XCeeN/ka2ZgaxFwfE8MEMF/cmOCXAIeUoqGY/JOY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q8BvmTGPjjMcvMJaHXhj28qoEcfj5qWVHrplIQ2VI2W+uBRqvMKFKCJP8DgcSGNes+FA7Q8Sj8uq+PQXCFAX78TcBRMLgTOcBSbwmx2KPcz3brlb5+kH869f8JaPVr8+4dpc5uIaPhlvEJL+js2p55JgkTuuLoM2eGbsGsTV7UA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=heusel.eu; spf=pass smtp.mailfrom=heusel.eu; dkim=pass (2048-bit key) header.d=heusel.eu header.i=christian@heusel.eu header.b=BAOFkM/f; arc=none smtp.client-ip=212.227.17.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=heusel.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=heusel.eu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=heusel.eu;
+	s=s1-ionos; t=1745417932; x=1746022732; i=christian@heusel.eu;
+	bh=5L7XCeeN/ka2ZgaxFwfE8MEMF/cmOCXAIeUoqGY/JOY=;
+	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=BAOFkM/fZeEo4lrR0HNqXqKcAYcLUm48xZIm1tLsaejWI+8oAx1KSxUZAGfmwLcY
+	 rtPi7FNOf9NpD8VTJd01Mv19fvSC+vSrMPKq4wmyDEVVnqvWdqTt8Txery5q3u6gi
+	 K+rqjnSMjscgyhnV7lN05NLtBooQW2UcEm0dwbL/CXypsJrN5PEzjxqQna2m1yNBW
+	 Ml+W0d1IsK/Nn/LU5pJBa0+Juhrve7MFfirip46nfMandHEq/VAIfYSgrU35JWtJ4
+	 ukusjG4snXTtCV6yxbflaboU0mkmkCnmY+6O2LHUPMFm9KK//T0iszza2q7d0hHs+
+	 MuzZjsmfH9qPVYAxMg==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from localhost ([147.142.58.71]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MlwBh-1uqFG11qOB-00h9nm; Wed, 23 Apr 2025 16:13:18 +0200
+Date: Wed, 23 Apr 2025 16:13:16 +0200
+From: Christian Heusel <christian@heusel.eu>
+To: Mario Limonciello <superm1@kernel.org>
+Cc: mario.limonciello@amd.com, Shyam-sundar.S-k@amd.com, 
+	hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com, Patil.Reddy@amd.com, 
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] drivers/platform/x86/amd: pmf: Check for invalid
+ Smart PC Policies
+Message-ID: <88dcaa8b-4ab5-4284-aabf-7ef3a5caea7f@heusel.eu>
+References: <20250423132002.3984997-1-superm1@kernel.org>
+ <20250423132002.3984997-3-superm1@kernel.org>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: T9828f04955b174fc
-Date: Wed, 23 Apr 2025 08:12:38 -0600
-From: "Lyndon Sanche" <lsanche@lyndeno.ca>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Hans de Goede" <hdegoede@redhat.com>
-Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "Kurt Borja" <kuurtb@gmail.com>,
- "Mario Limonciello" <mario.limonciello@amd.com>,
- platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Message-Id: <8943a4f1-37af-4573-b778-90a52732e0f6@app.fastmail.com>
-In-Reply-To: <2025042314-grub-savage-3894@gregkh>
-References: <20250411-dell-faux-v1-0-ea1f1c929b7e@gmail.com>
- <20250411-dell-faux-v1-3-ea1f1c929b7e@gmail.com>
- <2afb6e58-44cb-486e-8062-074ff397dc2c@linux.intel.com>
- <1e8a6fe0-518d-4eac-9895-51179ca23f36@redhat.com>
- <2025042314-grub-savage-3894@gregkh>
-Subject: Re: [PATCH 3/3] platform/x86: dell-pc: Transition to faux device
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="blv3iqc6ol6eblid"
+Content-Disposition: inline
+In-Reply-To: <20250423132002.3984997-3-superm1@kernel.org>
+X-Provags-ID: V03:K1:mlTV/kyD3PJE9RHzFA3hANcmuFwGASXXeQwDMaAlxM19y3MNzko
+ p4hjiQpLQxKr2wpBmotRANmXFSQ4gR9kRkJFZ5dSx5HlKYi4fMGt/qST47362EFNHU0/UgF
+ hY5b/2s7UowUoyWKwlb5bz7uOSrQvJvQfNfv0jj0cWFEZz6Jw/Jl5wKyaRAqQnfxkNPbfFD
+ fMawsTh4V34D3kB4kqg2w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:j8BwWOtJ1YU=;0URovkY7x48hp0lbaEcBvtb3YjX
+ uYIXgn0D+/G/Yk+tIRovnrfFyzJFHbfMxpeO379rNo5t3/MqktBTGvl4YDAXKWEWSsfp2BcdY
+ uMYstMjfZrZUX9MyXPb/gmzUzYJsKWSRzG1PUJfwojHCTwWyPUQTFI8HSbrPfkWQjEL0T6VIF
+ 6BsnXQKJX4LT+hznK9ia41APF/wwSid62apTfTmCXcYNy00SZRrR9felmtMqP+DtTFb/oZwsv
+ MYo4zc6jusiaHfIEaLrNfbkZiBPH6llTvf3whuO+l6+PZdWNHWCqn3AEJfQpsJasuYV1F2dMy
+ fOi50fFwBXkgvVnq0f2p4iGKdVt3j4ODs4mxu6qxC8TqZWCuULKexRvp1P4Ene1ExE6dargXx
+ VJRONZNYY0NsDdLWTxHix6qaqplRiaRHxT39GlIKMzuCV1PSsOsN4sIpSp5xSrj+mptwn0CbS
+ jvlwP1k1fbJvt4IoCevyDCLbI66+hvN+a/HEZG6FdghKPmxCJxfhUlo7xeHd8LGwqQI7UWpXE
+ eug4ImYu1czDRKRn+X3TOc72ncJX+xvRLECFx2wyzSn+MGJlKIwemEZ5FypJ0dUOna7P27bBB
+ z607qIebNdzz2lQzfWqQwAz7C2/EsEerRcPvS+Tru0KuirhmV1q34S4ZPeFhJrk/5c0FVTlkB
+ +09T1DzrscywgOns/WDiraGQ3qmcQqhAYKIKk4nwP/2EVkpD0gwCORv/ndTYml74p7TAx2OWm
+ 1XLLlfdMufMGuNxH2UWBZ/SghvZWoLB1kujN0KzCqMgd/R/FvsWo7HDDINpySd0E2IrbwF1P7
+ bbAkNGW8O7ojscKzteTM3ipAN9FrEzjs8m8FUs/FAw9AxKTzdP/G+YcHrnMQ7b3gv5vz5ToBp
+ UE2isjRDtFj4pF3veO9K268Y99F+y+EEmyoxmwxiAIO3+bXNMnsFch7e0kzgWdGYZl0Yok6aG
+ T1wztpXtdEdH5wjrGCAZ3wL68Pb/vHW2LePhPl39cqoky5JmWCyE4R8Ev5+OMj5yKsKk9ez1i
+ GnPNYJbQKsE5yoiQl1noL6Enw3I3AoopBQ0SbSdIvmGy8f669P+QjLxtITlZ1fk0tnGOH0XMV
+ r6YdwitNa1FwR6Nu8kd1i56mK1tCxhg4TSFedZxpYnDYrlUTxLetC38uZeDtzIYG+vnWAS3xG
+ rgnGyZMoJUcqiRjuIYWbri5qApItAZ1z0Oo9V7ePKhaqlAFOMkk+j8ByY2lCBghocR4OI2oPE
+ O+lO8BMcM+VqH84xSW8HcH9/ZZ9TLGYIS7VmhuYUEyf9fNDhGTK40s6+Saru0oq9JRpSxbo7t
+ Za6C6AwKuKt9D7+JXns84JFO9dU3DI3oVjowIXMpcOY2da7Y3Kqa2iO3julugtSfg6dM9omdg
+ CQZ8M0C457hOzYgQjJj3fI9dUcLj1BMPbIrDE=
 
-On Wed, Apr 23, 2025, at 7:59 AM, Greg Kroah-Hartman wrote:
-> On Wed, Apr 23, 2025 at 03:44:56PM +0200, Hans de Goede wrote:
->> 
->> Arguably the dell-pc driver does not need a struct device at all,
->> since it just exports /sys/firmware/acpi/platform_profile sysfs
->> interface by using the relevant Dell SMBIOS interfaces for this.
->> 
->> As such maybe we should just completely get rid of the whole
->> struct device here?
->> 
->> If we do decide to keep the struct device, then since the struct device
->> seems to just be there to tie the lifetime of the platform_profile
->> handler to, I guess that calling it a faux device is fair.
 
-I am curious to see what this would look like. If we can get away with not using a struct for this functionality I think that is a good way to keep it simple.
+--blv3iqc6ol6eblid
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 2/2] drivers/platform/x86/amd: pmf: Check for invalid
+ Smart PC Policies
+MIME-Version: 1.0
 
->
-> If a device needs access to platform resources, then it is a platform
-> device.  If not, then it is not.  Not too complex :)
->
-> But (you knew there was a but), many drivers want to detach their
-> ability to create a device, and have a driver bind to them, in a
-> different "place" in the kernel.  For many of those, they have (ab)used
-> the platform driver/device api to achieve this, despite them not being a
-> platform device at all.  For these, we can't convert them directly to
-> use faux bus, as it's not as simple of a conversion and in some places,
-> doesn't work well.  So let's leave those alone for now, but not take any
-> more of them going forward in the future.
+On 25/04/23 08:18AM, Mario Limonciello wrote:
+> From: Mario Limonciello <mario.limonciello@amd.com>
+>=20
+> commit 376a8c2a14439 ("platform/x86/amd/pmf: Update PMF Driver for
+> Compatibility with new PMF-TA") added support for platforms that support
+> an updated TA, however it also exposed a number of platforms that although
+> they have support for the updated TA don't actually populate a policy
+> binary.
+>=20
+> Add an explicit check that the policy binary isn't empty before
+> initializing the TA.
+>=20
+> Reported-by: Christian Heusel <christian@heusel.eu>
+> Closes: https://lore.kernel.org/platform-driver-x86/ae644428-5bf2-4b30-81=
+ba-0b259ed3449b@heusel.eu/
+> Fixes: 376a8c2a14439 ("platform/x86/amd/pmf: Update PMF Driver for Compat=
+ibility with new PMF-TA")
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 
-Right now we are just using the platform device to register a platform profile handler. If we only need the faux bus for that then I think that is a good way to go. I will look into this new faux bus a bit more.
+Tested-by: Christian Heusel <christian@heusel.eu>
 
-I'll see if I can find some time this evening to run this patch.
+Thanks for the quick fix!
 
-Thanks,
+--blv3iqc6ol6eblid
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Lyndon
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEb3ea3iR6a4oPcswTwEfU8yi1JYUFAmgI9XwACgkQwEfU8yi1
+JYWISw//cth3ExCyfJYEnFEClDPT2HW4oWn9HBynDfew+tcrxObthK0pYfO3BDE7
+ZiwTOZBlopa8aY4wyndGg8/MeyPfHGmZZfp133GoPMR6O9u0J3AUUw2BfSB6BcY9
+I/FaMWUpziHIJXJbrDxbtY+DjV30eFyvLs3Fcw1wKeTDzTlkPlomz4qa1B2S7fnn
+sOS3nVUEqJzZ9zXT3at1gLhJZ3n6a1qEUmxHiRyfpRI69hFpF3xypGeFcalkVsRP
+fGd5XVonRga5zrE5vqqiosHb76e6xZBMJ8t9jWQJUQKmtDcm2V2DcvLcuB/780u2
+sklJv8rP4LE6Mgx4Pvzg4jPSjYsJ61wGOt6zPmjXO5+Sh8Rut8moU2sl5d194Zq2
+bJXkCgeAZRU5Af3J6GN0e2Lf9FzXQ5jW+u1CyD3y+/wlJ/+6iuyRdq2U5R/7xRw3
+QkhQ7XBuhntFJbXBfbXOrcFRzyefpEQAhmXzDUNewuuRuaiD21EeBlxpwyoHe3BE
+45v49WIYtBOg7bUcuTCh8YiL9IfDz+1nxwvEe/+0ZLEPAVy+Xi2EqbSXX9NWAG76
+esqmcSEDmiZnMAeN7a5igdRCLOYNCHkxnWMOMypYxtZCjbhDW1AqTKglj89x0Rgj
+CsZZcnxqRPdzXed3NVW26xbjGxXgfAZI3dRLtAutxN4XmJRl+D8=
+=RBHL
+-----END PGP SIGNATURE-----
+
+--blv3iqc6ol6eblid--
 
