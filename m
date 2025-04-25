@@ -1,222 +1,113 @@
-Return-Path: <platform-driver-x86+bounces-11513-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-11515-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6E98A9D26B
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 25 Apr 2025 21:53:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C599BA9D2C1
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 25 Apr 2025 22:14:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6139B7B0364
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 25 Apr 2025 19:52:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CCC4E7A56E7
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 25 Apr 2025 20:13:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCB4E222585;
-	Fri, 25 Apr 2025 19:53:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E7DD221D8D;
+	Fri, 25 Apr 2025 20:14:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LJbN67Rf"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="LoudM2O5"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B1A221704;
-	Fri, 25 Apr 2025 19:53:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF7018DB02;
+	Fri, 25 Apr 2025 20:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745610790; cv=none; b=ODJ2+v4J5ZGMvsUyUBXWR5ijRVuOlvywuyfDiBCHC6tvOvcheg3ILn6EHaKkXOD7dI9pynBCnvLoGkhiQ81iD4Q/jSW1LbXKUc6repqXWDuJQLqNVAQ7GtFxRUWW4HR/af37HNbTOLInM3dMxdZ0hSkFXwUXCdCWizf8IhRLhVY=
+	t=1745612044; cv=none; b=sp91BArNqj6Phs9RWqq1MVLvwgfgUHUJ4KqFkOmKpLEUbAkITnWByLNJz6YiCTxjKGE6I4buakGEE1x8oO6XJPBHsI4wk6rE/QETq/FCSmm1Q7SUHYpkr45s6xS2nvM0Kv81p/v0i0NfL8yLNeVqeBUVx92rAgrwNj6eKEJmii0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745610790; c=relaxed/simple;
-	bh=3eSQv2UNe5eOwT6TAzbtProjbgsWSt99OXQzpmeAQDI=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WCrFBsFT9Kp332rcTm17l4+ibYZixkJVV29CfJ09RayNTI23LdDhrmf8rf2tY3m9lPyy9+8X+W/bWu8Go/fj211mMVp1eTc1SI/AAQKDH4s1fmEEDpS/ThAaVISsT08kjk+TdLc8UXCSPYsJiXvKU1a3lMJtHEm0RWJDOxKH67U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LJbN67Rf; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745610789; x=1777146789;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=3eSQv2UNe5eOwT6TAzbtProjbgsWSt99OXQzpmeAQDI=;
-  b=LJbN67RfefH4Gx3EkWMxSc64i8TyGwvpwTi8ewkqGVHF/1obG17fiiUZ
-   64i3ZhVi0yNrVC867ASx2omxf5fQMtjqokuFrFQWT7tCHiQHh2c4opmTi
-   d3nzPPId4gtBx7hzLTklVTgvNHqmkFXRvZqtwdsvJ692M0t34au62Xktn
-   wxe5yVVohVuaLE0t5qlvRGkj3+yy/63muo8G4jFj7jLL8XXrQYGT7Z+wn
-   mskz9ogA/OR2cZlswmqHu0mTkVr7282HgU/lCvcCCMN028lxTB1tAADSn
-   kyOSXrP0/lsMz0+xJKMakK821a7YXzZgfncm0kK1cl9mnDloJAjUHzRpJ
-   w==;
-X-CSE-ConnectionGUID: jZXrsT94TqCUN9XlHknzew==
-X-CSE-MsgGUID: ++tQRgmcQ6OljMJSfpsW2Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="69776233"
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="69776233"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 12:52:42 -0700
-X-CSE-ConnectionGUID: lyNoPJcvQYuPcxp9U4a3yw==
-X-CSE-MsgGUID: +gKk4N5gSQOZtBNJ12vAjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="132897658"
-Received: from mgoodin-mobl3.amr.corp.intel.com (HELO xpardee-desk.intel.com) ([10.124.222.107])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 12:52:42 -0700
-From: Xi Pardee <xi.pardee@linux.intel.com>
-To: xi.pardee@linux.intel.com,
-	irenic.rajneesh@gmail.com,
-	david.e.box@linux.intel.com,
-	hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Subject: [PATCH v5 5/5] platform/x86:intel/pmc: Improve pmc_core_get_lpm_req()
-Date: Fri, 25 Apr 2025 12:52:33 -0700
-Message-ID: <20250425195237.493129-6-xi.pardee@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250425195237.493129-1-xi.pardee@linux.intel.com>
-References: <20250425195237.493129-1-xi.pardee@linux.intel.com>
+	s=arc-20240116; t=1745612044; c=relaxed/simple;
+	bh=Pgn/TZ1ujuuwbnzguLrmQLLDyPec5k7g882M+f0Gsi8=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=M9+r+P3gfZZetmZPbQhgWB/kwEhQGCGOHh6DMLbBvuv28JJuzmumxl9PNeMdB0spGiXuGhjl55np4YEU91C1+fiudletsi2dNvqfI4/I0LQHK7DAkDRM+XiIbBUTghzGQUMTt+PIEkszl1ft79YZ0NKgeLvpx8STCVscfwmNI/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=LoudM2O5; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+Received: from [127.0.0.1] ([76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53PKCYWU3252234
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Fri, 25 Apr 2025 13:12:35 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53PKCYWU3252234
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025042001; t=1745611957;
+	bh=Pgn/TZ1ujuuwbnzguLrmQLLDyPec5k7g882M+f0Gsi8=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=LoudM2O5Ggb8UKAE6BloQQgcPc3DDE93Uie4tiM2kEIfkYTDiUipcf8Neu/KvASRD
+	 bE9VD4R7oFqzmvtHTCFXcREprEax191bGlgx7zIbx5omdo51jLm5RkfhQX4yDbIVRa
+	 GVL5VijALlpGtEZskIkKxZJvEBt7FnMylbJIzjd/5nwjnzxaNo83Yy1fNK7XF6PF8t
+	 DnRu+iOKDqlUdSjj+DZ7GCvEpBZIZH9XdMoGw1VbkegsrdCwgEQlt1Pl2oarHuisPj
+	 gl4+pko/7dDkS+MuVeY76Vou/tfvTznub+Ylyb0SFF25MRCp2uGdpU5pdOUWL4jNE7
+	 1qvVj2z6FqDTA==
+Date: Fri, 25 Apr 2025 13:12:33 -0700
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: =?ISO-8859-1?Q?J=FCrgen_Gro=DF?= <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>
+CC: Xin Li <xin@zytor.com>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        virtualization@lists.linux.dev, linux-pm@vger.kernel.org,
+        linux-edac@vger.kernel.org, xen-devel@lists.xenproject.org,
+        linux-acpi@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        netdev@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, acme@kernel.org,
+        andrew.cooper3@citrix.com, namhyung@kernel.org, mark.rutland@arm.com,
+        alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+        irogers@google.com, adrian.hunter@intel.com, kan.liang@linux.intel.com,
+        wei.liu@kernel.org, ajay.kaher@broadcom.com,
+        bcm-kernel-feedback-list@broadcom.com, tony.luck@intel.com,
+        pbonzini@redhat.com, vkuznets@redhat.com, seanjc@google.com,
+        luto@kernel.org, boris.ostrovsky@oracle.com, kys@microsoft.com,
+        haiyangz@microsoft.com, decui@microsoft.com
+Subject: =?US-ASCII?Q?Re=3A_=5BRFC_PATCH_v2_21/34=5D_x86/msr=3A_Utiliz?=
+ =?US-ASCII?Q?e_the_alternatives_mechanism_to_write_MSR?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <35979102-2eb2-4566-b32a-f2b02ded8ae6@suse.com>
+References: <20250422082216.1954310-1-xin@zytor.com> <20250422082216.1954310-22-xin@zytor.com> <b2624e84-6fab-44a3-affc-ce0847cd3da4@suse.com> <f7198308-e8f8-4cc5-b884-24bc5f408a2a@zytor.com> <37c88ea3-dd24-4607-9ee1-0f19025aaef3@suse.com> <20250425123317.GB22125@noisy.programming.kicks-ass.net> <35979102-2eb2-4566-b32a-f2b02ded8ae6@suse.com>
+Message-ID: <D4ADDBA5-D9B8-4DD5-8D83-8CD482700E71@zytor.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Minor improvements on pmc_core_get_lpm_req().
-1. Move the long comment to be above the function
-2. Use %pe to print error pointer
-3. Remove unneeded devm_kfree call
+On April 25, 2025 5:51:27 AM PDT, "J=C3=BCrgen Gro=C3=9F" <jgross@suse=2Eco=
+m> wrote:
+>On 25=2E04=2E25 14:33, Peter Zijlstra wrote:
+>> On Wed, Apr 23, 2025 at 06:05:19PM +0200, J=C3=BCrgen Gro=C3=9F wrote:
+>>=20
+>>>> It's not a major change, but when it is patched to use the immediate
+>>>> form MSR write instruction, it's straightforwardly streamlined=2E
+>>>=20
+>>> It should be rather easy to switch the current wrmsr/rdmsr paravirt pa=
+tching
+>>> locations to use the rdmsr/wrmsr instructions instead of doing a call =
+to
+>>> native_*msr()=2E
+>>=20
+>> Right, just make the Xen functions asm stubs that expect the instructio=
+n
+>> registers instead of C-abi and ALT_NOT_XEN the thing=2E
+>>=20
+>> Shouldn't be hard at all=2E
+>
+>Correct=2E And for the new immediate form we can use ALTERNATIVE_3()=2E
+>
+>
+>Juergen
 
-These changes improves the code maintainability.
-
-Signed-off-by: Xi Pardee <xi.pardee@linux.intel.com>
----
- drivers/platform/x86/intel/pmc/core.c | 91 +++++++++++++--------------
- 1 file changed, 45 insertions(+), 46 deletions(-)
-
-diff --git a/drivers/platform/x86/intel/pmc/core.c b/drivers/platform/x86/intel/pmc/core.c
-index 93a335b0ea63..a32adc53da98 100644
---- a/drivers/platform/x86/intel/pmc/core.c
-+++ b/drivers/platform/x86/intel/pmc/core.c
-@@ -1355,6 +1355,50 @@ static u32 pmc_core_find_guid(struct pmc_info *list, const struct pmc_reg_map *m
- 	return 0;
- }
- 
-+/*
-+ * This function retrieves low power mode requirement data from PMC Low
-+ * Power Mode (LPM) table.
-+ *
-+ * In telemetry space, the LPM table contains a 4 byte header followed
-+ * by 8 consecutive mode blocks (one for each LPM mode). Each block
-+ * has a 4 byte header followed by a set of registers that describe the
-+ * IP state requirements for the given mode. The IP mapping is platform
-+ * specific but the same for each block, making for easy analysis.
-+ * Platforms only use a subset of the space to track the requirements
-+ * for their IPs. Callers provide the requirement registers they use as
-+ * a list of indices. Each requirement register is associated with an
-+ * IP map that's maintained by the caller.
-+ *
-+ * Header
-+ * +----+----------------------------+----------------------------+
-+ * |  0 |      REVISION              |      ENABLED MODES         |
-+ * +----+--------------+-------------+-------------+--------------+
-+ *
-+ * Low Power Mode 0 Block
-+ * +----+--------------+-------------+-------------+--------------+
-+ * |  1 |     SUB ID   |     SIZE    |   MAJOR     |   MINOR      |
-+ * +----+--------------+-------------+-------------+--------------+
-+ * |  2 |           LPM0 Requirements 0                           |
-+ * +----+---------------------------------------------------------+
-+ * |    |                  ...                                    |
-+ * +----+---------------------------------------------------------+
-+ * | 29 |           LPM0 Requirements 27                          |
-+ * +----+---------------------------------------------------------+
-+ *
-+ * ...
-+ *
-+ * Low Power Mode 7 Block
-+ * +----+--------------+-------------+-------------+--------------+
-+ * |    |     SUB ID   |     SIZE    |   MAJOR     |   MINOR      |
-+ * +----+--------------+-------------+-------------+--------------+
-+ * | 60 |           LPM7 Requirements 0                           |
-+ * +----+---------------------------------------------------------+
-+ * |    |                  ...                                    |
-+ * +----+---------------------------------------------------------+
-+ * | 87 |           LPM7 Requirements 27                          |
-+ * +----+---------------------------------------------------------+
-+ *
-+ */
- static int pmc_core_get_lpm_req(struct pmc_dev *pmcdev, struct pmc *pmc, struct pci_dev *pcidev)
- {
- 	struct telem_endpoint *ep;
-@@ -1374,8 +1418,7 @@ static int pmc_core_get_lpm_req(struct pmc_dev *pmcdev, struct pmc *pmc, struct
- 
- 	ep = pmt_telem_find_and_register_endpoint(pcidev, guid, 0);
- 	if (IS_ERR(ep)) {
--		dev_dbg(&pmcdev->pdev->dev, "couldn't get telem endpoint %ld",
--			PTR_ERR(ep));
-+		dev_dbg(&pmcdev->pdev->dev, "couldn't get telem endpoint %pe", ep);
- 		return -EPROBE_DEFER;
- 	}
- 
-@@ -1387,49 +1430,6 @@ static int pmc_core_get_lpm_req(struct pmc_dev *pmcdev, struct pmc *pmc, struct
- 		goto unregister_ep;
- 	}
- 
--	/*
--	 * PMC Low Power Mode (LPM) table
--	 *
--	 * In telemetry space, the LPM table contains a 4 byte header followed
--	 * by 8 consecutive mode blocks (one for each LPM mode). Each block
--	 * has a 4 byte header followed by a set of registers that describe the
--	 * IP state requirements for the given mode. The IP mapping is platform
--	 * specific but the same for each block, making for easy analysis.
--	 * Platforms only use a subset of the space to track the requirements
--	 * for their IPs. Callers provide the requirement registers they use as
--	 * a list of indices. Each requirement register is associated with an
--	 * IP map that's maintained by the caller.
--	 *
--	 * Header
--	 * +----+----------------------------+----------------------------+
--	 * |  0 |      REVISION              |      ENABLED MODES         |
--	 * +----+--------------+-------------+-------------+--------------+
--	 *
--	 * Low Power Mode 0 Block
--	 * +----+--------------+-------------+-------------+--------------+
--	 * |  1 |     SUB ID   |     SIZE    |   MAJOR     |   MINOR      |
--	 * +----+--------------+-------------+-------------+--------------+
--	 * |  2 |           LPM0 Requirements 0                           |
--	 * +----+---------------------------------------------------------+
--	 * |    |                  ...                                    |
--	 * +----+---------------------------------------------------------+
--	 * | 29 |           LPM0 Requirements 27                          |
--	 * +----+---------------------------------------------------------+
--	 *
--	 * ...
--	 *
--	 * Low Power Mode 7 Block
--	 * +----+--------------+-------------+-------------+--------------+
--	 * |    |     SUB ID   |     SIZE    |   MAJOR     |   MINOR      |
--	 * +----+--------------+-------------+-------------+--------------+
--	 * | 60 |           LPM7 Requirements 0                           |
--	 * +----+---------------------------------------------------------+
--	 * |    |                  ...                                    |
--	 * +----+---------------------------------------------------------+
--	 * | 87 |           LPM7 Requirements 27                          |
--	 * +----+---------------------------------------------------------+
--	 *
--	 */
- 	mode_offset = LPM_HEADER_OFFSET + LPM_MODE_OFFSET;
- 	pmc_for_each_mode(mode, pmcdev) {
- 		u32 *req_offset = pmc->lpm_req_regs + (mode * num_maps);
-@@ -1442,7 +1442,6 @@ static int pmc_core_get_lpm_req(struct pmc_dev *pmcdev, struct pmc *pmc, struct
- 			if (ret) {
- 				dev_err(&pmcdev->pdev->dev,
- 					"couldn't read Low Power Mode requirements: %d\n", ret);
--				devm_kfree(&pmcdev->pdev->dev, pmc->lpm_req_regs);
- 				goto unregister_ep;
- 			}
- 			++req_offset;
--- 
-2.43.0
-
+Yes; in the ultimate case there are *four* alternatives, but the concept i=
+s the same and again we have it implemented already=2E
 
