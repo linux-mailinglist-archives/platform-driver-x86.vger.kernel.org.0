@@ -1,134 +1,150 @@
-Return-Path: <platform-driver-x86+bounces-11508-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-11510-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82C3DA9D04A
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 25 Apr 2025 20:13:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F38C3A9D260
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 25 Apr 2025 21:53:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3D34D7B427B
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 25 Apr 2025 18:12:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3C332189A15E
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 25 Apr 2025 19:53:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6859215F5C;
-	Fri, 25 Apr 2025 18:13:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2443021FF2C;
+	Fri, 25 Apr 2025 19:53:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AyJmEsca"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H8PKuBTI"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1447134CF;
-	Fri, 25 Apr 2025 18:13:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89D1A18DB02;
+	Fri, 25 Apr 2025 19:53:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745604807; cv=none; b=NYd3SFB+ZFgmV69+3ND45EQJioGwlK8WKNK9ueWqfmCnN9bjmLJM/HdfqfYtRjYkvPKIctc3HJX6I0Q/VXetzkazhx47ZCb7dQb/SThMUvVm3+xztiqEfa6w5yfhpMtNDc7zQp6nBNtxb2BlaQr5fJgu0xjjht/3+sTp7eEMrrg=
+	t=1745610787; cv=none; b=icP3tXJQk3Rrb81GBGgdLhQ5IrtSzZbm5KRtLD3NRP5l8Z4U/k6qh6E6DyLoH1K4ekrOEGRGEcTUkkWQs7MbpGjmJeqOnibBt2Jq6D5bOECAmPL+8awdiBEZc6Z+LGgP0lmAZvaztFqUIa2guugH7crs906fflzZUIXHg6+/Xz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745604807; c=relaxed/simple;
-	bh=JkpxNkCzkYh0Du/1121be6BqpejJcBjTTxXTHMqZE60=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dD+6Vlx7m9bkiPJjJiUPcELwlTAaGdMB7C1LhXwmhZhFqGUSHSWnwP5fuSXWKt3sqEBo5HVkO0lHJb5aLjbgtDWx/lAKljBRN9fbqJPniLoQl3Q4jYClhsenG4QaHXDQWP3wJjFHs8Y9eozkD/hL7reX9a6tur6FT/OGMeOtM2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AyJmEsca; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1745610787; c=relaxed/simple;
+	bh=+U7mfNionqaziIRwSsiRuUYCyFeS/Go5S59SyviznHE=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=tEOHX41/c8FXLX56ow4jg0vHhFTWvwpIZ+4yUZgMP/OfqbF8tsXlICt5DyuzN08kh4pt38Xy10BELfIBLnwDHWBTPJVQKgdVvZIXGj8mdHDaF5TI+Vna650QvRGeKdEH6lrfsr+MGxpqMVIWSvr3CrT81gzQwVrxPXKuqBMw1x4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H8PKuBTI; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745604806; x=1777140806;
-  h=message-id:subject:from:reply-to:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=JkpxNkCzkYh0Du/1121be6BqpejJcBjTTxXTHMqZE60=;
-  b=AyJmEscaWN2JlX2usDZsDaueCuITQ4HvoOSXS/0j4teaO2u4OtA8nJzs
-   qsmMwwXC4Abz5o58qc6aliXDVoPIIovE6UaXSzCpbad47q4pBl+jUP+pd
-   XuXFSLRVnNqEjr528AH3kBEOxdRmNCJ4yOQqQSXTM1NxOVw5lLRa7o4WD
-   DgYwUVZyxdHKWoy3fzTEHqzIkmJvSYUIH+G9xosXre3vbLPHifB2l54AA
-   qmwhMUasKCjdPy4rQFZUYGGgzRGWkp19mmTgDgh+oX4vx1n105s1hAJtM
-   xkyA49A0X/GmdDx6D/jNxaxKDhVUnDto8jZoIzqpBhmbKGbrUhYjfoXs3
-   Q==;
-X-CSE-ConnectionGUID: 0jX8ZZhCTYCH9pI/ZDGhHA==
-X-CSE-MsgGUID: Z+oeGnsGQWuRNuOsN4AAyw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="64804437"
+  t=1745610787; x=1777146787;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+U7mfNionqaziIRwSsiRuUYCyFeS/Go5S59SyviznHE=;
+  b=H8PKuBTIlNrj6GbI6q4eIYlSt5iW3BlEumaAaYjPGZPpy6XNYSAJdIj0
+   a7BgeIkV2o2BmKSgoMGTcQaKOpGQ4wFJt6LIFkEc2mn50qb5BfnDR5rx1
+   UpMkIZpDuj7ICyR/hxTzV7e/zQeT4Odiq1rvEkRs+6WLjk6vQ3ujOGx5A
+   UmRhhRd3wSVRudOYvPaI+68szf/PGsQ8BnVxsFlEimUSLhS4uoqJ0kBpI
+   cvje1+yvC2nevg1lhPaVdLa11uToCemcRsDsCLqwm0/+cdE7TkLDzD0Ip
+   DIeI76y5+dDqpElFqqWqT/utZ8dz751CGyFlzaoAlQ7+gjBo/OfCSaf9r
+   w==;
+X-CSE-ConnectionGUID: 6U19qg7iSHGGIFpPja7zwg==
+X-CSE-MsgGUID: t5AYOfWyRRGafj7pyf0nhg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="69776215"
 X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="64804437"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 11:13:25 -0700
-X-CSE-ConnectionGUID: vMfdYYlFQwmGqd0SAGxs2A==
-X-CSE-MsgGUID: TCZ9agQpQ1GCtyMidk/+YQ==
+   d="scan'208";a="69776215"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 12:52:40 -0700
+X-CSE-ConnectionGUID: FXmDh9JOTQKnVVOZeWoLEQ==
+X-CSE-MsgGUID: lTDeGlyTTo2kI6/o2/I2Zw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="133903167"
-Received: from iherna2-mobl4.amr.corp.intel.com ([10.125.108.191])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 11:13:23 -0700
-Message-ID: <5546db361d2d474b97d80345473628d0e5a55093.camel@linux.intel.com>
-Subject: Re: [PATCH 4/7] pci: doe: Replace sysfs visibility macro
-From: "David E. Box" <david.e.box@linux.intel.com>
-Reply-To: david.e.box@linux.intel.com
-To: Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: corbet@lwn.net, bhelgaas@google.com, kuurtb@gmail.com, Hans de Goede
-	 <hdegoede@redhat.com>, vkoul@kernel.org, yung-chuan.liao@linux.intel.com, 
-	pierre-louis.bossart@linux.dev, sanyog.r.kale@intel.com, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	dakr@kernel.org, dan.j.williams@intel.com, Andy Shevchenko
-	 <andriy.shevchenko@linux.intel.com>, linux-doc@vger.kernel.org, LKML
-	 <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, Dell.Client.Kernel@dell.com, 
-	linux-sound@vger.kernel.org
-Date: Fri, 25 Apr 2025 11:13:22 -0700
-In-Reply-To: <8d261613-60d3-8825-e073-1b39daadc29a@linux.intel.com>
-References: <20250423175040.784680-1-david.e.box@linux.intel.com>
-	 <20250423175040.784680-5-david.e.box@linux.intel.com>
-	 <8d261613-60d3-8825-e073-1b39daadc29a@linux.intel.com>
-Organization: David E. Box
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+   d="scan'208";a="132897638"
+Received: from mgoodin-mobl3.amr.corp.intel.com (HELO xpardee-desk.intel.com) ([10.124.222.107])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 12:52:39 -0700
+From: Xi Pardee <xi.pardee@linux.intel.com>
+To: xi.pardee@linux.intel.com,
+	irenic.rajneesh@gmail.com,
+	david.e.box@linux.intel.com,
+	hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: [PATCH v5 0/5] Create Intel PMC SSRAM Telemetry driver
+Date: Fri, 25 Apr 2025 12:52:28 -0700
+Message-ID: <20250425195237.493129-1-xi.pardee@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2025-04-25 at 13:57 +0300, Ilpo J=C3=A4rvinen wrote:
-> On Wed, 23 Apr 2025, David E. Box wrote:
->=20
-> > Replace deprecated DEFINE_SIMPLE_SYSFS_GROUP_VISIBLE() call with the ne=
-w
-> > DEFINE_SYSFS_GROUP_VISIBILITY() helper for the pci_doe_features_sysfs g=
-roup
-> > in drivers/pci/doe.c.
-> >=20
-> > Signed-off-by: David E. Box <david.e.box@linux.intel.com>
-> > ---
-> > =C2=A0drivers/pci/doe.c | 2 +-
-> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/pci/doe.c b/drivers/pci/doe.c
-> > index aae9a8a00406..18b355506dc1 100644
-> > --- a/drivers/pci/doe.c
-> > +++ b/drivers/pci/doe.c
-> > @@ -119,7 +119,7 @@ static bool pci_doe_features_sysfs_group_visible(st=
-ruct
-> > kobject *kobj)
-> > =C2=A0
-> > =C2=A0	return !xa_empty(&pdev->doe_mbs);
-> > =C2=A0}
-> > -DEFINE_SIMPLE_SYSFS_GROUP_VISIBLE(pci_doe_features_sysfs)
-> > +DEFINE_SYSFS_GROUP_VISIBILITY(pci_doe_features_sysfs)
->=20
-> Hi David,
->=20
-> Is it intentional to not have semicolon at the end?
+This patch series removes the SSRAM support from Intel PMC Core driver
+and creates a separate PCI driver for SSRAM device. The new Intel PMC
+SSRAM driver provides the following functionalities:
 
-Hi Ilpo,
+1. Search and store the PMC information in a structure, including PWRMBASE
+address and devid for each available PMC. Then Intel PMC Core driver
+achieves the PMC information using the API provided by the new driver.
+2. Search and register Intel Platform Monitoring Techology telemetry
+regions so they would by available for read through sysfs and Intel PMT
+API. Intel PMC Core driver can achieve Low Power Mode requirement
+information from a telemetry region registered by the new driver.
 
-I was just doing a straight name swap and didn't not notice the lack of a
-semicolon. Of course, since DEFINE_SYSFS_GROUP_VISIBILITY() expands to a
-function definition, a trailing semicolon isn't necessary.
+The above functionalities was previously handled by Intel PMC Core
+driver. Intel PMC Core driver returns -EPROBE_DEFER when trying to read
+data from a telem region that is not available yet. This setup may
+result in an infinite loop of .probe() calls as Intel PMC Core driver
+creates child devices. Creating a separate PCI driver avoids the infinite
+loop possibility.
 
-I suspect the issue is with the other instances where it was added, which m=
-akes
-the usage inconsistent. What would you suggest?
+v5->v4:
+- Remove unneeded changes in pmc_core_ssram_get_lpm_reqs()
+- Replace mutex_init() with devm_mutex_init()
+ 
+V4->v3:
+- Remove the first six patches that are accepted.
+- Add a patch to change the return type of intel_vsec_registeri() from
+  void to int.
+- Change the return type of pmc_ssram_telemetry_get_pmc() so the probe
+  function of Intel PMC SSRAM Telemetry driver will fail if
+  intel_vsec_register() fails. The previous implementation hides the
+  failure.
+- Use __free(pci_dev_put) in core.c.
+- Move pmc_ssram_telemetry_get_pmc_info() function comment to c file
+  from h file.
+- Add a patch to improve pmc_core_get_lpm_req() suggested by comment
+  from last version.
+ 
+v3->v2:
+- Add memory barriers to the new driver to ensure write/read order of
+  device_probed variable.
+- Minor grammar changes: add needed white space and end of life new line.
+- Add patch to move error handling to init function.
+- Remove patch to enable SSRAM support of LNL platforms. This patch will be
+  included in a separate series.
 
-David
+v2->v1:
+- Rearrange and restructure patches completely based on feedback from v1
+ 
+Xi Pardee (5):
+  platform/x86:intel/vsec: Change return type of intel_vsec_register
+  platform/x86:intel/pmc: Create Intel PMC SSRAM Telemetry driver
+  platform/x86:intel/pmc: Use devm for mutex_init
+  platform/x86:intel/pmc: Move error handling to init function
+  platform/x86:intel/pmc: Improve pmc_core_get_lpm_req()
+
+ drivers/platform/x86/intel/pmc/Kconfig        |   4 +
+ drivers/platform/x86/intel/pmc/Makefile       |   8 +-
+ drivers/platform/x86/intel/pmc/core.c         | 189 +++++++++++-------
+ drivers/platform/x86/intel/pmc/core.h         |   7 -
+ .../platform/x86/intel/pmc/ssram_telemetry.c  | 147 +++++++++-----
+ .../platform/x86/intel/pmc/ssram_telemetry.h  |  24 +++
+ drivers/platform/x86/intel/vsec.c             |   9 +-
+ include/linux/intel_vsec.h                    |   5 +-
+ 8 files changed, 260 insertions(+), 133 deletions(-)
+ create mode 100644 drivers/platform/x86/intel/pmc/ssram_telemetry.h
+
+-- 
+2.43.0
 
 
