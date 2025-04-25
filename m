@@ -1,383 +1,292 @@
-Return-Path: <platform-driver-x86+bounces-11459-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-11462-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E6BCA9C1A2
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 25 Apr 2025 10:41:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B70D7A9C2DC
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 25 Apr 2025 11:08:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B29831BA7843
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 25 Apr 2025 08:40:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C86921BC076E
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 25 Apr 2025 09:08:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93AC32512D6;
-	Fri, 25 Apr 2025 08:35:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C856323A990;
+	Fri, 25 Apr 2025 09:06:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="f0nyTqFF"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="atYsYoGS"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9596024BD04;
-	Fri, 25 Apr 2025 08:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A467623A566
+	for <platform-driver-x86@vger.kernel.org>; Fri, 25 Apr 2025 09:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745570152; cv=none; b=oFvzlDva33YeQs1ZUtDMCmCUyNyPnjQ80Ha6xPqjIM2hKs54r7gvLwY4Vt01DMzHchl4cOgL6CbqCpGY3TzyMrttzmDzKXYKj+CWS3Bl4QtlkdXUD9wSw7b3cikSBAQoYsKhNc2521jn0HfR4dS4QF6sGsP8HGoIBHebDU2ZbFE=
+	t=1745572003; cv=none; b=b6QAXqWqfgvlaIugVO+Cwktt26BczoTzKrXW0d8jRStAxMhrIpexpxT79on7Si/wO55uTLyTZow9/q+8RRJu1yxG1sjhil2hVFj55W6AhpY3ysXRbmffAcei1s0pt76GSoHS9xsRWMPMuiuh73j5S34U85fsT3RNtF+htuW330Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745570152; c=relaxed/simple;
-	bh=08js4cQ/tImzBbVAnRy9C56aMzYPY9aXKTSZAA+hU0A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m53XFDggppMOVUfAIf7Auu4eoiksKorET0Ih0xl7SzfzJ3UB/9pUC5YbExMCBJcE7W1QPW3pnHj9kfGHq0Vq8/vY16FCGhcX2VmfvQxuhBFuTUOOKCZ2/TYeRV68keegMHiM02AGcoYF1GlUJfSJkc9b3BwQJWe8TnIpSNzJzb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=f0nyTqFF; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53P8Yg5c2390085
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Fri, 25 Apr 2025 01:35:16 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53P8Yg5c2390085
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025042001; t=1745570118;
-	bh=PGgDVUVp5WEsZGmkrE1cE9ZmxybTvIy441YCsSnZyG8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=f0nyTqFFxoNNT5zdxXz0wAG2oDnQQHR2TITjrl4/WZHGQrZGNiF1OZYbax0C2iuIx
-	 CH2XXrL5uYNMptan27zhYOojgtxgK72O5RWOTmV95xgIIpIT3kSr62AOOXra9uRF6E
-	 kTbsurThw7Iy4DVFR1xhvN89VcU9gmp1/l4hhWaLt3TSW9XbKcovRa9h+mP/NfqMQv
-	 Pry2fZZ/3lQkv2R/rt1kUSU/HD8Pxr3Y+EPze/8OS2f48IUTb7v1i2RJSfxC9aW9TR
-	 2obaMyl6yz37n/hRq5aMI5eGmJZogK/gHDlJVsHJ/MBZRP2hgoN7z0zm+fw0egbklR
-	 7ZKW0NW9geX6g==
-From: "Xin Li (Intel)" <xin@zytor.com>
-To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        virtualization@lists.linux.dev, linux-pm@vger.kernel.org,
-        linux-edac@vger.kernel.org, xen-devel@lists.xenproject.org,
-        linux-acpi@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        netdev@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        acme@kernel.org, jgross@suse.com, andrew.cooper3@citrix.com,
-        peterz@infradead.org, namhyung@kernel.org, mark.rutland@arm.com,
-        alexander.shishkin@linux.intel.com, jolsa@kernel.org,
-        irogers@google.com, adrian.hunter@intel.com, kan.liang@linux.intel.com,
-        wei.liu@kernel.org, ajay.kaher@broadcom.com,
-        bcm-kernel-feedback-list@broadcom.com, tony.luck@intel.com,
-        pbonzini@redhat.com, vkuznets@redhat.com, seanjc@google.com,
-        luto@kernel.org, boris.ostrovsky@oracle.com, kys@microsoft.com,
-        haiyangz@microsoft.com, decui@microsoft.com,
-        dapeng1.mi@linux.intel.com
-Subject: [PATCH v3 14/14] x86/msr: Change the function type of native_read_msr_safe()
-Date: Fri, 25 Apr 2025 01:34:37 -0700
-Message-ID: <20250425083442.2390017-15-xin@zytor.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250425083442.2390017-1-xin@zytor.com>
-References: <20250425083442.2390017-1-xin@zytor.com>
+	s=arc-20240116; t=1745572003; c=relaxed/simple;
+	bh=qXwqZO7iXuLExXZP5h5E9JU/fSPWN15AGwchjFkcE9w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nohJSNtzyk17DDqKO5uvQDyhpyXtwBVEZUwsKxdRwJu6hmYLuxhjUnan8DvRCNvqCra7Q9OR+daMwjjF6aOrv0FSNtg8KxSonE7Ty7rJqLrDzCO8TR1KGXfCWuWIqWpipXEWAUWrFA5LZUl5johCN3jao/+21PGaIErLt+uF4jE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=atYsYoGS; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1745572000;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L3JygN5w0NRyNqKtFl4fxhFdkm9X9GcLXmTdGsxzhj8=;
+	b=atYsYoGS75AYr3vXR8UG/3dts5p/bg4gpCfgv+ZXdaM6g++nhdYyM91TIxRHEphR+tpZxs
+	oEaKv5/n8eEySh+K2BDB3q5OjhhitAz4OeXbUreTQgu8W3+i9ZI7ThCtxzPHiqNcXpX8M4
+	1/s/j1Ml6Gf5HYQ6g933pRXwjOk36ho=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-269-eTS5UePuPU-gTiGGjOXPAQ-1; Fri, 25 Apr 2025 05:06:38 -0400
+X-MC-Unique: eTS5UePuPU-gTiGGjOXPAQ-1
+X-Mimecast-MFC-AGG-ID: eTS5UePuPU-gTiGGjOXPAQ_1745571998
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-5f435440ea1so1753161a12.1
+        for <platform-driver-x86@vger.kernel.org>; Fri, 25 Apr 2025 02:06:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745571997; x=1746176797;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=L3JygN5w0NRyNqKtFl4fxhFdkm9X9GcLXmTdGsxzhj8=;
+        b=tC9jX2oV0lcMe/gvaj9GXf3G4ZsrOTyu4Ztwj9+SkiiBxIYnhkywVcCgTX9Y0/AJ00
+         woFMTFwHiG2iXBVn/g5U3tRgu/nMuSAYmIFUxQcA/wvJ8x5YklMEi+TRHGbobuHAUMJ6
+         R7lKAycA63tef0zP85kljcqlQgbaBCwlIWlt+Ykw9D32tHfLz/zx7FoPj+pk9GjMEQ7z
+         aD0OeiYni43SaGG6P4T4nIKYgusHbJBwlF2Jgm+7UnAQ/i88vJwYbyeIbYp8sCBGfWiS
+         +6P/K4c9yvHzV3/jjn3cwDG/L4OBfGycOEJAnL7Oi4NWriviDcDktPqIjefWHsj195fn
+         0eJw==
+X-Forwarded-Encrypted: i=1; AJvYcCVYqie8HI6ctmeJeZ9nUoszlzM1GVWH1dBmCQQsiOg61/ZwPlDxQlviuA8Sv/F/U/SDqP/xqTPISMugkTtQSZyXoUuc@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKJwrSZVhrQHx4XEhBF69o+XenF+Dpw1U5KUcFvSEGWTkBtINT
+	Z5BN3YSTc3U4wZZCjDIDb1S3R5OGfE+t4Z1tZXnieiYzF87syer8z++reyHcQ7T97uD4lJsduX4
+	i11seJoNOK24oQic+zecOXCqHH4P3MAvjNneGvlc9N2KK+BU6IAMLqBqMyX5eT2HciI1rmVg=
+X-Gm-Gg: ASbGncvLeui+cv27HHduRK4vfzplSB5O028R6oUvx3zZJbYGme/JVdC2sQ5R/o8wvld
+	9i7gFqwY0cbwNJ3pR5b7mTOUZ+uyFmnsS7SD+d2AvajUayJVDR0Nw8Rqmb0qjPndBrB9G5HI4YC
+	wOVwTpQFa8E47RKPF9A/wkm5BBF3pmWmcQUZeJkCCPFCqN9p9Ume41Z+fO6OxJ+y/bjagb2RtZM
+	hJ0BC23Qy0YoLKm7s/upUxiwaugR75ezlU++RRV6KZOmtmhfyOiaR4Cvhfb59HrkBLGAAL1920I
+	/tnHHWhely6kZ6OcjVsdu81Ys50VBptFIHXS+ELE7pIipOszVTvK1dMvEKVRp3qn77mKxXkjW04
+	tiQ5i1lgH8bsKgbcuDQB5MmEuqUMpPXOGkdj7/bEwvzsOMXWbYmNh14Q08Qawnw==
+X-Received: by 2002:a05:6402:13d2:b0:5e4:b874:3df7 with SMTP id 4fb4d7f45d1cf-5f723639b3emr1251998a12.25.1745571997597;
+        Fri, 25 Apr 2025 02:06:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGUK6I3lvAm20D1H4HmGgLbFF87jVyJ0+5yk6FdGYj2RV/1Ij+Y4N7ZMHE4WZh3AlMehB1PmQ==
+X-Received: by 2002:a05:6402:13d2:b0:5e4:b874:3df7 with SMTP id 4fb4d7f45d1cf-5f723639b3emr1251975a12.25.1745571997187;
+        Fri, 25 Apr 2025 02:06:37 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5f7013fec3csm988113a12.19.2025.04.25.02.06.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Apr 2025 02:06:36 -0700 (PDT)
+Message-ID: <81dfad68-6ce6-4eea-a1a6-fa1a5c03d92d@redhat.com>
+Date: Fri, 25 Apr 2025 11:06:35 +0200
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/9] platform/x86: int3472: Make regulator supply name
+ configurable
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Dan Scally <djrscally@gmail.com>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Hao Yao <hao.yao@intel.com>,
+ Bingbu Cao <bingbu.cao@intel.com>, Duane <duanek@chorus.net>,
+ platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
+References: <20250417111337.38142-1-hdegoede@redhat.com>
+ <20250417111337.38142-6-hdegoede@redhat.com>
+ <dfe0cbe6-c268-2fca-4b06-1013151633c9@linux.intel.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <dfe0cbe6-c268-2fca-4b06-1013151633c9@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Modify the function type of native_read_msr_safe() to:
+Hi,
 
-    int native_read_msr_safe(u32 msr, u64 *val)
+On 24-Apr-25 4:06 PM, Ilpo Järvinen wrote:
+> On Thu, 17 Apr 2025, Hans de Goede wrote:
+> 
+>> This is a preparation patch for registering multiple regulators, which
+>> requires a different supply-name for each regulator. Make supply-name
+>> a parameter to skl_int3472_register_regulator() and use con-id to set it
+>> so that the existing int3472_gpio_map remapping can be used with it.
+>>
+>> Since supply-name is a parameter now, drop the fixed
+>> skl_int3472_regulator_map_supplies[] array and instead add lower- and
+>> upper-case mappings of the passed-in supply-name to the regulator.
+>>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>> Changes in v4:
+>> - At static_assert(GPIO_REGULATOR_SUPPLY_MAP_COUNT == 2) since the code
+>>   assumes that
+>>
+>> Changes in v3:
+>> - Add comment explaining value of 12 in GPIO_REGULATOR_NAME_LENGTH
+>> - Some other comment / commitmsg tweaks
+>>
+>> Changes in v2:
+>> - Use E2BIG instead of EOVERFLOW for too long supply-names
+>> ---
+>>  .../x86/intel/int3472/clk_and_regulator.c     | 50 ++++++++-----------
+>>  drivers/platform/x86/intel/int3472/common.h   |  8 ++-
+>>  drivers/platform/x86/intel/int3472/discrete.c |  4 +-
+>>  3 files changed, 31 insertions(+), 31 deletions(-)
+>>
+>> diff --git a/drivers/platform/x86/intel/int3472/clk_and_regulator.c b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
+>> index 374a99dea7d1..b7a1abc2919c 100644
+>> --- a/drivers/platform/x86/intel/int3472/clk_and_regulator.c
+>> +++ b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
+>> @@ -185,42 +185,37 @@ void skl_int3472_unregister_clock(struct int3472_discrete_device *int3472)
+>>  	clk_unregister(int3472->clock.clk);
+>>  }
+>>  
+>> -/*
+>> - * The INT3472 device is going to be the only supplier of a regulator for
+>> - * the sensor device. But unlike the clk framework the regulator framework
+>> - * does not allow matching by consumer-device-name only.
+>> - *
+>> - * Ideally all sensor drivers would use "avdd" as supply-id. But for drivers
+>> - * where this cannot be changed because another supply-id is already used in
+>> - * e.g. DeviceTree files an alias for the other supply-id can be added here.
+>> - *
+>> - * Do not forget to update GPIO_REGULATOR_SUPPLY_MAP_COUNT when changing this.
+>> - */
+>> -static const char * const skl_int3472_regulator_map_supplies[] = {
+>> -	"avdd",
+>> -	"AVDD",
+>> -};
+>> -
+>> -static_assert(ARRAY_SIZE(skl_int3472_regulator_map_supplies) ==
+>> -	      GPIO_REGULATOR_SUPPLY_MAP_COUNT);
+>> -
+>>  int skl_int3472_register_regulator(struct int3472_discrete_device *int3472,
+>>  				   struct gpio_desc *gpio,
+>> +				   const char *supply_name,
+>>  				   const char *second_sensor)
+>>  {
+>>  	struct regulator_init_data init_data = { };
+>> +	struct int3472_gpio_regulator *regulator;
+>>  	struct regulator_config cfg = { };
+>>  	int i, j;
+>>  
+>> -	for (i = 0, j = 0; i < ARRAY_SIZE(skl_int3472_regulator_map_supplies); i++) {
+>> -		int3472->regulator.supply_map[j].supply = skl_int3472_regulator_map_supplies[i];
+>> -		int3472->regulator.supply_map[j].dev_name = int3472->sensor_name;
+>> +	if (strlen(supply_name) >= GPIO_SUPPPLY_NAME_LENGTH) {
+>> +		dev_err(int3472->dev, "supply-name '%s' length too long\n", supply_name);
+>> +		return -E2BIG;
+>> +	}
+>> +
+>> +	regulator = &int3472->regulator;
+>> +	string_upper(regulator->supply_name_upper, supply_name);
+>> +
+>> +	/* The below code assume that map-count is 2 (upper- and lower-case) */
+>> +	static_assert(GPIO_REGULATOR_SUPPLY_MAP_COUNT == 2);
+>> +
+>> +	for (i = 0, j = 0; i < GPIO_REGULATOR_SUPPLY_MAP_COUNT; i++) {
+>> +		const char *supply = i ? regulator->supply_name_upper : supply_name;
+>> +
+>> +		regulator->supply_map[j].supply = supply;
+>> +		regulator->supply_map[j].dev_name = int3472->sensor_name;
+>>  		j++;
+>>  
+>>  		if (second_sensor) {
+>> -			int3472->regulator.supply_map[j].supply =
+>> -				skl_int3472_regulator_map_supplies[i];
+>> -			int3472->regulator.supply_map[j].dev_name = second_sensor;
+>> +			regulator->supply_map[j].supply = supply;
+>> +			regulator->supply_map[j].dev_name = second_sensor;
+>>  			j++;
+>>  		}
+>>  	}
+>> @@ -229,9 +224,8 @@ int skl_int3472_register_regulator(struct int3472_discrete_device *int3472,
+>>  	init_data.consumer_supplies = int3472->regulator.supply_map;
+>>  	init_data.num_consumer_supplies = j;
+>>  
+>> -	snprintf(int3472->regulator.regulator_name,
+>> -		 sizeof(int3472->regulator.regulator_name), "%s-regulator",
+>> -		 acpi_dev_name(int3472->adev));
+>> +	snprintf(regulator->regulator_name, sizeof(regulator->regulator_name), "%s-%s",
+>> +		 acpi_dev_name(int3472->adev), supply_name);
+>>  
+>>  	int3472->regulator.rdesc = INT3472_REGULATOR(
+>>  						int3472->regulator.regulator_name,
+>> diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platform/x86/intel/int3472/common.h
+>> index 3728f3864a84..b750a309ee16 100644
+>> --- a/drivers/platform/x86/intel/int3472/common.h
+>> +++ b/drivers/platform/x86/intel/int3472/common.h
+>> @@ -26,7 +26,11 @@
+>>  #define INT3472_PDEV_MAX_NAME_LEN				23
+>>  #define INT3472_MAX_SENSOR_GPIOS				3
+>>  
+>> -#define GPIO_REGULATOR_NAME_LENGTH				21
+>> +/* E.g. "avdd\0" */
+>> +#define GPIO_SUPPPLY_NAME_LENGTH				5
+> 
+> FYI, I've fixed this typo for you while applying to the review-ilpo-next 
+> branch.
 
-This change makes the function return an error code instead of the
-MSR value, aligning it with the type of native_write_msr_safe().
-Consequently, their callers can check the results in the same way.
+Thank you, I completely missed the triple PPP in there until you pointed
+it out. I just copy pasted the same mistake everywhere :)
 
-While at it, convert leftover MSR data type "unsigned int" to u32.
+Regards,
 
-Signed-off-by: Xin Li (Intel) <xin@zytor.com>
----
- arch/x86/include/asm/msr.h            | 21 +++++++++++----------
- arch/x86/include/asm/paravirt.h       | 19 ++++++++-----------
- arch/x86/include/asm/paravirt_types.h |  6 +++---
- arch/x86/kvm/svm/svm.c                | 19 +++++++------------
- arch/x86/xen/enlighten_pv.c           | 13 ++++++++-----
- arch/x86/xen/pmu.c                    | 14 ++++++++------
- 6 files changed, 45 insertions(+), 47 deletions(-)
+Hans
 
-diff --git a/arch/x86/include/asm/msr.h b/arch/x86/include/asm/msr.h
-index 0392b9596107..e7ee51ccd82e 100644
---- a/arch/x86/include/asm/msr.h
-+++ b/arch/x86/include/asm/msr.h
-@@ -130,18 +130,22 @@ static inline u64 native_read_msr(u32 msr)
- 	return val;
- }
- 
--static inline u64 native_read_msr_safe(u32 msr, int *err)
-+static inline int native_read_msr_safe(u32 msr, u64 *p)
- {
-+	int err;
- 	DECLARE_ARGS(val, low, high);
- 
- 	asm volatile("1: rdmsr ; xor %[err],%[err]\n"
- 		     "2:\n\t"
- 		     _ASM_EXTABLE_TYPE_REG(1b, 2b, EX_TYPE_RDMSR_SAFE, %[err])
--		     : [err] "=r" (*err), EAX_EDX_RET(val, low, high)
-+		     : [err] "=r" (err), EAX_EDX_RET(val, low, high)
- 		     : "c" (msr));
- 	if (tracepoint_enabled(read_msr))
--		do_trace_read_msr(msr, EAX_EDX_VAL(val, low, high), *err);
--	return EAX_EDX_VAL(val, low, high);
-+		do_trace_read_msr(msr, EAX_EDX_VAL(val, low, high), err);
-+
-+	*p = EAX_EDX_VAL(val, low, high);
-+
-+	return err;
- }
- 
- /* Can be uninlined because referenced by paravirt */
-@@ -221,8 +225,8 @@ static inline int wrmsrq_safe(u32 msr, u64 val)
- /* rdmsr with exception handling */
- #define rdmsr_safe(msr, low, high)				\
- ({								\
--	int __err;						\
--	u64 __val = native_read_msr_safe((msr), &__err);	\
-+	u64 __val;						\
-+	int __err = native_read_msr_safe((msr), &__val);	\
- 	(*low) = (u32)__val;					\
- 	(*high) = (u32)(__val >> 32);				\
- 	__err;							\
-@@ -230,10 +234,7 @@ static inline int wrmsrq_safe(u32 msr, u64 val)
- 
- static inline int rdmsrq_safe(u32 msr, u64 *p)
- {
--	int err;
--
--	*p = native_read_msr_safe(msr, &err);
--	return err;
-+	return native_read_msr_safe(msr, p);
- }
- 
- static __always_inline u64 rdpmc(int counter)
-diff --git a/arch/x86/include/asm/paravirt.h b/arch/x86/include/asm/paravirt.h
-index edf23bde367e..03f680d1057a 100644
---- a/arch/x86/include/asm/paravirt.h
-+++ b/arch/x86/include/asm/paravirt.h
-@@ -175,7 +175,7 @@ static inline void __write_cr4(unsigned long x)
- 	PVOP_VCALL1(cpu.write_cr4, x);
- }
- 
--static inline u64 paravirt_read_msr(unsigned msr)
-+static inline u64 paravirt_read_msr(u32 msr)
- {
- 	return PVOP_CALL1(u64, cpu.read_msr, msr);
- }
-@@ -185,9 +185,9 @@ static inline void paravirt_write_msr(u32 msr, u64 val)
- 	PVOP_VCALL2(cpu.write_msr, msr, val);
- }
- 
--static inline u64 paravirt_read_msr_safe(unsigned msr, int *err)
-+static inline int paravirt_read_msr_safe(u32 msr, u64 *val)
- {
--	return PVOP_CALL2(u64, cpu.read_msr_safe, msr, err);
-+	return PVOP_CALL2(int, cpu.read_msr_safe, msr, val);
- }
- 
- static inline int paravirt_write_msr_safe(u32 msr, u64 val)
-@@ -225,19 +225,16 @@ static inline int wrmsrq_safe(u32 msr, u64 val)
- /* rdmsr with exception handling */
- #define rdmsr_safe(msr, a, b)				\
- ({							\
--	int _err;					\
--	u64 _l = paravirt_read_msr_safe(msr, &_err);	\
-+	u64 _l;						\
-+	int _err = paravirt_read_msr_safe((msr), &_l);	\
- 	(*a) = (u32)_l;					\
--	(*b) = _l >> 32;				\
-+	(*b) = (u32)(_l >> 32);				\
- 	_err;						\
- })
- 
--static inline int rdmsrq_safe(unsigned msr, u64 *p)
-+static __always_inline int rdmsrq_safe(u32 msr, u64 *p)
- {
--	int err;
--
--	*p = paravirt_read_msr_safe(msr, &err);
--	return err;
-+	return paravirt_read_msr_safe(msr, p);
- }
- 
- static __always_inline u64 rdpmc(int counter)
-diff --git a/arch/x86/include/asm/paravirt_types.h b/arch/x86/include/asm/paravirt_types.h
-index 78777b78da12..b08b9d3122d6 100644
---- a/arch/x86/include/asm/paravirt_types.h
-+++ b/arch/x86/include/asm/paravirt_types.h
-@@ -91,14 +91,14 @@ struct pv_cpu_ops {
- 		      unsigned int *ecx, unsigned int *edx);
- 
- 	/* Unsafe MSR operations.  These will warn or panic on failure. */
--	u64 (*read_msr)(unsigned int msr);
-+	u64 (*read_msr)(u32 msr);
- 	void (*write_msr)(u32 msr, u64 val);
- 
- 	/*
- 	 * Safe MSR operations.
--	 * read sets err to 0 or -EIO.  write returns 0 or -EIO.
-+	 * Returns 0 or -EIO.
- 	 */
--	u64 (*read_msr_safe)(unsigned int msr, int *err);
-+	int (*read_msr_safe)(u32 msr, u64 *val);
- 	int (*write_msr_safe)(u32 msr, u64 val);
- 
- 	u64 (*read_pmc)(int counter);
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index 4ef9978dce70..838606f784c9 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -475,15 +475,13 @@ static void svm_inject_exception(struct kvm_vcpu *vcpu)
- 
- static void svm_init_erratum_383(void)
- {
--	int err;
- 	u64 val;
- 
- 	if (!static_cpu_has_bug(X86_BUG_AMD_TLB_MMATCH))
- 		return;
- 
- 	/* Use _safe variants to not break nested virtualization */
--	val = native_read_msr_safe(MSR_AMD64_DC_CFG, &err);
--	if (err)
-+	if (native_read_msr_safe(MSR_AMD64_DC_CFG, &val))
- 		return;
- 
- 	val |= (1ULL << 47);
-@@ -648,13 +646,12 @@ static int svm_enable_virtualization_cpu(void)
- 	 * erratum is present everywhere).
- 	 */
- 	if (cpu_has(&boot_cpu_data, X86_FEATURE_OSVW)) {
--		uint64_t len, status = 0;
-+		u64 len, status = 0;
- 		int err;
- 
--		len = native_read_msr_safe(MSR_AMD64_OSVW_ID_LENGTH, &err);
-+		err = native_read_msr_safe(MSR_AMD64_OSVW_ID_LENGTH, &len);
- 		if (!err)
--			status = native_read_msr_safe(MSR_AMD64_OSVW_STATUS,
--						      &err);
-+			err = native_read_msr_safe(MSR_AMD64_OSVW_STATUS, &status);
- 
- 		if (err)
- 			osvw_status = osvw_len = 0;
-@@ -2145,14 +2142,13 @@ static int ac_interception(struct kvm_vcpu *vcpu)
- 
- static bool is_erratum_383(void)
- {
--	int err, i;
-+	int i;
- 	u64 value;
- 
- 	if (!erratum_383_found)
- 		return false;
- 
--	value = native_read_msr_safe(MSR_IA32_MC0_STATUS, &err);
--	if (err)
-+	if (native_read_msr_safe(MSR_IA32_MC0_STATUS, &value))
- 		return false;
- 
- 	/* Bit 62 may or may not be set for this mce */
-@@ -2165,8 +2161,7 @@ static bool is_erratum_383(void)
- 	for (i = 0; i < 6; ++i)
- 		native_write_msr_safe(MSR_IA32_MCx_STATUS(i), 0);
- 
--	value = native_read_msr_safe(MSR_IA32_MCG_STATUS, &err);
--	if (!err) {
-+	if (!native_read_msr_safe(MSR_IA32_MCG_STATUS, &value)) {
- 		value &= ~(1ULL << 2);
- 		native_write_msr_safe(MSR_IA32_MCG_STATUS, value);
- 	}
-diff --git a/arch/x86/xen/enlighten_pv.c b/arch/x86/xen/enlighten_pv.c
-index c067d1e8a39c..0b2f5e679026 100644
---- a/arch/x86/xen/enlighten_pv.c
-+++ b/arch/x86/xen/enlighten_pv.c
-@@ -1086,7 +1086,7 @@ static void xen_write_cr4(unsigned long cr4)
- 	native_write_cr4(cr4);
- }
- 
--static u64 xen_do_read_msr(unsigned int msr, int *err)
-+static u64 xen_do_read_msr(u32 msr, int *err)
- {
- 	u64 val = 0;	/* Avoid uninitialized value for safe variant. */
- 
-@@ -1094,7 +1094,7 @@ static u64 xen_do_read_msr(unsigned int msr, int *err)
- 		return val;
- 
- 	if (err)
--		val = native_read_msr_safe(msr, err);
-+		*err = native_read_msr_safe(msr, &val);
- 	else
- 		val = native_read_msr(msr);
- 
-@@ -1159,9 +1159,12 @@ static void xen_do_write_msr(u32 msr, u64 val, int *err)
- 	}
- }
- 
--static u64 xen_read_msr_safe(unsigned int msr, int *err)
-+static int xen_read_msr_safe(u32 msr, u64 *val)
- {
--	return xen_do_read_msr(msr, err);
-+	int err;
-+
-+	*val = xen_do_read_msr(msr, &err);
-+	return err;
- }
- 
- static int xen_write_msr_safe(u32 msr, u64 val)
-@@ -1173,7 +1176,7 @@ static int xen_write_msr_safe(u32 msr, u64 val)
- 	return err;
- }
- 
--static u64 xen_read_msr(unsigned int msr)
-+static u64 xen_read_msr(u32 msr)
- {
- 	int err;
- 
-diff --git a/arch/x86/xen/pmu.c b/arch/x86/xen/pmu.c
-index 6bee83018694..3e704094c97c 100644
---- a/arch/x86/xen/pmu.c
-+++ b/arch/x86/xen/pmu.c
-@@ -317,11 +317,12 @@ static u64 xen_amd_read_pmc(int counter)
- 	uint8_t xenpmu_flags = get_xenpmu_flags();
- 
- 	if (!xenpmu_data || !(xenpmu_flags & XENPMU_IRQ_PROCESSING)) {
--		uint32_t msr;
--		int err;
-+		u32 msr;
-+		u64 val;
- 
- 		msr = amd_counters_base + (counter * amd_msr_step);
--		return native_read_msr_safe(msr, &err);
-+		native_read_msr_safe(msr, &val);
-+		return val;
- 	}
- 
- 	ctxt = &xenpmu_data->pmu.c.amd;
-@@ -338,15 +339,16 @@ static u64 xen_intel_read_pmc(int counter)
- 	uint8_t xenpmu_flags = get_xenpmu_flags();
- 
- 	if (!xenpmu_data || !(xenpmu_flags & XENPMU_IRQ_PROCESSING)) {
--		uint32_t msr;
--		int err;
-+		u32 msr;
-+		u64 val;
- 
- 		if (counter & (1 << INTEL_PMC_TYPE_SHIFT))
- 			msr = MSR_CORE_PERF_FIXED_CTR0 + (counter & 0xffff);
- 		else
- 			msr = MSR_IA32_PERFCTR0 + counter;
- 
--		return native_read_msr_safe(msr, &err);
-+		native_read_msr_safe(msr, &val);
-+		return val;
- 	}
- 
- 	ctxt = &xenpmu_data->pmu.c.intel;
--- 
-2.49.0
+
+
+
+>> +/* 12 chars for acpi_dev_name() + "-", e.g. "ABCD1234:00-" */
+>> +#define GPIO_REGULATOR_NAME_LENGTH				(12 + GPIO_SUPPPLY_NAME_LENGTH)
+>> +/* lower- and upper-case mapping */
+>>  #define GPIO_REGULATOR_SUPPLY_MAP_COUNT				2
+>>  
+>>  #define INT3472_LED_MAX_NAME_LEN				32
+>> @@ -85,6 +89,7 @@ struct int3472_discrete_device {
+>>  	struct int3472_gpio_regulator {
+>>  		/* SUPPLY_MAP_COUNT * 2 to make room for second sensor mappings */
+>>  		struct regulator_consumer_supply supply_map[GPIO_REGULATOR_SUPPLY_MAP_COUNT * 2];
+>> +		char supply_name_upper[GPIO_SUPPPLY_NAME_LENGTH];
+>>  		char regulator_name[GPIO_REGULATOR_NAME_LENGTH];
+>>  		struct regulator_dev *rdev;
+>>  		struct regulator_desc rdesc;
+>> @@ -129,6 +134,7 @@ void skl_int3472_unregister_clock(struct int3472_discrete_device *int3472);
+>>  
+>>  int skl_int3472_register_regulator(struct int3472_discrete_device *int3472,
+>>  				   struct gpio_desc *gpio,
+>> +				   const char *supply_name,
+>>  				   const char *second_sensor);
+>>  void skl_int3472_unregister_regulator(struct int3472_discrete_device *int3472);
+>>  
+>> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+>> index cbf39459bdf0..f6dae82739e5 100644
+>> --- a/drivers/platform/x86/intel/int3472/discrete.c
+>> +++ b/drivers/platform/x86/intel/int3472/discrete.c
+>> @@ -188,7 +188,7 @@ static void int3472_get_con_id_and_polarity(struct acpi_device *adev, u8 *type,
+>>  		*gpio_flags = GPIO_ACTIVE_HIGH;
+>>  		break;
+>>  	case INT3472_GPIO_TYPE_POWER_ENABLE:
+>> -		*con_id = "power-enable";
+>> +		*con_id = "avdd";
+>>  		*gpio_flags = GPIO_ACTIVE_HIGH;
+>>  		break;
+>>  	default:
+>> @@ -311,7 +311,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+>>  
+>>  			break;
+>>  		case INT3472_GPIO_TYPE_POWER_ENABLE:
+>> -			ret = skl_int3472_register_regulator(int3472, gpio,
+>> +			ret = skl_int3472_register_regulator(int3472, gpio, con_id,
+>>  							     int3472->quirks.avdd_second_sensor);
+>>  			if (ret)
+>>  				err_msg = "Failed to map regulator to sensor\n";
+>>
+> 
 
 
