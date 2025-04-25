@@ -1,153 +1,151 @@
-Return-Path: <platform-driver-x86+bounces-11503-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-11504-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9333CA9CD6D
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 25 Apr 2025 17:45:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5368EA9CD75
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 25 Apr 2025 17:46:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0DD979C5D7B
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 25 Apr 2025 15:45:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 834CA1BC61DF
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 25 Apr 2025 15:46:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A42EC28B4E2;
-	Fri, 25 Apr 2025 15:45:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C29A828E5E9;
+	Fri, 25 Apr 2025 15:45:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QBKxAx7j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dRNB0hzB"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799F2170A11;
-	Fri, 25 Apr 2025 15:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2CE13633F;
+	Fri, 25 Apr 2025 15:45:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745595922; cv=none; b=up/A9MnFWj8pM80Xom5MVmK4e8vJ+AIxOo5DK3IO3BQ8qZYpkZuKvIa9xAKIZS9fDtT6+EfjMS/S+kIs0TaS94bhVCgHqxbpxqJJqdcLLk/2eHAOTqcRkDErzjD/KrRH/EvhrcveJW+mvyEjcgoJ/kl6HiiMAo2kdtLy/2zIeN8=
+	t=1745595937; cv=none; b=G7x8Ax74kaDgySNTz5Jlsoih9DAeesVDV66WKndj0XUSO+RllSNntMUVYDSLa5i68Tbb4T8uuyDJoHabqy8efQq5m4AeMzLe+mc3Dl+hLeb15HsD4Um3tI0O5/FlygD8jPpITqN8RsR+EUCtw3dVl0Oh16WLh9W21VH+Elda+Eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745595922; c=relaxed/simple;
-	bh=Wh343qabmZNkH33FXnPp45fGDKjEbD5+Q40XZxoda3w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GErllt4e2rxiIenbxKfIB6hbOk2LOCozQ+EEScG9doOthxgOOOA4xeNJNGj25sAwQup1ZoZ61PENGBf0HzP4DnJOj+bWEBZbAocs6prr69Eb/yPN5O1rKPVpc2kjQ9fsNgvl0RZyukHM5l9SHPFWCJP/MUbnIrYYLWlrDoviitY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QBKxAx7j; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0F087C4CEE8;
-	Fri, 25 Apr 2025 15:45:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745595922;
-	bh=Wh343qabmZNkH33FXnPp45fGDKjEbD5+Q40XZxoda3w=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=QBKxAx7j60ijQ/kFlioWJhgeaxX/GWtPIAPBdcvawgoPafCdtCAgRpkdm8xPn1nYN
-	 D6kzf3unpHIpA+hzHV8qVdPNslpElGYhPkoyN5pdEz6Wgc5JH3/GO9xE7GVEv9d/uZ
-	 XxcW+EssimsgVX2Kuu+N9HDhGQaHXFIk2/m60GkPPdCMwDDQLjHvGC7pkuKmfwZON4
-	 5S/SYa1ZSuzQIYZITMTbdWXtKYy8LjziCO4YPaAhZcRL9u2tssqDDW9PZgRwNg5Pdi
-	 zXrzmtwP8s69+TKY7qxkJ7ADd9NXKpSMZpm5yf5YjN106YCCFXx9OiV6y/AItrq42P
-	 TEKlHvqFpCxTQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00729C369D8;
-	Fri, 25 Apr 2025 15:45:22 +0000 (UTC)
-From: Kurt Borja via B4 Relay <devnull+kuurtb.gmail.com@kernel.org>
-Date: Fri, 25 Apr 2025 12:45:07 -0300
-Subject: [PATCH 2/2] platform/x86: alienware-wmi-wmax: Fix
- awcc_hwmon_fans_init() label logic
+	s=arc-20240116; t=1745595937; c=relaxed/simple;
+	bh=NDEMzXyKMQaX/1P4v8LWPCUwLdyUYFm0Z5j9i1NuUNc=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=oURIrzB+ARE3FVQLxz8dnOYU14uCYJjSvVX3nqn4tRxl4sqIg0d9GcdrQHWP+8ijFC1LA/zQonMzi39gEDovU/vlRJprrAMSpCqMIjZbdqwKMDMh4/q7CcalYhhgFQ/04fC+JnOFHmm7ZJ6T/QR933JkOJ7LdY0XGkJrf978+fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dRNB0hzB; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745595936; x=1777131936;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=NDEMzXyKMQaX/1P4v8LWPCUwLdyUYFm0Z5j9i1NuUNc=;
+  b=dRNB0hzB9VSEVZTN6uSQdKcHqikDg35+hrmD9RswM0sJg7VLq7vXflvN
+   L1reVIaspl2ar5jsCDPfpN7akAbFhLGghWw+pCn19pxVTEbDg12AsoN6N
+   O6iyX/zUQKQvZtktFX2jk7eJYafaN86bT+ROFbbafcHQha1t0OhXLKs5p
+   W4k/Hcovc41OunM9OT7Hr9Q1XDHwhBS6NIRM9c6ZZzzY4mdcLEvIudGeo
+   UYRwmAL+8O3spijxoiIPhcZNqx2AO5dl0pJegz89Q+YcbAn4diomQZ1Jc
+   hAlzIA8q1wKOcSE2RV7O6gnp0NSBmt5HQG7wN/HZr61mIeUmmbAlXpmwn
+   w==;
+X-CSE-ConnectionGUID: 7bCgJpPqRiefXyfn2jXtMQ==
+X-CSE-MsgGUID: bMKMOgZ8RAGO3vxuOpGwsQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="50928849"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="50928849"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 08:45:35 -0700
+X-CSE-ConnectionGUID: zVyTiGS+Tp27oRIuRu3o/Q==
+X-CSE-MsgGUID: FTR+bshYRAKz5gvHmp9NIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="133870388"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.154])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 08:45:22 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Fri, 25 Apr 2025 18:45:18 +0300 (EEST)
+To: "Xin Li (Intel)" <xin@zytor.com>
+cc: LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org, 
+    linux-perf-users@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+    virtualization@lists.linux.dev, linux-pm@vger.kernel.org, 
+    linux-edac@vger.kernel.org, xen-devel@lists.xenproject.org, 
+    linux-acpi@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+    Netdev <netdev@vger.kernel.org>, platform-driver-x86@vger.kernel.org, 
+    tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+    dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+    acme@kernel.org, jgross@suse.com, andrew.cooper3@citrix.com, 
+    peterz@infradead.org, namhyung@kernel.org, mark.rutland@arm.com, 
+    alexander.shishkin@linux.intel.com, jolsa@kernel.org, irogers@google.com, 
+    adrian.hunter@intel.com, kan.liang@linux.intel.com, wei.liu@kernel.org, 
+    ajay.kaher@broadcom.com, bcm-kernel-feedback-list@broadcom.com, 
+    tony.luck@intel.com, pbonzini@redhat.com, vkuznets@redhat.com, 
+    seanjc@google.com, luto@kernel.org, boris.ostrovsky@oracle.com, 
+    kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com, 
+    dapeng1.mi@linux.intel.com
+Subject: Re: [PATCH v3 01/14] x86/msr: Move rdtsc{,_ordered}() to
+ <asm/tsc.h>
+In-Reply-To: <20250425083442.2390017-2-xin@zytor.com>
+Message-ID: <42dc90e1-df2a-2324-d28c-d75fb525e4a2@linux.intel.com>
+References: <20250425083442.2390017-1-xin@zytor.com> <20250425083442.2390017-2-xin@zytor.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250425-temp-id-fix-v1-2-372d71f732bf@gmail.com>
-References: <20250425-temp-id-fix-v1-0-372d71f732bf@gmail.com>
-In-Reply-To: <20250425-temp-id-fix-v1-0-372d71f732bf@gmail.com>
-To: =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Hans de Goede <hdegoede@redhat.com>, Armin Wolf <W_Armin@gmx.de>
-Cc: platform-driver-x86@vger.kernel.org, Dell.Client.Kernel@dell.com, 
- linux-kernel@vger.kernel.org, Kurt Borja <kuurtb@gmail.com>, 
- kernel test robot <lkp@intel.com>, Dan Carpenter <dan.carpenter@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2435; i=kuurtb@gmail.com;
- h=from:subject:message-id;
- bh=hl7NOezBX65uzKnMSgj3738hCgwWWjttXsdb5CJ1YU4=;
- b=owGbwMvMwCUmluBs8WX+lTTG02pJDBnc6wRc2D68PZlfxXZuvmjk/DnC3xlunnWc5PU6ddHEz
- u4Dr++xdpSyMIhxMciKKbK0Jyz69igq763fgdD7MHNYmUCGMHBxCsBEHDwYGZq4Wc2SFLNXfNll
- FzrfOHLaf9PlJ7enx5891/xnoZ1d8kOG//kPMh9e/7G7iPnXzKV8flZlGscWupsqGa/KXqfGPbu
- zmBEA
-X-Developer-Key: i=kuurtb@gmail.com; a=openpgp;
- fpr=54D3BE170AEF777983C3C63B57E3B6585920A69A
-X-Endpoint-Received: by B4 Relay for kuurtb@gmail.com/default with
- auth_id=387
-X-Original-From: Kurt Borja <kuurtb@gmail.com>
-Reply-To: kuurtb@gmail.com
+Content-Type: text/plain; charset=US-ASCII
 
-From: Kurt Borja <kuurtb@gmail.com>
+On Fri, 25 Apr 2025, Xin Li (Intel) wrote:
 
-To avoid passing an uninitialized `temp_id` to awcc_get_fan_label(),
-pass the `fan_temps` bitmap instead, to work only on set bits.
+> For some reason, there are some TSC-related functions in the MSR
+> header even though there is a tsc.h header.
+> 
+> Relocate rdtsc{,_ordered}() from <asm/msr.h> to <asm/tsc.h>, and
+> subsequently remove the inclusion of <asm/msr.h> in <asm/tsc.h>.
+> Consequently, <asm/msr.h> must be included in several source files
+> that previously did not require it.
+>
+> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+> ---
+> 
+> Change in v3:
+> * Add a problem statement to the changelog (Dave Hansen).
+> ---
 
-Additionally, awcc_get_fan_label() leaves `dev` unused, so remove it
-from it's signature and it does not fail, so remove error handling.
+>  drivers/platform/x86/intel/pmc/cnp.c          |  1 +
+>  .../intel/speed_select_if/isst_if_common.c    |  1 +
+>  drivers/platform/x86/intel/turbo_max_3.c      |  1 +
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/r/202504250521.HEkFK1Jy-lkp@intel.com/
-Fixes: d69990783495 ("platform/x86: alienware-wmi-wmax: Add HWMON support")
-Signed-off-by: Kurt Borja <kuurtb@gmail.com>
----
- drivers/platform/x86/dell/alienware-wmi-wmax.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+Hi,
 
-diff --git a/drivers/platform/x86/dell/alienware-wmi-wmax.c b/drivers/platform/x86/dell/alienware-wmi-wmax.c
-index 27e5b0b23c27356cd5d72dbc5d3b5b4bdb03e8af..f3ad47c9edfac47fae181046acae2190e388306c 100644
---- a/drivers/platform/x86/dell/alienware-wmi-wmax.c
-+++ b/drivers/platform/x86/dell/alienware-wmi-wmax.c
-@@ -958,15 +958,19 @@ static int awcc_hwmon_temps_init(struct wmi_device *wdev)
- 	return 0;
- }
- 
--static char *awcc_get_fan_label(struct device *dev, u32 temp_count, u8 temp_id)
-+static char *awcc_get_fan_label(unsigned long *fan_temps)
- {
-+	unsigned int temp_count = bitmap_weight(fan_temps, AWCC_ID_BITMAP_SIZE);
- 	char *label;
-+	u8 temp_id;
- 
- 	switch (temp_count) {
- 	case 0:
- 		label = "Independent Fan";
- 		break;
- 	case 1:
-+		temp_id = find_first_bit(fan_temps, AWCC_ID_BITMAP_SIZE);
-+
- 		switch (temp_id) {
- 		case AWCC_TEMP_SENSOR_CPU:
- 			label = "Processor Fan";
-@@ -996,7 +1000,6 @@ static int awcc_hwmon_fans_init(struct wmi_device *wdev)
- 	u32 min_rpm, max_rpm, temp_count, temp_id;
- 	struct awcc_fan_data *fan_data;
- 	unsigned int i, j;
--	char *label;
- 	int ret;
- 	u8 id;
- 
-@@ -1039,14 +1042,10 @@ static int awcc_hwmon_fans_init(struct wmi_device *wdev)
- 			__set_bit(temp_id, fan_temps);
- 		}
- 
--		label = awcc_get_fan_label(&wdev->dev, temp_count, temp_id);
--		if (!label)
--			return -ENOMEM;
--
- 		fan_data->id = id;
- 		fan_data->min_rpm = min_rpm;
- 		fan_data->max_rpm = max_rpm;
--		fan_data->label = label;
-+		fan_data->label = awcc_get_fan_label(fan_temps);
- 		bitmap_gather(gather, fan_temps, priv->temp_sensors, AWCC_ID_BITMAP_SIZE);
- 		bitmap_copy(&fan_data->auto_channels_temp, gather, BITS_PER_LONG);
- 		priv->fan_data[i] = fan_data;
+To me this looks really a random set of source files, maybe it helped some 
+build success but it's hard for me to review this because there are still 
+cases that depend on indirect include chains.
+
+Could you just look into solving all missing msr.h includes instead 
+as clearly some are still missing after 3 pre-existing ones and you adding 
+it into 3 files:
+
+$ git grep -e rdmsr -e wrmsr -l drivers/platform/x86/
+drivers/platform/x86/intel/ifs/core.c
+drivers/platform/x86/intel/ifs/load.c
+drivers/platform/x86/intel/ifs/runtest.c
+drivers/platform/x86/intel/pmc/cnp.c
+drivers/platform/x86/intel/pmc/core.c
+drivers/platform/x86/intel/speed_select_if/isst_if_common.c
+drivers/platform/x86/intel/speed_select_if/isst_if_mbox_msr.c
+drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c
+drivers/platform/x86/intel/tpmi_power_domains.c
+drivers/platform/x86/intel/turbo_max_3.c
+drivers/platform/x86/intel/uncore-frequency/uncore-frequency.c
+drivers/platform/x86/intel_ips.c
+
+$ git grep -e 'msr.h' -l drivers/platform/x86/
+drivers/platform/x86/intel/pmc/core.c
+drivers/platform/x86/intel/tpmi_power_domains.c
+drivers/platform/x86/intel_ips.c
+
+I'd also prefer the patch(es) adding missing includes be in a different 
+patch.
 
 -- 
-2.49.0
-
+ i.
 
 
