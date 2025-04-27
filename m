@@ -1,193 +1,212 @@
-Return-Path: <platform-driver-x86+bounces-11544-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-11548-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9ECA9DF63
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 27 Apr 2025 08:25:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 017D2A9E1A5
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 27 Apr 2025 11:24:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AF13C7B1917
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 27 Apr 2025 06:24:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C409D189ACED
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 27 Apr 2025 09:22:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F04D323FC7D;
-	Sun, 27 Apr 2025 06:25:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2E832528FD;
+	Sun, 27 Apr 2025 09:21:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kXHp5+UO"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="KGPKbjRG"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7DA923FC4C;
-	Sun, 27 Apr 2025 06:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E4122D4FF;
+	Sun, 27 Apr 2025 09:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745735120; cv=none; b=fPBW0eMhNZF1JGeu1xnD086hpar3p2sjFcieQBroN+nAkHr7IdO1BbConbyHsj51C6/0ISZZF05VUiXYWkPwXFstw/ww0+Z8y8fe0SX1pAz0QQaUACA9MmpoWlPGw+Varz0Qiv54FcUUaeO5ThHiOCKPxJPFzKi0n2OgsrQGJW4=
+	t=1745745694; cv=none; b=JPkmomVfWl2skuId5/fVAMz8jDYE9Pmjx0h1kOJACpReBvWRGAINW0//gUHxwofon/8oVGYGx5BpHx8l9tYB3WqRb10b9Ktm5KsU4iJlyZZzLvak5DG8TVh90l7M0AbrCx0JuixbZKQhgpLd6IXN3OK6kdDsx3IoypM3gcEYvYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745735120; c=relaxed/simple;
-	bh=FWcrry3t+sNJr7gey8S2h20kX41J+xHQ2HEJQdJI/MY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HqT/P2El3z5QNUdCbFjglScOL45nG/BOC1j7djQwUnfkDbx2e4J9SQI1HcRIDWrQu5ADQW9PHoQs+JQ/13Of2oxE4ns6nFa3mH7+QGXMHy0ORsGJfAyUfMG+qOLPC2X68dEABHjbCgxwpwFo6+FoeyZkniTHWxGqhLWZTgLlKfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kXHp5+UO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3CC88C4CEE9;
-	Sun, 27 Apr 2025 06:25:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745735118;
-	bh=FWcrry3t+sNJr7gey8S2h20kX41J+xHQ2HEJQdJI/MY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=kXHp5+UOdI63m9dvZW+5Xg6AogHZ1dyNyO13UomNy911DPgqSax42ihHIfZ8RBrbF
-	 SBhiuicu25bXFXXL/E5NDUSNTKOBGZNFsHB6s38hSzEL4LjPbEEs7QUbuoscCTFMmz
-	 WqffgqFvGhcmKGvremIM3jeQOy2asZSM7WO4NrFfwx9sD+rhSxVjXcDVGdtZ+wSxYn
-	 RoHqs3Wd5gI6fDb/TBEb2WwI7LrfWiGjiM9atEtwTt0S8FQZNnANypVgKA9FRqf/nH
-	 Y5mCzl4LUmyDaxoAYDJ3rJKJO3iH5M8KT2eJOAYPoKKivhA7+vp1CR4ENheRxFJuvs
-	 AC/ipHjzQxYYg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FB14C369DC;
-	Sun, 27 Apr 2025 06:25:18 +0000 (UTC)
-From: Kurt Borja via B4 Relay <devnull+kuurtb.gmail.com@kernel.org>
-Date: Sun, 27 Apr 2025 03:24:49 -0300
-Subject: [PATCH v2 2/2] Documentation: wmi: alienware-wmi: Add GPIO control
- documentation
+	s=arc-20240116; t=1745745694; c=relaxed/simple;
+	bh=sAwmHzM5BuZaF2+SHHsnyyh62JrNU6fREWCA/ZhKmV8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lTHC9iF/c7HURUkq2JmhYs2wkxV2XC9iYFJRULkVi/FkhQXbQo5cffa/C8h+bdbC9/HkBwsysYlWm764XapjbeKeGp6Po7o+57VxXWStqhpXOxoKnCgt0cj3EfVOd9lPsnJhADr3XmXY3BML4+LflMHlUUWcTqz9iba0sOm8dBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=KGPKbjRG; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53R9KRRv1598826
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Sun, 27 Apr 2025 02:20:31 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53R9KRRv1598826
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025042001; t=1745745633;
+	bh=qSfXCrg4qMgrCCN/nBzwbznIDzcGPiftIKltZswFgIE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=KGPKbjRGgpHgFU0cY/ACUzxlHFjWDOeiPp9By/ChtzbJZIweuQ+iTo89wAU0iNihQ
+	 SKEyvJHImJNQXBkUZWIdvyDCu6QoEPA8rITFD0DzOFnJQDU+Kzfi3F/wVVPJtaasOz
+	 tp9WXAiFowdLbVcAn52sxpFAE0019Qh9Ohma3zzykO4s2ncruEhapesrBun7C7nbu/
+	 4XCH6DGZYk0OeujJJD/cl152iPZUttGL/t3z+ARRTRK4pCAey7AUYR4wEKwxvjBg97
+	 nHT/eL7JBioWUo9OkjJnkhRi5NlEgkrstADaj6ZDGDUs2C9E+9FUj4IM8BNmXhLIe2
+	 IL5Z9UXy1PO/Q==
+From: "Xin Li (Intel)" <xin@zytor.com>
+To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        virtualization@lists.linux.dev, linux-pm@vger.kernel.org,
+        linux-edac@vger.kernel.org, xen-devel@lists.xenproject.org,
+        linux-acpi@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        netdev@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        acme@kernel.org, jgross@suse.com, andrew.cooper3@citrix.com,
+        peterz@infradead.org, namhyung@kernel.org, mark.rutland@arm.com,
+        alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+        irogers@google.com, adrian.hunter@intel.com, kan.liang@linux.intel.com,
+        wei.liu@kernel.org, ajay.kaher@broadcom.com,
+        bcm-kernel-feedback-list@broadcom.com, tony.luck@intel.com,
+        pbonzini@redhat.com, vkuznets@redhat.com, seanjc@google.com,
+        luto@kernel.org, boris.ostrovsky@oracle.com, kys@microsoft.com,
+        haiyangz@microsoft.com, decui@microsoft.com,
+        dapeng1.mi@linux.intel.com, ilpo.jarvinen@linux.intel.com
+Subject: [PATCH v4 00/15] MSR code cleanup part one
+Date: Sun, 27 Apr 2025 02:20:12 -0700
+Message-ID: <20250427092027.1598740-1-xin@zytor.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250427-awcc-gpio-v2-2-c731373b5d02@gmail.com>
-References: <20250427-awcc-gpio-v2-0-c731373b5d02@gmail.com>
-In-Reply-To: <20250427-awcc-gpio-v2-0-c731373b5d02@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Armin Wolf <W_Armin@gmx.de>
-Cc: Gabriel Marcano <gabemarcano@yahoo.com>, 
- platform-driver-x86@vger.kernel.org, Dell.Client.Kernel@dell.com, 
- linux-kernel@vger.kernel.org, Kurt Borja <kuurtb@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5285; i=kuurtb@gmail.com;
- h=from:subject:message-id;
- bh=zC8+gJDq11VBsTxTMVnO6aUkwcVu2ZYewNrS8rkQd+k=;
- b=owGbwMvMwCUmluBs8WX+lTTG02pJDBm8Z8+4+7vMOnyoK9+6QtPZIvq0nU+WWtNaRYmdT+u3Z
- 3LZ9p7rKGVhEONikBVTZGlPWPTtUVTeW78Dofdh5rAygQxh4OIUgIkcuMPwT99iWi4b75XcjcLi
- AS+1fjak/A5cZZO9JphHRrjR8LjzRkaGv2fu50VNfPWs4b3Y7zdLZAOSEi/efqaew37ni7aVaZQ
- qHwA=
-X-Developer-Key: i=kuurtb@gmail.com; a=openpgp;
- fpr=54D3BE170AEF777983C3C63B57E3B6585920A69A
-X-Endpoint-Received: by B4 Relay for kuurtb@gmail.com/default with
- auth_id=387
-X-Original-From: Kurt Borja <kuurtb@gmail.com>
-Reply-To: kuurtb@gmail.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Kurt Borja <kuurtb@gmail.com>
+This patch set is the first part of the patch set:
 
-Add documentation for the GPIO control methods.
+  MSR refactor with new MSR instructions support
 
-Signed-off-by: Kurt Borja <kuurtb@gmail.com>
----
- Documentation/wmi/devices/alienware-wmi.rst | 78 +++++++++++++++++++++++++++--
- 1 file changed, 74 insertions(+), 4 deletions(-)
+@ https://lore.kernel.org/lkml/20250422082216.1954310-1-xin@zytor.com/T/#m5a34be7d4ed55f0baca965cb65452a08e9ad7c8a
 
-diff --git a/Documentation/wmi/devices/alienware-wmi.rst b/Documentation/wmi/devices/alienware-wmi.rst
-index 79238051b18bc5de9b502325017cd5c5fcf41748..2a6052efb9ae0e3fe0a5d9d5775073234dfc96fb 100644
---- a/Documentation/wmi/devices/alienware-wmi.rst
-+++ b/Documentation/wmi/devices/alienware-wmi.rst
-@@ -231,6 +231,70 @@ WMI method MemoryOCControl([in] uint32 arg2, [out] uint32 argr)
- AWCC supports memory overclocking, but this method is very intricate and has
- not been deciphered yet.
- 
-+GPIO control Methods
-+====================
-+
-+Alienware and Dell G Series devices with the AWCC interface usually have an
-+embedded STM32 RGB lighting controller with USB/HID capabilities. It's vendor ID
-+is ``187c`` while it's product ID may vary from model to model.
-+
-+The control of two GPIO pins of this MCU is exposed as WMI methods for debugging
-+purposes.
-+
-++--------------+--------------------------------------------------------------+
-+| Pin          | Description                                                  |
-++==============+===============================+==============================+
-+| 0            | Device Firmware Update (DFU)  | **HIGH**: Enables DFU mode   |
-+|              | mode pin.                     | on next MCU boot.            |
-+|              |                               +------------------------------+
-+|              |                               | **LOW**: Disables DFU mode   |
-+|              |                               | on next MCU boot.            |
-++--------------+-------------------------------+------------------------------+
-+| 1            | Negative Reset (NRST) pin.    | **HIGH**: MCU is ON.         |
-+|              |                               |                              |
-+|              |                               +------------------------------+
-+|              |                               | **LOW**: MCU is OFF.         |
-+|              |                               |                              |
-++--------------+-------------------------------+------------------------------+
-+
-+See :ref:`acknowledgements` for more information on this MCU.
-+
-+.. note::
-+   Some GPIO control methods break the usual argument structure and take a
-+   **Pin number** instead of an operation on the first byte.
-+
-+WMI method FWUpdateGPIOtoggle([in] uint32 arg2, [out] uint32 argr)
-+------------------------------------------------------------------
-+
-++--------------------+------------------------------------+--------------------+
-+| Operation (Byte 0) | Description                        | Arguments          |
-++====================+====================================+====================+
-+| Pin number         | Set the pin status                 | - Byte 1: Pin      |
-+|                    |                                    |   status           |
-++--------------------+------------------------------------+--------------------+
-+
-+WMI method ReadTotalofGPIOs([out] uint32 argr)
-+----------------------------------------------
-+
-++--------------------+------------------------------------+--------------------+
-+| Operation (Byte 0) | Description                        | Arguments          |
-++====================+====================================+====================+
-+| 0x00               | Get the total number of GPIOs      | - None             |
-++--------------------+------------------------------------+--------------------+
-+
-+WMI method ReadGPIOpPinStatus([in] uint32 arg2, [out] uint32 argr)
-+------------------------------------------------------------------
-+
-++--------------------+------------------------------------+--------------------+
-+| Operation (Byte 0) | Description                        | Arguments          |
-++====================+====================================+====================+
-+| Pin number         | Get the pin status                 | - None             |
-++--------------------+------------------------------------+--------------------+
-+
-+.. note::
-+   There known firmware bug in some laptops where reading the status of a pin
-+   also flips it.
-+
- Other information Methods
- =========================
- 
-@@ -239,10 +303,16 @@ WMI method ReadChassisColor([out] uint32 argr)
- 
- Returns the chassis color internal ID.
- 
-+.. _acknowledgements:
-+
- Acknowledgements
- ================
- 
--Kudos to `AlexIII <https://github.com/AlexIII/tcc-g15>`_ and
--`T-Troll <https://github.com/T-Troll/alienfx-tools/>`_ for documenting and
--testing some of this device's functionality, making it possible to generalize
--this driver.
-+Kudos to
-+
-+* `AlexIII <https://github.com/AlexIII/tcc-g15>`_
-+* `T-Troll <https://github.com/T-Troll/alienfx-tools/>`_
-+* `Gabriel Marcano <https://gabriel.marcanobrady.family/blog/2024/12/16/dell-g5-5505-se-acpi-or-figuring-out-how-to-reset-the-rgb-controller/>`_
-+
-+for documenting and testing some of this device's functionality, making it
-+possible to generalize this driver.
 
+It's getting *WAY* too big, and whether to zap the pv_ops MSR APIs is
+still under argument.  Dave Hansen suggested to focus on rename stuff
+first, most of which he acked.
+
+Jürgen Groß also gave his RBs to the Xen MSR cleanup patches.
+
+So here comes the first MSR cleanup patch set with version 4.
+
+
+Changes in v4:
+1) Add missing includes in a different patch (Ilpo Järvinen).
+2) Add all necessary direct inclusions for msr.h (Ilpo Järvinen).
+3) Remove two "else" that no longer make sense (Juergen Gross).
+4) Collect RBs from Jürgen Groß and ABs from Peter Zijlstra.
+
+
+Link to the previous v3 patch set:
+https://lore.kernel.org/lkml/20250425083442.2390017-1-xin@zytor.com/
+
+
+This patch series is based on:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/msr
+
+
+Xin Li (Intel) (15):
+  x86/msr: Add missing includes of <asm/msr.h>
+  x86/msr: Move rdtsc{,_ordered}() to <asm/tsc.h>
+  x86/msr: Remove rdpmc()
+  x86/msr: Rename rdpmcl() to rdpmc()
+  x86/msr: Convert the rdpmc() macro into an always inline function
+  x86/xen/msr: Return u64 consistently in Xen PMC read functions
+  x86/msr: Convert __wrmsr() uses to native_wrmsr{,q}() uses
+  x86/msr: Add the native_rdmsrq() helper
+  x86/msr: Convert __rdmsr() uses to native_rdmsrq() uses
+  x86/xen/msr: Remove calling native_{read,write}_msr{,_safe}() in
+    pmu_msr_{read,write}()
+  x86/xen/msr: Remove pmu_msr_{read,write}()
+  x86/xen/msr: Remove the error pointer argument from set_seg()
+  x86/pvops/msr: refactor pv_cpu_ops.write_msr{,_safe}()
+  x86/msr: Replace wrmsr(msr, low, 0) with wrmsrq(msr, low)
+  x86/msr: Change the function type of native_read_msr_safe()
+
+ arch/x86/coco/sev/core.c                      |   2 +-
+ arch/x86/events/amd/brs.c                     |   4 +-
+ arch/x86/events/amd/uncore.c                  |   2 +-
+ arch/x86/events/core.c                        |   2 +-
+ arch/x86/events/intel/core.c                  |   4 +-
+ arch/x86/events/intel/ds.c                    |   2 +-
+ arch/x86/events/msr.c                         |   3 +
+ arch/x86/events/perf_event.h                  |   1 +
+ arch/x86/events/probe.c                       |   2 +
+ arch/x86/hyperv/hv_apic.c                     |   6 +-
+ arch/x86/hyperv/hv_vtl.c                      |   4 +-
+ arch/x86/hyperv/ivm.c                         |   3 +-
+ arch/x86/include/asm/apic.h                   |   4 +-
+ arch/x86/include/asm/fred.h                   |   1 +
+ arch/x86/include/asm/microcode.h              |   2 +
+ arch/x86/include/asm/mshyperv.h               |   3 +-
+ arch/x86/include/asm/msr.h                    | 130 +++++-------------
+ arch/x86/include/asm/paravirt.h               |  57 ++++----
+ arch/x86/include/asm/paravirt_types.h         |  10 +-
+ arch/x86/include/asm/suspend_32.h             |   1 +
+ arch/x86/include/asm/suspend_64.h             |   1 +
+ arch/x86/include/asm/switch_to.h              |   4 +-
+ arch/x86/include/asm/tsc.h                    |  76 +++++++++-
+ arch/x86/kernel/cpu/amd.c                     |   2 +-
+ arch/x86/kernel/cpu/common.c                  |  10 +-
+ arch/x86/kernel/cpu/mce/core.c                |   6 +-
+ arch/x86/kernel/cpu/resctrl/pseudo_lock.c     |  25 ++--
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c        |   2 +-
+ arch/x86/kernel/cpu/umwait.c                  |   4 +-
+ arch/x86/kernel/fpu/xstate.h                  |   1 +
+ arch/x86/kernel/hpet.c                        |   1 +
+ arch/x86/kernel/kvm.c                         |   2 +-
+ arch/x86/kernel/kvmclock.c                    |   2 +-
+ arch/x86/kernel/process_64.c                  |   1 +
+ arch/x86/kernel/trace_clock.c                 |   2 +-
+ arch/x86/kernel/tsc_sync.c                    |   1 +
+ arch/x86/kvm/svm/svm.c                        |  34 ++---
+ arch/x86/kvm/vmx/vmx.c                        |   4 +-
+ arch/x86/lib/kaslr.c                          |   2 +-
+ arch/x86/mm/mem_encrypt_identity.c            |   5 +-
+ arch/x86/realmode/init.c                      |   1 +
+ arch/x86/xen/enlighten_pv.c                   |  58 ++++----
+ arch/x86/xen/pmu.c                            |  72 +++-------
+ arch/x86/xen/xen-ops.h                        |   5 +-
+ drivers/acpi/acpi_extlog.c                    |   1 +
+ drivers/acpi/processor_perflib.c              |   1 +
+ drivers/acpi/processor_throttling.c           |   3 +-
+ drivers/char/agp/nvidia-agp.c                 |   1 +
+ drivers/cpufreq/amd-pstate-ut.c               |   2 +
+ drivers/crypto/ccp/sev-dev.c                  |   1 +
+ drivers/edac/amd64_edac.c                     |   1 +
+ drivers/edac/ie31200_edac.c                   |   1 +
+ drivers/edac/mce_amd.c                        |   1 +
+ drivers/hwmon/hwmon-vid.c                     |   4 +
+ drivers/idle/intel_idle.c                     |   1 +
+ drivers/misc/cs5535-mfgpt.c                   |   1 +
+ drivers/net/vmxnet3/vmxnet3_drv.c             |   4 +
+ drivers/platform/x86/intel/ifs/core.c         |   1 +
+ drivers/platform/x86/intel/ifs/load.c         |   1 +
+ drivers/platform/x86/intel/ifs/runtest.c      |   1 +
+ drivers/platform/x86/intel/pmc/cnp.c          |   1 +
+ .../intel/speed_select_if/isst_if_common.c    |   1 +
+ .../intel/speed_select_if/isst_if_mbox_msr.c  |   1 +
+ .../intel/speed_select_if/isst_tpmi_core.c    |   1 +
+ drivers/platform/x86/intel/turbo_max_3.c      |   1 +
+ .../intel/uncore-frequency/uncore-frequency.c |   1 +
+ drivers/powercap/intel_rapl_common.c          |   1 +
+ drivers/powercap/intel_rapl_msr.c             |   1 +
+ .../processor_thermal_device.c                |   1 +
+ drivers/thermal/intel/intel_tcc_cooling.c     |   1 +
+ drivers/thermal/intel/x86_pkg_temp_thermal.c  |   1 +
+ drivers/video/fbdev/geode/display_gx.c        |   1 +
+ drivers/video/fbdev/geode/gxfb_core.c         |   1 +
+ drivers/video/fbdev/geode/lxfb_ops.c          |   1 +
+ 74 files changed, 308 insertions(+), 295 deletions(-)
+
+
+base-commit: a5447e92e169dafaf02fd653500105c7186d7128
 -- 
 2.49.0
-
 
 
