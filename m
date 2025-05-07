@@ -1,193 +1,223 @@
-Return-Path: <platform-driver-x86+bounces-11912-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-11914-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3FFAAAEB48
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  7 May 2025 21:05:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F46AAECA7
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  7 May 2025 22:05:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D256E1C08D7D
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  7 May 2025 19:05:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC0233BF65D
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  7 May 2025 20:05:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15A0728DF2A;
-	Wed,  7 May 2025 19:05:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F4271F9A89;
+	Wed,  7 May 2025 20:05:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="rEoZTyaA";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NBfcRxKV"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="UdpnHist"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2063.outbound.protection.outlook.com [40.107.243.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9678328C2B3;
-	Wed,  7 May 2025 19:05:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746644715; cv=none; b=REFhWlFlFia1dw3kr9FFpgxKnQEfRnOpweuSOnWnAaOtQqzxl2ulTNul+wQjtZZaxi5yjcQhkuWRrtavjcWfXXPD47OUaebtlPETWVw847dCfUlbr+4mMM1pCzUbYaNcPw/QyKYfs+3stBcyqC+8sdi8auUyypJX6LCHfrev0lU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746644715; c=relaxed/simple;
-	bh=tGf22uvqp6ljOu2Ir9+zGkRohUqqKIu4eR/TQZCOymE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eTWuc7P0WrraHvDFws/pzl/oWVdi1MqaZM7HUaqRkOJ7pLnwPu0G/3c7E2u+NQXD+mCyAIPBuLnV2dReBB8XXf7dG9qB4Ef6GwszHLatwNYVkios3x4mnN9Yo7ijnY8FDyM04flG0TnCUkJ3/pbh1EiIGR4pCazW5s4bytC+R0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=rEoZTyaA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NBfcRxKV; arc=none smtp.client-ip=202.12.124.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 6F5FC2540145;
-	Wed,  7 May 2025 15:05:11 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Wed, 07 May 2025 15:05:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1746644711; x=
-	1746731111; bh=miF3+daArrTuj3CSFXguEC8BCvV5j/gzZMv3X2O2gSo=; b=r
-	EoZTyaAG5g9g0N8QP4X7Lxj4sMczAEsl5LK5mSGEkqJXj++lGB+70eRJlAMR4AJZ
-	Anb80apWUypeVz08rzEZBdi7siyjHIaD7KIuu8NELh7X8FBQGLe9TZGleXYDC4e2
-	H1npFsVGzT4/q+lkQ3VcxfvFfxM4nAa5TijjaqpqnSPrp9OiK5oQOyv+ZvrQ9h1X
-	qbQuiaaqBySCF7EQ/GosSnah5oFQHAVtw+sp7KP616Zw5rlHojgKIFYjK7qY92Qi
-	Xmo7PLOjd/wFy2upZ4/VRsMAMV3LbT6KweiUOOWeFQBh3/pK88MNuEG+Ma3tXnqj
-	wDMoSw4U61rtpkSF9z34g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1746644711; x=1746731111; bh=m
-	iF3+daArrTuj3CSFXguEC8BCvV5j/gzZMv3X2O2gSo=; b=NBfcRxKVCAZ4IRCq0
-	BP3uqt6XF1mTBasavpK6waX2NE2QKQ0WUBJ6e6YSZW7I1bt35BpZAHFOHfNJfapY
-	KBs4HvqrAxR9t9kzPXUOslJ6yTmIFBrq+ZHYxaSvr8wE4pzsCptefXkpRyGc/OQF
-	E3w2kgXoIIsga774pq+xvt626dj7OiVyunkxWQrYfv1uBftOLOtD7Jf2Gw4A5PZD
-	8YURdCjlY76VQFvLG7ILt6Wbx4Zps4+CxZLvjKAzh97AJ3NypUnnOlKlDrCrziW/
-	ehYZtrS+J0TTWiL9+iuEJhSczsEo9Mu3shcBHuLVW7E0TWPFIGdxxCH8njSmXMZc
-	iCfKQ==
-X-ME-Sender: <xms:564baO9cXRsKgWL88ATIBMpz63y5_0FiK5u80HH50XskxQQAZQ7Rjw>
-    <xme:564baOtnib5nZsBkdK_d3c3-i-UqEQkpWTAzUz87jydQGZB5QCjCV0j_q7YAE_-S5
-    PSVEZ7bSDFW0sKie4k>
-X-ME-Received: <xmr:564baEC54iEAu5suGkMYfiKym08J9JzIoLe9hWPPJMu-_CgddQmr1ppTqhyiESsl27F8m08g53awjjxZYaJm8bwm_fxTJyXGCZAX54E6qPOjrdgGQQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeejieehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucgoteeftdduqddtud
-    culdduhedmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhho
-    mhepofgrrhhkucfrvggrrhhsohhnuceomhhpvggrrhhsohhnqdhlvghnohhvohesshhquh
-    gvsggsrdgtrgeqnecuggftrfgrthhtvghrnhepfedtvdejfeelffevhffgjeejheduteet
-    ieeguefgkefhhfegjeduueethefgvdffnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
-    hrrghmpehmrghilhhfrhhomhepmhhpvggrrhhsohhnqdhlvghnohhvohesshhquhgvsggs
-    rdgtrgdpnhgspghrtghpthhtohepledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoh
-    epmhhpvggrrhhsohhnqdhlvghnohhvohesshhquhgvsggsrdgtrgdprhgtphhtthhopehh
-    uggvghhovgguvgesrhgvughhrghtrdgtohhmpdhrtghpthhtohepihhlphhordhjrghrvh
-    hinhgvnheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehikhgvphgrnhhh
-    tgesghhmrghilhdrtghomhdprhgtphhtthhopeifpggrrhhmihhnsehgmhigrdguvgdprh
-    gtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehlihhnuhigrdhinhhtvghl
-    rdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtohepphhlrghtfhhorhhmqdgurhhivhgvrhdqgiekieesvhhg
-    vghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehisghmqdgrtghpihdquggvvhgvlh
-    eslhhishhtshdrshhouhhrtggvfhhorhhgvgdrnhgvth
-X-ME-Proxy: <xmx:564baGfM26v3VGdV5DtHMRY_lX2VN2TICP5_m3KWjHlnk5ojYnERhQ>
-    <xmx:564baDNWcqMmCUPnmZG1JSGM1HJGGEVhKhaLJDnLrYjQaeRDjIiPxA>
-    <xmx:564baAkiC4O8907VSsvQuYRfKnN_Hu6WzPECR6rFZcARipQ03p0VOg>
-    <xmx:564baFslO23bv4OBr7TYARf-8HPtVno7aIX09wLBnVGZo4DfjAsaow>
-    <xmx:564baDidLfvG1hNa2nTaix-moD3KMn_pP9gYnF6H8m_70HWaKvv3GiQ8>
-Feedback-ID: ibe194615:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 May 2025 15:05:10 -0400 (EDT)
-From: Mark Pearson <mpearson-lenovo@squebb.ca>
-To: mpearson-lenovo@squebb.ca
-Cc: hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	ikepanhc@gmail.com,
-	W_Armin@gmx.de,
-	andriy.shevchenko@linux.intel.com,
-	linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	ibm-acpi-devel@lists.sourceforge.net
-Subject: [PATCH 2/2] platform/x86: export thinkpad_acpi handles
-Date: Wed,  7 May 2025 15:04:35 -0400
-Message-ID: <20250507190456.3004367-2-mpearson-lenovo@squebb.ca>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250507190456.3004367-1-mpearson-lenovo@squebb.ca>
-References: <mpearson-lenovo@squebb.ca>
- <20250507190456.3004367-1-mpearson-lenovo@squebb.ca>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A936D1DD877;
+	Wed,  7 May 2025 20:05:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746648318; cv=fail; b=J2TckvjyYHR21Bm1d70uxAhOETP1kkKJpoHBrGsUs5/qkQkxlJOhUICXlU9rB0jL3Tuk7YPAvWe9UIpUtnXXU4neTd/56dI+ZAkiD8TqYkvyGuy6hudmGYWuhNOmSIEVOpGrbR1QTRW+m+jquq90+1wIC6zNqqFDpJvrYVCdJ8w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746648318; c=relaxed/simple;
+	bh=UHoRSYyZlZT9+Bsjwarg6olWbHEUrygrJq5jhU5zPPk=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=kWNrYWjGh6BmbYGQ+GcN432YE9SnkJFYEaams7fDBHcfYpp30iIUOOs9vkPIKebDpMSpbuUtNy0yCfMM1IKyozWcqcItkWVuymDtTTJKuTKEGN4qQn98BQWTwINzMfgpCHlRB8O/orCHrifljHH4kfBM34Q3goiNT+TUHMfqQmg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=UdpnHist; arc=fail smtp.client-ip=40.107.243.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gpR6iZAPyvLMrZtJ43XF1QxYx3i8x2BRrg6AT0EZjCTQhD7ND6hC/NycuxStIAFxJWHkZXW8gsH7JQ/czoV/OKFp4LbV5wt/sQS9H5ZetzDIRqxoxhE4MN8RYipVLPNswEbkt/FWR6J2e31Mz0yjibPPvZADSOaUSP39YPHmeHSMGvJUwdnsk+bOGUxTDM2hX4ooOnRwusTawCPyGt9KZj7QY8Hyzr4TP6AQRtBVyRku53eLwamz/73ZdWGzc9QSDZRUx6HCPzgw79bLMpV//UR0MymIGdyZGQM6yMHlxdUBw7zqa2lv3eSAsqN7v2OKgeq5jQvsoOmwsFAaSFGBJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Yftp2ths9LylgdwYEwGtn7RYpGE7/tq3ymct6OmNS9M=;
+ b=kqVMslSwbRRGXWE39DHYpbaInE7vip8AHyCGe85Xxp243LfbS+hRMJScejCNoz3r9dRHm3XIJyLdXFold0lSA/sWZY/y1NoK60i5bH24tJYsOV7yX/6C4cnZ6u48oMaFM9SJzZiOxeoHTTm+xQVJVoqtynCw0Hi3nT7zklhDZSNts7/F2DHuTqFnjGgXYnnhh3Ufk45JZqq9q7lwYEUG6nkaBb7zKKcrsRo+SrZ8ENFvY/VEl5WAO9zHtR9CIY3AJINp80PeD/YTxrcJqlZLf1Ap0+ciRyrCSz28gTELv7kLkq5T4Y9Ed2k9nyNjbDJs48bTJl0m5AlFygOQnavJvA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Yftp2ths9LylgdwYEwGtn7RYpGE7/tq3ymct6OmNS9M=;
+ b=UdpnHistE4SNYOQ7TVNjKs8oqdIE3viNJ2lVg4+usXsQF4mCi4CxQQoBZu4EFVe2UjVcbCMwWTS1YeektAvZTIboYmAklC5huXJcqv+ak/3whQaSJLigfftIbNNocjHEZl2WQabxTWRb3kVUIsxrMSrQGvIx9n8nThkBth1CRl4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY5PR12MB6429.namprd12.prod.outlook.com (2603:10b6:930:3b::16)
+ by PH8PR12MB7026.namprd12.prod.outlook.com (2603:10b6:510:1bd::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Wed, 7 May
+ 2025 20:05:10 +0000
+Received: from CY5PR12MB6429.namprd12.prod.outlook.com
+ ([fe80::1b40:2f7f:a826:3fa0]) by CY5PR12MB6429.namprd12.prod.outlook.com
+ ([fe80::1b40:2f7f:a826:3fa0%6]) with mapi id 15.20.8678.028; Wed, 7 May 2025
+ 20:05:10 +0000
+Message-ID: <019c9a4d-f8e5-4345-95df-255a04e5c34e@amd.com>
+Date: Wed, 7 May 2025 16:05:07 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12] platform/x86: Add AMD ISP platform config for OV05C10
+Content-Language: en-GB
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Ilya K <me@0upti.me>
+Cc: Pratap Nirujogi <pratap.nirujogi@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>, W_Armin@gmx.de,
+ mario.limonciello@amd.com, platform-driver-x86@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>, benjamin.chan@amd.com, bin.du@amd.com,
+ gjorgji.rosikopulos@amd.com, king.li@amd.com, dantony@amd.com
+References: <20250505171302.4177445-1-pratap.nirujogi@amd.com>
+ <9061d5a7-c1f6-47ad-b60a-226e48021d62@0upti.me>
+ <21c9d764-4945-4837-93dc-ab58f22f8668@linux.intel.com>
+From: "Nirujogi, Pratap" <pnirujog@amd.com>
+In-Reply-To: <21c9d764-4945-4837-93dc-ab58f22f8668@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YQXPR0101CA0004.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00:15::17) To CY5PR12MB6429.namprd12.prod.outlook.com
+ (2603:10b6:930:3b::16)
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR12MB6429:EE_|PH8PR12MB7026:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3dc063ab-cd8b-4393-0b0a-08dd8da27868
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Q0dSOHZmRG1XN21FS0lZajlqVmJOYWw1dVJHUThEWmZCYTUvU2tFcWFnM1hy?=
+ =?utf-8?B?WHFuV2gwLzA5RnJwTFpCNHJITEtLR082eVBkZFlCeFY0dXBXeHBVK0k3WWtQ?=
+ =?utf-8?B?OEpSOVVCbXFYOWhMRU8zcDJJOWtMelhnYXhEYmlTNTRGYS80a0NGQnNlamhM?=
+ =?utf-8?B?RUJUc3B1TTNuOGN4NVdWekJEV0t4WU5mbkE1YUJpbGhRQVhyaHFhTUkvWXJN?=
+ =?utf-8?B?cWVHR1BySUQxRFhhZldMNW9yYmNuRVVOS2RpRlUvR3psQ3RYd0FNSG4rZmdH?=
+ =?utf-8?B?K1BTV1RUZGlKYmN1SEQ3cXpMRFFOR3R5cXJlcDIybGRvWk5Qb1drRDY1WUt3?=
+ =?utf-8?B?c3dtMzU1V0d2aEhhNGxXanJ2TTdobXZiMEhBZi8vcjBxNzJ4WnVreVAya3NC?=
+ =?utf-8?B?ZlFXLzRtUnM4SVdhZUtpcHNNNHhaMVBMellJeHRIcDJUWVZmM2JrMkYrRnJ2?=
+ =?utf-8?B?SnJwRmZQZjY2bGRieUNEY3g2Z3FFdTVhdk9RZGl3clFabEJOUzFiR0I1eWM3?=
+ =?utf-8?B?aVZNSjBReE9LZVZ0SmtncUwvTkN6aEFtcE43ZTRKQlRDYm5ubTdCKzVZZlRE?=
+ =?utf-8?B?OVYvbDNiSkNBQmF5eUtIWkdpMHZwOE54azIzVEVxMVcwSHFSRU5mbkwwaVZs?=
+ =?utf-8?B?OEZkSnVHK1VnL1NGc2U1OWhuQ1JiMzYzTFdIaG1WWHlUM3dOdHBucEJ1dVZS?=
+ =?utf-8?B?RkxGWVM4SWxac1BzNzFmNXJOS3p6YzQySDVvc1R3ZTdwZE44blhvcUMxb1hW?=
+ =?utf-8?B?Z2NWN1YxUkZwb3lqR1lBYkd0Y1RrL1h1dnMrZVJ4UkF6eFhvTWNtQUQzMHk2?=
+ =?utf-8?B?NjUwbWIzNmJGT05EVXRxZnUzV2FHZ2RjWWhyckY3cWQ0QmNIdFI0VHRQWEc3?=
+ =?utf-8?B?aUFUNS8wZEhTVzVNMDc1dHVsNHZFS2VoOU5KaEExTlFwYTFiUXpSVkhsZFZF?=
+ =?utf-8?B?anQ4NFBseXV3S3pxUXVadTMrVU45VWZ4TVdFY1c3dGNvMVNpcmFrOGpheHJ2?=
+ =?utf-8?B?SVBkVVN1dHhPODRzR1hCWENMM3Zab29rOUlXQ05HMDM1ODc3NUxPd1U1Q1da?=
+ =?utf-8?B?b0J6R05YdWpBMExDU1VsYmw4TEhiRU9rNHZ1eTdXam1UbjVUK0doNmVkNTQ3?=
+ =?utf-8?B?clNGbUExV0x6d3ZVR2QxT0srS2JMQ2lCVHFyS3JHNGE2TDV1Q0NqM0N2d2Zm?=
+ =?utf-8?B?akxYaUZQMDVrQVZBMjFMYmFvTzdUY1JrL2NvRUFZWFlPSnpEb2ZYRmhzZ1Nq?=
+ =?utf-8?B?enQzL01uck9aOGh0c2ttNmlNSHg2dW1sc1N0ai9YVUhsdG5sMEVzUEowQ0Vh?=
+ =?utf-8?B?S3pIL0xhWi9mTG1uM0Qxd2JnSzNVVUtGUHMvalBkZlhMajBUWU8zcGtWYVFx?=
+ =?utf-8?B?YjBkL1JQWEd2OFp4QjFOQnVtNzh2RGlMaUI3Tit3S1FPelBiV0tzb0VWWnNQ?=
+ =?utf-8?B?OUVDMDRxbTVMQmFmZG5rY2c3OG9YMWNPRmc2NnUzUEhIczUzMDhNMWcrdTBM?=
+ =?utf-8?B?TjN4Ri8wYzNDQmc2VDNqbUt2cmRpanZORStoUUNVdjRpbENXT3ZaT05Bdnl0?=
+ =?utf-8?B?akxWQ29mTnczSVN4SGVKMThnMU05a01HcjJzZ0MrNktWOHE5T2VCMDZxLzk0?=
+ =?utf-8?B?WWkvR05WNUJVcDdjQmpwSUs0OHpGRjltcmt2a2IxS2Ywb0RUTkd4OE1WdmVk?=
+ =?utf-8?B?SmkzaTdaSkw3elVEa0t3bGRFSnBlVnVBdS9CVHR3ZnlaS2NWS3RTQ2w2L1Nz?=
+ =?utf-8?B?Zk53SGlpcHBJSjRFeXY0WDZUUDNkam80aGVaMEFMaEFDWHhSYk9jOFdkOHRx?=
+ =?utf-8?B?WU1jb3R4OVlva3RNR3RENFFxYi9IYzBpK0EvZHNkbkh2d3o5WWVJOHZoNTg3?=
+ =?utf-8?B?alVEWld3UkUwc2oyb1djTkZLTmJvZlgxSm55RldudVVLZS9GMHFiNmoxSFIv?=
+ =?utf-8?Q?P4jLvPhSbzM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6429.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Z2RkR3d4TmwrWldSNmNtMnFlYlZySzlIRWZkVUFldktwL0NMbTFqcSt3ek5u?=
+ =?utf-8?B?eVI4WkpvMyt0TEg0OWpFL20vRHRTeXU4cm1hZEVIYTV0dyszNDZMTUw1RDEv?=
+ =?utf-8?B?MWhveUV3WjY2QWhGc3IxZkR6Q3RqaUoySXVoRXUvMS8vRW1va0JQSms5NlRJ?=
+ =?utf-8?B?RldlRUkrbDYyUXcxSGxsOVhaMllQbmV0UjdkRkZIVjFGd3R4UzFnTjBFU2pl?=
+ =?utf-8?B?YWtYVXI3RVpZYWg3RW5IOG9jd0lFZFBvcXg1bUxlQVpPNkJrL0d0aUxUSXg2?=
+ =?utf-8?B?bEdQRzVxY2pGeGxGZlczUk5DWTE5bzNJSFpsY0NVVU5IM0FWRTRtMU1tMTJq?=
+ =?utf-8?B?ekdMdmk3dnFRZkNsT1I0ci9jTDhGRnhzVDJJb25pVVdVSHR3UXNVTTgwVndl?=
+ =?utf-8?B?Q2JaVnNYS3hpMWlRMkR5L0N0b0FWSlFUQml2dlptVXpGTk0zQXZEaGV4aXVs?=
+ =?utf-8?B?Sm1aQUlZV2lxY1VxNG00ck5GWWwrdTAzT0NjMDRDWGRBdWZmN2FQSU40Q3pn?=
+ =?utf-8?B?NGNKcWlselU1M0ZXZWRnek0waW9WZjlORlFzY1NyMlNvL1hKUUViQkw3UGpJ?=
+ =?utf-8?B?Ty9vUmkvbDdwKzNRVE9LckRzMlQ5eVp0REpXNzRtZGZZS0U1eXBmWW9vWTVX?=
+ =?utf-8?B?TGNZdlNCZmpPRWx4NG1tZHNFN1hhbWJ0VFZoYVpGNi9sV29mOFk0clVjcmpn?=
+ =?utf-8?B?amMyTDlyRFAzWnhaRUp3cUpYUEVmczBHYkNTY2tFYTFrL2FuUVduSUpYVUZm?=
+ =?utf-8?B?SmhzQUdiN25iY3d6S0JlREZsRllhS2I3MHY0cWtVakFueUhkak9GN3h1bEZW?=
+ =?utf-8?B?TndIRjhYTXprMUZNZnRSRCs0SWs4a0tIV2Q4UmV4ZUtlb2M3WnNPR0hFakZx?=
+ =?utf-8?B?ODVQL2tTTkk4RmhUYTNtZmkzNnZpN1Z5aXlmdDJpUERJbHVnWGNXSWU4M08r?=
+ =?utf-8?B?K3R3bEhNbndsS1lKVW96cnpOSkxkTDhINzJsUGxXTHJ4eElJckJvN3pwVW9Y?=
+ =?utf-8?B?T1NNVHZxSEpFUGFtYVpRQU50dnVGWnptaTFyelkxK3BNNVJYWXhOVFdaa1Mz?=
+ =?utf-8?B?a0tzMkxWRWxWbTJBVjIwQm5nbmVYQ3NyNWNWUVBqbjlqT09RRG5QL0VkREo5?=
+ =?utf-8?B?Rno3V1RYZUQ0RUF5a1dGRTZlODlwUnhPUWpUOGl2K0g1V0sxVDllMVdUYk1i?=
+ =?utf-8?B?MWpDalhVTmJseUl4TU4wOGU0TUhPMllyK2swdHFjaVdtSkxRcnVuYithU0FT?=
+ =?utf-8?B?ZGt2U0Fuc3pZa0k2c0FkVnZMdWd0RkQzcFJ2UmV5bGhVb3o0UmN6NjMwQWNG?=
+ =?utf-8?B?RlVqVUh1SThKWHRjWnl2VVlPQysyMEJrYS9keTNvblM0dlJvcDFZOTdxQW5M?=
+ =?utf-8?B?aGRYcDFRQ2hJMUMwTEQ3Sm55RUM3d0swWmV5bVZXVyswQnRtM211T2NvZmxs?=
+ =?utf-8?B?YjUrZkxBVldiMjZ1SGozTDdwaTFsZDVjTjBjRWN5ZlpvYUhZaUZkeVA5Ylpi?=
+ =?utf-8?B?aFNEQjdFL0ZzNnpXRnRiQU1pS0VuaDNLb2Jic3VIOUo1ZWcwSDFSd0piVzZY?=
+ =?utf-8?B?WFNXR2ZJbEF6VTRhVzluLzZ4cUlzSkYzRXRMdnZRVkVWdjBkaHJWME1RZy9w?=
+ =?utf-8?B?VmdlTVBKSVpvY0FLbSt5Q1V5c0xBVjNOQTNNOExob3dweDZLck1EdUtVWm90?=
+ =?utf-8?B?Y3JsUjFJS2RrcmJPeFFUc2lUbERKcWt6elhxYk43K3A3em1sdk1MbExtU0ZE?=
+ =?utf-8?B?VnZjQjg3eno0SjZQM1A2Q3N6N2hKSjhINFRuU1pONTB1YW9teWNpd0dvYjJW?=
+ =?utf-8?B?NWRwVnYrczVTRVpDMU5jVnpBNkxGYmhLOWdzUTkzamV5Si9EZ0xwdExqb3Jo?=
+ =?utf-8?B?UDBtSjdnVnRhY3JacjNGVEpDS2dmeHF6YUY1RHJGOE9naTErZXFqcnNPZHlK?=
+ =?utf-8?B?SG1jQUN3K2MyOC82RU51VmNzMWZaQmVKUW9QQld0eE9lUDdsQkptL0l4a2pT?=
+ =?utf-8?B?TW0rcGhvVHhodWZmSTFzZDYrYlZDbFNBWkZheWlOQkJoMEVKdmh2Y0lqSm5j?=
+ =?utf-8?B?ZnExcXJZTnR0WW9PZDNBL2lNazVUTWd5MzlqZTFOcmxTcXNzdU8zeUF3NUdq?=
+ =?utf-8?Q?sScBtV00NeIxoJfTHt4d+djeR?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3dc063ab-cd8b-4393-0b0a-08dd8da27868
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6429.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2025 20:05:10.3382
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zeU38adbQIm4Hkwya+AH0JHJZw+FrSpzpe6k19sHjkLPimzqW3udR4KvdT3b6y85pKgtwc7h1HwiRMms1hfEYw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7026
 
-Add API to be able to get the thinkpad_acpi various handles.
 
-Will use this to start pulling some of the thinkpad_acpi functionality
-into separate modules in the future.
 
-Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
----
- drivers/platform/x86/lenovo/thinkpad_acpi.c | 18 ++++++++++++++++++
- include/linux/thinkpad_acpi.h               | 17 +++++++++++++++++
- 2 files changed, 35 insertions(+)
- create mode 100644 include/linux/thinkpad_acpi.h
+On 5/6/2025 8:53 AM, Ilpo Järvinen wrote:
+> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
+> 
+> 
+> On Tue, 6 May 2025, Ilya K wrote:
+> 
+>>> +#define AMDISP_OV05C10_I2C_ADDR            0x10
+>>> +#define AMDISP_OV05C10_PLAT_NAME   "amdisp_ov05c10_platform"
+>>> +#define AMDISP_OV05C10_HID         "OMNI5C10"
+>>> +#define AMDISP_OV05C10_REMOTE_EP_NAME      "ov05c10_isp_4_1_1"
+>>> +#define AMD_ISP_PLAT_DRV_NAME              "amd-isp4"
+>>
+>> Hey folks, I know v12 might be a bit too late for this one, but I've got
+>> another device here (Asus GZ302EA tablet) with a very similar camera
+>> setup, but a different sensor (OV13B10), and it looks like this driver
+>> just assumes a certain hardcoded configuration... I wonder if it makes
+>> sense to reorganize the code so that more sensor configurations can be
+>> added without making a separate module? I'd be happy to help with
+>> refactoring/testing/etc, if people are interested.
+> 
+> v12 is not too late, and besides, v9..v12 has happened within 5 days
+> which is rather short time (hint to the submitter that there's no need
+> to burn patch series version numbers at that speed :-)).
+> 
+> I'll give folks some time to sort this out if you need to add e.g., some
+> driver_data instead.
+> 
+> --
+>   i.
+> 
+Hi Ilya, Ilpo,
 
-diff --git a/drivers/platform/x86/lenovo/thinkpad_acpi.c b/drivers/platform/x86/lenovo/thinkpad_acpi.c
-index 7dd4abf47f61..0eb33b4c99cf 100644
---- a/drivers/platform/x86/lenovo/thinkpad_acpi.c
-+++ b/drivers/platform/x86/lenovo/thinkpad_acpi.c
-@@ -67,6 +67,7 @@
- #include <linux/string.h>
- #include <linux/string_helpers.h>
- #include <linux/sysfs.h>
-+#include <linux/thinkpad_acpi.h>
- #include <linux/types.h>
- #include <linux/uaccess.h>
- #include <linux/units.h>
-@@ -606,6 +607,23 @@ TPACPI_HANDLE(hkey, ec, "\\_SB.HKEY",	/* 600e/x, 770e, 770x */
-  * ACPI helpers
-  */
- 
-+int tp_acpi_get_handle(enum tp_acpi_handle_id handle_id, acpi_handle *handle)
-+{
-+	switch (handle_id) {
-+	case TP_ROOT_HANDLE:
-+		*handle = root_handle;
-+		return 0;
-+	case TP_EC_HANDLE:
-+		*handle = ec_handle;
-+		return 0;
-+	case TP_HKEY_HANDLE:
-+		*handle = hkey_handle;
-+		return 0;
-+	}
-+	return -ENODEV;
-+}
-+EXPORT_SYMBOL_GPL(tp_acpi_get_handle);
-+
- static int acpi_evalf(acpi_handle handle,
- 		      int *res, char *method, char *fmt, ...)
- {
-diff --git a/include/linux/thinkpad_acpi.h b/include/linux/thinkpad_acpi.h
-new file mode 100644
-index 000000000000..eb5273464658
---- /dev/null
-+++ b/include/linux/thinkpad_acpi.h
-@@ -0,0 +1,17 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * Thinkpad ACPI driver API
-+ */
-+
-+#ifndef _TP_ACPI_H_
-+#define _TP_ACPI_H_
-+
-+enum tp_acpi_handle_id {
-+	TP_ROOT_HANDLE,
-+	TP_EC_HANDLE,
-+	TP_HKEY_HANDLE,
-+};
-+
-+int tp_acpi_get_handle(enum tp_acpi_handle_id handle_id, acpi_handle *handle);
-+
-+#endif /* _TP_ACPI_H */
--- 
-2.43.0
+I agree with the suggestion, but how about taking-up the refactoring 
+part in a separate patch. Yes this patch focussed on supporting OV05C10 
+and even the code review proceeded with this understanding. Refactoring 
+now for generic support would require changes that would undo some of 
+the recent review feedback (especially related to global variables 
+usage). Please let us know what do you think.
+
+Thanks,
+Pratap
 
 
