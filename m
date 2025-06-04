@@ -1,52 +1,52 @@
-Return-Path: <platform-driver-x86+bounces-12470-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-12471-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3A8BACE4A0
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Jun 2025 21:07:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56C79ACE4AA
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Jun 2025 21:12:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 570633A8BC2
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Jun 2025 19:06:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B21EF189900A
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Jun 2025 19:13:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97DB81F4262;
-	Wed,  4 Jun 2025 19:07:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85A8C1FDA9B;
+	Wed,  4 Jun 2025 19:12:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CrVtrlos"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qKuxAuyZ"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C941DED7C
-	for <platform-driver-x86@vger.kernel.org>; Wed,  4 Jun 2025 19:07:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6066242A87
+	for <platform-driver-x86@vger.kernel.org>; Wed,  4 Jun 2025 19:12:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749064034; cv=none; b=UH1/YW5qrr/L/MF8ereC/MJ6u2rmOVWpSFRAHCWHBAfZY91PpyXNpjyHS4qU2Xhte6mnXQv1CkEHh9SZVIAnCL8vKWL/Ntk98r4Apa+y8z60WwfnsVOLHDC7yw/fvgUP9wjZvjTpW9QgsnIBOwp42JVXlA2Kw7I/0r8RyROLlUo=
+	t=1749064364; cv=none; b=kD0gjo7t38o802wQduEqNS+h5yoeVbr3o4Y3wCUb7hctYSz9TgrOt8MCK8wEiRZs2LWQ8ixgjf3+Vqtnm7LywHlNTLNtM18OXHEDdJwMcjX0WEXSNAh6gzlhOsXdg/DDZ/ERAEPckOle/i6U7EhLSUWCJFAmBAzKSDzG4cVH+08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749064034; c=relaxed/simple;
-	bh=GvSrndS6s8HDWB1mF56aty7/p8JkmQOHzaM6V1tni5A=;
+	s=arc-20240116; t=1749064364; c=relaxed/simple;
+	bh=Z2MiE6p62VF4OKVSZpf1kDy23AwUa+PBtymHH0KOnzI=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Kj3LJrQlENzHzxBFWC0SIGIFDQQztuox6vBBsF3qTi+9bRKbGuObmhuINocdyOzbg+Got9GgdJ9cdAeU2NTcI1D/M0R8cICMLOTRrmUUuqOmHjc92IP2MXNkqrI+wPnOicS1M2hBF4AwNBgoCErHGisYE4Hh/bFPgmtEqUOBoPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CrVtrlos; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E887FC4CEED
-	for <platform-driver-x86@vger.kernel.org>; Wed,  4 Jun 2025 19:07:13 +0000 (UTC)
+	 Content-Type:MIME-Version; b=C0tkA5X2DfLO+SMV0DXJJlrkiTGLPG3YCn1qNPW8oEx3l6+jFnjz/fUmzS8x1ZSaXR0w480wQvWSVCtgGojEUdM0/j1bAU6ipxDQKd/eIVaF9BVseqA+nhzODaV6xXqmKNoDAHZ1eL1LqSEF/EOl/vjkQ8P95YkkQk75nj9RsVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qKuxAuyZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D1650C4CEF2
+	for <platform-driver-x86@vger.kernel.org>; Wed,  4 Jun 2025 19:12:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749064033;
-	bh=GvSrndS6s8HDWB1mF56aty7/p8JkmQOHzaM6V1tni5A=;
+	s=k20201202; t=1749064363;
+	bh=Z2MiE6p62VF4OKVSZpf1kDy23AwUa+PBtymHH0KOnzI=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=CrVtrlosqq3xsIhZ9e55IlwAe4MDNOEh3HG/ztvkmR9mCob3WYtfx7/4ZEvuwEgGe
-	 hnzs2ajjR96LkzC1N9KuFITh+2ZaG6F0sZZkJVKEBM3Hjpu7HtpLRzZmkvI8acSYMZ
-	 cbeoOJQP0wbRE1iBuCdHaOJCZIi4wXL74sg1GmcNBautFFVPN+4zlrHeDBLQHhsvRQ
-	 MnWvBPdNh6POqpuZeaGI832rOVBulY0a2zKx2C40A/1E41xeUNVClqiEPdUdRp0zYH
-	 nOr2eHnvMsyw3UpPMpzcCojKcNUa5FLVhKDWcUkt/HXRQK5grOdcp/4EGxAogFKkLv
-	 CJ0DWinhaYrCQ==
+	b=qKuxAuyZX1D7fYD1MUJMnAOIVVO+GAva65ATnX05BuZGP8pphbGyMTpr5y6z8VbCt
+	 1oiuKunM+tuS11H/Ru6Ed0GW6f4EAdroQGgWnennmTwEVtVJSTqJRB1LcIHPR9A5YZ
+	 VvL6pdPbpXmmC+KJBA5VdWxOBi0Atavub9J9JChneMnXFfhhcbTA3ooNXyE4S5FksB
+	 BsNRulT4TV/w6RppD/1TbfYYAaBc7UsGYWlozUyq+asNN6mkPmZzfiG3X2iZCnc1bV
+	 IPF7wnX7Xxh5M05IBxL320A0Th0aNSi9lMGirmKUCdJdxW0+nf4DtE2Lx+XJa7v3k0
+	 zgf5Lgr4xkQPw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id D2E57C4160E; Wed,  4 Jun 2025 19:07:13 +0000 (UTC)
+	id BC844C4160E; Wed,  4 Jun 2025 19:12:43 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: platform-driver-x86@vger.kernel.org
 Subject: [Bug 220116] amd_pmc - Last suspend didn't reach deepest state
-Date: Wed, 04 Jun 2025 19:07:13 +0000
+Date: Wed, 04 Jun 2025 19:12:43 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: CC drivers_platform_x86@kernel-bugs.osdl.org
@@ -55,14 +55,14 @@ X-Bugzilla-Component: x86-64
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ein4rth@gmail.com
+X-Bugzilla-Who: mario.limonciello@amd.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: mario.limonciello@amd.com
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
-Message-ID: <bug-220116-215701-x8iBGejmXJ@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-220116-215701-Dk58eiB7z0@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-220116-215701@https.bugzilla.kernel.org/>
 References: <bug-220116-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -78,19 +78,12 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D220116
 
-raoul (ein4rth@gmail.com) changed:
+--- Comment #19 from Mario Limonciello (AMD) (mario.limonciello@amd.com) ---
+Everything looks solid for hardware sleep now.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
- Attachment #308205|0                           |1
-        is obsolete|                            |
-
---- Comment #18 from raoul (ein4rth@gmail.com) ---
-Created attachment 308206
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D308206&action=3Dedit
-report with 60s cycles
-
-Sorry, you're right. Rerun s2idle with 60s cycles.
+Did you rmmod i8042 or did you disable wakeup?  It /looks/ like you might h=
+ave
+done rmmod.
 
 --=20
 You may reply to this email to add a comment.
