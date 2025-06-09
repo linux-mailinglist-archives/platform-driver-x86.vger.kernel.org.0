@@ -1,178 +1,168 @@
-Return-Path: <platform-driver-x86+bounces-12562-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-12564-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4A0AD1DD0
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Jun 2025 14:33:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E451EAD1DE5
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Jun 2025 14:35:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 39504164454
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Jun 2025 12:33:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 04F74188391A
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Jun 2025 12:35:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4FEB255F3B;
-	Mon,  9 Jun 2025 12:27:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CD7878F4E;
+	Mon,  9 Jun 2025 12:34:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="O0s9GeJS";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="b+NZrgsN"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Do+cNuTF"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103B71E1A31;
-	Mon,  9 Jun 2025 12:27:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E242EEA6;
+	Mon,  9 Jun 2025 12:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749472064; cv=none; b=iP1pb59ayY8Ivp7s3Y9dX8OzPufPt1slCBKudwJWoY0vLiVVxcWOyOnr+NMU306c5h5k+3DNpNeK2ZXVDEKOqaXpqS/YMMdzwdmexKr3LjYJt1f0Y4I01QST1OAZsnDeuh03upThGBxqkDLXCzG9s5STcF4VWBZ4pyjjgSFn5g4=
+	t=1749472498; cv=none; b=DYCRZ4wcCxFOyrH5NBN92H+PUe327KHupu7btLH6EPU/Z00xQmxAV7KXJRssLZPaUJEldzo2LSYLAHXroDcoGDWKMSW+jefyxLUNhbc/DHpKZ3S29NIlV0jvAa0uFgc2wcOVFtaz/asqKXgPNyktE8mcARUCqsAzz3mFQegoyHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749472064; c=relaxed/simple;
-	bh=fMxz0jV4QePrXh05PZ8xukpwaPrvRnONxi5a7SuaC2k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lPDP5FNuZ7k9W9dX7Km8C10GFX7j6T332lQwQSR9tcbcHD94IexTrgKW1wNN+i0C7T38ZWTWZgPHPGRGoZA3dZp1kz/BZ/UIsy18TQXQnhsLKZpUFDJ4WB9EiAEL75jHYfbaTLPJzZpEKkPdBYrBrpYs8aN4jFLVJBnd7He1j40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=O0s9GeJS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=b+NZrgsN; arc=none smtp.client-ip=103.168.172.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 1A9FC1140269;
-	Mon,  9 Jun 2025 08:27:41 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Mon, 09 Jun 2025 08:27:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1749472061; x=
-	1749558461; bh=hMq8DTIOhpbuRKjy+CNcjAYhxjMFzlhGiYklMnqStJY=; b=O
-	0s9GeJSyre4tdwKfq0EMA5veJGN7cKbkEQ2DAXR0y4ZHAezW0dj/WRXItvADtyl3
-	XLD0CDUlbmVSFzvjqK1Dle0YWv95ZJ6sZ2aZHKcaT/ADrGSFLTaUP6q9UltTn0VJ
-	UEqZ5LKrxB76TTmyvObA+f2Ci/D53B3U1VkdN2vAJX2In+xJtXSM6y3bZIXFEAHO
-	mSRgCd/8BECzkXqSu0AVq7sLv6gefwjkHsrOxAYKuux406blNPIHZuFQ8tNBG1OF
-	nfiUiSs7jGpotCo1b2OP+CC9wFoxeBSRQ2Z1P/2jrf79eabf1k9HRKZ1nP57pdHM
-	diuFM24IWbTerMFNkyTXg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1749472061; x=1749558461; bh=h
-	Mq8DTIOhpbuRKjy+CNcjAYhxjMFzlhGiYklMnqStJY=; b=b+NZrgsN2f4wM4/6M
-	SwMS8Soty3Q5h2Q1s4EIy9FaKt2umG9KFmdv7d6cajV7nVnab3fBCpFZR7rycPiu
-	hguGyyhDOb6eGCKX4Dnh15BNkufskcZC+Mj3UmwEHiGIo0dcqpTsaSfWBi9evPPI
-	dxZzV6kmUJOfluVtnsMmjPVCZmhydDcx+HQBu5GAHXNQJjJIJaBv+F5LUqhLrPQr
-	5aIVO/E9FAK0d3W9aN8srsBqZ5JPjPUZBr1GQQrdUo6wc95MMk0TPQXzjL2Nfa5V
-	pA/FrgDUCPQG56qY/Ha44gV6P4TXPhYy221plty4UdvQsJC7fW9o7QyMqr8Y8K/Z
-	2f5tQ==
-X-ME-Sender: <xms:PNNGaJ2XwuOUhFomE0DFyEyS6DsC_Gp4kAkksnf4-K-KmGsvUw5TKA>
-    <xme:PNNGaAG4wwDNFVT-2WJiFlk_vQrro3s0Ru9YTl3poM6zMT6PU16CIQm7Zof5xJR35
-    vryn_gaUNaKFc8IqEI>
-X-ME-Received: <xmr:PNNGaJ6W8qBRPW92d4_2iMBJLPzErKDLDUxf4iH90CrDhILJd1VfimAExo4cgKUqAJ1ybxS3TK6FaRiYtio>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdelvdelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucgoteeftdduqddtudculd
-    duhedmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhep
-    ofgrrhhkucfrvggrrhhsohhnuceomhhpvggrrhhsohhnqdhlvghnohhvohesshhquhgvsg
-    gsrdgtrgeqnecuggftrfgrthhtvghrnhepvedtlefggefgjeettddvgfekhfeugfeutdek
-    feefudeuuddvieeutdeljedvhfdvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenuc
-    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmphgvrghr
-    shhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggrpdhnsggprhgtphhtthhopedufedpmh
-    houggvpehsmhhtphhouhhtpdhrtghpthhtohepmhhpvggrrhhsohhnqdhlvghnohhvohes
-    shhquhgvsggsrdgtrgdprhgtphhtthhopehilhhpohdrjhgrrhhvihhnvghnsehlihhnuh
-    igrdhinhhtvghlrdgtohhmpdhrtghpthhtohephhguvghgohgvuggvsehrvgguhhgrthdr
-    tghomhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopehikh
-    gvphgrnhhhtgesghhmrghilhdrtghomhdprhgtphhtthhopehhmhhhsehhmhhhrdgvnhhg
-    rdgsrhdprhgtphhtthhopeifpggrrhhmihhnsehgmhigrdguvgdprhgtphhtthhopegrnh
-    gurhhihidrshhhvghvtghhvghnkhhosehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghp
-    thhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:PNNGaG2BJ533ri87KMkBYUAknAVQvxww-nT8PyxNtNTC4xjdGANuMw>
-    <xmx:PNNGaMHN2XrDuWPJKYXoU6X7QpmeXjth0qS1rvG0FFbqSvAESwlD9w>
-    <xmx:PNNGaH-daoqYQ7VSqb_4Ul3OHpfyfa_nHIpsRMKs4Hqgqt_N0DCXDQ>
-    <xmx:PNNGaJm6ln6o3kPGFGX0l-nDK7z_35GlGKT7YY2bItEVgpSoqs2Edg>
-    <xmx:PdNGaLdP4-YULsIakq-5GEiWNTUMEiptZAh8TKRFWNNEWHhahs1qFA_4>
-Feedback-ID: ibe194615:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 9 Jun 2025 08:27:40 -0400 (EDT)
-From: Mark Pearson <mpearson-lenovo@squebb.ca>
-To: mpearson-lenovo@squebb.ca
-Cc: ilpo.jarvinen@linux.intel.com,
-	hdegoede@redhat.com,
-	corbet@lwn.net,
-	ikepanhc@gmail.com,
-	hmh@hmh.eng.br,
-	W_Armin@gmx.de,
-	andriy.shevchenko@linux.intel.com,
-	linux-doc@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	ibm-acpi-devel@lists.sourceforge.net,
-	linux-kernel@vger.kernel.org,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH v3 2/2] platform/x86: thinklmi: improved DMI handling
-Date: Mon,  9 Jun 2025 08:27:25 -0400
-Message-ID: <20250609122736.3373471-2-mpearson-lenovo@squebb.ca>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250609122736.3373471-1-mpearson-lenovo@squebb.ca>
-References: <mpearson-lenovo@squebb.ca>
- <20250609122736.3373471-1-mpearson-lenovo@squebb.ca>
+	s=arc-20240116; t=1749472498; c=relaxed/simple;
+	bh=DZoggPhryHEbiSsWnD1qSMm0Ex6evuXzI89YJOMAkuY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TqJIFmIibu4mXT+SBpiW7k4kbjUP7rHL9ndoH5W/rpKpkmIM2r7hu296Ewz6kZ+n4crkWaRpudHl2CVo7ftc6OOhOnOtHJZ3PlPszVTDWWokPuSMA7qcdk2hJTCjf8mgYA7PWDt96oEEVPPU1t9uAl1hkn3FKRuqOhfNaZYpWkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Do+cNuTF; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 40311438D1;
+	Mon,  9 Jun 2025 12:34:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1749472493;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=/lXrCRhExUtlmqo2B4UhVKucY7yhOD4yivNwZVPNXi0=;
+	b=Do+cNuTFLztXUxWawVnq0GbbINbRvQ9w8gcA6dIyC1LptnU8u1kJiSaykxshCl/I6gKiFq
+	MrSBTAaOtl0YruTddQ83GfG0OT0h6Xn1VHrxFQcFEhtOSvVFj3CtFAorO20n0gocjWoKUX
+	PKZ80AV28WxDuf06HWg3SoDrVd+n9AvSFKU66gjpDkBx+9DIEzDbuA0bUGDtyCu26vJmZK
+	Y70EsroowaIQp7KFkxKCGwdMglB6LakQhtzlCgMnZGE8ML2xUZ4xOz6HyrfFOFa/9ImoDY
+	RTAG4v4GF9w8vBmwufgsOlnGXvtMQLQJB4RhCtx9gPxfjuourKN/QinR5WG39w==
+From: Thomas Richard <thomas.richard@bootlin.com>
+Date: Mon, 09 Jun 2025 14:34:49 +0200
+Subject: [PATCH] platform/x86: lenovo-yoga-tab2-pro-1380-fastcharger: Use
+ devm_pinctrl_register_mappings()
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250609-lenovo-yoga-tab2-pro-1380-fastcharger-devm-pinctrl-register-mappings-v1-1-fb601f2b80f6@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAOjURmgC/x2OQQqDMBBFryJZdyBGKrVXKV2MZkwHNAkzIVjEu
+ zd0+R583j+NkjCpeXanEaqsnGKD/taZ5YMxELBvbJx1dzvaCTaKqSb4poBQcHaQJUE/PCysqKV
+ tJJCAp7pD5rgU2UAosJZmd8zNBQU3rji4aUZPZFoqC618/G+83tf1Az2CW6SWAAAA
+To: Hans de Goede <hdegoede@redhat.com>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Thomas Richard <thomas.richard@bootlin.com>
+X-Mailer: b4 0.14.1
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdelfedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkvfevofesthejredtredtjeenucfhrhhomhepvfhhohhmrghsucftihgthhgrrhguuceothhhohhmrghsrdhrihgthhgrrhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeelgffgffejtdeivdeifeeltdffgfeludekudeiueffffejuedvgfejteeuffegtdenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmegutgekudemrggrugdtmehfuggtrgemtggtudgrnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmegutgekudemrggrugdtmehfuggtrgemtggtudgrpdhhvghloheplgduvdejrddtrddurddungdpmhgrihhlfhhrohhmpehthhhomhgrshdrrhhitghhrghrugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepiedprhgtphhtthhopehplhgrthhfohhrmhdqughrihhvvghrqdigkeeisehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhhohhmrghsrdhrihgthhgrrhgusegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvg
+ hgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepihhlphhordhjrghrvhhinhgvnheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehhuggvghhovgguvgesrhgvughhrghtrdgtohhmpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhm
+X-GND-Sasl: thomas.richard@bootlin.com
 
-Fix issues reported by kernel test robot.
- - Require DMI for think-lmi.
- - Check return from getting serial string
+Use devm_pinctrl_register_mappings(), so the core automatically unregisters
+the pinctrl mappings. It makes the code easier to read.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202506062319.F0IpDxF6-lkp@intel.com/
-
-Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+Signed-off-by: Thomas Richard <thomas.richard@bootlin.com>
 ---
- - New patch added to series.
+Compile tested only.
+---
+ .../x86/lenovo-yoga-tab2-pro-1380-fastcharger.c    | 33 ++++++++--------------
+ 1 file changed, 11 insertions(+), 22 deletions(-)
 
- drivers/platform/x86/lenovo/Kconfig     | 1 +
- drivers/platform/x86/lenovo/think-lmi.c | 8 +++++---
- 2 files changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/platform/x86/lenovo/Kconfig b/drivers/platform/x86/lenovo/Kconfig
-index a4b565283768..207dd7f88ed0 100644
---- a/drivers/platform/x86/lenovo/Kconfig
-+++ b/drivers/platform/x86/lenovo/Kconfig
-@@ -197,6 +197,7 @@ config THINKPAD_ACPI_HOTKEY_POLL
- config THINKPAD_LMI
- 	tristate "Lenovo WMI-based systems management driver"
- 	depends on ACPI_WMI
-+	depends on DMI
- 	select FW_ATTR_CLASS
- 	help
- 	  This driver allows changing BIOS settings on Lenovo machines whose
-diff --git a/drivers/platform/x86/lenovo/think-lmi.c b/drivers/platform/x86/lenovo/think-lmi.c
-index 143d9fdedb65..8f70c60f791f 100644
---- a/drivers/platform/x86/lenovo/think-lmi.c
-+++ b/drivers/platform/x86/lenovo/think-lmi.c
-@@ -772,6 +772,7 @@ static ssize_t certificate_store(struct kobject *kobj,
- 	struct tlmi_pwd_setting *setting = to_tlmi_pwd_setting(kobj);
- 	enum cert_install_mode install_mode = TLMI_CERT_INSTALL;
- 	char *auth_str, *new_cert;
-+	const char *serial;
- 	char *signature;
- 	char *guid;
+diff --git a/drivers/platform/x86/lenovo-yoga-tab2-pro-1380-fastcharger.c b/drivers/platform/x86/lenovo-yoga-tab2-pro-1380-fastcharger.c
+index 25933cd018d1..d4e767822ac7 100644
+--- a/drivers/platform/x86/lenovo-yoga-tab2-pro-1380-fastcharger.c
++++ b/drivers/platform/x86/lenovo-yoga-tab2-pro-1380-fastcharger.c
+@@ -240,30 +240,25 @@ static int yt2_1380_fc_pdev_probe(struct platform_device *pdev)
  	int ret;
-@@ -789,9 +790,10 @@ static ssize_t certificate_store(struct kobject *kobj,
- 			return -EACCES;
  
- 		/* Format: 'serial#, signature' */
--		auth_str = cert_command(setting,
--					dmi_get_system_info(DMI_PRODUCT_SERIAL),
--					setting->signature);
-+		serial = dmi_get_system_info(DMI_PRODUCT_SERIAL);
-+		if (!serial)
-+			return -EINVAL;
-+		auth_str = cert_command(setting, serial, setting->signature);
- 		if (!auth_str)
- 			return -ENOMEM;
+ 	/* Register pinctrl mappings for setting the UART3 pins mode */
+-	ret = pinctrl_register_mappings(yt2_1380_fc_pinctrl_map,
+-					ARRAY_SIZE(yt2_1380_fc_pinctrl_map));
++	ret = devm_pinctrl_register_mappings(&pdev->dev, yt2_1380_fc_pinctrl_map,
++					     ARRAY_SIZE(yt2_1380_fc_pinctrl_map));
+ 	if (ret)
+ 		return ret;
  
+ 	/* And create the serdev to talk to the charger over the UART3 pins */
+ 	ctrl_dev = get_serdev_controller("PNP0501", "1", 0, YT2_1380_FC_SERDEV_CTRL);
+-	if (IS_ERR(ctrl_dev)) {
+-		ret = PTR_ERR(ctrl_dev);
+-		goto out_pinctrl_unregister_mappings;
+-	}
++	if (IS_ERR(ctrl_dev))
++		return PTR_ERR(ctrl_dev);
+ 
+ 	serdev = serdev_device_alloc(to_serdev_controller(ctrl_dev));
+ 	put_device(ctrl_dev);
+-	if (!serdev) {
+-		ret = -ENOMEM;
+-		goto out_pinctrl_unregister_mappings;
+-	}
++	if (!serdev)
++		return -ENOMEM;
+ 
+ 	ret = serdev_device_add(serdev);
+ 	if (ret) {
+-		dev_err_probe(&pdev->dev, ret, "adding serdev\n");
+ 		serdev_device_put(serdev);
+-		goto out_pinctrl_unregister_mappings;
++		return dev_err_probe(&pdev->dev, ret, "adding serdev\n");
+ 	}
+ 
+ 	/*
+@@ -273,20 +268,15 @@ static int yt2_1380_fc_pdev_probe(struct platform_device *pdev)
+ 	ret = device_driver_attach(&yt2_1380_fc_serdev_driver.driver, &serdev->dev);
+ 	if (ret) {
+ 		/* device_driver_attach() maps EPROBE_DEFER to EAGAIN, map it back */
+-		ret = (ret == -EAGAIN) ? -EPROBE_DEFER : ret;
+-		dev_err_probe(&pdev->dev, ret, "attaching serdev driver\n");
+-		goto out_serdev_device_remove;
++		serdev_device_remove(serdev);
++		return dev_err_probe(&pdev->dev,
++				     (ret == -EAGAIN) ? -EPROBE_DEFER : ret,
++				     "attaching serdev driver\n");
+ 	}
+ 
+ 	/* So that yt2_1380_fc_pdev_remove() can remove the serdev */
+ 	platform_set_drvdata(pdev, serdev);
+ 	return 0;
+-
+-out_serdev_device_remove:
+-	serdev_device_remove(serdev);
+-out_pinctrl_unregister_mappings:
+-	pinctrl_unregister_mappings(yt2_1380_fc_pinctrl_map);
+-	return ret;
+ }
+ 
+ static void yt2_1380_fc_pdev_remove(struct platform_device *pdev)
+@@ -294,7 +284,6 @@ static void yt2_1380_fc_pdev_remove(struct platform_device *pdev)
+ 	struct serdev_device *serdev = platform_get_drvdata(pdev);
+ 
+ 	serdev_device_remove(serdev);
+-	pinctrl_unregister_mappings(yt2_1380_fc_pinctrl_map);
+ }
+ 
+ static struct platform_driver yt2_1380_fc_pdev_driver = {
+
+---
+base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+change-id: 20250609-lenovo-yoga-tab2-pro-1380-fastcharger-devm-pinctrl-register-mappings-26fa329badee
+
+Best regards,
 -- 
-2.43.0
+Thomas Richard <thomas.richard@bootlin.com>
 
 
