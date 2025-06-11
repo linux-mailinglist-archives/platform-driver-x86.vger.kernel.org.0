@@ -1,409 +1,307 @@
-Return-Path: <platform-driver-x86+bounces-12674-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-12676-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D4C3AD5331
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 11 Jun 2025 13:09:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B1AAD55CB
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 11 Jun 2025 14:40:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ADB5816A9E4
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 11 Jun 2025 11:08:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A53E21E0A60
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 11 Jun 2025 12:40:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CB062E6129;
-	Wed, 11 Jun 2025 11:05:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90C6B2836BD;
+	Wed, 11 Jun 2025 12:40:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SjsHl4Tc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dq6jc1l5"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569212E612E
-	for <platform-driver-x86@vger.kernel.org>; Wed, 11 Jun 2025 11:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749639937; cv=none; b=OK5/5veOE/ZhMfZBXTkfDyGoAvvbZvFR8GIyTcAJH1IQAl1amsoNZSE17/uqtkbwO3D9/cmqD4yd2Ab8j16pNsZ7mC2u6I/v0L5yHrzmtPHF2hjdzy0Ebob+8M4YsIACMOnlRzG5ktHLacy0HUp+d7sfXJ+VQdO6pKAYA7AgZ9E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749639937; c=relaxed/simple;
-	bh=JPatgAPif3kNCjXXxa5m+oPrqdFS1LOCq2Nm59nka3M=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=iIUp921cRnorzq8ToRdDV7iUD8k0BMnP9yFHxfeIWplkkcN08Hfb2IKKqClSYQUoTADwYpxIhVYFAQdr8MyNGd2/7VLPI2WylLNJvUD9nH4iVUu3eX7uWvhbQvq7dH+2GZwMGa6fb/1g8VnadtcDXH0srYH7HFn6dui4uqz34NI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SjsHl4Tc; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5569283142;
+	Wed, 11 Jun 2025 12:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749645612; cv=fail; b=Gg6UymIbeXyQ2HNae/d4OdT7wdeLB7GQSp+ZNCFmeHCiDpuFghjrc1nQPTHY6NsiNFgR/qzfSLrfEVRbOkSwzXgW58eiARtctXbuqHQ4mz9RAd2LoVcLmFQaA9b7yRxnv3kkIYDePOQWnjzivV78yxawRzJPYYFogVVN9ocrQNs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749645612; c=relaxed/simple;
+	bh=lKgRNJ1+17HH27Ua9tPdh1J5SBYJlxQXiC/XsMByaGw=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=q0ORNGwBw2EvMc0W/97PlTKp0lsc/7w93yP5kmcNhd2yA7XRivNgOymG7jzCWSiSLgfqmkhJDafRSkdW4xidSeTq0D1GP+sxVNP+J+WQrXm+7s41cI8KFGkcgkB0tdJB+Q1P9qA4ObB/XxIsQlIhtEMS1yO+k4GmVJ+8sKVkdDY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dq6jc1l5; arc=fail smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749639935; x=1781175935;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=JPatgAPif3kNCjXXxa5m+oPrqdFS1LOCq2Nm59nka3M=;
-  b=SjsHl4TcdbwbF1LPVY7V5vIQ8j8WvO1pZCivUDtVzDNDdUHmzVhfdbRz
-   BX8bBuoaV84as0GseyhgvIojEoZMnibXOadkDz1zib6e2CEmi1BevnOKk
-   Acu145/RRx4MvKXdE4YjZxTBLyg78G4O1oQ2mX23aKEx6m1sPbOODeJ2A
-   MAWEF5QmeP4Ig5j+B8KUEHlD0xD4NJGxCqVcQfT7mBFqHrVYgNmTL3260
-   6w1Ab82FlIYgi6eH8EMR9gcl0lFI/XMpK1S7STerCgc1/8Z34C70ocHcD
-   IQsuHtbrBvxjXbQr1pPrh5Mw/rCQ5ywfjl+Wf6jAcNgIyGa6tdxwXeAx5
+  t=1749645611; x=1781181611;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=lKgRNJ1+17HH27Ua9tPdh1J5SBYJlxQXiC/XsMByaGw=;
+  b=Dq6jc1l5qh674SBLw1eT3CPWjFctSk2WebPl9GfihyFqvi//8hLXTlZF
+   k9ny+u+ZNzK3E//3zm87/5v2bz6zdCizHNemMlCCkar3q7S/dAbn9vzK9
+   ELFFYmpxTjcVgwBcKtOUtWtxKRy5uB9gk/yhHgJoUgtVbhq0ot/5GjJUg
+   q6SRqAZquudN2paYnn9jkfRRhpE7PWXqmbNCKbBwvRzE/rLbwscdLTpov
+   5SomvSt8txb9UOmw24/5RjijIPdT9K0CQFzmRr5TQb/gEN/ohxxYO3+0g
+   l8AvGIv6kMzLGC1KZBFe6ica4+pPDLlT5JcypmDsCmJMkf3TecWTffZ/t
    A==;
-X-CSE-ConnectionGUID: B7IRXPr1QESedhs2GPn7xw==
-X-CSE-MsgGUID: sYqw/GC5R+az2A7cTrhoMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="51001208"
+X-CSE-ConnectionGUID: 4AyVMYWeQ8COY0DXjOSvYQ==
+X-CSE-MsgGUID: fEgldIwwS2iO+ufSJM/tfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="69227099"
 X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; 
-   d="scan'208";a="51001208"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 04:05:17 -0700
-X-CSE-ConnectionGUID: /v4Ve7wZSEOTKCJNsLcbJw==
-X-CSE-MsgGUID: mZyptZgFQTOJ4wBD0SMwMA==
+   d="scan'208";a="69227099"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 05:40:10 -0700
+X-CSE-ConnectionGUID: Hb7MmiugTRmAP6sCV03KLQ==
+X-CSE-MsgGUID: oYzKD6kMScmxKT9iV+zaXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; 
-   d="scan'208";a="147656751"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.183])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 04:05:13 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Wed, 11 Jun 2025 14:05:09 +0300 (EEST)
-To: "Michael J. Ruhl" <michael.j.ruhl@intel.com>
-cc: platform-driver-x86@vger.kernel.org, intel-xe@lists.freedesktop.org, 
-    Hans de Goede <hdegoede@redhat.com>, lucas.demarchi@intel.com, 
-    rodrigo.vivi@intel.com, thomas.hellstrom@linux.intel.com, 
-    airlied@gmail.com, simona@ffwll.ch, david.e.box@linux.intel.com
-Subject: Re: [PATCH v4 09/10] platform/x86/intel/pmt: use a version struct
-In-Reply-To: <20250610211225.1085901-10-michael.j.ruhl@intel.com>
-Message-ID: <28b72a47-47ff-dda0-5505-d43ffdf5a437@linux.intel.com>
-References: <20250610211225.1085901-1-michael.j.ruhl@intel.com> <20250610211225.1085901-10-michael.j.ruhl@intel.com>
+   d="scan'208";a="148098088"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 05:40:09 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Wed, 11 Jun 2025 05:40:08 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Wed, 11 Jun 2025 05:40:08 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (40.107.94.56) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Wed, 11 Jun 2025 05:40:08 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fMrJiDjymanMAif8c1gmOTUNTCviqt3M+nbzUjX98x2etecKNXfTQZHfutLmk6skGkwlsDBysYFl3cIsyevbXds4Jm0TRP9lYX2yYzAJcQKNvBet7/NZF+H4wcJumlY5i8O3gZTJri0CfiwYlgoKc2kB2WG2+1ywcHBzp078zUK2voomJLS480xBKlT2CxllxsJZ8Ud2t2knvbA9L6qfrodO+wUa2gMKRBYOlW5nUNExumWhKYfD52/UiMFTy1cNBGVbygp7jIFg6DHq2zsiafDNq/OEWMUh3NS9eimnMsIm1NoZYBtvCevCtrqPa+5GRBuhcGOkZU6xbcKtTivORA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0TItFVKCEo2Utku6Jgx7ZIS1xmg13TiXGMGQxp0R4tY=;
+ b=KJgnwAyzWBVeLyTxnrXNAbEnWLkxsiqFsEtfd+UJrv5+2IkHpC3J5U0uvxBhbj0PWsVsAeJXZnuoy5QxinbwtlzqIyH7N2KRzcyh1MEvx19shziU/wAnse7fdjt+AGANrMQVRUpKZvyvxIHoEUOto8Zsum+uEnsbZZY89RqHmtIXmeHXAKXcdy8XspHCbCvf1nBdOIgyzAYUjl9tO0800YI30I78tT0dkGhIdU1z+fEW3azu5SryLxSr/8s6Ao9Em0PQkUCDfP9NQqfw6QdvqDgR9DTwI06idJQA9eRGjJryQKsKgVShxbSpgowAXzFglPdeiuAyzo475uH4DdPCcw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA1PR11MB6418.namprd11.prod.outlook.com (2603:10b6:208:3aa::18)
+ by PH3PPF801A91A7D.namprd11.prod.outlook.com (2603:10b6:518:1::d34) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.18; Wed, 11 Jun
+ 2025 12:40:05 +0000
+Received: from IA1PR11MB6418.namprd11.prod.outlook.com
+ ([fe80::68b8:5391:865e:a83]) by IA1PR11MB6418.namprd11.prod.outlook.com
+ ([fe80::68b8:5391:865e:a83%4]) with mapi id 15.20.8813.024; Wed, 11 Jun 2025
+ 12:40:04 +0000
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To: =?iso-8859-1?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+CC: "platform-driver-x86@vger.kernel.org"
+	<platform-driver-x86@vger.kernel.org>, "intel-xe@lists.freedesktop.org"
+	<intel-xe@lists.freedesktop.org>, Hans de Goede <hdegoede@redhat.com>, "De
+ Marchi, Lucas" <lucas.demarchi@intel.com>, "Vivi, Rodrigo"
+	<rodrigo.vivi@intel.com>, "thomas.hellstrom@linux.intel.com"
+	<thomas.hellstrom@linux.intel.com>, "airlied@gmail.com" <airlied@gmail.com>,
+	"simona@ffwll.ch" <simona@ffwll.ch>, "david.e.box@linux.intel.com"
+	<david.e.box@linux.intel.com>, "stable@vger.kernel.org"
+	<stable@vger.kernel.org>
+Subject: RE: [PATCH v4 01/10] platform/x86/intel/pmt: fix a crashlog NULL
+ pointer access
+Thread-Topic: [PATCH v4 01/10] platform/x86/intel/pmt: fix a crashlog NULL
+ pointer access
+Thread-Index: AQHb2kxqDi72Lx/HN0G3KtJ7+whYzbP9xlwAgAAgpzA=
+Date: Wed, 11 Jun 2025 12:40:04 +0000
+Message-ID: <IA1PR11MB6418026EFDD6B6EAD882CA95C175A@IA1PR11MB6418.namprd11.prod.outlook.com>
+References: <20250610211225.1085901-1-michael.j.ruhl@intel.com>
+ <20250610211225.1085901-2-michael.j.ruhl@intel.com>
+ <e4f3a1e0-5332-212d-6ad0-8a72dcaf554a@linux.intel.com>
+In-Reply-To: <e4f3a1e0-5332-212d-6ad0-8a72dcaf554a@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA1PR11MB6418:EE_|PH3PPF801A91A7D:EE_
+x-ms-office365-filtering-correlation-id: cfbf3b88-3cfd-4982-cc60-08dda8e5174e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?TYuRUD+Ia2c6I4feCV1lhytt4QYQmGpwx7VXikunjujFkU6NAXaykjaRFC?=
+ =?iso-8859-1?Q?rBvdzit7iP61EZ8zM5dYdPle1secKajrlNOaR7x9RZZdrsmczEqFuX3DjD?=
+ =?iso-8859-1?Q?KvxpQnUaSL/+bWbOCJE39ziPEgBT+2x01UPFJdqekPg8Z2fq7LzfFfDOa4?=
+ =?iso-8859-1?Q?/8DpO1WF9DolhC1s2j7bnCe5pCSqltPp1yq0WQjp4Tvn2JEKnjf/PBWhCU?=
+ =?iso-8859-1?Q?UCaiyHUhYHDOTCHZICT+sdWeF1Zb7YvhvUIPbdu/pYm5tGUWP9gAzaed0B?=
+ =?iso-8859-1?Q?i8DlN8xswqBGAH85DKR4ruOSoR53DYVsXpLeZe7PFSXSvRoDnSQrHGsT1W?=
+ =?iso-8859-1?Q?zE0PArq4DF02q/OfOCguJ5daH/CoVc5GEk2kBKI4FRzvxTATooy0vn6hyt?=
+ =?iso-8859-1?Q?8iGRXiEfuA0lurRwdHg9PZH9Mmbn6hcdju2sw7uxCCNazWp4L5hpuAfmJa?=
+ =?iso-8859-1?Q?RRCZytq/Sv//pva/EAdz0gLTR80c59lOzMVjcjTXSgUmQDYV11OHgi4TAv?=
+ =?iso-8859-1?Q?9kxbM1Kub/3BP8FRsfKckmztGtkeGKN4j4LqQGYUnzgyVOypzvhaT0q6hR?=
+ =?iso-8859-1?Q?iT9NEqcwqvwb8omfzHZD/U3fQ+nCejO2IVu37bGXWUoGMfjCWA85jSJibQ?=
+ =?iso-8859-1?Q?Og3ctZqrgxeNGmRUmQGgrgqs0ZKR3Bg+ItYE+FsjTN9f4E/lNI+NSzXTlV?=
+ =?iso-8859-1?Q?W7fPOKYQMWU9bpHvGNqlONLdISgN4xNax9eVl2emz3P7mxwdJFJKqnFTN0?=
+ =?iso-8859-1?Q?eKlCnbNE2kcPgA/BSqfGJUbfzO5kf/Mlm79Cb/uLUDdAeYUpQjjsxACtvg?=
+ =?iso-8859-1?Q?4JIH+u8RLSkiL4lzUN8X+RlFsTbp/CI8/1EAUd/Gf12Ss0EXY3bqgT9FaN?=
+ =?iso-8859-1?Q?V+c2kaFhFfHYV1zLeFaSglOh9hiNS7gksv3BFgwkFb00RzVy6PzAfeJZra?=
+ =?iso-8859-1?Q?p3R7PDUzcWzJOhwwSpfwTDQKcd2xJuxNBWycAMx82QMAQt0hEyR68BXc0p?=
+ =?iso-8859-1?Q?9FWyYApab+qGa/9/17y4DztS/QE6fzQbHNHHUBrJNDRFh+kRipvDsqs6xY?=
+ =?iso-8859-1?Q?67OEkPFco76XBzQBz5aBA64r4bXA/Iw9GMEwIllr7NbHwiebDFDQ1cCUoG?=
+ =?iso-8859-1?Q?5wVoKezAyGxRtrMbEOgiWAywyORfZWkzcKapj1EuFBnFlzNFi9Uhivo6c5?=
+ =?iso-8859-1?Q?etLbpik9c4bspm3fXhHKZ2NvCAWq081VS3PJpxmmbCXmIDdYiIlDMVMPCT?=
+ =?iso-8859-1?Q?lfrMojhH1MeBRJZ/i2zuYmwcsVZyZSGOsabjXHcfYHmxCC1ctNp7vPle1y?=
+ =?iso-8859-1?Q?pM/FU5+Qh9AwlFBbXtulu6aWxrl/pqkh7quLkNJnUSu9PsoC2LIEx2MhEd?=
+ =?iso-8859-1?Q?UzFS9w4cnLllCBRIPrWExyJwkki/4KB2p5JkRhvgOFSEuoc1PIMefHYrQP?=
+ =?iso-8859-1?Q?eh7CB2VwUhCZ3TehctFnb6M7MP3O865WDpZQ+KNrXC3IVCGRcqY3ZLr6sG?=
+ =?iso-8859-1?Q?RD+PK4L/tLbm71HKPQBv47XpqLSXL3chfOPr1USAgJ0EKW9eNRod5r8tij?=
+ =?iso-8859-1?Q?lc+48H8=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB6418.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?kW+FZRK717NER21n0Qhm45bz3D1UE+0NttQFC4cbax/Tfk16icOjYqcWf6?=
+ =?iso-8859-1?Q?zaNlHoaPZxIRB/SaT7eh/+dI5/POiEShaJ2UZpW/V1miqovvIbNJ9UL19d?=
+ =?iso-8859-1?Q?HpmjBXBqpkuCwcF1LUiVHhxba+6ftQqNYhTnvK4YiNaRD2i2OzCIGaav2+?=
+ =?iso-8859-1?Q?ozMv7sN+m7+KJGfC1n0C5kLMz+zPRO0K/w/f4pCN2uvZOQTr/9E6h1SX5Y?=
+ =?iso-8859-1?Q?ltHbnOTVzh2yCFZW3GQxBsiVrQCeHOuBLouN628Zy9nGP6OmbW30z9PNNP?=
+ =?iso-8859-1?Q?xk1v6EDtmKkVVDOcf9S1GUxs9ywfKJjy24ZPAyfkG4nGBdQuMcMDqJ9vsH?=
+ =?iso-8859-1?Q?kscVOLcjm6pF4poqNo4H9vMJBae3/KYYF92HnL/ajzaN8CnukDalF8gla3?=
+ =?iso-8859-1?Q?kYWG6zWQCrFufU5In4BKzfv2NjcaGLrM7jbuEGSWPbR2FZQ7jZp5mM9Vir?=
+ =?iso-8859-1?Q?5mPY4bYZ4737HF85WijVMW5HCnTXh/IedwM6EMUz9cr6r9Fq6KcaCtep5/?=
+ =?iso-8859-1?Q?Pm1vbDjWY8chZx1ZIS/0yZdWzE6o9yrHAXGQzQcNT62untl/Y55OMYvcQ0?=
+ =?iso-8859-1?Q?5AxIcmwKBussvJMgCbyHfJQ0q9iF57Y28QPN9qUSyhIrvrRyjsU4+bRjJb?=
+ =?iso-8859-1?Q?o8BYJrJjesYczroB3Y/ESYCQnYTPYhrLSIzxeLgwZrHSweGf38IVYKzTOJ?=
+ =?iso-8859-1?Q?cEhpIYXEfIcjFHJLxqwIitV7WbNTecXBR4eFhACQoM69CzK9m3kG06CJrh?=
+ =?iso-8859-1?Q?QXJcojTt+lk26WVOo/9OIFTuvoo6c/ZjMBGu7NsZ7Dv6w4ogHBnYRy4lBz?=
+ =?iso-8859-1?Q?38rONggirmgzGMNBfkQZ25aZpJMDHgJbNugYHwRDOvjcSMU+NeBkWhopp2?=
+ =?iso-8859-1?Q?YvZTiH8oiKbV6dZRrTASrYPaLgAj41D+EAN7BViq5ne6ixCEulV3oC1zR1?=
+ =?iso-8859-1?Q?/aEpJkkFyk5S2Gn5obzuV4P/L6bb7JMqv0uLH/mmCN5NGainU1ItuhewYK?=
+ =?iso-8859-1?Q?aRe746eqn0vRv8A52qT9igP2S4KhCJyp+lUaxMcRaPhKhWczSIEIoUewK9?=
+ =?iso-8859-1?Q?8h7weC5XNYQolYEiu7VlF0kp2+CFG8nYyzKIPunkQysXYNnmu5KcNdt7Q+?=
+ =?iso-8859-1?Q?f86+jixefJdV2KIwrKwOxCt4oMG6uTPoyK237xrCWqbLF5FBaQ/cMB974o?=
+ =?iso-8859-1?Q?PI4AsVBTWcC3e/g3LgVEZUZoIhFVea9UHaJxv/C2D/t3wCNWypdZCEY8K6?=
+ =?iso-8859-1?Q?cfGTnnj7X73i27Rmo6bXaV/TqJsBfJMInEO7bkBUcjFSd9jwaknJ9nvXKd?=
+ =?iso-8859-1?Q?LpK3fr8KiG1QUXi+xokVWMi/X4/7L99eYBSQLsfEq8kJGdGcf3zKkEko4V?=
+ =?iso-8859-1?Q?JNoQUI52bdB1CR7D5TGcrwH2XqCEjLxRqo0q3+nZEsGxwAmEuJZ70XAabz?=
+ =?iso-8859-1?Q?BRs4tYM/YxpgUqlydWJjIB5zjNc1Z2+avYnEvaw0A5dD/yn1AFUP4Rlwv9?=
+ =?iso-8859-1?Q?AxjMv8BOFp9nYjEdk6/TmtG1sRg8jo6zFkhDYHKkF65nYPnbB6xJYgm2pj?=
+ =?iso-8859-1?Q?/YbbrUyGtRJWx6xfp7mrZu80SVm1KjtdwmHJehz6MHL1EGgjLPOhNi/R+G?=
+ =?iso-8859-1?Q?R5pMcILd073ZhyV8FRu4wsg0oQRU0ONRWL?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6418.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cfbf3b88-3cfd-4982-cc60-08dda8e5174e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jun 2025 12:40:04.8365
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nE3cJA6lgjmXqTX3AHASGdNenVJ8sxOTldxFaxz8rf2eV+Hyq64ZXf/5goRDit9Sg6DYXlhXqcUFypNQeQfMGfBF1LrBAuD2qWy1oWKnUrk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF801A91A7D
+X-OriginatorOrg: intel.com
 
-On Tue, 10 Jun 2025, Michael J. Ruhl wrote:
+>-----Original Message-----
+>From: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
+>Sent: Wednesday, June 11, 2025 6:42 AM
+>To: Ruhl, Michael J <michael.j.ruhl@intel.com>
+>Cc: platform-driver-x86@vger.kernel.org; intel-xe@lists.freedesktop.org; H=
+ans
+>de Goede <hdegoede@redhat.com>; De Marchi, Lucas
+><lucas.demarchi@intel.com>; Vivi, Rodrigo <rodrigo.vivi@intel.com>;
+>thomas.hellstrom@linux.intel.com; airlied@gmail.com; simona@ffwll.ch;
+>david.e.box@linux.intel.com; stable@vger.kernel.org
+>Subject: Re: [PATCH v4 01/10] platform/x86/intel/pmt: fix a crashlog NULL
+>pointer access
+>
+>On Tue, 10 Jun 2025, Michael J. Ruhl wrote:
+>
+>> Usage of the intel_pmt_read() for binary sysfs, requires a pcidev.  The
+>> current use of the endpoint value is only valid for telemetry endpoint
+>> usage.
+>>
+>> Without the ep, the crashlog usage causes the following NULL pointer
+>> exception:
+>>
+>> BUG: kernel NULL pointer dereference, address: 0000000000000000
+>> Oops: Oops: 0000 [#1] SMP NOPTI
+>> RIP: 0010:intel_pmt_read+0x3b/0x70 [pmt_class]
+>> Code:
+>> Call Trace:
+>>  <TASK>
+>>  ? sysfs_kf_bin_read+0xc0/0xe0
+>>  kernfs_fop_read_iter+0xac/0x1a0
+>>  vfs_read+0x26d/0x350
+>>  ksys_read+0x6b/0xe0
+>>  __x64_sys_read+0x1d/0x30
+>>  x64_sys_call+0x1bc8/0x1d70
+>>  do_syscall_64+0x6d/0x110
+>>
+>> Augment the inte_pmt_entry to include the pcidev to allow for access to
+>
+>intel_pmt_entry
 
-> In preparation for supporting multiple crashlog versions, use a struct
-> to keep bit offset info for the status and control bits.
-> 
-> Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
-> ---
->  drivers/platform/x86/intel/pmt/crashlog.c | 174 ++++++++++++++--------
->  1 file changed, 108 insertions(+), 66 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/intel/pmt/crashlog.c b/drivers/platform/x86/intel/pmt/crashlog.c
-> index e11865686f2a..7c259b1cf95b 100644
-> --- a/drivers/platform/x86/intel/pmt/crashlog.c
-> +++ b/drivers/platform/x86/intel/pmt/crashlog.c
-> @@ -23,21 +23,6 @@
->  /* Crashlog discovery header types */
->  #define CRASH_TYPE_OOBMSM	1
->  
-> -/* Control Flags */
-> -#define CRASHLOG_FLAG_DISABLE		BIT(28)
-> -
-> -/*
-> - * Bits 29 and 30 control the state of bit 31.
-> - *
-> - * Bit 29 will clear bit 31, if set, allowing a new crashlog to be captured.
-> - * Bit 30 will immediately trigger a crashlog to be generated, setting bit 31.
-> - * Bit 31 is the read-only status with a 1 indicating log is complete.
-> - */
-> -#define CRASHLOG_FLAG_TRIGGER_CLEAR	BIT(29)
-> -#define CRASHLOG_FLAG_TRIGGER_EXECUTE	BIT(30)
-> -#define CRASHLOG_FLAG_TRIGGER_COMPLETE	BIT(31)
-> -#define CRASHLOG_FLAG_TRIGGER_MASK	GENMASK(31, 28)
-> -
->  /* Crashlog Discovery Header */
->  #define CONTROL_OFFSET		0x0
->  #define GUID_OFFSET		0x4
-> @@ -49,10 +34,63 @@
->  /* size is in bytes */
->  #define GET_SIZE(v)		((v) * sizeof(u32))
->  
-> +/*
-> + * Type 1 Version 0
-> + * status and control registers are combined.
-> + *
-> + * Bits 29 and 30 control the state of bit 31.
-> + * Bit 29 will clear bit 31, if set, allowing a new crashlog to be captured.
-> + * Bit 30 will immediately trigger a crashlog to be generated, setting bit 31.
-> + * Bit 31 is the read-only status with a 1 indicating log is complete.
-> + */
-> +#define TYPE1_VER0_STATUS_OFFSET	0x00
-> +#define TYPE1_VER0_CONTROL_OFFSET	0x00
-> +
-> +#define TYPE1_VER0_DISABLE		BIT(28)
-> +#define TYPE1_VER0_CLEAR		BIT(29)
-> +#define TYPE1_VER0_EXECUTE		BIT(30)
-> +#define TYPE1_VER0_COMPLETE		BIT(31)
-> +#define TYPE1_VER0_TRIGGER_MASK		GENMASK(31, 28)
-> +
-> +/* After offset, order alphabetically, not bit ordered */
-> +struct crashlog_status {
-> +	u32 offset;
-> +	u32 cleared;
-> +	u32 complete;
-> +	u32 disabled;
-> +};
-> +
-> +struct crashlog_control {
-> +	u32 offset;
-> +	u32 trigger_mask;
-> +	u32 clear;
-> +	u32 disable;
-> +	u32 manual;
-> +};
-> +
-> +struct crashlog_info {
-> +	struct crashlog_status status;
-> +	struct crashlog_control control;
-> +};
-> +
-> +static const struct crashlog_info crashlog_type1_ver0 = {
-> +	.status.offset = TYPE1_VER0_STATUS_OFFSET,
-> +	.status.cleared = TYPE1_VER0_CLEAR,
-> +	.status.complete = TYPE1_VER0_COMPLETE,
-> +	.status.disabled = TYPE1_VER0_DISABLE,
-> +
-> +	.control.offset = TYPE1_VER0_CONTROL_OFFSET,
-> +	.control.trigger_mask = TYPE1_VER0_TRIGGER_MASK,
-> +	.control.clear = TYPE1_VER0_CLEAR,
-> +	.control.disable = TYPE1_VER0_DISABLE,
-> +	.control.manual = TYPE1_VER0_EXECUTE,
-> +};
-> +
->  struct crashlog_entry {
->  	/* entry must be first member of struct */
->  	struct intel_pmt_entry		entry;
->  	struct mutex			control_mutex;
-> +	const struct crashlog_info	*info;
->  };
->  
->  struct pmt_crashlog_priv {
-> @@ -60,74 +98,76 @@ struct pmt_crashlog_priv {
->  	struct crashlog_entry	entry[];
->  };
->  
-> +static bool pmt_crashlog_supported(struct intel_pmt_entry *entry)
-> +{
-> +	u32 discovery_header = readl(entry->disc_table + CONTROL_OFFSET);
-> +	u32 crash_type, version;
-> +
-> +	crash_type = GET_TYPE(discovery_header);
-> +	version = GET_VERSION(discovery_header);
-> +
-> +	/*
-> +	 * Currently we only recognize OOBMSM version 0 devices.
-> +	 * We can ignore all other crashlog devices in the system.
-> +	 */
-> +	return crash_type == CRASH_TYPE_OOBMSM && version == 0;
-> +}
-> +
->  /*
->   * I/O
->   */
-> -#define SET	true
-> -#define CLEAR	false
-> +#define SET     true
-> +#define CLEAR   false
+I have also been told that should be "intel_pmt_entry()"....  when I redo, =
+is that
+more correct?
 
-Unrelated space change, and the pre-spacing with tabs is better.
+Thanks,
 
-> -static void read_modify_write(struct intel_pmt_entry *entry, u32 bit, bool set)
-> +static void read_modify_write(struct crashlog_entry *crashlog, u32 bit, bool set)
->  {
-> -	u32 reg = readl(entry->disc_table + CONTROL_OFFSET);
-> +	const struct crashlog_control *control = &crashlog->info->control;
-> +	struct intel_pmt_entry *entry = &crashlog->entry;
-> +	u32 reg = readl(entry->disc_table + control->offset);
->  
-> -	reg &= ~CRASHLOG_FLAG_TRIGGER_MASK;
-> +	reg &= ~control->trigger_mask;
->  
->  	if (set)
->  		reg |= bit;
->  	else
->  		reg &= bit;
->  
-> -	writel(reg, entry->disc_table + CONTROL_OFFSET);
-> +	writel(reg, entry->disc_table + control->offset);
->  }
->  
-> -static bool read_check(struct intel_pmt_entry *entry, u32 bit)
-> +static bool read_check(struct crashlog_entry *crashlog, u32 bit)
->  {
-> -	u32 reg = readl(entry->disc_table + CONTROL_OFFSET);
-> +	const struct crashlog_status *status = &crashlog->info->status;
-> +	u32 reg = readl(crashlog->entry.disc_table + status->offset);
->  
->  	return !!(reg & bit);
->  }
->  
-> -static bool pmt_crashlog_complete(struct intel_pmt_entry *entry)
-> +static bool pmt_crashlog_complete(struct crashlog_entry *crashlog)
->  {
->  	/* return current value of the crashlog complete flag */
-> -	return read_check(entry, CRASHLOG_FLAG_TRIGGER_COMPLETE);
-> +	return read_check(crashlog, crashlog->info->status.complete);
->  }
->  
-> -static bool pmt_crashlog_disabled(struct intel_pmt_entry *entry)
-> +static bool pmt_crashlog_disabled(struct crashlog_entry *crashlog)
->  {
->  	/* return current value of the crashlog disabled flag */
-> -	return read_check(entry, CRASHLOG_FLAG_DISABLE);
-> +	return read_check(crashlog, crashlog->info->status.disabled);
->  }
->  
-> -static bool pmt_crashlog_supported(struct intel_pmt_entry *entry)
-> +static void pmt_crashlog_set_disable(struct crashlog_entry *crashlog, bool disable)
->  {
-> -	u32 discovery_header = readl(entry->disc_table + CONTROL_OFFSET);
-> -	u32 crash_type, version;
-> -
-> -	crash_type = GET_TYPE(discovery_header);
-> -	version = GET_VERSION(discovery_header);
-> -
-> -	/*
-> -	 * Currently we only recognize OOBMSM version 0 devices.
-> -	 * We can ignore all other crashlog devices in the system.
-> -	 */
-> -	return crash_type == CRASH_TYPE_OOBMSM && version == 0;
-> +	read_modify_write(crashlog, crashlog->info->control.disable, disable);
->  }
->  
-> -static void pmt_crashlog_set_disable(struct intel_pmt_entry *entry,
-> -				     bool disable)
-> +static void pmt_crashlog_set_clear(struct crashlog_entry *crashlog)
->  {
-> -	read_modify_write(entry, CRASHLOG_FLAG_DISABLE, disable);
-> +	read_modify_write(crashlog, crashlog->info->control.clear, SET);
->  }
->  
-> -static void pmt_crashlog_set_clear(struct intel_pmt_entry *entry)
-> +static void pmt_crashlog_set_execute(struct crashlog_entry *crashlog)
->  {
-> -	read_modify_write(entry, CRASHLOG_FLAG_TRIGGER_CLEAR, SET);
-> -}
-> -
-> -static void pmt_crashlog_set_execute(struct intel_pmt_entry *entry)
-> -{
-> -	read_modify_write(entry, CRASHLOG_FLAG_TRIGGER_EXECUTE, SET);
-> +	read_modify_write(crashlog, crashlog->info->control.manual, SET);
->  }
->  
->  /*
-> @@ -136,8 +176,8 @@ static void pmt_crashlog_set_execute(struct intel_pmt_entry *entry)
->  static ssize_t
->  enable_show(struct device *dev, struct device_attribute *attr, char *buf)
->  {
-> -	struct intel_pmt_entry *entry = dev_get_drvdata(dev);
-> -	bool enabled = !pmt_crashlog_disabled(entry);
-> +	struct crashlog_entry *crashlog = dev_get_drvdata(dev);
-> +	bool enabled = !pmt_crashlog_disabled(crashlog);
->  
->  	return sprintf(buf, "%d\n", enabled);
->  }
-> @@ -146,19 +186,19 @@ static ssize_t
->  enable_store(struct device *dev, struct device_attribute *attr,
->  	     const char *buf, size_t count)
->  {
-> -	struct crashlog_entry *entry;
-> +	struct crashlog_entry *crashlog;
->  	bool enabled;
->  	int result;
->  
-> -	entry = dev_get_drvdata(dev);
-> +	crashlog = dev_get_drvdata(dev);
->  
->  	result = kstrtobool(buf, &enabled);
->  	if (result)
->  		return result;
->  
-> -	guard(mutex)(&entry->control_mutex);
-> +	guard(mutex)(&crashlog->control_mutex);
->  
-> -	pmt_crashlog_set_disable(&entry->entry, !enabled);
-> +	pmt_crashlog_set_disable(crashlog, !enabled);
->  
->  	return count;
->  }
-> @@ -167,11 +207,11 @@ static DEVICE_ATTR_RW(enable);
->  static ssize_t
->  trigger_show(struct device *dev, struct device_attribute *attr, char *buf)
->  {
-> -	struct intel_pmt_entry *entry;
-> +	struct crashlog_entry *crashlog;
->  	bool trigger;
->  
-> -	entry = dev_get_drvdata(dev);
-> -	trigger = pmt_crashlog_complete(entry);
-> +	crashlog = dev_get_drvdata(dev);
-> +	trigger = pmt_crashlog_complete(crashlog);
->  
->  	return sprintf(buf, "%d\n", trigger);
->  }
-> @@ -180,32 +220,33 @@ static ssize_t
->  trigger_store(struct device *dev, struct device_attribute *attr,
->  	      const char *buf, size_t count)
->  {
-> -	struct crashlog_entry *entry;
-> +	struct crashlog_entry *crashlog;
->  	bool trigger;
->  	int result;
->  
-> -	entry = dev_get_drvdata(dev);
-> +	crashlog = dev_get_drvdata(dev);
->  
->  	result = kstrtobool(buf, &trigger);
->  	if (result)
->  		return result;
->  
-> -	guard(mutex)(&entry->control_mutex);
-> +	guard(mutex)(&crashlog->control_mutex);
+M
 
-Could you please do the entry -> crashlog variable rename first in a 
-separate patch for the cases where it's already struct crashlog_entry to 
-keep this patch focused on real change.
- 
->  	/* if device is currently disabled, return busy */
-> -	if (pmt_crashlog_disabled(&entry->entry))
-> +	if (pmt_crashlog_disabled(crashlog))
->  		return -EBUSY;
->  
->  	if (!trigger) {
-> -		pmt_crashlog_set_clear(&entry->entry);
-> +		pmt_crashlog_set_clear(crashlog);
->  		return count;
->  	}
->  
->  	/* we cannot trigger a new crash if one is still pending */
-> -	if (pmt_crashlog_complete(&entry->entry))
-> +	if (pmt_crashlog_complete(crashlog))
->  		return -EEXIST;
->  
-> -	pmt_crashlog_set_execute(&entry->entry);
-> +	pmt_crashlog_set_execute(crashlog);
-> +
->  
->  	return count;
->  }
-> @@ -231,9 +272,10 @@ static int pmt_crashlog_header_decode(struct intel_pmt_entry *entry,
->  	if (!pmt_crashlog_supported(entry))
->  		return 1;
->  
-> -	/* initialize control mutex */
-> +	/* initialize the crashlog struct */
->  	crashlog = container_of(entry, struct crashlog_entry, entry);
->  	mutex_init(&crashlog->control_mutex);
-
-Unrelated to this patch, there seems to be no mutex_destroy() done for 
-this mutex anywhere.
-
-> +	crashlog->info = &crashlog_type1_ver0;
->  
->  	header->access_type = GET_ACCESS(readl(disc_table));
->  	header->guid = readl(disc_table + GUID_OFFSET);
-> 
-
--- 
- i.
+>> the pcidev and avoid the NULL pointer exception.
+>>
+>> Fixes: 416eeb2e1fc7 ("platform/x86/intel/pmt: telemetry: Export API to r=
+ead
+>telemetry")
+>> Cc: <stable@vger.kernel.org>
+>> Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+>> ---
+>>  drivers/platform/x86/intel/pmt/class.c | 3 ++-
+>>  drivers/platform/x86/intel/pmt/class.h | 1 +
+>>  2 files changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/platform/x86/intel/pmt/class.c
+>b/drivers/platform/x86/intel/pmt/class.c
+>> index 7233b654bbad..d046e8752173 100644
+>> --- a/drivers/platform/x86/intel/pmt/class.c
+>> +++ b/drivers/platform/x86/intel/pmt/class.c
+>> @@ -97,7 +97,7 @@ intel_pmt_read(struct file *filp, struct kobject *kobj=
+,
+>>  	if (count > entry->size - off)
+>>  		count =3D entry->size - off;
+>>
+>> -	count =3D pmt_telem_read_mmio(entry->ep->pcidev, entry->cb, entry-
+>>header.guid, buf,
+>> +	count =3D pmt_telem_read_mmio(entry->pcidev, entry->cb, entry-
+>>header.guid, buf,
+>>  				    entry->base, off, count);
+>>
+>>  	return count;
+>> @@ -252,6 +252,7 @@ static int intel_pmt_populate_entry(struct
+>intel_pmt_entry *entry,
+>>  		return -EINVAL;
+>>  	}
+>>
+>> +	entry->pcidev =3D pci_dev;
+>>  	entry->guid =3D header->guid;
+>>  	entry->size =3D header->size;
+>>  	entry->cb =3D ivdev->priv_data;
+>> diff --git a/drivers/platform/x86/intel/pmt/class.h
+>b/drivers/platform/x86/intel/pmt/class.h
+>> index b2006d57779d..f6ce80c4e051 100644
+>> --- a/drivers/platform/x86/intel/pmt/class.h
+>> +++ b/drivers/platform/x86/intel/pmt/class.h
+>> @@ -39,6 +39,7 @@ struct intel_pmt_header {
+>>
+>>  struct intel_pmt_entry {
+>>  	struct telem_endpoint	*ep;
+>> +	struct pci_dev		*pcidev;
+>>  	struct intel_pmt_header	header;
+>>  	struct bin_attribute	pmt_bin_attr;
+>>  	struct kobject		*kobj;
+>>
+>
+>--
+> i.
 
 
