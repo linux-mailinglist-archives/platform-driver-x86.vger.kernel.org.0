@@ -1,53 +1,53 @@
-Return-Path: <platform-driver-x86+bounces-12695-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-12696-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4343AD7D3D
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Jun 2025 23:15:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F05AD7D90
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Jun 2025 23:29:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 74DCE17455F
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Jun 2025 21:15:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E00201888EAD
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Jun 2025 21:29:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77CD02DCBFE;
-	Thu, 12 Jun 2025 21:14:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64BEB2DCC0C;
+	Thu, 12 Jun 2025 21:28:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i3ceY7h/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aURUAm4E"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516CA10E5
-	for <platform-driver-x86@vger.kernel.org>; Thu, 12 Jun 2025 21:14:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FFEF2DCBFD
+	for <platform-driver-x86@vger.kernel.org>; Thu, 12 Jun 2025 21:28:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749762895; cv=none; b=oZTdIy/ClqoDkT9IVMUF+FX3tVOBHBc1fAe9+isvmJJZU8Sj0LebmgzyH0VGHl5B7EdDdnDgrdxvmIugGl+ubkxwqpBFUJm+pL/wkYu379xJ4CG83dKNrsCgO/FC/Yc+xI94juR6m5E6lnaqPqkmLcfWcJBhnmhI7tiAVLgznS8=
+	t=1749763693; cv=none; b=ORdL9aGTwTKfwj83Msz3v2ZMZl0KC85Xuc4PrRFWl1NuhnEe5Bz8rLiha/uj7vi2AZu8a5r2tJvK34ZQhaa44HMKNQxoaPQ5NaXc3QdOlpDJYAatE1k5uI6hyx4bhIR0Dtn3ppsklYClwfmHMh82IY3fkXrUQAwUaIGBk9oh9g4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749762895; c=relaxed/simple;
-	bh=xec7PAzJh8jF+6nBgPrIic/BR1GzUxY7/GkFYdOJcPQ=;
+	s=arc-20240116; t=1749763693; c=relaxed/simple;
+	bh=2E6iRU2z0kl+Pf0qzX1zloYFiduCtnj4WGKD1nFZIEM=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=J9Nc/XKT1m9ON7I2zQPaV4rmE61uY1d62KbAm9ux6GW8PIBUH9sxXdJZyPuwJEn49RDpbRCQ/xkS3n3vDx1nnhtbbu1x/xtCdPWsZl4ZKWjBR1VyRUKH7pglGZRo2UbCIYnnQI+GzO+mXLMFL4b5VzeXPp52kdMmSqcRudieE54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i3ceY7h/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 33C0DC4CEEA
-	for <platform-driver-x86@vger.kernel.org>; Thu, 12 Jun 2025 21:14:55 +0000 (UTC)
+	 Content-Type:MIME-Version; b=jRO7p7JDA/cLcZoadTBTXdbR50s4GP5rN0l5YH+8TAbrHbQMH/o7BntvC3tse0KQzeVIcG55G90oN8t81qxYxrK6LmcjU5V2/l8/uykJzET6u9Jvd0C+b3i+SAVipWDKfO0PM6aquNWECM7YRstWBTM0FnkJbiCpjPPUmW5dI9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aURUAm4E; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D28DDC4CEEA
+	for <platform-driver-x86@vger.kernel.org>; Thu, 12 Jun 2025 21:28:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749762895;
-	bh=xec7PAzJh8jF+6nBgPrIic/BR1GzUxY7/GkFYdOJcPQ=;
+	s=k20201202; t=1749763692;
+	bh=2E6iRU2z0kl+Pf0qzX1zloYFiduCtnj4WGKD1nFZIEM=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=i3ceY7h/xUQ8vqKFaSLsermaWyXymV5csRK779VcQl0h3iHwCRI/rjazBKzmEgnPF
-	 I9tckAa0+4w+ZVHH0G+unAw8bKAPis3kYErVtyQMF4yTs1IzfEUtRqsOqpqJy1PevT
-	 Ks8kCAKgfCKLwh31Mll8oKttABOK53WCt8w5VJtxgrPXvs2alOaEYLyUxqwnMj3uc0
-	 IN3pYxEuO27z0yP2WfivSRhmWlfoj4aZG4KgVhGDzm6kYT1Tv1vXtf19Q95Fa6x26l
-	 +oc+6G/F/StYBWhVd+YVIqBVjtxMqArG63+uwzDjsEy1OjdiJxz/Zg7q6QEr22M34T
-	 9BlxGHGz16YOw==
+	b=aURUAm4EW8Ug2fwlhqK4DJV2SLfRq2+C2+PzUwpSclR+zN2GvbXpafMC635SFPnTm
+	 N+mCbvaJDPXZ74WETAo24yeWlHZM8oXr8DeJMEytviA9jU54o1OfsJ5nVfXB2tx1/O
+	 okGOmtZsdwRYqKyyoXAYs3LUnxDC1/YJblwaxtivC/SHJGR4M92qjt8/VcEXnSxVJD
+	 yooz7IAFumcwOGQN1UE3UXiag/XdNJbwEfOwQIZ7ACPDlrR6yedLuwbE2nZGSco85Z
+	 FGRCJIhp4epjY9yl0APqRHDoaOAruw/8TK1s0ihgH8aXOI0Hirg6KyETFvMSoz8Y+g
+	 BFihGeUQPUD3w==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 28C5CC4160E; Thu, 12 Jun 2025 21:14:55 +0000 (UTC)
+	id C8746C3279F; Thu, 12 Jun 2025 21:28:12 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: platform-driver-x86@vger.kernel.org
 Subject: [Bug 220224] Kernel 6.15 causes crash (general protection fault) due
  to amd_sfh module
-Date: Thu, 12 Jun 2025 21:14:55 +0000
+Date: Thu, 12 Jun 2025 21:28:12 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
@@ -63,7 +63,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-220224-215701-bX1DyBrWOU@https.bugzilla.kernel.org/>
+Message-ID: <bug-220224-215701-K09iVNZ0kE@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-220224-215701@https.bugzilla.kernel.org/>
 References: <bug-220224-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -79,11 +79,13 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D220224
 
---- Comment #4 from g.molinaro@linuxmail.org ---
-### Downstream Tracking
+--- Comment #5 from g.molinaro@linuxmail.org ---
+### Errata Corrige
+The LTS kernel version in the description should be 6.12.33, I forgot to up=
+dade
+the boiler plate...
 
-This issue is also being tracked by the CachyOS kernel maintainers here:
-https://github.com/CachyOS/linux-cachyos/issues/483
+The system also worked fine with every 6.14.x kernel.
 
 --=20
 You may reply to this email to add a comment.
