@@ -1,107 +1,139 @@
-Return-Path: <platform-driver-x86+bounces-12711-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-12713-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8BA1AD8BBE
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 13 Jun 2025 14:10:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1A0FAD8CA7
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 13 Jun 2025 15:00:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BBDCF17AA01
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 13 Jun 2025 12:10:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5F7151E3CF7
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 13 Jun 2025 13:00:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75AA72DA756;
-	Fri, 13 Jun 2025 12:09:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1591970810;
+	Fri, 13 Jun 2025 13:00:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cKfoTTo1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qa8kXQt3"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC9D2DFA33;
-	Fri, 13 Jun 2025 12:09:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F9C72608
+	for <platform-driver-x86@vger.kernel.org>; Fri, 13 Jun 2025 13:00:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749816597; cv=none; b=kOw+aDNIBQJSH6m/drvyhOiGPpMS2EL2Y+9KIcwFDjaNLxeQgSaPxqWVYuXrCzT3hGEDjgEMHbZscyjVDB1DzozDqAw8Y/T9P/ZNZ0WuRqJBJ44ZjCDxQnJIEBohv5oWgBXB413Gz9dSLDn45crLIB0YrPkPtHZw+qqj79McpaQ=
+	t=1749819605; cv=none; b=auWXf8l4EvmNqg2uc/TBcLhQ72qhyPYE9b0+X6iqWIXBKizw5b6niuJv4SZQmbutFCyT643Bud7kG8e0BU8UCJTAEgJj9jCQBtWRyRZTvYhYXxk3AbdKIVyUzET6HTMw17J6rA3mMpVc1qlJbi3eu/Y2ZDvRR3LmhPJkoA5eUnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749816597; c=relaxed/simple;
-	bh=0tu06tAr2kdXFxrJ8tihj6vbryL9Qfdx8mrPLEegIVw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=iNf4DPhf91R2rg4wROW1qKNSK7zGP5DKKio609N5LFtOjXL6smn35Z74dQ4wxGDjSljgOzF145D9i+lB8kxJby+fODbeiC2AdjU153g6EqD9dmMjEXyeow5Y/i9MoqVB0o4YV6KABiC8IHSbTnbEcjQcT5HKk1xz1nCW2DsNjkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cKfoTTo1; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749816596; x=1781352596;
-  h=from:to:cc:in-reply-to:references:subject:message-id:
-   date:mime-version:content-transfer-encoding;
-  bh=0tu06tAr2kdXFxrJ8tihj6vbryL9Qfdx8mrPLEegIVw=;
-  b=cKfoTTo18auW26Y7MsmTT9WgYcZk+wSYJ96pT+WtFUENT7iD0fhWYn6g
-   MC1FN3vKnp8ySHIwE/hYrbUiWpef4L/Yic91Le5kNFpVfD/X/Q3QD/LGI
-   Kw2+j5a5iDePAsyKz5KncJ69roUg49l73w5m/rTXTqyCfefqgb0ACygGM
-   nIa2CmD32UleOc6zhuHjzdo0mthyTtxlvOjB1P/eHv2gvW8GHlx6Z+1bq
-   DGCFZlHx6bsMG6zW2BMtokyJAKtYqTUGbaDk3Eizc0AQxrov9Hvy1R9Py
-   LbDkUtyqRS90bzROJcGVFaoJ93V+65YbS1k5CIm5Ae7nmyttFzMRzuHQc
-   w==;
-X-CSE-ConnectionGUID: UPMDz1gyTlejUYcE2dbjcQ==
-X-CSE-MsgGUID: BpzhreYkQsSMGvLHo9ySkg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="63066198"
-X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; 
-   d="scan'208";a="63066198"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 05:09:55 -0700
-X-CSE-ConnectionGUID: FQ31BINFSwO6SRjAqaOpZA==
-X-CSE-MsgGUID: tsugnzQ4S1aUP4iOr0fMfg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; 
-   d="scan'208";a="170994936"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.102])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 05:09:52 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: Armin Wolf <W_Armin@gmx.de>, Hans de Goede <hansg@kernel.org>, 
- Kurt Borja <kuurtb@gmail.com>
-Cc: platform-driver-x86@vger.kernel.org, Dell.Client.Kernel@dell.com, 
- linux-kernel@vger.kernel.org, Cihan Ozakca <cozakca@outlook.com>, 
- stable@vger.kernel.org
-In-Reply-To: <20250611-m16-rev-v1-1-72d13bad03c9@gmail.com>
-References: <20250611-m16-rev-v1-1-72d13bad03c9@gmail.com>
-Subject: Re: [PATCH] Revert "platform/x86: alienware-wmi-wmax: Add G-Mode
- support to Alienware m16 R1"
-Message-Id: <174981658790.27029.16646984768467792319.b4-ty@linux.intel.com>
-Date: Fri, 13 Jun 2025 15:09:47 +0300
+	s=arc-20240116; t=1749819605; c=relaxed/simple;
+	bh=UJ+tVNY+vmRuKis0IbPpkM+zjVD/e2jeK454mlsoQYg=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HmSbPMfdYa7w//Lt+RLgJFlpijyahRGsrWXIRFsEgqv7MAJWH6BrfkihDGIVePksqtmz2/B11j67yFBB4hSfZcdsbaX5rA4Cn/DoywkuCLyqdWasHo5irfbNK5R3RJgD1Laq/pzvpj29rFdqQWouIcWip+jVsGAKnCQ9E/gumZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qa8kXQt3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 85AC0C4CEE3
+	for <platform-driver-x86@vger.kernel.org>; Fri, 13 Jun 2025 13:00:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749819604;
+	bh=UJ+tVNY+vmRuKis0IbPpkM+zjVD/e2jeK454mlsoQYg=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=Qa8kXQt3bj90brxpnEE1rxGqgET8LQRq4nK5riCxloi7ySoClFUWRcvO9hkoOa60t
+	 DikTjWQCHeqnOgO57ayjeiauDAFDrvNw2c7jUVL0H0O8NP4gKbLTeWtiWAHOme+bak
+	 BgctcK9TFlazn1/o2dYuH83xjC0rKDD3gdB0NhnYycxvYAv2M3PvmisNpapLINqRQ6
+	 ui32FEpvdRcLr+AhLZ8GPEHfGzEwCJBebSmlDY1PGfVs46ny8W/hSfc9RXgEnBPMm3
+	 4eGluubwkLh2PajCt3lDdzgciG8T6UlwaAryfFC+/FZn+edvcuzmv3AXiid5jIcQjT
+	 gkfa193sLGbBA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 7DC56C433E1; Fri, 13 Jun 2025 13:00:04 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: platform-driver-x86@vger.kernel.org
+Subject: [Bug 220224] Kernel 6.15 causes crash (general protection fault) due
+ to amd_sfh module
+Date: Fri, 13 Jun 2025 13:00:04 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Platform_x86
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: g.molinaro@linuxmail.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-220224-215701-9eBZOA54QI@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-220224-215701@https.bugzilla.kernel.org/>
+References: <bug-220224-215701@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
 
-On Wed, 11 Jun 2025 18:30:40 -0300, Kurt Borja wrote:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220224
 
-> This reverts commit 5ff79cabb23a2f14d2ed29e9596aec908905a0e6.
-> 
-> Although the Alienware m16 R1 AMD model supports G-Mode, it actually has
-> a lower power ceiling than plain "performance" profile, which results in
-> lower performance.
-> 
-> 
-> [...]
+--- Comment #8 from g.molinaro@linuxmail.org ---
+Quick update.
 
+Before leaving work for launch, I removed the blacklist file and did
+`mkinitcpio -P` before shutting down the laptop. I left it connected to the
+power supply and left. Upon coming back, I tried to boot into all the insta=
+lled
+kernels: arch-6.15.2, cachyos-6.15.2 and cachyos-lts-6.12.33. And ALL WORKE=
+D,
+with the amd_sfh module loaded, without issues. Sadly, I was in a hurry and
+forgot to save the logs.
 
-Thank you for your contribution, it has been applied to my local
-review-ilpo-fixes branch. Note it will show up in the public
-platform-drivers-x86/review-ilpo-fixes branch only once I've pushed my
-local branch there, which might take a while.
+Barring some gremlings, nothing had changed in my system (no updates at lea=
+st),
+so I decided to shutdown the PC and unplug it from the wall in order for th=
+e EC
+to reset at least partially, then powered it back up multiple times, both on
+battery and wall power without blacklisting the module. The results are as
+follows:
 
-The list of commits applied:
-[1/1] Revert "platform/x86: alienware-wmi-wmax: Add G-Mode support to Alienware m16 R1"
-      commit: e2468dc700743683e1d1793bbd855e2536fd3de2
+6.15.2-arch1-1 : now boots up without issues (it didn't before);
+6.15.2-cashyos-2 : DOES NOT BOOT
+6.13.33-lts-cachyos : boots as always.
 
---
- i.
+So it would seems that the issue is now somehow limited (at least for now),=
+ to
+the cachyos kernel. I have ho idea how or why aarch is now working while it
+wasn't before or how they all worked fine the first time.
 
+This time tho, I have updated logs:
+
+- Output of journalctl -k -b -1 for the failed attempt with the cachyos ker=
+nel;
+- Output of journalctl -k -b for the successful boot with the arch kernel;
+- Output of dmesg for the arch kernel;
+- Output of dmesg -S for the arch kernel;
+- A New screenshot of the kernel panic message with the 6.15.2-cachyos kern=
+el.
+
+More tests to follow...
+
+---
+As a side note, I found out there's a BIOS update available for this laptop=
+ (I
+stopped looking at the website after a couple of years of silence). I have =
+no
+idea what it's about, and I'm holding off installing it for the moment not =
+to
+invalidate previous testing... but I'm curious if I should just to see if it
+changes something. I'm open to suggestions.
+---
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
 
