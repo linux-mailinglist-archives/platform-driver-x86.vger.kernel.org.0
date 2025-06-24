@@ -1,52 +1,52 @@
-Return-Path: <platform-driver-x86+bounces-12928-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-12934-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F97AE672D
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 24 Jun 2025 15:52:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C68AE6749
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 24 Jun 2025 15:53:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D38121883837
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 24 Jun 2025 13:52:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 152EB163936
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 24 Jun 2025 13:53:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1724C2C15BC;
-	Tue, 24 Jun 2025 13:52:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49A9E2C374B;
+	Tue, 24 Jun 2025 13:52:36 +0000 (UTC)
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92EA32BE7BC
-	for <platform-driver-x86@vger.kernel.org>; Tue, 24 Jun 2025 13:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56B42C15BC
+	for <platform-driver-x86@vger.kernel.org>; Tue, 24 Jun 2025 13:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750773134; cv=none; b=CHgxlU07541Cn7ydprBoYGIdmakInDdgV0rQP0hbHU7CrTNOthW3mqaJ3c5JM9QfNqkl9iCsKuMM9pVuYHX4HMcg63QlEwhX/HThcvYYzQFIDfAa0HGYHtB3agJ+YWErclHB2R79mN7KzYIwKf2j08MUkOOR4xuD1U5zJu96Hfc=
+	t=1750773156; cv=none; b=prA3Y+TwoN4Ivie1VouHBvWUXX2WzxHzLxp4rvwMtfvOtPM+76AuX/WeIF7AYo4NMz1F62QYmU2CQsfSDNwYd94y/IO9opfNXsxc8z6lwYKei/mlzGW+E0Mk4ci6etVQNX5bFL3wCawnA2c9fks/QDFizL6RxAFt0bXIqkbeC9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750773134; c=relaxed/simple;
-	bh=hGOHY5EqX24PHULoKaFcv7QLGg52McD4wj4R0vVCqTY=;
+	s=arc-20240116; t=1750773156; c=relaxed/simple;
+	bh=QYPLN6dGC5cGmFwspvOIjLRoZStmuOFjEozWkk2g81M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eRcDpj0VO94ljD5/d09P4nuVoxL6fTgfXWqWYa5+RklCbWEx6+dWS1Ie8kS0NsOLVYXtONLfZ7Pb2poRJ3ME7DTbAGP8lTLEFdAeJbfzIxlJ4ze1islsz1T9SucrRfE09BcJ0cog4GlwXIIweEMcNGAGLZUDnT5YgRy+WHgSeh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=hG6ASqC6S+QHWEZo47zkmIXTvnpGFjN9qyzI6VNZNWc5zyyXG2q+PPQujBWlCZUD7Lp7v9fKjIoZKGGPXFzwtT0HO4greg3VHPERqBDgcRQV9irBgtMFcBrq6LQEyHt4zSRKZoNlaw2J11OGRLp6Ss8OkbG4o7j1/EptvpCmlhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 46DC321192;
-	Tue, 24 Jun 2025 13:51:57 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 035601F457;
+	Tue, 24 Jun 2025 13:51:58 +0000 (UTC)
+Authentication-Results: smtp-out2.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8FE5113751;
-	Tue, 24 Jun 2025 13:51:56 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C7E813A96;
+	Tue, 24 Jun 2025 13:51:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OAK9IXytWmjFcQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 24 Jun 2025 13:51:56 +0000
+	id EEZ6EX2tWmjFcQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 24 Jun 2025 13:51:57 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: lee@kernel.org,
 	danielt@kernel.org,
@@ -72,10 +72,11 @@ Cc: dri-devel@lists.freedesktop.org,
 	platform-driver-x86@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-fbdev@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 10/15] backlight: jornada720: Include <linux/io.h>
-Date: Tue, 24 Jun 2025 15:45:50 +0200
-Message-ID: <20250624134858.1736090-11-tzimmermann@suse.de>
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Nick Chan <towinchenmi@gmail.com>
+Subject: [PATCH v2 11/15] backlight: ktd2801: Include <linux/mod_devicetable.h>
+Date: Tue, 24 Jun 2025 15:45:51 +0200
+Message-ID: <20250624134858.1736090-12-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250624134858.1736090-1-tzimmermann@suse.de>
 References: <20250624134858.1736090-1-tzimmermann@suse.de>
@@ -89,39 +90,40 @@ Content-Transfer-Encoding: 8bit
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
 X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[];
 	TAGGED_RCPT(0.00)[]
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 46DC321192
+X-Rspamd-Queue-Id: 035601F457
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
 X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Score: -4.00
 
-Include <linux/io.h> to declare IOMEM(). Avoids dependency on
-backlight header to include it.
+Include <linux/mod_devicetable.h> to declare struct of_device_id.
+Avoids dependency on backlight header to include it.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Nick Chan <towinchenmi@gmail.com>
 ---
- drivers/video/backlight/jornada720_bl.c | 1 +
+ drivers/video/backlight/ktd2801-backlight.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/video/backlight/jornada720_bl.c b/drivers/video/backlight/jornada720_bl.c
-index e28d2c071798..bbb65fdaddc7 100644
---- a/drivers/video/backlight/jornada720_bl.c
-+++ b/drivers/video/backlight/jornada720_bl.c
-@@ -7,6 +7,7 @@
- 
+diff --git a/drivers/video/backlight/ktd2801-backlight.c b/drivers/video/backlight/ktd2801-backlight.c
+index 0489b0615ceb..17eac1b3bce4 100644
+--- a/drivers/video/backlight/ktd2801-backlight.c
++++ b/drivers/video/backlight/ktd2801-backlight.c
+@@ -6,6 +6,7 @@
  #include <linux/backlight.h>
- #include <linux/device.h>
-+#include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/leds-expresswire.h>
++#include <linux/mod_devicetable.h>
  #include <linux/platform_device.h>
+ #include <linux/property.h>
+ 
 -- 
 2.50.0
 
