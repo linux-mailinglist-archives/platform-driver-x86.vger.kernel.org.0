@@ -1,136 +1,259 @@
-Return-Path: <platform-driver-x86+bounces-13403-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-13405-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211A0B09E27
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 18 Jul 2025 10:37:03 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06EE6B0A8A5
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 18 Jul 2025 18:40:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C02A1AA3E30
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 18 Jul 2025 08:37:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EBCF87B8D8B
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 18 Jul 2025 16:38:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC5A3293C5D;
-	Fri, 18 Jul 2025 08:36:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6FD32E6D15;
+	Fri, 18 Jul 2025 16:39:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GmH8kuFD"
+	dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="AHu9xzH+"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D450EEDE;
-	Fri, 18 Jul 2025 08:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68E91EB5B;
+	Fri, 18 Jul 2025 16:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.171.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752827814; cv=none; b=eyntYJaOy4gIbuISg5O630Y3+5gvaeJoIPU5cSsM1zFktkufsRKTpjqpx2pgpt+IPwN7XBU8WWtLt0tmjLElX0aObU4eKT+vhvg5ZmeV+wp+xWFYOduL2bGAPGrdT5VPR/k8Tp5GEKT31wuC57UESjfPK1YoN/M9qoGuEDP9WlU=
+	t=1752856799; cv=none; b=EkhyxhwJ4ntST0z9+YnufiOhCY+m66j68WFTmYOMWChhP/rKGxpZjE9NZ3nNhVD6eWYu1m05jnEFQYzNFWA23PbVLiMhR2JSYBMno7Wg6DrAAeHPmNKpqv/vs+d73vnJWkpbFS/VAAdiamE2vympJNUY9E6UrDIzabUWAniSNt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752827814; c=relaxed/simple;
-	bh=HL/2nr+vhFKcEcF58riyFRNQttwiCB/9fGbm+q71Dgg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S+ghDL96vtdztCGorIA7DWIOOdf3DXo+Wqg5kLolqXr6ayiQzjOmRia/r8q4X1I14CjPThK4ekcYbFzW8537oqCW9rsqJ8wtvZcqT91ucl1IZaajfkMJtQqhTCr7hJw42ia2cDlSM1WIbLcEyX3ka6/I+xVulGxVk8ujaDDQRhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GmH8kuFD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E585C4CEEB;
-	Fri, 18 Jul 2025 08:36:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752827813;
-	bh=HL/2nr+vhFKcEcF58riyFRNQttwiCB/9fGbm+q71Dgg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GmH8kuFDP69wLkOjDvdpYL8g4oErm+tCxzSYFjNficaE3yVU2VDi2CVybyh3k2vzL
-	 ktrs4o3SmHh9+Ti01m0+zENfWaUVs3rPEOFccIDJ8JzUuMBm7vzDhfYqgJjGzyUfX2
-	 tzprzSBZDHn6R6ZCy1S+ooHnVTZn0aRQWwJVACdL/lb02WuONW5CmJoAQ+l6IEgvXV
-	 YUoaFOXIVofvTGsxJhTxgxblsj38dHI42GL2cErPbWSgZ0WyDVaDQIEbTqk0zRmB/4
-	 6UGfFtVoeLA7gIVsJdymOjI/f87nJMUh+D/2j397DUryS3KRRsJ57CDJHeSOO9dNdu
-	 VnRo0rjVmoxGg==
-Date: Fri, 18 Jul 2025 11:36:32 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+	s=arc-20240116; t=1752856799; c=relaxed/simple;
+	bh=jSJrORt+zktIU+MdXKWB9zDlk8JLptby9hINOQ0Zh48=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Cxfx9vOg6MgZ9dwG9ZW82ZprgKYD9zBQv2cog/MoymgerisgWsdlWLkCP2UYvwqZqIyxj0sv/lWmf7rf2gDmyr8mxSbJ1dSSOWbI55WenQSs04U3o8zZGYK5iBHhL10CpJ5PxyPiZeY4ZPcgF+IAdo2nyyxKFsK/SsShpld8nlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=AHu9xzH+; arc=none smtp.client-ip=78.46.171.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+Received: from relay11 (localhost.localdomain [127.0.0.1])
+	by relay11.grserver.gr (Proxmox) with ESMTP id 40AF8C6DAA;
+	Fri, 18 Jul 2025 19:33:11 +0300 (EEST)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by relay11.grserver.gr (Proxmox) with ESMTPS id 84B95C6DB1;
+	Fri, 18 Jul 2025 19:33:10 +0300 (EEST)
+Received: from antheas-z13 (x5996a89a.customers.hiper-net.dk [89.150.168.154])
+	by linux3247.grserver.gr (Postfix) with ESMTPSA id C39731FDA75;
+	Fri, 18 Jul 2025 19:33:09 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1752856390;
+	bh=0qBqnmMckTPpBCNrzJ/uZEyOLxnLE4NWtj3PbNYSdIQ=; h=From:To:Subject;
+	b=AHu9xzH+N5GFhJnAi+g+iAX6lXD2l0HQf6TLFM9aC3ohh0lZOBv7nQhjMiEfXod9h
+	 C9rLmkqLDHmH8sjK9IqW3RxAkH+tX7M4WvC61G7QZvudWUpqTyjAfJBiT1o9iPNoBn
+	 m+202XggloTllzxBgNJkghVyhTGlPqU1vhn82wWG554pcChu1z2yT/GPWbEalwJN6b
+	 HA74//+5cGOUXY6KlUmheaLrPCnFebuN3fFnRW2lj1b/O5YHJ+9K8vH0XKORVGkYf3
+	 RI+TuH12MDGP8N/xrIKrUhFIK00R2cTPo4U6CY8XDdf9POkByGBLZAeUiey1m4+seM
+	 CyfHjRnQjpIcw==
+Authentication-Results: linux3247.grserver.gr;
+	spf=pass (sender IP is 89.150.168.154) smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+From: Antheas Kapenekakis <lkml@antheas.dev>
+To: platform-driver-x86@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Derek John Clark <derekjohn.clark@gmail.com>,
+	=?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= <samsagax@gmail.com>,
 	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Michal Wilczynski <michal.wilczynski@intel.com>,
-	Juergen Gross <jgross@suse.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Roger Pau Monne <roger.pau@citrix.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Usama Arif <usama.arif@bytedance.com>,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Thomas Huth <thuth@redhat.com>, Brian Gerst <brgerst@gmail.com>,
-	kvm@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
-	platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
-	linux-mm@kvack.org, Ingo Molnar <mingo@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v3 04/13] x86: Handle KCOV __init vs inline mismatches
-Message-ID: <aHoHkDvvp4AHIzU1@kernel.org>
-References: <20250717231756.make.423-kees@kernel.org>
- <20250717232519.2984886-4-kees@kernel.org>
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Eileen <eileen@one-netbook.com>,
+	Antheas Kapenekakis <lkml@antheas.dev>
+Subject: [PATCH v1 1/2] platform/x86: oxpec: Fix turbo register for G1 AMD
+Date: Fri, 18 Jul 2025 18:33:04 +0200
+Message-ID: <20250718163305.159232-1-lkml@antheas.dev>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250717232519.2984886-4-kees@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: 
+ <175285639024.3276261.10156386364968385795@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.0.9 at linux3247.grserver.gr
+X-Virus-Status: Clean
 
-Hi Kees,
+Turns out that the AMD variant of the G1 uses different turbo registers
+than the Intel variant. Differentiate them and apply the correct ones
+to the AMD variant.
 
-On Thu, Jul 17, 2025 at 04:25:09PM -0700, Kees Cook wrote:
-> When KCOV is enabled all functions get instrumented, unless the
-> __no_sanitize_coverage attribute is used. To prepare for
-> __no_sanitize_coverage being applied to __init functions, we have to
-> handle differences in how GCC's inline optimizations get resolved. For
-> x86 this means forcing several functions to be inline with
-> __always_inline.
-> 
-> Signed-off-by: Kees Cook <kees@kernel.org>
+Fixes: b369395c895b ("platform/x86: oxpec: Add support for the OneXPlayer G1")
+Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+---
+ drivers/platform/x86/oxpec.c | 37 +++++++++++++++++++++++-------------
+ 1 file changed, 24 insertions(+), 13 deletions(-)
 
-...
-
-> diff --git a/include/linux/memblock.h b/include/linux/memblock.h
-> index bb19a2534224..b96746376e17 100644
-> --- a/include/linux/memblock.h
-> +++ b/include/linux/memblock.h
-> @@ -463,7 +463,7 @@ static inline void *memblock_alloc_raw(phys_addr_t size,
->  					  NUMA_NO_NODE);
->  }
->  
-> -static inline void *memblock_alloc_from(phys_addr_t size,
-> +static __always_inline void *memblock_alloc_from(phys_addr_t size,
->  						phys_addr_t align,
->  						phys_addr_t min_addr)
-
-I'm curious why from all memblock_alloc* wrappers this is the only one that
-needs to be __always_inline?
-
+diff --git a/drivers/platform/x86/oxpec.c b/drivers/platform/x86/oxpec.c
+index 06759036945d..9839e8cb82ce 100644
+--- a/drivers/platform/x86/oxpec.c
++++ b/drivers/platform/x86/oxpec.c
+@@ -58,7 +58,8 @@ enum oxp_board {
+ 	oxp_mini_amd_a07,
+ 	oxp_mini_amd_pro,
+ 	oxp_x1,
+-	oxp_g1,
++	oxp_g1_i,
++	oxp_g1_a,
+ };
+ 
+ static enum oxp_board board;
+@@ -247,14 +248,14 @@ static const struct dmi_system_id dmi_table[] = {
+ 			DMI_MATCH(DMI_BOARD_VENDOR, "ONE-NETBOOK"),
+ 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "ONEXPLAYER G1 A"),
+ 		},
+-		.driver_data = (void *)oxp_g1,
++		.driver_data = (void *)oxp_g1_a,
+ 	},
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_VENDOR, "ONE-NETBOOK"),
+ 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "ONEXPLAYER G1 i"),
+ 		},
+-		.driver_data = (void *)oxp_g1,
++		.driver_data = (void *)oxp_g1_i,
+ 	},
+ 	{
+ 		.matches = {
+@@ -352,7 +353,8 @@ static umode_t tt_toggle_is_visible(struct kobject *kobj,
+ 	case oxp_mini_amd_a07:
+ 	case oxp_mini_amd_pro:
+ 	case oxp_x1:
+-	case oxp_g1:
++	case oxp_g1_i:
++	case oxp_g1_a:
+ 		return attr->mode;
+ 	default:
+ 		break;
+@@ -381,12 +383,13 @@ static ssize_t tt_toggle_store(struct device *dev,
+ 	case aok_zoe_a1:
+ 	case oxp_fly:
+ 	case oxp_mini_amd_pro:
++	case oxp_g1_a:
+ 		reg = OXP_TURBO_SWITCH_REG;
+ 		mask = OXP_TURBO_TAKE_VAL;
+ 		break;
+ 	case oxp_2:
+ 	case oxp_x1:
+-	case oxp_g1:
++	case oxp_g1_i:
+ 		reg = OXP_2_TURBO_SWITCH_REG;
+ 		mask = OXP_TURBO_TAKE_VAL;
+ 		break;
+@@ -426,12 +429,13 @@ static ssize_t tt_toggle_show(struct device *dev,
+ 	case aok_zoe_a1:
+ 	case oxp_fly:
+ 	case oxp_mini_amd_pro:
++	case oxp_g1_a:
+ 		reg = OXP_TURBO_SWITCH_REG;
+ 		mask = OXP_TURBO_TAKE_VAL;
+ 		break;
+ 	case oxp_2:
+ 	case oxp_x1:
+-	case oxp_g1:
++	case oxp_g1_i:
+ 		reg = OXP_2_TURBO_SWITCH_REG;
+ 		mask = OXP_TURBO_TAKE_VAL;
+ 		break;
+@@ -520,7 +524,8 @@ static bool oxp_psy_ext_supported(void)
+ {
+ 	switch (board) {
+ 	case oxp_x1:
+-	case oxp_g1:
++	case oxp_g1_i:
++	case oxp_g1_a:
+ 	case oxp_fly:
+ 		return true;
+ 	default:
+@@ -659,7 +664,8 @@ static int oxp_pwm_enable(void)
+ 	case oxp_mini_amd_a07:
+ 	case oxp_mini_amd_pro:
+ 	case oxp_x1:
+-	case oxp_g1:
++	case oxp_g1_i:
++	case oxp_g1_a:
+ 		return write_to_ec(OXP_SENSOR_PWM_ENABLE_REG, PWM_MODE_MANUAL);
+ 	default:
+ 		return -EINVAL;
+@@ -686,7 +692,8 @@ static int oxp_pwm_disable(void)
+ 	case oxp_mini_amd_a07:
+ 	case oxp_mini_amd_pro:
+ 	case oxp_x1:
+-	case oxp_g1:
++	case oxp_g1_i:
++	case oxp_g1_a:
+ 		return write_to_ec(OXP_SENSOR_PWM_ENABLE_REG, PWM_MODE_AUTO);
+ 	default:
+ 		return -EINVAL;
+@@ -713,7 +720,8 @@ static int oxp_pwm_read(long *val)
+ 	case oxp_mini_amd_a07:
+ 	case oxp_mini_amd_pro:
+ 	case oxp_x1:
+-	case oxp_g1:
++	case oxp_g1_i:
++	case oxp_g1_a:
+ 		return read_from_ec(OXP_SENSOR_PWM_ENABLE_REG, 1, val);
+ 	default:
+ 		return -EOPNOTSUPP;
+@@ -742,7 +750,7 @@ static int oxp_pwm_fan_speed(long *val)
+ 		return read_from_ec(ORANGEPI_SENSOR_FAN_REG, 2, val);
+ 	case oxp_2:
+ 	case oxp_x1:
+-	case oxp_g1:
++	case oxp_g1_i:
+ 		return read_from_ec(OXP_2_SENSOR_FAN_REG, 2, val);
+ 	case aok_zoe_a1:
+ 	case aya_neo_2:
+@@ -757,6 +765,7 @@ static int oxp_pwm_fan_speed(long *val)
+ 	case oxp_mini_amd:
+ 	case oxp_mini_amd_a07:
+ 	case oxp_mini_amd_pro:
++	case oxp_g1_a:
+ 		return read_from_ec(OXP_SENSOR_FAN_REG, 2, val);
+ 	default:
+ 		return -EOPNOTSUPP;
+@@ -776,7 +785,7 @@ static int oxp_pwm_input_write(long val)
+ 		return write_to_ec(ORANGEPI_SENSOR_PWM_REG, val);
+ 	case oxp_2:
+ 	case oxp_x1:
+-	case oxp_g1:
++	case oxp_g1_i:
+ 		/* scale to range [0-184] */
+ 		val = (val * 184) / 255;
+ 		return write_to_ec(OXP_SENSOR_PWM_REG, val);
+@@ -796,6 +805,7 @@ static int oxp_pwm_input_write(long val)
+ 	case aok_zoe_a1:
+ 	case oxp_fly:
+ 	case oxp_mini_amd_pro:
++	case oxp_g1_a:
+ 		return write_to_ec(OXP_SENSOR_PWM_REG, val);
+ 	default:
+ 		return -EOPNOTSUPP;
+@@ -816,7 +826,7 @@ static int oxp_pwm_input_read(long *val)
+ 		break;
+ 	case oxp_2:
+ 	case oxp_x1:
+-	case oxp_g1:
++	case oxp_g1_i:
+ 		ret = read_from_ec(OXP_SENSOR_PWM_REG, 1, val);
+ 		if (ret)
+ 			return ret;
+@@ -842,6 +852,7 @@ static int oxp_pwm_input_read(long *val)
+ 	case aok_zoe_a1:
+ 	case oxp_fly:
+ 	case oxp_mini_amd_pro:
++	case oxp_g1_a:
+ 	default:
+ 		ret = read_from_ec(OXP_SENSOR_PWM_REG, 1, val);
+ 		if (ret)
 -- 
-Sincerely yours,
-Mike.
+2.50.1
+
+
 
