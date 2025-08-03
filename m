@@ -1,194 +1,227 @@
-Return-Path: <platform-driver-x86+bounces-13582-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-13584-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B533AB19469
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  3 Aug 2025 17:57:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3C00B19568
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  3 Aug 2025 23:03:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2BCF91894B16
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  3 Aug 2025 15:57:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 760AE1893243
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  3 Aug 2025 21:03:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48D261A0BD6;
-	Sun,  3 Aug 2025 15:57:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30E591FDE09;
+	Sun,  3 Aug 2025 21:02:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="kERBThAX"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="ao3fKCgA"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from relay10.grserver.gr (relay10.grserver.gr [37.27.248.198])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21CE8F9D6;
-	Sun,  3 Aug 2025 15:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.27.248.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B8C1EDA2B;
+	Sun,  3 Aug 2025 21:02:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754236653; cv=none; b=HsfmIuVjozleTd/K5MS2eAaF9w0rZJe3lGi6Mfi4tkhJ7Qhbpn/0H9WtN1IWK+2RsT+b2mO2EXaCMBmjODkL6HeImfzmGqnmlMYU1rRo0U4+thE1li0qUKMNwAX5TRPX+L+Dz4U3ci17m63W+HcbvIwgCLWvcJAiirti8BPzcuc=
+	t=1754254976; cv=none; b=MSni08Fb/Z1QW/+t+CoblU6izuwqSMySO5xIJBYADFZwab9/s7OgvW5jwNu54Cew6p51Nfe8oV2SLkaML6OW7sNLKfgSrmqm5GhDEmgK8KWmbQLy5yLplgBT8AnQY77ufyZyZFsE8Oqi54jhHqdqCeZ8shq573znNVT2GMUP1LY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754236653; c=relaxed/simple;
-	bh=al7T1FWjMjwKmTbPUskG64KwUlk36RRLLfe/QwnpdSo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kSNGVX5yiW++sqrRSUD+YZbajFvdXIMZJC7zTvDr8oQU8rJA9MllDTQeklhrGUfeP2yGJmK9PXo5V7vcV+x7+5XSUbqjy9quOLcUPlG4y7oqIS3krdHHH9j6gnc6L7syeD4eaCbujvwk1JOyZ4k6ILFDaB1qngKtgciFZpv8vCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=kERBThAX; arc=none smtp.client-ip=37.27.248.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from relay10 (localhost.localdomain [127.0.0.1])
-	by relay10.grserver.gr (Proxmox) with ESMTP id 9EA834723C;
-	Sun,  3 Aug 2025 18:57:19 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay10.grserver.gr (Proxmox) with ESMTPS id C5FE74723D;
-	Sun,  3 Aug 2025 18:57:18 +0300 (EEST)
-Received: from antheas-z13 (unknown [IPv6:2a02:2149:8bf7:1200:9e45:7272:4009:7cbe])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 778F1206241;
-	Sun,  3 Aug 2025 18:57:17 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1754236638;
-	bh=41QSebEo3/mIImT1U26grahV4bUi6o+jP+UydpIaAE8=; h=From:To:Subject;
-	b=kERBThAXTZBG63Gd7sKBQKxgB9OguQoIofCNtgbaQf8Ey3oK+7gR6QliSOIP7IZtb
-	 x+CC61CZ+vbQOhBHRgKwaZkx7EZWJeb0GCB5G0kQ8gxtqq/sbisfaytpivli68vd5X
-	 0APiPz8EALoiccVf/dMLnhcAM+DCdQcGTM+aW6WMDF1JwifflwHcmcKdbp+uZekyE/
-	 ZZvXhYR9sPs2YEZpIkL1Xhb/iEuXYrid9xfFE6xYehOQoBdP44v6/GAAfooVe8s5DE
-	 aOF0sT9/kg2Zh/WTZ/zPl8mMI8X7JEttJe8dL36ltdCQc596Ze0/o0PtsoaF2Urv3Y
-	 P2wJ51H9/ZQng==
-Authentication-Results: linux3247.grserver.gr;
-	spf=pass (sender IP is 2a02:2149:8bf7:1200:9e45:7272:4009:7cbe) smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-From: Antheas Kapenekakis <lkml@antheas.dev>
-To: platform-driver-x86@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Corentin Chary <corentin.chary@gmail.com>,
-	"Luke D . Jones" <luke@ljones.dev>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v1] platform/x86: asus-wmi: Fix ROG button mapping,
- tablet mode on ASUS ROG Z13
-Date: Sun,  3 Aug 2025 17:57:13 +0200
-Message-ID: <20250803155713.9301-1-lkml@antheas.dev>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1754254976; c=relaxed/simple;
+	bh=kWNagj9m1fzCCcXXm2QVXQ130x7VIZJJ17eCzntRPMs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lTK0Dr1/WKmm3UXLVdjng0WWzXFq9Fb0Pez37j3aY7YawebiC8pXy79/Zio0k+8ecyfTMQPwp+xd98UlQnZYgFHFanhjDZeShYsQ8wY0ECd9x+ezUdi31RSDa2lSKn1yZgV2x18hOyvE8yKeDTPM7xwmwzL+kwVVIGJaB5KbOGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=ao3fKCgA; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1754254952; x=1754859752; i=w_armin@gmx.de;
+	bh=NHqfw4M5v9apnOizGK5arF+TB9/gXYF6CnCKXiUJ2VI=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=ao3fKCgAxzgKVXwuMd4NHcFdLEpGl2OzFCbFXsFkxMTqaeaSEOc7qFurZBuU6sOS
+	 qFzozvPoyV1JUSNB1X81eVIlw0uJl/RUqawDSDvGMD8iNiJegOwe6h/5a4B6aYu49
+	 JZb5/kudSKs6GnuOn2vr0CoVxCM4ltN59mVHh+oJNuz9UxL3bo3yAvsLDheYy+REb
+	 GD6YXWbN4KHlCXvrsqLkaZDybZe3a6xh5F0Jt3F0IQl/DH0zntgER6o5GeWE7qemS
+	 JszfkVOC+gVP2F8GB0ewbZfPGB1nIyB6ZtO5fFG9kcbDaQinU1dpz3dRYsXthXPlQ
+	 xBK2+zUKY2VSH37/Mg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from mx-amd-b650.fritz.box ([87.177.78.219]) by mail.gmx.net
+ (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
+ 1M5wLT-1uk3Z62jYx-001shw; Sun, 03 Aug 2025 23:02:31 +0200
+From: Armin Wolf <W_Armin@gmx.de>
+To: ilpo.jarvinen@linux.intel.com,
+	hdegoede@redhat.com,
+	chumuzero@gmail.com,
+	corbet@lwn.net,
+	cs@tuxedo.de,
+	wse@tuxedocomputers.com,
+	ggo@tuxedocomputers.com
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	rdunlap@infradead.org,
+	alok.a.tiwari@oracle.com,
+	linux-leds@vger.kernel.org,
+	lee@kernel.org,
+	pobrn@protonmail.com
+Subject: [PATCH v2 0/3] Add support for Uniwill laptop features
+Date: Sun,  3 Aug 2025 23:01:54 +0200
+Message-Id: <20250803210157.8185-1-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <175423663835.1954383.1974489386598058323@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.0.9 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:lE0n0FJRumwLUXn/Dk/4y1BASAFKt0FNTQ1qPrhMZ1bspTT7ja2
+ u2oXKlJORfJpBryVWtqlrbD8y2vyGba0UkChJcN0i9oGqYM097jCqy8/up4q03po26JcbxM
+ B4RPkarEb1oMeLzu8shcGytS5/BFcIAyQ0oy1aiaqfCO9bGLfWd3YQznjgVzUCc5xpiTCXi
+ J2ChWjTw/AJ1DGd6E348g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:zLVw7o/9iY0=;GZJ1IFvS4GExKl+CX4yccmXpXWJ
+ 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
+ FyqrObyQbyQ==
 
-On commit 9286dfd5735b ("platform/x86: asus-wmi: Fix spurious rfkill on
-UX8406MA"), Mathieu adds a quirk for the Zenbook Duo to ignore the code
-0x5f (WLAN button disable). On that laptop, this code is triggered when
-the device keyboard is attached.
+This patch series adds support for the various features found on
+laptops manufactured by Uniwill. Those features are:
 
-On the ASUS ROG Z13 2025, this code is triggered when pressing the side
-button of the device, which is used to open Armoury Crate in Windows.
+ - battery charge limiting
+ - RGB lightbar control
+ - hwmon support
+ - improved hotkey support
+ - keyboard-related settings
 
-As this is becoming a pattern, where newer Asus laptops use this keycode
-for emitting events, let's convert the wlan ignore quirk to instead
-allow emitting codes, so that userspace programs can listen to it and
-so that it does not interfere with the rfkill state.
+This patch series is based on the following out-of-tree drivers:
 
-With this patch, the Z13 wil emit KEY_PROG3 and the Duo will remain
-unchanged and emit no event. This patch also removes the override for
-codes 0x5d and 0x5e, as those were added for completeness in the
-previous patch.
+ - https://github.com/pobrn/qc71_laptop
+ - https://gitlab.com/tuxedocomputers/development/packages/tuxedo-drivers
 
-While at it, add a quirk for the Z13 to switch into tablet mode when
-removing the keyboard.
+Additionally the OEM software of the Intel Nuc x15 was
+reverse-engineered to have a better understanding about the underlying
+hardware interface.
 
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
----
- drivers/platform/x86/asus-nb-wmi.c | 25 +++++++++++++++++++------
- drivers/platform/x86/asus-wmi.h    |  3 ++-
- 2 files changed, 21 insertions(+), 7 deletions(-)
+The first patch introduces the uniwill-wmi driver used for handling
+WMI events on Uniwill devices. Due to a grave design error inside the
+underlying WMI firmware interface (the WMI GUID was copied from the
+Windows driver samples and is thus not unique) the driver cannot be
+autoloaded. Instead drivers using this module will load it as an
+module dependency.
 
-diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
-index f84c3d03c1de..6928bb6ae0f3 100644
---- a/drivers/platform/x86/asus-nb-wmi.c
-+++ b/drivers/platform/x86/asus-nb-wmi.c
-@@ -147,7 +147,12 @@ static struct quirk_entry quirk_asus_ignore_fan = {
- };
- 
- static struct quirk_entry quirk_asus_zenbook_duo_kbd = {
--	.ignore_key_wlan = true,
-+	.key_wlan_event = ASUS_WMI_KEY_IGNORE,
-+};
-+
-+static struct quirk_entry quirk_asus_z13 = {
-+	.key_wlan_event = ASUS_WMI_KEY_ARMOURY,
-+	.tablet_switch_mode = asus_wmi_kbd_dock_devid,
- };
- 
- static int dmi_matched(const struct dmi_system_id *dmi)
-@@ -539,6 +544,15 @@ static const struct dmi_system_id asus_quirks[] = {
- 		},
- 		.driver_data = &quirk_asus_zenbook_duo_kbd,
- 	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUS ROG Z13",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "ROG Flow Z13"),
-+		},
-+		.driver_data = &quirk_asus_z13,
-+	},
- 	{},
- };
- 
-@@ -636,6 +650,7 @@ static const struct key_entry asus_nb_wmi_keymap[] = {
- 	{ KE_IGNORE, 0xCF, },	/* AC mode */
- 	{ KE_KEY, 0xFA, { KEY_PROG2 } },           /* Lid flip action */
- 	{ KE_KEY, 0xBD, { KEY_PROG2 } },           /* Lid flip action on ROG xflow laptops */
-+	{ KE_KEY, ASUS_WMI_KEY_ARMOURY, { KEY_PROG3 } },
- 	{ KE_END, 0},
- };
- 
-@@ -655,11 +670,9 @@ static void asus_nb_wmi_key_filter(struct asus_wmi_driver *asus_wmi, int *code,
- 		if (atkbd_reports_vol_keys)
- 			*code = ASUS_WMI_KEY_IGNORE;
- 		break;
--	case 0x5D: /* Wireless console Toggle */
--	case 0x5E: /* Wireless console Enable */
--	case 0x5F: /* Wireless console Disable */
--		if (quirks->ignore_key_wlan)
--			*code = ASUS_WMI_KEY_IGNORE;
-+	case 0x5F: /* Wireless console Disable / Special Key */
-+		if (quirks->key_wlan_event)
-+			*code = quirks->key_wlan_event;
- 		break;
- 	}
- }
-diff --git a/drivers/platform/x86/asus-wmi.h b/drivers/platform/x86/asus-wmi.h
-index 018dfde4025e..5cd4392b964e 100644
---- a/drivers/platform/x86/asus-wmi.h
-+++ b/drivers/platform/x86/asus-wmi.h
-@@ -18,6 +18,7 @@
- #include <linux/i8042.h>
- 
- #define ASUS_WMI_KEY_IGNORE (-1)
-+#define ASUS_WMI_KEY_ARMOURY	0xffff01
- #define ASUS_WMI_BRN_DOWN	0x2e
- #define ASUS_WMI_BRN_UP		0x2f
- 
-@@ -40,7 +41,7 @@ struct quirk_entry {
- 	bool wmi_force_als_set;
- 	bool wmi_ignore_fan;
- 	bool filter_i8042_e1_extended_codes;
--	bool ignore_key_wlan;
-+	int key_wlan_event;
- 	enum asus_wmi_tablet_switch_mode tablet_switch_mode;
- 	int wapf;
- 	/*
+The second patch introduces the uniwill-laptop driver that does the
+majority of the work. This driver talks to the embedded controller
+using yet another WMI interface to control the various features
+available on those devices. Sadly this WMI firmware interfaces suffers
+from the exact same issue (the WMI GUID is not unique) and thus a DMI
+whitelist has to be used for loading the driver.
 
-base-commit: 186f3edfdd41f2ae87fc40a9ccba52a3bf930994
--- 
-2.50.1
+The last patch finally adds some documentation for configuring and
+using both drivers.
 
+Special thanks go to:
+
+ - github user cyear for bring up this topic on the lm-sensors issue
+   tracker and being the tester for various prototype versions
+ - github user dumingqiao for testing the battery, lightbar and
+   keyboard-related features
+ - Tuxedo computers for giving advice on how to design the userspace
+   interface
+
+NOTE: During testing it turned out that the touchpad_toggle sysfs
+attribute does not work. The reason for this is unknown, as the driver
+emulates the behaviour of the OEM application just fine. I suspect
+that this feature only controls some obscure key combination we dont
+know about, so i decided to send out this series regardless.
+
+Changes since v1:
+- spelling fixes
+- add missing error handling when reading PWM duty cycle
+- fix error when setting the super key lock sysfs attribute
+
+Changes since the RFC series:
+- spelling fixes
+- mention the INOU0000 ACPI device inside thew documentation
+- use MILLIDEGREE_PER_DEGREE instead of 1000
+- use power_supply_get_property_direct() to prevent deadlock
+- add support for KEY_KBDILLUMDOWN and KEY_KBDILLUMUP
+
+Armin Wolf (3):
+  platform/x86: Add Uniwill WMI driver
+  platform/x86: Add Uniwill laptop driver
+  Documentation: laptops: Add documentation for uniwill laptops
+
+ .../ABI/testing/sysfs-driver-uniwill-laptop   |   53 +
+ Documentation/admin-guide/laptops/index.rst   |    1 +
+ .../admin-guide/laptops/uniwill-laptop.rst    |   68 +
+ Documentation/wmi/devices/uniwill-laptop.rst  |  118 ++
+ Documentation/wmi/devices/uniwill-wmi.rst     |   52 +
+ MAINTAINERS                                   |   17 +
+ drivers/platform/x86/Kconfig                  |    2 +
+ drivers/platform/x86/Makefile                 |    3 +
+ drivers/platform/x86/uniwill/Kconfig          |   49 +
+ drivers/platform/x86/uniwill/Makefile         |    8 +
+ drivers/platform/x86/uniwill/uniwill-laptop.c | 1484 +++++++++++++++++
+ drivers/platform/x86/uniwill/uniwill-wmi.c    |  186 +++
+ drivers/platform/x86/uniwill/uniwill-wmi.h    |  122 ++
+ 13 files changed, 2163 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-uniwill-laptop
+ create mode 100644 Documentation/admin-guide/laptops/uniwill-laptop.rst
+ create mode 100644 Documentation/wmi/devices/uniwill-laptop.rst
+ create mode 100644 Documentation/wmi/devices/uniwill-wmi.rst
+ create mode 100644 drivers/platform/x86/uniwill/Kconfig
+ create mode 100644 drivers/platform/x86/uniwill/Makefile
+ create mode 100644 drivers/platform/x86/uniwill/uniwill-laptop.c
+ create mode 100644 drivers/platform/x86/uniwill/uniwill-wmi.c
+ create mode 100644 drivers/platform/x86/uniwill/uniwill-wmi.h
+
+=2D-=20
+2.39.5
 
 
