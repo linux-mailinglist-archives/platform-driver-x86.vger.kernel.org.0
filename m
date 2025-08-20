@@ -1,86 +1,75 @@
-Return-Path: <platform-driver-x86+bounces-13788-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-13792-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2FF1B2E1D8
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Aug 2025 18:07:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3BAB2E231
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Aug 2025 18:21:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 424631C4811F
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Aug 2025 16:02:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FD6E3A5A14
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Aug 2025 16:14:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7C0932A3C7;
-	Wed, 20 Aug 2025 15:59:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BE61322A2A;
+	Wed, 20 Aug 2025 16:14:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bGAhjt2Q"
+	dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="aCaOBlup"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay10.grserver.gr (relay10.grserver.gr [37.27.248.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D78C33439F
-	for <platform-driver-x86@vger.kernel.org>; Wed, 20 Aug 2025 15:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BF72E2EFD;
+	Wed, 20 Aug 2025 16:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.27.248.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755705599; cv=none; b=nIfncOl3agsl3ZtFNzFys6rq9w+uGJd76TrOgrv1QRd+ujcGKvg5m0bYAy9OQVONa0DLzhWusCFT5pKmpQJx0GhtEmbRiqFzwZ6HzIwJzQKZKgLotcUMM4kvB2+Xaw5SRw1EUPmmekQqfxzOdGkjSXQunsWpAHpI9/kImnLp1lY=
+	t=1755706463; cv=none; b=eJhxp/s8msnTXSTxZ62ey6rzE7jOOFjl5sGN0LYQpvcXnSjimJiCe3DYQ1QSnuTpnuqJa24bp8+IO6COSrMmjUcFSfE/LpgSkwZUXCbzvrIb7d12a8tYV4MOH8gOKQNCC1jeDiRemRrUYRzZmcrJidkmrFY2e8t/Ygfbq6bKsc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755705599; c=relaxed/simple;
-	bh=nIypl1ykODERwxC+sJ9vhNg0TKnMww6pPFYnDB3p4Lk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ITOm68GXVGFuqMwIICc+7JsrWsgyAlz3JA/nhcb16+InZVobzkI+BNtvPPlQHjxKAOLfjwsyCF55GiG++ssRWPAFCEwVdKQUyuceGltqUfkldJyWfxFwTJTn2+YIehPjTUG+Rp11im11f4eVn5jb0qzPrS1U3RBG4Jl4+yiIOtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bGAhjt2Q; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-afcb732eee6so6239866b.0
-        for <platform-driver-x86@vger.kernel.org>; Wed, 20 Aug 2025 08:59:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755705596; x=1756310396; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=O/kD6SDXu00rWD2E4zF7s0LVKDHyHggVTHrfvP7QIfM=;
-        b=bGAhjt2Qjpb7FHXo4Vt0NgYHD4kKDzU6oY09fEMGrhwx9/52e/LoGChYM+Hr2RsBMH
-         gXRlvnjqcg2HC/r4T6Ws/edPvfwRkZPu72zWZ+Y4WfkTlHcv7b/HWF4aNFlK7LzBUO/D
-         zYEQ9lWk13RHHKwM3YFoeuGAnunIJl+LX/rkA6EefYKdqR4pLnTBArfsRBgQncbPrP9A
-         ebDicRnxJ8JaeDxoNrpK8qEn2xOlGnALKa0e18eGwUkx/BA91ofelLmszuLImVyj2Qze
-         /794LWhBJzmQ9m9xtKB67wOTTfVOemDfDVn+3yJWjIFoOUz8K/pzKGojmHd7v7vQUis/
-         mVEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755705596; x=1756310396;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=O/kD6SDXu00rWD2E4zF7s0LVKDHyHggVTHrfvP7QIfM=;
-        b=P/lrmwcdtLOCcnQkX+h5EmxkX1TBvSa6L/JB3pdzMxXKNddMLPe3dCTnp1syDZ5xnI
-         I4NczUrHe5oO9cdWWEnXF0lEsgWClPPxTFjwOeuEdoSa5nxSUVMTIMv7uwuZ7fKQ5QZq
-         dQNYi48B/VDPBQ7tJw25zNQl2ninb+vNTpvNcfdftOTywqPzAOW+qfKf7B9F34wgtd8t
-         jeNttwNTjjgc0btbKeAHjn/RO5yWfwaFhn+I5gxI2zX9fVZdQ535vDbERBQq6zdw6Hg2
-         Fq8lQGW5FeIePT74v2I1BakvYZLgYw9nZqi1q36FVewY6aU4xaG6trWoAe+usT1Ytwr1
-         7IbQ==
-X-Gm-Message-State: AOJu0YyGfs8/PXWNwNeJfn9qjyDxpNiWinv6ZPnZLulO+NNF9CBrIDPB
-	OIge/BuJWzN1NoWAoFqsR4OB7z6l7F3Um0bZIO5nQBysDDR6Lk2hoxLu
-X-Gm-Gg: ASbGncsYGDxUG23fIEamH01jLgtueWF78kO8hC0TjExAW7I973tjA7b002qaOXhcM/E
-	z53pmXNpnzdCbhw2WcTYxQnrF0DD6oiwukxaxVa8tsCVssrWqIhtj7Q+JvNKgeh6a6/lSv8YWy4
-	3f5QbuS8gstD7DsFvKWFd95s/hTrRhPhiPnppeQsdpWCageriN20Jds47wNHLQ4KtP/iEiroNHu
-	FGRHbu6UpbPwd4scANmRMeR/PUSDh5SoQ5dVQbC3gAhtFwCBB28NzFGpk1eW6hyfgt/GUDTdZ3M
-	IbQRLwzUGO/uHnNlY8Uu42trGjoGH04eKZa6fbhEtX9hOSyXEOKKvL8SwoPESVW8+fQgpDe4Eiz
-	s8lLtW2k3lxLNRnWQs2DdCjGZ0yIp
-X-Google-Smtp-Source: AGHT+IH9aBKzJZPrEV7YyFfECG8WNpeoRRWd+CwdR5R3M8ebRmWchAAgVtuOQEsWT5L/zd16l3z4uA==
-X-Received: by 2002:a17:907:6d04:b0:afc:d209:37f2 with SMTP id a640c23a62f3a-afdf0284ebdmr270162966b.61.1755705596334;
-        Wed, 20 Aug 2025 08:59:56 -0700 (PDT)
-Received: from vagrant.. ([31.223.98.68])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afded2ba596sm200912566b.8.2025.08.20.08.59.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Aug 2025 08:59:56 -0700 (PDT)
-From: Alperen Aksu <aksulperen@gmail.com>
-To: mpearson-lenovo@squebb.ca,
-	derekjohn.clark@gmail.com
-Cc: platform-driver-x86@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Alperen Aksu <aksulperen@gmail.com>
-Subject: [PATCH] Documentation/wmi: Fix Typo Error in doc
-Date: Wed, 20 Aug 2025 15:58:35 +0000
-Message-ID: <20250820155904.32685-2-aksulperen@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1755706463; c=relaxed/simple;
+	bh=BzaaEsxp8WY9Eto7aPGpxWexAvFXXQBnxEq6xmtCF1E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EyGdWY5J2KQW+aAq2eUQMxV+Gy/3fez2WEgTXepZo1e20xtDEgXdlcnev+QVlv1DgTyyTKrsfMMVlblF+1A23RPAHz+cfdOZEzNUdyjYFSWybk1k4LX8tvRt3tX8u7+wkvYz/Bzod38YBNqFXwtDCIA6K33RgOlJPc538VXfaws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=aCaOBlup; arc=none smtp.client-ip=37.27.248.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+Received: from relay10 (localhost.localdomain [127.0.0.1])
+	by relay10.grserver.gr (Proxmox) with ESMTP id 60AB7467CE;
+	Wed, 20 Aug 2025 19:06:32 +0300 (EEST)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by relay10.grserver.gr (Proxmox) with ESMTPS id 3BCD24236A;
+	Wed, 20 Aug 2025 19:06:31 +0300 (EEST)
+Received: from antheas-z13 (unknown [IPv6:2a05:f6c2:511b:0:7200:c86a:8976:4786])
+	by linux3247.grserver.gr (Postfix) with ESMTPSA id 36E611FD027;
+	Wed, 20 Aug 2025 19:06:30 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1755705990;
+	bh=V/Od0YgsrpVzXJiNhkgyby7t3VUAyw5+QgSPq01ipMU=; h=From:To:Subject;
+	b=aCaOBlup3IBED20rI+YnZ0r69nJn/OBS/babfY2fZK6qkS3I0ojTnqaSG5H1MzySG
+	 YeTMyKFpu/fgilyvrpBs0QM1n+hPv1VFClbUNBAP1eIfWUhExik9Rx0kjSSjQzj1vo
+	 M+yI+7l2gnM3xloQuF5h4eA99AGOBgZfgZXG7xaO+ohqZEckBRDARo5pDwPPscYOmQ
+	 OCXSkRBVA7PaD8LOwkm64JrZ0OisHSpaOHfFk+oTn7nh0lPmi/z4whRrZF1Idv6FYS
+	 oqE4Od6LFMgfw2wEM/z53Xnvnz9ngheZjJDcywymGhheF1RCht/BrrgBh/+GRlfvoS
+	 7vTlTc03+1dnQ==
+Authentication-Results: linux3247.grserver.gr;
+	spf=pass (sender IP is 2a05:f6c2:511b:0:7200:c86a:8976:4786) smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+From: Antheas Kapenekakis <lkml@antheas.dev>
+To: platform-driver-x86@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	Hans de Goede <hansg@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Derek John Clark <derekjohn.clark@gmail.com>,
+	=?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= <samsagax@gmail.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Antheas Kapenekakis <lkml@antheas.dev>
+Subject: [PATCH v1 0/5] platform/x86: ayaneo-ec: Add Ayaneo Embedded
+ Controller platform driver
+Date: Wed, 20 Aug 2025 18:06:23 +0200
+Message-ID: <20250820160628.99678-1-lkml@antheas.dev>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -88,28 +77,49 @@ List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: 
+ <175570599073.2162602.3378467634628196693@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
+X-Virus-Status: Clean
 
-Fix to correct spelling of "Hardware"
+This series introduces a platform driver for Ayaneo devices, ayaneo-ec.
+This driver provides hwmon support, power management, and module management
+(for the new Ayaneo 3 device). Module management is done through the new
+firmware attributes sysfs interface.
 
-Signed-off-by: Alperen Aksu <aksulperen@gmail.com>
----
- Documentation/wmi/devices/lenovo-wmi-gamezone.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Luckily, all Ayaneo devices with an ACPI mapped EC use the same registers.
+Older devices also use a memory mapped region for RGB[1], but that is
+replaced by HID in the new Ayaneo 3. Therefore, this allows for a simple
+driver design that provides robust future support. The memory mapped region
+can be upstreamed as a different RGB driver in the future or remain
+out-of-tree[1].
 
-diff --git a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
-index 997263e51a7d..24b027362e93 100644
---- a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
-+++ b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
-@@ -126,7 +126,7 @@ data using the `bmfdec <https://github.com/pali/bmfdec>`_ utility:
-     [WmiMethodId(65), Implemented, Description("Set IGPU Mode")] void SetIGPUModeStatus([in, Description("IGPU Mode")] UINT32 mode, [out, Description("return code")] UINT32 Data);
-     [WmiMethodId(66), Implemented, Description("Notify DGPU Status")] void NotifyDGPUStatus([in, Description("DGPU status")] UINT32 status, [out, Description("return code")] UINT32 Data);
-     [WmiMethodId(67), Implemented, Description("Is changed Y log")] void IsChangedYLog([out, Description("Is changed Y Log")] UINT32 Data);
--    [WmiMethodId(68), Implemented, Description("Get DGPU Hardwawre ID")] void GetDGPUHWId([out, Description("Get DGPU Hardware ID")] string Data);
-+    [WmiMethodId(68), Implemented, Description("Get DGPU Hardware ID")] void GetDGPUHWId([out, Description("Get DGPU Hardware ID")] string Data);
-   };
- 
-   [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), Description("Definition of CPU OC parameter list"), guid("{B7F3CA0A-ACDC-42D2-9217-77C6C628FBD2}")]
+This change also allows cleaning up the oxpec driver, by removing Ayaneo
+devices from it. In parallel, charge limiting is added for these devices.
+
+[1] https://github.com/ShadowBlip/ayaneo-platform
+
+Antheas Kapenekakis (5):
+  platform/x86: ayaneo-ec: Add Ayaneo Embedded Controller platform
+    driver
+  platform/x86: ayaneo-ec: Add hwmon support
+  platform/x86: ayaneo-ec: Add charge control support
+  platform/x86: ayaneo-ec: Add controller power and modules attributes
+  platform/x86: ayaneo-ec: Move Ayaneo devices from oxpec to ayaneo-ec
+
+ MAINTAINERS                      |   6 +
+ drivers/platform/x86/Kconfig     |  17 +-
+ drivers/platform/x86/Makefile    |   3 +
+ drivers/platform/x86/ayaneo-ec.c | 631 +++++++++++++++++++++++++++++++
+ drivers/platform/x86/oxpec.c     | 115 +-----
+ 5 files changed, 655 insertions(+), 117 deletions(-)
+ create mode 100644 drivers/platform/x86/ayaneo-ec.c
+
+
+base-commit: c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
 -- 
-2.43.0
+2.50.1
+
 
 
