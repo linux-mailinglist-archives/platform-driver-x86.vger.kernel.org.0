@@ -1,60 +1,60 @@
-Return-Path: <platform-driver-x86+bounces-13782-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-13784-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F92B2DBB5
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Aug 2025 13:51:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D588DB2DBB7
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Aug 2025 13:52:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 082FF7B7943
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Aug 2025 11:50:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B7C0687430
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Aug 2025 11:51:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FFC12E54D0;
-	Wed, 20 Aug 2025 11:51:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82DED2E7621;
+	Wed, 20 Aug 2025 11:51:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="arzM0Anq"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="MtTQkhk7"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2069.outbound.protection.outlook.com [40.107.236.69])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2059.outbound.protection.outlook.com [40.107.236.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C53662E36E6
-	for <platform-driver-x86@vger.kernel.org>; Wed, 20 Aug 2025 11:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F882E36E6
+	for <platform-driver-x86@vger.kernel.org>; Wed, 20 Aug 2025 11:51:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.59
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755690693; cv=fail; b=b/hyJJGxqHS2vPjnxNfv0ujo5/TAu4iDWK5b7WfVH0qmulbAbaivX5a5UX/p7dLtVMUormzCGzK0qjJ/j/LbHw/spv1IQavTK5vW6c6basQRMbTAydR1JlTH9bCdf5VnmOLVupMJw6CFVPgfpwpMOf5PQw5lhrQXwJnK0zDFCHE=
+	t=1755690699; cv=fail; b=hwCnTj88SWBRx1FpicrwNE1FksDa0oHuQXCh5VmW6L7t+RfC0ruw/UK8nrqN2w8Twa7KhowxaK59eGFXZfLZy+M903l9ddgJrczDVc8ANhMWSv0fC6abDjm2DTRzkDLqV3jxVSNVmnb1yVYvr4fiZWKdzIDAzH7BLBBbIapifRc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755690693; c=relaxed/simple;
-	bh=qZCpLlIhj5PgceGxrJfRAlMzWm+BlzvV5koPArgYHDU=;
+	s=arc-20240116; t=1755690699; c=relaxed/simple;
+	bh=mV3Mq0kY/326gainAu6peAHCEPEb5jLK6qyNXAK0L2M=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UytzTrL6ijVtxnd3HVTc0fZW+yip6cVZ8riUcDfcpZFzE+6fAJhlVE1BAlboCZmR7EWt5cozMHgiWrNpUBTle7sSbVGvj153toErr4OUlhg+186OebmN23YGsDHiP5Z0QkkpGuPbQzawt1vwvzi1mPSlbjpPyJsZSSptxmkp84k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=arzM0Anq; arc=fail smtp.client-ip=40.107.236.69
+	 MIME-Version:Content-Type; b=kud+RckSzOSvd0+yjT1wwVN5Rs1OAHI1mjy70vUZ+e2/s3NQbgWxAX83vFTuMPnaqifzawf9VCPnokBA4xZPsCDXGhwBQrql6G4nPYx9RhnOmQhKXgnOuLKAEdiQUeSLEhxQMsJ3DjpjcUZ9dL9Y6Dd9tvFWcOg9M7gX/0Lz8YI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=MtTQkhk7; arc=fail smtp.client-ip=40.107.236.59
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NiktK0QmvCW/t21VHZ+1K/mMGtTgCneC6R6JIszTOs2GCDEWtb1Xg7AJJwmzCv9+315Y8+yX+FhfwvIZ5Pb/x2U75SkHJBbAFFCh0/ZF08/Gi89QINw6UgGJMyHWE6XiLKyPMjJmiT+Vx6qUdkZBAVBfrKZ4gPtBDcfzwrhvxAxh22OB5snZV2mjrIuUztZtZn9Qo/dmEdsufJSgFEPL0TLLUfSu3IjibzZENLDL+toQvS+o61LOQ/rbRT4M1IkOHM2fUBaxBAz9q6n3Cp2DwCW8Pi6G/Mi8k31f35GVhUc5XU+qrJJc71zgPvkDLXPJD8omuZqRcRfMar4D+88qrQ==
+ b=SRpTDJL8NvfkCDG/VGNA+nZv0jHFqEbxVN3iY9OKJkjheIUxDhkjeeXSw8RQ0rb6JaXYbE6E5Mcnv75BaLIX7e9SQQxI82q1rgCZ3At2m8pkHIPrtWk2u1X+21HR2ik7+Cr5Q1V64jA+eV6BW+W5kNq0vnYKp6t40h3rM0ZBAMMjBtIVPlGZUTLW9aosOvbOUR9z5ebCjQhLlX5thuWYn6WGtvyb1meg4QjsJwGdd2z1mA0eXzh8oKLV1C9s0ZD22voUBq4rDCqU6AVxeMz2xV3a6i9uIZgk/1qns2GZ+97x8Ok89TLID++MddbV7RbMfICub7SjZRngIs3KX2hb6g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wJkolEU2d3kPxMModlF6Qi75WstSKTSi6Pc0WNoQ3XY=;
- b=gu232ySqGIAu2ddQH3nLxusM/9IEs829QjULCP5srP0lCTlQnQgqqvYkXO3ndjM0D73A4ujiB1QrkxqatvrcWJkorIKAti0jfG/D5cp4n8iuphJ4Ur435x3NHQkpy/ljogbeO12JTHFb3crBHRMZ0odfr22HIvPJlsinkHAgeru+wzVOedkqICCtw8Y2RPQYAOxzAWbFVcAM0IKBqUESbpKrSeC47IasTAWD65l2M1vegqRyjY4o+HCW6Y72jVZrG2l87biByhgKCkqub+d086adraCMIyCUBa/rRiryMITFCYKcjcj0/gSV1TyXB4LOn2xYwuoGCUymD0Cfgb4V6g==
+ bh=0KOf4MzbeVFL2Nb5xjr+ZVX4dWdcwEnFzT8Jyt050wI=;
+ b=kphPY7n8fsgbV5wTSdu5k2q2yt3iYPbefV2FRg+VwrpkTf0HuQvQhXfSiAHcN2A/S2h+VPbsLVkZmvZEKgfUyYEG379c9Jm2fOX5rylyYzWC55cM6TSaXtijohYm37YcKjHM/VFNem7fjkoWfKiaC9orChGIZFf0PruPAEgiOLGGuf6ahhHgbjK0e/bbVlWGv5lWd+e0qoEbmcjDrM7UcxlcLIPueOVp/Oy8/XpW4g1Gy0S+0e+G426P0OEpiZcFA++GW9myPzHzfZVigR82V+cxEA8RkXBcuDG08nhXuV4uBUojeQrkTb6C9aSJCueJJurIhR2FpEtsdHfd7MosDQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wJkolEU2d3kPxMModlF6Qi75WstSKTSi6Pc0WNoQ3XY=;
- b=arzM0Anq2+lo8s2ZYm6bvbCO1QowqAfBBrHpTq1HEcaUkBgAdguAB7UBCybJ4Hu8rl5gC9BZka3XAWvHfeYkoA2DBF/VsCNmMCxeTyl8WhS4a2zqj1yacECjyEjBFU8SXzs9LtCKo2wtMmBiPXViSzH4KbExOWWaUkaDU7C7xlE=
-Received: from DM6PR08CA0030.namprd08.prod.outlook.com (2603:10b6:5:80::43) by
- DS0PR12MB9448.namprd12.prod.outlook.com (2603:10b6:8:1bb::8) with Microsoft
+ bh=0KOf4MzbeVFL2Nb5xjr+ZVX4dWdcwEnFzT8Jyt050wI=;
+ b=MtTQkhk7oV/LxDG9lXXn5txta3eVZ8NwaWAKSd8VxCK+MmCznV/wErTNt1s4oNKwcY/K1R/ngQ2uCH6CQNlCylMlz/CoRRFewYaKVKvQtQYQ52Z/nLJSi5gYN8p+1rBiiZA5mpDvWSRu8IWtcQNfN18XpFTsxTPR71SZudpRldY=
+Received: from DM5PR07CA0114.namprd07.prod.outlook.com (2603:10b6:4:ae::43) by
+ DM6PR12MB4217.namprd12.prod.outlook.com (2603:10b6:5:219::24) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9052.14; Wed, 20 Aug 2025 11:51:28 +0000
-Received: from DS3PEPF0000C380.namprd04.prod.outlook.com
- (2603:10b6:5:80:cafe::81) by DM6PR08CA0030.outlook.office365.com
- (2603:10b6:5:80::43) with Microsoft SMTP Server (version=TLS1_3,
+ 15.20.9031.24; Wed, 20 Aug 2025 11:51:31 +0000
+Received: from DS3PEPF0000C37E.namprd04.prod.outlook.com
+ (2603:10b6:4:ae:cafe::d5) by DM5PR07CA0114.outlook.office365.com
+ (2603:10b6:4:ae::43) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.14 via Frontend Transport; Wed,
- 20 Aug 2025 11:51:28 +0000
+ 20 Aug 2025 11:51:31 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -62,21 +62,21 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS3PEPF0000C380.mail.protection.outlook.com (10.167.23.10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9052.8 via Frontend Transport; Wed, 20 Aug 2025 11:51:28 +0000
+ DS3PEPF0000C37E.mail.protection.outlook.com (10.167.23.8) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9052.8 via Frontend Transport; Wed, 20 Aug 2025 11:51:31 +0000
 Received: from airavat.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 20 Aug
- 2025 06:51:24 -0500
+ 2025 06:51:27 -0500
 From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 To: <hdegoede@redhat.com>, <ilpo.jarvinen@linux.intel.com>
 CC: <platform-driver-x86@vger.kernel.org>, <Patil.Reddy@amd.com>,
 	<mario.limonciello@amd.com>, <Yijun.Shen@dell.com>, Shyam Sundar S K
 	<Shyam-sundar.S-k@amd.com>, Yijun Shen <Yijun.Shen@Dell.com>
-Subject: [PATCH v4 5/9] platform/x86/amd/pmf: Add helper to verify BIOS input notifications are enable/disable
-Date: Wed, 20 Aug 2025 17:20:07 +0530
-Message-ID: <20250820115011.1448026-6-Shyam-sundar.S-k@amd.com>
+Subject: [PATCH v4 6/9] platform/x86/amd/pmf: Add custom BIOS input support for AMD_CPU_ID_PS
+Date: Wed, 20 Aug 2025 17:20:08 +0530
+Message-ID: <20250820115011.1448026-7-Shyam-sundar.S-k@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250820115011.1448026-1-Shyam-sundar.S-k@amd.com>
 References: <20250820115011.1448026-1-Shyam-sundar.S-k@amd.com>
@@ -92,138 +92,228 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF0000C380:EE_|DS0PR12MB9448:EE_
-X-MS-Office365-Filtering-Correlation-Id: 336e7873-0458-41f9-1fa3-08dddfdfe5de
+X-MS-TrafficTypeDiagnostic: DS3PEPF0000C37E:EE_|DM6PR12MB4217:EE_
+X-MS-Office365-Filtering-Correlation-Id: a064bea1-bab4-41da-188b-08dddfdfe78b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|376014|1800799024|82310400026;
+	BCL:0;ARA:13230040|36860700013|1800799024|82310400026|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?8ZaTySiiBMOF4thS8BzLuSAvxZiXCgA148BDuDHHZxdxjXhqizVz8GIsSNtI?=
- =?us-ascii?Q?UIL/S04OsxLSV61yERAIyNOJZht/IWw4UA7VDnilUm7k6MShzP4r4MVVaQKz?=
- =?us-ascii?Q?tfOGpuL/4j94bN+RNTcDLExJeienGxGGAMZTPnEo2Loeo+Wl1jm47ubKxKSF?=
- =?us-ascii?Q?V7JfUJyNqn9TP6SIz/XJcrCtKbX/KhkeRmSXt2UeU8W/HTySoPoF8A/OdNrB?=
- =?us-ascii?Q?8um2r0On6QIYJh1i0kTDYT+Wd8Yd03xWO98ug/Ri9yEb8dpGQuzMDupzRBnY?=
- =?us-ascii?Q?zR55/3w0UYwPvcw8v8nBltVXER0YtJlXMRKti9H8xXJpC1QF2ZMQs2zuP56g?=
- =?us-ascii?Q?zWB/MiF0KZT0BvBYLcY+CLf6khUxxriU03JKfdKVCOEnGiQiiMSR63d5o+cL?=
- =?us-ascii?Q?H8vkeddh94zbXtxdrvNZ9z00LmvMIe54SAlvqACZGediG+TEhhV2zL9CZVKX?=
- =?us-ascii?Q?IvO2b3rzDIFdZYlmDb+m8BtFtDDRnIqK7S1mIeC9o0g5BxsuyLS8VuRtuHy5?=
- =?us-ascii?Q?lvmdhf1h51LZpgm20ChQSh5RXvBZKnzFGPN+D/s10rdCV1SN38Nq97oMPlfs?=
- =?us-ascii?Q?+RAoVsb1xmlZhdyuDTVGzR78Zeni102Bb0dcoc4yInt443kWKTKW3Y7yJotu?=
- =?us-ascii?Q?JV5P1cxHcNTCPJlJ3hIf+QuCNjoosv1hDJ2St8A2XRnKqEn/3CZosFbuqh4X?=
- =?us-ascii?Q?QREH/oaEN64r4O5G95lG5DrV95lF1J4WLeAI6QNOZFLeINgFkuyqTAXMEQ+O?=
- =?us-ascii?Q?+1QzNE/By0fjQV8eqLWkuDn+Ba/7HROz9XEm7iXBQtc38lH4XYH6x2Y2hGMO?=
- =?us-ascii?Q?VyjUv6oKzrIuRKy0OYncMjLluOR8VUP3qtJfI9ayrNB5xOpgmpaXg4XkUjSf?=
- =?us-ascii?Q?RaYGtdHS6dvpjnoSEkHru+mEtpCFmB5ZRp+2ZHMjxFzK/GtX2nE9YR1JFi5O?=
- =?us-ascii?Q?Sh57jFrt79RW9mJ6qk22D/W3orCumP9Sb8cFdqXfSutRCOnAPJs/l4aAiYpT?=
- =?us-ascii?Q?9chjyVnjxinPJtfbEnJFCWalU+ErE6u7aIoQ9mSZQPZ4SwCjMyLrdlFO/2OK?=
- =?us-ascii?Q?I5TKMeWlKYYpVgm+Qd7uc4orPn4/yFsAONRBQw/WON7t7mlq/CbjTF/rETAy?=
- =?us-ascii?Q?CFE5TqWyUChLGqNfpMFnH47UF7jt3Wmk56oq6Mg3tywkaC3EfdlCi8+Wlp3L?=
- =?us-ascii?Q?RnqSEySoeUDxua9boDW6IE3rmTzEt0LLErqu1wj4CAfVm0zTX+jFLqbKsMMw?=
- =?us-ascii?Q?u6sSpF6nyIYQy64n9rmrccn8DjcBpci7Z+DXgpoO4sCNQTKYPjXO+CmSXHuc?=
- =?us-ascii?Q?MV3DB48AulnJWBOmro5KFeNY+GXtW55f8lIQOaGP6guOlvbfQLHAJDd+4LR4?=
- =?us-ascii?Q?dOPfaWTw+whC+PdZiyBMlIknc/Lw8ACS1pr+eJ8AItQrsI7KyP0y5tAg8g7T?=
- =?us-ascii?Q?RcCI3ox+XzRUDsXdOAlvabdW1E5Wcpu2m3j259itz8ze9ahsjTDRvStnMvfE?=
- =?us-ascii?Q?ws1OjbJWLlmK5ZdjUfsOGPQ1emnZvkKqjUSB?=
+	=?us-ascii?Q?/jShVy9O+DvG3piD9uOAb1cfCRUl5or2cMVz3u1pM2Xg7U5p8e18RR5Zvgrk?=
+ =?us-ascii?Q?rbSWgZF342Kbzjh9aV5gOE2bK46HBnyZSXiE/ZjB0gS/RRbfAxXqX0PSfdjf?=
+ =?us-ascii?Q?wM8XBgQuFFdRCEjuJMJQccCGc0Fck/Qpoiuov9tqwbXHMEgCaAjeS4Np4pKi?=
+ =?us-ascii?Q?2cbzKoSnfUMaoiizfptt5iNQlzqeoc1yvbQ0rl92iHr6DtLSwAvJSI4cUYwL?=
+ =?us-ascii?Q?9sUEWouc906CTsrFlGZXESzCcLORQkMBEBSk4jY0boYF8HEoMkzKFEEIKqID?=
+ =?us-ascii?Q?Q9K4OcZFBWAMNGW6YbaR21GbeXz44D97lVxUY3pZRKxFiDcgU0arHhmvEEZO?=
+ =?us-ascii?Q?g3fOsjDxuCJKyjEI3enBWMFMIw8FGUkoPh/I46vxOZMw0+ZjkjS7eGKeOXAB?=
+ =?us-ascii?Q?e8WtFYqunpm3786AsEpSC9o6xHpf2Aj92ltvX3ksEfZFqRzG9UPjVPUymjLq?=
+ =?us-ascii?Q?m9bNRe91BuJRbSu/XrND5yE5XXFRgRvQLr2mA4v7CO8rZaShX0kWcXkpc58o?=
+ =?us-ascii?Q?zHoj/AolNtCEdQVXYAOEPhxIiUE+tXfcCMIYF9bTvYUJMkm7HQfcZ6i1D1Dp?=
+ =?us-ascii?Q?lLkTHljkDni1gC/hwuiJO4W8D0lsbfLqTRBi6fMfzI29jswuFZQf325cT6CU?=
+ =?us-ascii?Q?8d6nLg8kFo5YPUvXg7/GYFf+LH887ZweH1NyO6ImbG4PfKVIbyZfG1acqRCu?=
+ =?us-ascii?Q?XrfCCiaOvP2G+ofmpm7ogi5uMPQcSbMINZoTNAenHl3eoIsSrhWP+8TE4roy?=
+ =?us-ascii?Q?On7CzIql3HJgQInc50rKqMAm+2M4aeSiNGwX/0WDLVXonlkG6hlWp3lI1ZCx?=
+ =?us-ascii?Q?AhTdmbDAkYKFa/Q+a2xGJFb7SQIBqiKUFCaAp++e2tZ7HLzERWnEK0JArXfC?=
+ =?us-ascii?Q?PHDhMjutijq3EI7+drGBDjAfiBN1lAkg1x/Vc5Ams2HAbtB+6jDicGupU93C?=
+ =?us-ascii?Q?tqGviPgmkCuaS68J+VrRT3GEd6xtXzPgVhXgXSNZ2spvmtB/mivXLb/ocKji?=
+ =?us-ascii?Q?xTKS9GVSguXxus5cS9yS2tPlRs5AFMYKpergSHnnx0HuRLPb7XWjYuYNKEF7?=
+ =?us-ascii?Q?BGDZ7TQm4BYRV/YVaY4iRNNmYhgztFdYYUgxGAq1WwogDjrw2yvKpnMD1jsY?=
+ =?us-ascii?Q?MFIEYIsIVO0tZAfqBBudhobofwAe/jlS6Lj2DrG48+NbyuIENWS1AB3t+I5E?=
+ =?us-ascii?Q?IKCDE+gjP4Y4Igf+/bI0txTrUupK8HcLmq+1OoCPRvkyQ8xpxqTR1kV52vin?=
+ =?us-ascii?Q?Poo9sHnyefGwOaGJ2OGuUyka9d+aMcr6ugpbh1PykbJIUbzBTzWYlRnk+daE?=
+ =?us-ascii?Q?TxhwvnH+Uvyxgqzgk7Tw4uxBni/3fd+Dlzaec6bQpOPW7w/xrYG178cQT0/F?=
+ =?us-ascii?Q?bnnOjLSAWO2ZvoTQVWAxZltbTFSW02bz5Jh3wFoJPi/rBJvMpr4wcjXNKxUK?=
+ =?us-ascii?Q?HUmeetIC0GFdMTFYwnAL7xVCObSWMFqrEdo5qMeXfuYrbC46EPr4+PFDUumD?=
+ =?us-ascii?Q?jKVAYOrHwFrdFegxJEbXQXQvxVmgd8dAPj6W?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(1800799024)(82310400026);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2025 11:51:28.2912
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2025 11:51:31.1018
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 336e7873-0458-41f9-1fa3-08dddfdfe5de
+X-MS-Exchange-CrossTenant-Network-Message-Id: a064bea1-bab4-41da-188b-08dddfdfe78b
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	DS3PEPF0000C380.namprd04.prod.outlook.com
+	DS3PEPF0000C37E.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9448
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4217
 
-Implement a helper function to check if BIOS input notifications are
-enabled or disabled.
+The PMF ACPI Specification (APMF) has been revised to version 1.3 to allow
+for additional custom BIOS inputs, enabling OEMs to have more precise
+thermal management of the system. This update includes adding support to
+the driver using the new data structure received from the BIOS through the
+existing APMF interfaces.
 
 Co-developed-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
 Signed-off-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
 Tested-by: Yijun Shen <Yijun.Shen@Dell.com>
 Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 ---
- drivers/platform/x86/amd/pmf/acpi.c |  6 ++++++
- drivers/platform/x86/amd/pmf/pmf.h  | 17 +++++++++++++++++
- 2 files changed, 23 insertions(+)
+ drivers/platform/x86/amd/pmf/acpi.c | 33 +++++++++++++++++++++++++++++
+ drivers/platform/x86/amd/pmf/pmf.h  | 20 +++++++++++++++++
+ drivers/platform/x86/amd/pmf/spc.c  | 29 +++++++++++++++++++------
+ 3 files changed, 75 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/platform/x86/amd/pmf/acpi.c b/drivers/platform/x86/amd/pmf/acpi.c
-index f75f7ecd8cd9..4982311ac045 100644
+index 4982311ac045..4b8529c9bdd4 100644
 --- a/drivers/platform/x86/amd/pmf/acpi.c
 +++ b/drivers/platform/x86/amd/pmf/acpi.c
-@@ -161,6 +161,11 @@ int is_apmf_func_supported(struct amd_pmf_dev *pdev, unsigned long index)
- 	return !!(pdev->supported_func & BIT(index - 1));
+@@ -320,6 +320,11 @@ int apmf_get_sbios_requests_v2(struct amd_pmf_dev *pdev, struct apmf_sbios_req_v
+ 	return apmf_if_call_store_buffer(pdev, APMF_FUNC_SBIOS_REQUESTS, req, sizeof(*req));
  }
  
-+int is_apmf_bios_input_notifications_supported(struct amd_pmf_dev *pdev)
++int apmf_get_sbios_requests_v1(struct amd_pmf_dev *pdev, struct apmf_sbios_req_v1 *req)
 +{
-+	return !!(pdev->notifications & CUSTOM_BIOS_INPUT_BITS);
++	return apmf_if_call_store_buffer(pdev, APMF_FUNC_SBIOS_REQUESTS, req, sizeof(*req));
 +}
 +
- int apts_get_static_slider_granular_v2(struct amd_pmf_dev *pdev,
- 				       struct amd_pmf_apts_granular_output *data, u32 apts_idx)
+ int apmf_get_sbios_requests(struct amd_pmf_dev *pdev, struct apmf_sbios_req *req)
  {
-@@ -385,6 +390,7 @@ static int apmf_if_verify_interface(struct amd_pmf_dev *pdev)
- 
- 	pdev->pmf_if_version = output.version;
- 
-+	pdev->notifications =  output.notification_mask;
- 	return 0;
+ 	return apmf_if_call_store_buffer(pdev, APMF_FUNC_SBIOS_REQUESTS,
+@@ -338,6 +343,18 @@ static void apmf_event_handler_v2(acpi_handle handle, u32 event, void *data)
+ 		dev_err(pmf_dev->dev, "Failed to get v2 SBIOS requests: %d\n", ret);
  }
  
++static void apmf_event_handler_v1(acpi_handle handle, u32 event, void *data)
++{
++	struct amd_pmf_dev *pmf_dev = data;
++	int ret;
++
++	guard(mutex)(&pmf_dev->cb_mutex);
++
++	ret = apmf_get_sbios_requests_v1(pmf_dev, &pmf_dev->req1);
++	if (ret)
++		dev_err(pmf_dev->dev, "Failed to get v1 SBIOS requests: %d\n", ret);
++}
++
+ static void apmf_event_handler(acpi_handle handle, u32 event, void *data)
+ {
+ 	struct amd_pmf_dev *pmf_dev = data;
+@@ -446,6 +463,17 @@ int apmf_install_handler(struct amd_pmf_dev *pmf_dev)
+ 		apmf_event_handler(ahandle, 0, pmf_dev);
+ 	}
+ 
++	if (pmf_dev->smart_pc_enabled && pmf_dev->pmf_if_version == PMF_IF_V1 &&
++	    is_apmf_bios_input_notifications_supported(pmf_dev)) {
++		status = acpi_install_notify_handler(ahandle, ACPI_ALL_NOTIFY,
++						     apmf_event_handler_v1, pmf_dev);
++		if (ACPI_FAILURE(status)) {
++			dev_err(pmf_dev->dev,
++				"failed to install notify handler v1 for custom BIOS inputs\n");
++			return -ENODEV;
++		}
++	}
++
+ 	if (pmf_dev->smart_pc_enabled && pmf_dev->pmf_if_version == PMF_IF_V2) {
+ 		status = acpi_install_notify_handler(ahandle, ACPI_ALL_NOTIFY,
+ 						     apmf_event_handler_v2, pmf_dev);
+@@ -508,6 +536,11 @@ void apmf_acpi_deinit(struct amd_pmf_dev *pmf_dev)
+ 
+ 	if (pmf_dev->smart_pc_enabled && pmf_dev->pmf_if_version == PMF_IF_V2)
+ 		acpi_remove_notify_handler(ahandle, ACPI_ALL_NOTIFY, apmf_event_handler_v2);
++
++	if (pmf_dev->smart_pc_enabled && pmf_dev->pmf_if_version == PMF_IF_V1 &&
++	    is_apmf_bios_input_notifications_supported(pmf_dev)) {
++		acpi_remove_notify_handler(ahandle, ACPI_ALL_NOTIFY, apmf_event_handler_v1);
++	}
+ }
+ 
+ int apmf_acpi_init(struct amd_pmf_dev *pmf_dev)
 diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
-index f5e874b10f0f..b705461a6ff8 100644
+index b705461a6ff8..54bd33104ded 100644
 --- a/drivers/platform/x86/amd/pmf/pmf.h
 +++ b/drivers/platform/x86/amd/pmf/pmf.h
-@@ -118,6 +118,8 @@ struct cookie_header {
- #define PMF_IF_V2		2
+@@ -188,6 +188,24 @@ struct apmf_sbios_req {
+ 	u8 skin_temp_hs2;
+ } __packed;
  
- #define APTS_MAX_STATES		16
-+#define CUSTOM_BIOS_INPUT_BITS	GENMASK(16, 7)
++/* As per APMF spec 1.3 */
++struct apmf_sbios_req_v1 {
++	u16 size;
++	u32 pending_req;
++	u8 rsvd;
++	u8 cql_event;
++	u8 amt_event;
++	u32 fppt;
++	u32 sppt;
++	u32 sppt_apu_only;
++	u32 spl;
++	u32 stt_min_limit;
++	u8 skin_temp_apu;
++	u8 skin_temp_hs2;
++	u8 enable_cnqf;
++	u32 custom_policy[10];
++} __packed;
 +
- 
- /* APTS PMF BIOS Interface */
- struct amd_pmf_apts_output {
-@@ -377,6 +379,7 @@ struct amd_pmf_dev {
- 	struct resource *res;
+ struct apmf_sbios_req_v2 {
+ 	u16 size;
+ 	u32 pending_req;
+@@ -380,6 +398,7 @@ struct amd_pmf_dev {
  	struct apmf_sbios_req_v2 req; /* To get custom bios pending request */
  	struct mutex cb_mutex;
-+	u32 notifications;
+ 	u32 notifications;
++	struct apmf_sbios_req_v1 req1;
  };
  
  struct apmf_sps_prop_granular_v2 {
-@@ -641,6 +644,19 @@ static const struct amd_pmf_pb_bitmap custom_bios_inputs[] __used = {
- 	{"NOTIFY_CUSTOM_BIOS_INPUT10",    BIT(14)},
- };
+@@ -836,6 +855,7 @@ void amd_pmf_init_auto_mode(struct amd_pmf_dev *dev);
+ void amd_pmf_deinit_auto_mode(struct amd_pmf_dev *dev);
+ void amd_pmf_trans_automode(struct amd_pmf_dev *dev, int socket_power, ktime_t time_elapsed_ms);
+ int apmf_get_sbios_requests(struct amd_pmf_dev *pdev, struct apmf_sbios_req *req);
++int apmf_get_sbios_requests_v1(struct amd_pmf_dev *pdev, struct apmf_sbios_req_v1 *req);
+ int apmf_get_sbios_requests_v2(struct amd_pmf_dev *pdev, struct apmf_sbios_req_v2 *req);
  
-+static const struct amd_pmf_pb_bitmap custom_bios_inputs_v1[] __used = {
-+	{"NOTIFY_CUSTOM_BIOS_INPUT1",     BIT(7)},
-+	{"NOTIFY_CUSTOM_BIOS_INPUT2",     BIT(8)},
-+	{"NOTIFY_CUSTOM_BIOS_INPUT3",     BIT(9)},
-+	{"NOTIFY_CUSTOM_BIOS_INPUT4",     BIT(10)},
-+	{"NOTIFY_CUSTOM_BIOS_INPUT5",     BIT(11)},
-+	{"NOTIFY_CUSTOM_BIOS_INPUT6",     BIT(12)},
-+	{"NOTIFY_CUSTOM_BIOS_INPUT7",     BIT(13)},
-+	{"NOTIFY_CUSTOM_BIOS_INPUT8",     BIT(14)},
-+	{"NOTIFY_CUSTOM_BIOS_INPUT9",     BIT(15)},
-+	{"NOTIFY_CUSTOM_BIOS_INPUT10",    BIT(16)},
-+};
+ void amd_pmf_update_2_cql(struct amd_pmf_dev *dev, bool is_cql_event);
+diff --git a/drivers/platform/x86/amd/pmf/spc.c b/drivers/platform/x86/amd/pmf/spc.c
+index 06b7760b2a8b..f50cfd37b480 100644
+--- a/drivers/platform/x86/amd/pmf/spc.c
++++ b/drivers/platform/x86/amd/pmf/spc.c
+@@ -132,22 +132,37 @@ static void amd_pmf_set_ta_custom_bios_input(struct ta_pmf_enact_table *in, int
+ 	}
+ }
+ 
+-static void amd_pmf_get_custom_bios_inputs(struct amd_pmf_dev *pdev,
+-					   struct ta_pmf_enact_table *in)
++static void amd_pmf_update_bios_inputs(struct amd_pmf_dev *pdev, u32 pending_req,
++				       const struct amd_pmf_pb_bitmap *inputs,
++				       const u32 *custom_policy, struct ta_pmf_enact_table *in)
+ {
+-	unsigned int i;
+-
+-	if (!pdev->req.pending_req)
+-		return;
++	int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(custom_bios_inputs); i++) {
+-		if (!(pdev->req.pending_req & custom_bios_inputs[i].bit_mask))
++		if (!(pending_req & inputs[i].bit_mask))
+ 			continue;
+ 		amd_pmf_set_ta_custom_bios_input(in, i, pdev->req.custom_policy[i]);
+ 	}
++}
 +
- enum platform_type {
- 	PTYPE_UNKNOWN = 0,
- 	LID_CLOSE,
-@@ -792,6 +808,7 @@ int apmf_os_power_slider_update(struct amd_pmf_dev *dev, u8 flag);
- int amd_pmf_set_dram_addr(struct amd_pmf_dev *dev, bool alloc_buffer);
- int amd_pmf_notify_sbios_heartbeat_event_v2(struct amd_pmf_dev *dev, u8 flag);
- u32 fixp_q88_fromint(u32 val);
-+int is_apmf_bios_input_notifications_supported(struct amd_pmf_dev *pdev);
++static void amd_pmf_get_custom_bios_inputs(struct amd_pmf_dev *pdev,
++					   struct ta_pmf_enact_table *in)
++{
++	if (!(pdev->req.pending_req || pdev->req1.pending_req))
++		return;
++
++	if (pdev->smart_pc_enabled && pdev->pmf_if_version == PMF_IF_V1 &&
++	    is_apmf_bios_input_notifications_supported(pdev)) {
++		amd_pmf_update_bios_inputs(pdev, pdev->req1.pending_req, custom_bios_inputs_v1,
++					   pdev->req1.custom_policy, in);
++	} else {
++		amd_pmf_update_bios_inputs(pdev, pdev->req.pending_req, custom_bios_inputs,
++					   pdev->req.custom_policy, in);
++	}
  
- /* SPS Layer */
- int amd_pmf_get_pprof_modes(struct amd_pmf_dev *pmf);
+ 	/* Clear pending requests after handling */
+ 	memset(&pdev->req, 0, sizeof(pdev->req));
++	memset(&pdev->req1, 0, sizeof(pdev->req1));
+ }
+ 
+ static void amd_pmf_get_c0_residency(u16 *core_res, size_t size, struct ta_pmf_enact_table *in)
 -- 
 2.34.1
 
