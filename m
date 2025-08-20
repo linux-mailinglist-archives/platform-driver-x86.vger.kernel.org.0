@@ -1,78 +1,94 @@
-Return-Path: <platform-driver-x86+bounces-13790-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-13795-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D30B2E204
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Aug 2025 18:13:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C11A7B2E446
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Aug 2025 19:45:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 66E6A4E7307
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Aug 2025 16:06:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6236A3B00B4
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Aug 2025 17:42:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0148C322A2D;
-	Wed, 20 Aug 2025 16:06:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC7C926D4FB;
+	Wed, 20 Aug 2025 17:42:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="llRstwbm"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mail.selcloud.ru header.i=@mail.selcloud.ru header.b="rzBx5GY7";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=foxido.dev header.i=@foxido.dev header.b="o+1ECk73";
+	dkim=pass (2048-bit key) header.d=foxido.dev header.i=@foxido.dev header.b="fjfbfNBm";
+	dkim=permerror (0-bit key) header.d=foxido.dev header.i=@foxido.dev header.b="Lr+qsxc5"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
+Received: from sender6.mail.selcloud.ru (sender6.mail.selcloud.ru [5.8.75.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC917322552;
-	Wed, 20 Aug 2025 16:06:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.171.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB6726CE05;
+	Wed, 20 Aug 2025 17:42:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.8.75.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755706005; cv=none; b=jEh4eT4UW6GVfN+3YZtBHJ0v+PdCD3WeTRY+FZOMm4ATIP8Je/eaOM2ii0HQpeU1uk5l6pn+QW3Nd9IUFO0K3z2Vcb3et2N+iMqKYRgeOGJSVW/PqmDCL0K0w5AhIeIh+ZbC/n3BEssKiujVI9Y8h5lgIAbSM7KG9f+x2PMHe6I=
+	t=1755711735; cv=none; b=NcagtZP3d3DppyJkVESyW4xS4Tcmf7P2x5mtlJPGQ36xDu0mgBGK2zKN0qc7puwjqUcCv/KdoZ7uRGFP+VRDvrFpIz9uYdi44aFdFm9uDdZl8DZk1VqJdXV7m9tBx8pHcpLkpoCOUPmqsR4A6WxEO+Wboe3Ig9KrSCY76wOdR7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755706005; c=relaxed/simple;
-	bh=OyjLUoxtggp5d0+RZpYLfQvewHpf4cKCUFH27ITNgXU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=asIyOL2AUk1hJ/RB88g15cSoSAe3Hz0gMBii+MjsD/LMF58MOwTf04/D0bqqAUyVtxlqPKR6ZwaxLlcJsBUw5jnNHZzwJJ1GO3oePH3byG/AafrrnWZQyPUwoXuiOE+/NWcYrsGQuzkp5ZmsxKkBV57HvrHF17qNEJgXP5MMdHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=llRstwbm; arc=none smtp.client-ip=78.46.171.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from relay11 (localhost.localdomain [127.0.0.1])
-	by relay11.grserver.gr (Proxmox) with ESMTP id DB58BC5C8C;
-	Wed, 20 Aug 2025 19:06:35 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay11.grserver.gr (Proxmox) with ESMTPS id 21AF9C5C88;
-	Wed, 20 Aug 2025 19:06:35 +0300 (EEST)
-Received: from antheas-z13 (unknown [IPv6:2a05:f6c2:511b:0:7200:c86a:8976:4786])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 53EDA205624;
-	Wed, 20 Aug 2025 19:06:34 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1755705994;
-	bh=aDYXMKRx6Z5R2mtYbT8/3FxTRnPKyI8a7RykQdzlWVQ=; h=From:To:Subject;
-	b=llRstwbmO0UkCV3zSsUGx+ZjPn/TRdd+IZcrbpKDDqim9sTMRqnZrtADkp3Rn1Fg7
-	 2w5OyEsMozm5G1O61Zwyj9EL7/NZJwjVcr3LupWIdFTVPyjGWBjg6HkyhqwV90ikMi
-	 gAOl6VEmw3Hscj71TSnEwUuPvkY3/c1R3woyxUgv7j9BEOVJY2wdHWKG8tuXK8p9iW
-	 AC4jRmuGQrmObguie5YHj+zushLNwCTNcLm6n9lXbAQ7Dnz8uQND/u+wKquvn+/cU1
-	 Z6tHhFhPjg4gE4CXxK6mxkhG5c8C97hExEsWxP66xLIaSpKd2aOOXPg6EvvOFbH+EZ
-	 HlPhUV93YMZUQ==
-Authentication-Results: linux3247.grserver.gr;
-	spf=pass (sender IP is 2a05:f6c2:511b:0:7200:c86a:8976:4786) smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-From: Antheas Kapenekakis <lkml@antheas.dev>
-To: platform-driver-x86@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
+	s=arc-20240116; t=1755711735; c=relaxed/simple;
+	bh=HO/F+KDY5uSBHM0P+ya7tlVcB5icSVdUk6VMfV/c20Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N9MWzzZmiWYnUqTBq6xopd2z/GftN6OS4n1g9SP/Ob/ynD5TTMRqJtHfo/NV0gRpJu0ZyaOeLvg7x+VIJoMfT6v9aQIsHIvqQqj1VyJ07huGZg/qTgU8h3vpQPY6otWDWje3E+9hecSnz8/wjMye2cNcj02eyp12nAT0MGfG4ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=foxido.dev; spf=pass smtp.mailfrom=mail.selcloud.ru; dkim=pass (1024-bit key) header.d=mail.selcloud.ru header.i=@mail.selcloud.ru header.b=rzBx5GY7; dkim=pass (1024-bit key) header.d=foxido.dev header.i=@foxido.dev header.b=o+1ECk73; dkim=pass (2048-bit key) header.d=foxido.dev header.i=@foxido.dev header.b=fjfbfNBm; dkim=permerror (0-bit key) header.d=foxido.dev header.i=@foxido.dev header.b=Lr+qsxc5; arc=none smtp.client-ip=5.8.75.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=foxido.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.selcloud.ru
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=mail.selcloud.ru; s=selcloud; h=Content-Transfer-Encoding:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:List-id:List-Unsubscribe:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Help:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=l1M5e4hqK9RtEwLQEKT82tmiZFWJdrx5WWRXSb1C118=; t=1755711731; x=1755884531;
+	 b=rzBx5GY7IUQDnKMbQCPl5j78vfGT7ZBLqfBAVLF0VvGbh87dbQDI02eLWT0U4Ba3bk7kgc9NGC
+	VworJualckplC3SnO9C6wvStfU6kSjULMAJ12zYATfTUDRcR9xUCAc3Dh+d5hqMbom4Rf3GcgL0io
+	ErR5QM4wA9G/fitWdTbM=;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=foxido.dev;
+	 s=selcloud; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject
+	:Cc:To:From:List-id:List-Unsubscribe:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Help:List-Subscribe:List-Post:
+	List-Owner:List-Archive; bh=l1M5e4hqK9RtEwLQEKT82tmiZFWJdrx5WWRXSb1C118=;
+	t=1755711731; x=1755884531; b=o+1ECk73F0SGKsh6EMefXmLTYF5TOOw5eVst0mpI7Xvrup7
+	c9v8dEDz9fSLqTb4vDFCTtFz1ujXC4KP5SPPD8KcHeLXV0DIRhqOltnbgQL2lOEmmIZag3MKOxAnE
+	dp9HpURnF86X+nI3YQ9cKckl3zwJa/wlX2355wH9izpC7Ng=;
+Precedence: bulk
+X-Issuen: 1147648
+X-User: 95634118
+X-Postmaster-Msgtype: 3849
+Feedback-ID: 1147648:15965:3849:samotpravil
+X-From: foxido.dev
+X-from-id: 15965
+X-MSG-TYPE: bulk
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+X-blist-id: 3849
+X-Gungo: 20250819.223726
+X-SMTPUID: mlgnr60
+DKIM-Signature: v=1; a=rsa-sha256; s=202508r; d=foxido.dev; c=relaxed/relaxed;
+	h=Message-ID:Date:Subject:To:From; t=1755711722; bh=l1M5e4hqK9RtEwLQEKT82tm
+	iZFWJdrx5WWRXSb1C118=; b=fjfbfNBmBJsNtxAlwr/0j2PrLOLFprzAxa/TIKZwlPMK8qnOg+
+	4zt5yhDpetaGKUGXOoqeg+aLVgQME/2JIueOJ0TumkrWSyogbdJIwlOfa/zqdkxrf32ZAUs/t7D
+	LX8rPgIbYLuYThlw9YyULSSJX3kqHN4dSKUEZnaPCjys3M3ijgO6d/OZVv1ooGVdMPSN54RtIwh
+	nFtMTjqjtGN+SU/A1b2JuB/cmDKCmJRQRl7pki74RENn9HbJOYPrPQqobCF3JKgC2fDk/MGj96X
+	1i3cHeXmdNHWiifcfGFcqvPP4JKWO37D+xYU+DdTehTAEMr1SQIUc3oy7HCmaIwgLMg==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202508e; d=foxido.dev; c=relaxed/relaxed;
+	h=Message-ID:Date:Subject:To:From; t=1755711722; bh=l1M5e4hqK9RtEwLQEKT82tm
+	iZFWJdrx5WWRXSb1C118=; b=Lr+qsxc5XEXMwlCFqHtxZ+nnBSxvp8a8tJpwS0IFfFuFnJPVBF
+	dWZzGtPAqoFX7GGln2vWczYzp0Jkceu42EBQ==;
+From: Gladyshev Ilya <foxido@foxido.dev>
+To: foxido@foxido.dev
+Cc: w_armin@gmx.de,
+	linux-input@vger.kernel.org,
+	nikita.nikita.krasnov@gmail.com,
+	Armin Wolf <W_Armin@gmx.de>,
 	Hans de Goede <hansg@kernel.org>,
 	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Derek John Clark <derekjohn.clark@gmail.com>,
-	=?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= <samsagax@gmail.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v1 5/5] platform/x86: ayaneo-ec: Move Ayaneo devices from
- oxpec to ayaneo-ec
-Date: Wed, 20 Aug 2025 18:06:28 +0200
-Message-ID: <20250820160628.99678-6-lkml@antheas.dev>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250820160628.99678-1-lkml@antheas.dev>
-References: <20250820160628.99678-1-lkml@antheas.dev>
+	linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Subject: [PATCH v6] platform/x86: Add WMI driver for Redmibook keyboard.
+Date: Wed, 20 Aug 2025 20:41:32 +0300
+Message-ID: <20250820174140.41410-1-foxido@foxido.dev>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -80,311 +96,213 @@ List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <175570599483.2162826.3848553097643706063@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
 
-Currently, the oxpec driver contains Ayaneo devices. Move them to the
-new ayaneo-ec driver, which is dedicated to them.
+This driver implements support for various Fn keys (like Cut) and Xiaomi
+specific AI button.
 
-As this driver supports charge inhibition for Ayaneo, add support for it
-for the AIR, AIR 1S, AB05-Medoncino, AIR Pro, and Kun, referenced from
-the out-of-tree ayaneo-platform driver.
-
-In addition, update the readmes of oxpec to reflect this change.
-
-Link: https://github.com/ShadowBlip/ayaneo-platform
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+Reviewed-by: Armin Wolf <W_Armin@gmx.de>
+Signed-off-by: Gladyshev Ilya <foxido@foxido.dev>
 ---
- drivers/platform/x86/Kconfig     |   4 +-
- drivers/platform/x86/ayaneo-ec.c |  66 ++++++++++++++++++
- drivers/platform/x86/oxpec.c     | 115 +------------------------------
- 3 files changed, 68 insertions(+), 117 deletions(-)
+Changes since v5:
+- Fix var declaration in the middle of the func
 
+Link to v5: https://lore.kernel.org/platform-driver-x86/20250813153137.18355-1-foxido@foxido.dev/
+---
+ MAINTAINERS                      |   6 ++
+ drivers/platform/x86/Kconfig     |  12 +++
+ drivers/platform/x86/Makefile    |   1 +
+ drivers/platform/x86/redmi-wmi.c | 129 +++++++++++++++++++++++++++++++
+ 4 files changed, 148 insertions(+)
+ create mode 100644 drivers/platform/x86/redmi-wmi.c
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c0b444e5fd5a..eb25fb10e751 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20965,6 +20965,12 @@ S:	Maintained
+ T:	git https://github.com/pkshih/rtw.git
+ F:	drivers/net/wireless/realtek/rtw89/
+ 
++REDMIBOOK WMI DRIVERS
++M:	Gladyshev Ilya <foxido@foxido.dev>
++L:	platform-driver-x86@vger.kernel.org
++S:	Maintained
++F:	drivers/platform/x86/redmi-wmi.c
++
+ REDPINE WIRELESS DRIVER
+ L:	linux-wireless@vger.kernel.org
+ S:	Orphan
 diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index c871a722e5ef..06b53b0a3818 100644
+index e5cbd58a99f3..9f98a7042e43 100644
 --- a/drivers/platform/x86/Kconfig
 +++ b/drivers/platform/x86/Kconfig
-@@ -1031,9 +1031,7 @@ config OXP_EC
- 	help
- 		Enables support for the platform EC of OneXPlayer and AOKZOE
- 		handheld devices. This includes fan speed, fan controls, and
--		disabling the default TDP behavior of the device. Due to legacy
--		reasons, this driver also provides hwmon functionality to Ayaneo
--		devices and the OrangePi Neo.
-+		disabling the default TDP behavior of the device.
+@@ -109,6 +109,18 @@ config XIAOMI_WMI
+ 	  To compile this driver as a module, choose M here: the module will
+ 	  be called xiaomi-wmi.
  
- source "drivers/platform/x86/tuxedo/Kconfig"
++config REDMI_WMI
++	tristate "Redmibook WMI key driver"
++	depends on ACPI_WMI
++	depends on INPUT
++	select INPUT_SPARSEKMAP
++	help
++	  Say Y here if you want support for WMI-based hotkey events on
++	  Xiaomi Redmibook devices.
++
++	  To compile this driver as a module, choose M here: the module will
++	  be called redmi-wmi.
++
+ config GIGABYTE_WMI
+ 	tristate "Gigabyte WMI temperature driver"
+ 	depends on ACPI_WMI
+diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+index bea87a85ae75..406dd0807ba7 100644
+--- a/drivers/platform/x86/Makefile
++++ b/drivers/platform/x86/Makefile
+@@ -13,6 +13,7 @@ obj-$(CONFIG_HUAWEI_WMI)		+= huawei-wmi.o
+ obj-$(CONFIG_MXM_WMI)			+= mxm-wmi.o
+ obj-$(CONFIG_NVIDIA_WMI_EC_BACKLIGHT)	+= nvidia-wmi-ec-backlight.o
+ obj-$(CONFIG_XIAOMI_WMI)		+= xiaomi-wmi.o
++obj-$(CONFIG_REDMI_WMI)			+= redmi-wmi.o
+ obj-$(CONFIG_GIGABYTE_WMI)		+= gigabyte-wmi.o
  
-diff --git a/drivers/platform/x86/ayaneo-ec.c b/drivers/platform/x86/ayaneo-ec.c
-index eb7f9ae03b4f..d70fd0bd620e 100644
---- a/drivers/platform/x86/ayaneo-ec.c
-+++ b/drivers/platform/x86/ayaneo-ec.c
-@@ -83,6 +83,15 @@ struct ayaneo_fw_attr {
- 	struct kobj_attribute current_value;
- };
- 
-+static const struct ayaneo_ec_quirk quirk_fan = {
-+	.has_fan_control = true,
+ # Acer
+diff --git a/drivers/platform/x86/redmi-wmi.c b/drivers/platform/x86/redmi-wmi.c
+new file mode 100644
+index 000000000000..cb9f4e639acd
+--- /dev/null
++++ b/drivers/platform/x86/redmi-wmi.c
+@@ -0,0 +1,129 @@
++// SPDX-License-Identifier: GPL-2.0
++/* WMI driver for Xiaomi Redmibooks */
++
++#include <linux/acpi.h>
++#include <linux/device.h>
++#include <linux/input.h>
++#include <linux/input/sparse-keymap.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/unaligned.h>
++#include <linux/wmi.h>
++
++#include <uapi/linux/input-event-codes.h>
++
++#define WMI_REDMIBOOK_KEYBOARD_EVENT_GUID "46C93E13-EE9B-4262-8488-563BCA757FEF"
++
++#define AI_KEY_VALUE_MASK 0x00000100
++
++static const struct key_entry redmi_wmi_keymap[] = {
++	{KE_KEY, 0x00000201,	{KEY_SELECTIVE_SCREENSHOT}},
++	{KE_KEY, 0x00000301,	{KEY_ALL_APPLICATIONS}},
++	{KE_KEY, 0x00001b01,	{KEY_SETUP}},
++
++	/* AI button has code for each position */
++	{KE_KEY, 0x00011801,	{KEY_ASSISTANT}},
++	{KE_KEY, 0x00011901,	{KEY_ASSISTANT}},
++
++	/* Keyboard backlight */
++	{KE_IGNORE, 0x00000501, {}},
++	{KE_IGNORE, 0x00800501, {}},
++	{KE_IGNORE, 0x00050501, {}},
++	{KE_IGNORE, 0x000a0501, {}},
++
++	{KE_END}
 +};
 +
-+static const struct ayaneo_ec_quirk quirk_charge_limit = {
-+	.has_fan_control = true,
-+	.has_charge_control = true,
++struct redmi_wmi {
++	struct input_dev *input_dev;
++	/* Protects the key event sequence */
++	struct mutex key_lock;
 +};
 +
- static const struct ayaneo_ec_quirk ayaneo3 = {
- 	.has_fan_control = true,
- 	.has_charge_control = true,
-@@ -91,6 +100,63 @@ static const struct ayaneo_ec_quirk ayaneo3 = {
- };
- 
- static const struct dmi_system_id dmi_table[] = {
++static int redmi_wmi_probe(struct wmi_device *wdev, const void *context)
++{
++	struct redmi_wmi *data;
++	int err;
 +
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-+			DMI_MATCH(DMI_BOARD_NAME, "AYANEO 2"),
-+		},
-+		.driver_data = (void *)&quirk_fan,
++	/* Init dev */
++	data = devm_kzalloc(&wdev->dev, sizeof(*data), GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++
++	dev_set_drvdata(&wdev->dev, data);
++
++	err = devm_mutex_init(&wdev->dev, &data->key_lock);
++	if (err)
++		return err;
++
++	data->input_dev = devm_input_allocate_device(&wdev->dev);
++	if (!data->input_dev)
++		return -ENOMEM;
++
++	data->input_dev->name = "Redmibook WMI keys";
++	data->input_dev->phys = "wmi/input0";
++
++	err = sparse_keymap_setup(data->input_dev, redmi_wmi_keymap, NULL);
++	if (err)
++		return err;
++
++	return input_register_device(data->input_dev);
++}
++
++static void redmi_wmi_notify(struct wmi_device *wdev, union acpi_object *obj)
++{
++	struct key_entry *entry;
++	struct redmi_wmi *data = dev_get_drvdata(&wdev->dev);
++	bool autorelease = true;
++	u32 payload;
++	int value = 1;
++
++	if (obj->type != ACPI_TYPE_BUFFER) {
++		dev_err(&wdev->dev, "Bad response type %u\n", obj->type);
++		return;
++	}
++
++	if (obj->buffer.length < 32) {
++		dev_err(&wdev->dev, "Invalid buffer length %u\n", obj->buffer.length);
++		return;
++	}
++
++	payload = get_unaligned_le32(obj->buffer.pointer);
++	entry = sparse_keymap_entry_from_scancode(data->input_dev, payload);
++
++	if (!entry) {
++		dev_dbg(&wdev->dev, "Unknown WMI event with payload %u", payload);
++		return;
++	}
++
++	/* AI key quirk */
++	if (entry->keycode == KEY_ASSISTANT) {
++		value = !(payload & AI_KEY_VALUE_MASK);
++		autorelease = false;
++	}
++
++	guard(mutex)(&data->key_lock);
++	sparse_keymap_report_entry(data->input_dev, entry, value, autorelease);
++}
++
++static const struct wmi_device_id redmi_wmi_id_table[] = {
++	{ WMI_REDMIBOOK_KEYBOARD_EVENT_GUID, NULL },
++	{ }
++};
++
++static struct wmi_driver redmi_wmi_driver = {
++	.driver = {
++		.name = "redmi-wmi",
++		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
 +	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-+			DMI_MATCH(DMI_BOARD_NAME, "FLIP"),
-+		},
-+		.driver_data = (void *)&quirk_fan,
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-+			DMI_MATCH(DMI_BOARD_NAME, "GEEK"),
-+		},
-+		.driver_data = (void *)&quirk_fan,
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-+			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AIR"),
-+		},
-+		.driver_data = (void *)&quirk_charge_limit,
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-+			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AIR 1S"),
-+		},
-+		.driver_data = (void *)&quirk_charge_limit,
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-+			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AB05-Mendocino"),
-+		},
-+		.driver_data = (void *)&quirk_charge_limit,
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-+			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AIR Pro"),
-+		},
-+		.driver_data = (void *)&quirk_charge_limit,
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-+			DMI_EXACT_MATCH(DMI_BOARD_NAME, "KUN"),
-+		},
-+		.driver_data = (void *)&quirk_charge_limit,
-+	},
- 	{
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-diff --git a/drivers/platform/x86/oxpec.c b/drivers/platform/x86/oxpec.c
-index eb076bb4099b..2074650f5ba0 100644
---- a/drivers/platform/x86/oxpec.c
-+++ b/drivers/platform/x86/oxpec.c
-@@ -1,8 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * Platform driver for OneXPlayer and AOKZOE devices. For the time being,
-- * it also exposes fan controls for AYANEO, and OrangePi Handhelds via
-- * hwmon sysfs.
-+ * Platform driver for OneXPlayer and AOKZOE devices.
-  *
-  * Fan control is provided via pwm interface in the range [0-255].
-  * Old AMD boards use [0-100] as range in the EC, the written value is
-@@ -43,14 +41,6 @@ static bool unlock_global_acpi_lock(void)
- 
- enum oxp_board {
- 	aok_zoe_a1 = 1,
--	aya_neo_2,
--	aya_neo_air,
--	aya_neo_air_1s,
--	aya_neo_air_plus_mendo,
--	aya_neo_air_pro,
--	aya_neo_flip,
--	aya_neo_geek,
--	aya_neo_kun,
- 	orange_pi_neo,
- 	oxp_2,
- 	oxp_fly,
-@@ -124,62 +114,6 @@ static const struct dmi_system_id dmi_table[] = {
- 		},
- 		.driver_data = (void *)aok_zoe_a1,
- 	},
--	{
--		.matches = {
--			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
--			DMI_MATCH(DMI_BOARD_NAME, "AYANEO 2"),
--		},
--		.driver_data = (void *)aya_neo_2,
--	},
--	{
--		.matches = {
--			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
--			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AIR"),
--		},
--		.driver_data = (void *)aya_neo_air,
--	},
--	{
--		.matches = {
--			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
--			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AIR 1S"),
--		},
--		.driver_data = (void *)aya_neo_air_1s,
--	},
--	{
--		.matches = {
--			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
--			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AB05-Mendocino"),
--		},
--		.driver_data = (void *)aya_neo_air_plus_mendo,
--	},
--	{
--		.matches = {
--			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
--			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AIR Pro"),
--		},
--		.driver_data = (void *)aya_neo_air_pro,
--	},
--	{
--		.matches = {
--			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
--			DMI_MATCH(DMI_BOARD_NAME, "FLIP"),
--		},
--		.driver_data = (void *)aya_neo_flip,
--	},
--	{
--		.matches = {
--			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
--			DMI_MATCH(DMI_BOARD_NAME, "GEEK"),
--		},
--		.driver_data = (void *)aya_neo_geek,
--	},
--	{
--		.matches = {
--			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
--			DMI_EXACT_MATCH(DMI_BOARD_NAME, "KUN"),
--		},
--		.driver_data = (void *)aya_neo_kun,
--	},
- 	{
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_VENDOR, "OrangePi"),
-@@ -658,13 +592,6 @@ static int oxp_pwm_enable(void)
- 	case orange_pi_neo:
- 		return write_to_ec(ORANGEPI_SENSOR_PWM_ENABLE_REG, PWM_MODE_MANUAL);
- 	case aok_zoe_a1:
--	case aya_neo_2:
--	case aya_neo_air:
--	case aya_neo_air_plus_mendo:
--	case aya_neo_air_pro:
--	case aya_neo_flip:
--	case aya_neo_geek:
--	case aya_neo_kun:
- 	case oxp_2:
- 	case oxp_fly:
- 	case oxp_mini_amd:
-@@ -685,14 +612,6 @@ static int oxp_pwm_disable(void)
- 	case orange_pi_neo:
- 		return write_to_ec(ORANGEPI_SENSOR_PWM_ENABLE_REG, PWM_MODE_AUTO);
- 	case aok_zoe_a1:
--	case aya_neo_2:
--	case aya_neo_air:
--	case aya_neo_air_1s:
--	case aya_neo_air_plus_mendo:
--	case aya_neo_air_pro:
--	case aya_neo_flip:
--	case aya_neo_geek:
--	case aya_neo_kun:
- 	case oxp_2:
- 	case oxp_fly:
- 	case oxp_mini_amd:
-@@ -713,14 +632,6 @@ static int oxp_pwm_read(long *val)
- 	case orange_pi_neo:
- 		return read_from_ec(ORANGEPI_SENSOR_PWM_ENABLE_REG, 1, val);
- 	case aok_zoe_a1:
--	case aya_neo_2:
--	case aya_neo_air:
--	case aya_neo_air_1s:
--	case aya_neo_air_plus_mendo:
--	case aya_neo_air_pro:
--	case aya_neo_flip:
--	case aya_neo_geek:
--	case aya_neo_kun:
- 	case oxp_2:
- 	case oxp_fly:
- 	case oxp_mini_amd:
-@@ -760,14 +671,6 @@ static int oxp_pwm_fan_speed(long *val)
- 	case oxp_g1_i:
- 		return read_from_ec(OXP_2_SENSOR_FAN_REG, 2, val);
- 	case aok_zoe_a1:
--	case aya_neo_2:
--	case aya_neo_air:
--	case aya_neo_air_1s:
--	case aya_neo_air_plus_mendo:
--	case aya_neo_air_pro:
--	case aya_neo_flip:
--	case aya_neo_geek:
--	case aya_neo_kun:
- 	case oxp_fly:
- 	case oxp_mini_amd:
- 	case oxp_mini_amd_a07:
-@@ -796,14 +699,6 @@ static int oxp_pwm_input_write(long val)
- 		/* scale to range [0-184] */
- 		val = (val * 184) / 255;
- 		return write_to_ec(OXP_SENSOR_PWM_REG, val);
--	case aya_neo_2:
--	case aya_neo_air:
--	case aya_neo_air_1s:
--	case aya_neo_air_plus_mendo:
--	case aya_neo_air_pro:
--	case aya_neo_flip:
--	case aya_neo_geek:
--	case aya_neo_kun:
- 	case oxp_mini_amd:
- 	case oxp_mini_amd_a07:
- 		/* scale to range [0-100] */
-@@ -840,14 +735,6 @@ static int oxp_pwm_input_read(long *val)
- 		/* scale from range [0-184] */
- 		*val = (*val * 255) / 184;
- 		break;
--	case aya_neo_2:
--	case aya_neo_air:
--	case aya_neo_air_1s:
--	case aya_neo_air_plus_mendo:
--	case aya_neo_air_pro:
--	case aya_neo_flip:
--	case aya_neo_geek:
--	case aya_neo_kun:
- 	case oxp_mini_amd:
- 	case oxp_mini_amd_a07:
- 		ret = read_from_ec(OXP_SENSOR_PWM_REG, 1, val);
++	.id_table = redmi_wmi_id_table,
++	.probe = redmi_wmi_probe,
++	.notify = redmi_wmi_notify,
++	.no_singleton = true,
++};
++module_wmi_driver(redmi_wmi_driver);
++
++MODULE_DEVICE_TABLE(wmi, redmi_wmi_id_table);
++MODULE_AUTHOR("Gladyshev Ilya <foxido@foxido.dev>");
++MODULE_DESCRIPTION("Redmibook WMI driver");
++MODULE_LICENSE("GPL");
 -- 
-2.50.1
-
+2.50.0
 
 
