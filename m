@@ -1,147 +1,162 @@
-Return-Path: <platform-driver-x86+bounces-13987-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-13990-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F29ADB44B1A
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  5 Sep 2025 03:09:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 567F2B44CDD
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  5 Sep 2025 06:45:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9D54EA07EE3
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  5 Sep 2025 01:09:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71B5A3A665B
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  5 Sep 2025 04:45:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C78361DF72C;
-	Fri,  5 Sep 2025 01:09:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C38B026B2D2;
+	Fri,  5 Sep 2025 04:43:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SNrn1mKh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l13Q8uzf"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892481D90DD;
-	Fri,  5 Sep 2025 01:09:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C393425A2BB;
+	Fri,  5 Sep 2025 04:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757034579; cv=none; b=QjrXpVHecS6ksFdxBW//HRFXq3548AmqukNCrkT+3uiUFpI/dUzvAMeNsNZj+YFTnZ++Rtumg7ZACS0SEq1w5Z3XXQhuXwXmNRpFowtFYzGMzPQvwLFkxoSHro6SkirvIAC59bUs31xpk2rT847I/hGQVMbKerfDg2CnTPvjX6A=
+	t=1757047405; cv=none; b=UI4WDUc8ANXcsTgACFISfi1oguY39TIhZYCiii0Uv2Hyb6yKb77Gsjcp1ikoFdfHGZVvzxiiXHJtUgrD0tPjY/U26l7CgGx+OOS6iC7BZcqzwUj+1wV6uHIExiDdis16DB3rmlxnTGV9uRQlou6xcfDonHMhqDw983ew9O0c5xg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757034579; c=relaxed/simple;
-	bh=8KymmQbiX0xMeNo9k7iaOAyWLVkxoe2n8Vei2/uCabE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gbjQnGZhhorAfKS5PRuSpTIyeuS6fypxNfNZ8ZYWGKea7moeqRIt8BZ1Q5Ehn7CkAAGgwg0y8Arp8AlcMazemyjTBCplFjE6M6c2MWRXod6Xxz4faLed42hRJhSXQDWNZLCGhrG91bgNbL9hyn4foQwl3M79s3kTxYNOi3kP4Qw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SNrn1mKh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C929BC4CEF6;
-	Fri,  5 Sep 2025 01:09:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757034579;
-	bh=8KymmQbiX0xMeNo9k7iaOAyWLVkxoe2n8Vei2/uCabE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=SNrn1mKhIPievf8XKAES92Rp1xn4On/b27/H0IeKLQxTkPc+XfHH5O1Bbw3L+dA9n
-	 9mhz6wPfSAPX4Bjc7VcIV/HwqPL/rb7QsfE/qQVDbMxvJ//naso21Dv2c/8LlMDlCF
-	 swlqqskyIm/JATjks62fgFrFdqqLeF+kZxXTuO+DXfawR8XJdgwAI1Unk2lmn4pcIN
-	 V3AkoZ69j16zQdxVLvhQcKDSlhxjQ/a22PNasoQEfNN3nIMexuGUegfrQz/XpjD486
-	 vxacBSMEybUMeIs3gePJsh9QD+R499AQBG/asdKgnUH/fMLmAuyn4SBeOJBl+zCdKN
-	 T43aO2eiy5S3g==
-Received: by venus (Postfix, from userid 1000)
-	id 1205A180B21; Fri, 05 Sep 2025 03:09:36 +0200 (CEST)
-From: Sebastian Reichel <sre@kernel.org>
-Date: Fri, 05 Sep 2025 03:09:33 +0200
-Subject: [PATCH v2 3/3] arm64: dts: qcom: x1e80100-t14s: add EC
+	s=arc-20240116; t=1757047405; c=relaxed/simple;
+	bh=7Wo9pOKUYI5Xd3UJNYhWvwpaZil6lLw6qrUzVyrpe2s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V1QV9jDKLOhsI/Z6JLmFWpy1Oy7EQHCWcaKklAgdPxD9Nke4kTDs264FqNFyLCfe8fLrGolwqZFE7N4+sbcCHS0FBjkdUEACOOT892jhF5mHjt/3GT0tSgvi+LobgbJVrWy4ecBrviuobZJ6VuMDbNLoDx5PMRTe3WZ4/p9dybY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l13Q8uzf; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2445805aa2eso17359405ad.1;
+        Thu, 04 Sep 2025 21:43:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757047403; x=1757652203; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=zdeOFZQ//FAV0qJKK0kbkrGUUYVbli4JDrPUYPF8pGo=;
+        b=l13Q8uzfSFsnaEQw266hK1CPbd835v1AMwGEabfwCdzg2czDKH4mubzgHuDRPpQEaL
+         9estZPaTjEKShPfdd1T+EsCsq6N/Mdp++JHl9EMz7WpPHznciN/xgVGEsLx5wvPlB1P2
+         IYjsf/WtivkqoUgehmy+MGxBs4EzyWQ1HoLQUQu/su1e4FD8MzSKRcPqyGLmDUjSj/nb
+         1vX8HB+AqhRiXmYWwRKJitrURkZvON8uxmrNbRe3M6XlDK6gVTyu+cQ3sEcIBd5hfiuf
+         XfEnCe5ObWRATYWKCIo04LkJQI/0y2IuUOcNESsGS7Q1astbyHOAsMRcMpnbsw0Ftmjp
+         MwGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757047403; x=1757652203;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zdeOFZQ//FAV0qJKK0kbkrGUUYVbli4JDrPUYPF8pGo=;
+        b=uPQqQ8Xz07qQWwMEZfMGXS5ps1P30q5oJaBRQyjLY5ygnSTglygVnLUXjLDb1oUE7s
+         PuvS0xgDWC1PFg+2DJr69Yu142i0xURKCs36h4ihZIRmi/cBQUwKtuzu0UfT3M+Kf5ew
+         +wR9zq2kQXUL3anybKIWtSDHsK11keb3IyMTpi36L9000NhWGy0L6HjGnEHgCcVPF07T
+         cb1LLWdDf0xCYlaEtos8EPRZsrLtGm9PwT8Hf9zMttPxdr8te0kpUpnSN02noWazXGa0
+         g+GAheqoOu9qMX4VUsBH/zqUTpRxP/0a92CYz58DdwbVXzcQU/WGMb/ss6TSen6iCNpK
+         0mvw==
+X-Forwarded-Encrypted: i=1; AJvYcCV7PROm3b8nhXKlB/iHqLmM1ofievpFUfwOC+/xNQLSfzBSMfz9hmOGlDx69ZxvLJcu/XjrOY69GpaSFw==@vger.kernel.org, AJvYcCWHKdCNay+6O7uV58VGfY4iZXDUL1NLFe7/kSZTGhfwR+bYcs5+JU7UhssBwqREkAF6ToRia69hoqjSxsRx@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7MBleeeSUcz3YfjEraOU0Mc0o9iz0yoYa/fLyrtftgZ9lWBQb
+	hyIMaGEMGT5RN8wxw1Mq+770KeycPfUr8lrCIZaQSuD1gb/qtqKQsZNa
+X-Gm-Gg: ASbGncsFTUCzhodg+LseupvlYjkz2QgWg7fRtz3QK9LK99bE/hXd7ITv4fIObJYkmRm
+	phmDC97pueWXjpDT5s6B196jtd5WUOlCtXievc8XLQsGKkfVK/PCI0gZWuCb0wOVz883qo0sDaQ
+	QyMElGJGmY3mavNI5yqeNnm3F9+GwIWD88bbBkIS2pnURRkj8x3pJTUzJBwKVrlYzgrkA5HGbEl
+	ngtMRmBkMBHuhCaLDPSigPRuuiKd/z1tlX/86OEaW9vd/nyJVaU9twdwjeWLa7u49ryJdKVquDo
+	oh5/39dgcbcFKThrcXHE7JADtQf1T0eJ/q84xhALJzD4ZY27JQRWb9u/T2JCxha65dzmJuoU/0g
+	L2esCPfWVKWrgXHoyJ2v8YYiZOLgvEdtpSa1zlTDrJ1Lcy8jy2mblkOHFAWouEC9Ii+1CNqwYbg
+	lwCV1aMQ==
+X-Google-Smtp-Source: AGHT+IFA8qcO6cOpX0sja+WKOmAUJCTEVHs/lv/F5YofkBZvoKczQp2A5e0LxRO5PXeg2iTgmK9uGA==
+X-Received: by 2002:a17:902:ec8a:b0:24c:cb6b:105c with SMTP id d9443c01a7336-24ccb6b1339mr77885645ad.54.1757047402930;
+        Thu, 04 Sep 2025 21:43:22 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4f8a0a3948sm10696370a12.27.2025.09.04.21.43.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Sep 2025 21:43:22 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <07ff2b26-5518-4ccd-8509-75aab8989d24@roeck-us.net>
+Date: Thu, 4 Sep 2025 21:43:20 -0700
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] platform/x86: portwell-ec: Add hwmon support for
+ voltage and temperature
+To: Yen-Chi Huang <jesse.huang@portwell.com.tw>, hansg@kernel.org,
+ ilpo.jarvinen@linux.intel.com, jdelvare@suse.com
+Cc: platform-driver-x86@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-kernel@vger.kernel.org, jay.chen@canonical.com
+References: <a5edf505-9b77-461e-ae8d-510e6ed3f950@portwell.com.tw>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <a5edf505-9b77-461e-ae8d-510e6ed3f950@portwell.com.tw>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250905-thinkpad-t14s-ec-v2-3-7da5d70aa423@collabora.com>
-References: <20250905-thinkpad-t14s-ec-v2-0-7da5d70aa423@collabora.com>
-In-Reply-To: <20250905-thinkpad-t14s-ec-v2-0-7da5d70aa423@collabora.com>
-To: Sebastian Reichel <sre@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Hans de Goede <hansg@kernel.org>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Mark Pearson <mpearson-lenovo@squebb.ca>
-Cc: "Derek J. Clark" <derekjohn.clark@gmail.com>, 
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>, 
- Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1495;
- i=sebastian.reichel@collabora.com; h=from:subject:message-id;
- bh=8KymmQbiX0xMeNo9k7iaOAyWLVkxoe2n8Vei2/uCabE=;
- b=owEBbQKS/ZANAwAKAdju1/PIO/qaAcsmYgBoujhPvE9AY5hTWjabvJxj7CzoIutmwtI5VhXP8
- Idz38UxTxiJAjMEAAEKAB0WIQTvZg0HRj+Lcmp5VBPY7tfzyDv6mgUCaLo4TwAKCRDY7tfzyDv6
- muUDD/0betVnb3gFiWMeGJzcMFu4nzBItk37KoMJBMjfK+xh2r52dxf4hrjTiKKUT4Q3f9AlpX8
- 8Ij13BezBd3tVjs0ptBRBhLCj6GHHaKrS9M2CQgSqIggbt36csn8XL9dUFmuqoiJ1JFZfQNJ02L
- ndU/vNk86nq8SLyU7A5wOu88jO0T7Qp7xRquS7FGyh5LowDhq1w9CF731SK+i0q+9R7NqkNqdf0
- xkGGmy4m7jIvi24AH+8qmb8cWYmoISVsvkKPLEOowk0Q8SMO4ZRpQstS+pytUWlVW8th+jEsO1N
- OFUEQ9jGjVvVoKjx3pVfFXCAIE/YL4pdhNIXNB+6tr6wAz6SntuRyuEYiRK6/Gvcn/TZ616v4VV
- 9ixsYscpvaOFCZUOyvUqr8akICgZncSBJingXjQyXgU4iQs5MObxH1NGipfSMv5f6N0Ed5ElA29
- RZjXgy66vcsx1jY1VHfPVVNWEk4Brbzk84f/giNHEbXGNQ8UWjtmwCNaDMX3S1N5a4NjR0z2cie
- 8T9z5xeyvSMvdqJTds0/1zKJX51XTqwdsG4WOXAtWurqIhzzk4iKtlrU7y7hOC2ksY8GhQ0ZiVC
- ZWnVJvyX4LxmmMs5H7iZjRNFJV89MZGf6SEgPdBYwNOxNmc8cCcTiaMNx4q0EwhvNdEEprrFDo4
- xZqTzyrKLSr+66g==
-X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
- fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-Describe ThinkPad Embedded Controller in the T14s device tree,
-which adds LED and special key support.
+On 9/4/25 02:29, Yen-Chi Huang wrote:
+> Integrates voltage and temperature monitoring into the driver via the hwmon
+> subsystem, enabling standardized reporting via tools like lm-sensors.
+> 
+> Signed-off-by: Yen-Chi Huang <jesse.huang@portwell.com.tw>
+> ---
+> 
+...
 
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on Thinkpad T14S OLED
-Signed-off-by: Sebastian Reichel <sre@kernel.org>
----
- .../dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi    | 24 ++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+> +
+> +static const struct hwmon_ops pwec_hwmon_ops = {
+> +	.read = pwec_hwmon_read,
+> +};
 
-diff --git a/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi b/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi
-index ac1dddf27da30e6a9f7e1d1ecbd5192bf2d0671e..f70489aba870289edbcf84ec22fdb004e010868b 100644
---- a/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi
-+++ b/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi
-@@ -887,6 +887,24 @@ eusb6_repeater: redriver@4f {
- 	};
- };
- 
-+&i2c6 {
-+	clock-frequency = <400000>;
-+
-+	status = "okay";
-+
-+	embedded-controller@28 {
-+		compatible = "lenovo,thinkpad-t14s-ec";
-+		reg = <0x28>;
-+
-+		interrupts-extended = <&tlmm 66 IRQ_TYPE_LEVEL_LOW>;
-+
-+		pinctrl-0 = <&ec_int_n_default>;
-+		pinctrl-names = "default";
-+
-+		wakeup-source;
-+	};
-+};
-+
- &i2c7 {
- 	clock-frequency = <400000>;
- 
-@@ -1267,6 +1285,12 @@ &tlmm {
- 			       <72 2>, /* Secure EC I2C connection (?) */
- 			       <238 1>; /* UFS Reset */
- 
-+	ec_int_n_default: ec-int-n-state {
-+		pins = "gpio66";
-+		function = "gpio";
-+		bias-disable;
-+	};
-+
- 	eusb3_reset_n: eusb3-reset-n-state {
- 		pins = "gpio6";
- 		function = "gpio";
+And this works ? That would be quite surprising.
 
--- 
-2.50.1
+Guenter
 
 
