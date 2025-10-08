@@ -1,132 +1,117 @@
-Return-Path: <platform-driver-x86+bounces-14555-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-14557-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27975BC551B
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 08 Oct 2025 15:54:07 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC15CBC5638
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 08 Oct 2025 16:09:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C4DAB34313E
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Oct 2025 13:54:06 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9D3654ED6FF
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Oct 2025 14:07:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42547285C83;
-	Wed,  8 Oct 2025 13:54:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 191EB28C864;
+	Wed,  8 Oct 2025 14:06:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FjAiC6KX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q2zrPpkg"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DFC616F288
-	for <platform-driver-x86@vger.kernel.org>; Wed,  8 Oct 2025 13:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74722874E0;
+	Wed,  8 Oct 2025 14:06:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759931643; cv=none; b=Z52Ta9aT4un48kueUiaGbJEoHCELwFrruFaMYPI96I0mLsoDwDUI1ecP3m/8B9wh9p8Zc+O4d2z9a/F4a6PNCJT1d+YYzf3YJ2iTBW9jBdj0SQa1fUlaYX7c7ljiFVYdE3x5DWs2JTwQcgf3wzZVS4UCS3WqEVRqWvrOaZFtVx4=
+	t=1759932394; cv=none; b=ULZCAV2oPRbhwsj48SyLXjRgiN+t8mAh8cSFP+29L4gsBlwpeNdPCfemN89JRgjzGRUeeN6x7yuxTQwvvbMtOgtzrmU6DgbMB6i9WyfK/Hm1SBQUDA4zNjOk4kT18Gd4ipZ96psFURSKz2+Tn1kV+v02vC4sgy713xUru1059YI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759931643; c=relaxed/simple;
-	bh=qS1mGdf3I4H0jwgmNyl1xbv3mocDPpbUUOqr5bD1/JQ=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=sj/WfuySqAO3B3D50R5giAelCocynjPbLFi/Er79I5QjuB9WYBetmZebhUO5O2T1h5lh85QawJskGfAvPlD1sSJiF2DPH3+iovpLaCUHqdolz13lNYbrRChCEKkjamSOVJdkkyapUOdNG/LPesfAWOtWQqSW3Gwz7j276KUJPJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FjAiC6KX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8F0FCC4CEF8
-	for <platform-driver-x86@vger.kernel.org>; Wed,  8 Oct 2025 13:54:02 +0000 (UTC)
+	s=arc-20240116; t=1759932394; c=relaxed/simple;
+	bh=BuwQI0ywp1QTrfR2PtbUc2upP5PnlKtENsOpFyFhISE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oURG4Zw1Ao+lMZDUrdWv6DkxRqUavswSMAl8zKscgpzTk4tc21TuqdC2odQ2dsNhJHz1Og2e2m+mUpsVYfX94IGuDXPP1Z3XqJhQSuC+z/VGAvJoMdLMgrtcHgSGbEikidbfBy01xeo/Z8ZWZv1UBwZmgvvCps0O9j8WYhcnNiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q2zrPpkg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3F64C4CEE7;
+	Wed,  8 Oct 2025 14:06:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759931642;
-	bh=qS1mGdf3I4H0jwgmNyl1xbv3mocDPpbUUOqr5bD1/JQ=;
-	h=From:To:Subject:Date:From;
-	b=FjAiC6KXjwFgUQfYNb05ia+dwZCH68oV1CgmgUhCCucguObh4vyV4m/5zWYa4tQCW
-	 8a+JzGKLhOKKTkKwn0WCvJ0K9d9FZMLJ4wJ346/Gw1bFETuOH6lKX1egk4lzHf2bQ0
-	 eXadta6ZGLs+0gKPc2Y/Dq5J6yVyq0if3C1jJVn6MNfz+A8XsG23tgn2g9pTSqRSQz
-	 wagfOSNQsWKB9Dzdqdpk9RrgdjEAuk1ofa8iLOeXt6W3EWCnRnZWIE51EA8rHk97KV
-	 ozeeAv/+eibXw2Yen3It8F3dKstCOKzC0u9F1sZkom0R6IxWHGKjnPsvVrQG/5SJTz
-	 I7W+/3owZk2+g==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 81316C53BBF; Wed,  8 Oct 2025 13:54:02 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: platform-driver-x86@vger.kernel.org
-Subject: [Bug 220646] New: Regression: kernel 6.16.8 fails to boot on Intel
- Raptor Lake Z790 (ahci/xhci error -12)
-Date: Wed, 08 Oct 2025 13:54:02 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: jn@yaloub.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-220646-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	s=k20201202; t=1759932393;
+	bh=BuwQI0ywp1QTrfR2PtbUc2upP5PnlKtENsOpFyFhISE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=q2zrPpkgOWoOQJrVrNbEQKUzRJ2io4s8pRUZGfmmj5zYZCF4Pt0TWLWf36IZ7eKii
+	 aVwBqsb5B4VoD3Q9NDgKSBpM0J29A9mAB/7PltfhZUbxAIMeNsKbPGohqNWI0B8nor
+	 7ubN0WtAMrOoUo/Su9QMmEFU/dBLBLchl1B/dS3CoEqCmOL2+FiipvccyMLgLLaFrH
+	 I9G4ZUwmI7kftqojDsgR1idpL3h2djmCahxdYn8Bu4PaMEdIT8lY7CU3+0mNUmQ6jt
+	 6AB8oCPx/q/prmLsRIUYODU4JNtotuT+SyP45MGOy5GpND+8AWLcuafswlamNKHkAi
+	 O95eMlomOH+9Q==
+Message-ID: <f6d4145b-3295-4a98-9074-d4d1b7b466ae@kernel.org>
+Date: Wed, 8 Oct 2025 09:06:32 -0500
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] platform/x86/amd: pmc: Add Lenovo Legion Go 2 to pmc
+ quirk list
+To: Antheas Kapenekakis <lkml@antheas.dev>, Shyam-sundar.S-k@amd.com,
+ hansg@kernel.org, ilpo.jarvinen@linux.intel.com
+Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Mark Pearson <mpearson-lenovo@squebb.ca>
+References: <20251008135057.731928-1-lkml@antheas.dev>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20251008135057.731928-1-lkml@antheas.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220646
+On 10/8/25 8:50 AM, Antheas Kapenekakis wrote:
+> The Lenovo Legion Go 2 takes a long time to resume from suspend.
+> This is due to it having an nvme resume handler that interferes
+> with IOMMU mappings. It is a common issue with older Lenovo
+> laptops. Adding it to that quirk list fixes this issue.
+> 
+> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4618
+> Suggested-by: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 
-            Bug ID: 220646
-           Summary: Regression: kernel 6.16.8 fails to boot on Intel
-                    Raptor Lake Z790 (ahci/xhci error -12)
-           Product: Drivers
-           Version: 2.5
-          Hardware: Intel
-                OS: Linux
-            Status: NEW
-          Severity: high
-          Priority: P3
-         Component: Platform_x86
-          Assignee: drivers_platform_x86@kernel-bugs.osdl.org
-          Reporter: jn@yaloub.com
-        Regression: No
+This makes sense for BIOS in the field.
+If this is fixed in the BIOS later I'd like to narrow the quirk at a 
+later time.
 
-Hardware:
-- MSI MAG Z790 TOMAHAWK WIFI (MS-7D91), Intel i9-14900KF
-- Chipset: Intel Raptor Lake (Z790)
-- Storage: Samsung SSD 860 EVO (SATA), Corsair MP600 NVMe
-- GPU: NVIDIA RTX 4070 Ti
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
 
-Issue:
-- Booting 6.16.8+kali-amd64 fails with:
-    ahci: failed to start port (errno=3D-12)
-    xhci_hcd 0000:00:14.0: init failed, error -12
-- System drops into initramfs, USB keyboard not functional at that point.
-- GRUB works (disk visible to firmware).
-- Booting older kernel 6.12.38+kali-amd64 works fine on same hardware.
+> ---
+>   drivers/platform/x86/amd/pmc/pmc-quirks.c | 17 +++++++++++++++++
+>   1 file changed, 17 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/amd/pmc/pmc-quirks.c b/drivers/platform/x86/amd/pmc/pmc-quirks.c
+> index d63aaad7ef59..0fadcf5f288a 100644
+> --- a/drivers/platform/x86/amd/pmc/pmc-quirks.c
+> +++ b/drivers/platform/x86/amd/pmc/pmc-quirks.c
+> @@ -204,6 +204,23 @@ static const struct dmi_system_id fwbug_list[] = {
+>   			DMI_MATCH(DMI_PRODUCT_NAME, "82ND"),
+>   		}
+>   	},
+> +	/* https://gitlab.freedesktop.org/drm/amd/-/issues/4618 */
+> +	{
+> +		.ident = "Lenovo Legion Go 2",
+> +		.driver_data = &quirk_s2idle_bug,
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "83N0"),
+> +		}
+> +	},
+> +	{
+> +		.ident = "Lenovo Legion Go 2",
+> +		.driver_data = &quirk_s2idle_bug,
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "83N1"),
+> +		}
+> +	},
+>   	/* https://gitlab.freedesktop.org/drm/amd/-/issues/2684 */
+>   	{
+>   		.ident = "HP Laptop 15s-eq2xxx",
+> 
+> base-commit: a8cdf51cda30f7461a98af821e8a28c5cb5f8878
 
-Additional:
-- Also see:
-    platform INT3515:01: deferred probe pending: Error creating i2c-client,=
- idx
-0
-- This message appears on both kernels, but is not fatal on 6.12.
-
-Steps to reproduce:
-1. Boot system with kernel 6.16.8.
-2. Observe ahci/xhci errors and initramfs hang.
-3. Reboot and select 6.12.38 =E2=86=92 boots normally.
-
-Conclusion:
-Regression between 6.12 and 6.16 affecting Intel Raptor Lake SATA AHCI and =
-USB
-XHCI controllers.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
 
