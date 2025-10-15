@@ -1,176 +1,255 @@
-Return-Path: <platform-driver-x86+bounces-14674-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-14676-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 814F2BDD7F1
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Oct 2025 10:47:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC03BBDD983
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Oct 2025 11:04:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4DC0A4FA6E7
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Oct 2025 08:47:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 755A43E1E9E
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Oct 2025 09:04:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35741319604;
-	Wed, 15 Oct 2025 08:46:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1F9B307AF4;
+	Wed, 15 Oct 2025 09:04:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="U/SGEldZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jcc7Wkw0"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444CA3191AC;
-	Wed, 15 Oct 2025 08:46:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.171.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E770A30648B;
+	Wed, 15 Oct 2025 09:04:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760518006; cv=none; b=kwJGzubE96RDNGxvbriuOTWweRrrJJKx+F0KiDaqJwKWhEPFFVguOcYfhVbokOtNCtzsZ+dS7rimyK86XRvbsF06raUrq0o7mSROqjmCJP7gyHhzIVatwmtOnUDRybGXRkTpu2tjnjaStEltJZ3ohwI9nPQo1gBoP0PuUpxhkGE=
+	t=1760519074; cv=none; b=rM5VmNbqdX4l6aRMS6115Qwcp7HXIyiR7/X2hMFaPN9jw3tpvUFQ8KDVrSlKYpdiIPA31rolXDBcwUdP5RYu28s23gQGIzmlgAm460yqLASOwO/nF9u6/FfYI27xYMP6oYHJ5/CQjmPLHztCls+2Hac4/vT8wcsvUz+kSP7ENMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760518006; c=relaxed/simple;
-	bh=NZcpSWmslCYPg9Fwnn8NwnAcZphlhrTQ1AyiCMWCH1M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=itBLCmRuEd+xcO3e/v3gDaN5sRVU8tZtSvWMNfXhg4PjoZtsltxCtWSj3PVuxrMvZZCL58SCSPtQifyygmuXjyyXARy+oM6Jzp0mZjbCB3H7DRIrCZztYVE+P444ueUc2nZsU0kTNWyd8y4C+wWDNCBjwYwp9+Qo3fBY4bd95rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=U/SGEldZ; arc=none smtp.client-ip=78.46.171.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from relay11 (localhost.localdomain [127.0.0.1])
-	by relay11.grserver.gr (Proxmox) with ESMTP id 923AFC5C2F;
-	Wed, 15 Oct 2025 11:46:42 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay11.grserver.gr (Proxmox) with ESMTPS id 273D2C5A7D;
-	Wed, 15 Oct 2025 11:46:42 +0300 (EEST)
-Received: from antheas-z13 (x5996a8de.customers.hiper-net.dk [89.150.168.222])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 29AB6200A8C;
-	Wed, 15 Oct 2025 11:46:40 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1760518001;
-	bh=wFV3tYVcLSkZKq8Ul3B2tHS9V3H6ix/FNBiIRXbFmiU=; h=From:To:Subject;
-	b=U/SGEldZy+Tz6jlGH1OWuAQV8D3xv8zjNdgPu6tzrX+uf5XSp78UU68oVR/fLWJZ6
-	 gzb4JWeiS+/I8NNcXDaa+WwS0Wn5grioVKSt/qMOxlgoLpOQ4QQDXf7E21pWUiNVAf
-	 p7xEUwOejylxj8Cfqv557Otsqja5U5shaciiA2FlWggYn11e4uFdv3eKkFVSCtKED2
-	 JhB3+1PmmxoRkmEWdwmnmtPnzI/V2laVe7mXT3GLJ4y9rC7ooLbE+Vm4meiBvzpwZb
-	 IYnZcsZYFOdzFUC6lMSWSkyCyd8AY62e5wuor0O38VPl4PF2wPMI8/QtkaIdJ7hV+U
-	 Vwybwv3GHU0kw==
-Authentication-Results: linux3247.grserver.gr;
-	spf=pass (sender IP is 89.150.168.222) smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-From: Antheas Kapenekakis <lkml@antheas.dev>
-To: platform-driver-x86@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Derek John Clark <derekjohn.clark@gmail.com>,
-	=?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= <samsagax@gmail.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v2 6/6] platform/x86: ayaneo-ec: Add suspend hook
-Date: Wed, 15 Oct 2025 10:44:14 +0200
-Message-ID: <20251015084414.1391595-7-lkml@antheas.dev>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251015084414.1391595-1-lkml@antheas.dev>
-References: <20251015084414.1391595-1-lkml@antheas.dev>
+	s=arc-20240116; t=1760519074; c=relaxed/simple;
+	bh=d++6MHwAGD+KgVnZhjSK1AbYBSvKbkEvvbW38OEJCxY=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=us30QDzPDrKogGcFU+ANsh+xk83RvmQ6brIDpEbefjowgIkp67g/b3rAX9D8nYcb8finBXE4wKkpovHD8xQXjh7JEMWwHnOE/pmHSTQ3NAknNWEYBDMyIXL0YG5XTatmR8uwf1GZ8lpBnTiGxOANhrSJtYDbNTgjUmcZCKKQdVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jcc7Wkw0; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760519073; x=1792055073;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=d++6MHwAGD+KgVnZhjSK1AbYBSvKbkEvvbW38OEJCxY=;
+  b=jcc7Wkw0ZZfA9c/lVR9KrBtkM26kFoptW6Hpz5NwTUWkh0GnIQzRe9jw
+   1ARtSife/NQ4VGaYpnx0tQuQLEjYBd99Hji0O8xBwZmAi4HXFsghba7t6
+   vOgFE4jqAwLX3fhsv8CtIgoQiQy1aFsYvjQ4rn7Y7WsxjWIIIUiinybDh
+   JLc4wMFUnqHk0PSg9R3P6YffgESzHlMI1bD9LBq2qzzXw3NXV1Lcqu/k2
+   gHDuyEQ1bK0pQmcbXtsVGaDGxxkuS6CqUjowDM1CaS/53BCc8xQz290Ck
+   jmM/Bics806AptRXSBCewTH8tRm2FbLXAwcUg1Jh6HJmA9DMIQZZXOIsK
+   Q==;
+X-CSE-ConnectionGUID: /PxpKfeaTUu8jH+1C9iXAg==
+X-CSE-MsgGUID: CfiW6VKjT6CL6sJueI34ZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11582"; a="65309693"
+X-IronPort-AV: E=Sophos;i="6.19,230,1754982000"; 
+   d="scan'208";a="65309693"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 02:04:32 -0700
+X-CSE-ConnectionGUID: Spi6wYbmRB+UM9OD5M+Vwg==
+X-CSE-MsgGUID: 2+FjcwEMT9iDp0o82bIUjw==
+X-ExtLoop1: 1
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.75])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 02:04:28 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Wed, 15 Oct 2025 12:04:24 +0300 (EEST)
+To: Antheas Kapenekakis <lkml@antheas.dev>
+cc: platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+    linux-hwmon@vger.kernel.org, Hans de Goede <hansg@kernel.org>, 
+    Derek John Clark <derekjohn.clark@gmail.com>, 
+    =?ISO-8859-15?Q?Joaqu=EDn_Ignacio_Aramend=EDa?= <samsagax@gmail.com>, 
+    Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v2 1/6] platform/x86: ayaneo-ec: Add Ayaneo Embedded
+ Controller platform driver
+In-Reply-To: <20251015084414.1391595-2-lkml@antheas.dev>
+Message-ID: <d909afef-a47b-83c9-b935-f5b06034fcab@linux.intel.com>
+References: <20251015084414.1391595-1-lkml@antheas.dev> <20251015084414.1391595-2-lkml@antheas.dev>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <176051800182.921133.2733718083934450324@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=US-ASCII
 
-The Ayaneo EC resets after hibernation, losing the charge control state.
-Add a small PM hook to restore this state on hibernation resume.
+On Wed, 15 Oct 2025, Antheas Kapenekakis wrote:
 
-The fan speed is also lost during hibernation, but since hibernation
-failures are common with this class of devices, setting a low fan speed
-when the userspace program controlling the fan will potentially not
-take over could cause the device to overheat, so it is not restored.
+> Recent Ayaneo devices feature an ACPI mapped Embedded Controller (EC)
+> with standard addresses across models that provides access to fan
+> speed, fan control, battery charge limits, and controller power
+> controls. Introduce a new driver stub that will handle these driver
+> features.
+> 
+> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> ---
+>  MAINTAINERS                      |  6 +++
+>  drivers/platform/x86/Kconfig     | 10 ++++
+>  drivers/platform/x86/Makefile    |  3 ++
+>  drivers/platform/x86/ayaneo-ec.c | 89 ++++++++++++++++++++++++++++++++
+>  4 files changed, 108 insertions(+)
+>  create mode 100644 drivers/platform/x86/ayaneo-ec.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 46126ce2f968..8c4d0c26ca77 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -4187,6 +4187,12 @@ W:	https://ez.analog.com/linux-software-drivers
+>  F:	Documentation/devicetree/bindings/pwm/adi,axi-pwmgen.yaml
+>  F:	drivers/pwm/pwm-axi-pwmgen.c
+>  
+> +AYANEO PLATFORM EC DRIVER
+> +M:	Antheas Kapenekakis <lkml@antheas.dev>
+> +L:	platform-driver-x86@vger.kernel.org
+> +S:	Maintained
+> +F:	drivers/platform/x86/ayaneo-ec.c
+> +
+>  AZ6007 DVB DRIVER
+>  M:	Mauro Carvalho Chehab <mchehab@kernel.org>
+>  L:	linux-media@vger.kernel.org
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index 46e62feeda3c..ff2678927696 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -316,6 +316,16 @@ config ASUS_TF103C_DOCK
+>  	  If you have an Asus TF103C tablet say Y or M here, for a generic x86
+>  	  distro config say M here.
+>  
+> +config AYANEO_EC
+> +	tristate "Ayaneo EC platform control"
+> +	depends on X86
+> +	help
+> +	  Enables support for the platform EC of Ayaneo devices. This
+> +	  includes fan control, fan speed, charge limit, magic
+> +	  module detection, and controller power control.
+> +
+> +	  If you have an Ayaneo device, say Y or M here.
+> +
+>  config MERAKI_MX100
+>  	tristate "Cisco Meraki MX100 Platform Driver"
+>  	depends on GPIOLIB
+> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+> index c7db2a88c11a..274a685eb92d 100644
+> --- a/drivers/platform/x86/Makefile
+> +++ b/drivers/platform/x86/Makefile
+> @@ -39,6 +39,9 @@ obj-$(CONFIG_ASUS_TF103C_DOCK)	+= asus-tf103c-dock.o
+>  obj-$(CONFIG_EEEPC_LAPTOP)	+= eeepc-laptop.o
+>  obj-$(CONFIG_EEEPC_WMI)		+= eeepc-wmi.o
+>  
+> +# Ayaneo
+> +obj-$(CONFIG_AYANEO_EC)		+= ayaneo-ec.o
+> +
+>  # Cisco/Meraki
+>  obj-$(CONFIG_MERAKI_MX100)	+= meraki-mx100.o
+>  
+> diff --git a/drivers/platform/x86/ayaneo-ec.c b/drivers/platform/x86/ayaneo-ec.c
+> new file mode 100644
+> index 000000000000..90b86527ab0d
+> --- /dev/null
+> +++ b/drivers/platform/x86/ayaneo-ec.c
+> @@ -0,0 +1,89 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Platform driver for the Embedded Controller (EC) of Ayaneo devices. Handles
+> + * hwmon (fan speed, fan control), battery charge limits, and magic module
+> + * control (connected modules, controller disconnection).
+> + *
+> + * Copyright (C) 2025 Antheas Kapenekakis <lkml@antheas.dev>
+> + */
+> +
+> +#include <linux/dmi.h>
+> +#include <linux/init.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +
+> +struct ayaneo_ec_quirk {
+> +};
+> +
+> +struct ayaneo_ec_platform_data {
+> +	struct platform_device *pdev;
+> +	struct ayaneo_ec_quirk *quirks;
+> +};
+> +
+> +static const struct ayaneo_ec_quirk ayaneo3 = {
+> +};
 
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
----
- drivers/platform/x86/ayaneo-ec.c | 42 ++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+I suggest including quirks in the name.
 
-diff --git a/drivers/platform/x86/ayaneo-ec.c b/drivers/platform/x86/ayaneo-ec.c
-index 73e9dd39c703..8529f6f8dc69 100644
---- a/drivers/platform/x86/ayaneo-ec.c
-+++ b/drivers/platform/x86/ayaneo-ec.c
-@@ -37,6 +37,8 @@
- #define AYANEO_MODULE_LEFT	BIT(0)
- #define AYANEO_MODULE_RIGHT	BIT(1)
- 
-+#define AYANEO_CACHE_LEN	1
-+
- struct ayaneo_ec_quirk {
- 	bool has_fan_control;
- 	bool has_charge_control;
-@@ -47,6 +49,8 @@ struct ayaneo_ec_platform_data {
- 	struct platform_device *pdev;
- 	struct ayaneo_ec_quirk *quirks;
- 	struct acpi_battery_hook battery_hook;
-+
-+	u8 cache[AYANEO_CACHE_LEN];
- };
- 
- static const struct ayaneo_ec_quirk quirk_fan = {
-@@ -464,10 +468,48 @@ static int ayaneo_ec_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static int ayaneo_freeze(struct device *dev)
-+{
-+	struct platform_device *pdev = to_platform_device(dev);
-+	struct ayaneo_ec_platform_data *data = platform_get_drvdata(pdev);
-+	int ret, i = 0;
-+
-+	if (data->quirks->has_charge_control) {
-+		ret = ec_read(AYANEO_CHARGE_REG, &data->cache[i]);
-+		if (ret)
-+			return ret;
-+		i++;
-+	}
-+
-+	return 0;
-+}
-+
-+static int ayaneo_thaw(struct device *dev)
-+{
-+	struct platform_device *pdev = to_platform_device(dev);
-+	struct ayaneo_ec_platform_data *data = platform_get_drvdata(pdev);
-+	int ret, i = 0;
-+
-+	if (data->quirks->has_charge_control) {
-+		ret = ec_write(AYANEO_CHARGE_REG, data->cache[i]);
-+		if (ret)
-+			return ret;
-+		i++;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops ayaneo_pm_ops = {
-+	.freeze = ayaneo_freeze,
-+	.thaw = ayaneo_thaw,
-+};
-+
- static struct platform_driver ayaneo_platform_driver = {
- 	.driver = {
- 		.name = "ayaneo-ec",
- 		.dev_groups = ayaneo_ec_groups,
-+		.pm = &ayaneo_pm_ops,
- 	},
- 	.probe = ayaneo_ec_probe,
- };
+> +
+> +static const struct dmi_system_id dmi_table[] = {
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
+> +			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AYANEO 3"),
+> +		},
+> +		.driver_data = (void *)&ayaneo3,
+> +	},
+> +	{},
+> +};
+> +
+> +static int ayaneo_ec_probe(struct platform_device *pdev)
+> +{
+> +	const struct dmi_system_id *dmi_entry;
+> +	struct ayaneo_ec_platform_data *data;
+> +
+> +	dmi_entry = dmi_first_match(dmi_table);
+> +	if (!dmi_entry)
+> +		return -ENODEV;
+> +
+> +	data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
+> +	if (!data)
+> +		return -ENOMEM;
+> +
+> +	data->pdev = pdev;
+> +	data->quirks = dmi_entry->driver_data;
+> +	platform_set_drvdata(pdev, data);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct platform_driver ayaneo_platform_driver = {
+> +	.driver = {
+> +		.name = "ayaneo-ec",
+> +	},
+> +	.probe = ayaneo_ec_probe,
+> +};
+> +
+> +static struct platform_device *ayaneo_platform_device;
+> +
+> +static int __init ayaneo_ec_init(void)
+> +{
+> +	ayaneo_platform_device =
+> +		platform_create_bundle(&ayaneo_platform_driver,
+> +				       ayaneo_ec_probe, NULL, 0, NULL, 0);
+> +
+> +	return PTR_ERR_OR_ZERO(ayaneo_platform_device);
+
+Please add include for this.
+
+> +}
+> +
+> +static void __exit ayaneo_ec_exit(void)
+> +{
+> +	platform_device_unregister(ayaneo_platform_device);
+> +	platform_driver_unregister(&ayaneo_platform_driver);
+> +}
+> +
+> +MODULE_DEVICE_TABLE(dmi, dmi_table);
+> +
+> +module_init(ayaneo_ec_init);
+> +module_exit(ayaneo_ec_exit);
+> +
+> +MODULE_AUTHOR("Antheas Kapenekakis <lkml@antheas.dev>");
+> +MODULE_DESCRIPTION("Ayaneo Embedded Controller (EC) platform features");
+> +MODULE_LICENSE("GPL");
+> 
+
 -- 
-2.51.0
-
+ i.
 
 
