@@ -1,89 +1,65 @@
-Return-Path: <platform-driver-x86+bounces-14741-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-14743-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA609BE4D5B
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Oct 2025 19:23:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D35CBE4F66
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Oct 2025 20:00:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id F29E9359626
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Oct 2025 17:23:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E5A431A685EF
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Oct 2025 18:00:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1DE02D2490;
-	Thu, 16 Oct 2025 17:23:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AF762236F2;
+	Thu, 16 Oct 2025 18:00:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y0uoxcHS"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="auVJZltH"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F2A3262A6
-	for <platform-driver-x86@vger.kernel.org>; Thu, 16 Oct 2025 17:23:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C9C86344;
+	Thu, 16 Oct 2025 18:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760635406; cv=none; b=U7SFcBrImLAxkXDGuthVBFc//tyMQhgKsE2bU7k4AbPK95ZZn8usMQ38e8SZHQEgG4iaWSyZwIY+4hbyx6h4QcQYCxI4kN55Sl12b84FhI3pcsPLWk4c31WXAgO4v555mwvps7nSJ+7hrupHQso6CsxIgSVg0bvkehbxZV8yZQ4=
+	t=1760637623; cv=none; b=JT2pk95s2dbHpsR6ovPpZAsUwJx3HtvVfutJECTSvIqu4GAqtpU60W5MpDoKMguqjx0olSipgcN3EWmGthLCh6LcsIKZq0ybBkahI+V7P4D78/gkYTXNumgWwBEvB2n3UHNvniFb4LdhLvQjqEMVvgHPe5yOHxxC4EplevmbDqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760635406; c=relaxed/simple;
-	bh=hqCkyIa8Ndsof8l2/5nc/dxBgDQ/Lwmq2f9+SsjQxG0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TMRwm97gCNpnCP208fOpBl+4/H3fpMGp6HszbjgPUX7e/FspzgLdIYCXtu5XBj5lt4wOHKvKQ1IOEZMsjH6ZfrGTRrnfVmU07uIgfdPGZwwWuMg1J3hzFEHujVkCIrz1MvcE6OBVODbpLNd5q8qneDlvaBvzbNQ6ZfnlqKGnM8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y0uoxcHS; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-33b9df47d7dso1437813a91.0
-        for <platform-driver-x86@vger.kernel.org>; Thu, 16 Oct 2025 10:23:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760635404; x=1761240204; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6pEzS7xov2bHNWnYhM2kGJUlTre7AVr9zGXjCQj5iIk=;
-        b=Y0uoxcHSv5eXE7nApcz58Qvq6l4xVKShjQRz54CGoEKeIiN573tnE2fOx0YYrO3Lda
-         mPfxcTA7gJBiCIePO+nZCpIsq1pHf1MiyJApeDMKgqZUCk6chC/Ph2JibTCtav/6lua/
-         CMopJ7mcr4sQiSeBJAx+h2RPMkqa5g5qhepiA+mOP5Ee2xXh4jU6B7mwLQHDHzlFAARh
-         UJlgmmrIwC4fJ1xfwNAm1+f8M5+yWxsgAFsYDg/sS9dozqapYxS8yayhao+5IrM/BZeB
-         H3OSoQa/jzsTQDVwKpUMaYvM1M2tshqIJP9T4iZE0l/WoMT0oYyDcuadF8MVwK3NCcbg
-         78ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760635404; x=1761240204;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6pEzS7xov2bHNWnYhM2kGJUlTre7AVr9zGXjCQj5iIk=;
-        b=UtW2rW8cCCjCpgzUVxqZ5DQanG0Z45FmG0ostnWcqvFTk+4HA+/lVS+6hH4hfEKJV0
-         jfz00Gv9VzUfg9d1klZ4fF+wQWbrDPD9ILEy9s3qGwZbh2Mwo2PQuEzcUu0cbF9U9LPK
-         DvN0ai/ttKdfx1fsnHONT47B5ihqiDbM/T6Q6X1BmEcs95x1n/IVhlGoy3Wf8ipZZaAn
-         PFLMR0D/6XGGVEp2V2aXa+Fup3CQpXThCUEsBSvutV3QmWt/N1x585Q7UOymHFB18r3T
-         0RJmxWfENUjLd2tBRydAfOl9v/p6J0p4vTGRedp43ARqDMk6D3IDf3Hw9a60UAXrftmD
-         gNpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUzzb9yGo+AF/EwGpaACJTjaVhI35KD9Mh85YIEibGtJBLm5xwv/h/kOEwHTcKY2W09O7ih/qWXvL5wdPf9quzWN6gM@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7Ax1Rz4GJVjdzfRddPpKXXFYaN9/5Q55FDAu9HAppZuGYFLnk
-	E6ARyjMNBle5sHvVN30g9rz6M8ieYRhf1pyQIOGNYHqNlTXPz50XtbhN
-X-Gm-Gg: ASbGnct7Dt5hs4o+Aq4KKySTT46BsH7Xb7Hc0BlrnNe//LI3nOLJQNa3d1ZPzmulEep
-	BuWtU5fkUSV7G6RqwBYVfxn2fBgxR20Y7vpYmCCMxHCEfda6hztInoC/a/mYNetVTY2a4Qioprs
-	xOG05n+Nk4Z5wgIvEkRgyrExTEx9b9ni4JMs6+NVWEsOLmZU8blDWbpdpS7+OfLU0zkPQlJBYv3
-	WtRVWPPbVWhhnmHDNKe+hHUWiAi0iSbo/ZxdsKF4OfM1N468RbgWBdE362e25vVsf6tebdvOtkw
-	alQGwkKUJQT4h8xLTLHlepKtn7riSVR9RJRiBg4YLGdMwAopK463nKfH/ExJdbINeu7Ue1uccQO
-	Shiuj14g1fjFnhepq++Lh6lrMzdlOm4ixGrHaxdbXqDPyoUgj5b5ljABeuoi3V4CjXdhMJl3z/o
-	0odW/uMRf/y/P17emQLJe3+1vxEKiv
-X-Google-Smtp-Source: AGHT+IHShMrQ5kJEQ9OH1QFWe+vtUUyhQBVUXDSi3QgLq8tBOpNymms3o5Fo6o9wjoKZQ+vlza5VZw==
-X-Received: by 2002:a17:90b:4d12:b0:33b:cfaa:d01a with SMTP id 98e67ed59e1d1-33bcfaad01dmr461500a91.25.1760635404088;
-        Thu, 16 Oct 2025 10:23:24 -0700 (PDT)
-Received: from cacher.localnet ([111.94.119.234])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33bb663285dsm2588728a91.17.2025.10.16.10.23.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Oct 2025 10:23:23 -0700 (PDT)
-From: Fa-Iz Faadhillah Ibrahim <faiz.faadhillah@gmail.com>
-To: jlee@suse.com, basak.sb2006@gmail.com, rayanmargham4@gmail.com,
- Armin Wolf <W_Armin@gmx.de>
-Cc: kuurtb@gmail.com, ilpo.jarvinen@linux.intel.com,
- platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] platform/x86: acer-wmi: Add fan control support
-Date: Fri, 17 Oct 2025 00:23:19 +0700
-Message-ID: <5048620.31r3eYUQgx@cacher>
-In-Reply-To: <20251015192551.321200-1-W_Armin@gmx.de>
-References: <20251015192551.321200-1-W_Armin@gmx.de>
+	s=arc-20240116; t=1760637623; c=relaxed/simple;
+	bh=Jd4fck9DHZHCYPAX3Irerlz3poHD7Ra+aOENfUGuPSw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kZMNXKNZdA2+Ivr05sGIpVRAyhFhEVVWmPQkVBDd7FBOrokLO/RQSJF2n89eH/zq9IJkQcw7YaV4NIihyZX+/FQvo5mhSuHz+mV/8bg4iGMOpsZGgXUyB71z37mJW1EnJ3NmwdlrWstFpjWbmpFw1BuknxcVEDXA6K1OsBz8fzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=auVJZltH; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1760637614; x=1761242414; i=w_armin@gmx.de;
+	bh=XdFB9hr1/DH/n+3LmnrrArS2CHzYfUxejE6e5v7RKKs=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=auVJZltH4Q4DVyGsqqke4qAch1+Dsq8pk2N/IZoFAU057yVE+cJZLE4EFlSqYWAX
+	 mzdY0NJexz/f2i17mhKzry8k6YuPS3EWCBjF5kfYl4DjRZhWiadtI/f7CBjEdPII8
+	 B3s4buUXOAmk2DvOII0PjZ7xIlut9K4OeBfXmByvz/IzRMVvTjV71WrGMgq4ZyMsR
+	 f+haTDVdhuQyyJZV74qvXAUXxZjIY/V4c9yU4b+PEgMwf2GmBXi+MeQQueqXWIrZ5
+	 b5CZsFuIX8fSrCt8wwd1C9w74+OaSW/52f3/aVk/HBEzAu0445YCdvT8iMXdjjl3D
+	 yyo0WOG9HQiKeOOTiQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from mx-amd-b650.fritz.box ([93.202.247.91]) by mail.gmx.net
+ (mrgmx004 [212.227.17.190]) with ESMTPSA (Nemesis) id
+ 1MGQnP-1uzF7j1As9-00Ct9i; Thu, 16 Oct 2025 20:00:14 +0200
+From: Armin Wolf <W_Armin@gmx.de>
+To: jlee@suse.com,
+	basak.sb2006@gmail.com,
+	faiz.faadhillah@gmail.com,
+	rayanmargham4@gmail.com
+Cc: kuurtb@gmail.com,
+	ilpo.jarvinen@linux.intel.com,
+	platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/4] platform/x86: acer-wmi: Add fan control support
+Date: Thu, 16 Oct 2025 20:00:04 +0200
+Message-Id: <20251016180008.465593-1-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -91,50 +67,118 @@ List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-Provags-ID: V03:K1:cQCiri/fyxY41xPE+9aGjZhJblCbsG37Nzt7uPa8fNdBxxhPeqd
+ cZEIAQfZLXtv+clJx46O8e4pJjv6LqY95/44K7bdyXxn870MQOnTyYHFPvny9w7DGrC9TH4
+ tSQwFVMf0SJj4+Ejz1MXIEbrLPbkk5w5IUK5Ep6iDTpIHFkLRnF+WGGC31PBsbY+c3HbL+4
+ LCQuBbz7NBuLISloPmS8g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:9MokXHKA4l0=;KZPaYXOlWmbWZZVwjDaKZTqQRD6
+ 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
 
-On Thursday, October 16, 2025 2:25=E2=80=AFAM Armin Wolf wrote:
-> This patch series aims to add fan control support to the acer-wmi
-> driver. The patches are compile-tested only and need to be tested
-> on real hardware to verify that they actually work.
->=20
-> I CCed three users who requested support for this feature. I would be
-> very happy if one of you could test those patches and report back.
->=20
-> Changes since v2:
-> - get rid of nested bit masks
->=20
-> Changes since v1:
-> - remove unnecessary blank line
->=20
-> Changes since RFC v2:
-> - improve error handling when setting fan behavior
-> - Add Reviewed-by tags
-> - whitelist PHN16-72
->=20
-> Changes since RFC v1:
-> - remove duplicate include and replace hwmon_pwm_mode with
->   hwmon_pwm_enable in second patch
->=20
-> Armin Wolf (4):
->   platform/x86: acer-wmi: Fix setting of fan behavior
->   platform/x86: acer-wmi: Add fan control support
->   platform/x86: acer-wmi: Enable fan control for PH16-72 and PT14-51
->   platform/x86: acer-wmi: Add support for PHN16-72
->=20
->  drivers/platform/x86/acer-wmi.c | 292 +++++++++++++++++++++++++++++---
->  1 file changed, 269 insertions(+), 23 deletions(-)
-Hello,
+This patch series aims to add fan control support to the acer-wmi
+driver. The patches are compile-tested only and need to be tested
+on real hardware to verify that they actually work.
 
-I've tested the patch on my PHN16-72, this time the fan control for CPU fan=
-=20
-works just fine, but GPU fan control doesn't work anymore. no logs observed=
- on=20
-dmesg while changing the speed of either fan.
+I CCed three users who requested support for this feature. I would be
+very happy if one of you could test those patches and report back.
 
-Thanks,
-=46a-Iz Faadhillah Ibrahim=20
+Changes since v3:
+- fix error in WMID_gaming_set_fan_behavior()
 
+Changes since v2:
+- get rid of nested bit masks
 
+Changes since v1:
+- remove unnecessary blank line
+
+Changes since RFC v2:
+- improve error handling when setting fan behavior
+- Add Reviewed-by tags
+- whitelist PHN16-72
+
+Changes since RFC v1:
+- remove duplicate include and replace hwmon_pwm_mode with
+  hwmon_pwm_enable in second patch
+
+Armin Wolf (4):
+  platform/x86: acer-wmi: Fix setting of fan behavior
+  platform/x86: acer-wmi: Add fan control support
+  platform/x86: acer-wmi: Enable fan control for PH16-72 and PT14-51
+  platform/x86: acer-wmi: Add support for PHN16-72
+
+ drivers/platform/x86/acer-wmi.c | 292 +++++++++++++++++++++++++++++---
+ 1 file changed, 269 insertions(+), 23 deletions(-)
+
+=2D-=20
+2.39.5
 
 
