@@ -1,107 +1,145 @@
-Return-Path: <platform-driver-x86+bounces-15071-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-15073-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01CBAC216F3
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 Oct 2025 18:18:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9663FC2204D
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 Oct 2025 20:40:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C5ED33BCA57
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 Oct 2025 17:15:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3F2D7424858
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 Oct 2025 19:40:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ABCA36838F;
-	Thu, 30 Oct 2025 17:14:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79B3A30276E;
+	Thu, 30 Oct 2025 19:40:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FZk8XlzY"
+	dkim=pass (1024-bit key) header.d=rong.moe header.i=i@rong.moe header.b="EhYA9uLo"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB63368387;
-	Thu, 30 Oct 2025 17:14:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761844491; cv=none; b=tiNxeOf+beJ4YfWQ08cLIOh7eTNxVq0O3fxtpGa2JVxxy5F1JQkWoWOW01Jnq0BfRTsq5iyD3on9C3amvkqX5LM9i+tHghE3XSwvMCmoq1ntLlBQ4rCnbA0NNrmPlbvasOHkKMC6pRy7zD26z2OLgHN5ZT8WvEMV4YCnFZzzk9M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761844491; c=relaxed/simple;
-	bh=Hvg76oK1r3SHGVtlfQAeldp6j1ldYnxROPFqrI26wVc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=KkSMsdsEyfRHNheEdqN1K+YI4cwOnYIF5gVMaIoN1BTDJDmUuwgOycbzYcbswk2Nur9yV0fiXFqn7zGgNdK6Y0BG6zfgCMpGgBiUz3TEfT4/c7FNkUskT/9ijwo7UOTz/1PbRMIFTJ5btwtltv69xFDLyT2xwz8VkSEe9/ok8Wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FZk8XlzY; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761844490; x=1793380490;
-  h=from:to:cc:in-reply-to:references:subject:message-id:
-   date:mime-version:content-transfer-encoding;
-  bh=Hvg76oK1r3SHGVtlfQAeldp6j1ldYnxROPFqrI26wVc=;
-  b=FZk8XlzY+ULrPm7DMb/PonRyVxU9wGNEYz6gbE1LkH3tPtQDKWKpBFhD
-   MM2seV1BfRZJu41HE15zUA5OjC+dkp9pZpoBr0fScmdQE5ej0LDxdScN7
-   lVTwmjqL8qK5or2ANTUsndeRS1TGjHIhW1S67dKptOsojU/2D5rGDoX4D
-   QMJcCumxU/ptuKT57daYAQxKEM7IHJPFoTySLnd0nX9b2cLdisLRAxKpe
-   J21+VFcFBhUvBtPxD1KJ5Wr065+G16pN7+kvZ576GGgb1U+CaJFXQZJ7U
-   pDVByXYodiedkL6jERiwAChb0gCFFvC6rhCEpekOSUfzO1Lk7sAUO7LBy
-   Q==;
-X-CSE-ConnectionGUID: vossXKBRTL67joYJDE49/g==
-X-CSE-MsgGUID: tULgpHeZTK+tELh4AYuWOw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="75444761"
-X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
-   d="scan'208";a="75444761"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 10:14:49 -0700
-X-CSE-ConnectionGUID: iO8rRb3MS9aA3/bTA5YtmA==
-X-CSE-MsgGUID: eQtfmWqAQJWxYOm7yRaOtw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
-   d="scan'208";a="185890742"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.175])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 10:14:45 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: platform-driver-x86@vger.kernel.org, Andy Shevchenko <andy@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Hans de Goede <hansg@kernel.org>, Markus Elfring <Markus.Elfring@web.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, Anand Moon <linux.amoon@gmail.com>, 
- Christophe Jaillet <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <90a2385c-9d19-46f2-8d31-618d5c10aa91@web.de>
-References: <90a2385c-9d19-46f2-8d31-618d5c10aa91@web.de>
-Subject: Re: [PATCH] platform/x86: x86-android-tablets: Omit a variable
- reassignment in lenovo_yoga_tab2_830_1050_init_codec()
-Message-Id: <176184447560.9294.8661793810422780479.b4-ty@linux.intel.com>
-Date: Thu, 30 Oct 2025 19:14:35 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B954F1482F2;
+	Thu, 30 Oct 2025 19:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761853232; cv=pass; b=M4TpdAB0mYbdtTHqvUoFoxsKI1f3y30U7698x/dBykp6+Kt8F7BP+KHuhV/UZ98vaSySAZJOdj/AH4+o4VrH1V8SApvPVFczqMd6aGr9Ca0HztbNcNx2IGSNpevk/gygn+bvwZTmRsIW1jhItAVi7H/vtETQso7jIMdRdOz22R0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761853232; c=relaxed/simple;
+	bh=7wLw7yl8rmJxjWVphNvol11i7UM/EQCncXGNn+g3ZlI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rVzNMlOEXc6aZV6sCyh79Oc//KzBHZPwR6PbKhJj3rMIilnNj8Yooc5UCYwLBPsqJiNL/63wo0MCsae5NzWtdvylgpkEg49SLdQaeWffEBO/pw0a2tEYFZy8MRZMvd1NWFjw/xcV+kwehlqSb2t5dz5KHSXbxgstHkIXj6KoVSA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (1024-bit key) header.d=rong.moe header.i=i@rong.moe header.b=EhYA9uLo; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+ARC-Seal: i=1; a=rsa-sha256; t=1761853205; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=j9DgssJsyqR4sAyI+OlOWrKt/u3OEQM7J+EbDxLIeqBR7Ky+t5q9Vt7BaUNxOz4Fs1a2Syhnh8TMLSp/0J6l4naaDs5jRnoJUSQblHRRNGuLQKXhtEso4RU8540GKGSrtRpw6xRyfcRJiUS/gOgkbGMvb/wA9f0JVVRnqawSsEE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1761853205; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Vf1+b7ZFrKHvQ9zYLjvBiyT8s38khTHCITEmiI6nY+I=; 
+	b=FGYAJ1vb9KxY86hTY33W9ZMJF9xyzyK4bnMUwjKrmDsaSkA1Zs34qKfbqGf8QKaEhYnLP9phgHns2rXcK1d8YOfjLr/xA2eS8AJPFxF/vy+0gJArHoTsrZUxjVLugizzddBtaTFA28V5Rb2FtKuqL8Sh1vhOeZKbXYf1PZTQXVE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1761853205;
+	s=zmail; d=rong.moe; i=i@rong.moe;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=Vf1+b7ZFrKHvQ9zYLjvBiyT8s38khTHCITEmiI6nY+I=;
+	b=EhYA9uLozIRDr/e2Kj+mk58cokFjt9kPFcrQs+cWTNf0AYrzjY/ls6+HMx+ISx/l
+	DFdILfSGQ0qCZ5vzDq9tzP8NA3dXWQp/F3JUwpngXz2f9f3/42qnfhg3hMqp64z9ihb
+	1Knl7lphUQLS/duzs/mMSP3UxNTc40ti6X9fD7so=
+Received: by mx.zohomail.com with SMTPS id 1761853203772271.72787016946097;
+	Thu, 30 Oct 2025 12:40:03 -0700 (PDT)
+From: Rong Zhang <i@rong.moe>
+To: Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Armin Wolf <W_Armin@gmx.de>,
+	Hans de Goede <hansg@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Rong Zhang <i@rong.moe>,
+	Guenter Roeck <linux@roeck-us.net>,
+	platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org
+Subject: [PATCH v2 0/6] platform/x86: lenovo-wmi-{capdata,other}: Add HWMON for fan speed
+Date: Fri, 31 Oct 2025 03:39:38 +0800
+Message-ID: <20251030193955.107148-1-i@rong.moe>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Mon, 20 Oct 2025 17:02:25 +0200, Markus Elfring wrote:
+Lenovo WMI Other Mode interface also supports querying or setting fan
+speed RPM. This capability is decribed by LENOVO_CAPABILITY_DATA_00.
+Besides, LENOVO_FAN_TEST_DATA provides reference data for self-test of
+cooling fans, including minimum and maximum fan speed RPM.
 
-> An error code was assigned to a variable and checked accordingly.
-> This value was passed to a dev_err_probe() call in an if branch.
-> This function is documented in the way that the same value is returned.
-> Thus delete a redundant variable reassignment.
-> 
-> The source code was transformed by using the Coccinelle software.
-> 
-> [...]
+This patchset turns lenovo-wmi-capdata01 into a unified driver (now
+named lenovo-wmi-capdata) for LENOVO_CAPABILITY_DATA_{00,01} and
+LENOVO_FAN_TEST_DATA; then adds HWMON support for lenovo-wmi-other:
+
+ - fanX_enable: enable/disable the fan (tunable)
+ - fanX_input: current RPM
+ - fanX_max: maximum RPM
+ - fanX_min: minimum RPM
+ - fanX_target: target RPM (tunable)
+
+This implementation doesn't require all capability data to be available,
+and is capable to expose interfaces accordingly:
+
+ - Having LENOVO_CAPABILITY_DATA_00: exposes fanX_{enable,input,target}
+ - Having LENOVO_CAPABILITY_DATA_01: exposes firmware_attributes
+ - Having LENOVO_FAN_TEST_DATA: exposes fanX_{max,min}
+
+Changes in v2:
+- Add a workaround for ACPI methods that return a 4B buffer for u32
+  (thanks Armin Wolf)
+- Fix function documentation (thanks kernel test bot)
+- Reword documentation (thanks Derek J. Clark)
+- Squash min/max reporting patch into the initial HWMON one (ditto)
+- Query 0x04050000 for interface availability (ditto)
+  - New parameter "expose_all_fans" to skip this check
+- Enforce min/max RPM constraint on set (ditto)
+  - New parameter "relax_fan_constraint" to disable this behavior
+  - Drop parameter "ignore_fan_cap", superseded by the next one
+  - New parameter "expose_all_fans" to expose fans w/o such data
+- Assume auto mode on probe (ditto)
+- Do not register HWMON device if no fan can be exposed
+- fanX_target: Return -EBUSY instead of raw target value when fan stops
+- Link to v1: https://lore.kernel.org/r/20251019210450.88830-1-i@rong.moe/
+
+Rong Zhang (6):
+  platform/x86: lenovo-wmi-helpers: convert returned 4B buffer into u32
+  platform/x86: Rename lenovo-wmi-capdata01 to lenovo-wmi-capdata
+  platform/x86: lenovo-wmi-{capdata,other}: Support multiple Capability
+    Data
+  platform/x86: lenovo-wmi-capdata: Add support for Capability Data 00
+  platform/x86: lenovo-wmi-capdata: Add support for Fan Test Data
+  platform/x86: lenovo-wmi-other: Add HWMON for fan speed RPM
+
+ .../wmi/devices/lenovo-wmi-other.rst          |  43 +-
+ drivers/platform/x86/lenovo/Kconfig           |   5 +-
+ drivers/platform/x86/lenovo/Makefile          |   2 +-
+ drivers/platform/x86/lenovo/wmi-capdata.c     | 545 ++++++++++++++++++
+ drivers/platform/x86/lenovo/wmi-capdata.h     |  46 ++
+ drivers/platform/x86/lenovo/wmi-capdata01.c   | 302 ----------
+ drivers/platform/x86/lenovo/wmi-capdata01.h   |  25 -
+ drivers/platform/x86/lenovo/wmi-helpers.c     |  21 +-
+ drivers/platform/x86/lenovo/wmi-other.c       | 501 +++++++++++++++-
+ 9 files changed, 1134 insertions(+), 356 deletions(-)
+ create mode 100644 drivers/platform/x86/lenovo/wmi-capdata.c
+ create mode 100644 drivers/platform/x86/lenovo/wmi-capdata.h
+ delete mode 100644 drivers/platform/x86/lenovo/wmi-capdata01.c
+ delete mode 100644 drivers/platform/x86/lenovo/wmi-capdata01.h
 
 
-Thank you for your contribution, it has been applied to my local
-review-ilpo-next branch. Note it will show up in the public
-platform-drivers-x86/review-ilpo-next branch only once I've pushed my
-local branch there, which might take a while.
-
-The list of commits applied:
-[1/1] platform/x86: x86-android-tablets: Omit a variable reassignment in lenovo_yoga_tab2_830_1050_init_codec()
-      commit: ba06b928f05bfd2785260819f6b34b658a04a4e6
-
---
- i.
+base-commit: e53642b87a4f4b03a8d7e5f8507fc3cd0c595ea6
+-- 
+2.51.0
 
 
