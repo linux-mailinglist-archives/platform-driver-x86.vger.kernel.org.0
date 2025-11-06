@@ -1,119 +1,81 @@
-Return-Path: <platform-driver-x86+bounces-15235-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-15236-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30931C3856B
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 06 Nov 2025 00:22:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9202C38B81
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 06 Nov 2025 02:40:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 23FFC4E0F7D
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  5 Nov 2025 23:22:55 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E89FB4E6778
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  6 Nov 2025 01:40:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA83A2F5483;
-	Wed,  5 Nov 2025 23:22:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70AD2221FBD;
+	Thu,  6 Nov 2025 01:40:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cTTJAevz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="krIjy9Wv"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCFF2E8B73;
-	Wed,  5 Nov 2025 23:22:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468E813B284;
+	Thu,  6 Nov 2025 01:40:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762384970; cv=none; b=rUmlrCAttxTUCb0aB07m5KlDg8OITrdO96z6rdW1upES0mcxGLHRqSkEV1sAZAO3XXwmyXlrORxJVzWBX/xicjHIzSqSjRkJ1ehRbqqra96cA+sjlSEW6Xzo6wAHqqrj7WqlubDFxB+7HEY0aeY4sJKCpDDyaoiHLB6vRxWZNzs=
+	t=1762393226; cv=none; b=P2WtzzWZo0GYIDdFF9903AqGXkfhoixjqfIu23w7VQ7I8LtEk8CkwRGFoL+NBe9SurOh/AZWPRITzbNpP1NB/SG84Q6FSnzjCmK43vQ7ETrdZUX5gwM4l/hNBl+/KJ3swjqqOEi89JKjUL7+LnWycMb1LVe5XLRJhXBC5D6xqPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762384970; c=relaxed/simple;
-	bh=EmTWfvkMbb3dqk19EtSTmtmk5e8i+zIt0u4oJLxsHjs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BiGs+wosLvjlM76u2+5Zm8DOYzOwZ+qSX4K9Dk+nBmQhrzjnBySsz+sX+J1BRVWi8+k+TF46WZKkDIadYfA4YFL8zzmBx0Chpk611qsDlbgpSjqaZClPSq0uaiC4rtZUv3Gveefz3QwDQspR45zMgfDz2xlu5kA9XcBbbLyePTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cTTJAevz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A73A0C116D0;
-	Wed,  5 Nov 2025 23:22:49 +0000 (UTC)
+	s=arc-20240116; t=1762393226; c=relaxed/simple;
+	bh=g5omBayoXj0xMTtvazRwk6ECzmjGd0Eju7SQCw3betM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=M4SW2cbDhSIuC5sA0Pxp0kpTTYhGgJhaHJMUGe/pOrBBslf1fgaNl/lZ2MwHbv9ZDCjsxibZ8lRhtdTOVw7PW+sqm/yYa5PxK2KsY4TDLZ0GZaJI0tT/Z+ZGRhY3PLsNgmR2oZkdDCpm5TpdZOsJ67dwNrIWXLld9fq3n5fF0yQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=krIjy9Wv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A62AC4CEF5;
+	Thu,  6 Nov 2025 01:40:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762384970;
-	bh=EmTWfvkMbb3dqk19EtSTmtmk5e8i+zIt0u4oJLxsHjs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=cTTJAevzImaux51JW2HZmy2YyEBdDz+ooofjz1m77IKyWrAWqxioXwJQgzkjqQzmn
-	 EgppiLwRn7X/uoGqr6jq/K/O0zm+xSrEaWivgUdSY5Ix2C7wXvpMzm+bXjiziJPKye
-	 ohwFobH62LzXBjoKHFXz11fLOEAdNTRHaDX/8Bra+HwUTuzzFr/ePmuPyy6EBICk8F
-	 ErBL3dx2Fz0nbYI+kjKLpccPxJv6mM1I+yNesgQpIwhgAPMOS60gbRnFLwYZCkZFvl
-	 JxT743QtX7Z/SmFN2h6ksCiphJ5xAbigByX5aW+8RsLzifrOuI/Tt/YKSr0QfMFnQp
-	 BHE0xiSEURNmg==
-Received: by venus (Postfix, from userid 1000)
-	id 486E6182F71; Thu, 06 Nov 2025 00:22:45 +0100 (CET)
-From: Sebastian Reichel <sre@kernel.org>
-Date: Thu, 06 Nov 2025 00:22:43 +0100
-Subject: [PATCH 4/4] platform: arm64: thinkpad-t14s-ec: add suspend handler
- for keyboard backlight
+	s=k20201202; t=1762393225;
+	bh=g5omBayoXj0xMTtvazRwk6ECzmjGd0Eju7SQCw3betM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=krIjy9Wv8lx0Qvo0b8bZGLlfQUNe1kvSGpkIR9ccj+RxnYua2s+pHYyI/wH1mANjH
+	 FLw5u6mQS+lH2WCS7qe+c7zrVW9pYj9nFPKD9hYAgPY/lpaEoME7SZyWqbwZ3O6Ixt
+	 BO2Cko6m2RdWnoM1sJ4wGgDod8Zy9f+Lc7mlD4bJdB3TXFCPyIejUEXKYloB/hoDxi
+	 8kx+g2Mh9S5s/8OrCLhyZRWRBUJPCW2FhvC7alzASaCgNsZ46zMMkTR8fZpdXLBU1K
+	 FAR58rRLWWAzgk7yIicylBku3NbQGscsBvHE8beVW2gZaN90y420Uyon0++sHallSn
+	 D1Tc6wvdF2Z6Q==
+Message-ID: <cb0b090e-ce50-48d9-a90b-ffba3b22a49a@kernel.org>
+Date: Thu, 6 Nov 2025 01:40:22 +0000
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251106-thinkpad-t14s-ec-improvements-v1-4-109548ae75c0@collabora.com>
-References: <20251106-thinkpad-t14s-ec-improvements-v1-0-109548ae75c0@collabora.com>
-In-Reply-To: <20251106-thinkpad-t14s-ec-improvements-v1-0-109548ae75c0@collabora.com>
-To: Sebastian Reichel <sre@kernel.org>, Hans de Goede <hansg@kernel.org>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] platform: arm64: thinkpad-t14s-ec: fix IRQ race
+ condition
+To: Sebastian Reichel <sre@kernel.org>, Hans de Goede <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
 Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1131;
- i=sebastian.reichel@collabora.com; h=from:subject:message-id;
- bh=EmTWfvkMbb3dqk19EtSTmtmk5e8i+zIt0u4oJLxsHjs=;
- b=owEBbQKS/ZANAwAKAdju1/PIO/qaAcsmYgBpC9xE23WsyRkwotKjWD39YBOIdf1avp0G6h6bS
- QXNCGFczMGJAjMEAAEKAB0WIQTvZg0HRj+Lcmp5VBPY7tfzyDv6mgUCaQvcRAAKCRDY7tfzyDv6
- mhY/D/4yXQORCB7TVAaXYy1ssUkwErPaw1RNV62POFsRlwJWT4qUC3qhFdEaIeWg7r6CM+Jd9xy
- mqNH/mKTfh6ewBWUzAAt6PQ8FfF7Y3WzrTvC58NPGXF5IPL/QaK6t2fHNWznLQDiIvRASa3mWE2
- L0PPMVcye5Ry8Utm3S5bt97HtjAKaaro9c/WditrAkRElrsxOrJyHRVyEVIKUAGo2fdWHVxyM49
- ADHLLVx7PnnTNtJ880LhPX3yu9s7nJbiwJb29j94WZfIzvon/98XGkRypTFAJvG4huEwp5yQBKc
- SguFgJFz4T0qiVz2PISfPb3VknUm5ioapxXdjesThPTGGWaEnz81l43dWo0sIDIKh5c1YJpTedj
- aBA9Tpch3Tn+OYs1A8imduUCVZgYamVaZPp4GFZHXQhtDF3Loz3IBgx7CQc2AA3ebhbFrAdHctU
- cejWvObyodGenPjmxMe9PKqgna5XeIv4H5AyaPdjBRwgNo056iEnPeR50mfcqRrLDvXgP7JXwf1
- zBXKCMMpjkXIJwte6rMtnuYgOqSgMKKHhyAgnqZX6drDFZOa58nCpnp9A2F49OqRz401QEw1T54
- Lv68BXvqTKzIsmEQWvpfQiAoF/6dR9ATNMORBf5zfbOglHIg2iEz/PH6TvIzv6rbNNJG0f0lIO5
- SHIxtpKYvST/xxA==
-X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
- fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
+References: <20251106-thinkpad-t14s-ec-improvements-v1-0-109548ae75c0@collabora.com>
+ <20251106-thinkpad-t14s-ec-improvements-v1-1-109548ae75c0@collabora.com>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20251106-thinkpad-t14s-ec-improvements-v1-1-109548ae75c0@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This ensures that the keyboard backlight state is restored after
-a suspend-resume cycle. Otherwise the keyboard is automatically
-disabled during suspend and then stays disabled after resume.
+On 05/11/2025 23:22, Sebastian Reichel wrote:
+> Fix a race condition, that an input key related interrupt might be
+> triggered before the input handler has been registered, which results
+> in a NULL pointer dereference. This can happen if the user enables
+> the keyboard backlight shortly before the driver is being probed.
+> 
+> Fixes: 60b7ab6ce030 ("platform: arm64: thinkpad-t14s-ec: new driver")
+> Signed-off-by: Sebastian Reichel <sre@kernel.org>
+> ---
+Enabling interrupts late in probe seems like a bit of a no-brainer.
 
-Signed-off-by: Sebastian Reichel <sre@kernel.org>
----
- drivers/platform/arm64/lenovo-thinkpad-t14s.c | 4 ++++
- 1 file changed, 4 insertions(+)
+One thing though is the commit log might productively contain the 
+backtrace so that people can match bug fixes to specific backtraces.
 
-diff --git a/drivers/platform/arm64/lenovo-thinkpad-t14s.c b/drivers/platform/arm64/lenovo-thinkpad-t14s.c
-index 066074a1314b..82c3ad6b3ee3 100644
---- a/drivers/platform/arm64/lenovo-thinkpad-t14s.c
-+++ b/drivers/platform/arm64/lenovo-thinkpad-t14s.c
-@@ -609,6 +609,8 @@ static int t14s_ec_suspend(struct device *dev)
- {
- 	struct t14s_ec *ec = dev_get_drvdata(dev);
- 
-+	led_classdev_suspend(&ec->kbd_backlight);
-+
- 	t14s_ec_write_sequence(ec, T14S_EC_REG_MODERN_STANDBY,
- 			       T14S_EC_MODERN_STANDBY_ENTRY, 3);
- 
-@@ -622,6 +624,8 @@ static int t14s_ec_resume(struct device *dev)
- 	t14s_ec_write_sequence(ec, T14S_EC_REG_MODERN_STANDBY,
- 			       T14S_EC_MODERN_STANDBY_EXIT, 3);
- 
-+	led_classdev_resume(&ec->kbd_backlight);
-+
- 	return 0;
- }
- 
-
--- 
-2.51.0
-
+Reviewed-by: Bryan O'Donoghue <bod@kernel.org>
 
