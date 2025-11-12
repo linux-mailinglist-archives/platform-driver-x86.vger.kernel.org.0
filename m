@@ -1,129 +1,149 @@
-Return-Path: <platform-driver-x86+bounces-15401-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-15403-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B429C52CEA
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Nov 2025 15:52:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E60BC52D0B
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Nov 2025 15:53:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 81A6D34F67E
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Nov 2025 14:49:55 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3FD06350971
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Nov 2025 14:50:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2809A2C2356;
-	Wed, 12 Nov 2025 14:43:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B770A342506;
+	Wed, 12 Nov 2025 14:45:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nu1tFFT0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uCcCNGel"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4283F2BEFF3;
-	Wed, 12 Nov 2025 14:43:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5681233D6E7;
+	Wed, 12 Nov 2025 14:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762958628; cv=none; b=EOot4TRDmhifI2VigAyse5QPES6e1fUnr5NoeQ8p38M9rIoFWNUwS1MAc6osWtOVY+IJhReQpsiC9wJVB88XTqLqqFmo+REQGJSK/SPEb2svh5QNEKxKmwj0HrT0PsZwQ+tXI+HGlVMTCOJB1SYyaP7SA5zh6KQARSDTiKgJxZs=
+	t=1762958731; cv=none; b=ObUYfZSTr6DPLceOwF761JtoCXzGS9akIZ8x2N7ncl7zObSGftWdWF3ew2gicrtVB4gZPid8B99t9fm8uef0GoSrQ/hvn9UncY8Ms+v5n1oXZZycsOVm9Myuq2Adr2ilmXVeyi2UZidmys5KgkWLKhmAI7sjmb5yOMRQY6cPLFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762958628; c=relaxed/simple;
-	bh=ilC6tGexmJ0iIDVMobFd8bh9Opvb8ZsC7ENTeTEJYZw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZJYRizbsGUaUFcQCZr/8Ctrfjrlcg6Nwwtz1vDAyuDoxkQg7E1pYwRiqlO8qlEAHhoXRC/iHFA+kjIxdyV1iDVscsqhkIQ2XCXIT7R40UUMsIBMv/L6fpPm+Nm53KbwOvs0ZjtjhdsiynC7uCsHBI5/5rgf4t1uJXcQCQYbEjJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nu1tFFT0; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762958627; x=1794494627;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ilC6tGexmJ0iIDVMobFd8bh9Opvb8ZsC7ENTeTEJYZw=;
-  b=Nu1tFFT0ANv5EzPxsV+8iJpFp5r47Pmuk3lGBZIAwtbpBuWfci1VZp6x
-   G2uxoB3EiL9iDyz8m8GJogRaoIqUIf53Od1U2M/rUV7X7DvywLhb2tVmG
-   uKyh89lPYana+DilAvEHiIyFyZ6cMDfnQRNg3tFgyjewtcu+3UJ0SaBZ9
-   c34BrrGEG/MNu5Hb32n1w7KuOTtozQ7RChEcnwJmpvc29jGD+YHiWW7Ns
-   ozA1ZMqd127oQ0DNzu7TjU70/6Hys8OnbfQO0MaieiyTGHDt3ou1hYIfX
-   3RXwvKrr5iA+HrO3ihLmbeuHXDOvK8enk/+vnNL/VvqLTau80Eq/iGZyE
-   w==;
-X-CSE-ConnectionGUID: 6WGC9r3YQQKIbmTgcEjBvg==
-X-CSE-MsgGUID: fksfhszQQlGbstPrpl627w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="87662344"
-X-IronPort-AV: E=Sophos;i="6.19,299,1754982000"; 
-   d="scan'208";a="87662344"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 06:43:46 -0800
-X-CSE-ConnectionGUID: Tof3iMyERSKtKocPqcmnTA==
-X-CSE-MsgGUID: sm94GNjRSQmH4cACIOSAUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,299,1754982000"; 
-   d="scan'208";a="194217467"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Nov 2025 06:43:43 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id EE0D195; Wed, 12 Nov 2025 15:43:41 +0100 (CET)
-Date: Wed, 12 Nov 2025 15:43:41 +0100
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Denis Benato <denis.benato@linux.dev>
-Cc: linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	"Limonciello, Mario" <mario.limonciello@amd.com>,
-	"Luke D . Jones" <luke@ljones.dev>,
-	Alok Tiwari <alok.a.tiwari@oracle.com>,
-	Derek John Clark <derekjohn.clark@gmail.com>,
-	Mateusz Schyboll <dragonn@op.pl>, porfet828@gmail.com,
-	Denis Benato <benato.denis96@gmail.com>
-Subject: Re: [PATCH v17 0/9] platform/x86: Add asus-armoury driver
-Message-ID: <aRSdHcO1WCPmG63W@black.igk.intel.com>
-References: <20251102215319.3126879-1-denis.benato@linux.dev>
+	s=arc-20240116; t=1762958731; c=relaxed/simple;
+	bh=novVq7mIcfdWOjqb22DZyGsxIxWmlqMMB5fYxdyzH+U=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=mMJx9LHWhG98KJRX2TsT6eWkFclKZG0Bb9f1WiDslgohmBEjXdMaEEfGzGNMOievAjMeGgzYB1wAaxTOFCZBxsOJecoWyHdcLJCUUS3xA1ZmktX//Qq4SbaRRRHaIADuWCgTyVdfQDGjHnxpGfCafIXc2jcoCopGmvelV+aAfYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uCcCNGel; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E9589C4CEF8;
+	Wed, 12 Nov 2025 14:45:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762958731;
+	bh=novVq7mIcfdWOjqb22DZyGsxIxWmlqMMB5fYxdyzH+U=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=uCcCNGel5JAONTbXSmFZv6s6lUS26zOUZ3JsOH2/MgdhJMXRv4N/23RDaC93ct6uv
+	 nNgk1LWvMPFj+h0pu5JLgjTccyysBKhD6AuCv2I+mqEJ+xaLK6V2y4Zbp816vBJ1HE
+	 GPll3jHNbz63klkJ6xVxkPdWB+C1NZPhDQudARm41tgkNk4GWmf323udVHMlh305b8
+	 tuwvBfGl/fHZoIpAJcicf6IPF5g7YPbo1YYyW3bb2EzcfzlOb/yz/Ce3FzkGqTYY9P
+	 NDGHjDOqejSsfQyUSxWObhFz+L55Cjl3SdAyP5Rhiow/vWPKq8nE1gL79BMEssSn2k
+	 cDzpgmN694QBw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCA26CCFA1A;
+	Wed, 12 Nov 2025 14:45:30 +0000 (UTC)
+From: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org>
+Date: Wed, 12 Nov 2025 20:15:13 +0530
+Subject: [PATCH 1/9] serdev: Convert to_serdev_device() and
+ to_serdev_controller() helpers to macros
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251102215319.3126879-1-denis.benato@linux.dev>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20251112-pci-m2-e-v1-1-97413d6bf824@oss.qualcomm.com>
+References: <20251112-pci-m2-e-v1-0-97413d6bf824@oss.qualcomm.com>
+In-Reply-To: <20251112-pci-m2-e-v1-0-97413d6bf824@oss.qualcomm.com>
+To: Rob Herring <robh@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nicolas.schier@linux.dev>, Hans de Goede <hansg@kernel.org>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Mark Pearson <mpearson-lenovo@squebb.ca>, 
+ "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+ Manivannan Sadhasivam <mani@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Marcel Holtmann <marcel@holtmann.org>, 
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+ linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
+ linux-pm@vger.kernel.org, Stephan Gerhold <stephan.gerhold@linaro.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1668;
+ i=manivannan.sadhasivam@oss.qualcomm.com; h=from:subject:message-id;
+ bh=pMjdMDUJJFdzXcs8r8heXhJAvEfUn5voSIPUccUCX28=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBpFJ2GiS7ttFmSpXLyf6Ebs4G+J1tZeIesPjGyO
+ Io4W/4qnFSJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCaRSdhgAKCRBVnxHm/pHO
+ 9S3zCACcJTT8QNObEZKWOhlVOpP+8Sdq43NqiYJbUBYuIUI/938PeuVe+p/Eu9tWu4Jx4ld9WLq
+ x7upQxEUF/78BXiJeB/5FQ9S0XNY1qRnZR2IndyMu0EquXXda9XQDoMxY6Xgeo3svQu9oDqZQ46
+ YaqnVYA2mfopwwCVjTkh4JNy2FGCmSChULV8E3JwBHN5v0UGXSVXfrHodrLB7u/4ySWqn51vWAz
+ wCF2daTzCAZTwT1Je0wMfLvgHK9msYEDJj7Kp/dqojqqcVsIMpkTzCBZHBzv5utYP7EsWD+E+l2
+ 00eA4GYX1ZWoyEYciBFQ6tATdVp8Ogfyl4maX1KkQroPRRTs
+X-Developer-Key: i=manivannan.sadhasivam@oss.qualcomm.com; a=openpgp;
+ fpr=C668AEC3C3188E4C611465E7488550E901166008
+X-Endpoint-Received: by B4 Relay for
+ manivannan.sadhasivam@oss.qualcomm.com/default with auth_id=461
+X-Original-From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+Reply-To: manivannan.sadhasivam@oss.qualcomm.com
 
-On Sun, Nov 02, 2025 at 10:53:10PM +0100, Denis Benato wrote:
-> Hi all,
-> 
-> the TL;DR:
-> 1. Introduce new module to contain bios attributes, using fw_attributes_class
-> 2. Deprecate all possible attributes from asus-wmi that were added ad-hoc
-> 3. Remove those in the next LTS cycle
-> 
-> The idea for this originates from a conversation with Mario Limonciello
-> https://lore.kernel.org/platform-driver-x86/371d4109-a3bb-4c3b-802f-4ec27a945c99@amd.com/
-> 
-> It is without a doubt much cleaner to use, easier to discover, and the
-> API is well defined as opposed to the random clutter of attributes I had
-> been placing in the platform sysfs. Given that Derek is also working on a
-> similar approach to Lenovo in part based on my initial work I'd like to think
-> that the overall approach is good and may become standardised for these types
-> of things.
-> 
-> Regarding PPT: it is intended to add support for "custom" platform profile
-> soon. If it's a blocker for this patch series being accepted I will drop the 
-> platform-x86-asus-armoury-add-ppt_-and-nv_-tuning.patch and get that done
-> separately to avoid holding the bulk of the series up. Ideally I would like
-> to get the safe limits in so users don't fully lose functionality or continue
-> to be exposed to potential instability from setting too low, or be mislead
-> in to thinking they can set limits higher than actual limit.
-> 
-> The bulk of the PPT patch is data, the actual functional part is relatively
-> small and similar to the last version.
-> 
-> Unfortunately I've been rather busy over the months and may not cover
-> everything in the v7 changelog but I've tried to be as comprehensive as I can.
+From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
-This is more files starter with asus in PDx86.
-Perhaps it's a time to have drivers/platform/x86/asus/ ?
+If these helpers receive the 'const struct device' pointer, then the const
+qualifier will get dropped, leading to below warning:
+
+warning: passing argument 1 of ‘to_serdev_device_driver’ discards 'const'
+qualifier from pointer target type [-Wdiscarded-qualifiers]
+
+This is not an issue as of now, but with the future commits adding serdev
+device based driver matching, this warning will get triggered. Hence,
+convert these helpers to macros so that the qualifier get preserved.
+
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+---
+ include/linux/serdev.h | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
+
+diff --git a/include/linux/serdev.h b/include/linux/serdev.h
+index 34562eb99931d808e885ce5022b8aa4577566885..ab185cac556380dfa3cdf94b7af6ee168b677587 100644
+--- a/include/linux/serdev.h
++++ b/include/linux/serdev.h
+@@ -49,10 +49,7 @@ struct serdev_device {
+ 	struct mutex write_lock;
+ };
+ 
+-static inline struct serdev_device *to_serdev_device(struct device *d)
+-{
+-	return container_of(d, struct serdev_device, dev);
+-}
++#define to_serdev_device(d) container_of(d, struct serdev_device, dev)
+ 
+ /**
+  * struct serdev_device_driver - serdev slave device driver
+@@ -67,10 +64,7 @@ struct serdev_device_driver {
+ 	void	(*remove)(struct serdev_device *);
+ };
+ 
+-static inline struct serdev_device_driver *to_serdev_device_driver(struct device_driver *d)
+-{
+-	return container_of(d, struct serdev_device_driver, driver);
+-}
++#define to_serdev_device_driver(d) container_of(d, struct serdev_device_driver, driver)
+ 
+ enum serdev_parity {
+ 	SERDEV_PARITY_NONE,
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.48.1
 
 
 
