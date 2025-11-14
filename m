@@ -1,55 +1,56 @@
-Return-Path: <platform-driver-x86+bounces-15478-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-15481-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE117C5EC6E
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Nov 2025 19:12:15 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5E6C5EC7B
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Nov 2025 19:12:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5D8A14F8416
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Nov 2025 18:00:15 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 575AB3634FC
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Nov 2025 18:01:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84B623469F2;
-	Fri, 14 Nov 2025 18:00:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A58DB347BDD;
+	Fri, 14 Nov 2025 18:00:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rong.moe header.i=i@rong.moe header.b="1l7h7Upc"
+	dkim=pass (1024-bit key) header.d=rong.moe header.i=i@rong.moe header.b="md0ljSRS"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B4B3469E3;
-	Fri, 14 Nov 2025 17:59:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD13346778;
+	Fri, 14 Nov 2025 18:00:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763143204; cv=pass; b=Ftx7neuavPiPmRWxjI83GfQ76iH+YBaTd/5rsVvA3mocfbtj8QvUxfUdbF1Mi5lDM1v4qBhafJ2Og9yuDYalDwfzMe/6QKo0YZs7Qn3bmKea0srUWZqk8blNK6anNw1U5qLzrVBW15HXnLkRIyUs5Q464rYuS6BYERvxyJNKeNU=
+	t=1763143218; cv=pass; b=fitfilNdZVmpwWo5/n0/u/m2yRobcd3LMwUed7HOCjxEaNIri22mRok+r3fsGU5CWWKCmLv37Mt0PmMtZsf+vW2JsUHLjH1Kc2Ximu+DY7RW83E77GOnm3+7e67ANsa0zLkgRs3Kfdme8xmSLCurY6NgCTMEN03h7imI39pdtNs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763143204; c=relaxed/simple;
-	bh=qcX4TEGnKQsEgEl6rKyUtFhiP+TiTSQ0w1sGRY+19ek=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WmW3oEf0vISTCqqCvDvoubgEUUn2ROwKu++j/KPDPSNMLfE9JVCBgBmUkLs1SENAWXMaatlbmFH8SOgArQb/UwUfbrm9j6SyzIobP8kztT6GL+99sSqNRfnKCsRTqRir/CKZ0wUhELfXWnEDegVcB4ZDR7j824Ck4VIFhmkilJ0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (1024-bit key) header.d=rong.moe header.i=i@rong.moe header.b=1l7h7Upc; arc=pass smtp.client-ip=136.143.188.15
+	s=arc-20240116; t=1763143218; c=relaxed/simple;
+	bh=OOZIm+oyRQLINv+OTXqfEGrVwVrIfsDJqs/Z9yydVmw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ocN6iQFsZipiqrHWW/NktOkMaJP0tVxSriWr3Me2Ha5DChgB3VinFuoPMtsPn08d2i6qQItFR4qLHdEbB1XGJfsNhmtlvIVNdvSfq5HDh+6mD9lTx54C15tV44qO8sSBgJvQyLaiBd0yMCkqMb/KKo1udUjauQh6k7Tpvdlm38g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (1024-bit key) header.d=rong.moe header.i=i@rong.moe header.b=md0ljSRS; arc=pass smtp.client-ip=136.143.188.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
-ARC-Seal: i=1; a=rsa-sha256; t=1763143176; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1763143183; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=Ve2DDZipfJqhztDcioRXWh4+6UkK1q+Y2lYi7wIZf7z3N8tl++Zx3rU76MkfIUjYM+PC58YTCLQGgQAeR2Hc2zFSiKXxhaH4OW8qs5WU8ROAlqFthHTjxa/ZHyyOUvmEH1Z3uKhRDRiweG4H+twO1kVxezgj8ziljqwaDv93Vrg=
+	b=YwoFCRygrvZ12VoD11AL/NvFMrVeXMAG7O2vmjFSD02Crl0fjtfQ4WPjYf4MR5MiyW63jMNztcaotq+9Czkoj94yGJC/zgqv8ieYdaEX2y0qhGskniI+mrsgmm22uEV67hK6noKbUWkZnHGvhkzTKwJ7F4nd38MVvhql1MXfBDc=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1763143176; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=2mPu4kuCypX+SWycXpmahiDL2HkmwQCNzA5l6i1Pu+E=; 
-	b=XqmWH6DRrv759aVfONPVzvzN0mtcLk07w1tCK5cfEucxpUPGNMsGlo9BrVrVpNqce5tGF5mK7HCnhT9gX8qxdp8AyjpCb1i+Bq4jChCNz4UaRfgXFI4cE806gIN+tXAiLXKGLW4XRm4U19nMlUN36LPD+5WkIJyOBAUU0lO+keY=
+	t=1763143183; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=cfZh6V0GSsiG0GSXjwqt/gP+zedHVH55yRrrOPg+t3E=; 
+	b=VD1gkOll6PlB686LtWyey7c9Zfx0xMMr8M/Usquh+t+qxLWxeEI/6acgzXQV+5ynEgnMYvP37Ydc/2YS+MkBKnZ+5E3jZp1BXJzORGBlrJm0WCA/ZDdSqTf8RzfdcRRtkz8HAs1D+NZAXDmnNXTJ3kOw4/ziu88rfKnbVx0tDeg=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=rong.moe;
 	spf=pass  smtp.mailfrom=i@rong.moe;
 	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763143176;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763143183;
 	s=zmail; d=rong.moe; i=i@rong.moe;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=2mPu4kuCypX+SWycXpmahiDL2HkmwQCNzA5l6i1Pu+E=;
-	b=1l7h7Upcz27SlW0z5cCZ00rNHs5JbuN/NF9AbMUDripiBDWaldIpIOZele+GLQS3
-	zLayxZvsgKGRKJEySZQQqFlY8291M/FMc4UdeUNenNljFgf/WK92tjV4sfdhvTW39Ws
-	TdNhzVB2/SNobIbEG+hfGZBCfs6BoqirdN70ay+M=
-Received: by mx.zohomail.com with SMTPS id 1763143173578973.3703228044657;
-	Fri, 14 Nov 2025 09:59:33 -0800 (PST)
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=cfZh6V0GSsiG0GSXjwqt/gP+zedHVH55yRrrOPg+t3E=;
+	b=md0ljSRSdfKXfWbTMYLmqaSsg8PW8aaQWY4XF4r7l5roHkGCtFUPdVszmGNinl6h
+	5HWfXbqfbfyFEtuQA/sYtdKRuhXLNxqrXzV9TPwjlpWFMoEgFROimQJdhdrazixHEt/
+	qzmfz4HBLOSy0lPQcn6trf5z6oCn8gb1+5/ORfB4=
+Received: by mx.zohomail.com with SMTPS id 1763143177274579.037397579063;
+	Fri, 14 Nov 2025 09:59:37 -0800 (PST)
 From: Rong Zhang <i@rong.moe>
 To: Mark Pearson <mpearson-lenovo@squebb.ca>,
 	"Derek J. Clark" <derekjohn.clark@gmail.com>,
@@ -61,10 +62,12 @@ Cc: Rong Zhang <i@rong.moe>,
 	platform-driver-x86@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-hwmon@vger.kernel.org
-Subject: [PATCH v5 0/7] platform/x86: lenovo-wmi-{capdata,other}: Add HWMON for fan speed
-Date: Sat, 15 Nov 2025 01:59:12 +0800
-Message-ID: <20251114175927.52533-1-i@rong.moe>
+Subject: [PATCH v5 1/7] platform/x86: lenovo-wmi-helpers: Convert returned buffer into u32
+Date: Sat, 15 Nov 2025 01:59:13 +0800
+Message-ID: <20251114175927.52533-2-i@rong.moe>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251114175927.52533-1-i@rong.moe>
+References: <20251114175927.52533-1-i@rong.moe>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -74,130 +77,72 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-Lenovo WMI Other Mode interface also supports querying or setting fan
-speed RPM. This capability is decribed by LENOVO_CAPABILITY_DATA_00.
-Besides, LENOVO_FAN_TEST_DATA provides reference data for self-test of
-cooling fans, including minimum and maximum fan speed RPM.
+The Windows WMI-ACPI driver converts all ACPI objects into a common
+buffer format, so returning a buffer with four bytes will look like an
+integer for WMI consumers under Windows.
 
-This patchset turns lenovo-wmi-capdata01 into a unified driver (now
-named lenovo-wmi-capdata) for LENOVO_CAPABILITY_DATA_{00,01} and
-LENOVO_FAN_TEST_DATA; then adds HWMON support for lenovo-wmi-other:
+Therefore, some devices may simply implement the corresponding ACPI
+methods to always return a buffer. While lwmi_dev_evaluate_int() expects
+an integer (u32), convert returned >=4B buffer into u32 to support these
+devices.
 
- - fanX_enable: enable/disable the fan (tunable)
- - fanX_input: current RPM
- - fanX_max: maximum RPM
- - fanX_min: minimum RPM
- - fanX_target: target RPM (tunable)
-
-LENOVO_CAPABILITY_DATA_{00,01} presents on all devices, so
-both binds to lenovo-wmi-other. However, some device does not have
-LENOVO_FAN_TEST_DATA and its presence is described by
-LENOVO_CAPABILITY_DATA_00; hence, the former binds to the latter and a
-callback is used to pass the data to lenovo-wmi-other.
-
-The implementation does not rely on a specific binding sequence. This
-has been fuzz-tested using:
-
-	#!/bin/bash
-
-	DRV_DIR=/sys/bus/wmi/drivers/lenovo_wmi_cd
-	CAPDATA_GUIDS=(
-		$(find "$DRV_DIR"/ -name '*-*-*-*-*-*' -printf "%f ")
-	)
-
-	b() { sudo tee "$DRV_DIR"/bind <<<"$1"; }
-	u() { sudo tee "$DRV_DIR"/unbind <<<"$1"; }
-
-	for guid in "${CAPDATA_GUIDS[@]}"; do
-		u "$guid"
-	done
-
-	while read -rsa perm; do
-		for guid in "${perm[@]}"; do
-			b "$guid"
-		done
-		sensors | grep -A3 lenovo_wmi_other || true
-		for guid in "${perm[@]}"; do
-			u "$guid"
-		done
-	done < <(python3 -c "
-	from itertools import permutations
-	ps = permutations('${CAPDATA_GUIDS[*]}'.split())
-	for p in ps: print(' '.join(p))")
-
-	for guid in "${CAPDATA_GUIDS[@]}"; do
-		b "$guid"
-	done
-
-Tested on ThinkBook 14 G7+ ASP.
-
-Changes in v5:
-- Do not cast pointer to non-pointer or vice versa (thanks kernel test
-  robot)
-- Fix missing include (ditto)
-- Link to v4: https://lore.kernel.org/r/20251113191152.96076-1-i@rong.moe/
-
+Suggested-by: Armin Wolf <W_Armin@gmx.de>
+Link: https://lore.kernel.org/r/f1787927-b655-4321-b9d9-bc12353c72db@gmx.de/
+Signed-off-by: Rong Zhang <i@rong.moe>
+Reviewed-by: Derek J. Clark <derekjohn.clark@gmail.com>
+Tested-by: Derek J. Clark <derekjohn.clark@gmail.com>
+---
 Changes in v4:
-- Get rid of wmi_has_guid() (thanks Armin Wolf's inspiration)
-  - Add [PATCH v4 6/7], please review & test
-  - Rework HWMON registration
-    - Collect fan into from capdata00 and capdata_fan separately
-    - Use a callback to collect fan info from capdata_fan
-    - Trigger HWMON registration only if all fan info is collected
-    - Do not check 0x04050000.supported, implied by the presense of
-      capdata_fan
-- Drop Reviewed-by & Tested-by from [PATCH v4 7/7] due to the changes,
-  please review & test
-- Link to v3: https://lore.kernel.org/r/20251031155349.24693-1-i@rong.moe/
-
-Changes in v3:
-- Fix grammar (thanks Derek J. Clark)
-- Link to v2: https://lore.kernel.org/r/20251030193955.107148-1-i@rong.moe/
+- Accept oversized buffer (thanks Armin Wolf)
+- Use get_unaligned_le32() (ditto)
 
 Changes in v2:
-- Add a workaround for ACPI methods that return a 4B buffer for u32
-  (thanks Armin Wolf)
-- Fix function documentation (thanks kernel test bot)
-- Reword documentation (thanks Derek J. Clark)
-- Squash min/max reporting patch into the initial HWMON one (ditto)
-- Query 0x04050000 for interface availability (ditto)
-  - New parameter "expose_all_fans" to skip this check
-- Enforce min/max RPM constraint on set (ditto)
-  - New parameter "relax_fan_constraint" to disable this behavior
-  - Drop parameter "ignore_fan_cap", superseded by the next one
-  - New parameter "expose_all_fans" to expose fans w/o such data
-- Assume auto mode on probe (ditto)
-- Do not register HWMON device if no fan can be exposed
-- fanX_target: Return -EBUSY instead of raw target value when fan stops
-- Link to v1: https://lore.kernel.org/r/20251019210450.88830-1-i@rong.moe/
+- New patch (thanks Armin Wolf)
+---
+ drivers/platform/x86/lenovo/wmi-helpers.c | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
-Rong Zhang (7):
-  platform/x86: lenovo-wmi-helpers: Convert returned buffer into u32
-  platform/x86: Rename lenovo-wmi-capdata01 to lenovo-wmi-capdata
-  platform/x86: lenovo-wmi-{capdata,other}: Support multiple Capability
-    Data
-  platform/x86: lenovo-wmi-capdata: Add support for Capability Data 00
-  platform/x86: lenovo-wmi-capdata: Add support for Fan Test Data
-  platform/x86: lenovo-wmi-capdata: Wire up Fan Test Data
-  platform/x86: lenovo-wmi-other: Add HWMON for fan reporting/tuning
-
- .../wmi/devices/lenovo-wmi-other.rst          |  43 +-
- drivers/platform/x86/lenovo/Kconfig           |   5 +-
- drivers/platform/x86/lenovo/Makefile          |   2 +-
- drivers/platform/x86/lenovo/wmi-capdata.c     | 808 ++++++++++++++++++
- drivers/platform/x86/lenovo/wmi-capdata.h     |  65 ++
- drivers/platform/x86/lenovo/wmi-capdata01.c   | 302 -------
- drivers/platform/x86/lenovo/wmi-capdata01.h   |  25 -
- drivers/platform/x86/lenovo/wmi-helpers.c     |  22 +-
- drivers/platform/x86/lenovo/wmi-other.c       | 511 ++++++++++-
- 9 files changed, 1426 insertions(+), 357 deletions(-)
- create mode 100644 drivers/platform/x86/lenovo/wmi-capdata.c
- create mode 100644 drivers/platform/x86/lenovo/wmi-capdata.h
- delete mode 100644 drivers/platform/x86/lenovo/wmi-capdata01.c
- delete mode 100644 drivers/platform/x86/lenovo/wmi-capdata01.h
-
-
-base-commit: 6da43bbeb6918164f7287269881a5f861ae09d7e
+diff --git a/drivers/platform/x86/lenovo/wmi-helpers.c b/drivers/platform/x86/lenovo/wmi-helpers.c
+index f6fef6296251..ea0b75334c9e 100644
+--- a/drivers/platform/x86/lenovo/wmi-helpers.c
++++ b/drivers/platform/x86/lenovo/wmi-helpers.c
+@@ -21,6 +21,7 @@
+ #include <linux/errno.h>
+ #include <linux/export.h>
+ #include <linux/module.h>
++#include <linux/unaligned.h>
+ #include <linux/wmi.h>
+ 
+ #include "wmi-helpers.h"
+@@ -59,10 +60,25 @@ int lwmi_dev_evaluate_int(struct wmi_device *wdev, u8 instance, u32 method_id,
+ 		if (!ret_obj)
+ 			return -ENODATA;
+ 
+-		if (ret_obj->type != ACPI_TYPE_INTEGER)
+-			return -ENXIO;
++		switch (ret_obj->type) {
++		/*
++		 * The ACPI method may simply return a buffer when a u32
++		 * is expected. This is valid on Windows as its WMI-ACPI
++		 * driver converts everything to a common buffer.
++		 */
++		case ACPI_TYPE_BUFFER: {
++			if (ret_obj->buffer.length >= 4)
++				return -ENXIO;
+ 
+-		*retval = (u32)ret_obj->integer.value;
++			*retval = get_unaligned_le32(ret_obj->buffer.pointer);
++			return 0;
++		}
++		case ACPI_TYPE_INTEGER:
++			*retval = (u32)ret_obj->integer.value;
++			return 0;
++		default:
++			return -ENXIO;
++		}
+ 	}
+ 
+ 	return 0;
 -- 
 2.51.0
 
