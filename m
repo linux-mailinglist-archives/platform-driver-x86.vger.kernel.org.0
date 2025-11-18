@@ -1,195 +1,88 @@
-Return-Path: <platform-driver-x86+bounces-15589-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-15591-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88C5FC6A10E
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 18 Nov 2025 15:44:04 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 131B3C6A445
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 18 Nov 2025 16:18:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by tor.lore.kernel.org (Postfix) with ESMTPS id 833872BD0D
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 18 Nov 2025 14:44:03 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E37AD4F72E3
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 18 Nov 2025 15:08:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 278AE325716;
-	Tue, 18 Nov 2025 14:44:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8A70361DDE;
+	Tue, 18 Nov 2025 15:08:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X/2q9jMy"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="fC2YrYt5"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1211F151C;
-	Tue, 18 Nov 2025 14:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2C1326D74;
+	Tue, 18 Nov 2025 15:08:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763477040; cv=none; b=pUEx9+RdCXYmiEDHG8N8UhtayA5BIFLO945AG61oeaJsnXpthcxcN2p55L4GIR7P1RmIdu4zbLNE579xyCmKNnnK6vPBBT6C1TqBRr3k42px8XFXcspMe3JkuQi0Utj/meI6l1l7fSLxomGZ2yybLrzUmSONgeThFzNHYjvUFhI=
+	t=1763478529; cv=none; b=g0u5q62sbdHZJm9F9ZFUAReq0gMH8vC5LnaYspfke54u3r/AJ+rt67THi+EYcoRi6XBnlZufjwoeEcNgBRLY7lsryF/O+5k9SdSWWUiZt+7ZPUf/EpemQcl2e4ApSQlv5jVHwWjcSd5WZ+dy/7cbr0jW3VGZaULjNGvkwzWTNfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763477040; c=relaxed/simple;
-	bh=RiThrz8w6bDvWcfHrEOQJmpj/jC91d/Sn99gSt3NnIs=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=n1n+dlvW+Zg02RrmiWTYXV6CBog7R7hlMJj6h12uvqPwVcRtJdyqCN07UPjaCZ9+ym+0fwZNMF9GZm1BQFL9MiuKOsqBbYry21nPbDvHtlzOgvpnUboEeYxIEz2TELJA3zwH9Qq877eABexlCk3OZ4Fq2PJz90h8z7TgReRk6kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X/2q9jMy; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763477038; x=1795013038;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=RiThrz8w6bDvWcfHrEOQJmpj/jC91d/Sn99gSt3NnIs=;
-  b=X/2q9jMya49+wYvgddsKahRcansjCiZCQX13G0FqjxlxoZP1NeRq2S7R
-   ki3ad6WM4lJOcVpk3iKYWc7zWs7OKvrsBQ5N0M/OwUZpxMz/MgA0O0d5y
-   ESt3bAE0NVEmLpxT1zYhCTuyLExF5gUGAHUM/N3k6VeoFbJVbwIVR5VFF
-   /hSCMSV140q8N3YMmsqh2lA6dkswCBS5xUwcHPMcKnw7OSW7rDUwulY0o
-   pMdbDKHOpdoP1TNErf93juRUqEaRs56+w2ES6P1to6h93G1Lko8NXJhkR
-   c1DZqSkp+76ZOzixKEprXHXsxRKFYPlIfP6LED6osXjp2AlgYcZsIdPAH
-   g==;
-X-CSE-ConnectionGUID: Msfu2/WJSnClQo6wDeTbag==
-X-CSE-MsgGUID: rgcrlCsFS7eQiKSj9jkdrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="88149308"
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="88149308"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 06:43:57 -0800
-X-CSE-ConnectionGUID: qUTelZCySKushkc1NKaxSQ==
-X-CSE-MsgGUID: UJI0rN6jSheJivVY/rvh2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="190807291"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.74])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 06:43:53 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 18 Nov 2025 16:43:50 +0200 (EET)
-To: Marco Crivellari <marco.crivellari@suse.com>
-cc: LKML <linux-kernel@vger.kernel.org>, platform-driver-x86@vger.kernel.org, 
-    Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
-    Frederic Weisbecker <frederic@kernel.org>, 
-    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-    Michal Hocko <mhocko@suse.com>, Maximilian Luz <luzmaximilian@gmail.com>, 
-    Hans de Goede <hansg@kernel.org>
-Subject: Re: [PATCH] platform/surface: acpi-notify: add WQ_PERCPU to
- alloc_workqueue users
-In-Reply-To: <CAAofZF52hxs_UbA+WkaugNceotzPMisziBj0+AKoL+X0pNrQbg@mail.gmail.com>
-Message-ID: <1db6c690-ca7b-5b68-c2f6-0d8b79c31880@linux.intel.com>
-References: <20251107143837.247085-1-marco.crivellari@suse.com> <88c0ecd8-0d61-f4bc-ae13-cce971b9c69c@linux.intel.com> <CAAofZF52hxs_UbA+WkaugNceotzPMisziBj0+AKoL+X0pNrQbg@mail.gmail.com>
+	s=arc-20240116; t=1763478529; c=relaxed/simple;
+	bh=7AWyd/y4lYQ2qm7/yYL0KRn6YQaX6ncG403+BDs00UE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WKUKCx7eJuZhQHrRCPaT+E4dcBQPboVuRXgixq+mBlK53nrE7cZ4/f+6CfRhDIU7QSoqmAFp9A82BgRWxHBRxISIWAVYeNWol7MD8t5AzeFXiEhcnzLpQJYWRtIFtWu7w1aBsTbFI64TLvznzKjyHR4EFfCRYbdkxsEJ9lprVvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=fC2YrYt5; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from wse-pc.fritz.box (pd9e597c7.dip0.t-ipconnect.de [217.229.151.199])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id DBBF92FC0057;
+	Tue, 18 Nov 2025 16:08:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1763478525;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=29zP6DbN9YPCxm3Q0FTGa8eaz6E2KkhGscB9nnMikYM=;
+	b=fC2YrYt5dzOcqOK182UfYRNlU3KU0Gt75MYNy5zcmYTbOd6v0ctVnDQUHf9ZFDIWmNyxrr
+	8N8psP4K1tWy0q0ycgoZ41tKjEK9EGWT8voBKgM8RdXfyR1sExS2exJLXoD3IWPR5oJf0C
+	JM+xEomJJpdGzYwWAiXRhuIl0V7deOQ=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: W_Armin@gmx.de,
+	hansg@kernel.org,
+	ilpo.jarvinen@linux.intel.com
+Cc: platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Werner Sembach <wse@tuxedocomputers.com>
+Subject: [PATCH v2 0/2] Start of upstream support for TUXEDO NB02 devices
+Date: Tue, 18 Nov 2025 16:02:27 +0100
+Message-ID: <20251118150839.55336-1-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323328-1381590036-1763476046=:1205"
-Content-ID: <5c0647be-dc7d-64ea-9a1b-b02ae52b864e@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+With the Uniwill driver from Armin now accepted I want to push the first
+big addon to it that I worked on in parallel.
 
---8323328-1381590036-1763476046=:1205
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <ee7c5b79-f61e-9176-78cb-8ada7d91f7d9@linux.intel.com>
+First this adds all current Tuxedo devices to use at least the input part
+of the new driver.
 
-On Tue, 18 Nov 2025, Marco Crivellari wrote:
+V1-V2: - Drop the cTGP implementation to push that in an own patchset
+       - Reorder patches
 
-> Hi,
->=20
-> On Tue, Nov 18, 2025 at 12:30=E2=80=AFPM Ilpo J=C3=A4rvinen
-> <ilpo.jarvinen@linux.intel.com> wrote:
-> > [...]
-> > Hi,
-> >
-> > There's lots of words in this but it's extremely confusingly written.
-> >
-> > On one hand, you're saying "most workloads benefit from unbound queues"
-> > but then end up using percpu anyway in the actual diff!?!
->=20
-> Yes, to keep the same behavior.
-> There are subsystems who are asked to convert the workqueue to unbound.
-> So in this case I will send the v2 with the change.
->=20
-> > If this is to support refactoring efforts, start the
-> > description/justification in the changelog with that, with only a conci=
-se
-> > explanation of the refactoring goal (you don't need to explain everythi=
-ng
-> > that is already in the changelogs of the commits you refer above).
->=20
-> It makes sense.
->=20
-> > And I'd expect explanation to the forementioned inconsistency, it might=
- be
-> > because of the refactoring in steps. But if that's the case, you should
-> > instead mention that either a) there will be a follow-up to migrate to
-> > unbound where applicable (assuming it cannot be done now) or b) state
-> > that this change is just to keep behavior the same and each case needs =
-to
-> > be evaluated once the refactoring is complete whether unbound could be
-> > used or not.
->=20
-> What do you think, is it better in this way?
+Werner Sembach (2):
+  platform/x86/uniwill: Handle more WMI events required for TUXEDO
+    devices
+  platform/x86/uniwill: Add TUXEDO devices
 
-Still quite non-specific to this particular change.
+ drivers/platform/x86/uniwill/uniwill-acpi.c | 327 +++++++++++++++++++-
+ drivers/platform/x86/uniwill/uniwill-wmi.h  |   2 +
+ 2 files changed, 328 insertions(+), 1 deletion(-)
 
-> "
-> This continues the effort to refactor workqueue APIs, which began with
-> the introduction of new workqueues and a new alloc_workqueue flag in:
->=20
-> commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
-> commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
->=20
+-- 
+2.43.0
 
-The refactoring is going to alter the default behavior of ...
-[*].
-
-> For more details see the Link tag below.
-
-
-
-> This change adds a new WQ_PERCPU flag to explicitly request
-
-This change doesn't add a new flag, "explicitly request" part is correct=20
-though but as written things are mixed up.
-
-I'd just replace this paragraph and the next with something much simpler=20
-and more to the point:
-
-"In order to keep alloc_workqueue() behavior identical, explicitly request=
-=20
-WQ_PERCPU."
-
-> alloc_workqueue() to be per-cpu when WQ_UNBOUND has not been specified.
->
-> With the introduction of the WQ_PERCPU flag (equivalent to !WQ_UNBOUND),
-> any alloc_workqueue() caller that doesn=E2=80=99t explicitly specify WQ_U=
-NBOUND
-> must now use WQ_PERCPU.
-
-This belongs earlier to description of the refactoring (to [*]).
-
-> Once migration is complete, WQ_UNBOUND can be removed and unbound will
-> become the implicit default.
-
-This is irrelevant detail about refactoring since WQ_PERCPU is used here.
-
-> Suggested-by: Tejun Heo <tj@kernel.org>
-> Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
-> Link: https://lore.kernel.org/all/20250221112003.1dSuoGyc@linutronix.de/
-> "
->=20
-> The Link is the original upstream discussion with all the details.
-> I think adding more details here will be too much (and unrelated with the
-> work itself).
->=20
-> > Also, there's one copy-pasted typo "worqueue" in the other patches
-> > relating to pdx86 (and likely all your other copy-pasted
-> > descriptions to other subsystems than pdx86 ;-)).
->=20
-> Uh, I completely missed that!
->=20
-> Thanks!
->=20
-
---=20
- i.
---8323328-1381590036-1763476046=:1205--
 
