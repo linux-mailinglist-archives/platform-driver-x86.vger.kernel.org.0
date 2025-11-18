@@ -1,252 +1,147 @@
-Return-Path: <platform-driver-x86+bounces-15590-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-15594-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EA74C6A341
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 18 Nov 2025 16:06:01 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74AA5C6A565
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 18 Nov 2025 16:36:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by tor.lore.kernel.org (Postfix) with ESMTPS id 35EF72BEC7
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 18 Nov 2025 15:06:00 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 208F134CDED
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 18 Nov 2025 15:36:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 450C93559F3;
-	Tue, 18 Nov 2025 15:05:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A13FD321F54;
+	Tue, 18 Nov 2025 15:36:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="ZY8KPMFU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LCwlYx/N"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE95D328619;
-	Tue, 18 Nov 2025 15:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B2F364038
+	for <platform-driver-x86@vger.kernel.org>; Tue, 18 Nov 2025 15:36:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763478353; cv=none; b=IY0aZcBCd2rJq8vInDzlFBDS0j7hza7SNvI/G8yEWPa9O3nD+daZHl3pJcNlzoQKkHROa+vXnk3wimjVK7FixXvsLD1KnCDAcXbXWACpaT0oLAooGNbq+DPxb7ewHO5O56OO3vOkSuysaEZs4zNc6S73fV5TI2IqU00CaZUT838=
+	t=1763480193; cv=none; b=MCc+ckqxovnFYnumOIxMrVozcSwHeS5Zm2zlpCxU5r/dESsMS0EGm1amS/wVc8NLBj0NAi7dPebo/fJH0z57eWWYQknrlpYKJwNcV8dS6ltghxNnSUwOBeX29lbo5wFVD7QIWwGvDKOvdQgCCUqcJYAw4l2Csv8E38jQATQ0LrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763478353; c=relaxed/simple;
-	bh=9XwcmuJ/UMeB2cRHDiy18Y7k5I5sWkMMWeOWPaGF7cc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F+uOdwGxZu+/YFk81F/ZylzTLJ8zRENrzy9BLMv3FVQtr76bFpCDTslZMWfi2EKt7pdh0w0Na6SUjnqk5KcRHIecfI3ZqdRzxM147IYfHivF5SCrFjM2c4215oKijvHgKVwVb891MkZx5Z783vKiSBvSP0q3KtVfe0XU6KwZDus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=ZY8KPMFU; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.116] (pd9e597c7.dip0.t-ipconnect.de [217.229.151.199])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 9B59D2FC0057;
-	Tue, 18 Nov 2025 16:05:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1763478347;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2T4y/hKAsuA+4CIfXaSAob/blm6BLWgnd0eBmXLJEz4=;
-	b=ZY8KPMFUMgtYMDVE5JLNe0jGoh/agal0wXLhy+ZqN7nTHfC8dcQyndmXa9mqeV7eesctJT
-	HT1Zg8RVzfnomlTsHW1MiAH+FLcCX9VCrM1gLebQ20eGcUhO5nUa+5OMirpu+3KFkA2QBg
-	hLVMazQEkTMwCYbX0Z5exSKVFs2yess=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <d4c7b31b-1335-47d5-992a-beace78614e5@tuxedocomputers.com>
-Date: Tue, 18 Nov 2025 16:05:46 +0100
+	s=arc-20240116; t=1763480193; c=relaxed/simple;
+	bh=X/lxv38EsYW7NdFbCjj8QtfuvnOTKD365irYB26RmHY=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=LotBfkL7yD8WVc8PLOxyH1vwX9UpgGCbhwaa0pz5JI+mlPJz+3OJEeDCUn3EU+jHan6fV2nzrLDBuO7fESPBPIbWiJdbZsxypT3d2VOOJbZ3e570Z2LDgkajU61oJTSDefZASZYipTZgkEyBBBxwxTw4ymfuLE0CLYGWmqrf3rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LCwlYx/N; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763480191; x=1795016191;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=X/lxv38EsYW7NdFbCjj8QtfuvnOTKD365irYB26RmHY=;
+  b=LCwlYx/N5V+IRtmfv06lfDvP+8IVdeb6K8eJ6iOw5qtPQIuss/19soDx
+   zzAvjtd6o0wMIohNZ8QIMt8dUmqeAC1DCQLJ7fMNPLzrYWqXS7GAZT+J+
+   Xd0LhB0kB0HSpLJ21MC29pc1BSb6KR8W9uUGioFlrMXxDqXmaVz48MXTa
+   dWxjbcGjZEDk9qiDVw49lFRmZhuuE1ph14Zw4ecIJZXKqDUumU3nUyw7C
+   y8FVrGUpYfJrWB0cLcwossD6joTdo56eaXeNfY8ItDBTyjB6WiuPH+NRU
+   mEQqjsTLvEjBV2of/16MB5zXgfrIPguupe6qVREY00ymUya4rEkunqtQf
+   w==;
+X-CSE-ConnectionGUID: XUCWdnD6TD2IKSe/WZYV9Q==
+X-CSE-MsgGUID: O7SX2Cv/SP261O//IqInWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="76857112"
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
+   d="scan'208";a="76857112"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 07:36:30 -0800
+X-CSE-ConnectionGUID: ixeg3vxiRaCRxlLQCw9maA==
+X-CSE-MsgGUID: RbRzk8VFRj2wYYo4xxmL9w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
+   d="scan'208";a="195241569"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.74])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 07:36:27 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Tue, 18 Nov 2025 17:36:23 +0200 (EET)
+To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+cc: Hans de Goede <hansg@kernel.org>, platform-driver-x86@vger.kernel.org, 
+    Patil.Reddy@amd.com, mario.limonciello@amd.com, lizhi.hou@amd.com
+Subject: Re: [PATCH v2 1/5] platform/x86/amd/pmf: Rename IPU metrics fields
+ to NPU for consistency
+In-Reply-To: <20251111063737.4156385-2-Shyam-sundar.S-k@amd.com>
+Message-ID: <986701df-5cb5-afe9-1873-f7b40e334554@linux.intel.com>
+References: <20251111063737.4156385-1-Shyam-sundar.S-k@amd.com> <20251111063737.4156385-2-Shyam-sundar.S-k@amd.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] platform/x86/uniwill: Handle more WMI events required
- for TUXEDO devices
-To: Armin Wolf <W_Armin@gmx.de>, hansg@kernel.org,
- ilpo.jarvinen@linux.intel.com
-Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251117132530.32460-1-wse@tuxedocomputers.com>
- <20251117132530.32460-3-wse@tuxedocomputers.com>
- <fc1b75ce-113d-4de1-ac98-7616b17f915c@gmx.de>
- <29b24831-92d4-47c6-8daf-7d1879951d43@tuxedocomputers.com>
- <7cd7081f-b138-4548-a9fb-5c4d5165b036@gmx.de>
- <7276b961-8649-4bc0-87f7-a1f06cd4f3ad@tuxedocomputers.com>
- <5b554128-7466-4b34-9020-c0c39572f100@gmx.de>
- <3c075220-79f3-4dff-a760-6fe065147793@tuxedocomputers.com>
- <2d5d88fe-cd54-4311-b5cd-b1c435ff973d@gmx.de>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <2d5d88fe-cd54-4311-b5cd-b1c435ff973d@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="8323328-962938258-1763480183=:1205"
+
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--8323328-962938258-1763480183=:1205
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+
+On Tue, 11 Nov 2025, Shyam Sundar S K wrote:
+
+> Update smu_pmf_metrics_v2 to use NPU terminology instead of IPU. This
+> aligns the driver with current firmware/hardware naming and fixes the
+> mismatch. There is no functional change and no impact to the struct layou=
+t
+> and only field names are updated.
+>=20
+> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+> Co-developed-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
+> Signed-off-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
+> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+
+You really needed 2 people to "develop" this?? :-/
+
+Reviewed-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
+
+--=20
+ i.
 
 
-Am 18.11.25 um 15:41 schrieb Armin Wolf:
-> Am 18.11.25 um 15:27 schrieb Werner Sembach:
->
->>
->> Am 18.11.25 um 14:48 schrieb Armin Wolf:
->>> Am 18.11.25 um 14:29 schrieb Werner Sembach:
->>>
->>>>
->>>> Am 18.11.25 um 14:12 schrieb Armin Wolf:
->>>>> Am 18.11.25 um 13:45 schrieb Werner Sembach:
->>>>>
->>>>>>
->>>>>> Am 18.11.25 um 12:08 schrieb Armin Wolf:
->>>>>>> Am 17.11.25 um 14:23 schrieb Werner Sembach:
->>>>>>>
->>>>>>>> Handle some more WMI events that are triggered on TUXEDO devices.
->>>>>>>>
->>>>>>>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
->>>>>>>> ---
->>>>>>>>   drivers/platform/x86/uniwill/uniwill-acpi.c | 19 ++++++++++++++++++-
->>>>>>>>   drivers/platform/x86/uniwill/uniwill-wmi.h  |  2 ++
->>>>>>>>   2 files changed, 20 insertions(+), 1 deletion(-)
->>>>>>>>
->>>>>>>> diff --git a/drivers/platform/x86/uniwill/uniwill-acpi.c 
->>>>>>>> b/drivers/platform/x86/uniwill/uniwill-acpi.c
->>>>>>>> index 29bb3709bfcc8..0cb86a701b2e1 100644
->>>>>>>> --- a/drivers/platform/x86/uniwill/uniwill-acpi.c
->>>>>>>> +++ b/drivers/platform/x86/uniwill/uniwill-acpi.c
->>>>>>>> @@ -371,9 +371,11 @@ static const struct key_entry uniwill_keymap[] = {
->>>>>>>>         /* Reported in manual mode when toggling the airplane mode 
->>>>>>>> status */
->>>>>>>>       { KE_KEY,       UNIWILL_OSD_RFKILL, { KEY_RFKILL }},
->>>>>>>> +    { KE_IGNORE,    UNIWILL_OSD_RADIOON, { KEY_UNKNOWN }},
->>>>>>>> +    { KE_IGNORE,    UNIWILL_OSD_RADIOOFF, { KEY_UNKNOWN }},
->>>>>>>>         /* Reported when user wants to cycle the platform profile */
->>>>>>>> -    { KE_IGNORE, UNIWILL_OSD_PERFORMANCE_MODE_TOGGLE, { KEY_UNKNOWN }},
->>>>>>>> +    { KE_KEY, UNIWILL_OSD_PERFORMANCE_MODE_TOGGLE, { KEY_F14 }},
->>>>>>>
->>>>>>> I am currently working a patch adding platform profile support, so this 
->>>>>>> event would
->>>>>>> be handled inside the kernel on models with platform profile support.
->>>>>>
->>>>>> For tuxedo devices we have profiles managed in userspace that do 
->>>>>> additional things. So we need a way to handle this in userspace.
->>>>>>
->>>>> Do these things have something to do with the uniwill EC? If so then we 
->>>>> should implement those inside the driver
->>>>> itself. The control center can then poll the platform profile sysfs file 
->>>>> to get notified when platform_profile_cycle()
->>>>> is executed to perform additional actions.
->>>> Not exclusively, e.g. one thing is display brightness.
->>>
->>> And you cannot poll the sysfs interface?
->> I can't follow you atm?
->
-> I meant to ask whether or not your application could poll the platform profile 
-> sysfs interface for changes instead of
-> listing for the F14 key.
-But the platform profiles are a fixed number? TCC currently allows an arbitrary 
-amount of profiles being created.
->
-> Thanks,
-> Armin Wolf
->
->>>
->>>>>
->>>>>> The 2 things I can spontaneously think of would be a sysfs toggle or 2 
->>>>>> different UNIWILL_FEATURE_* defines.
->>>>>>
->>>>> TPH i would love to have an ordinary keycode allocated for that if the 
->>>>> above does not work for you. There already
->>>>> exists KEY_PERFORMANCE, so adding something like KEY_PERFORMANCE_CYCLE 
->>>>> should be possible.
->>>>
->>>> New keycodes won't work on X11, I don't know the reason, but X11 only 
->>>> supports a max of 248 keycodes
->>>>
->>>> That's why for example touchpad toggle is bound to F21 e.g. here 
->>>> https://elixir.bootlin.com/linux/v6.17.8/source/drivers/platform/x86/lg-laptop.c#L106 
->>>> .
->>>>
->>> Oh no. In this case using F14 is fine.
->>>
->>>
->>> Thanks,
->>> Armin Wolf
->>>
->>>>>
->>>>>>>
->>>>>>>>         /* Reported when the user wants to adjust the brightness of the 
->>>>>>>> keyboard */
->>>>>>>>       { KE_KEY,       UNIWILL_OSD_KBDILLUMDOWN, { KEY_KBDILLUMDOWN }},
->>>>>>>> @@ -382,11 +384,19 @@ static const struct key_entry uniwill_keymap[] = {
->>>>>>>>       /* Reported when the user wants to toggle the microphone mute 
->>>>>>>> status */
->>>>>>>>       { KE_KEY,       UNIWILL_OSD_MIC_MUTE, { KEY_MICMUTE }},
->>>>>>>>   +    /* Reported when the user wants to toggle the mute status */
->>>>>>>> +    { KE_IGNORE,    UNIWILL_OSD_MUTE, { KEY_MUTE }},
->>>>>>>
->>>>>>> Why is this event being ignored?
->>>>>> Because the UNIWILL_OSD_MUTE event is sent in addition to the mute key 
->>>>>> event, so not ignoring it here would result in a double trigger.
->>>>>
->>>>> I understand.
->>>>>
->>>>>>>
->>>>>>>> +
->>>>>>>>       /* Reported when the user locks/unlocks the Fn key */
->>>>>>>>       { KE_IGNORE,    UNIWILL_OSD_FN_LOCK, { KEY_FN_ESC }},
->>>>>>>>         /* Reported when the user wants to toggle the brightness of the 
->>>>>>>> keyboard */
->>>>>>>>       { KE_KEY,       UNIWILL_OSD_KBDILLUMTOGGLE, { KEY_KBDILLUMTOGGLE }},
->>>>>>>> +    { KE_KEY,       UNIWILL_OSD_KB_LED_LEVEL0, { KEY_KBDILLUMTOGGLE }},
->>>>>>>> +    { KE_KEY,       UNIWILL_OSD_KB_LED_LEVEL1, { KEY_KBDILLUMTOGGLE }},
->>>>>>>> +    { KE_KEY,       UNIWILL_OSD_KB_LED_LEVEL2, { KEY_KBDILLUMTOGGLE }},
->>>>>>>> +    { KE_KEY,       UNIWILL_OSD_KB_LED_LEVEL3, { KEY_KBDILLUMTOGGLE }},
->>>>>>>> +    { KE_KEY,       UNIWILL_OSD_KB_LED_LEVEL4, { KEY_KBDILLUMTOGGLE }},
->>>>>>>>         /* FIXME: find out the exact meaning of those events */
->>>>>>>>       { KE_IGNORE, UNIWILL_OSD_BAT_CHARGE_FULL_24_H, { KEY_UNKNOWN }},
->>>>>>>> @@ -395,6 +405,9 @@ static const struct key_entry uniwill_keymap[] = {
->>>>>>>>       /* Reported when the user wants to toggle the benchmark mode 
->>>>>>>> status */
->>>>>>>>       { KE_IGNORE, UNIWILL_OSD_BENCHMARK_MODE_TOGGLE, { KEY_UNKNOWN }},
->>>>>>>>   +    /* Reported when the user wants to toggle the webcam */
->>>>>>>> +    { KE_IGNORE,    UNIWILL_OSD_WEBCAM_TOGGLE, { KEY_UNKNOWN }},
->>>>>>>
->>>>>>> Same as above.
->>>>>>
->>>>>> Same as above ;)
->>>>>>
->>>>>> At least iirc, would have to double check
->>>>>>
->>>>> Ok.
->>>>>
->>>>> Thanks,
->>>>> Armin Wolf
->>>>>
->>>>>>>
->>>>>>>> +
->>>>>>>>       { KE_END }
->>>>>>>>   };
->>>>>>>>   @@ -1247,6 +1260,10 @@ static int uniwill_notifier_call(struct 
->>>>>>>> notifier_block *nb, unsigned long action
->>>>>>>>           }
->>>>>>>>           mutex_unlock(&data->battery_lock);
->>>>>>>>   +        return NOTIFY_OK;
->>>>>>>> +    case UNIWILL_OSD_DC_ADAPTER_CHANGED:
->>>>>>>> +        // noop for the time being
->>>>>>>
->>>>>>> Wrong comment style, please use /* */.
->>>>>> ack
->>>>>>>
->>>>>>> Thanks,
->>>>>>> Armin Wolf
->>>>>>>
->>>>>>>> +
->>>>>>>>           return NOTIFY_OK;
->>>>>>>>       default:
->>>>>>>>           mutex_lock(&data->input_lock);
->>>>>>>> diff --git a/drivers/platform/x86/uniwill/uniwill-wmi.h 
->>>>>>>> b/drivers/platform/x86/uniwill/uniwill-wmi.h
->>>>>>>> index 2bf69f2d80381..48783b2e9ffb9 100644
->>>>>>>> --- a/drivers/platform/x86/uniwill/uniwill-wmi.h
->>>>>>>> +++ b/drivers/platform/x86/uniwill/uniwill-wmi.h
->>>>>>>> @@ -113,6 +113,8 @@
->>>>>>>>     #define UNIWILL_OSD_BENCHMARK_MODE_TOGGLE 0xC0
->>>>>>>>   +#define UNIWILL_OSD_WEBCAM_TOGGLE        0xCF
->>>>>>>> +
->>>>>>>>   #define UNIWILL_OSD_KBD_BACKLIGHT_CHANGED    0xF0
->>>>>>>>     struct device;
->>>>>>
->>
+> ---
+>  drivers/platform/x86/amd/pmf/pmf.h | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/am=
+d/pmf/pmf.h
+> index bd19f2a6bc78..6ea5380f3b23 100644
+> --- a/drivers/platform/x86/amd/pmf/pmf.h
+> +++ b/drivers/platform/x86/amd/pmf/pmf.h
+> @@ -243,12 +243,12 @@ struct smu_pmf_metrics_v2 {
+>  =09u16 vclk_freq;=09=09=09/* MHz */
+>  =09u16 vcn_activity;=09=09/* VCN busy % [0-100] */
+>  =09u16 vpeclk_freq;=09=09/* MHz */
+> -=09u16 ipuclk_freq;=09=09/* MHz */
+> -=09u16 ipu_busy[8];=09=09/* NPU busy % [0-100] */
+> +=09u16 npuclk_freq;=09=09/* MHz */
+> +=09u16 npu_busy[8];=09=09/* NPU busy % [0-100] */
+>  =09u16 dram_reads;=09=09=09/* MB/sec */
+>  =09u16 dram_writes;=09=09/* MB/sec */
+>  =09u16 core_c0residency[16];=09/* C0 residency % [0-100] */
+> -=09u16 ipu_power;=09=09=09/* mW */
+> +=09u16 npu_power;=09=09=09/* mW */
+>  =09u32 apu_power;=09=09=09/* mW */
+>  =09u32 gfx_power;=09=09=09/* mW */
+>  =09u32 dgpu_power;=09=09=09/* mW */
+> @@ -257,9 +257,9 @@ struct smu_pmf_metrics_v2 {
+>  =09u32 filter_alpha_value;=09=09/* time constant [us] */
+>  =09u32 metrics_counter;
+>  =09u16 memclk_freq;=09=09/* MHz */
+> -=09u16 mpipuclk_freq;=09=09/* MHz */
+> -=09u16 ipu_reads;=09=09=09/* MB/sec */
+> -=09u16 ipu_writes;=09=09=09/* MB/sec */
+> +=09u16 mpnpuclk_freq;=09=09/* MHz */
+> +=09u16 npu_reads;=09=09=09/* MB/sec */
+> +=09u16 npu_writes;=09=09=09/* MB/sec */
+>  =09u32 throttle_residency_prochot;
+>  =09u32 throttle_residency_spl;
+>  =09u32 throttle_residency_fppt;
+>=20
+--8323328-962938258-1763480183=:1205--
 
