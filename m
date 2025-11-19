@@ -1,250 +1,216 @@
-Return-Path: <platform-driver-x86+bounces-15665-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-15668-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB613C70880
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Nov 2025 18:53:34 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11101C70CEF
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Nov 2025 20:30:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A3CB3345F9C
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Nov 2025 17:45:51 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 450C64E213F
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Nov 2025 19:26:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB0AE35C1A6;
-	Wed, 19 Nov 2025 17:45:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CA682F5B;
+	Wed, 19 Nov 2025 19:25:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="aU9yAx5e"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CapBQoI4"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD59C30DECC;
-	Wed, 19 Nov 2025 17:45:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.171.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D0A217F31
+	for <platform-driver-x86@vger.kernel.org>; Wed, 19 Nov 2025 19:25:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763574331; cv=none; b=SXCWXY+TYljzN/+pPmcv4aLUSYA9SN9FNaUafVuRKIrp+qcz+7yutI4w2ABK6TkT7ENf9mo9j/qrjlHp0Vc3Ryftv6lUFL6SsinhQUEhD1JcoFH/rp5haAqpGytikOjcXdV2YE14wVtj1kVhS2/3L0TXBP9d6gQ7T8N9h/c68Bo=
+	t=1763580319; cv=none; b=Fe1RsfKZXm0P49b0Ob+4vMtPtSK8mlx0R1Of2ZrY358O13/kCJNdxKCxv0aY/OJEXtYDmD2Pah86Ug+Q1hK7F+l9N6Uu0Yu89E+Xcw1+wty8F+94bUnh7otpI1J3wbsjPaf/gaHDffd9mT/NvEuA/c+2aA31SLtn6upd1xQnH2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763574331; c=relaxed/simple;
-	bh=+z5XqbF4/QQN0A5MmMEjZ77wdwc4xaG3dSNM0lrNndk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l66dxypjicXFgY717UDsXS14C/daWnUD9ftOtCQMH5OLyjE999wmTLXYL+AFpUAjm8xp+fvZoGWgxqJl12XaGkDLfDPbeN9fuppvKdqKddopyByMshSSSNR2vywUfE2/xUTrbMGAYU+8V0i7Vi1ojVMKIdAX6tDNxQjoIp7MjBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=aU9yAx5e; arc=none smtp.client-ip=78.46.171.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from relay11 (localhost.localdomain [127.0.0.1])
-	by relay11.grserver.gr (Proxmox) with ESMTP id 6EE27C50EC;
-	Wed, 19 Nov 2025 19:45:25 +0200 (EET)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay11.grserver.gr (Proxmox) with ESMTPS id D9E3EC5023;
-	Wed, 19 Nov 2025 19:45:24 +0200 (EET)
-Received: from antheas-z13 (unknown [IPv6:2a05:f6c2:511b:0:8d8a:5967:d692:ea4e])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id E626E200E78;
-	Wed, 19 Nov 2025 19:45:23 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1763574324;
-	bh=6YbJcjXJAQ0dSS7I+79MAPOfy2Sg4oINOpDtwrpxxXs=; h=From:To:Subject;
-	b=aU9yAx5e489rRkNP/r7TGIcUP7uA99bIVf7sa+Zueb/YMlSO1NPqAsDFXRgz9Ogun
-	 wvbh39v3G1Zgqu/bpyR6EFb/8UgqqhktiyWJKZDu2ervkgGiZUowIZR9lQt2HOiBHY
-	 sp4u0JrSrDC1r9kqFoS5TYwxDdyvfsKyYJmT4osrpQx8oYioIzafG7vVhlcx/zmsdw
-	 mgIz8O0FQ6a6APV5NfXyNdTnLM9ud2PH+E3AJj+XrX4WBBhFVG0MrKewGIzAfLBkU6
-	 6EYEl+qqOmIWbqxg6dTJ7cro60/cQjQF83VQ8RKc186I2Up0j8UlSQ7WttzxwXOWvH
-	 7ky+/EKodmwrQ==
-Authentication-Results: linux3247.grserver.gr;
-	spf=pass (sender IP is 2a05:f6c2:511b:0:8d8a:5967:d692:ea4e) smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-From: Antheas Kapenekakis <lkml@antheas.dev>
-To: platform-driver-x86@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Derek John Clark <derekjohn.clark@gmail.com>,
-	=?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= <samsagax@gmail.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Antheas Kapenekakis <lkml@antheas.dev>,
-	Armin Wolf <W_Armin@gmx.de>
-Subject: [PATCH v6 6/6] platform/x86: ayaneo-ec: Add suspend hook
-Date: Wed, 19 Nov 2025 18:45:05 +0100
-Message-ID: <20251119174505.597218-7-lkml@antheas.dev>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251119174505.597218-1-lkml@antheas.dev>
-References: <20251119174505.597218-1-lkml@antheas.dev>
+	s=arc-20240116; t=1763580319; c=relaxed/simple;
+	bh=r/uFTFsEEV2l3Rk3GtRs2Lm81YZde+Ku3wf6ZgnQLIc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=F3w/nhnwEwqh2+yk7qzKNRsfTNFnBBrKpgr1Y2GQqLLIhKQdIkYMzriZYWa6g6j1KuOj6CrnhpHoDKztE5N1lL0ds9YhmI0gcZ8/81YymXw41rPDu1zD7vHOnQkJoDer5MW7wqViFb51iO/+mmLhjTo/Qb4bdG7vEkUxEDTFHRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CapBQoI4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 172E2C4CEF5;
+	Wed, 19 Nov 2025 19:25:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763580318;
+	bh=r/uFTFsEEV2l3Rk3GtRs2Lm81YZde+Ku3wf6ZgnQLIc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=CapBQoI412uQ69ti8LRX41U/bP3luIMQuwINFxhA0wl8/lkEbS0lndmZqCu56tZ1q
+	 mPwOfV8f4zBoaYvqFsHabopN5WOCkYhbq9x4Bi03k+5imdlbs2PvF+/DT2M49h5YBM
+	 jnoOYdTpjfQWwwGn1sjNytclk9CMF6czAikoXdrewZj5SUtQiMz39yo6WRj6kgMcnR
+	 O+AM5DYlwvQub6kNYer2zmhclH1LsRLv5928UuYs18a/BQTyj1EeOZDcRXoK07WXp/
+	 LAbAgLL4Bvz9HRVwNsd61E3WNtFtbOV0LRYJR/PJPiJdJnKEzT1R311OfCFHZlAeD1
+	 /iB7F94HW9+Kg==
+Message-ID: <6104959e-0214-492d-8ceb-c7376d3b1121@kernel.org>
+Date: Wed, 19 Nov 2025 20:25:15 +0100
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/5] Introduce AMD PMF util layer and user-space
+ interface for SystemDeck
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, ilpo.jarvinen@linux.intel.com
+Cc: platform-driver-x86@vger.kernel.org, Yijun.Shen@Dell.com,
+ Sanket.Goswami@amd.com
+References: <20251111071010.4179492-1-Shyam-sundar.S-k@amd.com>
+ <2c40e722-ffd7-4e00-92dd-2c89ff4768a0@kernel.org>
+ <0a4eaad1-d312-4c43-94f3-b1d9986c117a@amd.com>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <0a4eaad1-d312-4c43-94f3-b1d9986c117a@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <176357432448.2086598.14999151017992077673@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
 
-The Ayaneo EC resets after hibernation, losing the charge control state.
-Add a small PM hook to restore this state on hibernation resume.
+Hi Mario,
 
-The fan speed is also lost during hibernation, but since hibernation
-failures are common with this class of devices, setting a low fan speed
-when the userspace program controlling the fan will potentially not
-take over could cause the device to overheat, so it is not restored.
+On 19-Nov-25 5:32 PM, Mario Limonciello wrote:
+> On 11/19/25 10:20 AM, Hans de Goede wrote:
+>> Hi Shyam,
+>>
+>> On 11-Nov-25 8:10 AM, Shyam Sundar S K wrote:
+>>> This series introduces a util layer to the AMD Platform Management
+>>> Framework (PMF) and a minimal user-space interface via a misc character
+>>> device, enabling feature discovery and smoother integration with
+>>> user-space tools. It also adds caching of BIOS output policy values to
+>>> prepare for user-space telemetry reporting via IOCTLs.
+>>>
+>>> The motivation is to provide a stable interface for user-space tools to
+>>> discover PMF features and consume selected metrics. Enable smoother
+>>> integration with AMD SystemDeck
+>>
+>> This does not really explain why you've chosen for a new character-device
+>> with IOCTLs instead of sysfs where as so far (AFAICT) all the AMD PMF code
+>> has been using sysfs APIs.
+>>
+>> Is there any specific reason why to switch to IOCTLs all of a sudden?
+>>
+>> Note that:
+>>
+>> 1. sysfs APIs can be (and must be) stable too, sysfs APIs are not allowed
+>> to be changed once shipped in a stable kernel.
+>> 2. sysfs attributes can be used with poll() to so if you want to do
+>> notifications of changes that can be done through sysfs too.
+>>
+>> Note I'm not saying you must use sysfs, but so far the PMF code has been
+>> using sysfs everywhere and this new IOCTL based API is not really consistent
+>> with this.
+> 
+> Isn't there only one sysfs file for turning on/off CNQF?
 
-Reviewed-by: Armin Wolf <W_Armin@gmx.de>
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
----
- drivers/platform/x86/ayaneo-ec.c | 85 +++++++++++++++++++++++++++++++-
- 1 file changed, 84 insertions(+), 1 deletion(-)
+Ah yes you're right somehow I thought there were more.
 
-diff --git a/drivers/platform/x86/ayaneo-ec.c b/drivers/platform/x86/ayaneo-ec.c
-index a6fe141f07be..41a24e091248 100644
---- a/drivers/platform/x86/ayaneo-ec.c
-+++ b/drivers/platform/x86/ayaneo-ec.c
-@@ -16,6 +16,7 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-+#include <linux/pm.h>
- #include <linux/power_supply.h>
- #include <linux/sysfs.h>
- #include <acpi/battery.h>
-@@ -52,6 +53,11 @@ struct ayaneo_ec_platform_data {
- 	struct platform_device *pdev;
- 	struct ayaneo_ec_quirk *quirks;
- 	struct acpi_battery_hook battery_hook;
-+
-+	// Protects access to restore_pwm
-+	struct mutex hwmon_lock;
-+	bool restore_charge_limit;
-+	bool restore_pwm;
- };
- 
- static const struct ayaneo_ec_quirk quirk_fan = {
-@@ -208,10 +214,16 @@ static int ayaneo_ec_read(struct device *dev, enum hwmon_sensor_types type,
- static int ayaneo_ec_write(struct device *dev, enum hwmon_sensor_types type,
- 			   u32 attr, int channel, long val)
- {
-+	struct ayaneo_ec_platform_data *data = dev_get_drvdata(dev);
-+	int ret;
-+
-+	guard(mutex)(&data->hwmon_lock);
-+
- 	switch (type) {
- 	case hwmon_pwm:
- 		switch (attr) {
- 		case hwmon_pwm_enable:
-+			data->restore_pwm = false;
- 			switch (val) {
- 			case 1:
- 				return ec_write(AYANEO_PWM_ENABLE_REG,
-@@ -225,6 +237,17 @@ static int ayaneo_ec_write(struct device *dev, enum hwmon_sensor_types type,
- 		case hwmon_pwm_input:
- 			if (val < 0 || val > 255)
- 				return -EINVAL;
-+			if (data->restore_pwm) {
-+				/*
-+				 * Defer restoring PWM control to after
-+				 * userspace resumes successfully
-+				 */
-+				ret = ec_write(AYANEO_PWM_ENABLE_REG,
-+					       AYANEO_PWM_MODE_MANUAL);
-+				if (ret)
-+					return ret;
-+				data->restore_pwm = false;
-+			}
- 			return ec_write(AYANEO_PWM_REG, (val * 100) / 255);
- 		default:
- 			break;
-@@ -454,11 +477,14 @@ static int ayaneo_ec_probe(struct platform_device *pdev)
- 
- 	data->pdev = pdev;
- 	data->quirks = dmi_entry->driver_data;
-+	ret = devm_mutex_init(&pdev->dev, &data->hwmon_lock);
-+	if (ret)
-+		return ret;
- 	platform_set_drvdata(pdev, data);
- 
- 	if (data->quirks->has_fan_control) {
- 		hwdev = devm_hwmon_device_register_with_info(&pdev->dev,
--			"ayaneo_ec", NULL, &ayaneo_ec_chip_info, NULL);
-+			"ayaneo_ec", data, &ayaneo_ec_chip_info, NULL);
- 		if (IS_ERR(hwdev))
- 			return PTR_ERR(hwdev);
- 	}
-@@ -475,10 +501,67 @@ static int ayaneo_ec_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static int ayaneo_freeze(struct device *dev)
-+{
-+	struct platform_device *pdev = to_platform_device(dev);
-+	struct ayaneo_ec_platform_data *data = platform_get_drvdata(pdev);
-+	int ret;
-+	u8 tmp;
-+
-+	if (data->quirks->has_charge_control) {
-+		ret = ec_read(AYANEO_CHARGE_REG, &tmp);
-+		if (ret)
-+			return ret;
-+
-+		data->restore_charge_limit = tmp == AYANEO_CHARGE_VAL_INHIBIT;
-+	}
-+
-+	if (data->quirks->has_fan_control) {
-+		ret = ec_read(AYANEO_PWM_ENABLE_REG, &tmp);
-+		if (ret)
-+			return ret;
-+
-+		data->restore_pwm = tmp == AYANEO_PWM_MODE_MANUAL;
-+
-+		/*
-+		 * Release the fan when entering hibernation to avoid
-+		 * overheating if hibernation fails and hangs.
-+		 */
-+		if (data->restore_pwm) {
-+			ret = ec_write(AYANEO_PWM_ENABLE_REG, AYANEO_PWM_MODE_AUTO);
-+			if (ret)
-+				return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int ayaneo_restore(struct device *dev)
-+{
-+	struct platform_device *pdev = to_platform_device(dev);
-+	struct ayaneo_ec_platform_data *data = platform_get_drvdata(pdev);
-+	int ret;
-+
-+	if (data->quirks->has_charge_control && data->restore_charge_limit) {
-+		ret = ec_write(AYANEO_CHARGE_REG, AYANEO_CHARGE_VAL_INHIBIT);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops ayaneo_pm_ops = {
-+	.freeze = ayaneo_freeze,
-+	.restore = ayaneo_restore,
-+};
-+
- static struct platform_driver ayaneo_platform_driver = {
- 	.driver = {
- 		.name = "ayaneo-ec",
- 		.dev_groups = ayaneo_ec_groups,
-+		.pm = pm_sleep_ptr(&ayaneo_pm_ops),
- 	},
- 	.probe = ayaneo_ec_probe,
- };
--- 
-2.52.0
+Still generally speaking the kernel community is trying to avoid
+adding new ioctl based interfaces / adding random new char devices
+in preference of using sysfs interface where possible.
 
+So I've taken a better look at the actual ioctl interface
+and it seems like a really weird multiplexer interface,
+where there is only 2 ioctl commands and then the argument
+gets 1 of a ton of possible feature flags resp. info variables.
+
+Where it also seems that none of these variables require
+a round-trip to the hardware.
+
+Given the amount of different variables I can see some sense
+in having this as an ioctl interface, but why do the whole
+thing where userspace has to make ioctl per value it wants
+to read. That feels very sysfs-ish if you want that maybe
+just use sysfs ?
+
+I would define a uAPI struct like this:
+
+struct foo {
+	u64 size;		/* in + out, all other fields out only */
+	u64 features_supported; /* bitmask with feature info from patch 1/5 */
+	u64 feature_version	/* from patch 1/5 */
+	u64 power_source;	/* from patch 2/5 */
+	...
+	u64 bios_input[10];	/* from patch 2/5 */
+	...
+	etc.
+};
+
+And have a copy of this struct embedded in the driver
+data struct and keep that updated (replacing the cache
+stuff) so that you can just copy_to_user that on the ioctl.
+
+Combined with a single get-info ioctl which just fills 
+the struct, using the min of the size passed in by userspace
++ the size supported by the kernel to determine how much
+to copy and set the copied size in the struct passed
+back to userspace (to indicate for new userspace on
+old kernel that the new fields are not set).
+
+This way for future extensions new fields can be added to
+the end of the struct and the size handling will automatically
+do the right thing.
+
+As for Ilpo's comment about the battery info being duplicate
+with /sys/class/power_supply/BAT*, where is this info coming
+from ?  Is this a PMF specific view of the battery info,
+IOW it might be different then the power_supply calls info?
+
+Note stil not a fan of adding new IOCTLs but given the large
+amount of variables I can see how using an IOCTL might be
+better then adding a ton of new sysfs attributes.
+
+Regards,
+
+Hans
+
+
+
+
+>>> , a widely used tool for monitoring and
+>>> controlling power and thermal behavior, helping designers keep components
+>>> within thermal limits to ensure proper operation and improve system
+>>> stability and reliability.
+>>>
+>>> This series also adds a small, dependable userspace utility that leverages
+>>> the new IOCTLs to query live power and thermal telemetry. Exposing this
+>>> data in a scriptable interface helps users and tooling make informed,
+>>> workload-aware decisions and supports validation and debugging.
+>>>
+>>> v2:
+>>> ----
+>>>   - address remarks from v1
+>>>   - add a new tool that exercises the IOCTLs from PMF interface
+>>>
+>>> Shyam Sundar S K (5):
+>>>    platform/x86/amd/pmf: add util layer and user-space misc device
+>>>      interface
+>>>    platform/x86/amd/pmf: cache BIOS output values for user-space
+>>>      telemetry via util IOCTL
+>>>    Documentation/ABI: add testing entry for AMD PMF misc device interface
+>>>    platform/x86/amd/pmf: Store commonly used enums in the header file
+>>>    platform/x86/amd/pmf: Introduce AMD PMF testing tool for driver
+>>>      metrics and features
+>>>
+>>>   .../ABI/testing/misc-amdpmf_interface         |  49 +++
+>>>   MAINTAINERS                                   |   1 +
+>>>   drivers/platform/x86/amd/pmf/Kconfig          |  10 +
+>>>   drivers/platform/x86/amd/pmf/Makefile         |   2 +
+>>>   drivers/platform/x86/amd/pmf/core.c           |  19 +
+>>>   drivers/platform/x86/amd/pmf/pmf.h            |  33 +-
+>>>   drivers/platform/x86/amd/pmf/spc.c            |   1 +
+>>>   drivers/platform/x86/amd/pmf/tee-if.c         |  10 +
+>>>   drivers/platform/x86/amd/pmf/util.c           | 236 +++++++++++
+>>>   include/uapi/linux/amd-pmf.h                  |  96 +++++
+>>>   tools/testing/selftests/Makefile              |   1 +
+>>>   .../drivers/platform/x86/amd/pmf/Makefile     |   8 +
+>>>   .../drivers/platform/x86/amd/pmf/test_pmf.c   | 388 ++++++++++++++++++
+>>>   13 files changed, 832 insertions(+), 22 deletions(-)
+>>>   create mode 100644 Documentation/ABI/testing/misc-amdpmf_interface
+>>>   create mode 100644 drivers/platform/x86/amd/pmf/util.c
+>>>   create mode 100644 include/uapi/linux/amd-pmf.h
+>>>   create mode 100644 tools/testing/selftests/drivers/platform/x86/amd/pmf/Makefile
+>>>   create mode 100644 tools/testing/selftests/drivers/platform/x86/amd/pmf/test_pmf.c
+>>>
+>>
+> 
 
 
