@@ -1,52 +1,52 @@
-Return-Path: <platform-driver-x86+bounces-15615-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-15617-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE6AC6C27F
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Nov 2025 01:46:54 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A325C6C285
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Nov 2025 01:47:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sto.lore.kernel.org (Postfix) with ESMTPS id 8F9FA292E0
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Nov 2025 00:46:54 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 8CA26363A02
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Nov 2025 00:46:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84D3E1FAC42;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1DB2218E91;
 	Wed, 19 Nov 2025 00:46:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nw9L7m8R"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t8go9U4x"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584C31C5D7D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C682820B80B;
 	Wed, 19 Nov 2025 00:46:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763513203; cv=none; b=SAwcE6DdJZaQx4R6WlOS4wFYm3EFI/kPbmMLt4jMjNSCgVjB6M3rRLKJYZ5ZldpjeWNvvfo7rCJV8jSNg0BhY6DezV7MHfhxMmdFsCn0eiDK4fzx5qrBpfz6ZjXeY/3rf6KNp0ApDxtMGsLyRp8VVBQR+xp5lFJkHRsPkLU8mnM=
+	t=1763513203; cv=none; b=MrNPcKDCDY/rXdEhzVgNBU09v2CX+ggkZTgaRLXLisDcf4KVk9Um3UYRgRwKSEwn/uZb6EGIzmERXhNmP16qDQSoWvkCXp5gTzudfF2E/huT9gOrKqK7i3njtaMROpxOMlWBr0FX99rHABDOSoiW3zDzmvdUIWVu11FZn8Mt/5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1763513203; c=relaxed/simple;
-	bh=AegkBlTWPLHplrOMY76sYBaHhKq8AoJxhlaNcb0ph3s=;
+	bh=Wfu9i4e4wEFMx2aRATlYI3jpvrmK/iJtkoSdP2AQcko=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UeqEwFatppb94ajtoeo1Ko++hp2jI1VKP7Ip4fEsKnt0qyPAYs0deMs0bkIaebZhADN6hrXocz9lQNM8yUaGnEs8NqhHb0vYjitPz5SlvYxsE0nCj6tvCuzPxFYZUf5tlj57kJePb77RLpRQgyTXe9HOKDyZ6weDRqBvDFgdW40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nw9L7m8R; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 946C9C4AF10;
+	 In-Reply-To:To:Cc; b=Fl/A/+Ea+ygJKTwgrJBb6w3QRbjsDi9CdmZj61mkyfzhTqwjYtIbgZE23QD/0pTIp0tPt8Hd3j0A9wPms11y5gPwPV+0UGbMgxI+UF6c/o3UVCK3McReySsnYqRWF6gfzTKxBNqJLulhdLD3UmIuw7RFXU1PP7wpZUHBGp8azsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t8go9U4x; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94C2CC4CEF5;
 	Wed, 19 Nov 2025 00:46:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763513202;
-	bh=AegkBlTWPLHplrOMY76sYBaHhKq8AoJxhlaNcb0ph3s=;
+	s=k20201202; t=1763513203;
+	bh=Wfu9i4e4wEFMx2aRATlYI3jpvrmK/iJtkoSdP2AQcko=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=nw9L7m8RIb8IVGdbo8FRB9mWLIpod+mnctgtNJ9RMHqwr5umCSyjqAjVkrRU9kOhL
-	 3qgqfSq3vP1GFrBlUlMwCypJKM8nPGylyeBNURfjye1VQiDQ6P70qYtRWG+1cgsS6f
-	 7LWkRimZJRtYqIT/XBL4TjRs/Q1wuxSP5/PUfOI4Hz+wzkPEdgERvEoPkhAn6TA41i
-	 z7dO9kukx4hvTx6AEm5rTG6Ov1Tc3vtfOLq3Cnf3Eo6iN5bAOw4cAdK05F84LPv5cA
-	 miebxS13VjBZcWfzv3pAji0wBzngBYmGHFSVXSZqmznLTEgk4kWPEcpaB/BzYZAu8b
-	 E96xvmxKrwoGA==
+	b=t8go9U4xqjRVR2uKg245VTigteivmUxvUGWjQmPqbx4zP36Th63tlpzjFSBwK6gUL
+	 KoLOQO1MIMBFv44obUbS4zy9MSacKQnuvL7T6UVJSjFNo2OMRNp0Z00ynWtKSabgqo
+	 ceqZ0cJLBm/1eW+xieWxShdQ+4x8rbCS0MiAZkKCgOnflQWSGffyeuvtay/3Dh5t/9
+	 G+4hZQc+sSCa2UyJFr0isfPsrh4+CSHuOcxBMfW8aMYa7XajPWc7pYMq4A2bBwc6Sr
+	 6v0X/eBKwijw6qk0MWnHMm36RCTrfwvvngFtOGCs9i/fu09sZNEJd+2OKMJsALAkyT
+	 ivRcD844ZvjPQ==
 Received: by venus (Postfix, from userid 1000)
-	id 9160518121B; Wed, 19 Nov 2025 01:46:38 +0100 (CET)
+	id 933B118121D; Wed, 19 Nov 2025 01:46:38 +0100 (CET)
 From: Sebastian Reichel <sre@kernel.org>
-Date: Wed, 19 Nov 2025 01:41:41 +0100
-Subject: [PATCH v2 2/4] platform: arm64: thinkpad-t14s-ec: sleep after EC
- access
+Date: Wed, 19 Nov 2025 01:41:42 +0100
+Subject: [PATCH v2 3/4] platform: arm64: thinkpad-t14s-ec: add system PM
+ hooks
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -55,7 +55,7 @@ List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251119-thinkpad-t14s-ec-improvements-v2-2-441219857c02@kernel.org>
+Message-Id: <20251119-thinkpad-t14s-ec-improvements-v2-3-441219857c02@kernel.org>
 References: <20251119-thinkpad-t14s-ec-improvements-v2-0-441219857c02@kernel.org>
 In-Reply-To: <20251119-thinkpad-t14s-ec-improvements-v2-0-441219857c02@kernel.org>
 To: Sebastian Reichel <sre@kernel.org>, Hans de Goede <hansg@kernel.org>, 
@@ -63,74 +63,143 @@ To: Sebastian Reichel <sre@kernel.org>, Hans de Goede <hansg@kernel.org>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1741; i=sre@kernel.org;
- h=from:subject:message-id; bh=AegkBlTWPLHplrOMY76sYBaHhKq8AoJxhlaNcb0ph3s=;
- b=owEBbQKS/ZANAwAKAdju1/PIO/qaAcsmYgBpHRNtIhX/UZ3eeocKJXHDaWvSrHBuWEbdOjVtS
- /tuOVunCmSJAjMEAAEKAB0WIQTvZg0HRj+Lcmp5VBPY7tfzyDv6mgUCaR0TbQAKCRDY7tfzyDv6
- mnWyD/9ZVfV76e6jQzhXo85J4zb8YIqjRGL9bo51/97RYZiphkrlGaU21wsaDhlm6JIa7vpsCcV
- IvgdYmhcljtASb1m5YDPniH5jigp+zKy+iHq5BSnTd3r7VftTI7yDG/U7mgMzjU783QQuOmu98m
- 2m6pMB7BTOZoRnm+aUyNAZsQCc5Pf1QCdPkiNnwgLtyoI4HkmnPYqSKZj5436mGejsWOOUvswXb
- Qt2W4rWRFlWySe8PjHxig+BB4iemFV88KqPuDUEt7AiKT5o18IyOM14FWBHucjYM9H3VVW8OQHd
- FYgAyqhIorszEkh0k7Xifyfu5SBq+ItlumgSAiBFy2FRcTcSQ3zcFKVFFt09OzIkNrial0DT1Ml
- me94hmuCC4HEpHLa1WWIE385dSwVpkwhwZoqpnoOk660jkaNmXiG14KKyw89zfx2ySGu5dgNPIv
- Ufp14uZLXV54atVKwstkb4h3h8VT07xdRYsc08nKHSUMoJznMovsKIdUz6OIk9hJPJqwYtLJJnh
- bwyalKRDICieOoJW1QSRPrHSyJTTizBC4BEEvGNhCUs6+e52P+WYLu46eNWE9noVi4wYqkQ5JEg
- /tBJcVB2fQyJFWpTwmjTwLKmi9ybSodU34IyavNxYw63hmT6avZGgPWgMzqfi5i+SZjeMW2UEPs
- 9WJ85oKFFdlISlg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3943; i=sre@kernel.org;
+ h=from:subject:message-id; bh=Wfu9i4e4wEFMx2aRATlYI3jpvrmK/iJtkoSdP2AQcko=;
+ b=kA0DAAoB2O7X88g7+poByyZiAGkdE22jI2ZzfxN2zN66zgiYsDTEsmH2Yep7SfZdnocSWChy9
+ YkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJpHRNtAAoJENju1/PIO/qaY44P/inz
+ 47v1QihpG0ykBD2sAKtdnOF7ULJRe6TIyQWUeOxpfqMzg5lGgAecRmfWlXXn7/nZi7PlBG6ycmw
+ GIo9DJMUG1y9hT8/l2JyiUsoLO9U6IEt33gFQHkc/nlyIRJ45OLR7d1acxhgrPHCrcjDx3Odkua
+ 6/2booVDtpVwUFxL0s1YiUWs3BD0sLX3/PMKDAjO4iJafTlCwUAt49pDJ91nvAH7XH50HvKhLcu
+ Q5jak9BYwZL4EW+asfWB3fNdc9kDwObkp9++N9DrHBmQwf8/uvWtFOJsiijMcFfLjwgM5GAr9gL
+ 6xdhLaYOACg5lISzLkMO9fsX7fq2W9jzZw31YO3hgVcyrJWTXAuyC2TkGRQtXs2/TnHjUgr+qVn
+ yXzN8og1+dUckEZ34pRyng0Jpd64/0QHj80Dfvxfx0bNKRY8dW3sw5qKy+epY5bY+/9xWYPRwXi
+ Nxw6et9Vc6ATX67qaEM/QNiY3y2eYGbvmR5eXXY8+hLwa3wiLGQK30QZMSYy8UbX31R6AF1atOP
+ 99Ad8v0aQSbuSDtZ+KAuZGq7jw/kq2iI7Qxa/fP9ErWb3BGpoFqk1HTMQe9ZC8aOuUDpqF1c/RH
+ znRJaCHwR7d9tg8Fjv8KH4mkbgvZYsNBmp5sQqmy7Lm8fw7j2IbPKtbnZ5wHbf/Q1u11HFxJHx3
+ uPFcZ
 X-Developer-Key: i=sre@kernel.org; a=openpgp;
  fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-The ACPI ECRD and ECWR functions have a 10ms sleep at the end. It turns
-out, that this is sometimes needed to avoid I2C transmission failures,
-especially for functions doing regmap_update_bits (and thus read + write
-shortly after each other). This fixes problems like the following
-appearing in the kernel log:
+Improve support for system suspend. The register information has been
+extracted from the ACPI DSDT code handling Windows Modern Standby. I
+took over the weird multi-write function from the ACPI DSDT code where
+it is called ECWS.
 
-leds platform::micmute: Setting an LED's brightness failed (-6)
-leds platform::kbd_backlight: Setting an LED's brightness failed (-6)
+In addition to writing to the 0xE0 register, the ACPI Windows Modern
+Standby code also does some changes to the thermal configuration. This
+part is not implemented.
 
-The ACPI QEVT function used to read the interrupt status register also
-has a 10ms sleep at the end. Without that there are problems with
-reading multiple events following directly after each other resulting
-in the following error message being logged:
+After this patch the laptop's power and LID LEDs will switch into the
+typical breathing animation when the system is suspended and enabled
+normally again after resuming.
 
-thinkpad-t14s-ec 4-0028: Failed to read event
-
-Fixes: 60b7ab6ce030 ("platform: arm64: thinkpad-t14s-ec: new driver")
 Signed-off-by: Sebastian Reichel <sre@kernel.org>
 ---
- drivers/platform/arm64/lenovo-thinkpad-t14s.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/platform/arm64/lenovo-thinkpad-t14s.c | 54 +++++++++++++++++++++++----
+ 1 file changed, 46 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/platform/arm64/lenovo-thinkpad-t14s.c b/drivers/platform/arm64/lenovo-thinkpad-t14s.c
-index c1c01b977f2b..cf6a1d3b2617 100644
+index cf6a1d3b2617..cf8eff50d710 100644
 --- a/drivers/platform/arm64/lenovo-thinkpad-t14s.c
 +++ b/drivers/platform/arm64/lenovo-thinkpad-t14s.c
-@@ -120,6 +120,7 @@ static int t14s_ec_write(void *context, unsigned int reg,
- 	if (ret < 0)
- 		return ret;
+@@ -20,19 +20,23 @@
+ #include <linux/module.h>
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
++#include <linux/pm.h>
  
-+	fsleep(10000);
- 	return 0;
- }
+ #define T14S_EC_CMD_ECRD	0x02
+ #define T14S_EC_CMD_ECWR	0x03
+ #define T14S_EC_CMD_EVT		0xf0
  
-@@ -157,6 +158,7 @@ static int t14s_ec_read(void *context, unsigned int reg,
+-#define T14S_EC_REG_LED		0x0c
+-#define T14S_EC_REG_KBD_BL1	0x0d
+-#define T14S_EC_REG_KBD_BL2	0xe1
+-#define T14S_EC_KBD_BL1_MASK	GENMASK_U8(7, 6)
+-#define T14S_EC_KBD_BL2_MASK	GENMASK_U8(3, 2)
+-#define T14S_EC_REG_AUD		0x30
+-#define T14S_EC_MIC_MUTE_LED	BIT(5)
+-#define T14S_EC_SPK_MUTE_LED	BIT(6)
++#define T14S_EC_REG_LED				0x0c
++#define T14S_EC_REG_KBD_BL1			0x0d
++#define T14S_EC_REG_MODERN_STANDBY		0xe0
++#define T14S_EC_MODERN_STANDBY_ENTRY		BIT(1)
++#define T14S_EC_MODERN_STANDBY_EXIT		BIT(0)
++#define T14S_EC_REG_KBD_BL2			0xe1
++#define T14S_EC_KBD_BL1_MASK			GENMASK_U8(7, 6)
++#define T14S_EC_KBD_BL2_MASK			GENMASK_U8(3, 2)
++#define T14S_EC_REG_AUD				0x30
++#define T14S_EC_MIC_MUTE_LED			BIT(5)
++#define T14S_EC_SPK_MUTE_LED			BIT(6)
  
- out:
- 	i2c_unlock_bus(client->adapter, I2C_LOCK_SEGMENT);
-+	fsleep(10000);
+ #define T14S_EC_EVT_NONE			0x00
+ #define T14S_EC_EVT_KEY_FN_4			0x13
+@@ -202,6 +206,14 @@ static int t14s_ec_read_evt(struct t14s_ec *ec, u8 *val)
  	return ret;
  }
  
-@@ -191,6 +193,8 @@ static int t14s_ec_read_evt(struct t14s_ec *ec, u8 *val)
- 	if (ret < 0)
- 		goto out;
- 
-+	fsleep(10000);
++static void t14s_ec_write_sequence(struct t14s_ec *ec, u8 reg, u8 val, u8 cnt)
++{
++	int i;
 +
- 	ret = 0;
++	for (i = 0; i < cnt; i++)
++		regmap_write(ec->regmap, reg, val);
++}
++
+ static int t14s_led_set_status(struct t14s_ec *ec,
+ 			       struct t14s_ec_led_classdev *led,
+ 			       const enum t14s_ec_led_status_t ledstatus)
+@@ -554,6 +566,7 @@ static int t14s_ec_probe(struct i2c_client *client)
+ 		return -ENOMEM;
  
- out:
+ 	ec->dev = dev;
++	i2c_set_clientdata(client, ec);
+ 
+ 	ec->regmap = devm_regmap_init(dev, &t14s_ec_regmap_bus,
+ 				      ec, &t14s_ec_regmap_config);
+@@ -593,6 +606,26 @@ static int t14s_ec_probe(struct i2c_client *client)
+ 	return 0;
+ }
+ 
++static int t14s_ec_suspend(struct device *dev)
++{
++	struct t14s_ec *ec = dev_get_drvdata(dev);
++
++	t14s_ec_write_sequence(ec, T14S_EC_REG_MODERN_STANDBY,
++			       T14S_EC_MODERN_STANDBY_ENTRY, 3);
++
++	return 0;
++}
++
++static int t14s_ec_resume(struct device *dev)
++{
++	struct t14s_ec *ec = dev_get_drvdata(dev);
++
++	t14s_ec_write_sequence(ec, T14S_EC_REG_MODERN_STANDBY,
++			       T14S_EC_MODERN_STANDBY_EXIT, 3);
++
++	return 0;
++}
++
+ static const struct of_device_id t14s_ec_of_match[] = {
+ 	{ .compatible = "lenovo,thinkpad-t14s-ec" },
+ 	{}
+@@ -605,10 +638,15 @@ static const struct i2c_device_id t14s_ec_i2c_id_table[] = {
+ };
+ MODULE_DEVICE_TABLE(i2c, t14s_ec_i2c_id_table);
+ 
++static const struct dev_pm_ops t14s_ec_pm_ops = {
++	SYSTEM_SLEEP_PM_OPS(t14s_ec_suspend, t14s_ec_resume)
++};
++
+ static struct i2c_driver t14s_ec_i2c_driver = {
+ 	.driver = {
+ 		.name = "thinkpad-t14s-ec",
+ 		.of_match_table = t14s_ec_of_match,
++		.pm = &t14s_ec_pm_ops,
+ 	},
+ 	.probe = t14s_ec_probe,
+ 	.id_table = t14s_ec_i2c_id_table,
 
 -- 
 2.51.0
