@@ -1,193 +1,294 @@
-Return-Path: <platform-driver-x86+bounces-15730-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-15732-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09643C756D6
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 20 Nov 2025 17:42:08 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5BBC75821
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 20 Nov 2025 18:00:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id D91E12BE83
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 20 Nov 2025 16:41:28 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id AD7B1357C29
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 20 Nov 2025 16:55:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D368C357A46;
-	Thu, 20 Nov 2025 16:41:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4A9B36C0CD;
+	Thu, 20 Nov 2025 16:55:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDtUlSoI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lXrYZ3Wm"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF1D933D6E8;
-	Thu, 20 Nov 2025 16:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8523426E71E;
+	Thu, 20 Nov 2025 16:54:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763656884; cv=none; b=PMeXmCdbhDktbvY1UdwW1KhZOCnVdIQeB1hUwsTIHd0NEDgmIZ1cv3W5Bf+bzENrlHIN4nDdhPx4tBE9KsvUo/kbIKYyZW/gzfaqbJDA53429USvU9UKNSuXn518X4eAqTDzEJXi/N5AOClItOZXFDrh0XfCCQia2XvDFvxf9+w=
+	t=1763657701; cv=none; b=ix9moWfNZVqF4POEuGIIZkRSGdYMIGlz8N1UUDg34Tcj1tZbiJ01C8lUWo5ftgNEZ7waoFE7oS+dqLTsCNam4OGcocpkVNb67oXX1odgeSBo2jGmGfajkvmkldkO/RSDZOEjQdhCarYuzLIDMcCOHvJl4TA6Z0rbKK66uqF3js8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763656884; c=relaxed/simple;
-	bh=QdTN/sry0XEs+XUYxMEXo1t3BCrOPbZtrXT5JZbbz8Y=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=MgDNMBcdvtnnv0r/FkVGAze1qpRHgwz38UKuJaZnLE0HyUn9TWtJb/mbwiEEmi+YgoUx9SinNYThK4gDhQsaWXrro183DM+73NgvHqD4BsymQ+tTXfK6cyHGBseCCh+6OrJF6b6PXG86QhOTREwO1jVDNE4UuNpHr6/x2I9nTxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDtUlSoI; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1763657701; c=relaxed/simple;
+	bh=ClwOe5Ry6bJbfKPAv+MEIxQ5fmn1ZsLOPEOdC9nJIK0=;
+	h=From:To:Cc:Date:Subject:Message-ID:MIME-Version:Content-Type; b=AQQblLCCHN7VKKkOwta/vKJ5YTUrTSgPjLaSbnChNiuvXq8b3FEfY7gXTi/f4GAD6elSIr73Yf8bIE6YUVqtt2u9XNoVcNK+ssmst+tEhQZZ2aeQap4Ex0ogwT06trGwsuvuB1tzbgLYBch+IvFSvPGPT1vyABkJbyZiEPG0Frw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lXrYZ3Wm; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763656883; x=1795192883;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=QdTN/sry0XEs+XUYxMEXo1t3BCrOPbZtrXT5JZbbz8Y=;
-  b=PDtUlSoIs86Hm2VAvmW0NENbEiZrDYPbTSlJ2oVcCWEvPZLWIYpbMSGB
-   aU6jdCbF1EN2X2vYfZ966SjZMFk8R5nEItrftzDBZg4S2iIhB9VDz5u0y
-   ikyFT6O3HXFku1wKr7Ylixe0funSxiJ8q40SRISZ+LZmDWd1aFz7Dov6q
-   knISZbF1jqEOawf/teyWn/tWnGFsVDqgO8koqvh8f6AElSp7OX9RjRlFJ
-   BPiU+0pOI7kldkeZmJ+kJPyoAEXoEmX88xnnfK04wotAeypZbQI+OSEpw
-   JCasnK37o8qyrV96WSGS3b2h5IsdHpiM/imeT4jAX0K1p4z6oVmxb7UuU
+  t=1763657699; x=1795193699;
+  h=from:to:cc:date:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ClwOe5Ry6bJbfKPAv+MEIxQ5fmn1ZsLOPEOdC9nJIK0=;
+  b=lXrYZ3WmG8YrJr+Xzn2a2eJOVX9oR0U4ipgLxpNOoSeTJyBtwCKHWpjF
+   Ewi5a7NnNQFNGalL/FijjJ2bRWQi/Y+9sjJKcSmH6McsF/FKkn0A0R+HR
+   odRL+LSjV6bx1Ui+Uf2CLzhwl9Hiq6AgKAyiC5jnLgqtb7Q0t4McBvGlF
+   M/SNjBh7MwNdHjFn5p+bqDNRFYtokzgE4Z3oL8o3tVfayWFxtj4Lp7ehW
+   F2zlgFi7F6JiXl5qd8bLNEF8wrTk2Y9+fDRau6UWmoD5H7kErVNgFSw5+
+   BH+4FnDWX8N5WWxeTDgz7/jypFQbg4FWYby1PM23VW+3oZX5oQduWCA97
    Q==;
-X-CSE-ConnectionGUID: 3OxGtj2IQ/SiwvhKCfKYtQ==
-X-CSE-MsgGUID: aLtVty60RLS/vi0Pt+bCGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="76413789"
+X-CSE-ConnectionGUID: 4/uzL6JpTjO6MdYHg8c8pQ==
+X-CSE-MsgGUID: 5EHEluUXQBSYkFcy6lk5tQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="65667345"
 X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; 
-   d="scan'208";a="76413789"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 08:41:22 -0800
-X-CSE-ConnectionGUID: m/TXxdt+TW6B76e9kpB+/Q==
-X-CSE-MsgGUID: 08yf9o4mTcyWdPyIw0hGlg==
+   d="scan'208";a="65667345"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 08:54:59 -0800
+X-CSE-ConnectionGUID: LyVXGLVWTXW8DsehTl8kSw==
+X-CSE-MsgGUID: l5rfn0TcQzKIOgSkENwmNg==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; 
+   d="scan'208";a="222078482"
 Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.161])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 08:41:18 -0800
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 08:54:56 -0800
 From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 20 Nov 2025 18:41:14 +0200 (EET)
-To: Antheas Kapenekakis <lkml@antheas.dev>
-cc: Denis Benato <benato.denis96@gmail.com>, 
-    platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-    Benjamin Tissoires <bentiss@kernel.org>, 
-    Corentin Chary <corentin.chary@gmail.com>, 
-    "Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hansg@kernel.org>
-Subject: Re: [PATCH v9 04/11] HID: asus: fortify keyboard handshake
-In-Reply-To: <CAGwozwF6wegwHy=W1zaTEVksQYaw4L7V27w2aaZBMMoDjUjRYg@mail.gmail.com>
-Message-ID: <04075ef3-3fba-c308-871f-619972ffe5ff@linux.intel.com>
-References: <20251120094617.11672-1-lkml@antheas.dev> <20251120094617.11672-5-lkml@antheas.dev> <967761fb-3f55-4d51-be0b-23ad03258eff@gmail.com> <CAGwozwF6wegwHy=W1zaTEVksQYaw4L7V27w2aaZBMMoDjUjRYg@mail.gmail.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, PDx86 <platform-driver-x86@vger.kernel.org>, Hans de Goede <hansg@kernel.org>, Andy Shevchenko <andy@kernel.org>
+Date: Thu, 20 Nov 2025 18:49:42 +0200
+Subject: [GIT PULL] platform-drivers-x86 for v6.18-4
+Message-ID: <pdx86-pr-20251120184942-68786761@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 20 Nov 2025, Antheas Kapenekakis wrote:
+Hi Linus,
 
-> On Thu, 20 Nov 2025 at 15:15, Denis Benato <benato.denis96@gmail.com> wrote:
-> >
-> >
-> > On 11/20/25 10:46, Antheas Kapenekakis wrote:
-> > > Handshaking with an Asus device involves sending it a feature report
-> > > with the string "ASUS Tech.Inc." and then reading it back to verify the
-> > > handshake was successful, under the feature ID the interaction will
-> > > take place.
-> > >
-> > > Currently, the driver only does the first part. Add the readback to
-> > > verify the handshake was successful. As this could cause breakages,
-> > > allow the verification to fail with a dmesg error until we verify
-> > > all devices work with it (they seem to).
-> > >
-> > > Since the response is more than 16 bytes, increase the buffer size
-> > > to 64 as well to avoid overflow errors.
-> > >
-> > > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-> > > ---
-> > >  drivers/hid/hid-asus.c | 32 +++++++++++++++++++++++++++++---
-> > >  1 file changed, 29 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> > > index 6de402d215d0..5149dc7edfc5 100644
-> > > --- a/drivers/hid/hid-asus.c
-> > > +++ b/drivers/hid/hid-asus.c
-> > > @@ -48,7 +48,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
-> > >  #define FEATURE_REPORT_ID 0x0d
-> > >  #define INPUT_REPORT_ID 0x5d
-> > >  #define FEATURE_KBD_REPORT_ID 0x5a
-> > > -#define FEATURE_KBD_REPORT_SIZE 16
-> > > +#define FEATURE_KBD_REPORT_SIZE 64
-> > >  #define FEATURE_KBD_LED_REPORT_ID1 0x5d
-> > >  #define FEATURE_KBD_LED_REPORT_ID2 0x5e
-> > >
-> > > @@ -394,14 +394,40 @@ static int asus_kbd_set_report(struct hid_device *hdev, const u8 *buf, size_t bu
-> > >
-> > >  static int asus_kbd_init(struct hid_device *hdev, u8 report_id)
-> > >  {
-> > > +     /*
-> > > +      * The handshake is first sent as a set_report, then retrieved
-> > > +      * from a get_report. They should be equal.
-> > > +      */
-> > >       const u8 buf[] = { report_id, 0x41, 0x53, 0x55, 0x53, 0x20, 0x54,
-> > >                    0x65, 0x63, 0x68, 0x2e, 0x49, 0x6e, 0x63, 0x2e, 0x00 };
-> > > +     u8 *readbuf;
-> > >       int ret;
-> > >
-> > >       ret = asus_kbd_set_report(hdev, buf, sizeof(buf));
-> > > -     if (ret < 0)
-> > > -             hid_err(hdev, "Asus failed to send init command: %d\n", ret);
-> > > +     if (ret < 0) {
-> > > +             hid_err(hdev, "Asus failed to send handshake: %d\n", ret);
-> > > +             return ret;
-> > > +     }
-> > > +
-> > > +     readbuf = kzalloc(FEATURE_KBD_REPORT_SIZE, GFP_KERNEL);
-> > I see my suggestion to use __free here didn't materialize in code using
-> > it even after Ilpo kindly wrote how to correctly use it.
-> >
-> > I think you can move the readbuf assignment right below buf and
-> > take into account what Ilpo said.
-> >
-> > I don't expect new variables will be added here ever again,
+Here is a platform-drivers-x86 fixes PR for v6.18. This one has lots of new
+HW entries which adds to the size in diffstat but the individual changes are
+simple.
 
-It's also about always doing the right thing so others will pick up the 
-pattern (for the cases when it's needed).
 
-> > but I agree with Ilpo that it's a good idea here to write code
-> > accounting for that possibility.
-> >
-> > It is my understanding that who proposes patches is expected to
-> > resolve discussions when changes are proposed or to take into
-> > account requested changes and submit a modified version.
-> 
-> It was ambiguous. I interpreted Ilpo's email as a dismissal
+Fixes
 
-I tried to explain how to use it, not to suggest cleanup.h shouldn't be 
-used.
+- acer-wmi: Ignore backlight event
 
-> I will try to incorporate it if I do another revision. Although I do
-> not think it improves things in this case as the function does not
-> have multiple return statements.
-> 
-> > > +     if (!readbuf)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     ret = hid_hw_raw_request(hdev, report_id, readbuf,
-> > > +                              FEATURE_KBD_REPORT_SIZE, HID_FEATURE_REPORT,
-> > > +                              HID_REQ_GET_REPORT);
-> > > +     if (ret < 0) {
-> > > +             hid_err(hdev, "Asus failed to receive handshake ack: %d\n", ret);
-> > > +     } else if (memcmp(readbuf, buf, sizeof(buf)) != 0) {
-> > > +             hid_warn(hdev, "Asus handshake returned invalid response: %*ph\n",
-> > > +                     FEATURE_KBD_REPORT_SIZE, readbuf);
-> > > +             /*
-> > > +              * Do not return error if handshake is wrong until this is
-> > > +              * verified to work for all devices.
-> > > +              */
-> > > +     }
-> > >
-> > > +     kfree(readbuf);
-> > >       return ret;
-> > >  }
-> > >
-> >
-> 
+- alienware-wmi-wmax: Fix quirk match table order & drop redundant entries
 
--- 
- i.
+- amd/pmc:
+  - Add Xbox Ally to spurious 8042 quirk list
+  - Quirk list Lenovo Legion Go 2 NVMe resume
 
+- msi-wmi-platform:
+  - Correct GUID to uppercase
+  - GUID is uncleverly copy-pasted from an example so add a DMI whitelist
+
+- intel/speed_select_if: PCIBIOS_* return code conversion
+
+- intel-uncore-freq & ISST: Fix kernel doc warnings
+
+
+New HW support
+
+- alienware-wmi-wmax:
+  - Alienware 16 Aurora support
+  - Alienware M support
+  - Alienware X support
+  - Dell G support
+
+- amd/pmc:
+  - ROG Xbox Ally (non-X) support
+
+- huaway-wmi: HONOR MagicBoox X16/X14 PrintScreen & YOYO keys
+
+- hp-wmi:
+  - Omen 16-wf1xxx fan support
+  - Omen MAX 16-ah0xx fan + thermal profile support
+  - Victus 16-r0 and 16-s0 fan + thermal profile support
+
+- intel/hid: Intel Nova Lake support
+
+- intel-uncore-freq:
+  - Intel Panther Lake support
+  - Intel Wildcat Lake support
+  - Intel Nova Lake support
+
+Regards, i.
+
+
+The following changes since commit bd34bf518a5ffeb8eb7c8b9907ba97b606166f7b:
+
+  platform: x86: Kconfig: fix minor typo in help for WIRELESS_HOTKEY (2025-10-28 20:13:21 +0200)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-v6.18-4
+
+for you to fetch changes up to db30233361f94e1a84450c607989bdb671100fb6:
+
+  platform/x86: intel-uncore-freq: fix all header kernel-doc warnings (2025-11-18 09:37:21 +0200)
+
+----------------------------------------------------------------
+platform-drivers-x86 for v6.18-4
+
+Fixes
+
+- acer-wmi: Ignore backlight event
+
+- alienware-wmi-wmax: Fix quirk match table order & drop redundant entries
+
+- amd/pmc:
+  - Add Xbox Ally to spurious 8042 quirk list
+  - Quirk list Lenovo Legion Go 2 NVMe resume
+
+- msi-wmi-platform:
+  - Correct GUID to uppercase
+  - GUID is uncleverly copy-pasted from an example so add a DMI whitelist
+
+- intel/speed_select_if: PCIBIOS_* return code conversion
+
+- intel-uncore-freq & ISST: Fix kernel doc warnings
+
+New HW support
+
+- alienware-wmi-wmax:
+  - Alienware 16 Aurora support
+  - Alienware M support
+  - Alienware X support
+  - Dell G support
+
+- amd/pmc:
+  - ROG Xbox Ally (non-X) support
+
+- huaway-wmi: HONOR MagicBoox X16/X14 PrintScreen & YOYO keys
+
+- hp-wmi:
+  - Omen 16-wf1xxx fan support
+  - Omen MAX 16-ah0xx fan + thermal profile support
+  - Victus 16-r0 and 16-s0 fan + thermal profile support
+
+- intel/hid: Intel Nova Lake support
+
+- intel-uncore-freq:
+  - Intel Panther Lake support
+  - Intel Wildcat Lake support
+  - Intel Nova Lake support
+
+The following is an automated shortlog grouped by driver:
+
+acer-wmi:
+ -  Ignore backlight event
+
+alienware-wmi-wmax:
+ -  Add AWCC support to Alienware 16 Aurora
+ -  Add support for the whole "G" family
+ -  Add support for the whole "M" family
+ -  Add support for the whole "X" family
+ -  Drop redundant DMI entries
+ -  Fix "Alienware m16 R1 AMD" quirk order
+
+amd: pmc:
+ -  Add Lenovo Legion Go 2 to pmc quirk list
+
+amd/pmc:
+ -  Add spurious_8042 to Xbox Ally
+ -  Add support for Van Gogh SoC
+
+hp-wmi:
+ -  Add Omen 16-wf1xxx fan support
+ -  Add Omen MAX 16-ah0xx fan support and thermal profile
+ -  mark Victus 16-r0 and 16-s0 for victus_s fan and thermal profile support
+
+huawei-wmi:
+ -  add keys for HONOR models
+
+intel/hid:
+ -  Add Nova Lake support
+
+intel/speed_select_if:
+ -  Convert PCIBIOS_* return codes to errnos
+
+intel-uncore-freq:
+ -  Add additional client processors
+ -  fix all header kernel-doc warnings
+
+ISST: isst_if.h:
+ -  fix all kernel-doc warnings
+
+msi-wmi-platform:
+ -  Fix typo in WMI GUID
+ -  Only load on MSI devices
+
+----------------------------------------------------------------
+Antheas Kapenekakis (3):
+      platform/x86/amd/pmc: Add support for Van Gogh SoC
+      platform/x86/amd/pmc: Add spurious_8042 to Xbox Ally
+      platform/x86/amd: pmc: Add Lenovo Legion Go 2 to pmc quirk list
+
+Anthony Wong (1):
+      platform/x86: alienware-wmi-wmax: Add AWCC support to Alienware 16 Aurora
+
+Armin Wolf (3):
+      platform/x86: msi-wmi-platform: Only load on MSI devices
+      platform/x86: msi-wmi-platform: Fix typo in WMI GUID
+      platform/x86: acer-wmi: Ignore backlight event
+
+Edip Hazuri (1):
+      platform/x86: hp-wmi: mark Victus 16-r0 and 16-s0 for victus_s fan and thermal profile support
+
+Haotian Zhang (1):
+      platform/x86/intel/speed_select_if: Convert PCIBIOS_* return codes to errnos
+
+Jia Ston (1):
+      platform/x86: huawei-wmi: add keys for HONOR models
+
+Krishna Chomal (1):
+      platform/x86: hp-wmi: Add Omen 16-wf1xxx fan support
+
+Kuppuswamy Sathyanarayanan (1):
+      platform/x86: intel-uncore-freq: Add additional client processors
+
+Kurt Borja (5):
+      platform/x86: alienware-wmi-wmax: Fix "Alienware m16 R1 AMD" quirk order
+      platform/x86: alienware-wmi-wmax: Drop redundant DMI entries
+      platform/x86: alienware-wmi-wmax: Add support for the whole "M" family
+      platform/x86: alienware-wmi-wmax: Add support for the whole "X" family
+      platform/x86: alienware-wmi-wmax: Add support for the whole "G" family
+
+Marcos Vega (1):
+      platform/x86: hp-wmi: Add Omen MAX 16-ah0xx fan support and thermal profile
+
+Randy Dunlap (2):
+      platform/x86: ISST: isst_if.h: fix all kernel-doc warnings
+      platform/x86: intel-uncore-freq: fix all header kernel-doc warnings
+
+Srinivas Pandruvada (1):
+      platform/x86/intel/hid: Add Nova Lake support
+
+ Documentation/wmi/driver-development-guide.rst     |   1 +
+ drivers/platform/x86/Kconfig                       |   1 +
+ drivers/platform/x86/acer-wmi.c                    |   4 +
+ drivers/platform/x86/amd/pmc/pmc-quirks.c          |  25 +++++
+ drivers/platform/x86/amd/pmc/pmc.c                 |   3 +
+ drivers/platform/x86/amd/pmc/pmc.h                 |   1 +
+ drivers/platform/x86/dell/alienware-wmi-wmax.c     | 106 +++++----------------
+ drivers/platform/x86/hp/hp-wmi.c                   |   6 +-
+ drivers/platform/x86/huawei-wmi.c                  |   4 +
+ drivers/platform/x86/intel/hid.c                   |   1 +
+ .../x86/intel/speed_select_if/isst_if_mmio.c       |   4 +-
+ .../uncore-frequency/uncore-frequency-common.h     |   9 +-
+ .../x86/intel/uncore-frequency/uncore-frequency.c  |   4 +
+ drivers/platform/x86/msi-wmi-platform.c            |  43 ++++++++-
+ include/uapi/linux/isst_if.h                       |  50 +++++-----
+ 15 files changed, 148 insertions(+), 114 deletions(-)
 
