@@ -1,53 +1,53 @@
-Return-Path: <platform-driver-x86+bounces-15789-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-15791-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39FECC7D762
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 22 Nov 2025 21:39:49 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8271C7D777
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 22 Nov 2025 21:40:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 561434E1C07
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 22 Nov 2025 20:39:36 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C63994E4EB2
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 22 Nov 2025 20:39:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB5D52D73A6;
-	Sat, 22 Nov 2025 20:38:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAD3E2D8360;
+	Sat, 22 Nov 2025 20:38:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="JYD0D2PT"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="afz2b+po"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7469E2D6E72;
-	Sat, 22 Nov 2025 20:38:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9801A2D7392;
+	Sat, 22 Nov 2025 20:38:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763843925; cv=none; b=k0cuLYSnqlf9gAwYlxmHfmFQQKsR0/w4O/VMaAJhdMu4hHw4mQMzLp5wKhtkBJxsn6QmA0L1g+QgTrMvZzYprgHonOwiqimMnwZXiAD5J1wWS9CNW1o9lWW8Fo/Njekvp3IQx0Je4RrQzbr4BjH1xalJm5aVXX/h6vQxu21gWkI=
+	t=1763843927; cv=none; b=a1AR0CE/CS96OAAptaSX1+VObIL2+ElO6xrOG3w2V8qIDrgf10SLTGH2lhPlNaEf3kf2Cs8ujJrQoikCfLbTNHFAKH4c3wDzg0qvo/CqoaI3XdrD63Ca2GB/DKM0sQRbP7PNfmsZNZVWDZK3tJ/p48HTdH0O7mc41uF4V7rcO1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763843925; c=relaxed/simple;
-	bh=xQFPf4e4pS/ERkYL/pEVTkOjn8tcKqY6C3zLhawflTg=;
+	s=arc-20240116; t=1763843927; c=relaxed/simple;
+	bh=TvDAHqOndFQ+sdZIj1OoGw4fU13kcnFTYjuqXVcz0M0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=SQYxhhwMrRkqktyomgJsoiA0YyDgTqoveavxheeaMsU7oOkq5TqHaBSTCp2dkRBxawWTFuG5kwGsAPLDU9lnQIEz7uSVvoKa0mwzc9vM3Q8duNxDXXZjL2e4ge4WlhGP5hvoeoIkBm3unYZI6pqgEYI164TsdQve+gird46AgSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=JYD0D2PT; arc=none smtp.client-ip=212.227.17.22
+	 MIME-Version; b=IbWYfqw+ipUsRG1Navh1Dpa92YOgVTcMPHqW926eawKIQHp6aIoNQ4I0KCH3K6x6t1vAVgIuO4X/ic946YdiIFW+PvcZ92i9kK2w0UB5dKQEWF9est8Uj4YZp9R3L9NOKs2yafG17EpygANeemgPg0piuGjtVONJ8JxSqj7Xsi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=afz2b+po; arc=none smtp.client-ip=212.227.17.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1763843914; x=1764448714; i=w_armin@gmx.de;
-	bh=XYhVRH57FDe5woEGMVrFL7y5wNkLwPKSbUKNJXBd9hM=;
+	s=s31663417; t=1763843917; x=1764448717; i=w_armin@gmx.de;
+	bh=7qlUiAsQVud9Gn3ClRs8IiSZLr9lSLU4BHxB9Zp6gLM=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=JYD0D2PTaauk8jMbnuawn78StUD1Fq57rw51PmC6ZyXIhFVX1WwpI2jXiwwRZBKr
-	 v1jL5wL9iN1oZw9LBC1w3gEXeEA51BJaEM+HAaYdNHmBvtGj3qr3kMpHMjMDw1OZ9
-	 3rjzheCwAyNfXONkE7qvEQr+shseIiwmRCAov7g3V/+MNTNVJjSbax5sqN8IxoxKz
-	 XjNxPnhIqC6n4eq/bpfdC7vPfNpe+P10HZ8ItFSvY/SNoMz8Dng/yrXreOEzzGGeO
-	 wydGYA6h7oVUITqvpY2XG0XQG7Miza8iFcBHmkJKjOWBgwg8vB8Wx3x4MRsqekRtP
-	 bUBDTdyx5PzvJe/7WQ==
+	b=afz2b+pojAoozOVD/WYzlQw+OGs0VA4nZeDmCKeLSjJg+vCvdN96LQZjAv1uhO1T
+	 600h/+tM+ZkLRv7OZrr+6NF7k3/K5lylEdHdfFVjeNBwXwFDyNJSTRlNYlMGVQhSS
+	 aZ/3wTHMUMB03seXvnTGrfKz8W28MR/eY3H6qBVIXARABGVZ2OkLDw8lD7jnIpREd
+	 2jw7uS2nKezBSe76513r4mFKx/d+RU9rwlcWDgomZ9QLV+GLz1uK1sIZin19eHTcN
+	 h4U5p/rNLLYDRWqqlJ1V6e2SuCrHgexodjLFbLGZNIMzgu0ZtlUrJibn6cbb5JnOV
+	 by7VyOwq/BMoY7CTMg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from mx-amd-b650.fritz.box ([93.202.247.91]) by mail.gmx.net
- (mrgmx104 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1MkHQX-1vpwbj1awL-00iCOk; Sat, 22 Nov 2025 21:38:34 +0100
+ (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
+ 1M89Gt-1vR0ql3wgN-000CET; Sat, 22 Nov 2025 21:38:37 +0100
 From: Armin Wolf <W_Armin@gmx.de>
 To: hansg@kernel.org,
 	ilpo.jarvinen@linux.intel.com
@@ -57,9 +57,9 @@ Cc: platform-driver-x86@vger.kernel.org,
 	Dell.Client.Kernel@dell.com,
 	corbet@lwn.net,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 5/9] platform/x86: intel-wmi-sbl-fw-update: Use new buffer-based WMI API
-Date: Sat, 22 Nov 2025 21:37:59 +0100
-Message-Id: <20251122203803.6154-6-W_Armin@gmx.de>
+Subject: [PATCH 6/9] platform/x86/intel/wmi: thunderbolt: Use new buffer-based WMI API
+Date: Sat, 22 Nov 2025 21:38:00 +0100
+Message-Id: <20251122203803.6154-7-W_Armin@gmx.de>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20251122203803.6154-1-W_Armin@gmx.de>
 References: <20251122203803.6154-1-W_Armin@gmx.de>
@@ -70,168 +70,144 @@ List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:viJsEIOzVESAmuawZjaHdX/MUEadanGIjLp7QiUFAxJlLaJpQJX
- LVFVThEUZs31TnOFS3U6Wpfah5UGlfppJ0wtAdD8iuBIdx+sTNbqd9PUlV5m2GGKScPeJG4
- M85CyA45uRj19C9jUyxS87+uhuu0lR/lsOISaP2rRLCyfXYve8Qs3hnXG3bv2MWxjh8YJPV
- nICr1FOaSPg47bzIrFUqQ==
+X-Provags-ID: V03:K1:6Jnpu7dLbFY5hYtaahzg8PSXU7x3hjygRF86iyhXdyDfQVeqelg
+ JE784oYUuCY8kdLAdXnqkxS9tnTOvXM1mBfpH8OlaGS5hTNQZYURtdUnSqpU+alHna5bXCe
+ bF4PCKWMV30+jRfDVnSAxUlHAYFNx9AXzfWNYovmsAYTXz1uoN2Ay/FaDxPOguWZwZSVIOl
+ nkvIUlXjcQQXjQJORZCxQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:DqbXuNA9+Ps=;aAZpP8Apy44sJaCtgTHQZRM8OY+
- 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
+UI-OutboundReport: notjunk:1;M01:P0:fU2oyRmqm8Y=;g4sTseh6EeLrsnJsVozEWWRBVpJ
+ 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
 
-Use the new buffer-based WMI API to also support ACPI firmware
-implementations that return a ACPI buffer instead of a ACPI integer.
+Use the new buffer-based WMI API to avoid having to deal with ACPI
+at all.
 
 Signed-off-by: Armin Wolf <W_Armin@gmx.de>
 =2D--
- .../platform/x86/intel/wmi/sbl-fw-update.c    | 43 ++++++++-----------
- 1 file changed, 18 insertions(+), 25 deletions(-)
+ drivers/platform/x86/intel/wmi/thunderbolt.c | 26 +++++++++-----------
+ 1 file changed, 11 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/platform/x86/intel/wmi/sbl-fw-update.c b/drivers/plat=
-form/x86/intel/wmi/sbl-fw-update.c
-index 75c82c08117f..3716ccaaed6a 100644
-=2D-- a/drivers/platform/x86/intel/wmi/sbl-fw-update.c
-+++ b/drivers/platform/x86/intel/wmi/sbl-fw-update.c
-@@ -14,7 +14,6 @@
-  * https://slimbootloader.github.io/security/firmware-update.html
-  */
+diff --git a/drivers/platform/x86/intel/wmi/thunderbolt.c b/drivers/platfo=
+rm/x86/intel/wmi/thunderbolt.c
+index 08df560a2c7a..f01dd096c689 100644
+=2D-- a/drivers/platform/x86/intel/wmi/thunderbolt.c
++++ b/drivers/platform/x86/intel/wmi/thunderbolt.c
+@@ -7,7 +7,6 @@
+=20
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 =20
 -#include <linux/acpi.h>
  #include <linux/device.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-@@ -25,41 +24,35 @@
-=20
- static int get_fwu_request(struct device *dev, u32 *out)
- {
--	union acpi_object *obj;
-+	struct wmi_buffer buffer;
-+	__le32 *result;
-+	int ret;
-=20
--	obj =3D wmidev_block_query(to_wmi_device(dev), 0);
--	if (!obj)
--		return -ENODEV;
-+	ret =3D wmidev_query_block(to_wmi_device(dev), 0, &buffer);
-+	if (ret < 0)
-+		return ret;
-=20
--	if (obj->type !=3D ACPI_TYPE_INTEGER) {
--		dev_warn(dev, "wmidev_block_query returned invalid value\n");
--		kfree(obj);
--		return -EINVAL;
-+	if (buffer.length < sizeof(*result)) {
-+		kfree(buffer.data);
-+		return -ENODATA;
- 	}
-=20
--	*out =3D obj->integer.value;
--	kfree(obj);
-+	result =3D buffer.data;
-+	*out =3D le32_to_cpu(*result);
-+	kfree(result);
-=20
- 	return 0;
- }
-=20
- static int set_fwu_request(struct device *dev, u32 in)
+ #include <linux/fs.h>
+ #include <linux/kernel.h>
+@@ -23,24 +22,21 @@ static ssize_t force_power_store(struct device *dev,
+ 				 struct device_attribute *attr,
+ 				 const char *buf, size_t count)
  {
 -	struct acpi_buffer input;
 -	acpi_status status;
--	u32 value;
--
--	value =3D in;
--	input.length =3D sizeof(u32);
--	input.pointer =3D &value;
--
--	status =3D wmidev_block_set(to_wmi_device(dev), 0, &input);
--	if (ACPI_FAILURE(status)) {
--		dev_err(dev, "wmidev_block_set failed\n");
--		return -ENODEV;
--	}
-+	__le32 value =3D cpu_to_le32(in);
-+	struct wmi_buffer buffer =3D {
-+		.length =3D sizeof(value),
-+		.data =3D &value,
-+	};
++	struct wmi_buffer buffer;
++	int ret;
+ 	u8 mode;
 =20
--	return 0;
-+	return wmidev_set_block(to_wmi_device(dev), 0, &buffer);
+-	input.length =3D sizeof(u8);
+-	input.pointer =3D &mode;
++	buffer.length =3D sizeof(mode);
++	buffer.data =3D &mode;
++
+ 	mode =3D hex_to_bin(buf[0]);
+-	dev_dbg(dev, "force_power: storing %#x\n", mode);
+-	if (mode =3D=3D 0 || mode =3D=3D 1) {
+-		status =3D wmidev_evaluate_method(to_wmi_device(dev), 0, 1, &input, NUL=
+L);
+-		if (ACPI_FAILURE(status)) {
+-			dev_dbg(dev, "force_power: failed to evaluate ACPI method\n");
+-			return -ENODEV;
+-		}
+-	} else {
+-		dev_dbg(dev, "force_power: unsupported mode\n");
++	if (mode > 1)
+ 		return -EINVAL;
+-	}
++
++	ret =3D wmidev_invoke_method(to_wmi_device(dev), 0, 1, &buffer, NULL);
++	if (ret < 0)
++		return ret;
++
+ 	return count;
  }
 =20
- static ssize_t firmware_update_request_show(struct device *dev,
 =2D-=20
 2.39.5
 
