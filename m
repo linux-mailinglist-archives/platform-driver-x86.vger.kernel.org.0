@@ -1,200 +1,210 @@
-Return-Path: <platform-driver-x86+bounces-15811-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-15813-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3654AC7F58C
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Nov 2025 09:08:32 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 039A0C7FCD2
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Nov 2025 11:05:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 454853472EE
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Nov 2025 08:08:00 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BD88F4E244D
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Nov 2025 10:04:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F47D2EF66A;
-	Mon, 24 Nov 2025 08:07:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 238C526CE17;
+	Mon, 24 Nov 2025 10:04:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HuCnT8qR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GhTNCj8B"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EA82E9759;
-	Mon, 24 Nov 2025 08:07:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F151224A043
+	for <platform-driver-x86@vger.kernel.org>; Mon, 24 Nov 2025 10:04:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763971636; cv=none; b=iyXS/+lKpB2fGoK84iroX4yKdVDy+9FPBq/ozkeDg6PWxwVbdcQoThhEi6Xkayu0auUWdrqOkQOyuCY2yC9LEOpBiMkWyaM9bv6MB+yOKtWiFDO8pB6b2NrVaKjiJnnpEFSM/v1yTvOzwDyZenwhnvi7ea/7LZn26ssO59RHuu0=
+	t=1763978697; cv=none; b=lPp2RMtW2h6d25b/xWtT9kVbevoEQKJukEapf+rRw8tI7/2ohDxnYU8ck2i+/scksXAuCRZzcOpBHD8o561BLOU4XgFQfDk3Z4fw6I3pRTcBzqICzoGxqDCiv5hax/JxFme05XQfePO2/5eW58BSqzlPRXXqc0YoUZuhzzqoVNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763971636; c=relaxed/simple;
-	bh=5vGvGFGSJBzW8AMJgIYu1ZEfcm+jAyPzTI/14Y0P73k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=L8jf3ZIZcGXAbHpo7iclaI0UrVnDU+9M5Q0fCpmhQ241cVv8XlQUyD1xZbouCdu4/oG1ru3HzHvo1Ylhtic5yUrFaoi7qPq/1Owd+BovKsQQb4j9OfifP5kZ+8PAQup/7hVlmqGbD4F+46KHdjpEjTBHnXtP54J/bi33hK/mUbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HuCnT8qR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A25BC19422;
-	Mon, 24 Nov 2025 08:07:15 +0000 (UTC)
+	s=arc-20240116; t=1763978697; c=relaxed/simple;
+	bh=62VcHo4MGInJdI+spHkT9gad561NIj+VTpM/hF42XHs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IGshDtCE6dnWHlOTB+Q23T/gqpV68F1pmKV7AQd7Cl05JrCRwQ5IhYaAoUs9AwfGXPrZZhE5uJCeB/nwToshUAHDioUafqD0fmeaj3tA8qnP/52vbn8U3n0bhvxXkZ1bx1SpnVx151ysRRvE1v67VP9z2SZ1iUspA43eLynSXiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GhTNCj8B; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CEF3C4CEF1;
+	Mon, 24 Nov 2025 10:04:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763971636;
-	bh=5vGvGFGSJBzW8AMJgIYu1ZEfcm+jAyPzTI/14Y0P73k=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HuCnT8qRbh6aDU6HvUXpfx6G6Po+2XFf72V3OhF8zjNOxq/jAXJYIlIyr4N/PoQPO
-	 Fpsk9K9aJKcPNjRiQsyDdJbdZqsnuSr21i1KJpDmwmaKJZ3EOe+LSWvKO5uTftwSNq
-	 x7Q73fFZET0iqrDt8E+veWlUO430GvK8ri7vzFMcWODlxwkinRiHjzchM/RsMTE4T3
-	 1JfM3/n+5Sf0iluResXm5qRvqbbiJafn5QoUlVeRYpw7yEPIhMWFxFKXb3w/xDNIJR
-	 nNuxbScKSmpE3GlEgv8kAKsJJERDv5lXXAAX46hX1vKIp/UTYnatDGz67wvMGf8abb
-	 Q/Hz8mRgVouFw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Antheas Kapenekakis <lkml@antheas.dev>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	"Mario Limonciello (AMD)" <superm1@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Sasha Levin <sashal@kernel.org>,
-	Shyam-sundar.S-k@amd.com,
-	platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.17-6.6] platform/x86/amd: pmc: Add Lenovo Legion Go 2 to pmc quirk list
-Date: Mon, 24 Nov 2025 03:06:31 -0500
-Message-ID: <20251124080644.3871678-17-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251124080644.3871678-1-sashal@kernel.org>
-References: <20251124080644.3871678-1-sashal@kernel.org>
+	s=k20201202; t=1763978696;
+	bh=62VcHo4MGInJdI+spHkT9gad561NIj+VTpM/hF42XHs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=GhTNCj8B5JHGRcDQ0e3n56zEfCXX1xP3f1Q90Fx2/ejEMxYjKVjh9pV+v2mBeg3QM
+	 PT0QXfNB0tqFeZvjjp5F8oGICOR69DyBPHXVUH61z18gBUiSMhsUh9isLiugIcJecp
+	 Aw+y+meiLnWN9UcBbKuya0rLRVEgI1qh7IZ9mD+DjWuYtwHVMaRINfReVXOiDH+LBC
+	 7QdK+CC2hBHs/0eGiPTo9xJ0jNk40FrC5THD4n4al8jrunXI2rLcX1X7pyW0VajIce
+	 W4072hWHB1zJlqyuCZKg1qqskZ/npApi3GamtsFCNan99riJEvtVP9pS426M4e3rHg
+	 4Iz+v74UkbHGQ==
+Message-ID: <c53cec11-6b3b-4774-b00b-c5c5e4614be0@kernel.org>
+Date: Mon, 24 Nov 2025 11:04:52 +0100
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/5] Introduce AMD PMF util layer and user-space
+ interface for SystemDeck
+To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>, ilpo.jarvinen@linux.intel.com
+Cc: platform-driver-x86@vger.kernel.org, Yijun.Shen@Dell.com,
+ Sanket.Goswami@amd.com
+References: <20251111071010.4179492-1-Shyam-sundar.S-k@amd.com>
+ <2c40e722-ffd7-4e00-92dd-2c89ff4768a0@kernel.org>
+ <0a4eaad1-d312-4c43-94f3-b1d9986c117a@amd.com>
+ <6104959e-0214-492d-8ceb-c7376d3b1121@kernel.org>
+ <9d4ba01f-31f0-40f6-9d86-bd18134d2218@amd.com>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <9d4ba01f-31f0-40f6-9d86-bd18134d2218@amd.com>
 Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.17.8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-From: Antheas Kapenekakis <lkml@antheas.dev>
+Hi,
 
-[ Upstream commit f945afe01c6768dcfed7868c671a26e1164c2284 ]
+On 20-Nov-25 08:49, Shyam Sundar S K wrote:
+> Hi hans,
+> 
+> On 11/20/2025 00:55, Hans de Goede wrote:
+>> Hi Mario,
+>>
+>> On 19-Nov-25 5:32 PM, Mario Limonciello wrote:
+>>> On 11/19/25 10:20 AM, Hans de Goede wrote:
+>>>> Hi Shyam,
+>>>>
+>>>> On 11-Nov-25 8:10 AM, Shyam Sundar S K wrote:
+>>>>> This series introduces a util layer to the AMD Platform Management
+>>>>> Framework (PMF) and a minimal user-space interface via a misc character
+>>>>> device, enabling feature discovery and smoother integration with
+>>>>> user-space tools. It also adds caching of BIOS output policy values to
+>>>>> prepare for user-space telemetry reporting via IOCTLs.
+>>>>>
+>>>>> The motivation is to provide a stable interface for user-space tools to
+>>>>> discover PMF features and consume selected metrics. Enable smoother
+>>>>> integration with AMD SystemDeck
+>>>>
+>>>> This does not really explain why you've chosen for a new character-device
+>>>> with IOCTLs instead of sysfs where as so far (AFAICT) all the AMD PMF code
+>>>> has been using sysfs APIs.
+>>>>
+>>>> Is there any specific reason why to switch to IOCTLs all of a sudden?
+>>>>
+>>>> Note that:
+>>>>
+>>>> 1. sysfs APIs can be (and must be) stable too, sysfs APIs are not allowed
+>>>> to be changed once shipped in a stable kernel.
+>>>> 2. sysfs attributes can be used with poll() to so if you want to do
+>>>> notifications of changes that can be done through sysfs too.
+>>>>
+>>>> Note I'm not saying you must use sysfs, but so far the PMF code has been
+>>>> using sysfs everywhere and this new IOCTL based API is not really consistent
+>>>> with this.
+>>>
+>>> Isn't there only one sysfs file for turning on/off CNQF?
+>>
+>> Ah yes you're right somehow I thought there were more.
+>>
+>> Still generally speaking the kernel community is trying to avoid
+>> adding new ioctl based interfaces / adding random new char devices
+>> in preference of using sysfs interface where possible.
+>>
+>> So I've taken a better look at the actual ioctl interface
+>> and it seems like a really weird multiplexer interface,
+>> where there is only 2 ioctl commands and then the argument
+>> gets 1 of a ton of possible feature flags resp. info variables.
+>>
+>> Where it also seems that none of these variables require
+>> a round-trip to the hardware.
+>>
+>> Given the amount of different variables I can see some sense
+>> in having this as an ioctl interface, but why do the whole
+>> thing where userspace has to make ioctl per value it wants
+>> to read. That feels very sysfs-ish if you want that maybe
+>> just use sysfs ?
+>>
+>> I would define a uAPI struct like this:
+>>
+>> struct foo {
+>> 	u64 size;		/* in + out, all other fields out only */
+>> 	u64 features_supported; /* bitmask with feature info from patch 1/5 */
+>> 	u64 feature_version	/* from patch 1/5 */
+>> 	u64 power_source;	/* from patch 2/5 */
+>> 	...
+>> 	u64 bios_input[10];	/* from patch 2/5 */
+>> 	...
+>> 	etc.
+>> };
+>>
+> 
+> thank you for your remarks and the UAPI struct suggestion. Let me make
+> this change and come back with a newer version.
+> 
+>> And have a copy of this struct embedded in the driver
+>> data struct and keep that updated (replacing the cache
+>> stuff) so that you can just copy_to_user that on the ioctl.
+>>
+>> Combined with a single get-info ioctl which just fills 
+>> the struct, using the min of the size passed in by userspace
+>> + the size supported by the kernel to determine how much
+>> to copy and set the copied size in the struct passed
+>> back to userspace (to indicate for new userspace on
+>> old kernel that the new fields are not set).
+>>
+>> This way for future extensions new fields can be added to
+>> the end of the struct and the size handling will automatically
+>> do the right thing.
+>>
+>> As for Ilpo's comment about the battery info being duplicate
+>> with /sys/class/power_supply/BAT*, where is this info coming
+>> from ?  Is this a PMF specific view of the battery info,
+>> IOW it might be different then the power_supply calls info?
+>>
+> 
+> with regards to this:
+> 
+> The function amd_pmf_get_battery_info() fills in the data that will be
+> sent to the TA. Inside this function, it calls
+> amd_pmf_get_battery_prop() to retrieve each required battery property.
+> 
+> For example:
+> 
+> /* to get the battery percentage */
+> in->ev_info.bat_percentage =
+> amd_pmf_get_battery_prop(POWER_SUPPLY_PROP_CAPACITY);
 
-The Lenovo Legion Go 2 takes a long time to resume from suspend.
-This is due to it having an nvme resume handler that interferes
-with IOMMU mappings. It is a common issue with older Lenovo
-laptops. Adding it to that quirk list fixes this issue.
+Ok, so this is duplicating the information from /sys/class/power_supply .
 
-Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4618
-Suggested-by: Mario Limonciello <mario.limonciello@amd.com>
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-Link: https://patch.msgid.link/20251008135057.731928-1-lkml@antheas.dev
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
+Is there a reason why your userspace app cannot just directly get
+these values from /sys/class/power_supply ?
 
-LLM Generated explanations, may be completely bogus:
+I guess it might be convenient to have this all in the same ioctl,
+I understand that the PMF code already needs to retrieve it regardless.
 
-## Comprehensive Analysis
+Maybe just have an ioctl which just memcpy-s the entire
+ta_pmf_condition_info struct to userspace?  I think that is already
+part of the kernel <-> PMF-firmware API so making that struct uAPI
+should be fine since it is already something which cannot be changed
+because it is also firmware API ?
 
-### 1. Commit Message Analysis
-The commit "platform/x86/amd: pmc: Add Lenovo Legion Go 2 to pmc quirk
-list" addresses a specific hardware issue on the Lenovo Legion Go 2. The
-device experiences long resume times from suspend due to an NVMe resume
-handler interfering with IOMMU mappings. This is identified as a
-firmware bug common to several Lenovo laptops. The fix explicitly closes
-a reported issue on GitLab (#4618) and includes `Reviewed-by` tags from
-subsystem maintainers.
+It seems just being able to copy the cached ev_info the driver
+already has to userspace is better then defining a new struct with
+similar fields and needing to manually copy over everything field
+by field ?
 
-### 2. Deep Code Research & Mechanism
-**Code Change:**
-The commit modifies `drivers/platform/x86/amd/pmc/pmc-quirks.c` by
-adding two new entries to the `fwbug_list` array. These entries target
-the "Lenovo Legion Go 2" with product IDs `83N0` and `83N1`.
+And then instead of an ioctl it could even just be a binary sysfs
+file, avoiding the need to add a somewhat random new chardev
+to /dev  ?
 
-**Mechanism:**
-The entries are associated with `quirk_s2idle_bug`.
-- **The Bug:** On certain AMD platforms, the firmware executes a System
-  Management Interrupt (SMI) handler during the resume transition (D3 ->
-  D0). If IOMMU is enabled, this handler triggers page faults or
-  timeouts, resulting in the "long time to resume" symptom.
-- **The Fix:** The `quirk_s2idle_bug` callback triggers the
-  `amd_pmc_skip_nvme_smi_handler` function. This function performs a
-  specific MMIO write (typically to the FCH PM scratch register) to
-  disable the problematic SMI handler during the resume phase, bypassing
-  the conflict.
+Regards,
 
-**Infrastructure Context:**
-This uses existing quirk infrastructure (`quirk_s2idle_bug` and
-`amd_pmc_skip_nvme_smi_handler`) which was introduced in kernel v6.6.
-The change itself is purely data—adding IDs to an existing table—rather
-than introducing new logic.
+Hans
 
-### 3. Stable Kernel Rules Compliance
-This commit falls squarely under the **"QUIRKS and WORKAROUNDS"**
-exception category, which is explicitly allowed in stable trees.
-- **Criteria Check:**
-    - **Obviously correct:** It strictly adds DMI matches to a table
-      using an existing, proven handler.
-    - **Fixes real bug:** Addresses a significant usability regression
-      (broken/slow suspend) for end users.
-    - **No new features:** It is a hardware enablement/fix, not a
-      feature addition.
-    - **Small scope:** Touch is limited to 17 lines of data addition in
-      one file.
-
-### 4. Risk Assessment
-- **Regression Risk:** **Extremely Low**. The change is guarded by
-  specific DMI matches (Vendor "LENOVO", Product "83N0"/"83N1"). It will
-  only trigger on the exact hardware specified. It cannot negatively
-  impact other devices.
-- **User Impact:** High for owners of the device. Without this fix,
-  suspend/resume is effectively broken or frustratingly slow.
-
-### 5. Dependencies and Backporting
-- **Dependencies:** The commit depends on the AMD PMC quirk
-  infrastructure (`quirk_s2idle_bug`). This infrastructure is present in
-  current stable branches like 6.6.y, 6.12.y, and 6.1.y (where the
-  driver has been updated).
-- **Applicability:** It should apply cleanly to any stable tree
-  containing the `drivers/platform/x86/amd/pmc/pmc-quirks.c` file and
-  the associated quirk definitions.
-
-### Conclusion
-This is a textbook stable backport candidate. It is a low-risk,
-hardware-specific quirk that fixes a real user-visible bug using
-established kernel infrastructure. It perfectly matches the exception
-for hardware workarounds.
-
-**YES**
-
- drivers/platform/x86/amd/pmc/pmc-quirks.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
-
-diff --git a/drivers/platform/x86/amd/pmc/pmc-quirks.c b/drivers/platform/x86/amd/pmc/pmc-quirks.c
-index d63aaad7ef599..0fadcf5f288ac 100644
---- a/drivers/platform/x86/amd/pmc/pmc-quirks.c
-+++ b/drivers/platform/x86/amd/pmc/pmc-quirks.c
-@@ -204,6 +204,23 @@ static const struct dmi_system_id fwbug_list[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "82ND"),
- 		}
- 	},
-+	/* https://gitlab.freedesktop.org/drm/amd/-/issues/4618 */
-+	{
-+		.ident = "Lenovo Legion Go 2",
-+		.driver_data = &quirk_s2idle_bug,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "83N0"),
-+		}
-+	},
-+	{
-+		.ident = "Lenovo Legion Go 2",
-+		.driver_data = &quirk_s2idle_bug,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "83N1"),
-+		}
-+	},
- 	/* https://gitlab.freedesktop.org/drm/amd/-/issues/2684 */
- 	{
- 		.ident = "HP Laptop 15s-eq2xxx",
--- 
-2.51.0
 
 
