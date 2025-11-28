@@ -1,53 +1,53 @@
-Return-Path: <platform-driver-x86+bounces-15977-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-15978-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16CBCC92FC5
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Nov 2025 19:58:17 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3EACC930D4
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Nov 2025 20:47:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id B71433434F4
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Nov 2025 18:58:16 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 979B34E1DA0
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Nov 2025 19:47:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74C2D26E6F6;
-	Fri, 28 Nov 2025 18:58:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2505422759C;
+	Fri, 28 Nov 2025 19:47:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tgth85+p"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NuP7yA6s"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E809219A86
-	for <platform-driver-x86@vger.kernel.org>; Fri, 28 Nov 2025 18:58:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3996770FE
+	for <platform-driver-x86@vger.kernel.org>; Fri, 28 Nov 2025 19:47:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764356293; cv=none; b=JqgZkDxmV2B7UEgCsirW8g2NVVo46dDATMjynjD63oMH1sy13fVZu6uDKLN4xHradh5a2aXlrucUMiOHxQAQk9UJ58QhhX4W9LEG8DnCBZPsV2XJuXMGbGODyCpYS6gD5ud35e+ZbM8al2b1WUUQ5lB211nKqs+UeFkhoLFIDVI=
+	t=1764359257; cv=none; b=KTAppInfTfjJzZ6XtcX3bXay0KwMW8iot4ly4JT6BfNnlFvVmAOEokdG85Um0uAQFuQ/XOaVaqQk8M4KHR6N+XR2QwuyKEeyCIXCJg/GpHRHGHhTqM1vEZfVZi8NKJAPV+/u+I4ktT8ov7pB2Wnae8hqG07M70dlsH11L2cox+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764356293; c=relaxed/simple;
-	bh=0p3mX0cXF7eElwAPxaXz2S8Rfx1PsZgYe7xzjDxsXCk=;
+	s=arc-20240116; t=1764359257; c=relaxed/simple;
+	bh=zuz4DoTZ6X6TUGqJFGMwg+iFw6r/A9Ll07CznlY+lV8=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=N8GEOH5r0OFOTGXE3zvfszYVKloWt+MLY4zK/7GmSERIz0zbG7Et4K2708JraqDhAeR5yKFFRmNeeM3iqqgYJxIJvk9L/+auojYsmsqioXyZo8SYNB7IBFczbtDQpk9AZLR6mJBNE8glJCR3tiy1lmxiB0DuDMtUq9GuX4xSgcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tgth85+p; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CFCF1C4CEF1
-	for <platform-driver-x86@vger.kernel.org>; Fri, 28 Nov 2025 18:58:12 +0000 (UTC)
+	 Content-Type:MIME-Version; b=c0IZ44aPDAt6x41J5g11ljYz67SNvRPols7uR598bgGHfDarZaqfPxNi++RqLTvstartuf4LB33DUp7+c3illfWPDYe8sah0OnohELajF8DLHRMIT+B38gM/sJE2j2nNt/KxyFaLW1OTrAz6R4YdiI3fLzo/aI0dlcZbd6iO6FE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NuP7yA6s; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8C2AAC4CEF1
+	for <platform-driver-x86@vger.kernel.org>; Fri, 28 Nov 2025 19:47:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764356292;
-	bh=0p3mX0cXF7eElwAPxaXz2S8Rfx1PsZgYe7xzjDxsXCk=;
+	s=k20201202; t=1764359256;
+	bh=zuz4DoTZ6X6TUGqJFGMwg+iFw6r/A9Ll07CznlY+lV8=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=Tgth85+puMHayrjdnofhpNGVCNm6zWmoRwv5rkrLiMG43AojXeiIfNKuJDKK0tnKZ
-	 EBNCaxOZIwmBLp5XnIdLrxaw2mr1r6CgD/30MBDVOa/lFfvIvFvBQDDEF226nVK6JR
-	 SNPXWrCt977+98s4kugr02MCZ5mxCEJNx4cDKu4T1htNNqOMJx5liT2lgwOiQFivWs
-	 E+XGBZoSsWcqzOrOViZjm3JXUQ9lHYXU9b/PZ88s/0lniCNQul47PjrZN+z/NPXwH0
-	 34ZY5r4TiCoYpvE/2BZ8npxoUqPsCxJi/Kv72PWY4M95zwKlSlbY9pBK+9kbI7v9AM
-	 KB/Cg03rqBmXg==
+	b=NuP7yA6sApM1+jtI5JrvzY7wOi7iMkzQrIo+mxsxgYa0/zpJRZiZNR2YPy1F6WfEg
+	 nODYhEGdADgc3lUYpn8vYKu0NGjJ6rJmfbCYEYP6WrP6FtKDj0yRa0JNLrvY1x/tal
+	 KunvDrx7gkzp03Bj4h7TwkhaSaRGd38dvx+udYvAWXqEIBgq90TbaP5ued64sI6eBL
+	 L9GDKZslLBxtyJIrRT16P5sEJwGuArgkfJvWWkp+00L2PAFbfqAf7hRwBb3HUo4sTW
+	 M1BE3bLwMjf+G12NzVnFi7VXr7uEEcNIJmzBl7XBDIfMo93pdOMnLJThzSx0Be6q78
+	 JvVWUhw07ueUQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id C7F89C3279F; Fri, 28 Nov 2025 18:58:12 +0000 (UTC)
+	id 79F39C3279F; Fri, 28 Nov 2025 19:47:36 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: platform-driver-x86@vger.kernel.org
 Subject: [Bug 219904] pc speaker not working (just pop's/click's) on intel
  chipsets gen 6, 7 and probably more
-Date: Fri, 28 Nov 2025 18:58:12 +0000
+Date: Fri, 28 Nov 2025 19:47:36 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
@@ -63,7 +63,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-219904-215701-n1tuIvsVX2@https.bugzilla.kernel.org/>
+Message-ID: <bug-219904-215701-WMuNS50d4E@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-219904-215701@https.bugzilla.kernel.org/>
 References: <bug-219904-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -79,8 +79,8 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D219904
 
---- Comment #15 from masterwishx@gmail.com ---
-Ohh the latest can be the fixed one? 1825 2025/11/04
+--- Comment #16 from masterwishx@gmail.com ---
+Updated, still not working. Waiting the new one with a fix :)
 
 --=20
 You may reply to this email to add a comment.
