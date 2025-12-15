@@ -1,34 +1,35 @@
-Return-Path: <platform-driver-x86+bounces-16136-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16137-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 958F2CBC53D
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 15 Dec 2025 04:27:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31797CBC546
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 15 Dec 2025 04:29:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 135073007647
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 15 Dec 2025 03:27:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EEF633005BB0
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 15 Dec 2025 03:29:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F254831A54A;
-	Mon, 15 Dec 2025 03:27:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EA6331A7E6;
+	Mon, 15 Dec 2025 03:29:39 +0000 (UTC)
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5703195EF;
-	Mon, 15 Dec 2025 03:27:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF173191CD;
+	Mon, 15 Dec 2025 03:29:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765769253; cv=none; b=bAuG1atiAdwMII4LQONIe3SG9cj5x4zg8qEXvWqr02XFnClfz/7q4XiYewISIwWEiOJFUgt53UNZMBQwSpcnDwvAoiTJ2zNCUdFYjH608As9GSt3ocpbuSAXZJncyf/OWnJszpsVRg9NUPMO9HDi6W+eO9Beoc5kqFMul4uwIPc=
+	t=1765769379; cv=none; b=SfOK+gff/KmvUKrvz2JYn9shY5vt9a/ki2Ow6fViU3xm8zbzKl4lm6Izgxnz/ltSN6HP0gwSUurzeeI2v4bsTKZPlesKOGZgz8xnklqCfVcLgOpP9qQBs0muIoD7gLS9/xUkwjkhbB1hvu5kE8odksCMF7wcsbz8k1aaGbgYKUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765769253; c=relaxed/simple;
+	s=arc-20240116; t=1765769379; c=relaxed/simple;
 	bh=r31nD7jiWlPdR4ZXugrEqJDU8tuRSXY+4l7DkPndW2Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ACn+VmhCwwdgELcbGVT/+PFJgP6ee/5MlcEG4ObxDx5sR/XU/MmZ/02n8hSRmYt11qNszFoW1OhrmoWpiEB5buTLKMvJrIocBA1quH+/Zc2m+mcrB7nao7QbENy83TdJ2AdCJHqtdhY7IfjPeo1Drpl6KeKo7IpI+Q/IQ0q8QhQ=
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kZ4pDeXQTdubKV7p9koFMsThZMqkpAHdfxTZyoBGgNLKKBLDEVXProQP3T7B4Xchb2jDBwiHnSKqhA4wP2zGNxXzYBQU+wvPlXFgUXTdks37yj8OXJVqTg3HlQHWYwRfHKGQB5t0ouu55ZjFfEsSmHT1vAq/bUc1Imyiva9zBn0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: f96e89fad96511f0a38c85956e01ac42-20251215
+X-UUID: 431430bed96611f0a38c85956e01ac42-20251215
+X-CID-CACHE: Type:Local,Time:202512151127+08,HitQuantity:1
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:98ecc81e-7cba-4c65-99a3-624be5da2dff,IP:0,UR
+X-CID-O-INFO: VERSION:1.3.6,REQID:0eae8823-bc0c-458e-9707-db6ad194835e,IP:0,UR
 	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
 	elease,TS:0
 X-CID-META: VersionHash:a9d874c,CLOUDID:a132ce9fff8162bab067a6be75353638,BulkI
@@ -39,14 +40,15 @@ X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: f96e89fad96511f0a38c85956e01ac42-20251215
+X-UUID: 431430bed96611f0a38c85956e01ac42-20251215
 X-User: jiangyunshui@kylinos.cn
 Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
 	(envelope-from <chenzhang@kylinos.cn>)
 	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 603283946; Mon, 15 Dec 2025 11:27:24 +0800
+	with ESMTP id 1619340947; Mon, 15 Dec 2025 11:29:28 +0800
 From: chen zhang <chenzhang@kylinos.cn>
 To: hdegoede@redhat.com,
+	hansg@kernel.org,
 	ilpo.jarvinen@linux.intel.com,
 	frank@f-seidel.de
 Cc: platform-driver-x86@vger.kernel.org,
@@ -54,8 +56,8 @@ Cc: platform-driver-x86@vger.kernel.org,
 	chenzhang_0901@163.com,
 	chen zhang <chenzhang@kylinos.cn>
 Subject: [PATCH] platform/x86: Switch to guard(mutex)
-Date: Mon, 15 Dec 2025 11:27:20 +0800
-Message-Id: <20251215032720.50418-1-chenzhang@kylinos.cn>
+Date: Mon, 15 Dec 2025 11:29:24 +0800
+Message-Id: <20251215032924.50854-1-chenzhang@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
