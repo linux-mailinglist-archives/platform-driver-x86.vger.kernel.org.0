@@ -1,141 +1,148 @@
-Return-Path: <platform-driver-x86+bounces-16192-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16194-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4327FCC966C
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 17 Dec 2025 20:20:10 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8878FCC9D74
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 18 Dec 2025 00:57:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 23B9D3022817
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 17 Dec 2025 19:20:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C35ED304F11A
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 17 Dec 2025 23:57:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53A6428314C;
-	Wed, 17 Dec 2025 19:20:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2186F30594E;
+	Wed, 17 Dec 2025 23:56:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="OLmNAUZe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uESTHdcw"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mail-244116.protonmail.ch (mail-244116.protonmail.ch [109.224.244.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1941E520C;
-	Wed, 17 Dec 2025 19:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C83BA26E173;
+	Wed, 17 Dec 2025 23:56:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765999208; cv=none; b=j4g6moYnF5trpuoz65yXPhQIthRmPCMx7QtDSAjgcqdlnTu+H/ThNJCMnZ+ulbeL1KKs6XwpSW2/sgjfHBEJjltqFOK2eqEK8M1e9PThwTg3mSaNho63Y22ABHmdRpfWePP8tBV+/RDCtj8NkEilUbXyhnKyHVAxBAno3QKYt94=
+	t=1766015817; cv=none; b=BW03i7B7RDceGa1P9y7PbCCbxTq66vu3CyCQjoOJx94g+RZThP2wGOCMrTI+JO6rOj2CB9jchwSR7kVsAVrDDTO4QwSmcpwM4bY7HigpKjnEhSkd20wDNdh5h7n0E41G6WJatCCmaj9KvyyLY91yZZm8nb3NM8PhxwCxxH5J8mc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765999208; c=relaxed/simple;
-	bh=1+wQu3DU4CveI1Mh+k8iA2Z1S2uievEyjDzxJ+b0qXk=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rRZjvrhxk5SS87qZwuUJALFsPqRB2Dp66fPdbAea/uE30hxJOkgchRY+0tsIVjyGHkQ5bYEJz1iXHLxLyEfq83bHO3CgyijuuW5ktI4/uAkjOxO5d2zvee71U7SelS1O+s1LBD0krAZvC5yE22OFW6+Tktf3TmzoCPeqW/4vHxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=OLmNAUZe; arc=none smtp.client-ip=109.224.244.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1765999202; x=1766258402;
-	bh=SxDHQdz0UsAAfomsYBxGUPDOxZEVHiqHRxjT3siJq0Y=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=OLmNAUZeqWq7HeJDwGUR9ZexOwdIfVY0lTN3vV8I7B5fsJ1Y74OnrPVVULnJHJTPc
-	 bm1PViGhKNofLwWUu9psDlsj+J69cNFQy+6JLWz5ZTUt2qrRtcceGOwMXL8w8ilstY
-	 nhQFJSZc7lDyq5D20eQYYgkti9k1NcO8qMKkpOdphN+ZmbUMqar9hVnLBt6qgcE69s
-	 73vkTNXYx9ZfYwe2hLPE2faJRbjcSXDUn2bz6HaZAiPj+n4AjUXPswgDoRE8DkmVt8
-	 K6hGP0cR0/pXrcEexJNvDtx+sqOp4LUOX5yt5/fiT+Eto5U+XARqPy3rzohbOCn696
-	 TkmQbb35ISf4A==
-Date: Wed, 17 Dec 2025 19:19:56 +0000
-To: Mario Limonciello <superm1@kernel.org>
-From: Francesco Lauritano <francesco.lauritano1@protonmail.com>
-Cc: Hans de Goede <hansg@kernel.org>, "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, "open list:GPIO ACPI SUPPORT" <linux-gpio@vger.kernel.org>, "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>, "westeri@kernel.org" <westeri@kernel.org>
-Subject: Re: [BUG] 36-second boot delay due to by acpi_gpio_handle_deferred_request_irqs on ASUS ROG Strix G16 (2025)
-Message-ID: <ReQS8sQSGy3UTuG6tyPvoOb8_037sC6A2yXsSFNuXY1PlTFtCcDHnjf8vufEsk8avBSIL46U0qE-ZjTJD1xsbVYZ6_d2-wlTOZ2NJ2coTsc=@protonmail.com>
-In-Reply-To: <e8ed4d4e-37e1-4577-bf80-62fcefbef7dc@kernel.org>
-References: <2kSCn4XaoXsXJ3EUR0syTdmip8Z1cBuUr0Br4sFVnwnsA8q4GlhiHOmsJkeBxvxYoLnetp4r44wIPXw42yTAFl-BtMROnIwR-NkckKgA5EY=@protonmail.com> <6iFCwGH2vssb7NRUTWGpkubGMNbgIlBHSz40z8ZsezjxngXpoiiRiJaijviNvhiDAGIr43bfUmdxLmxYoHDjyft4DgwFc3Pnu5hzPguTa0s=@protonmail.com> <4402ed86-77f5-4a47-a9e1-8d57a709bb15@kernel.org> <woxnPhTYiKi2aLzBK8GnO8DpvdgYjQc-P42uhJOzyrcYC3Gdstht27hML8yNHgOklhm2MgGA7wt9gGZ17BHoWlG0vqJuVVJDgCSev8udfds=@protonmail.com> <NIIS8XD_nSRvp36X39GxcDRAWsaScQIFx6o9JsFCbyBZk5PqznRdxg9EDDb_9tzWd5TcjzxrRtFx5_uLCVa5wJAYykW2k0Ue_XPMPtWCQiY=@protonmail.com> <e8ed4d4e-37e1-4577-bf80-62fcefbef7dc@kernel.org>
-Feedback-ID: 66654272:user:proton
-X-Pm-Message-ID: e296eaddc6befbe5480d0ef28284d40fa59a5ac2
+	s=arc-20240116; t=1766015817; c=relaxed/simple;
+	bh=HR4qrmI9rceCWt7faPX8zYQtAYw4yuTbacR2hZ8jKj8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=nns9oYqa/nDjvrvAi7QqHJLDMXIZvE5w/e4evMAQZtdVdtPAz3/skdr4U3/hCnQocMccrXD5rU9NNPKPZHlknKvJ2/ucwDDvSp59I2VsqpY+0/YwCypIXvz7JKW4TQnzjE3BpGtQOO1yeJqsksdSem6fFqJASeYjiW7K5n/JdPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uESTHdcw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 627DEC4CEF5;
+	Wed, 17 Dec 2025 23:56:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766015817;
+	bh=HR4qrmI9rceCWt7faPX8zYQtAYw4yuTbacR2hZ8jKj8=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=uESTHdcwFrTGhtuhgh2hLadO1b7dyJ3t5WtA2vwIW3da4rDQFVPqB3LMD0v/7XwrK
+	 bPXPKH+430cMfrdkbzdVwXNWohgfNi1vSIGpSooy2BsxB5L3q8s8wBgKWlQka2i2wC
+	 L6PIfizKciS19/QTZkDOZwSXNL8ve/thr20NrXQBgVG7cn4OGEbdCWuG1sqpwqFW5f
+	 ljfwYXfLoYZVU4s8kVcWENINkdaAq9oyDMsk5L/6992+OdcKKOWwWsY5D3YfHfk59K
+	 UcXzOsC0K5wAOCYsLOjKT0+ZKK0y3K57YjLbP3Z0zafhJhdWSir9QQTvARRpUnijZy
+	 X8/eZfoqCAJSg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 505F8D65C7F;
+	Wed, 17 Dec 2025 23:56:57 +0000 (UTC)
+From: =?utf-8?q?J=C3=A9r=C3=B4me_de_Bretagne_via_B4_Relay?= <devnull+jerome.debretagne.gmail.com@kernel.org>
+Subject: [PATCH v3 0/6] Microsoft Surface Pro 11 support
+Date: Thu, 18 Dec 2025 00:56:36 +0100
+Message-Id: <20251218-surface-sp11-for-next-v3-0-875afc7bd3b7@gmail.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIADRDQ2kC/x3MOQqAQAxA0atIagNOBhe8ili4ZDTNKImKIN7dw
+ fIV/z9grMIGbfaA8iUmW0zweQbTOsSFUeZkoIJKR65BOzUME6PtzmHYFCPfB1ZUsac61KP3kNp
+ dOcj9f7v+fT8DnBloZwAAAA==
+X-Change-ID: 20251218-surface-sp11-for-next-626e327f7b33
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Johannes Berg <johannes@sipsolutions.net>, 
+ Lorenzo Bianconi <lorenzo@kernel.org>, 
+ Maximilian Luz <luzmaximilian@gmail.com>, Hans de Goede <hansg@kernel.org>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Jeff Johnson <jjohnson@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org, 
+ platform-driver-x86@vger.kernel.org, ath12k@lists.infradead.org, 
+ Dale Whinham <daleyo@gmail.com>, 
+ =?utf-8?q?J=C3=A9r=C3=B4me_de_Bretagne?= <jerome.debretagne@gmail.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1766015815; l=3060;
+ i=jerome.debretagne@gmail.com; s=20251217; h=from:subject:message-id;
+ bh=HR4qrmI9rceCWt7faPX8zYQtAYw4yuTbacR2hZ8jKj8=;
+ b=t3BXpsJPHxSIlZjyA76+9GhmhP27qDDVarnKi/muuVipdCyPhGDLIzBzk4DJgGDFXkbCTKtLn
+ vi5tRO1d+2BAlPqAqU/Gr8ilzjdiSp01/l7J36E32dkICd8KlD/Ss11
+X-Developer-Key: i=jerome.debretagne@gmail.com; a=ed25519;
+ pk=DcPD9n3oDMsPkt+12tU96swmGb5H86cxt+yiEVcUEGk=
+X-Endpoint-Received: by B4 Relay for jerome.debretagne@gmail.com/20251217
+ with auth_id=580
+X-Original-From: =?utf-8?q?J=C3=A9r=C3=B4me_de_Bretagne?= <jerome.debretagne@gmail.com>
+Reply-To: jerome.debretagne@gmail.com
 
-On Wednesday, December 17th, 2025 at 7:01 PM, Mario Limonciello <superm1@ke=
-rnel.org> wrote:
+This series brings support for the Qualcomm-based Microsoft Surface
+Pro 11 covering both the OLED and LCD variants.
 
-> On 12/17/25 10:57 AM, Francesco Lauritano wrote:
->=20
-> > On Wednesday, December 17th, 2025 at 4:12 PM, Francesco Lauritano franc=
-esco.lauritano1@protonmail.com wrote:
-> >=20
-> > > The _AEI defines 5 GPIO interrupts. Narrowed it down to two:
-> > >=20
-> > > gpiolib_acpi.ignore_interrupt=3DAMDI0030:00@21,AMDI0030:00@24
-> > >=20
-> > > This fixes the delay. Pins 0x15 and 0x18 both call: \_SB.PCI0.SBRG.HN=
-C0()
-> >=20
-> > Traced it further. HNC0(pin, 0) takes the Else branch and calls:
-> > ATKM(0xC0)
-> > ADTM(Zero)
-> >=20
-> > ADTM calls NOD2(), which is the actual culprit:
-> >=20
-> > While ((Arg0 !=3D RDNT))
-> > {
-> > If ((Local0 >=3D 0x0F)) { Break }
-> > Notify (^^GPP0.PEGP, Arg0)
-> > Local0++
-> > Sleep (Local0 * 0x64)
-> > }
-> >=20
-> > It notifies the dGPU and polls RDNT, sleeping 100, 200, ... 1500ms per =
-iteration.
-> > Max 15 loops =3D ~12s per pin. GPU doesn't respond at boot so it maxes =
-out.
-> >=20
-> > Two pins, ~12s each, ~24-36s total.
-> >=20
-> > Francesco
->=20
->=20
-> Any idea why isn't the dGPU responding? I would have expected
-> https://git.kernel.org/torvalds/c/4d4c10f763d78 sets up policy that it's
-> in D0.
->=20
-> Is the dGPU turned off in BIOS or through some reverse engineered
-> tool/API or something?
+Signed-off-by: Dale Whinham <daleyo@gmail.com>
+Signed-off-by: Jérôme de Bretagne <jerome.debretagne@gmail.com>
+---
+Changes in v3:
+- Update the compatible strings to document both the OLED and LCD variants
+- Move the disable-rfkill property into ieee80211.yaml [Rob,Krzysztof]
+- Reference commit c6a7c0b09d5f and detail the disable-rfkill patch description [Rob,Krzysztof]
+- Switch to the renamed hamoa.dtsi and hamoa-pmics.dtsi [Dale]
+- Improve the comments describing the 2 USB Type-C port location
+- Update the speaker definition to describe only 2-speakers [Konrad]
+- Drop output-low from the speaker definition [Konrad]
+- Enable i2c0 to make it accessible through i2c-tools [Konrad]
+- Delete a non-applicable comment about removable WLAN card [Konrad]
+- Re-order a few nodes and fix indentation issues [Konrad]
+- Squash one of the patches as suggested [Krzysztof]
+- Drop the NAKed patch patch about a dpcd link rate quirk [Dmitry]
+- Include the Reviewed-by: tags
+- Link to v2: https://lore.kernel.org/all/20251201011457.17422-1-daleyo@gmail.com/
 
-dmesg without the workaround:
-[    1.005184] pci 0000:01:00.0: PME# supported from D0 D3hot
-[    1.288811] pci 0000:01:00.0: vgaarb: VGA device added
-[   38.250139] nvidia: loading out-of-tree module taints kernel.
-[   38.369358] nvidia 0000:01:00.0: enabling device (0000 -> 0003)
-[   39.744421] NVRM: GPS ACPI DSM called before _acpiDsmSupportedFuncCacheI=
-nit
+Changes in v2:
+  - Dropped ATNA30DW01 patch as it was merged.
+  - Split device tree into x1e (OLED)/x1p (LCD) specific *.dts files and move common code into x1-microsoft-denali.dtsi (patch 4).
+  - Device tree now enables higher external monitor refresh rates/resolutions (patch 4).
+  - Device tree now enables partially working audio output; requires alsa-ucm-conf and audioreach-topology definitions in userspace (patch 4).
+  - Replaced 'Work around bogus maximum link rate' with a quirk-based approach (patch 5).
+  - Improve the commit message about the disable-rfkill property in response to feedback (patch 6).
 
-GPU is in D0 from 1.0s. nvidia loads at 38.2s after the GPIO hang completes=
-.
+---
+Dale Whinham (4):
+      firmware: qcom: scm: allow QSEECOM on Surface Pro 11
+      platform/surface: aggregator_registry: Add Surface Pro 11
+      arm64: dts: qcom: Add support for Surface Pro 11
+      wifi: ath12k: Add support for disabling rfkill via devicetree
 
-No weird tools/APIs besides userspace utils (asusctl/supergfxctl).=20
+Jérôme de Bretagne (2):
+      dt-bindings: arm: qcom: Document Microsoft Surface Pro 11
+      dt-bindings: wireless: ieee80211: Add disable-rfkill property
 
-No changes to BIOS factory defaults other than disabling Fast Boot.
-dGPU is active, Display Mode is Dynamic (hybrid).
+ Documentation/devicetree/bindings/arm/qcom.yaml    |    8 +
+ .../bindings/net/wireless/ieee80211.yaml           |    6 +
+ arch/arm64/boot/dts/qcom/Makefile                  |    4 +
+ arch/arm64/boot/dts/qcom/x1-microsoft-denali.dtsi  | 1326 ++++++++++++++++++++
+ .../dts/qcom/x1e80100-microsoft-denali-oled.dts    |   20 +
+ .../boot/dts/qcom/x1p64100-microsoft-denali.dts    |   16 +
+ drivers/firmware/qcom/qcom_scm.c                   |    1 +
+ drivers/net/wireless/ath/ath12k/core.c             |    3 +
+ .../platform/surface/surface_aggregator_registry.c |   18 +
+ 9 files changed, 1402 insertions(+)
+---
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+change-id: 20251218-surface-sp11-for-next-626e327f7b33
 
-Traced RDNT - it's set by GPS function 19 in the ACPI tables:
-Case (0x13)
-{
-    Debug =3D "GPS fun 19"
-    \_SB.PCI0.SBRG.RDNT =3D (Local1 + 0xD1)
-}
+Best regards,
+-- 
+Jérôme de Bretagne <jerome.debretagne@gmail.com>
 
-As far as I can understand GPIO initcall blocks at late_initcall_sync, prev=
-enting nvidia=20
-from loading in time to respond. Based on the timing, GPU is awake but noth=
-ing can=20
-register a handler while kernel is stuck at NOD2 polling loop.
-
-Thanks,
-Francesco
 
 
