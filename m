@@ -1,275 +1,160 @@
-Return-Path: <platform-driver-x86+bounces-16322-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16324-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D927ECD9BBE
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Dec 2025 16:08:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E6BECD9D93
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Dec 2025 16:49:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 53266302C4FB
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Dec 2025 15:08:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 45FD8300EA03
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Dec 2025 15:45:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06229286D60;
-	Tue, 23 Dec 2025 15:08:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60819266EE9;
+	Tue, 23 Dec 2025 15:45:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="MBpg79xS";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cnDJ5UAZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dZOFfjKO"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B242AE90;
-	Tue, 23 Dec 2025 15:08:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51392566F5
+	for <platform-driver-x86@vger.kernel.org>; Tue, 23 Dec 2025 15:45:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766502518; cv=none; b=soT9oTkWhos+S7cXLeTohCz9nBrISh6JXrHbNCkxKUq1RuGUN/O3S7BotXAUAUq7pHvyg2bJgfqqCWKeiFCX9VCrXC+1wlD+VpZa5r1v/SbTbpAuXqnVI5kZXo4d5jGi0oJJK8IBFlhFtOLBW3fLK3NuIbG0tcqlZHnaOhtg7cU=
+	t=1766504728; cv=none; b=WKRoIfNb76OnkC4gkfN00zyZvgIOi6rkh95KJMqPO3EwS/fLehJsZW1bv/8wMIyqjyCAE5Yub6jPfFGiCtJoYEVhw5w742oH2JKgPyULP8UiXMosbfANzba+9ISoEVZP6Pb49lPCjVWfLrnpWR9vQuMya8RxUy2qxk3HQBIgdn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766502518; c=relaxed/simple;
-	bh=MAfcwTd8hOO9wZX+I47OZtxwlLQhHc0lxB02Bc2qDns=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=JZCy61VCmFLYT6mzchVmXPed86olQeMXrMGpmZVqEO4IudcKjzFNmysCHwj25X81ScvQivrsMwA4qPOGZhmju0R3P7YfwVdqksEA2PgR1DC9M3d25RH88BdMbug/nrCtZNzN/ZlS0Lm/8amspKuiqTQ/iUWW5iMIXAZA/BL98EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=MBpg79xS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cnDJ5UAZ; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id 99F8EEC00EF;
-	Tue, 23 Dec 2025 10:08:35 -0500 (EST)
-Received: from phl-imap-08 ([10.202.2.84])
-  by phl-compute-02.internal (MEProxy); Tue, 23 Dec 2025 10:08:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1766502515;
-	 x=1766588915; bh=T0SGmikv7Gm6Gz5I4EbC5ycjPLfup7H4kau2DcEbjNs=; b=
-	MBpg79xSxnh0xyxizQWkw1VwvG8UKZj/rwv0dJeO3koNXo+aCepSqQl/4ROglLdy
-	dg2Se7uO1QJnPNY0TEpacgGzEkL+rec5vGmi4SHFcQId95175iZx0Uhp7WGV68kD
-	Yx6N1ZxOEtLBdg5GuoUMmnomvxsOdbihRb+xkJsiE1U1HUxZXTeSkp85DJT9W7tM
-	bUiQv/tyWxyIUM/OAFgIU2Da+ekijDKsKft2fawBoi5okQVNvAX7JTS9VjuIADyo
-	40vhX3AyAn3ANn6tT3FpxV3yToujqnYX+wYcmCljWNv7oxwpKcI2COsHPv70w2Jc
-	UEngWQ4N3TAfGBk6KB+vng==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1766502515; x=
-	1766588915; bh=T0SGmikv7Gm6Gz5I4EbC5ycjPLfup7H4kau2DcEbjNs=; b=c
-	nDJ5UAZJ86Y962dINv4KVUiEQeuLo6AWs6W3MhRt+GW4ij1KHHOVo0NOluVIEOB0
-	efAB6q5UjGmuogX5+EK6m/9YqEnQTXcmCM4err9g6HTVo6CRjMA6mURSWsj0xVTO
-	FObxiAB4ukNvvhIDbRPIVOIbQKUJOh0TZ/xBbQwj08Z8au5Kyb9g+ICmTewTvA2d
-	0D88N/7HdDAycRtK6fuKYrz61Wld4YLTNb4abpw2cjES9pPxVIu5SSwGrmtLDPpW
-	pTRaVDUc+SVZ54lh/kcBUI2xcfCI4nR7npGg//zGG/+aNYo+N4Dr4KLSDwSQmcja
-	Gir3eCEg0HMQL2oKFvQZw==
-X-ME-Sender: <xms:c7BKaa6Ye1KDjFCl2OEJGW5ipOoxUO-CGtJSOCWyEQxsvXSdx1wV1A>
-    <xme:c7BKaespw6n189DTgjHsvbGYsb8WFrGB5YVJnjaGQq80qnHmZLhVCQpKKGZSsWR2_
-    RG5jvU7jbY-jyZeP0RIZjVQNwT3HxfRznmjU5hS9xmRdiaJ9onLTA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeitddugecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdforghrkhcu
-    rfgvrghrshhonhdfuceomhhpvggrrhhsohhnqdhlvghnohhvohesshhquhgvsggsrdgtrg
-    eqnecuggftrfgrthhtvghrnhephfeuvdehteeghedthedtveehuddvjeejgffgieejvdeg
-    kefhfeelheekhedvffehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepmhhpvggrrhhsohhnqdhlvghnohhvohesshhquhgvsggsrdgtrgdpnhgs
-    pghrtghpthhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepsggvnhhjrg
-    hmihhnrdhphhhilhhiphegleehsehgmhgrihhlrdgtohhmpdhrtghpthhtohepuggvrhgv
-    khhjohhhnhdrtghlrghrkhesghhmrghilhdrtghomhdprhgtphhtthhopehikhgvphgrnh
-    hhtgesghhmrghilhdrtghomhdprhgtphhtthhopehhrghnshhgsehkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehilhhpohdrjhgrrhhvihhnvghnsehlihhnuhigrdhinhhtvghlrd
-    gtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghl
-    rdhorhhgpdhrtghpthhtohepphhlrghtfhhorhhmqdgurhhivhgvrhdqgiekieesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:c7BKaf-6aUxWSgD931Ss1cSGDIEnUVmLYvHRuEQeZBXkrJnMd87ChA>
-    <xmx:c7BKaayzgpow7XuOPmSFoD_gtOoDPBOutfBwxPIvhg8CjCDFQeEQ1g>
-    <xmx:c7BKaTPGL5Um3SPOrmce4cIvenlfkIcjxQFZTLgqdVIVYDZK70wl1A>
-    <xmx:c7BKaX9TVtcICoasBH504nHfwKOKkaH13uJ4NwaJngDv8k3OSDcoxw>
-    <xmx:c7BKafsfwb_W2Pfm83QoJQ76I2wkFVXdusoVdSD4VnhrPg3fNeuTncVg>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 6201A2CE0072; Tue, 23 Dec 2025 10:08:35 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1766504728; c=relaxed/simple;
+	bh=Nbr+595wzIlfQktoqESVqjE0AhgwC1Glx9IxPG70c/8=;
+	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=eWBO1BwzjPIIrIb81tWs5+Hl2UrbOCB7VE5tUFmteTCH3t9fYDEbneb4/UnfvNNW5s6sgHPPD2E47oqlXR4xx3ANTEmUhgXSturDiIrzaguVASYaXYAOsI1J+o4Xt70GmM85h7n+BnpWf6lhl8rcwkKZTemMSXtnhJRnDGtGQ+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dZOFfjKO; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-59583505988so7763145e87.1
+        for <platform-driver-x86@vger.kernel.org>; Tue, 23 Dec 2025 07:45:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766504724; x=1767109524; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ALf8MaedbdPI72V8d/dNEG4Su8CUjZKSY9JmPqjIM9g=;
+        b=dZOFfjKOPifjZHVqwB/UEtqGSmbSxacDLwLcpOeITRtVRaHVz2rBiF4wkLka5yXnWx
+         9szpE4+9x+LawTeKWNN/KP3x15NXbwX6uAyBGd5kMUp4I7GPMkc5GgUUVRcD97uMTWaZ
+         jMk7n2d3RNJgwUaBgQFNYIjWM2krEY6qvMMOxSIlwDqdXKDG9S8ASJW3x1UZ6qJQI1K2
+         KKlVdZ15FlC21f6iW/Iv7BinJQ0tRALaLEEaWf2xxLDi/GQHyL635/ibMn7f0MWPcZ5D
+         TmCIxejD5A48bQJgkMGGsQnbzeXm6A10kxx0gS7J7e15WoHa1LLFt0LwqTLq6w5q43Le
+         IQog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766504725; x=1767109525;
+        h=cc:to:subject:message-id:date:mime-version:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ALf8MaedbdPI72V8d/dNEG4Su8CUjZKSY9JmPqjIM9g=;
+        b=sRAqJUpmCCUx0OaVrN8kM7ovx28anTuxBG3kk2iU2VsJf0FgZsJIJO4Wlp2zc/jsMB
+         /wSCpcIfd6Q9T9V1yk6q/1hlPoHPCm3EvKlqDHdSUenbzhKHsPOxAeGRMwUOycDEciav
+         v2wZeqjmHdYaeJBQL5Imj6/u/ne/heHvtbnM7vIFc8ZAeYPncq0x8Aagk7sKxMFMd6XU
+         QXaZh0kfkOWNlw4Dok3h5Vdqn8P4XA1snXvf7rnxVvP89/1lOtaSIuVyJ0zXLCPUvxxW
+         k+rptdtaJMVaKk4/m88I4amRy0iuuCgYpWMRnE4A1qHpwJTMHKeQz3p6EHBCuU3d6OFk
+         TyXg==
+X-Gm-Message-State: AOJu0YwtzTVbVSsh2y6CeCP0Bh2BvFvO/7R27CSNZrkSzsa1rfQ5WkO1
+	LWddssXCt0su3UDvE5Q3oT5fKDouD6OGuHbwAlpDoD5chS91wIx5u/Eh3vvymnZ1FZIZpn/Q6iL
+	+6GErpy6RqrqW2OeZlnAX4Jq8Gngyfpf5aCVK
+X-Gm-Gg: AY/fxX55tDQibArCbpdfPNWgV4HZGS+NKTxGR1CKZjFq/Ca53cJI4vGIJLKgZRYvwvl
+	xBTkw5Mtq54JQz8i4pBeN+N4jMci8EL6UQAqoqt4yvcwOUiNFFFBlGpilheRL5b1iEyFptdSEoQ
+	tmcWllZI5CBEoOPrCzfPGz/XVHWkjGYc+a7B1ebOZaBMNiHIMGbkKNayvA2ofHvbceJT24EYKxo
+	IuawzjoMMQd5QVpiE+Qr8KjY4FHgLVq/10ceNcamhlwXNYFwRCUcjDeQPgTNUzsZCjE8Kg=
+X-Google-Smtp-Source: AGHT+IGKXn8CvNdJZ3wBpTQc5VgFKkoN0BfrlPmpP4+ias/h/3PcHyJSI5zoTkdLVWNDMK3cd94Oe4qQzmYXiz3CTLg=
+X-Received: by 2002:a05:6512:3d24:b0:598:f400:6683 with SMTP id
+ 2adb3069b0e04-59a126e9aacmr7076683e87.17.1766504724327; Tue, 23 Dec 2025
+ 07:45:24 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 23 Dec 2025 15:45:23 +0000
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 23 Dec 2025 15:45:23 +0000
+From: Benjamin Philip <benjamin.philip495@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AosJPcsONopF
-Date: Tue, 23 Dec 2025 10:08:14 -0500
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: "Benjamin Philip" <benjamin.philip495@gmail.com>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- linux-kernel@vger.kernel.org
-Cc: "Derek J . Clark" <derekjohn.clark@gmail.com>,
- "Ike Panhc" <ikepanhc@gmail.com>, "Hans de Goede" <hansg@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Message-Id: <7028f20c-ca30-40f0-8b88-54e34e9d9554@app.fastmail.com>
-In-Reply-To: 
- <CAMEXYWdoXFJM96gE=JLVtrP7YeAdWwO+NmDFqfsy_pk49PreYg@mail.gmail.com>
-References: 
- <CAMEXYWdoXFJM96gE=JLVtrP7YeAdWwO+NmDFqfsy_pk49PreYg@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: ideadpad-laptop: Clean up style warnings and checks
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Date: Tue, 23 Dec 2025 15:45:23 +0000
+X-Gm-Features: AQt7F2qqrQGoOfIH8cMa_Qcy5Fnwkay18o2ty9H2kPG4UbQchzAq3X8Jipduz3Q
+Message-ID: <CAMEXYWfjDe4+H=19PVNNYkEFs0S2ApAnRCPdiZ36khAHNKDtuA@mail.gmail.com>
+Subject: [PATCH] platform/x86: yogabook: Clean up code style
+To: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Benjamin Philip <benjamin.philip495@gmail.com>, Mark Pearson <mpearson-lenovo@squebb.ca>, 
+	"Derek J. Clark" <derekjohn.clark@gmail.com>, Hans de Goede <hansg@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Dec 23, 2025, at 7:45 AM, Benjamin Philip wrote:
-> This commit makes some style changes to clean up the following
-> checkpatch warnings and checks at various places in ideapad.c:
->
-> - WARNING: quoted string split across lines
-> - WARNING: space prohibited between function name and open parenthesis '('
-> - WARNING: braces {} are not necessary for any arm of this statement
-> - CHECK: Alignment should match open parenthesis
->
-> We exceed the 80 column limit to fix the quoted string warning since
-> strings in question are user visible. See coding style, part 2 for
-> details.
->
-> Signed-off-by: Benjamin Philip <benjamin.philip495@gmail.com>
-> ---
->  drivers/platform/x86/lenovo/ideapad-laptop.c | 39 ++++++++------------
->  1 file changed, 16 insertions(+), 23 deletions(-)
->
-> diff --git a/drivers/platform/x86/lenovo/ideapad-laptop.c
-> b/drivers/platform/x86/lenovo/ideapad-laptop.c
-> index 5171a077f62c..3d8a8b4f3e86 100644
-> --- a/drivers/platform/x86/lenovo/ideapad-laptop.c
-> +++ b/drivers/platform/x86/lenovo/ideapad-laptop.c
-> @@ -219,38 +219,32 @@ MODULE_PARM_DESC(no_bt_rfkill, "No rfkill for
-> bluetooth.");
->  static bool allow_v4_dytc;
->  module_param(allow_v4_dytc, bool, 0444);
->  MODULE_PARM_DESC(allow_v4_dytc,
-> -	"Enable DYTC version 4 platform-profile support. "
-> -	"If you need this please report this to:
-> platform-driver-x86@vger.kernel.org");
-> +		 "Enable DYTC version 4 platform-profile support. If you need this
-> please report this to: platform-driver-x86@vger.kernel.org");
->
->  static bool hw_rfkill_switch;
->  module_param(hw_rfkill_switch, bool, 0444);
->  MODULE_PARM_DESC(hw_rfkill_switch,
-> -	"Enable rfkill support for laptops with a hw on/off wifi switch/slider. "
-> -	"If you need this please report this to:
-> platform-driver-x86@vger.kernel.org");
-> +		 "Enable rfkill support for laptops with a hw on/off wifi
-> switch/slider. If you need this please report this to:
-> platform-driver-x86@vger.kernel.org");
->
->  static bool set_fn_lock_led;
->  module_param(set_fn_lock_led, bool, 0444);
->  MODULE_PARM_DESC(set_fn_lock_led,
-> -	"Enable driver based updates of the fn-lock LED on fn-lock changes. "
-> -	"If you need this please report this to:
-> platform-driver-x86@vger.kernel.org");
-> +		 "Enable driver based updates of the fn-lock LED on fn-lock
-> changes. If you need this please report this to:
-> platform-driver-x86@vger.kernel.org");
->
->  static bool ctrl_ps2_aux_port;
->  module_param(ctrl_ps2_aux_port, bool, 0444);
->  MODULE_PARM_DESC(ctrl_ps2_aux_port,
-> -	"Enable driver based PS/2 aux port en-/dis-abling on touchpad on/off toggle. "
-> -	"If you need this please report this to:
-> platform-driver-x86@vger.kernel.org");
-> +		 "Enable driver based PS/2 aux port en-/dis-abling on touchpad
-> on/off toggle. If you need this please report this to:
-> platform-driver-x86@vger.kernel.org");
->
->  static bool touchpad_ctrl_via_ec;
->  module_param(touchpad_ctrl_via_ec, bool, 0444);
->  MODULE_PARM_DESC(touchpad_ctrl_via_ec,
-> -	"Enable registering a 'touchpad' sysfs-attribute which can be used
-> to manually "
-> -	"tell the EC to enable/disable the touchpad. This may not work on
-> all models.");
-> +		 "Enable registering a 'touchpad' sysfs-attribute which can be used
-> to manually tell the EC to enable/disable the touchpad. This may not
-> work on all models.");
->
->  static bool ymc_ec_trigger __read_mostly;
->  module_param(ymc_ec_trigger, bool, 0444);
->  MODULE_PARM_DESC(ymc_ec_trigger,
-> -	"Enable EC triggering work-around to force emitting tablet mode events. "
-> -	"If you need this please report this to:
-> platform-driver-x86@vger.kernel.org");
-> +		 "Enable EC triggering work-around to force emitting tablet mode
-> events. If you need this please report this to:
-> platform-driver-x86@vger.kernel.org");
->
->  /*
->   * shared data
-> @@ -1446,7 +1440,7 @@ static void ideapad_check_special_buttons(struct
-> ideapad_private *priv)
->  		if (read_ec_data(priv->adev->handle, VPCCMD_R_SPECIAL_BUTTONS, &value))
->  			return;
->
-> -	for_each_set_bit (bit, &value, 16) {
-> +	for_each_set_bit(bit, &value, 16) {
->  		switch (bit) {
->  		case 6:	/* Z570 */
->  		case 0:	/* Z580 */
-> @@ -1706,11 +1700,10 @@ static int ideapad_kbd_bl_init(struct
-> ideapad_private *priv)
->  	if (WARN_ON(priv->kbd_bl.initialized))
->  		return -EEXIST;
->
-> -	if (ideapad_kbd_bl_check_tristate(priv->kbd_bl.type)) {
-> +	if (ideapad_kbd_bl_check_tristate(priv->kbd_bl.type))
->  		priv->kbd_bl.led.max_brightness = 2;
-> -	} else {
-> +	else
->  		priv->kbd_bl.led.max_brightness = 1;
-> -	}
->
->  	brightness = ideapad_kbd_bl_brightness_get(priv);
->  	if (brightness < 0)
-> @@ -1752,7 +1745,7 @@ static enum led_brightness
-> ideapad_fn_lock_led_cdev_get(struct led_classdev *led
->  }
->
->  static int ideapad_fn_lock_led_cdev_set(struct led_classdev *led_cdev,
-> -	enum led_brightness brightness)
-> +					enum led_brightness brightness)
->  {
->  	struct ideapad_private *priv = container_of(led_cdev, struct
-> ideapad_private, fn_lock.led);
->
-> @@ -1928,7 +1921,7 @@ static void ideapad_acpi_notify(acpi_handle
-> handle, u32 event, void *data)
->
->  	vpc1 = (vpc2 << 8) | vpc1;
->
-> -	for_each_set_bit (bit, &vpc1, 16) {
-> +	for_each_set_bit(bit, &vpc1, 16) {
->  		switch (bit) {
->  		case 13:
->  		case 11:
-> @@ -2142,14 +2135,14 @@ static const enum power_supply_property
-> ideapad_power_supply_props[] = {
->  	}
->
->  DEFINE_IDEAPAD_POWER_SUPPLY_EXTENSION(ideapad_battery_ext_v1,
-> -	(BIT(POWER_SUPPLY_CHARGE_TYPE_STANDARD) |
-> -	 BIT(POWER_SUPPLY_CHARGE_TYPE_LONGLIFE))
-> +				      (BIT(POWER_SUPPLY_CHARGE_TYPE_STANDARD) |
-> +				       BIT(POWER_SUPPLY_CHARGE_TYPE_LONGLIFE))
->  );
->
->  DEFINE_IDEAPAD_POWER_SUPPLY_EXTENSION(ideapad_battery_ext_v2,
-> -	(BIT(POWER_SUPPLY_CHARGE_TYPE_STANDARD) |
-> -	 BIT(POWER_SUPPLY_CHARGE_TYPE_FAST) |
-> -	 BIT(POWER_SUPPLY_CHARGE_TYPE_LONGLIFE))
-> +				      (BIT(POWER_SUPPLY_CHARGE_TYPE_STANDARD) |
-> +				       BIT(POWER_SUPPLY_CHARGE_TYPE_FAST) |
-> +				       BIT(POWER_SUPPLY_CHARGE_TYPE_LONGLIFE))
->  );
->
->  static int ideapad_battery_add(struct power_supply *battery, struct
-> acpi_battery_hook *hook)
-> -- 
-> 2.52.0
+This commit cleans up the following checks flagged by checkpatch in
+yogabook.c:
 
-Looks good to me.
-Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-Mark
+- CHECK: Prefer kernel type 'u8' over 'uint8_t'
+- CHECK: Unnecessary parentheses around '...'
+- CHECK: Comparison to NULL could be written "!data"
+- CHECK: line length of ... exceeds 100 columns
+
+Signed-off-by: Benjamin Philip <benjamin.philip495@gmail.com>
+---
+ drivers/platform/x86/lenovo/yogabook.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/platform/x86/lenovo/yogabook.c
+b/drivers/platform/x86/lenovo/yogabook.c
+index 31b298dc5046..ee6c625076df 100644
+--- a/drivers/platform/x86/lenovo/yogabook.c
++++ b/drivers/platform/x86/lenovo/yogabook.c
+@@ -57,7 +57,7 @@ struct yogabook_data {
+ 	struct work_struct work;
+ 	struct led_classdev kbd_bl_led;
+ 	unsigned long flags;
+-	uint8_t brightness;
++	u8 brightness;
+ };
+
+ static void yogabook_work(struct work_struct *work)
+@@ -160,7 +160,7 @@ static int kbd_brightness_set(struct led_classdev *cdev,
+ {
+ 	struct yogabook_data *data = kbd_led_to_yogabook(cdev);
+
+-	if ((value < 0) || (value > YB_KBD_BL_MAX))
++	if (value < 0 || value > YB_KBD_BL_MAX)
+ 		return -EINVAL;
+
+ 	data->brightness = value;
+@@ -338,16 +338,18 @@ static int yogabook_wmi_probe(struct wmi_device
+*wdev, const void *context)
+ 	int r;
+
+ 	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+-	if (data == NULL)
++	if (!data)
+ 		return -ENOMEM;
+
+ 	data->kbd_adev = acpi_dev_get_first_match_dev("GDIX1001", NULL, -1);
+ 	if (!data->kbd_adev)
+-		return dev_err_probe(dev, -ENODEV, "Cannot find the touchpad device
+in ACPI tables\n");
++		return dev_err_probe(dev, -ENODEV,
++				     "Cannot find the touchpad device in ACPI tables\n");
+
+ 	data->dig_adev = acpi_dev_get_first_match_dev("WCOM0019", NULL, -1);
+ 	if (!data->dig_adev) {
+-		r = dev_err_probe(dev, -ENODEV, "Cannot find the digitizer device
+in ACPI tables\n");
++		r = dev_err_probe(dev, -ENODEV,
++				  "Cannot find the digitizer device in ACPI tables\n");
+ 		goto error_put_devs;
+ 	}
+
+@@ -453,7 +455,7 @@ static int yogabook_pdev_probe(struct platform_device *pdev)
+ 	int r;
+
+ 	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+-	if (data == NULL)
++	if (!data)
+ 		return -ENOMEM;
+
+ 	data->kbd_dev = bus_find_device_by_name(&i2c_bus_type, NULL, "i2c-goodix_ts");
+-- 
+2.52.0
 
