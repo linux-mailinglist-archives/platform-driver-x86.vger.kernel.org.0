@@ -1,129 +1,212 @@
-Return-Path: <platform-driver-x86+bounces-16440-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16437-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F740CE8FC6
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Dec 2025 09:11:28 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03458CE8FB1
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Dec 2025 09:08:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 7CBA23002068
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Dec 2025 08:11:25 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 03FB930194F1
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Dec 2025 08:08:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 586942FD660;
-	Tue, 30 Dec 2025 08:11:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D61B2FFDFC;
+	Tue, 30 Dec 2025 08:08:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dhsIIv8q"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kOHCLkeX"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26A72F7AD0
-	for <platform-driver-x86@vger.kernel.org>; Tue, 30 Dec 2025 08:11:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D302F7AD0;
+	Tue, 30 Dec 2025 08:08:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767082284; cv=none; b=J2F8RCryQBDrZadTG5t0/hAxuktCUbLPl1YkjVipkNMGm5FkKA8BlOpt3SLy/LQVPlewgjU4XvGw+rFkIZY5KNKOnQg/XLVmivcsdZErmxRnd2eBJV3+Xy2jI0Z6akJuR34s2rhxdceE50KiS9QJ7X/jRSJetAIAiOcFlIJQX5E=
+	t=1767082089; cv=none; b=h52I++pA0so+1Ke63M5mUlWzjvz3IHEiPJHzpiX20rUiIKHHd4IOITWxN2ilQ/N1n8zxYvUbNDsQkD33eHMbiBxbSSuLPEFoSCqflD1VGVQVWqbJpdf2yBLNrUtN/T836gZWpFPKpmZPCKt8UTVIcIaYDIV1MluLVDzICTXxvZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767082284; c=relaxed/simple;
-	bh=8VUv4Bi6D93Br3Bxivo4ykhT1a5WQYiS49xZL7O7lYI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=NacocFaGWUbP+VT4qZQvzHM9clH4kC6NPC+diJQFcd8AYGAX7D6xkyMlsrIdFBRAwrTaNo1jN2bD9tPgz49u6b8dloPKluK5LH+J5R0l9XvHWnu29m/Ka3/UrSGLfA8BJ+XZ5Fctt/lVFhwZi54v0xpQzpZNqHh/YWs/Fxggs1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dhsIIv8q; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767082282; x=1798618282;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=8VUv4Bi6D93Br3Bxivo4ykhT1a5WQYiS49xZL7O7lYI=;
-  b=dhsIIv8q/BvfSaLxDyWAhWgQSheaAIZ6LWfvAwCAWYusPoydPNhboqy7
-   JgIGjVvWLp21B2n4SAVbZMIfBwFhpWnSMcKJK4YtjdyGRqkRwAVUJdFNE
-   9IHmt4C0cMzz3RwN/hLQ/o03KdWqnb+OFQAnh7JGMlc4Zsk8YB4nB1IIG
-   cCNJwCwnPPcXjJQhTR5+7bCcdVWmrdLpyMNNS39xE47maCeFZUUMyY+na
-   yZ+CHpUCh6hM0vJ6mxokiznkmwEaR93xODOzUG+q9wHQ2vjHKQGCzysvC
-   1G/bmDtXTTUtTZY87dDf7GYmaQqGASVyaOodrZi6ISR4BRBDxSC0xm/bS
-   A==;
-X-CSE-ConnectionGUID: yPrfOMSkSGq6mD7DGwxFkw==
-X-CSE-MsgGUID: WPhEFEe+TLW0u8HEnCwqaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="80044205"
-X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; 
-   d="scan'208";a="80044205"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 00:11:22 -0800
-X-CSE-ConnectionGUID: LQrvjIlDScevEOga4hWICw==
-X-CSE-MsgGUID: 7VYKOkgYRH2YLqaKs2yjgg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; 
-   d="scan'208";a="206050904"
-Received: from baandr0id001.iind.intel.com ([10.66.253.151])
-  by fmviesa004.fm.intel.com with ESMTP; 30 Dec 2025 00:11:21 -0800
-From: Kaushlendra Kumar <kaushlendra.kumar@intel.com>
-To: srinivas.pandruvada@linux.intel.com,
-	hansg@kernel.org,
-	ilpo.jarvinen@linux.intel.com
-Cc: platform-driver-x86@vger.kernel.org,
-	Kaushlendra Kumar <kaushlendra.kumar@intel.com>
-Subject: [PATCH 2/2] platform/x86/intel/uncore-freq: Replace sprintf() with sysfs_emit()
-Date: Tue, 30 Dec 2025 13:35:45 +0530
-Message-Id: <20251230080545.224954-3-kaushlendra.kumar@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251230080545.224954-1-kaushlendra.kumar@intel.com>
-References: <20251230080545.224954-1-kaushlendra.kumar@intel.com>
+	s=arc-20240116; t=1767082089; c=relaxed/simple;
+	bh=MAuT6kX2skfD9THyyWJ8LQ+yulvGn9NW41sVqxts1yU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S8XMcJmtcYKmHuZnSsFciQgXE1C/tzoNPdsbyQ7dPQx83iDUFDUbQoa7uv5z0cpA8G5pcaYUHdZjl1F0e7YxiVoarc+n7MVo4yIo0MTCezcnu/4F+5exd9Ykk4QACmIKmNKu9Pvfgu3j7Q5LnoRfBaVdy8dxmUEb/k7sQZCUFWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kOHCLkeX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B8A6C4CEFB;
+	Tue, 30 Dec 2025 08:07:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767082087;
+	bh=MAuT6kX2skfD9THyyWJ8LQ+yulvGn9NW41sVqxts1yU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kOHCLkeXIr4bMGx1yxcUVL5o1PBdStGGwyn2LajtcvnSSeXgcRcHOR7Zdava2vEtv
+	 J25tvmXiD8azlKs/HBLeJVvEyUmOSYVejGKK/RxBCmiR87kHQ9rHo4xFVjsBjvakHY
+	 j5gFGpc+bQnN3A9ZlyfVH38tejNsIYtM4kpKTX/ccoZK0fgfpltEJPzsWxVKBRkJZh
+	 YDT6LUGXTzRQ1Vj1lJtcvoBgY/NpxwfkaUHXvqabhW7o/S4/S3WHFz97ex/XlhTCMB
+	 gR2a+BkIDRFsx213PKYRZ43IZyM1MVx8TgDyEBqCqBljxDTlj74sfHE8SzgBMxJHM4
+	 uxsPVfOvCxfUg==
+Date: Tue, 30 Dec 2025 13:37:56 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
+	linux-pm@vger.kernel.org, Stephan Gerhold <stephan.gerhold@linaro.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: [PATCH v2 08/10] dt-bindings: connector: Add PCIe M.2 Mechanical
+ Key E connector
+Message-ID: <2fyzwqr5cvkzkkgu5dk6qbc6o2dhnrtt22lf37rv6jzwtmbrek@yhedhlvzpzw7>
+References: <20251125-pci-m2-e-v2-0-32826de07cc5@oss.qualcomm.com>
+ <20251125-pci-m2-e-v2-8-32826de07cc5@oss.qualcomm.com>
+ <20251208202803.GA2541017-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251208202803.GA2541017-robh@kernel.org>
 
-Replace sprintf() with sysfs_emit() in sysfs show functions. The
-sysfs_emit() function is the preferred way to format sysfs output as
-it ensures proper buffer bounds checking and correct return values.
+On Mon, Dec 08, 2025 at 02:28:03PM -0600, Rob Herring wrote:
+> On Tue, Nov 25, 2025 at 08:15:12PM +0530, Manivannan Sadhasivam wrote:
+> > Add the devicetree binding for PCIe M.2 Mechanical Key E connector defined
+> > in the PCI Express M.2 Specification, r4.0, sec 5.1.2. This connector
+> > provides interfaces like PCIe or SDIO to attach the WiFi devices to the
+> > host machine, USB or UART+PCM interfaces to attach the Bluetooth (BT)
+> > devices along with additional interfaces like I2C for NFC solution. At any
+> > point of time, the connector can only support either PCIe or SDIO as the
+> > WiFi interface and USB or UART as the BT interface.
+> 
+> AFAICT, there's no muxing of interfaces. Maybe that's a defacto 
+> limitation on x86 systems? There's no reason to encode that into the 
+> binding if the pins aren't mux'ed on the connector.
+> 
 
-Signed-off-by: Kaushlendra Kumar <kaushlendra.kumar@intel.com>
----
- .../x86/intel/uncore-frequency/uncore-frequency-common.c  | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Ok. If you prefer not to describe the MUX (if one exists outside of the
+connector) in the binding, then having one endpoint sounds reasonable.
 
-diff --git a/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-common.c b/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-common.c
-index c129dd450360..ff97e3d210ab 100644
---- a/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-common.c
-+++ b/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-common.c
-@@ -26,21 +26,21 @@ static ssize_t show_domain_id(struct kobject *kobj, struct kobj_attribute *attr,
- {
- 	struct uncore_data *data = container_of(attr, struct uncore_data, domain_id_kobj_attr);
- 
--	return sprintf(buf, "%u\n", data->domain_id);
-+	return sysfs_emit(buf, "%u\n", data->domain_id);
- }
- 
- static ssize_t show_fabric_cluster_id(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
- {
- 	struct uncore_data *data = container_of(attr, struct uncore_data, fabric_cluster_id_kobj_attr);
- 
--	return sprintf(buf, "%u\n", data->cluster_id);
-+	return sysfs_emit(buf, "%u\n", data->cluster_id);
- }
- 
- static ssize_t show_package_id(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
- {
- 	struct uncore_data *data = container_of(attr, struct uncore_data, package_id_kobj_attr);
- 
--	return sprintf(buf, "%u\n", data->package_id);
-+	return sysfs_emit(buf, "%u\n", data->package_id);
- }
- 
- #define MAX_UNCORE_AGENT_TYPES	4
-@@ -77,7 +77,7 @@ static ssize_t show_attr(struct uncore_data *data, char *buf, enum uncore_index
- 	if (ret)
- 		return ret;
- 
--	return sprintf(buf, "%u\n", value);
-+	return sysfs_emit(buf, "%u\n", value);
- }
- 
- static ssize_t store_attr(struct uncore_data *data, const char *buf, ssize_t count,
+You did raise this point in the other series, but the conversation was not
+concluded: https://lore.kernel.org/linux-pci/20251119235614.GA3566558-robh@kernel.org/
+
+> > 
+> > The connector provides a primary power supply of 3.3v, along with an
+> > optional 1.8v VIO supply for the Adapter I/O buffer circuitry operating at
+> > 1.8v sideband signaling.
+> > 
+> > The connector also supplies optional signals in the form of GPIOs for fine
+> > grained power management.
+> > 
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> > ---
+> >  .../bindings/connector/pcie-m2-e-connector.yaml    | 178 +++++++++++++++++++++
+> >  MAINTAINERS                                        |   1 +
+> >  2 files changed, 179 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/connector/pcie-m2-e-connector.yaml b/Documentation/devicetree/bindings/connector/pcie-m2-e-connector.yaml
+> > new file mode 100644
+> > index 000000000000..fe2c9a943a21
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/connector/pcie-m2-e-connector.yaml
+> > @@ -0,0 +1,178 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/connector/pcie-m2-e-connector.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: PCIe M.2 Mechanical Key E Connector
+> > +
+> > +maintainers:
+> > +  - Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> > +
+> > +description:
+> > +  A PCIe M.2 E connector node represents a physical PCIe M.2 Mechanical Key E
+> > +  connector. Mechanical Key E connectors are used to connect Wireless
+> > +  Connectivity devices including combinations of Wi-Fi, BT, NFC to the host
+> > +  machine over interfaces like PCIe/SDIO, USB/UART+PCM, and I2C.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: pcie-m2-e-connector
+> > +
+> > +  vpcie3v3-supply:
+> > +    description: A phandle to the regulator for 3.3v supply.
+> > +
+> > +  vpcie1v8-supply:
+> > +    description: A phandle to the regulator for VIO 1.8v supply.
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +    description: OF graph bindings modeling the interfaces exposed on the
+> > +      connector. Since a single connector can have multiple interfaces, every
+> > +      interface has an assigned OF graph port number as described below.
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: Connector interfaces for Wi-Fi
+> > +
+> > +        properties:
+> > +          endpoint@0:
+> > +            $ref: /schemas/graph.yaml#/properties/endpoint
+> > +            description: PCIe interface
+> > +
+> > +          endpoint@1:
+> > +            $ref: /schemas/graph.yaml#/properties/endpoint
+> > +            description: SDIO interface
+> > +
+> > +        anyOf:
+> > +          - required:
+> > +              - endpoint@0
+> > +          - required:
+> > +              - endpoint@1
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: Connector interfaces for BT
+> > +
+> > +        properties:
+> > +          endpoint@0:
+> > +            $ref: /schemas/graph.yaml#/properties/endpoint
+> > +            description: USB 2.0 interface
+> > +
+> > +          endpoint@1:
+> > +            $ref: /schemas/graph.yaml#/properties/endpoint
+> > +            description: UART interface
+> > +
+> > +        anyOf:
+> > +          - required:
+> > +              - endpoint@0
+> > +          - required:
+> > +              - endpoint@1
+> > +
+> > +      port@2:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: PCM/I2S interface
+> 
+> Does this work with any existing DAI bindings? Or conflict with the 
+> audio graph card binding?
+> 
+
+I haven't verified with any sound card, but it looks to be compatible with the
+existing audio graph card binding.
+
+> > +
+> > +      port@3:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: I2C interface
+> 
+> Like the other one, use i2c-parent.
+> 
+
+Ack.
+
+- Mani
+
 -- 
-2.34.1
-
+மணிவண்ணன் சதாசிவம்
 
