@@ -1,212 +1,158 @@
-Return-Path: <platform-driver-x86+bounces-16437-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16441-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03458CE8FB1
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Dec 2025 09:08:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17EF3CE9153
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Dec 2025 09:51:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 03FB930194F1
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Dec 2025 08:08:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 719723011ECF
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Dec 2025 08:51:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D61B2FFDFC;
-	Tue, 30 Dec 2025 08:08:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 747242FFF8F;
+	Tue, 30 Dec 2025 08:51:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kOHCLkeX"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="NduPYVSa"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.web.de (mout.web.de [212.227.17.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D302F7AD0;
-	Tue, 30 Dec 2025 08:08:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80312FD1BF;
+	Tue, 30 Dec 2025 08:51:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767082089; cv=none; b=h52I++pA0so+1Ke63M5mUlWzjvz3IHEiPJHzpiX20rUiIKHHd4IOITWxN2ilQ/N1n8zxYvUbNDsQkD33eHMbiBxbSSuLPEFoSCqflD1VGVQVWqbJpdf2yBLNrUtN/T836gZWpFPKpmZPCKt8UTVIcIaYDIV1MluLVDzICTXxvZQ=
+	t=1767084691; cv=none; b=TXcy5SM2PAX8PtfL77kWopCpOI5FAVuyqC9spno+wyBg4fa7zp22uKMpTYKniT4Z94whSO1dSbvVngulK3Z+BrfO4HJN/9hSfPdSyp6kxc3lrQDMXzmbpppVkiV5nKKkbZ9bEVBRXMEQRVYB4qDAVr/tEA764pizcEgiojwqI8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767082089; c=relaxed/simple;
-	bh=MAuT6kX2skfD9THyyWJ8LQ+yulvGn9NW41sVqxts1yU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S8XMcJmtcYKmHuZnSsFciQgXE1C/tzoNPdsbyQ7dPQx83iDUFDUbQoa7uv5z0cpA8G5pcaYUHdZjl1F0e7YxiVoarc+n7MVo4yIo0MTCezcnu/4F+5exd9Ykk4QACmIKmNKu9Pvfgu3j7Q5LnoRfBaVdy8dxmUEb/k7sQZCUFWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kOHCLkeX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B8A6C4CEFB;
-	Tue, 30 Dec 2025 08:07:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767082087;
-	bh=MAuT6kX2skfD9THyyWJ8LQ+yulvGn9NW41sVqxts1yU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kOHCLkeXIr4bMGx1yxcUVL5o1PBdStGGwyn2LajtcvnSSeXgcRcHOR7Zdava2vEtv
-	 J25tvmXiD8azlKs/HBLeJVvEyUmOSYVejGKK/RxBCmiR87kHQ9rHo4xFVjsBjvakHY
-	 j5gFGpc+bQnN3A9ZlyfVH38tejNsIYtM4kpKTX/ccoZK0fgfpltEJPzsWxVKBRkJZh
-	 YDT6LUGXTzRQ1Vj1lJtcvoBgY/NpxwfkaUHXvqabhW7o/S4/S3WHFz97ex/XlhTCMB
-	 gR2a+BkIDRFsx213PKYRZ43IZyM1MVx8TgDyEBqCqBljxDTlj74sfHE8SzgBMxJHM4
-	 uxsPVfOvCxfUg==
-Date: Tue, 30 Dec 2025 13:37:56 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
-	linux-pm@vger.kernel.org, Stephan Gerhold <stephan.gerhold@linaro.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v2 08/10] dt-bindings: connector: Add PCIe M.2 Mechanical
- Key E connector
-Message-ID: <2fyzwqr5cvkzkkgu5dk6qbc6o2dhnrtt22lf37rv6jzwtmbrek@yhedhlvzpzw7>
-References: <20251125-pci-m2-e-v2-0-32826de07cc5@oss.qualcomm.com>
- <20251125-pci-m2-e-v2-8-32826de07cc5@oss.qualcomm.com>
- <20251208202803.GA2541017-robh@kernel.org>
+	s=arc-20240116; t=1767084691; c=relaxed/simple;
+	bh=HymnxAilPSgtvUeA33zmGzyrJpT3Oqe9NR3qBBtze24=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=eyScXIATTiMAyyY+CVnUh1/1SE8bNZM1+7v180tKNKy7zbQJtBDoDcpLmL/PlpcN+xO2tjPd5MQuxxkYsB6gEZoF/BfQoi/E3xbo9PUonsikpqnm46FGp/T1Y5sXgx3hIBqAU9gdBkdXPVqaaXhzaw0lTV7RAFFXk9c/5TAzbcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=NduPYVSa; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1767084669; x=1767689469; i=markus.elfring@web.de;
+	bh=HymnxAilPSgtvUeA33zmGzyrJpT3Oqe9NR3qBBtze24=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=NduPYVSaIp8WKDjS4+0/DNBCWSzlm0bq/eVI8QpqCWRV2UJs3uEGKruGoFlPUeay
+	 uLdF3guq6Pvur7Xz6ZhZw9LDK+X5SZT0v2orlLdZXsp0Il4sgNd05HMpwQsXWxCoZ
+	 5ZNPlgg8Q40/CHpAeov1T17OeXHXyK631LUYs8StKHaRJIp9/imtdBayBmefoaA0Z
+	 TTmJFAzjMm9ktV81kjZFA+g/tYRdNq7zQ47OFLZ5EqQ28v4yaUFIp1JQNV2Ofd9P9
+	 6DTLKGFBiDvleaqZ0wE14NmUO9SJ1YfVymccQsYawJ+JiE94B07LObP69smXbvTva
+	 /dxwW9Easy1L76zubg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.93.0]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MIya8-1vKdFe3gBG-00U0Tu; Tue, 30
+ Dec 2025 09:51:08 +0100
+Message-ID: <ae25ee51-cc43-4173-9349-8447d92d419f@web.de>
+Date: Tue, 30 Dec 2025 09:51:06 +0100
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251208202803.GA2541017-robh@kernel.org>
+User-Agent: Mozilla Thunderbird
+To: Jianhao Xu <jianhao.xu@seu.edu.cn>, Zilin Guan <zilin@seu.edu.cn>,
+ platform-driver-x86@vger.kernel.org, Hans de Goede <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org
+References: <20251230064325.1036637-1-zilin@seu.edu.cn>
+Subject: Re: [PATCH] platform/x86/amd: Fix memory leak in wbrf_record()
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20251230064325.1036637-1-zilin@seu.edu.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:DbGGDGipbus8f95PSqibfJxE9LzjrVEBkzbSW8t4Alp3HTRQaoB
+ xfaj5UYaT58nrxgBymBQDBV12FNfGzXUd655/EWwbRBzsgy7yVKWyfl61tODy9MGhFwFo4v
+ sGNE1QIpxM5sC/0UKEXmszEB05MZ+kPZmm0GDxHFQz3Dg4MDMlmcJzNqmNO2fnIqs5gnB9Z
+ QelE6HE3mn/IUz5+5PbtA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:t0gdnw3hhXc=;NV7yK5j0+j9RoP25GbqidD0Cjp2
+ fUuUeYJP2dMDq+VaWCKwCVV8sOHtLq/VdsTXjgKDlLdHrWzAUjtkxjL+/PThM3FZwORAIkvgK
+ BxL7UkaU1Rkp9deHDb2fo6SzdvPPxxHixUG8GWckmhShCDSPKlG4ZRaS2eaPo5mfj6Isad4ST
+ P3jyjzrvra2E6waxaFN9rSBwNAzhLDLMjH9233CIT+NS7txTIN10Y1NGzpyPwprKjdcIlJdKQ
+ fTquqE6txiQO6s0lBKrnLh2QwBhF3GAlD9U3kxe7YDklWuPIXfCWpQrSCDbf81bz1F3Z2n9WJ
+ 8Q2sYv7YY/ynoqVZAofcs5oJPnwsK/ojqsy6tQQmLr32E3ChQAHMbjMo8xj/X9dq71JGj9xnD
+ 9z331ylUXlHDGxitk3bvca4L8kJduc92ONw1L17U+CAIcHmT3imbVwUDaI1GZ7hL0uJJw28XT
+ M8FFoQGXPiKfjgOWMK7oYcj6ZugDdbEnCd9QN28ky9yCVou1EZmX0G5UJo6+W/aYklQ3KZmcs
+ 2M4w6E6wp+yyZF3l/SL1vYoxWC8uyha6FSNP2lzx6WSKrF/YzEuCkxOqt1AnjR1komNI+Wg3/
+ 4IZ8O5/iEua84uIygyv2iXmwBo3hJg01MPqPugD8B32aZ+riLhUAPXUd2fhcorIVCULjSAX3g
+ WqvZ1t+f5toanhhxs0+yHG83L/7guiMm3eYnGD8Ay1LVg2kBcCk6XqpsfL9a33OCdqbtMIYRJ
+ 5ScGFugtWmVvmguHlYTkyLJxQ+4XD0ekGxxT9Jqflc8am/f7WxP2SVh3OAsPF9jgvPBTbVGH1
+ eIWMw948EQHAIynGlSvYkfBtl17XWvz9VyWCRg+nHMtDSj0cYkdc4SuaQPXv1oMnZX1pN+5eo
+ JIMV2eUxJKECcG3LlkZjncXO/0DKG40SFMzmImtCwjvbc3lW9CCNfvI6rZpROj7gkqYzuUg6K
+ aDawZEE34NkQsRALNauR0HwjHTGkwBHdmfS+hDxkHTrKVfWa1wr7O/BjES8U5L4P4aqE0OJa4
+ WweHU8w7eisYQyC5W/O+ngT6fiaQYgKJPa/waGCNxRDFPpQUumD/i0I9K/JuGin+SqmmPsmUG
+ Y/rTo3BerApNtw0eaWS7o7QzuQjbaeiymbdW2DkRmxEfqSQcSpTkIzUOtfeLtjA5GxvYb5rJf
+ AGNGTS3Mf56nnUMW0GvaOhsv42fhrEMmBBtree3LjNNcbANMVS4L+Y2IQm/ncAWaO3j0nK1UZ
+ yfRyHOI7z5XFH3QDxJiRt1h40oQOTUlCKU0MzzQcguIKiULhmrX+RlfgU0dQfsi39hLRXRg2M
+ YugbX531cvl70Qy46BfcAdScn7S7izIzk1cU8BZr6vqkd8Qq1EmdiwoChIKH7GU7kymUguxgU
+ D2/7sUIaHvNfxYvnHrqp7Hw6AIskZ1T5DRMO8DyA5kopVU7imDsBEVelMmqDFm5LninsEQ3Hj
+ hYfD9s2RwEjufob7BnPreE1eSngCvUmZcY/QzszlUQX9DaZ241FsQaqzFgZuEhYDfEOWl51LY
+ F2bzNceozyDzYTMwr/BMzY4SuS4yujCdFCkGtOOShdNpKkX/z4shwEzyjlIYskaJMb+ZQJ9xL
+ HJUBI0Tos26Y3DTowmmsLsbn3xpUrMZPnW6SKp5jYOCRJS/FzmxMkuqMhSr1DNWj70lUmuyCU
+ mcGqU/fiG5HipLpKaccnNlJBRDQbl5u5VDPEnOpOlDKAJ3j7STFss1qiNTFeS6VF6DSrbJpwQ
+ Sm86JKSE8q0BPEuf+Agp20k0nVVojiMaN7VOvUONF0UeVo8DGKensZLSRY0aKRvFMvBB1x4a4
+ TmsZsVxQPVUPPyqdbJEe3EqlPqH7LRKNO9o5UFPRNvtQ2KjLaIShGtyJjXOY2jD+L9B8XR+sf
+ 45CKF59L0n4BYQPb6GsejFLHl9h7is4218+eYgELBGTrKTTqzjGuTb4KqY3tFU+9wKGdTlWEa
+ mEQesyrv/3E4qsYdxv/506kDvNZAaGbw4vq1wJHsGV9X/Bk4+MExnupgEkOkgxE2TAuNcaWa6
+ FTdoj6VrGbYKm3h+CIy2D4YUi66wYI9APvoyq2aW3L1JBobcOsxbh8XqAgcepMBonatvA7lOI
+ 5YtYr6lR3XqW5WVOTJ+nZk2Xi6vpYjVzHKlYMsLnLBCvjK+ioPzUrdXqwhV1FrJ0vchKJah+r
+ 28HVqX4e8ooIieINnW5yxlQHogMjl0RE+qkVlpKatJoeNVr234igabSBmAje0OP2OhvhZzX2l
+ +9cLfJTSunfvuwlmd+cwHcqC8RLq0HftoyZ+YnTX2gEpGa02IP4TG7myqKoPlkOnftDjFAEg8
+ 9VB0cd0GSId0/qXZIgUI7qMPGsT7GXJqdNL1Fmsg79BBTENNwZXtEBz14V/Udn2LiiKNOofMV
+ m2zqbchsIaFnTI5TiUStjU5BRNk4iohNc/0VhI0+XKNiUk/M0HFQE7xrdqSRd/jL3hLYQrPXI
+ MNCLiAzByJ2w4+BB8od5Mym32nM84E9LbXPMDJtCXtC4s6QyUiZVM/oTKg1ImNWi5WQF0z+1E
+ M5OdPt92AGo/kam/F63DT81hNIPSdQR0lDLH3/F6/HTDywYWj5mlJNRoxorURrVMcKxMnXbXt
+ 9Qi/elrZTQ007TCHj8YddtqitsAxBn4Ur2eUl1Axx7l0F23zvwh1QFaw87KcUNnIIewYZQ7i0
+ Er25NWMTS5duHCl+u5IZOhN0j2Y62aN3CDgzxQufM9rG8/Yht4nhsWXBwdFQIipx/TGemJ8jx
+ uAcDrftA75K8ia8UA9uUSQnxrnjN11ld1evIkKklu5eh8xluuVSdw9O5EB+EsY0/Jw9CALC2q
+ /Gnj13gy6YOS+6mo8UEH1MmbqWcepHeM21e5XJbn7hUhsjcDwkznmcaS3qKLwioPZv41yZpMa
+ rfsraP+yzYbFzbPAelqH53/kL9F0xeKcYfykuUppB1rdtERBr0kctbqEkODz3u4jKugp4FXvZ
+ s73692sowEz/Xswf3PifRkoTRaEXYrjIz6hDWlk0sVWU3R1GyLjVtHiNSQMAp+umVgZXdywMz
+ KifmUY1gsygAlcqR7JDLojwwGStHm876rMv96rf+oLY8ATB3iBrbhCns2d0eLyFlDPnGd8LEH
+ HmJZsgY/qGVTe8kS/G6tVUBVlaXgwh4fpiBL5/3WOQaMEOX1cMaiiy42VcMt5TAusiKFKywVo
+ cde0zkk4QI3lNtlkCE4JXJwmQRwWg50p8QsA7rALTc39Rlz1Zx2XscgNvUg1Fltqb3MCjhDcD
+ pW1DoQtKoDhL70yD6yp11xQm8fUdZjGo/WqoG3vm+PHNOdR3D7GQ9b3hyak1Mu3iBcnxHMTEr
+ FAAqvbTHNgZbqt1UPRs/BqbAy78xgJeLHKTitHmWcnLcG4bHHLQBgE37vrIAbL553zXl0f+Pr
+ kigGmwLYMEQMXegB2hXzbQeMiC5C2CI+5NH/A+nI5yk1tgBKAz1U1qiDJI0NQs8ETMdAHaKlT
+ k9+hY/TKFqSEdjrNkNeJKiiiquSiqj9Sr9ipx4cpvMp9pCVae33pBJJMZpN3P8+O7W+spHWTC
+ Sdrejb78KGaHmvEmSzNHBWwjGQuidEtqlbEjg53m/IWmP8FuZfOv2SUStatAWCouxjtE2airB
+ t9m5T1Dk1HUyZ/G9wnRfKih8NDvHt5rEEJWn6dWhM6D3aPaWV3308erhU50VUAMpCKBEWKPT4
+ CfIoQuCfBPfytNQdvGidvKnkEoAWRsyw5RY2WHZDIfe7Fmt8GWoxtWGEYeGaVdbuNVMSCAuxw
+ GKpzfZZADB2meAZpbiU53x4qHOcn8Qt7SoOUSx0lAcqbx4s4g7GCFRVyt8BMoSvea2TAmIXki
+ seIUWL9pH+g1Q69n79NvUVRglNEDXmFDv+y01xhdlh+3+7DlW2+JnGNuBbKpHsTbFEHg5qjea
+ ggC2ZOzctJgec/t1MprDr77kL+ARjFU6lrTAK/HymdKkKVsYBkm8fAhqYe1JYoePneFZofjwV
+ YEWiPpQwGMX1JobQg7MHAVdWZTovoWYBx24sS812Yo9VQ9kWOq+hxT5fjO1xNATKAFJR2ylp+
+ qmNtm7BvdAyqzBT6YxCXx4u3P20CiyVoToRhwfYGDBQc/+YMYqdivatHX7icrrTl18M/TtktU
+ +1YOre/KSWm081kDJ7UtzS84NuBV8yIgc7feSecKZBJtkRIE1IXK7Ml3gA+24Qu39DEFAocRB
+ RYTzrb/x3blhe4blJPAmzFcauqYXvvoLvQTrH+d6Wj8wAe+vQ2EqRIwwWwAbQQco6NvD2lEdz
+ Z2Tw2KZ1UgLC4eV6JGjYzWvoo7Z70LU4d65OFBwTUQWHt3mGo5JWdVHPPGZqJu+f4mLQG2QzW
+ +tYFQj5rSZKJXyVxXsvgHElNN1hEF0dmzMLXKdey+Gfvm9RJnw2YphOkWIUNCLCX0XoVrfyWA
+ sD1eB0TEBBMeXFamzweS2aVAsckWP3BVwbVrNLesjknIfcx6AvW8tphgdi/5bR9pP4S/BeZrt
+ q7FsUw0JuLH3In2Y3dspPql90pf1QUTiQ4nYbD/8NIpamX40/307cR3cm6CvRmctQuZuTEW1e
+ Dv+hx8AfdJpdXiBYQzjXX7kisnesX5MFMMm8tYm1WQZkBMrjR8SXWVfs60GMi+i67+qO+Jz4r
+ TiNvAkpd+qzxHjAft+5jgpANvL5an2QZGO6NXH143VQxSsCJYkqjZk9t+UeWDwdAf5Dn5A5B3
+ IeN/ytjziyJpNEZyHuChrWk0EOiqSJBoQ9z+gf1fUwdeH+TAIplwyB2S0ed+i6qNcPLhuO+JC
+ ngRjYWWBuYo/HCZl0mzOejFOJNNMg5dgx6bdMJHWwgWKI5YRloWZ9TJcVsS0+Sc+LsRhzt7NW
+ +BjElegze83ITYcHKXaJJOCzZ9UR9nkO0dHLeicx5yoOgZH2Zp2T/rXIGuKVcwutYQOXHEa0K
+ 8R72cszXh2pL9iWWjbR28unUXaxFtY6qcQafEakZ1BMA+oKWH0c08d3LMdFvBNm2iSlu/CnDZ
+ 7QCxxTtV/MX5H7yHWguyIqLVqK/uqCdB5WCJsHRy50HmYuCdAJHWrcBKMRh6gTIUkRg0nqOE2
+ x8HElyANzHd+OET2gYOeYL1bs+89QQXr/zfAtCsslOQs6UfK1rJOcacBRiK543VVL5qVHzMfg
+ 3NUZKuueDBMGgPxRWHaOO65eN9rKZ1xzlrcy/AaG/wVOWK9i35LNLi+Fg9OhyT9QhjY6SoZYb
+ /u0Bfndw=
 
-On Mon, Dec 08, 2025 at 02:28:03PM -0600, Rob Herring wrote:
-> On Tue, Nov 25, 2025 at 08:15:12PM +0530, Manivannan Sadhasivam wrote:
-> > Add the devicetree binding for PCIe M.2 Mechanical Key E connector defined
-> > in the PCI Express M.2 Specification, r4.0, sec 5.1.2. This connector
-> > provides interfaces like PCIe or SDIO to attach the WiFi devices to the
-> > host machine, USB or UART+PCM interfaces to attach the Bluetooth (BT)
-> > devices along with additional interfaces like I2C for NFC solution. At any
-> > point of time, the connector can only support either PCIe or SDIO as the
-> > WiFi interface and USB or UART as the BT interface.
-> 
-> AFAICT, there's no muxing of interfaces. Maybe that's a defacto 
-> limitation on x86 systems? There's no reason to encode that into the 
-> binding if the pins aren't mux'ed on the connector.
-> 
+=E2=80=A6
+> Fix this by adding a free_tmp label and jumping to it when obj is NULL,
+> ensuring tmp is properly freed.
 
-Ok. If you prefer not to describe the MUX (if one exists outside of the
-connector) in the binding, then having one endpoint sounds reasonable.
+How do you think about to increase the application of scope-based resource=
+ management?
 
-You did raise this point in the other series, but the conversation was not
-concluded: https://lore.kernel.org/linux-pci/20251119235614.GA3566558-robh@kernel.org/
-
-> > 
-> > The connector provides a primary power supply of 3.3v, along with an
-> > optional 1.8v VIO supply for the Adapter I/O buffer circuitry operating at
-> > 1.8v sideband signaling.
-> > 
-> > The connector also supplies optional signals in the form of GPIOs for fine
-> > grained power management.
-> > 
-> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> > ---
-> >  .../bindings/connector/pcie-m2-e-connector.yaml    | 178 +++++++++++++++++++++
-> >  MAINTAINERS                                        |   1 +
-> >  2 files changed, 179 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/connector/pcie-m2-e-connector.yaml b/Documentation/devicetree/bindings/connector/pcie-m2-e-connector.yaml
-> > new file mode 100644
-> > index 000000000000..fe2c9a943a21
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/connector/pcie-m2-e-connector.yaml
-> > @@ -0,0 +1,178 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/connector/pcie-m2-e-connector.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: PCIe M.2 Mechanical Key E Connector
-> > +
-> > +maintainers:
-> > +  - Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> > +
-> > +description:
-> > +  A PCIe M.2 E connector node represents a physical PCIe M.2 Mechanical Key E
-> > +  connector. Mechanical Key E connectors are used to connect Wireless
-> > +  Connectivity devices including combinations of Wi-Fi, BT, NFC to the host
-> > +  machine over interfaces like PCIe/SDIO, USB/UART+PCM, and I2C.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: pcie-m2-e-connector
-> > +
-> > +  vpcie3v3-supply:
-> > +    description: A phandle to the regulator for 3.3v supply.
-> > +
-> > +  vpcie1v8-supply:
-> > +    description: A phandle to the regulator for VIO 1.8v supply.
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +    description: OF graph bindings modeling the interfaces exposed on the
-> > +      connector. Since a single connector can have multiple interfaces, every
-> > +      interface has an assigned OF graph port number as described below.
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: Connector interfaces for Wi-Fi
-> > +
-> > +        properties:
-> > +          endpoint@0:
-> > +            $ref: /schemas/graph.yaml#/properties/endpoint
-> > +            description: PCIe interface
-> > +
-> > +          endpoint@1:
-> > +            $ref: /schemas/graph.yaml#/properties/endpoint
-> > +            description: SDIO interface
-> > +
-> > +        anyOf:
-> > +          - required:
-> > +              - endpoint@0
-> > +          - required:
-> > +              - endpoint@1
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: Connector interfaces for BT
-> > +
-> > +        properties:
-> > +          endpoint@0:
-> > +            $ref: /schemas/graph.yaml#/properties/endpoint
-> > +            description: USB 2.0 interface
-> > +
-> > +          endpoint@1:
-> > +            $ref: /schemas/graph.yaml#/properties/endpoint
-> > +            description: UART interface
-> > +
-> > +        anyOf:
-> > +          - required:
-> > +              - endpoint@0
-> > +          - required:
-> > +              - endpoint@1
-> > +
-> > +      port@2:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: PCM/I2S interface
-> 
-> Does this work with any existing DAI bindings? Or conflict with the 
-> audio graph card binding?
-> 
-
-I haven't verified with any sound card, but it looks to be compatible with the
-existing audio graph card binding.
-
-> > +
-> > +      port@3:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: I2C interface
-> 
-> Like the other one, use i2c-parent.
-> 
-
-Ack.
-
-- Mani
-
--- 
-மணிவண்ணன் சதாசிவம்
+Regards,
+Markus
 
