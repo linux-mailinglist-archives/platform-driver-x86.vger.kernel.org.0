@@ -1,126 +1,98 @@
-Return-Path: <platform-driver-x86+bounces-16448-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16450-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A85FCE9B0C
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Dec 2025 13:40:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A13ACCE9B36
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Dec 2025 13:48:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C382B3016CD3
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Dec 2025 12:40:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2DB0E3010A89
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Dec 2025 12:48:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A84542F1FE9;
-	Tue, 30 Dec 2025 12:40:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A2D817A2F6;
+	Tue, 30 Dec 2025 12:47:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V5sR4vIi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h+VHvPKn"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654412F12D1;
-	Tue, 30 Dec 2025 12:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3AE18A6DB
+	for <platform-driver-x86@vger.kernel.org>; Tue, 30 Dec 2025 12:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767098443; cv=none; b=J05kA/NYB4Cxmjeovp54fzos+cxOmoUXBkZwuNfJA4Drg4YcZE+NGqGDfdIekD7HVDMIbdVJY699wU/dRN190PA/U179XKJ8HfJqnAmoZrpwreHIz6t0oi55n2RBcPu4RIWhTKtUCVtSLsx2g3y+Hvk33WFFAURIXN/C7J83014=
+	t=1767098879; cv=none; b=mJRIOGmdXjkKMNx6dGx81yDHFGuxe3UvLZ4HJn4PdAKORz60dB1GVCbYrdM7MHqSOgHdn+q0pRMTZm8H30aU/yeWZhJPNwSg5E900g/mbRDiDaWx8pvePuHzx2Os/nY2iHDTtxbriAdl5yV4uY/VaRcWRBM3MyF0veK41rwdY80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767098443; c=relaxed/simple;
-	bh=z+68Hjmns/ybdca/2x2LzXYXvz5wqPjazz3Jgajx3NI=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=G196KNSI8MDBvvTcbjLw7ahBtlN2F/1HM8oe+cyPeYAwWQE4eWJBHERiznvXiUFG/jH4ce0XkPVCD3RkDRkFOHdn5fPtLltQ2wCjjeiQPkn94JFTuiyaEXEW3eMPCFjwlC7EAfIkC9f5AdPOYUUUu+2Y6R/E0MreaDy4bD+PMKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V5sR4vIi; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1767098879; c=relaxed/simple;
+	bh=ajyHyDikxLKCeNBB92ciQ0J3DQRVJJqgmPnnGX7MVWw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GTpyT20HILQLgzldIwVmy0vLzkG/ssjsen5KhU73KbdAmIgJNyjKjqyT6s4o0kF+Eff7Byju6vcMSPBngxB6bbjHC9/zTQpWsEmFc3JyNqrSz+6cnn9l4sw5t5WurRqVLoisMNCPV++a7YGzf0iHQt+rx7kuIrJXJhOvRac4ieI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h+VHvPKn; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767098441; x=1798634441;
-  h=message-id:subject:from:to:date:in-reply-to:references:
-   content-transfer-encoding:mime-version;
-  bh=z+68Hjmns/ybdca/2x2LzXYXvz5wqPjazz3Jgajx3NI=;
-  b=V5sR4vIif3invp0/j/dyO75Be10j1unGdvfjbNCsv0Zd3ZmWFKQD0o1V
-   4gYiu4L7Xu1/BFaSQQ2jezqR3Pz+JJsTm1/KOID/hC3ePM6tyKgY+NY8O
-   jLJF50Pz0e+1Mh5B6R9A/0cVvAt84oJKAg33z4x4W6NDxqf5dem1kNXFk
-   J0q/6tQvYRYY3sSBL0zDLOwEXgNNldlyH8pAxfBzPWds1zW5HhLfO0myW
-   +r1iQn8jx/BaAD0B3JjPLckuwix6DtUFl7v0hYSTpHTYkQ1aCkTBUG4Sg
-   pc7lXT1B6uCmsK6fAhD0B/jFQ7OA9KLQ1qWNIIFHteZTxdQIH7CaC6WgZ
+  t=1767098878; x=1798634878;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ajyHyDikxLKCeNBB92ciQ0J3DQRVJJqgmPnnGX7MVWw=;
+  b=h+VHvPKnAdaEjDW3O2x/+qoVSY9BNimbs44Ogcc71GU+gaJfFWRjGabl
+   RdJJOdfsy+YzNrCRLq+epPSAKYOd0diaI6NeqoqK9kTghyM1UP3ZdmhXd
+   kv3hwROkxZ0pGMopKDIXGJdxwiBA253VCFJF0TOWdhgRhE+Zw5u54okfx
+   NgeTOocgXyFn9LXK4UCnDhWrAffwX9zQSIrYhftfSSzIMkDjACqhXZM26
+   9g+K/TwzZ0ql/R0Q+CGaNPCYwpek9p1hTqHhYB1kvrKIMQfRas0wWzJ6m
+   9AX7RAWeF6sEviT0PHoQFN7bFOHHK7BoRL2MJ1A0p2NFai/vovN5iFCnU
    Q==;
-X-CSE-ConnectionGUID: Ypo2mLCjSe+dkCI42hc78g==
-X-CSE-MsgGUID: qP+oH+ufT6yMFa2l8cNt8A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="56260773"
+X-CSE-ConnectionGUID: Xnk8NWkXQ1OLqn8GwDyqhQ==
+X-CSE-MsgGUID: iJAfD9dFS4uHvDD2ejaOnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="79319819"
 X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; 
-   d="scan'208";a="56260773"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 04:40:40 -0800
-X-CSE-ConnectionGUID: nXR8Ufm+Qoyba5PAVNGlww==
-X-CSE-MsgGUID: EfGoQukOStevi+kVptxE2w==
+   d="scan'208";a="79319819"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 04:47:57 -0800
+X-CSE-ConnectionGUID: o+mNNjvESqOA2a20wLImZw==
+X-CSE-MsgGUID: 8Wl/Nxn/QwelXt/ivPZWZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; 
-   d="scan'208";a="206086506"
-Received: from spandruv-mobl5.amr.corp.intel.com (HELO [10.124.221.54]) ([10.124.221.54])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 04:40:40 -0800
-Message-ID: <45cfb83557849d022b3b70f060c4702334f0ea8c.camel@linux.intel.com>
-Subject: Re: [PATCH] tools/power/x86/intel-speed-select: Use pkg-config for
- libnl-3.0 detection
-From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To: Khem Raj <raj.khem@gmail.com>, platform-driver-x86@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Tue, 30 Dec 2025 04:40:39 -0800
-In-Reply-To: <20251229204506.720353-1-raj.khem@gmail.com>
-References: <20251229204506.720353-1-raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+   d="scan'208";a="206266965"
+Received: from baandr0id001.iind.intel.com ([10.66.253.151])
+  by orviesa005.jf.intel.com with ESMTP; 30 Dec 2025 04:47:55 -0800
+From: Kaushlendra Kumar <kaushlendra.kumar@intel.com>
+To: srinivas.pandruvada@linux.intel.com,
+	hansg@kernel.org,
+	ilpo.jarvinen@linux.intel.com
+Cc: platform-driver-x86@vger.kernel.org,
+	Kaushlendra Kumar <kaushlendra.kumar@intel.com>
+Subject: [PATCH v2 0/2] platform/x86/intel/uncore-freq: String handling improvements
+Date: Tue, 30 Dec 2025 18:15:14 +0530
+Message-Id: <20251230124516.229125-1-kaushlendra.kumar@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2025-12-29 at 12:45 -0800, Khem Raj wrote:
-> Replace hardcoded libnl3 include path with pkg-config detection to
-> improve portability across different distributions and build
-> environments.
->=20
-> The previous implementation used a fixed path constructed from the
-> compiler's sysroot, which could fail on systems with non-standard
-> library installations. Now the build system:
-> - Attempts to detect libnl-3.0 include paths using pkg-config
-> - Falls back to /usr/include/libnl3 if pkg-config is unavailable
-> - Maintains backward compatibility with existing build configurations
->=20
-> This ensures the tool builds correctly on a wider range of systems
-> while preserving existing behavior when pkg-config is not present.
->=20
+This series replaces unsafe/deprecated string formatting functions in
+the Intel uncore frequency driver with their safer alternatives.
 
-Thanks for the patch. Will include as part of next PULL request.
+Patch 1 replaces sprintf() with scnprintf() in device name formatting
+to follow kernel best practices.
 
--Srinivas
+Patch 2 replaces sprintf() with sysfs_emit() in sysfs show functions
+for proper buffer bounds checking.
 
-> Closes:https://bugzilla.kernel.org/show_bug.cgi?id=3D220819
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> =C2=A0tools/power/x86/intel-speed-select/Makefile | 8 +++++++-
-> =C2=A01 file changed, 7 insertions(+), 1 deletion(-)
->=20
-> diff --git a/tools/power/x86/intel-speed-select/Makefile
-> b/tools/power/x86/intel-speed-select/Makefile
-> index 8d3a02a20f3d..6b299aae2ded 100644
-> --- a/tools/power/x86/intel-speed-select/Makefile
-> +++ b/tools/power/x86/intel-speed-select/Makefile
-> @@ -13,7 +13,13 @@ endif
-> =C2=A0# Do not use make's built-in rules
-> =C2=A0# (this improves performance and avoids hard-to-debug behaviour);
-> =C2=A0MAKEFLAGS +=3D -r
-> -override CFLAGS +=3D -O2 -Wall -g -D_GNU_SOURCE -I$(OUTPUT)include -
-> I$(shell $(CC) -print-sysroot)/usr/include/libnl3
-> +
-> +NL3_CFLAGS =3D $(shell pkg-config --cflags libnl-3.0 2>/dev/null)
-> +ifeq ($(NL3_CFLAGS),)
-> +NL3_CFLAGS =3D -I/usr/include/libnl3
-> +endif
-> +
-> +override CFLAGS +=3D -O2 -Wall -g -D_GNU_SOURCE -I$(OUTPUT)include
-> $(NL3_CFLAGS)
-> =C2=A0override LDFLAGS +=3D -lnl-genl-3 -lnl-3
-> =C2=A0
-> =C2=A0ALL_TARGETS :=3D intel-speed-select
+v2:
+ - Patch 1/2: Use scnprintf() per reviewer suggestion
+
+Kaushlendra Kumar (2):
+  platform/x86/intel/uncore-freq: Replace sprintf() with scnprintf()
+  platform/x86/intel/uncore-freq: Replace sprintf() with sysfs_emit()
+
+ .../uncore-frequency/uncore-frequency-common.c      | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+-- 
+2.34.1
+
 
