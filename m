@@ -1,91 +1,61 @@
-Return-Path: <platform-driver-x86+bounces-16516-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16518-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FBD4CF504F
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 05 Jan 2026 18:38:36 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D01E9CF6B24
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 06 Jan 2026 05:54:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9B79F305CD3F
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  5 Jan 2026 17:30:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 98AAC302D909
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  6 Jan 2026 04:54:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFB6E33DECE;
-	Mon,  5 Jan 2026 17:30:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C33A29ACF7;
+	Tue,  6 Jan 2026 04:54:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="fPSA72U2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0gp7TXz"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012042.outbound.protection.outlook.com [40.107.200.42])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD2B533D4FC;
-	Mon,  5 Jan 2026 17:30:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767634226; cv=fail; b=dGRlQ5QdZkn2//PvevhTmZwhD/1L2aJOr4dikF9BjHRk0qcx5ZDMLZxPm9vbYv9Rc3U6+c7ASq9IqbXmaU8OjvlJzruBqyHYNPhBvHfLpo8VEU9t3+k2LhNML7EBJkMCA1r423a5Ke4J+/ZU3SG49lxaCs+7ZbGYQxC+EzrAdpI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767634226; c=relaxed/simple;
-	bh=vkBXy8aIh7OI5ARPoUUE4FhxJC1IQCjBcaPfb8B2W7Y=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aTrRYFFH1CnmE/9s/KRWmILkD1/l9HtV88ts68rX/iyY3BZGfNH6jyhDCF/BfIgp3zkC4m2fUOQHsV9TW+eAiwra/ovBxyJwi8aOrcNNGym78tmpHzan7SIE84dEJ6faoN1HIzf35NzFGnj7tF50zPqu9NBirhXbkL6ieL/fQFM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=fPSA72U2; arc=fail smtp.client-ip=40.107.200.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JYeN2Ycw2M5oc4m2sxgUo3UhPuERu8TT8fNFo6MSwuB3NLs3q4Rz4YWyXDHffl9BQ9X52cN9ytCxrTcI64A3awkflVyZDkq22hKkpineS4R8contV9S8O1vav9T+GlzmwWGpLYr+fjO4AfZa/k/b9IRYwNsmQEQsZ5isbyTDZeMapFjg7v+S5Ye1rOxDf7gSZki52a2ZBT5X1tTLoeyc/NkfcYZhLTY2F/FVp7k6C1/ZJVLIjxguSfKTn4oHFYCHxH15CEPT9a98ppo+LBILJgGcVzqXKKQn+jaF8DP/A6tdrpkzoOU4342p2AGa1P/CEJoKlVfAqdy64y3lkuSGPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1CeKbXscoyOKJY4pSNOMSKDZR8whD3MzQEcp0DuFtYg=;
- b=WDNkHaaEqgDonAcaooWyDHK3XyEcy5SWqGs10AZqIGVPmraBhQqJ8yQAoa6AxPvmfGekLCFJwweYHfydc1BDlMuyisdB9Cw6U+8KGjyj6QSg8lxyDAEgy6ikhBhB/tZK9/qzkxImcD8iFzgWWejuxiE8PA+haozQrCh1IMk8bzcYtrEN2NcoQ2PGm7Mt5kB+mUkyyBEZZ4mPPvGOYziR2FPb1jz0t9vjcdvihcxL9h1QMcVtKLykn60rTPPoNWlXNHxQyInvkudnTWyvS3Eviv4ZXpBBBJARjIi0dq/pMHIDd143KqCbrLU04LlrtpLtiIqNagbiUUfkHFmC/IW0Qw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1CeKbXscoyOKJY4pSNOMSKDZR8whD3MzQEcp0DuFtYg=;
- b=fPSA72U2za7Kodo9Rk/ktkOLxdmMqRAxK6+N0WHMny2lsg3keS/Hn0/NyJo05e4JwMvErpIZJRW7gT+EPj/3Re8bPmtMTeezCS+XqJQ536Vo2AgaA/HrNct4DO23XYUU7cPVsrA4pe9udnBtPwps5TwUfE/tGODan+Z5eVjeclo=
-Received: from MW4PR04CA0131.namprd04.prod.outlook.com (2603:10b6:303:84::16)
- by PH7PR12MB6834.namprd12.prod.outlook.com (2603:10b6:510:1b4::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Mon, 5 Jan
- 2026 17:30:18 +0000
-Received: from CO1PEPF000044FA.namprd21.prod.outlook.com
- (2603:10b6:303:84:cafe::53) by MW4PR04CA0131.outlook.office365.com
- (2603:10b6:303:84::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9478.4 via Frontend Transport; Mon, 5
- Jan 2026 17:30:16 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CO1PEPF000044FA.mail.protection.outlook.com (10.167.241.200) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9520.0 via Frontend Transport; Mon, 5 Jan 2026 17:30:17 +0000
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 5 Jan
- 2026 11:30:09 -0600
-Received: from xsjlizhih51.xilinx.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Mon, 5 Jan 2026 09:30:08 -0800
-From: Lizhi Hou <lizhi.hou@amd.com>
-To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
-	<maciej.falkowski@linux.intel.com>, <ilpo.jarvinen@linux.intel.com>,
-	<hansg@kernel.org>
-CC: Lizhi Hou <lizhi.hou@amd.com>, <dri-devel@lists.freedesktop.org>,
-	<linux-kernel@vger.kernel.org>, <max.zhen@amd.com>, <sonal.santan@amd.com>,
-	<mario.limonciello@amd.com>, <platform-driver-x86@vger.kernel.org>,
-	<Shyam-sundar.S-k@amd.com>, <VinitKumar.Shukla@amd.com>, Mario Limonciello
-	<superm1@kernel.org>
-Subject: [PATCH V3 2/2] accel/amdxdna: Add IOCTL to retrieve realtime NPU power estimate
-Date: Mon, 5 Jan 2026 09:29:56 -0800
-Message-ID: <20260105172956.3732123-3-lizhi.hou@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260105172956.3732123-1-lizhi.hou@amd.com>
-References: <20260105172956.3732123-1-lizhi.hou@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30BF51B4244;
+	Tue,  6 Jan 2026 04:54:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767675282; cv=none; b=ZGVLnFzPuWTBqBu4ecgkBo/eHth+p3WZsbcjhHOZbiG1USx7mSwbt3JbthMFQWWtRYM8FK+3bNZjyLAjWtf0EEKwYlnW0Q8y4aWwAMsf+8D+92OIJMytfV2xJ+4MBBIwxl8A9GCQ8EFz+Fbyr2yc1B6FYiM7ZTw3NbYGUDXWcKA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767675282; c=relaxed/simple;
+	bh=NUp1BqF5K1T32b9heXyb92Y9SNKgE8RV9k8D4IlBt+0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Bm0k74pO3b+HQnUdTBrz6ER2DklWI/noh0pXx4vhy5rLsl2F74krGp+Cv2BL137eO/80KZXQ0/YIEXGbxjw9bA/O2MfqhuktPGSecKPIRwxlEH2MWXZKM0LmeZmL6MvPFwW+jCx0poBCSWrnzN226D88FzDzg4P3FLYFrWHM3jE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0gp7TXz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54406C116C6;
+	Tue,  6 Jan 2026 04:54:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767675281;
+	bh=NUp1BqF5K1T32b9heXyb92Y9SNKgE8RV9k8D4IlBt+0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=S0gp7TXz7fQJSb4yWro0RMVV7jWNBpWr85BoqpE93/k7HWQyC2FtNEDPhyOuHSAqY
+	 LtsY9jMygcq5kjPualPx+8pPnnQHrwF29R6rpwYtAQKb+GFZXyXqj1FJCP+GFzkq7Q
+	 iBZWDE8P6sAqv5HNY1tfmTMEbbwC5ir2GvgQwRxrLZIptVy1dEfKPa6eXMEK5dNlJp
+	 XrNXEO1i1E22AJYBriof2Zk+T1SnUbN4Zoz7c4heZKL4HSE9kzyhcVIR3QuaFCqAo0
+	 UrctpW5LIStgeRCAfdYsQQRJNKtqsWTT/Ca/CbM1GVxznNlVMThjnoAG0GShu5xC8i
+	 YhlXJ1O22G3qA==
+From: "Mario Limonciello (AMD)" <superm1@kernel.org>
+To: Tom Lendacky <thomas.lendacky@amd.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Rijo Thomas <Rijo-john.Thomas@amd.com>
+Cc: John Allen <john.allen@amd.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Hans de Goede <hansg@kernel.org>,
+	linux-crypto@vger.kernel.org (open list:AMD CRYPTOGRAPHIC COPROCESSOR (CCP) DRIVER),
+	platform-driver-x86@vger.kernel.org (open list:AMD PMF DRIVER),
+	Lars Francke <lars.francke@gmail.com>,
+	Yijun Shen <Yijun.Shen@dell.com>,
+	"Mario Limonciello (AMD)" <superm1@kernel.org>
+Subject: [PATCH v4 0/5] Fixes for PMF and CCP drivers after S4
+Date: Mon,  5 Jan 2026 22:54:18 -0600
+Message-ID: <20260106045423.55190-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -93,180 +63,38 @@ List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044FA:EE_|PH7PR12MB6834:EE_
-X-MS-Office365-Filtering-Correlation-Id: d15906cd-b725-4b1f-090e-08de4c80184a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?gRGCxTsYtvhXZs22MkeUti8IX8znkxoLEcD8+5GjCWGKi8QNLVW55NtCxJJa?=
- =?us-ascii?Q?45tt/QVDpY2RiQy00NhJdbgrfV+DiNXtbjKtwC2C4CYEtlBhV8jmcB7tcVrv?=
- =?us-ascii?Q?0TebKijUvhqUp0fMZ3zMpcTblBsyJohNQQgAx0i3OIxE0+8Z5ueUdPkUXLxw?=
- =?us-ascii?Q?q9qsXNQEh2BGvM4yl4hsbOYhtY59WfxpII4ufnFYBZT66Sxi8JOx3M++8W7a?=
- =?us-ascii?Q?uRTPLXflC6J3vftxvP+LybBsX+GGQuQxtz2tIw9cEPngfD0CkXZAZ6kyk0nh?=
- =?us-ascii?Q?uqlJm5X2kgIryKvvOg6jl43Kg77DC0ZpJLND6MI+qG9ZD0j1gOsqgfOPq01A?=
- =?us-ascii?Q?k828/IGIkzRzcCOcskbsnZjrw3xUOSuu0gOJVgmpC+E01mEQNC1RkZwsGGKG?=
- =?us-ascii?Q?k/5/IMeuXAfYMDZrIbL1xAYb0cSqHWyibtyeZ8HU46i4PyFCQuOyM9lXEBYf?=
- =?us-ascii?Q?lqIf6swig67yuKe6uJRUDnnwm3iJEQCXacjOCYUxVgcAcihJIa0blE2hzBcL?=
- =?us-ascii?Q?599XNgihJoAgHDPpmDv+xrx0x+ZxLNKpTmONKtlVOGRjQGzS1deMv2kncPtR?=
- =?us-ascii?Q?5bUe3oXl60n6RMMxV/DSaCVtDgtVpkcnbtvPsfGiUUOjdnHuFYZxhYfr1ncF?=
- =?us-ascii?Q?C1cholxJWAuE9Wn69bKRPujcBvQ9jbKGoyC/pVCd5L2oHNE4WZ1Fl6gGLZc5?=
- =?us-ascii?Q?v9NmTQQIbA74v9W2q1DfHUnzHVFy6aWnNdu/q6dX9k3/KUvVIOMlPQmNPNJa?=
- =?us-ascii?Q?o8BZ2ttCG1h93Kh3cqG8NT4G9erKbcEv+ada5XSnsQoy/PxaKGaA4+jBRiwC?=
- =?us-ascii?Q?B6hyeGdlVMRkx9be8mYq1dRALy1NvsNvKnwRIgdKgvN6wjTwbRaOnOE3aCbj?=
- =?us-ascii?Q?SAJelETV9P2JpYYb4oRQPF13CEbazjwHNc9UxRpqFJCEMlsx9YQOZbOrGiz5?=
- =?us-ascii?Q?/AD00aiOZTbiuHKMlXWakD/OOd0ph6UbAWMIKSUVNh1Xbhs6tgEgJgmgg3Iu?=
- =?us-ascii?Q?G2PZDrCVfa0Iiqz3ogL9zV92DYma8swA3yurZmMU4+PEcTzFOZp6VgK/8b0e?=
- =?us-ascii?Q?8JFtOPkCHBvgKs/Xa9g8pp13Ua/RODlO9CNGhD8KRKMudl8IZhfSREfeLUaC?=
- =?us-ascii?Q?8bBOZ/L6adN92t0x3n0MpLq+2f3Fr+8pVS60qAvSMvsC8QOpdmwLKUwj+vKf?=
- =?us-ascii?Q?/rVpcPu11zp2ExQ2kGB8jXsdnjCAGcqYrBQm9tzM8jWhaoiEjB4rqNDKnq+X?=
- =?us-ascii?Q?9yWAmri+0BcbT1N8MqHXbdHXMYSoRzWR6/cO1Nxl9oCKsHbmiKAX0YX6bSrU?=
- =?us-ascii?Q?kobNaVf3OKe7+WM2mHrfdspSXv2TmxfPgPotwLaMot8DXg8tiL8vcRjKYCTp?=
- =?us-ascii?Q?bSeG18PFsRoU9oeGDDTC3vvMjbGbAxhtjnZSVddtwzHmkbCBeCHhpsS8SukU?=
- =?us-ascii?Q?nXxyQPoX/7aBQUBLDy+NchfQ6Gw8KyCWxtG0U2YaCvlpfL1E7hEXvVNvaKX1?=
- =?us-ascii?Q?mS87S40GT52ZNkP5hPuNicMRTORE8BoxRZkIDYiIlFhpQ5nx7YUeskcBS6Rt?=
- =?us-ascii?Q?du52OOB3LZxBhxzX0rM=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2026 17:30:17.9455
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d15906cd-b725-4b1f-090e-08de4c80184a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CO1PEPF000044FA.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6834
 
-The AMD PMF driver provides an interface to obtain realtime power
-estimates for the NPU. Expose this information to userspace through a
-new DRM_IOCTL_AMDXDNA_GET_INFO parameter, allowing applications to query
-the current NPU power level.
+Lars Francke reported that the PMF driver fails to work afer S4 with:
+  ccp 0000:c3:00.2: tee: command 0x5 timed out, disabling PSP
 
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-Reviewed-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
----
- drivers/accel/amdxdna/aie2_pci.c        | 29 +++++++++++++++++++++++++
- drivers/accel/amdxdna/aie2_pci.h        | 20 +++++++++++++++++
- drivers/accel/amdxdna/amdxdna_pci_drv.c |  3 ++-
- 3 files changed, 51 insertions(+), 1 deletion(-)
+This is because there is a TA loaded to the TEE environment that
+is lost during S4.  The TEE rings need to be reinitialized and the
+TA needs to be reloaded.
 
-diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
-index 81a8e4137bfd..55fbc8f0f455 100644
---- a/drivers/accel/amdxdna/aie2_pci.c
-+++ b/drivers/accel/amdxdna/aie2_pci.c
-@@ -10,6 +10,7 @@
- #include <drm/drm_managed.h>
- #include <drm/drm_print.h>
- #include <drm/gpu_scheduler.h>
-+#include <linux/amd-pmf-io.h>
- #include <linux/cleanup.h>
- #include <linux/errno.h>
- #include <linux/firmware.h>
-@@ -777,6 +778,31 @@ static int aie2_get_clock_metadata(struct amdxdna_client *client,
- 	return ret;
- }
- 
-+static int aie2_get_sensors(struct amdxdna_client *client,
-+			    struct amdxdna_drm_get_info *args)
-+{
-+	struct amdxdna_drm_query_sensor sensor = {};
-+	int ret;
-+
-+	if (args->buffer_size < sizeof(sensor))
-+		return -EINVAL;
-+
-+	ret = AIE2_GET_PMF_NPU_DATA(npu_power, sensor.input);
-+	if (ret)
-+		return ret;
-+	sensor.type = AMDXDNA_SENSOR_TYPE_POWER;
-+	sensor.unitm = -3;
-+	scnprintf(sensor.label, sizeof(sensor.label), "Total Power");
-+	scnprintf(sensor.units, sizeof(sensor.units), "mW");
-+
-+	if (copy_to_user(u64_to_user_ptr(args->buffer), &sensor, sizeof(sensor)))
-+		return -EFAULT;
-+
-+	args->buffer_size = sizeof(sensor);
-+
-+	return 0;
-+}
-+
- static int aie2_hwctx_status_cb(struct amdxdna_hwctx *hwctx, void *arg)
- {
- 	struct amdxdna_drm_hwctx_entry *tmp __free(kfree) = NULL;
-@@ -980,6 +1006,9 @@ static int aie2_get_info(struct amdxdna_client *client, struct amdxdna_drm_get_i
- 	case DRM_AMDXDNA_QUERY_CLOCK_METADATA:
- 		ret = aie2_get_clock_metadata(client, args);
- 		break;
-+	case DRM_AMDXDNA_QUERY_SENSORS:
-+		ret = aie2_get_sensors(client, args);
-+		break;
- 	case DRM_AMDXDNA_QUERY_HW_CONTEXTS:
- 		ret = aie2_get_hwctx_status(client, args);
- 		break;
-diff --git a/drivers/accel/amdxdna/aie2_pci.h b/drivers/accel/amdxdna/aie2_pci.h
-index a929fa98a121..08122c249009 100644
---- a/drivers/accel/amdxdna/aie2_pci.h
-+++ b/drivers/accel/amdxdna/aie2_pci.h
-@@ -7,6 +7,7 @@
- #define _AIE2_PCI_H_
- 
- #include <drm/amdxdna_accel.h>
-+#include <linux/limits.h>
- #include <linux/semaphore.h>
- 
- #include "amdxdna_mailbox.h"
-@@ -46,6 +47,25 @@
- 	pci_resource_len(NDEV2PDEV(_ndev), (_ndev)->xdna->dev_info->mbox_bar); \
- })
- 
-+#if IS_ENABLED(CONFIG_AMD_PMF)
-+#define AIE2_GET_PMF_NPU_DATA(field, val)				\
-+({									\
-+	struct amd_pmf_npu_metrics _npu_metrics;			\
-+	int _ret;							\
-+									\
-+	_ret = amd_pmf_get_npu_data(&_npu_metrics);			\
-+	val = _ret ? U32_MAX : _npu_metrics.field;			\
-+	(_ret);								\
-+})
-+#else
-+#define SENSOR_DEFAULT_npu_power	U32_MAX
-+#define AIE2_GET_PMF_NPU_DATA(field, val)				\
-+({									\
-+	val = SENSOR_DEFAULT_##field;					\
-+	(-EOPNOTSUPP);							\
-+})
-+#endif
-+
- enum aie2_smu_reg_idx {
- 	SMU_CMD_REG = 0,
- 	SMU_ARG_REG,
-diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c b/drivers/accel/amdxdna/amdxdna_pci_drv.c
-index 7d59764d7869..053f72a31a5f 100644
---- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
-+++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
-@@ -32,9 +32,10 @@ MODULE_FIRMWARE("amdnpu/17f0_20/npu.sbin");
-  * 0.4: Support getting resource information
-  * 0.5: Support getting telemetry data
-  * 0.6: Support preemption
-+ * 0.7: Support getting power data
-  */
- #define AMDXDNA_DRIVER_MAJOR		0
--#define AMDXDNA_DRIVER_MINOR		6
-+#define AMDXDNA_DRIVER_MINOR		7
- 
- /*
-  * Bind the driver base on (vendor_id, device_id) pair and later use the
+This series adds those flows to the PMF and CCP drivers.
+
+Mario Limonciello (AMD) (4):
+  crypto: ccp - Declare PSP dead if PSP_CMD_TEE_RING_INIT fails
+  crypto: ccp - Add an S4 restore flow
+  crypto: ccp - Factor out ring destroy handling to a helper
+  crypto: ccp - Send PSP_CMD_TEE_RING_DESTROY when PSP_CMD_TEE_RING_INIT
+    fails
+
+Shyam Sundar S K (1):
+  platform/x86/amd/pmf: Prevent TEE errors after hibernate
+
+ drivers/crypto/ccp/psp-dev.c          | 11 +++++
+ drivers/crypto/ccp/sp-dev.h           |  2 +
+ drivers/crypto/ccp/sp-pci.c           | 24 ++++++++++-
+ drivers/crypto/ccp/tee-dev.c          | 54 +++++++++++++++++------
+ drivers/crypto/ccp/tee-dev.h          |  1 +
+ drivers/platform/x86/amd/pmf/core.c   | 62 ++++++++++++++++++++++++++-
+ drivers/platform/x86/amd/pmf/pmf.h    | 10 +++++
+ drivers/platform/x86/amd/pmf/tee-if.c | 12 ++----
+ include/linux/psp.h                   |  1 +
+ 9 files changed, 154 insertions(+), 23 deletions(-)
+
 -- 
-2.34.1
+2.43.0
 
 
