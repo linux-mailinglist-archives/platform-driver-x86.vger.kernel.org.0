@@ -1,502 +1,264 @@
-Return-Path: <platform-driver-x86+bounces-16631-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16633-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10384D0C604
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 09 Jan 2026 22:48:07 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D44D3D0D0F9
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 10 Jan 2026 07:57:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 97DEE30123D4
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  9 Jan 2026 21:47:30 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A793E3023500
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 10 Jan 2026 06:57:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE84133EB0E;
-	Fri,  9 Jan 2026 21:47:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39EE5346772;
+	Sat, 10 Jan 2026 06:57:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="l+KpN+Ii"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uKisoEgG"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6765833EB0B;
-	Fri,  9 Jan 2026 21:47:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53EA3126B6;
+	Sat, 10 Jan 2026 06:57:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767995234; cv=none; b=DZLigNuu3CQQaQV2ihMjRmxDSC0ZOp8H4jjsSONYqrw8SKYSAaLmnqNp2wEVZmlF/yE1tPuSIQBeUeP800f78XFUGsjVLK9TKE1vEXyZqYZQNgvTHCzJCFRN+CLzmVtlGujxoCsSEOc9Pwlrnt71/eLfbrZVgIvbisPfwkDuAFg=
+	t=1768028226; cv=none; b=tfectDwtglI55m0uczqz6QOkOgISXTskHIEwX4v0/2xtz4TA1ZdrcwS6pa+isFE0HndUYBjrx611W+zeTr/S6erD3r/lM+Dx19NzjB1lw+raqntxz5OWh6l7yAyDGJKw9V6lATlzGad+dzWulQkLPU1SXVpn4yc6dMa/R0XVqgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767995234; c=relaxed/simple;
-	bh=8MWKvLKrIhwESL6K2lYU1hcXZLjKr62HLpiR+lptuBw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gsFZ5kPD9tnjBgyY6JsjWABnVRfXgcEpMZgnkqYyBR0TVeZWupAPmaXuw4rSHakGghtgigteDIzQh+arsFRSDwvpdf5E5xXLzfju32rPYCZMMsLdlycbNXJes1+EjmO0JzVobCv4k5tVXhv61XteESyj6SJCsYnrxFlikQW3m40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=l+KpN+Ii; arc=none smtp.client-ip=212.227.15.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1767995216; x=1768600016; i=w_armin@gmx.de;
-	bh=WUXnniPV7qpv2Ba8+v4zPdnBdenui6dm7evYQTvUE04=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=l+KpN+Ii8IlLP5/WTpvWBmAGsQuqdtxch7ioy6JZwaxjFw94XFXQeSXtNFEuwDwU
-	 jQthJN3IZ9YwTxJuD+XGGIHYCUC3mlOSyyubKIpwXjdAnsUC6GwgxXbe2bMs2hHB8
-	 50SAT+N0lVlYEdQpa3k83bGgDu5TE1rtEUcVizTHZWyJBjaUr03tvC9zmhudoVz+S
-	 U9sg2Wx1gV4/rFMhGrLzA6M7iSt3DFaxd8CAKMOUejPl1ovfFHuPg8CaHPGq19jiJ
-	 XSeSbYVDF1OdPJ76YvGCyVEGQIrXg8X5mZ4tImPSxCtJIQWts7HeVnHNVUMagSqC2
-	 0/9OFsMOiw2vxz2VJA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from mx-amd-b650.fritz.box ([93.202.247.91]) by mail.gmx.net
- (mrgmx004 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 1MhD2O-1wIap33zNa-00acFO; Fri, 09 Jan 2026 22:46:56 +0100
-From: Armin Wolf <W_Armin@gmx.de>
-To: hansg@kernel.org,
-	ilpo.jarvinen@linux.intel.com
-Cc: platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux@weissschuh.net,
-	Dell.Client.Kernel@dell.com,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v3 9/9] platform/wmi: Update driver development guide
-Date: Fri,  9 Jan 2026 22:46:19 +0100
-Message-Id: <20260109214619.7289-10-W_Armin@gmx.de>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20260109214619.7289-1-W_Armin@gmx.de>
-References: <20260109214619.7289-1-W_Armin@gmx.de>
+	s=arc-20240116; t=1768028226; c=relaxed/simple;
+	bh=/lmr5R1V4hK43zv0BnO4dkyfmN+kPBiDyJMM/7lu7/A=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ZTyJShxkrHtdZLKv5x78tsNyNZXzO+YmBxAa1hISelSr4jhe81UzwIN9wPB/Hxbo2srdZ8EQpbDiWqsN/d6jOz+01KTe4KeRE/zpOWPchbdbX+8+UAg6Y+xlstHl+uhe8ZyZl57hfV1xwgMpbKd6dZRzZare/VFRQ5qa39U46q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uKisoEgG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 60FC9C4CEF1;
+	Sat, 10 Jan 2026 06:57:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768028225;
+	bh=/lmr5R1V4hK43zv0BnO4dkyfmN+kPBiDyJMM/7lu7/A=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=uKisoEgGZr/3dnP17aPbaV1hkKQn2COhxnxX4706deUOcDzjNfEKIF5SsEgAVtS5d
+	 WpsT+M/iqtnvS2A8UaTky4jTd/8fe7OanYVCaYcZqKjHZVzlqZ8UPCpg6ChxSx+WQ4
+	 3oA1q7ewaJH2zsEkWd4bkRhvaCxEly/xNc7AjVmuNm8nUnz25PO1QE3QY6DDDf2M2a
+	 xHV51vs94Cuy+XpfuXFJbrt5IN628yikvKKTCCOIRKQWHyeOgNBxQ2LEJ2jyrNEh9f
+	 6GPYwB6fFy2MW6jVATg0pyjHHq7KvQ9C/zwUWASzzCR7sbHdJkWKq6JUsiUEMoLTVD
+	 3MscD5+w0dRRw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 481C1D277C2;
+	Sat, 10 Jan 2026 06:57:05 +0000 (UTC)
+From: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org>
+Subject: [PATCH v3 00/14] Add support for handling PCIe M.2 Key E
+ connectors in devicetree
+Date: Sat, 10 Jan 2026 12:26:18 +0530
+Message-Id: <20260110-pci-m2-e-v3-0-4faee7d0d5ae@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:AdfT4ZPeZwpJTel+dKwH+rXSZSKFIbQBTUMN/PBXO+qIa4moNIh
- BBdXiQGPPF3UWlKpIW1HQpmr5WL30QJxijHcRUrKhihzjd2zLuB/Wd3eYkcU1pq1689qfil
- at+JEa6MWbcI7lN5UxYImi530AvO2Cd6rIqixoz8j+2a2K6wjO2S+AlB24BCntlcgdpRgBX
- SN5No4cPOU713t2crGTGg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:q97V7ShoVhA=;l+hv2T/G3DTXJoYX7vFf8XLjtJy
- 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
- NX/jltNxTqy3hmmzk2wrr63iuVfnR
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABL4YWkC/22PzY7CMAyEX6XKGVeNm6Q/J94DcQipWSJRCnGJd
+ oV493XLBe1ysTSW5/PMQzGlSKz64qES5chxuoioN4UKJ3/5IoiDaIUVWq01wjVEGBEIOuM660M
+ 3ONsoOb8mOsbvFbXbiz5Fnqf0s5KzXrYfIFlDBV1jdD24w7FFs52Yy9vdn8M0jqUMtbAyvvnRv
+ vlR/DW26AaqmhDsB//zFS7R7S715ldCNRKzX+v1xV9uroUaLLaVQU/eNP+pwjx4JlgWce6L7Er
+ dQgpa/j1/ATUWXx5WAQAA
+X-Change-ID: 20251112-pci-m2-e-94695ac9d657
+To: Rob Herring <robh@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nicolas.schier@linux.dev>, Hans de Goede <hansg@kernel.org>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Mark Pearson <mpearson-lenovo@squebb.ca>, 
+ "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+ Manivannan Sadhasivam <mani@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Marcel Holtmann <marcel@holtmann.org>, 
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Daniel Scally <djrscally@gmail.com>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Bartosz Golaszewski <brgl@kernel.org>
+Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+ linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
+ linux-pm@vger.kernel.org, Stephan Gerhold <stephan.gerhold@linaro.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ linux-acpi@vger.kernel.org, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+ Sui Jingfeng <sui.jingfeng@linux.dev>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7267;
+ i=manivannan.sadhasivam@oss.qualcomm.com; h=from:subject:message-id;
+ bh=/lmr5R1V4hK43zv0BnO4dkyfmN+kPBiDyJMM/7lu7/A=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBpYfg3x6ypVlkBQJwmswe2FXMz7G7MGJ1fDpFln
+ 1pFCH7X1TiJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCaWH4NwAKCRBVnxHm/pHO
+ 9VtWB/4naD0ChYSkykbh0J0iwlyz5udE3fk8jhSBChLmrtWJLfi2jntQOHRi08EqMhbLvTqMzpK
+ GZiH2UeTTs3vUPilgQewA7LdK4uJjupNGeGx5LI8gHj63Zxdu46vl/Vi8M+nrTsQQ9gVVzKrsxL
+ NZIVGd1NblOCf7qa0p8xiHJ02fVWISndBgUoEKABCZZ3Ifqw+skTjEvnDNt+d5hM8rQI0ffeaZT
+ xarDVP5JWAd2lcnzo1k5bMZkjIt7ZB2mVVyQbPG8zyIiDbS3vnH/opbGo2m9EOohLQshlR7CiJ5
+ nVT1ILMw5/wPBTf7ocB+WrgoZKbn8PngWEGplUdTj7df/liT
+X-Developer-Key: i=manivannan.sadhasivam@oss.qualcomm.com; a=openpgp;
+ fpr=C668AEC3C3188E4C611465E7488550E901166008
+X-Endpoint-Received: by B4 Relay for
+ manivannan.sadhasivam@oss.qualcomm.com/default with auth_id=461
+X-Original-From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+Reply-To: manivannan.sadhasivam@oss.qualcomm.com
 
-New WMI drivers should use the new buffer-based WMI API instead of
-the deprecated ACPI-based API. Update the driver development guide
-to recommend the buffer-based API to driver developers and explain
-the purpose of struct wmi_buffer.
+Hi,
 
-Also update the ACPI interface documentation to describe the
-conversion rules for converting ACPI objects into WMI buffers.
+This series is the continuation of the series [1] that added the initial support
+for the PCIe M.2 connectors. This series extends it by adding support for Key E
+connectors. These connectors are used to connect the Wireless Connectivity
+devices such as WiFi, BT, NFC and GNSS devices to the host machine over
+interfaces such as PCIe/SDIO, USB/UART and NFC. This series adds support for
+connectors that expose PCIe interface for WiFi and UART interface for BT. Other
+interfaces are left for future improvements.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-=2D--
- Documentation/wmi/acpi-interface.rst          | 68 +++++++++++++++++
- .../wmi/driver-development-guide.rst          | 76 +++++++++++++------
- 2 files changed, 121 insertions(+), 23 deletions(-)
+Serdev device support for BT
+============================
 
-diff --git a/Documentation/wmi/acpi-interface.rst b/Documentation/wmi/acpi=
--interface.rst
-index 1ef003b033bf..4657101c528a 100644
-=2D-- a/Documentation/wmi/acpi-interface.rst
-+++ b/Documentation/wmi/acpi-interface.rst
-@@ -104,3 +104,71 @@ holding the notification ID of the event. This method=
- should be evaluated every
- time an ACPI notification is received, since some ACPI implementations us=
-e a
- queue to store WMI event data items. This queue will overflow after a cou=
-ple
- of WMI events are received without retrieving the associated WMI event da=
-ta.
-+
-+Conversion rules for ACPI data types
-+------------------------------------
-+
-+Consumers of the ACPI-WMI interface use binary buffers to exchange data w=
-ith the WMI driver core,
-+with the internal structure of the buffer being only know to the consumer=
-s. The WMI driver core is
-+thus responsible for converting the data inside the buffer into an approp=
-riate ACPI data type for
-+consumption by the ACPI firmware. Additionally, any data returned by the =
-various ACPI methods needs
-+to be converted back into a binary buffer.
-+
-+The layout of said buffers is defined by the MOF description of the WMI m=
-ethod or data block in
-+question [1]_:
-+
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D
-+Data Type       Layout                                                   =
-               Alignment
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D
-+``string``      Starts with an unsigned 16-bit little endian integer spec=
-ifying         2 bytes
-+                the length of the string data in bytes, followed by the s=
-tring data
-+                encoded as UTF-16LE with **optional** NULL termination an=
-d padding.
-+                Keep in mind that some firmware implementations might dep=
-end on the
-+                terminating NULL character to be present. Also the paddin=
-g should
-+                always be performed with NULL characters.
-+``boolean``     Single byte where 0 means ``false`` and nonzero means ``t=
-rue``.         1 byte
-+``sint8``       Signed 8-bit integer.                                    =
-               1 byte
-+``uint8``       Unsigned 8-bit integer.                                  =
-               1 byte
-+``sint16``      Signed 16-bit little endian integer.                     =
-               2 bytes
-+``uint16``      Unsigned 16-bit little endian integer.                   =
-               2 bytes
-+``sint32``      Signed 32-bit little endian integer.                     =
-               4 bytes
-+``uint32``      Unsigned 32-bit little endian integer.                   =
-               4 bytes
-+``sint64``      Signed 64-bit little endian integer.                     =
-               8 bytes
-+``uint64``      Unsigned 64-bit little endian integer.                   =
-               8 bytes
-+``datetime``    A fixed-length 25-character UTF-16LE string with the form=
-at             2 bytes
-+                *yyyymmddhhmmss.mmmmmmsutc* where *yyyy* is the 4-digit y=
-ear, *mm* is
-+                the 2-digit month, *dd* is the 2-digit day, *hh* is the 2=
--digit hour
-+                based on a 24-hour clock, *mm* is the 2-digit minute, *ss=
-* is the
-+                2-digit second, *mmmmmm* is the 6-digit microsecond, *s* =
-is a plus or
-+                minus character depending on whether *utc* is a positive =
-or negative
-+                offset from UTC (or a colon if the date is an interval). =
-Unpopulated
-+                fields should be filled with asterisks.
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Arrays should be aligned based on the alignment of their base type, while=
- objects should be
-+aligned based on the largest alignment of an element inside them.
-+
-+All buffers returned by the WMI driver core are 8-byte aligned. When conv=
-erting ACPI data types
-+into such buffers the following conversion rules apply:
-+
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-+ACPI Data Type  Converted into
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-+Buffer          Copied as-is.
-+Integer         Converted into a ``uint32``.
-+String          Converted into a ``string`` with a terminating NULL chara=
-cter
-+                to match the behavior the of the Windows driver.
-+Package         Each element inside the package is converted with alignme=
-nt
-+                of the resulting data types being respected. Nested packa=
-ges
-+                are not allowed.
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-+
-+The Windows driver does attempt to handle nested packages, but this resul=
-ts in internal data
-+structures (``_ACPI_METHOD_ARGUMENT_V1``) erroneously being copied into t=
-he resulting buffer.
-+ACPI firmware implementations should thus not return nested packages from=
- ACPI methods
-+associated with the ACPI-WMI interface.
-+
-+References
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+.. [1] https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/=
-driver-defined-wmi-data-items
-diff --git a/Documentation/wmi/driver-development-guide.rst b/Documentatio=
-n/wmi/driver-development-guide.rst
-index 5680303ae314..fbc2d9b12fe9 100644
-=2D-- a/Documentation/wmi/driver-development-guide.rst
-+++ b/Documentation/wmi/driver-development-guide.rst
-@@ -70,7 +70,7 @@ to matching WMI devices using a struct wmi_device_id tab=
-le:
-         .probe =3D foo_probe,
-         .remove =3D foo_remove,         /* optional, devres is preferred =
-*/
-         .shutdown =3D foo_shutdown,     /* optional, called during shutdo=
-wn */
--        .notify =3D foo_notify,         /* optional, for event handling *=
-/
-+        .notify_new =3D foo_notify,     /* optional, for event handling *=
-/
-         .no_notify_data =3D true,       /* optional, enables events conta=
-ining no additional data */
-         .no_singleton =3D true,         /* required for new WMI drivers *=
-/
-   };
-@@ -90,9 +90,9 @@ the WMI device and put it in a well-known state for the =
-WMI driver to pick up la
- or kexec. Most WMI drivers need no special shutdown handling and can thus=
- omit this callback.
-=20
- Please note that new WMI drivers are required to be able to be instantiat=
-ed multiple times,
--and are forbidden from using any deprecated GUID-based WMI functions. Thi=
-s means that the
--WMI driver should be prepared for the scenario that multiple matching WMI=
- devices are present
--on a given machine.
-+and are forbidden from using any deprecated GUID-based or ACPI-based WMI =
-functions. This means
-+that the WMI driver should be prepared for the scenario that multiple mat=
-ching WMI devices are
-+present on a given machine.
-=20
- Because of this, WMI drivers should use the state container design patter=
-n as described in
- Documentation/driver-api/driver-model/design-patterns.rst.
-@@ -104,38 +104,37 @@ Documentation/driver-api/driver-model/design-pattern=
-s.rst.
- WMI method drivers
- ------------------
-=20
--WMI drivers can call WMI device methods using wmidev_evaluate_method(), t=
-he
--structure of the ACPI buffer passed to this function is device-specific a=
-nd usually
--needs some tinkering to get right. Looking at the ACPI tables containing =
-the WMI
--device usually helps here. The method id and instance number passed to th=
-is function
--are also device-specific, looking at the decoded Binary MOF is usually en=
-ough to
--find the right values.
-+WMI drivers can call WMI device methods using wmidev_invoke_method(). For=
- each WMI method
-+invocation the WMI driver needs to provide the instance number and the me=
-thod ID, as well as
-+a buffer with the method arguments and optionally a buffer for the result=
-s.
-=20
--The maximum instance number can be retrieved during runtime using wmidev_=
-instance_count().
-+The layout of said buffers is device-specific and described by the Binary=
- MOF data associated
-+with a given WMI device. Said Binary MOF data also describes the method I=
-D of a given WMI method
-+with the ``WmiMethodId`` qualifier. WMI devices exposing WMI methods usua=
-lly expose only a single
-+instance (instance number 0), but in theory can expose multiple instances=
- as well. In such a case
-+the number of instances can be retrieved using wmidev_instance_count().
-=20
--Take a look at drivers/platform/x86/inspur_platform_profile.c for an exam=
-ple WMI method driver.
-+Take a look at drivers/platform/x86/intel/wmi/thunderbolt.c for an exampl=
-e WMI method driver.
-=20
- WMI data block drivers
- ----------------------
-=20
--WMI drivers can query WMI device data blocks using wmidev_block_query(), =
-the
--structure of the returned ACPI object is again device-specific. Some WMI =
-devices
--also allow for setting data blocks using wmidev_block_set().
-+WMI drivers can query WMI data blocks using wmidev_query_block(), the lay=
-out of the returned
-+buffer is again device-specific and described by the Binary MOF data. Som=
-e WMI data blocks are
-+also writeable and can be set using wmidev_set_block(). The number of dat=
-a block instances can
-+again be retrieved using wmidev_instance_count().
-=20
--The maximum instance number can also be retrieved using wmidev_instance_c=
-ount().
--
--Take a look at drivers/platform/x86/intel/wmi/sbl-fw-update.c for an exam=
-ple
--WMI data block driver.
-+Take a look at drivers/platform/x86/intel/wmi/sbl-fw-update.c for an exam=
-ple WMI data block driver.
-=20
- WMI event drivers
- -----------------
-=20
--WMI drivers can receive WMI events via the notify() callback inside the s=
-truct wmi_driver.
-+WMI drivers can receive WMI events via the notify_new() callback inside t=
-he struct wmi_driver.
- The WMI subsystem will then take care of setting up the WMI event accordi=
-ngly. Please note that
--the structure of the ACPI object passed to this callback is device-specif=
-ic, and freeing the
--ACPI object is being done by the WMI subsystem, not the driver.
-+the layout of the buffer passed to this callback is device-specific, and =
-freeing of the buffer
-+is done by the WMI subsystem itself, not the driver.
-=20
--The WMI driver core will take care that the notify() callback will only b=
-e called after
-+The WMI driver core will take care that the notify_new() callback will on=
-ly be called after
- the probe() callback has been called, and that no events are being receiv=
-ed by the driver
- right before and after calling its remove() or shutdown() callback.
-=20
-@@ -147,6 +146,36 @@ the ``no_notify_data`` flag inside struct wmi_driver =
-should be set to ``true``.
-=20
- Take a look at drivers/platform/x86/xiaomi-wmi.c for an example WMI event=
- driver.
-=20
-+Exchanging data with the WMI driver core
-+----------------------------------------
-+
-+WMI drivers can exchange data with the WMI driver core using struct wmi_b=
-uffer. The internal
-+structure of those buffers is device-specific and only known by the WMI d=
-river. Because of this
-+the WMI driver itself is responsible for parsing and validating the data =
-received from its
-+WMI device.
-+
-+The structure of said buffers is described by the MOF data associated wit=
-h the WMI device in
-+question. When such a buffer contains multiple data items it usually make=
-s sense to define a
-+C structure and use it during parsing. Since the WMI driver core guarante=
-es that all buffers
-+received from a WMI device are aligned on an 8-byte boundary, WMI drivers=
- can simply perform
-+a cast between the WMI buffer data and this C structure.
-+
-+This however should only be done after the size of the buffer was verifie=
-d to be large enough
-+to hold the whole C structure. WMI drivers should reject undersized buffe=
-rs as they are usually
-+sent by the WMI device to signal an internal error. Oversized buffers how=
-ever should be accepted
-+to emulate the behavior of the Windows WMI implementation.
-+
-+When defining a C structure for parsing WMI buffers the alignment of the =
-data items should be
-+respected. This is especially important for 64-bit integers as those have=
- different alignments
-+on 64-bit (8-byte alignment) and 32-bit (4-byte alignment) architectures.=
- It is thus a good idea
-+to manually specify the alignment of such data items or mark the whole st=
-ructure as packed when
-+appropriate. Integer data items in general are little-endian integers and=
- should be marked as
-+such using ``__le64`` and friends. When parsing WMI string data items the=
- struct wmi_string should
-+be used as WMI strings have a different layout than C strings.
-+
-+See Documentation/wmi/acpi-interface.rst for more information regarding t=
-he binary format
-+of WMI data items.
-+
- Handling multiple WMI devices at once
- -------------------------------------
-=20
-@@ -171,6 +200,7 @@ Things to avoid
- When developing WMI drivers, there are a couple of things which should be=
- avoided:
-=20
- - usage of the deprecated GUID-based WMI interface which uses GUIDs inste=
-ad of WMI device structs
-+- usage of the deprecated ACPI-based WMI interface which uses ACPI object=
-s instead of plain buffers
- - bypassing of the WMI subsystem when talking to WMI devices
- - WMI drivers which cannot be instantiated multiple times.
-=20
-=2D-=20
-2.39.5
+Adding support for the PCIe interface was mostly straightforward and a lot
+similar to the previous Key M connector. But adding UART interface has proved to
+be tricky. This is mostly because of the fact UART is a non-discoverable bus,
+unlike PCIe which is discoverable. So this series relied on the PCI notifier to
+create the serdev device for UART/BT. This means the PCIe interface will be
+brought up first and after the PCIe device enumeration, the serdev device will
+be created by the pwrseq driver. This logic is necessary since the connector
+driver and DT node don't describe the device, but just the connector. So to make
+the connector interface Plug and Play, the connector driver uses the PCIe device
+ID to identify the card and creates the serdev device. This logic could be
+extended in the future to support more M.2 cards. Even if the M.2 card uses SDIO
+interface for connecting WLAN, a SDIO notifier could be added to create the
+serdev device.
+
+Open questions
+==============
+
+Though this series adds the relevant functionality for handling the M.2 Key M
+connectors, there are still a few open questions exists on the design. 
+
+1. I've used the DT compatible for the serdev swnode to match the existing OF
+device_id of the bluetooth driver. This avoids implementing custom serdev id
+matching as implemented till v2.
+
+2. PCIe client drivers of some M.2 WLAN cards like the Qcom QCA6390, rely on
+the PCIe device DT node to extract properties such as
+'qcom,calibration-variant', 'firmware-name', etc... For those drivers, should we
+add the PCIe DT node in the Root Port in conjunction with the Port node as
+below?
+
+pcie@0 {
+	wifi@0 {
+		compatible = "pci17cb,1103";
+		...
+		qcom,calibration-variant = "LE_X13S";
+	};
+
+	port {
+		pcie4_port0_ep: endpoint {
+			remote-endpoint = <&m2_e_pcie_ep>;
+		};
+	};
+};
+
+This will also require marking the PMU supplies optional in the relevant ath
+bindings for M.2 cards.
+
+3. Some M.2 cards require specific power up sequence like delays between
+regulator/GPIO and such. For instance, the WCN7850 card supported in this series
+requires 50ms delay between powering up an interface and driving it. I've just
+hardcoded the delay in the driver, but it is a pure hack. Since the pwrseq
+driver doesn't know anything about the device it is dealing with before powering
+it ON, how should it handle the device specific power requirements? Should we
+hardcode the device specific property in the connector node? But then, it will
+no longer become a generic M.2 connector and sort of defeats the purpose of the
+connector binding.
+
+I hope to address these questions with the help of the relevant subsystem
+maintainers and the community. 
+
+Testing
+=======
+
+This series, together with the devicetree changes [2] was tested on the
+Qualcomm X1e based Lenovo Thinkpad T14s Laptop which has the WCN7850 WLAN/BT
+1620 LGA card connected over PCIe and UART.
+
+Dependency
+==========
+
+This series is dependent on the M.2 Key M series [1] on top of v6.19-rc1.
+
+[1] https://lore.kernel.org/linux-pci/20260107-pci-m2-v5-0-8173d8a72641@oss.qualcomm.com
+[2] https://github.com/Mani-Sadhasivam/linux/commit/753033861360171f2af1fdd56e8985ff916e1ac2
+
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+---
+Changes in v3:
+- Switched to swnode for the serdev device and dropped the custom
+  serdev_device_id related patches
+- Added new swnode APIs to match the swnode with existing of_device_id
+- Incorporated comments in the bindings patch
+- Dropped the UIM interface from binding since it is not clear how it should get
+  wired
+- Incorporated comments in the pwrseq driver patch
+- Splitted the pwrseq patch into two
+- Added the 1620 LGA compatible with Key E fallback based on Stephan's finding
+- Link to v2: https://lore.kernel.org/r/20251125-pci-m2-e-v2-0-32826de07cc5@oss.qualcomm.com
+
+Changes in v2:
+- Used '-' for GPIO names in the binding and removed led*-gpios properties
+- Described the endpoint nodes for port@0 and port@1 nodes
+- Added the OF graph port to the serial binding
+- Fixed the hci_qca driver to return err if devm_pwrseq_get() fails
+- Incorporated various review comments in pwrseq driver
+- Collected Ack
+- Link to v1: https://lore.kernel.org/r/20251112-pci-m2-e-v1-0-97413d6bf824@oss.qualcomm.com
+
+---
+Manivannan Sadhasivam (13):
+      serdev: Convert to_serdev_*() helpers to macros and use container_of_const()
+      serdev: Add an API to find the serdev controller associated with the devicetree node
+      software node: Add software_node_match_device() API
+      software node: Add software_node_device_uevent() API
+      software node: Add software_node_device_modalias() API
+      serdev: Do not return -ENODEV from of_serdev_register_devices() if external connector is used
+      serdev: Add support for swnode based driver matching and uevent/modalias
+      dt-bindings: serial: Document the graph port
+      dt-bindings: connector: Add PCIe M.2 Mechanical Key E connector
+      dt-bindings: connector: m2: Add M.2 1620 LGA soldered down connector
+      Bluetooth: hci_qca: Add M.2 Bluetooth device support using pwrseq
+      power: sequencing: pcie-m2: Add support for PCIe M.2 Key E connectors
+      power: sequencing: pcie-m2: Create serdev device for WCN7850 bluetooth
+
+Sui Jingfeng (1):
+      software node: Implement device_get_match_data fwnode callback
+
+ .../bindings/connector/pcie-m2-e-connector.yaml    | 161 ++++++++++++++
+ .../devicetree/bindings/serial/serial.yaml         |   3 +
+ MAINTAINERS                                        |   1 +
+ drivers/base/swnode.c                              |  71 +++++++
+ drivers/bluetooth/hci_qca.c                        |   9 +
+ drivers/power/sequencing/Kconfig                   |   1 +
+ drivers/power/sequencing/pwrseq-pcie-m2.c          | 234 ++++++++++++++++++++-
+ drivers/tty/serdev/core.c                          |  45 +++-
+ include/linux/property.h                           |   5 +
+ include/linux/serdev.h                             |  24 +--
+ 10 files changed, 528 insertions(+), 26 deletions(-)
+---
+base-commit: cb6649f6217c0331b885cf787f1d175963e2a1d2
+change-id: 20251112-pci-m2-e-94695ac9d657
+prerequisite-message-id: 20251125-pci-m2-v3-0-c528042aea47@oss.qualcomm.com
+prerequisite-patch-id: 58778d8eb97ab86008cd48fb5d28ed6cc0bbbc1b
+prerequisite-patch-id: 2dd7d793a67f59ef6e6b5137e69436896198b965
+prerequisite-patch-id: 8ccaa5fdd95e64e69cd942f93c26e89b827d0453
+prerequisite-patch-id: 3d3e1bb7959ab1e140c5024acdd8655e7a7e99ef
+
+Best regards,
+-- 
+Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+
 
 
