@@ -1,43 +1,45 @@
-Return-Path: <platform-driver-x86+bounces-16721-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16718-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340FCD157D8
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Jan 2026 22:51:35 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D456D157CC
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Jan 2026 22:51:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 0B502300D414
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Jan 2026 21:51:19 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C3ACB301996C
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Jan 2026 21:51:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40A01345756;
-	Mon, 12 Jan 2026 21:51:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F0ED3451CB;
+	Mon, 12 Jan 2026 21:50:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="d8y/wloL"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uIVtBZ1Q"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC67D34216B
-	for <platform-driver-x86@vger.kernel.org>; Mon, 12 Jan 2026 21:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9DEF343D98
+	for <platform-driver-x86@vger.kernel.org>; Mon, 12 Jan 2026 21:50:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768254665; cv=none; b=T7mHURhgGfpMBPeKpczMjdGG0XPL92jgMqgm4+ZTQ2yYPG+fs2fYaiRk+ncm0vsegvvlFPVReyIdwsmGfzKP8sLgRbRsx5B5LpmStSjcZTcAseI1gdH9ucHt8vbyDK0PQL6whfh0e1cs5XIwnX4yIs/QU8E27H/hcsp3IhKs/3M=
+	t=1768254657; cv=none; b=XjM8iDQD9jF+fczCiaJRK0h28q3446GNus7AbFxr5qodjMOkgzvZAvasTVxvA6r+xO9G1ed63vyQs3dN5Hvq+DHOQJA+nd1rED9DT59i8a2Zd0kF+QMgm9PKWIBXcOBcgwVEOaWtkk+GeBdkDTNeV0Gno2T0ViBLFdUG1sr8EjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768254665; c=relaxed/simple;
-	bh=9YUswI7C8K9uADoKEx5G4sIZmJFHXFDvgUbaJQhO7sg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ulHhsU/x4HKX6LSfdBLx2MWEpIEZ9xPq1VlV3Lj0Jef0J0fhQFLIEqtdHQ9g1OrvzSgavpUDYS03fTngisvXyutCP+Ics2H4ePJwVLGQ0r6wMfQ/D3RklECDP9+mhlYDLNd84bvvqff49Eks1CQ5QHlGVcw9vr9OLo5ou9jXzB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=d8y/wloL; arc=none smtp.client-ip=95.215.58.189
+	s=arc-20240116; t=1768254657; c=relaxed/simple;
+	bh=mAoP++kG3E+Y7EtnJw8meinjBrPFDmtMRSuSO+JrYso=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KoVTypN06PG8xfO1C+SXnqoK5swkZNRGNPYvpc6Ldy0IkjIrp+Dg3vfX4Hbqhuxxuyq6mYOCWcD+NjOg1Bp/saEKueK8M87ATaadqpHshAhazCPSn20X77TxP5MKwgAZ/GeGsz8ZVNDsspujp8e6zQ/fDmU/yLur7+GzqxZpJH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uIVtBZ1Q; arc=none smtp.client-ip=95.215.58.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1768254652;
+	t=1768254654;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Ak6xVycPoziospoaPI5Unv7h6s2q8kkdN5yDGdayzjo=;
-	b=d8y/wloLDzjw6S5asgviHRAKCASQwyF3rln/N8viiPQQMSXVBJF5GAwa0o0c1mZ6Nt+AY7
-	RCo0C0+JIhE2mjHaxXWSYk8TaWC4oXlv19WxzLCwAUACQX5sFo9RcfSmQFvwpuNm/E+Zdd
-	9m5tcklM9EwcQkvo9Lr55sMwSYDSFfQ=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SK7PPbyJRjCOuoK+bfuLzb4Psb68PIzH1zWDgs3c3RQ=;
+	b=uIVtBZ1QfRDlecdV5c+EYKOxSHqecvw9us2EaJu3SFvP6r9DCKyEqm2W25PSQsAJ54UInG
+	gAZkurU69RyDAmL3dztcpO8jMALBk+kA1tkevAFliiwNP73BjZtd1blUg64Dilu4Q+XFcg
+	G8vgNG6hn/7DZty0pOOjzcWQCZd7i9k=
 From: Denis Benato <denis.benato@linux.dev>
 To: linux-kernel@vger.kernel.org
 Cc: platform-driver-x86@vger.kernel.org,
@@ -47,9 +49,11 @@ Cc: platform-driver-x86@vger.kernel.org,
 	"Mateusz Schyboll" <dragonn@op.pl>,
 	"Denis Benato" <benato.denis96@gmail.com>,
 	Denis Benato <denis.benato@linux.dev>
-Subject: [PATCH 0/3] asus-armoury: add support for GV302XV, FA401UV, FA617XT
-Date: Mon, 12 Jan 2026 22:50:35 +0100
-Message-ID: <20260112215038.575883-1-denis.benato@linux.dev>
+Subject: [PATCH 1/3] platform/x86: asus-armoury: add support for GV302XV
+Date: Mon, 12 Jan 2026 22:50:36 +0100
+Message-ID: <20260112215038.575883-2-denis.benato@linux.dev>
+In-Reply-To: <20260112215038.575883-1-denis.benato@linux.dev>
+References: <20260112215038.575883-1-denis.benato@linux.dev>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -59,26 +63,51 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-Hi all,
+Add TDP data for laptop model GV302XV.
 
-This patch series adds support for three new Asus laptop models
-to the asus-armoury driver:
+Signed-off-by: Denis Benato <denis.benato@linux.dev>
+---
+ drivers/platform/x86/asus-armoury.h | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-  - GV302XV
-  - FA401UV
-  - FA617XT
-
-Thanks,
-Denis
-
-Denis Benato (3):
-  platform/x86: asus-armoury: add support for GV302XV
-  platform/x86: asus-armoury: add support for FA401UV
-  platform/x86: asus-armoury: add support for FA617XT
-
- drivers/platform/x86/asus-armoury.h | 77 +++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
-
+diff --git a/drivers/platform/x86/asus-armoury.h b/drivers/platform/x86/asus-armoury.h
+index bc8fb54c4af0..5bcb7d266604 100644
+--- a/drivers/platform/x86/asus-armoury.h
++++ b/drivers/platform/x86/asus-armoury.h
+@@ -1251,6 +1251,33 @@ static const struct dmi_system_id power_limits[] = {
+ 			},
+ 		},
+ 	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_BOARD_NAME, "GV302XV"),
++		},
++		.driver_data = &(struct power_data) {
++			.ac_data = &(struct power_limits) {
++				.ppt_pl1_spl_min = 15,
++				.ppt_pl1_spl_max = 55,
++				.ppt_pl2_sppt_min = 25,
++				.ppt_pl2_sppt_max = 60,
++				.ppt_pl3_fppt_min = 35,
++				.ppt_pl3_fppt_max = 65,
++				.nv_temp_target_min = 75,
++				.nv_temp_target_max = 87,
++			},
++			.dc_data = &(struct power_limits) {
++				.ppt_pl1_spl_min = 15,
++				.ppt_pl1_spl_max = 35,
++				.ppt_pl2_sppt_min = 25,
++				.ppt_pl2_sppt_max = 35,
++				.ppt_pl3_fppt_min = 35,
++				.ppt_pl3_fppt_max = 65,
++				.nv_temp_target_min = 75,
++				.nv_temp_target_max = 87,
++			},
++		},
++	},
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "GV601R"),
 -- 
 2.52.0
 
