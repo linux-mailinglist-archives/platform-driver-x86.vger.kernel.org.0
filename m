@@ -1,73 +1,73 @@
-Return-Path: <platform-driver-x86+bounces-16674-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16676-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AABF6D12145
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Jan 2026 11:57:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3900AD1223C
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Jan 2026 12:03:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3B78530751F6
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Jan 2026 10:54:30 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 99FA93042FCD
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Jan 2026 11:03:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 284CC34F484;
-	Mon, 12 Jan 2026 10:54:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE16E3557FE;
+	Mon, 12 Jan 2026 11:03:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ER9uDpKU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zt/kcdR5"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7404C34E74B
-	for <platform-driver-x86@vger.kernel.org>; Mon, 12 Jan 2026 10:54:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 889E6346AE3
+	for <platform-driver-x86@vger.kernel.org>; Mon, 12 Jan 2026 11:03:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768215259; cv=none; b=WuifOyPHbJrsqcAiEsSz54yMiOOUB+ix0vcS4XB0bW6zYn7bgERqT3aj2PsAjlSA2JLaS0gfSis+lxlZJZQ5krO6sL8iqgFoGCwaGioZq/m+gDqNo1U9F0pGNyy+0SsR8C629fcqd04lUhg56CxbRhhSwg3ZIoNA5PNzKoQ+Qm8=
+	t=1768215818; cv=none; b=RPCOyDOlzePksY0CdQmQ3gDWv+q3q1dYUK7QjthksBNoz9KrmjY7ax5Kzm95vzw0B65O7EtOptXa343xBZP8aH5eELu+2/bE3c2EynVHbwXD1c5x8TaEeeaAZovQpHeHUn0zUrS//VoaUKYGo8dXRz5L41Q2BK2HRlTWNONkWG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768215259; c=relaxed/simple;
-	bh=JN8Tx9lcEFa1feWSSo2+DawtEa+D5nz6pKkmTYdd80o=;
+	s=arc-20240116; t=1768215818; c=relaxed/simple;
+	bh=NgqM4UUbMqyNIz/GFA+SzHDO4/PJlRI74n+5LLiO3BI=;
 	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s+shJoNoQLVcAPImX3Ll2+E1jurimdIrjfUXYSF8IWSIa5jumK+XB6MNgako7V+AYEhD/tMcifaNlW/f5T6kRQJvpJokdSaYduSIQ9nl5Penps5iD5JJ/tmxn+iWF0C/64u/1vFjiAPrt8b+T2AGYW96FcEK/Bk+5LM6K6nmm74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ER9uDpKU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 327F9C2BCB4
-	for <platform-driver-x86@vger.kernel.org>; Mon, 12 Jan 2026 10:54:19 +0000 (UTC)
+	 To:Cc:Content-Type; b=UkMHsuTCD5QggabmNEFnCkQ2nkn4x88xgI2iPmkpAQRN5jT/UoCv7dT70FDQwPMjlbE3OaCikl1L42D1C2hNT9a+sWfmzciioDceZy9iQ5hQ9KMfnEzE6HmREng5iQzY4JQYhyDRqCNfnTEKRMDpIyTERzHkUJfTnd5uHPMX4nI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zt/kcdR5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 566AFC2BCF5
+	for <platform-driver-x86@vger.kernel.org>; Mon, 12 Jan 2026 11:03:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768215259;
-	bh=JN8Tx9lcEFa1feWSSo2+DawtEa+D5nz6pKkmTYdd80o=;
+	s=k20201202; t=1768215818;
+	bh=NgqM4UUbMqyNIz/GFA+SzHDO4/PJlRI74n+5LLiO3BI=;
 	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=ER9uDpKU0gKhm7Mmd4Cxsn7MpqOQ7vgt/ZcySJ+A9bsTzXxToNbycaa4e7QBta8wD
-	 T8NSpwycbQYwIUTgh19uyJzFyLVV6QQKvVGN6qt0KMPkIdc7nYA5/U/QaOUJfI/kHy
-	 4Sd8Rvl0QCaU2Atg20NBcAm9QKTOwrxoxTsSOFizYh1bMtgu6MnsGhGFxsls0+Oizc
-	 Xfu6WwhJvA9CBk8mYony8E2iuqdfKr+rPvb+ZNEc0SiWYI7T1hZhsiyqoKBkOzwwuA
-	 E1rPydvvuBL8GGQHD+ufLKpzTd1tbTNHHZ6tGNWh5Zxq05oWl3ZtIWyApP4xskyR6/
-	 fc8kgRKSlTMpg==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-382fb275271so43770621fa.0
-        for <platform-driver-x86@vger.kernel.org>; Mon, 12 Jan 2026 02:54:19 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWmNGvInrRhH14oys4HkZk7JOg1wcX6f3eCsMud1U48b56TYFPwbedTaVKyGNTjRdLqKu0dI01omn+VqgSpIugS8nr1@vger.kernel.org
-X-Gm-Message-State: AOJu0Yywjwo6Qzc/prpE4Q8DxAV7kXeVwFiKUJRaH5WhOeB+KuWK/KY6
-	k2tTYKShnoua4zPxE3dXdAN4mrU1T39fkWbrWTqbdxmUiIVuGYXPUG05Nei2/B9UaPfBJ37VXVU
-	NC8IshPPieA8KqczSdsgAjzGxQSEqiY7vv5eFId1j4g==
-X-Google-Smtp-Source: AGHT+IFOFA8kXD2/ntFFnMuqlDdI+7/+mE0Jg2kNrYOPk8LLfb+NDy962k4fw01JMa4nCZndlay6ttujw6BSDeEvZxc=
-X-Received: by 2002:a05:651c:210d:b0:383:4b8:435c with SMTP id
- 38308e7fff4ca-38304b844c3mr52338991fa.9.1768215257586; Mon, 12 Jan 2026
- 02:54:17 -0800 (PST)
+	b=Zt/kcdR5bUMSJSjc86b6aW5z6tlpPxjJZ0GLebVxLE3UXaF1yz7r35HCF44HYrrRN
+	 ltR632hfg3dW78G2iQzh1TdcxmXDTH28cKjm1bqx+38NcMibl8cm2NmYRPJALIq9RK
+	 18WEhb5d98uDNXwzj/UW+VrG64jbrARzpdvsB90oVVrVR5En+l2700v/Kl6UYOLs4B
+	 IGsoGu7Sdu+fDrEQAstNsiFBraOmxoYb/Z9+jNuY1cFWaxQGdT21cPMSnsSYuYWk+l
+	 G3sMgan/Oi5ERA4FJMbL/qx9TV0hkwHyNJY8YE5l+7QPWrSX0okcrZMVMV6R4oVrmJ
+	 Rlvs4LZeakOBA==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-382fb275271so43836841fa.0
+        for <platform-driver-x86@vger.kernel.org>; Mon, 12 Jan 2026 03:03:38 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX7V9STsLNYa7KPbxViX+JztouB+9dJ3X0LCZyCcXjKEXJ0GXS6nSRmEy20PgJum/+IYXU0vYYsFsUm3+g6VWJcQuvF@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6cMjUcDeWJ6bB9wkjcoIvqUMsPiuMWdZGTdojxyZQ9qP86OQq
+	hqiyiMY7d4RvHkIgSsLnVq6sW++OHXoEx71sjmLjRNzBqdHipZinBr9lEBkOcNujBUfrBqN5FUR
+	1rzL+ZFG+U46kd0qrJxrYLFgSFFPguxkvu3X3usJR8g==
+X-Google-Smtp-Source: AGHT+IFohkkf9UHfdNA1htiBVdbZfkEaHRBgSuESNj4zQqJpi4VxNX3mipN9Pmd0KZs5DRsLqlBmxWaWnb8zj3OJKys=
+X-Received: by 2002:a05:651c:a07:b0:37f:cb34:211b with SMTP id
+ 38308e7fff4ca-382ff68c23emr54526941fa.18.1768215816730; Mon, 12 Jan 2026
+ 03:03:36 -0800 (PST)
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 12 Jan 2026 02:54:16 -0800
+ HTTPREST; Mon, 12 Jan 2026 06:03:34 -0500
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 12 Jan 2026 02:54:16 -0800
+ HTTPREST; Mon, 12 Jan 2026 06:03:34 -0500
 From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <aWSq_7_5kkQIv9Hc@smile.fi.intel.com>
+In-Reply-To: <aWSxcJTLzBFbMGad@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260110-pci-m2-e-v3-0-4faee7d0d5ae@oss.qualcomm.com> <aWSq_7_5kkQIv9Hc@smile.fi.intel.com>
-Date: Mon, 12 Jan 2026 02:54:16 -0800
-X-Gmail-Original-Message-ID: <CAMRc=MfoUi-qvZnOcM5pgvmVhPMEK+gvs5m2APrqLXc2J7x1AQ@mail.gmail.com>
-X-Gm-Features: AZwV_Qgkgd0gbVuBhbU6fLauSpqstnPMp3OpP37gMnJcwjV2eQkZ3qyjBa1-dnE
-Message-ID: <CAMRc=MfoUi-qvZnOcM5pgvmVhPMEK+gvs5m2APrqLXc2J7x1AQ@mail.gmail.com>
-Subject: Re: [PATCH v3 00/14] Add support for handling PCIe M.2 Key E
- connectors in devicetree
+References: <20260110-pci-m2-e-v3-0-4faee7d0d5ae@oss.qualcomm.com>
+ <20260110-pci-m2-e-v3-4-4faee7d0d5ae@oss.qualcomm.com> <aWSxcJTLzBFbMGad@smile.fi.intel.com>
+Date: Mon, 12 Jan 2026 06:03:34 -0500
+X-Gmail-Original-Message-ID: <CAMRc=Md6+hhLMOmmDejKW+_jbWu3_XB4qNobyi27pezfXsVLFw@mail.gmail.com>
+X-Gm-Features: AZwV_QgCCma7UwKHQgZ5nLG4r75yg0AnwRFvJBiXixfwLwob-etKnqTGCK9cMAM
+Message-ID: <CAMRc=Md6+hhLMOmmDejKW+_jbWu3_XB4qNobyi27pezfXsVLFw@mail.gmail.com>
+Subject: Re: [PATCH v3 04/14] software node: Add software_node_match_device() API
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: Rob Herring <robh@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	Jiri Slaby <jirislaby@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
@@ -86,38 +86,28 @@ Cc: Rob Herring <robh@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.or
 	linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org, 
 	Stephan Gerhold <stephan.gerhold@linaro.org>, 
 	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, linux-acpi@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Sui Jingfeng <sui.jingfeng@linux.dev>, 
 	manivannan.sadhasivam@oss.qualcomm.com
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 12 Jan 2026 09:04:15 +0100, Andy Shevchenko
+On Mon, 12 Jan 2026 09:31:44 +0100, Andy Shevchenko
 <andriy.shevchenko@linux.intel.com> said:
-> On Sat, Jan 10, 2026 at 12:26:18PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
->>
-
-[snip]
-
->> Though this series adds the relevant functionality for handling the M.2 Key M
->> connectors, there are still a few open questions exists on the design.
->>
->> 1. I've used the DT compatible for the serdev swnode to match the existing OF
->> device_id of the bluetooth driver. This avoids implementing custom serdev id
->> matching as implemented till v2.
+> On Sat, Jan 10, 2026 at 12:26:22PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
 >
-> Yeah, swnodes are not designed to replace the real DT or other firmware
-> interface. The idea of swnodes is to have them providing quirks if needed (i.e.
-> fixing up the broken or missed FW device properties). This should not have been
-> done this way. Please, consider another approach, e.g. DT-overlay.
+>> Add software_node_match_device() API to match the swnode device with the
+>> swnode driver. The matching is based on the compatible property in the
+>> device and the driver's of_match_table.
+>
+> NAK. swnodes != real firmware nodes.
 >
 
-This may have been true historically but software nodes were introduced before
-the auxiliary bus. With platform devices, the question has a clear response:
-DT or ACPI first, then possibly additional software node. But with auxiliary
-devices, where does the entirety of device properties come from if we - for
-whatever reason - don't want to propagate any "real" firmware node?
+While I'm not arguing that this is *the* solution, I think it warrants
+a discussion on proper matching of devices that are only backed by a software
+node - for instance a serdev device on the auxiliary bus. I understand what
+software nodes were historically but perhaps it's time to extend their role as
+a full-blown firmware node allowing matching with drivers.
 
-This is not even about this particular series, rather it's a wider architecture
-question.
+Reusing existing OF IDs is just one way, we could potentially think about a
+high-level fwnode-based device to driver matching?
 
 Bartosz
 
