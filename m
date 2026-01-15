@@ -1,534 +1,292 @@
-Return-Path: <platform-driver-x86+bounces-16809-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16811-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7F50D2576C
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 15 Jan 2026 16:45:31 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 934E1D25D49
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 15 Jan 2026 17:49:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 06F1430019C1
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 15 Jan 2026 15:43:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5718B30184D4
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 15 Jan 2026 16:49:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A4BC3A35A4;
-	Thu, 15 Jan 2026 15:43:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4A271FF1B5;
+	Thu, 15 Jan 2026 16:49:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="lX3J49Qw"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Xk9cLO39"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013015.outbound.protection.outlook.com [40.93.196.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 327F73A7DEA;
-	Thu, 15 Jan 2026 15:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768491829; cv=none; b=PvxBu2PeJ5LGitmd6MuTOEzNFcphSVhOHjStP2XYOMUQWunrSppMboFw0+A6ZyJWENvUNTaP/jRuHbu2OzW4yP5O67o03SquBb/MviHATicClEGefLnQl58rc4X0zwUY/OzHav4aNOZloOSWybCfmA6HhTKKRXNr0w8JDnz1d44=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768491829; c=relaxed/simple;
-	bh=YeOLz3tUYE1awIBz4GsjKWBhFa99nMNyXXOPvZVo+FM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oVbbYbGisB/E2IMUqOBInNqSlhC88mTs0/cVnJMIgqBISuq59Z2if8sIOLJB7LwKcolV6k3v/94QcYph1Si/ZiEhZKWpJYokGUSnSZnT+JupMyyYFDu1cmWy4BHLtjSuWJ1XcNjmPCBGO0hf0labRdJvqvbSssdQF9+bmF7Sm7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=lX3J49Qw; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from wse-pc.fritz.box (business-24-134-207-61.pool2.vodafone-ip.de [24.134.207.61])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id A9A4E2FC004A;
-	Thu, 15 Jan 2026 16:43:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1768491817;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dpj9NZ6lMKVtUgiz1Cz/oRJdha5FfYHQj5CuxNYbFu8=;
-	b=lX3J49QwxxIglMv4OqPBtuxxBm3J4gQ0Ii91Ymo1mWyTaGKZ0gdwUgUC95/iFg5jYfKsG0
-	Ql2kcFkWqnaepGJs7KsrbNkKDDsW/Bfu5+a5SSfeKmUhlcu9bVahGeWeXu+VJpUtD0J0Vl
-	WB9veEKPmY2jAt7qLo6v9Go/2tByuxE=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Armin Wolf <W_Armin@gmx.de>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Werner Sembach <wse@tuxedocomputers.com>,
-	platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] platform/x86/uniwill: Implement cTGP setting
-Date: Thu, 15 Jan 2026 16:42:02 +0100
-Message-ID: <20260115154332.402873-2-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260115154332.402873-1-wse@tuxedocomputers.com>
-References: <20260115154332.402873-1-wse@tuxedocomputers.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2088B1C5D59;
+	Thu, 15 Jan 2026 16:49:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768495749; cv=fail; b=P8rk6+0tjlwLEWfsHpaTdzTmZVcgyk6H0e5BdaLa/8rolejsqvPvLrfcY+ZiDwq9nQSyumwJTi1VEE+QcMAw2UWZngggavDgdtPKc2BAu5l6tTgkUjklK34ooVjYCyUHrh06VBdffV9WbUZgUdT+4tChFYwOlHRVeRP6R899duI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768495749; c=relaxed/simple;
+	bh=gp0taYfdrKXeGAd1KJcT6TLOwOdUMIQ5e1mbhCsjq08=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=WCw17+SOnIv/8VqE7X8Zo9EYRpFeJRrCalMc9PI50+YHSRRK8BqfvrgdqgZo7XNXO5OsjYidzvU6xsyeaTNXQxUw9R9g6qonmQDmJFj37pm9Z5K1UIvq0/dd8x9KZZB895QV99FOM/us8mmFPVg7VVX2kD72avrM6p+f7LIQPdQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Xk9cLO39; arc=fail smtp.client-ip=40.93.196.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yl5FYwTZVjZyAFOFMJzVJJXhmxMWUEHp/oF4adqvactvz+0FG7CUqCdwbyN7pKzjNv19SuvcA1FpimLBqNVhXdqw007QBrFj/KNlnu1UwnGmJ0xkp6CS+lZseYlxHGj3jfRrbGigpZA5W9oQ17LoCg7CkVly5N+hkCSaZwZvsynF1Q0MsX9QxXFXHhQUjTMBf/dNXT7F/iolb8ryQCm4zbAzFjqoJeA1etdlxNjil3fGpeGWMCAgCCSlBFLQPUQ58KzbmkqfD9luvLyne+fVU/2yRq/oWuWE+iWubRPa8GYCbIUifuAk1ej88UlbtZlKmYsTyFy71fwBisnbO42e6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=seogoqTdhfW+TPJn+CEKXLzvWS8JAtGtmnkEntykfYs=;
+ b=MWCI0YXXZwpa7AlGgEE2TwRcVct5FpqqWIpsaAgRiK5KtfNRXx1vBxT200F7F2KOc6tLWDtgvLkKnjiVgvO6WCHhH424SCusJCjTNo5PNX0Hq5BL5C7wuU/MxhUATnOIjGZP5zbaaZZLi16Jppd2PFUNlQAXtas+Lkee5pIGTX8Q8wNw8ov3cgWNb67D8e6pxCWH0KTAiWa3BDGfxxP/ltl2K2lonP3dPiEz6lQDNib+xBy06++7hPlx09hSzvlguYZ8P8qyaKPFkRDYbmji3G8oG0zTXYULhNpUR1/XYOXNdeFwC49s4aVs/cnLP/NAoZExx0DN+9O9++tHtelSKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=seogoqTdhfW+TPJn+CEKXLzvWS8JAtGtmnkEntykfYs=;
+ b=Xk9cLO39cDXDx5NKEczxlTOmCl9u5Okqec99rkj3F6sDA7qZKb6O+TYxkDuv3iVztFqxEJfYoupHmrav9Popqt3JeOD1T3+/IuSiGsip8H/KSIm8n+hgtLnq7DDdtL4GoVx/HGhsX5wKB05pFJXy0sXXJ0Efk9FfPTQw97pQTSk=
+Received: from SA0PR11CA0034.namprd11.prod.outlook.com (2603:10b6:806:d0::9)
+ by MW4PR12MB6998.namprd12.prod.outlook.com (2603:10b6:303:20a::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Thu, 15 Jan
+ 2026 16:49:04 +0000
+Received: from SN1PEPF000252A0.namprd05.prod.outlook.com
+ (2603:10b6:806:d0:cafe::bb) by SA0PR11CA0034.outlook.office365.com
+ (2603:10b6:806:d0::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.4 via Frontend Transport; Thu,
+ 15 Jan 2026 16:49:02 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ SN1PEPF000252A0.mail.protection.outlook.com (10.167.242.7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9542.4 via Frontend Transport; Thu, 15 Jan 2026 16:49:02 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 15 Jan
+ 2026 10:49:02 -0600
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Thu, 15 Jan 2026 08:49:01 -0800
+Message-ID: <f404080d-b325-98c0-9fa1-2190ee2e0ed2@amd.com>
+Date: Thu, 15 Jan 2026 08:49:01 -0800
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V3 1/2] platform/x86/amd/pmf: Introduce new interface to
+ export NPU metrics
+Content-Language: en-US
+To: =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>
+CC: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
+	<maciej.falkowski@linux.intel.com>, Hans de Goede <hansg@kernel.org>, "Shyam
+ Sundar S K" <Shyam-sundar.S-k@amd.com>, <dri-devel@lists.freedesktop.org>,
+	LKML <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>,
+	<sonal.santan@amd.com>, <mario.limonciello@amd.com>,
+	<platform-driver-x86@vger.kernel.org>, <VinitKumar.Shukla@amd.com>, "Patil
+ Rajesh Reddy" <Patil.Reddy@amd.com>
+References: <20260105172956.3732123-1-lizhi.hou@amd.com>
+ <20260105172956.3732123-2-lizhi.hou@amd.com>
+ <4d365fb4-08f5-0b2f-62df-b8f46b792953@linux.intel.com>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <4d365fb4-08f5-0b2f-62df-b8f46b792953@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF000252A0:EE_|MW4PR12MB6998:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4309e4f6-0d8d-40ab-ec6d-08de5455fd30
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|1800799024|376014|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?T2ZmY2gyaGNFL0RuOVhKMzhReVNnRDVRbzdjRDZWL0Y1RUszdjNiWDNpWVds?=
+ =?utf-8?B?VlZjWnJsMFBnWUVSMEJCdGRLR3BOMUo2ZGhlenRJYUQvTmtZd05YWnJDVXVi?=
+ =?utf-8?B?MG84cENRWlFTcW5pcXpMSXgwaHV4OFV0YXFpSXFiR05oYlA0R3FkZXhCNGJ4?=
+ =?utf-8?B?Qy9wVjhsSmdCb0w1Y3NYcWN0VWNpNWxTNHFaYm8xbmVDVG10QmVJbVk0Y1gy?=
+ =?utf-8?B?eTU4a3JmcVlJZGFQdzBKQm4zMnFvaVVUV21Cd3dvQUJwN1RUUzFORE5Jdkpv?=
+ =?utf-8?B?a1lLdWFIQnVNQWtJZnllNGJEZFlOYzllTWxHYklsdk1iQngxek51dmZWT1ZB?=
+ =?utf-8?B?NCtFSGZmdjFnbHpMU2kvZHB1ZzFWQkdFb0NKUTJtcGI0bFRYM2hwazQ4Ui92?=
+ =?utf-8?B?SUlTUFUxcytPZnJlOTZ1K0ptV3IvVUcxSEN4QjVkK1JoWkVHWDRvUmhaYnJY?=
+ =?utf-8?B?Q251dzhLWU9FQ2hXR04wMURKZkQ4eWlKdjBuQjBnS3VGQVptdzhLd3pIMjI4?=
+ =?utf-8?B?bVpKMDF1NTVQeGtpK2JPMFUvRmVtQWJRR2hrMEE1ZVkzRDFIdHBKdHhINjA4?=
+ =?utf-8?B?dlllLyt4blQ5Z2doUWlZOGswVTN5eEZEZkVQTWM4V3hVWit0MkdpMm5Editt?=
+ =?utf-8?B?UXI2Zy83YnZJOUdTM2p6dFplaGFXRkJzR2Rra21id0hTWThUQndyWGdXTVA5?=
+ =?utf-8?B?dHBMdm4rcW5KRmtjS2U2NzU0eEdJMGNyc0pONUdvcS9sdHcxS0dtRjB6Qmpm?=
+ =?utf-8?B?MzdVSUFpNFFOSjhCejNCaXlvZ3VCb004dHg2c05aVytQNW11bUR4WkdHaEh4?=
+ =?utf-8?B?WTFRS3BQc3paY2JBcVUvM2lRbE1aSGdKS2RtbE5pM2Rja0FqeDBuTkFhUkxz?=
+ =?utf-8?B?VE9IYy9qNDJOc280U0MrRFF3TnJSTmVMdUUwZURodkI5YkhpRjdGcHZsVzYy?=
+ =?utf-8?B?em1DK2w3MU5ZWWpwMk1DMStzL1RlMHg4MmVwaVNZNDNOV203T0Uxb1hQYnZZ?=
+ =?utf-8?B?K2N3OWVsbjV6RE40akhJTjVPVGpzakZTNG9aSEVGMzI1NFhUUkpyWXUxaFNE?=
+ =?utf-8?B?Y3BnaXVSZ3ZsR2N6Rk9MVzZINTAxWnl2RExiL21jUkZkUGJPM0lLcTNvWHVC?=
+ =?utf-8?B?RTluWi9DMDJ0OGM2dXE3RGtJNitDVnlpQWdGS0JCbmR1ZTNFeUM0ejZFaXUw?=
+ =?utf-8?B?SEN2c3VscmxKemxnc2FEYmpxbnZrUHBtWXFHem95SGpPMHl5bmpkUlFlSGs5?=
+ =?utf-8?B?L0xlem94elI1NXBLdXJZMGtnSHE1N2NFVm9SbXNwUmM5OUVJSEJ6cVM4QkVC?=
+ =?utf-8?B?aXJEUENVanlvRjl3WTVacnNoZ2laakxaVTdYd1B2N1d2OG1ieStkS1gzdStQ?=
+ =?utf-8?B?MHRVL0xacElPdGdnUXNkTjB2NytVcmltMDRkWTBYSFM2ZmNuUjJZdWVjaUcw?=
+ =?utf-8?B?ckowQjQ4WndJbUlBVnNqRkh2cm56OXg2bWlCRU9EMVM0bTNNQzJ2Vjd1ZVpO?=
+ =?utf-8?B?YktyY3htMXF6OGtoQmFKQTNEbWVoemdYaWt1Uk1SVDFNNStmNHM1aVJMV2or?=
+ =?utf-8?B?VjRvWW1jWFF1NWJYbzlTTDJEV1lpN2FVTjUvelVoUkxPbG82NjgvVVFvc3li?=
+ =?utf-8?B?MjdqYWQ1aFJMazh6MnVKTGlTdUM1RkFkZXU3cnJ5bDJDSWFVcE44bW9Rb2l0?=
+ =?utf-8?B?bkhkZXpXMHp0WnNZNm9MT1dzakNRdUJndXFOY1VwTE1QbUJ5MFpwMEhKWWdu?=
+ =?utf-8?B?UDhJVkNZZTZJWTlGQTJTdFBpUGtBTEFwVVlaSnRuOFF3bmMzWHMvYW9qZWVw?=
+ =?utf-8?B?eVVBOTlwT2hVOTZxY3FpVWNod1BPUXdFMjJuU1d2QkwrSVFsYzdYMEErWERy?=
+ =?utf-8?B?UlBXNGYrck5CaGlEdHR5K3F5Z3BLNzZqT04zLzdOQ2IwVWpLUXZZelpOVmdB?=
+ =?utf-8?B?WFVJbjY1b2ZZRFM2bFR3akZiVUI1TCttenN4QW0xa2pjYklEOUJHbVFXRmtI?=
+ =?utf-8?B?bzJ1eldBSHIvbGllT0pGSFNxWFdNQmhRQkI4bkNxU3R5ekkxZTdyK3J0WEo0?=
+ =?utf-8?B?djdabU41SkVmTExBc0l3WjB4ZWgyYVRmRVRTWGs0LzNCRDc4YW5iOTdoRHAw?=
+ =?utf-8?B?S1lxWGE0NGFjY0VrVUxPRWtQdGFJTGs3clVKNVhyWGJaYVorUjVsbUpneHpr?=
+ =?utf-8?B?SFBtYmdyUENnTDlXQ2tmbEJleGE2bGMxdFk1amJGL3phSEI0Qit2V0Fxb0JM?=
+ =?utf-8?B?ZVRvVzhEZ1BZSjk1TmRUVHM0c25RPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 16:49:02.9638
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4309e4f6-0d8d-40ab-ec6d-08de5455fd30
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF000252A0.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6998
 
-Uniwill offers user setable cTGP for their EC on devices using NVIDIA 3000
-Series and newer GPUs. This patch implements this setting as a sysfs
-attribute.
 
-For one device, the TUXEDO InfinityBook Gen7, the variant with and without
-NVIDIA GPU can't be differentiated using only the DMI strings, so the new
-probe callback needs to be used to test a bit from the EC memory.
+On 1/15/26 07:18, Ilpo Järvinen wrote:
+> On Mon, 5 Jan 2026, Lizhi Hou wrote:
+>
+>> From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+>>
+>> The PMF driver retrieves NPU metrics data from the PMFW. Introduce a new
+>> interface to make NPU metrics accessible to other drivers like AMDXDNA
+>> driver, which can access and utilize this information as needed.
+>>
+>> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+>> Co-developed-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
+>> Signed-off-by: Patil Rajesh Reddy <Patil.Reddy@amd.com>
+>> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+>> [lizhi: save return value of is_npu_metrics_supported() and return it]
+>> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+>> ---
+>>   drivers/platform/x86/amd/pmf/core.c | 76 +++++++++++++++++++++++++++++
+>>   drivers/platform/x86/amd/pmf/pmf.h  |  2 +
+>>   include/linux/amd-pmf-io.h          | 21 ++++++++
+>>   3 files changed, 99 insertions(+)
+>>
+>> diff --git a/drivers/platform/x86/amd/pmf/core.c b/drivers/platform/x86/amd/pmf/core.c
+>> index 8fc293c9c538..d180a39e03bf 100644
+>> --- a/drivers/platform/x86/amd/pmf/core.c
+>> +++ b/drivers/platform/x86/amd/pmf/core.c
+>> @@ -8,12 +8,15 @@
+>>    * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+>>    */
+>>   
+>> +#include <linux/array_size.h>
+>> +#include <linux/cleanup.h>
+>>   #include <linux/debugfs.h>
+>>   #include <linux/iopoll.h>
+>>   #include <linux/module.h>
+>>   #include <linux/pci.h>
+>>   #include <linux/platform_device.h>
+>>   #include <linux/power_supply.h>
+>> +#include <linux/string.h>
+>>   #include <asm/amd/node.h>
+>>   #include "pmf.h"
+>>   
+>> @@ -53,6 +56,8 @@ static bool force_load;
+>>   module_param(force_load, bool, 0444);
+>>   MODULE_PARM_DESC(force_load, "Force load this driver on supported older platforms (experimental)");
+>>   
+>> +static struct device *pmf_device;
+>> +
+>>   static int amd_pmf_pwr_src_notify_call(struct notifier_block *nb, unsigned long event, void *data)
+>>   {
+>>   	struct amd_pmf_dev *pmf = container_of(nb, struct amd_pmf_dev, pwr_src_notifier);
+>> @@ -314,6 +319,71 @@ int amd_pmf_init_metrics_table(struct amd_pmf_dev *dev)
+>>   	return 0;
+>>   }
+>>   
+>> +static int is_npu_metrics_supported(struct amd_pmf_dev *pdev)
+>> +{
+>> +	switch (pdev->cpu_id) {
+>> +	case PCI_DEVICE_ID_AMD_1AH_M20H_ROOT:
+>> +	case PCI_DEVICE_ID_AMD_1AH_M60H_ROOT:
+>> +		return 0;
+>> +	default:
+>> +		return -EOPNOTSUPP;
+>> +	}
+>> +}
+>> +
+>> +static int amd_pmf_get_smu_metrics(struct amd_pmf_dev *dev, struct amd_pmf_npu_metrics *data)
+>> +{
+>> +	int ret, i;
+>> +
+>> +	guard(mutex)(&dev->metrics_mutex);
+>> +
+>> +	ret = is_npu_metrics_supported(dev);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	ret = amd_pmf_set_dram_addr(dev, true);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	memset(dev->buf, 0, dev->mtable_size);
+>> +
+>> +	/* Send SMU command to get NPU metrics */
+>> +	ret = amd_pmf_send_cmd(dev, SET_TRANSFER_TABLE, SET_CMD, METRICS_TABLE_ID, NULL);
+>> +	if (ret) {
+>> +		dev_err(dev->dev, "SMU command failed to get NPU metrics: %d\n", ret);
+>> +		return ret;
+>> +	}
+>> +
+>> +	memcpy(&dev->m_table_v2, dev->buf, dev->mtable_size);
+>> +
+>> +	data->npuclk_freq = dev->m_table_v2.npuclk_freq;
+>> +	for (i = 0; i < ARRAY_SIZE(data->npu_busy); i++)
+>> +		data->npu_busy[i] = dev->m_table_v2.npu_busy[i];
+>> +	data->npu_power = dev->m_table_v2.npu_power;
+>> +	data->mpnpuclk_freq = dev->m_table_v2.mpnpuclk_freq;
+>> +	data->npu_reads = dev->m_table_v2.npu_reads;
+>> +	data->npu_writes = dev->m_table_v2.npu_writes;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +int amd_pmf_get_npu_data(struct amd_pmf_npu_metrics *info)
+>> +{
+>> +	struct amd_pmf_dev *pdev;
+>> +
+>> +	if (!info)
+>> +		return -EINVAL;
+>> +
+>> +	if (!pmf_device)
+>> +		return -ENODEV;
+>> +
+>> +	pdev = dev_get_drvdata(pmf_device);
+>> +	if (!pdev)
+>> +		return -ENODEV;
+>> +
+>> +	return amd_pmf_get_smu_metrics(pdev, info);
+>> +}
+>> +EXPORT_SYMBOL_GPL(amd_pmf_get_npu_data);
+> One more thing, the export should be namespaced.
+>
+> And since I'll be applying only this patch and not do an IB, can you also
+> rebase it on top for the for-next branch.
 
-Co-developed-by: Armin Wolf <W_Armin@gmx.de>
-Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
----
- drivers/platform/x86/uniwill/uniwill-acpi.c | 189 +++++++++++++++++---
- 1 file changed, 163 insertions(+), 26 deletions(-)
+Sure, I will send a V4 patch.
 
-diff --git a/drivers/platform/x86/uniwill/uniwill-acpi.c b/drivers/platform/x86/uniwill/uniwill-acpi.c
-index 3d8c136e36219..8f843b5d7e4bd 100644
---- a/drivers/platform/x86/uniwill/uniwill-acpi.c
-+++ b/drivers/platform/x86/uniwill/uniwill-acpi.c
-@@ -88,6 +88,9 @@
- 
- #define EC_ADDR_GPU_TEMP		0x044F
- 
-+#define EC_ADDR_SYSTEM_ID		0x0456
-+#define HAS_GPU				BIT(7)
-+
- #define EC_ADDR_MAIN_FAN_RPM_1		0x0464
- 
- #define EC_ADDR_MAIN_FAN_RPM_2		0x0465
-@@ -122,11 +125,11 @@
- #define CTGP_DB_DB_ENABLE		BIT(1)
- #define CTGP_DB_CTGP_ENABLE		BIT(2)
- 
--#define EC_ADDR_CTGP_OFFSET		0x0744
-+#define EC_ADDR_CTGP_DB_CTGP_OFFSET	0x0744
- 
--#define EC_ADDR_TPP_OFFSET		0x0745
-+#define EC_ADDR_CTGP_DB_TPP_OFFSET	0x0745
- 
--#define EC_ADDR_MAX_TGP			0x0746
-+#define EC_ADDR_CTGP_DB_DB_OFFSET	0x0746
- 
- #define EC_ADDR_LIGHTBAR_AC_CTRL	0x0748
- #define LIGHTBAR_APP_EXISTS		BIT(0)
-@@ -317,6 +320,7 @@
- #define UNIWILL_FEATURE_LIGHTBAR		BIT(3)
- #define UNIWILL_FEATURE_BATTERY			BIT(4)
- #define UNIWILL_FEATURE_HWMON			BIT(5)
-+#define UNIWILL_FEATURE_NVIDIA_CTGP_CONTROL	BIT(6)
- 
- struct uniwill_data {
- 	struct device *dev;
-@@ -514,6 +518,10 @@ static bool uniwill_writeable_reg(struct device *dev, unsigned int reg)
- 	case EC_ADDR_LIGHTBAR_BAT_RED:
- 	case EC_ADDR_LIGHTBAR_BAT_GREEN:
- 	case EC_ADDR_LIGHTBAR_BAT_BLUE:
-+	case EC_ADDR_CTGP_DB_CTRL:
-+	case EC_ADDR_CTGP_DB_CTGP_OFFSET:
-+	case EC_ADDR_CTGP_DB_TPP_OFFSET:
-+	case EC_ADDR_CTGP_DB_DB_OFFSET:
- 		return true;
- 	default:
- 		return false;
-@@ -547,6 +555,11 @@ static bool uniwill_readable_reg(struct device *dev, unsigned int reg)
- 	case EC_ADDR_LIGHTBAR_BAT_RED:
- 	case EC_ADDR_LIGHTBAR_BAT_GREEN:
- 	case EC_ADDR_LIGHTBAR_BAT_BLUE:
-+	case EC_ADDR_SYSTEM_ID:
-+	case EC_ADDR_CTGP_DB_CTRL:
-+	case EC_ADDR_CTGP_DB_CTGP_OFFSET:
-+	case EC_ADDR_CTGP_DB_TPP_OFFSET:
-+	case EC_ADDR_CTGP_DB_DB_OFFSET:
- 		return true;
- 	default:
- 		return false;
-@@ -802,6 +815,70 @@ static ssize_t breathing_in_suspend_show(struct device *dev, struct device_attri
- 
- static DEVICE_ATTR_RW(breathing_in_suspend);
- 
-+static ssize_t ctgp_offset_store(struct device *dev, struct device_attribute *attr,
-+				 const char *buf, size_t count)
-+{
-+	struct uniwill_data *data = dev_get_drvdata(dev);
-+	unsigned int value;
-+	int ret;
-+
-+	ret = kstrtouint(buf, 0, &value);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (value > U8_MAX)
-+		return -EINVAL;
-+
-+	ret = regmap_write(data->regmap, EC_ADDR_CTGP_DB_CTGP_OFFSET, value);
-+	if (ret < 0)
-+		return ret;
-+
-+	return count;
-+}
-+
-+static ssize_t ctgp_offset_show(struct device *dev, struct device_attribute *attr,
-+				char *buf)
-+{
-+	struct uniwill_data *data = dev_get_drvdata(dev);
-+	unsigned int value;
-+	int ret;
-+
-+	ret = regmap_read(data->regmap, EC_ADDR_CTGP_DB_CTGP_OFFSET, &value);
-+	if (ret < 0)
-+		return ret;
-+
-+	return sysfs_emit(buf, "%u\n", value);
-+}
-+
-+static DEVICE_ATTR_RW(ctgp_offset);
-+
-+static int uniwill_nvidia_ctgp_init(struct uniwill_data *data)
-+{
-+	int ret;
-+
-+	if (!uniwill_device_supports(data, UNIWILL_FEATURE_NVIDIA_CTGP_CONTROL))
-+		return 0;
-+
-+	ret = regmap_write(data->regmap, EC_ADDR_CTGP_DB_CTGP_OFFSET, 0);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = regmap_write(data->regmap, EC_ADDR_CTGP_DB_TPP_OFFSET, 255);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = regmap_write(data->regmap, EC_ADDR_CTGP_DB_DB_OFFSET, 25);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = regmap_set_bits(data->regmap, EC_ADDR_CTGP_DB_CTRL,
-+			      CTGP_DB_GENERAL_ENABLE | CTGP_DB_DB_ENABLE | CTGP_DB_CTGP_ENABLE);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
- static struct attribute *uniwill_attrs[] = {
- 	/* Keyboard-related */
- 	&dev_attr_fn_lock_toggle_enable.attr,
-@@ -810,6 +887,8 @@ static struct attribute *uniwill_attrs[] = {
- 	/* Lightbar-related */
- 	&dev_attr_rainbow_animation.attr,
- 	&dev_attr_breathing_in_suspend.attr,
-+	/* Power-management-related */
-+	&dev_attr_ctgp_offset.attr,
- 	NULL
- };
- 
-@@ -839,6 +918,11 @@ static umode_t uniwill_attr_is_visible(struct kobject *kobj, struct attribute *a
- 			return attr->mode;
- 	}
- 
-+	if (attr == &dev_attr_ctgp_offset.attr) {
-+		if (uniwill_device_supports(data, UNIWILL_FEATURE_NVIDIA_CTGP_CONTROL))
-+			return attr->mode;
-+	}
-+
- 	return 0;
- }
- 
-@@ -1405,6 +1489,10 @@ static int uniwill_probe(struct platform_device *pdev)
- 	if (ret < 0)
- 		return ret;
- 
-+	ret = uniwill_nvidia_ctgp_init(data);
-+	if (ret < 0)
-+		return ret;
-+
- 	return uniwill_input_init(data);
- }
- 
-@@ -1440,6 +1528,15 @@ static int uniwill_suspend_battery(struct uniwill_data *data)
- 	return regmap_read(data->regmap, EC_ADDR_CHARGE_CTRL, &data->last_charge_ctrl);
- }
- 
-+static int uniwill_suspend_nvidia_ctgp(struct uniwill_data *data)
-+{
-+	if (!uniwill_device_supports(data, UNIWILL_FEATURE_NVIDIA_CTGP_CONTROL))
-+		return 0;
-+
-+	return regmap_clear_bits(data->regmap, EC_ADDR_CTGP_DB_CTRL,
-+				 CTGP_DB_DB_ENABLE | CTGP_DB_CTGP_ENABLE);
-+}
-+
- static int uniwill_suspend(struct device *dev)
- {
- 	struct uniwill_data *data = dev_get_drvdata(dev);
-@@ -1453,6 +1550,10 @@ static int uniwill_suspend(struct device *dev)
- 	if (ret < 0)
- 		return ret;
- 
-+	ret = uniwill_suspend_nvidia_ctgp(data);
-+	if (ret < 0)
-+		return ret;
-+
- 	regcache_cache_only(data->regmap, true);
- 	regcache_mark_dirty(data->regmap);
- 
-@@ -1487,6 +1588,15 @@ static int uniwill_resume_battery(struct uniwill_data *data)
- 				  data->last_charge_ctrl);
- }
- 
-+static int uniwill_resume_nvidia_ctgp(struct uniwill_data *data)
-+{
-+	if (!uniwill_device_supports(data, UNIWILL_FEATURE_NVIDIA_CTGP_CONTROL))
-+		return 0;
-+
-+	return regmap_set_bits(data->regmap, EC_ADDR_CTGP_DB_CTRL,
-+			       CTGP_DB_DB_ENABLE | CTGP_DB_CTGP_ENABLE);
-+}
-+
- static int uniwill_resume(struct device *dev)
- {
- 	struct uniwill_data *data = dev_get_drvdata(dev);
-@@ -1502,7 +1612,11 @@ static int uniwill_resume(struct device *dev)
- 	if (ret < 0)
- 		return ret;
- 
--	return uniwill_resume_battery(data);
-+	ret = uniwill_resume_battery(data);
-+	if (ret < 0)
-+		return ret;
-+
-+	return uniwill_resume_nvidia_ctgp(data);
- }
- 
- static DEFINE_SIMPLE_DEV_PM_OPS(uniwill_pm_ops, uniwill_suspend, uniwill_resume);
-@@ -1545,6 +1659,29 @@ static struct uniwill_device_descriptor lapkc71f_descriptor __initdata = {
- 		    UNIWILL_FEATURE_HWMON
- };
- 
-+static int phxarx1_phxaqf1_probe(struct uniwill_data *data)
-+{
-+	unsigned int value;
-+	int ret;
-+
-+	ret = regmap_read(data->regmap, EC_ADDR_SYSTEM_ID, &value);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (value & HAS_GPU)
-+		data->features |= UNIWILL_FEATURE_NVIDIA_CTGP_CONTROL;
-+
-+	return 0;
-+};
-+
-+static struct uniwill_device_descriptor phxarx1_phxaqf1_descriptor __initdata = {
-+	.probe = phxarx1_phxaqf1_probe
-+};
-+
-+static struct uniwill_device_descriptor tux_featureset_1_descriptor __initdata = {
-+	.features = UNIWILL_FEATURE_NVIDIA_CTGP_CONTROL
-+};
-+
- static struct uniwill_device_descriptor empty_descriptor __initdata = {};
- 
- static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
-@@ -1594,7 +1731,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "PHxTQx1"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO InfinityBook Pro 14/16 Gen7 Intel",
-@@ -1602,7 +1739,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "PHxARX1_PHxAQF1"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &phxarx1_phxaqf1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO InfinityBook Pro 16 Gen7 Intel/Commodore Omnia-Book Pro Gen 7",
-@@ -1610,7 +1747,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "PH6AG01_PH6AQ71_PH6AQI1"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO InfinityBook Pro 14/16 Gen8 Intel/Commodore Omnia-Book Pro Gen 8",
-@@ -1626,7 +1763,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "PH4PG31"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO InfinityBook Pro 16 Gen8 Intel",
-@@ -1634,7 +1771,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "PH6PG01_PH6PG71"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO InfinityBook Pro 14/15 Gen9 AMD",
-@@ -1802,7 +1939,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "GMxMGxx"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO Polaris 15/17 Gen2 Intel",
-@@ -1810,7 +1947,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "GMxNGxx"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO Stellaris/Polaris 15/17 Gen3 AMD",
-@@ -1818,7 +1955,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "GMxZGxx"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO Stellaris/Polaris 15/17 Gen3 Intel",
-@@ -1826,7 +1963,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "GMxTGxx"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO Stellaris/Polaris 15/17 Gen4 AMD",
-@@ -1834,7 +1971,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "GMxRGxx"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO Stellaris 15 Gen4 Intel",
-@@ -1842,7 +1979,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "GMxAGxx"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO Polaris 15/17 Gen5 AMD",
-@@ -1850,7 +1987,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "GMxXGxx"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO Stellaris 16 Gen5 AMD",
-@@ -1858,7 +1995,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "GM6XGxX"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO Stellaris 16/17 Gen5 Intel/Commodore ORION Gen 5",
-@@ -1866,7 +2003,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "GMxPXxx"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO Stellaris Slim 15 Gen6 AMD",
-@@ -1874,7 +2011,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "GMxHGxx"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO Stellaris Slim 15 Gen6 Intel/Commodore ORION Slim 15 Gen6",
-@@ -1882,7 +2019,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "GM5IXxA"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO Stellaris 16 Gen6 Intel/Commodore ORION 16 Gen6",
-@@ -1890,7 +2027,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "GM6IXxB_MB1"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO Stellaris 16 Gen6 Intel/Commodore ORION 16 Gen6",
-@@ -1898,7 +2035,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "GM6IXxB_MB2"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO Stellaris 17 Gen6 Intel/Commodore ORION 17 Gen6",
-@@ -1906,7 +2043,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "GM7IXxN"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO Stellaris 16 Gen7 AMD",
-@@ -1914,7 +2051,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "X6FR5xxY"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO Stellaris 16 Gen7 Intel",
-@@ -1922,7 +2059,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "X6AR5xxY"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO Stellaris 16 Gen7 Intel",
-@@ -1930,7 +2067,7 @@ static const struct dmi_system_id uniwill_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "X6AR5xxY_mLED"),
- 		},
--		.driver_data = &empty_descriptor,
-+		.driver_data = &tux_featureset_1_descriptor,
- 	},
- 	{
- 		.ident = "TUXEDO Book BA15 Gen10 AMD",
--- 
-2.43.0
+Lizhi
 
+>
 
