@@ -1,168 +1,180 @@
-Return-Path: <platform-driver-x86+bounces-16778-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16780-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76D3D21D02
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 15 Jan 2026 01:16:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B6CD22F30
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 15 Jan 2026 08:52:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 5C3D83007C34
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 15 Jan 2026 00:16:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E0D7F30DF5E3
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 15 Jan 2026 07:49:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3C1E1BC41;
-	Thu, 15 Jan 2026 00:16:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B39B332D0DD;
+	Thu, 15 Jan 2026 07:49:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NxT775v8"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="YJlWvkRX"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011011.outbound.protection.outlook.com [40.93.194.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52CA21397
-	for <platform-driver-x86@vger.kernel.org>; Thu, 15 Jan 2026 00:16:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768436194; cv=none; b=lAzfrZ6+sCQDZIbesC5w8rJ9Sm59RO0oRiX8Kqq2ZDkZx58jL+Er15e7kDgEFVwRhI2af144YZ+NG0ElFPP0hNYMEu7NWj2TwncsWN9/aKFV+zLhxfpx3M0BEkAh1XGuCd2EDsxzpdEuLBsaGvr+VoT4crxVeer/L9aBLvRIxQk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768436194; c=relaxed/simple;
-	bh=88YVk0Arse2X4YXQXNzA92NXyrRoskw+Ttj51E1gjcw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=F82PQcEYXnpxiUyrJ1b6K9N2t9+El3u/6fXEbIra85Ror6575x7V7c6VUbSJ2s65qobRlyS2y2Dly7r8wDHbUwO0kXjHNNBkdD4QI0gwP65fke85Ba8RYXGZN5ib6lcHKDrQllqoJ3yBHFIqE3cXHLT7lQbI4e/O17fMbvEXOOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NxT775v8; arc=none smtp.client-ip=209.85.221.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5636784883bso334098e0c.3
-        for <platform-driver-x86@vger.kernel.org>; Wed, 14 Jan 2026 16:16:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768436192; x=1769040992; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6fEHHY+TTyFzggbhkRQjVOIOgLGb+TehajDMunOamqk=;
-        b=NxT775v8ZaSaGbMuTJZ8yoEddM1hkyI7bdUlITPeMjqdARiOnl6DEnkEAb/pt7eEbv
-         Pt64TLYV/WtQitVhPloD/Abg3iJy/XuP+xHLHOy/ordv7ehr56JGo5XTc56y6T91AXfG
-         lpAxAww4t+JNhCyK9+QVCK+TWi8itscbUREo8emCc+WoauWD9+DJBHlo2du0bm0yEywF
-         pweipN46mQ1p8oNl4IkIA7cSW+B+dz+YUm02YcEdhCbLRgJhZ0JvfM7VIkJZN5nrEdkw
-         /3SE+fkHWhMaRqWDgFDFM0FGAUmSv3kYzvNIKqHmopXzToYeuJPpGWNTI562cmTZEDXM
-         vgtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768436192; x=1769040992;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6fEHHY+TTyFzggbhkRQjVOIOgLGb+TehajDMunOamqk=;
-        b=ldF3RdwFS6Epxg9e9nIzmeh04maLabE6d661Vf82SktoFBcoyLD/1vSqaWKGDa76qI
-         ZEae6a6NhZ5bLCAujxSr/To+sZ4aib2tEBD/l/qJdLT4wP25b8vOi6zCgHK7fox+bbIu
-         1nnwMvCFMPM0vwa5YF6yyRLensN7YV63yRoK2Ms5HcWieBmACxMeIk24alFBjWErKkFi
-         X55n+YVcYUfXudWVKB3zZaivnLH6rLCJJUcL3Qah3H80ne106pj59JywZFBY2P4mwILR
-         UDint3Fye6fNo0+oLRM+eJYjO8mg0jHRYcXfW+KGa77mS9ppYqydNA62QoK9Cc9lRmTr
-         TRLw==
-X-Forwarded-Encrypted: i=1; AJvYcCW8rNeBtYC2yyTdqPjtVcHxvvgUVlH+5dQ679Bz/gJzssM9hkMq3cgowwurbWv8PV7Gb/9J205liFkhqi0E0+HxI+6T@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWllQ1fpWUgRyWg+KzmEdn0W5X1Zs46+OcAvoMRjZzrNcVnkbj
-	E+/T9u+KUHHvRffU4umQOyBqZLTyiRvMa8eOBRTebyQ1Z8IFZ+06Z1Ld
-X-Gm-Gg: AY/fxX5FfzCKH+aj5zntYSl0/dgbuWrz3hG5LCxqw4Dqm+P+XgRgD/wfSRcmUsmdBQY
-	rsgDquKAwDRJMM7kY9Agx3Y052DKDWYfpsKpzGMSEqJU51GTSJY3Q0CUI4E4BHMa5C2hsulR4dJ
-	DG5Q0wrN4WSkqmnvruN+MKEzNGn9EMmMVu3nP5OCFu3dOY6T4iYBxcVNreHMTMc9q2JXZffX16c
-	b+xBsyNhjgl3nsTJ2r9ljrGsAEhy4UQd4IEoI6HlOEn+M3FdyySnaXi9ueexlCZqRsXJtzh/NPE
-	6EQ3nyDk2vWwBD9XH731Hh9Bw+ya6jkrRblDGyYPKvb3XkarHzw05j7fFiEV3iqesytrPLyN0u3
-	Ih8/NjF4qF8FA4hPlPDRpIPM1p7O9bmPThCfCpiqYSoHGlhXzBh/v6zhom1cfuqUw27nVjXqvMY
-	kdhe4Nc5Q=
-X-Received: by 2002:a05:6122:d0d:b0:55a:e007:4c7e with SMTP id 71dfb90a1353d-563a093a35dmr2171478e0c.6.1768436192247;
-        Wed, 14 Jan 2026 16:16:32 -0800 (PST)
-Received: from localhost ([2800:bf0:4580:3149:c903:2904:3cc3:8b4c])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-563618ff8d5sm19216082e0c.7.2026.01.14.16.16.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Jan 2026 16:16:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422D632ABE1;
+	Thu, 15 Jan 2026 07:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768463371; cv=fail; b=iI36S069b5jwB8azR/fKiM8T1iArdl5aEUU13Ybl2h/vQdRRqreHIBZ13znV88QqkMtwaYX9qEtxC38evkhQDLIaRQOAsvVhuf7CVnQnMZMHlHPvn9/k1xw1TJM5NF1iFP0F5siCX0PKFZ8TTsbEAVbwJiGx0xM5Xkt2w9e0noQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768463371; c=relaxed/simple;
+	bh=VXoYdLvHUGZvoFeH9IvaZpIcTRjZOOdCgxt2lJ1Rsmg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fx8kKO2//wISLu8pYckZVNPlHBWX3Iy4QULYUigMvD8dw/EN0WHTutQHVrLCWHKRfeZ2Gbls0hn2YnLqqBCbuN0nevLn6UzDkO8o11vL9G2BZzyd/VPF7bz+yGzILqL86PqCP+fG1XOfWSJUhy/XcqtVijqveAbh2dHuWJgNmHc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=YJlWvkRX; arc=fail smtp.client-ip=40.93.194.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KaCY3iTattyay+fG/i0SktJTVqomJFVvl+X0cUb/nZR31ysOGCZXVxiPcr//AaQO0FOVIzedIASPyF3I59Cob0fWyb0iVqG/nivtocxlDylqEkO9b8ks4E6EiCNFm0h87r/OpeYCKP42lNXtqraErsmFJYmfczO/Jd4v/7AiklgLjhfxSZlBKJNli9IV4FTYYs+Yq9FOv6zqz/Eexi5HmBRT5zAgVG7v/ejKOYe7Gpe4GT/LQYKIqSR5kQK9EHHJYZ0PVf3tonsAeSWSxw2a1ruykKpb036rJzB8C0Ue49wE9h2YaD23//4pUc+V7BmiY0y1jtf4qvPLrIF5yrQeBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bf3/s7EjnNewB+eGgsCmwRYuQdIAdqnfWB888lHxB9Q=;
+ b=Wk2SY6mD9hpjT1hbK4z7vjmCl+maaueMGh9LHIvEK5w15r5naI2QtRDhAoxmAeSdF3/eezEFXS/IATfM8qSi6pzT0Ev2uYESJ1RPb3TEeBt7UMKlm4grm7+QcqWywfza1gzkEgcbEcvNiZpynLVJaZqnvtbielkmiPn10v3gbIkpRwFA4PvV3osVqshEfOG9pGWRT/FHl/do8K5rj3+WZn+Kn9CuNQZaSUKM3rLjrrzS03K26GYmG4Jz/DRiMpe2WmUmtmZfbPffL0XwJPTCzDLAztAzYuciRAQTUNXQDQXZHfhQNjHCWU7EJrLEnvYZ43xi/RKLCijXBAwtTiBl3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bf3/s7EjnNewB+eGgsCmwRYuQdIAdqnfWB888lHxB9Q=;
+ b=YJlWvkRXPsRCI/8XySc9sKrtBZvrhXtotySmT/mmnSA6YWCxAGV/a0EW58Fy9XDynOoSuP5SWqnxyB0fC2OAsKAZwjxrASdBVHVtCHvQ1SiSNRU0tmrLQut+4MCDm/g+qY6qeywWj5ZfSMVir3ncaaP5LF+S4orwmMohbfPiQl3esjiP4mRierrWAQXf5/euPbmAagR2aJ7vygcP6jeFK8y/wAzhn10QLBsRlp4obca+HwEnNFm6RI32sWH6Ii+AmTC/4igEu94OWqN/8oBYsuy4cMKE9MrKneb+Kv532WxsbiO0EWfu2lZs9GjawZQyNXmg/tfXFa0XpJst0mynMA==
+Received: from SJ0PR05CA0098.namprd05.prod.outlook.com (2603:10b6:a03:334::13)
+ by IA1PR12MB8191.namprd12.prod.outlook.com (2603:10b6:208:3f3::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Thu, 15 Jan
+ 2026 07:49:25 +0000
+Received: from SJ1PEPF0000231A.namprd03.prod.outlook.com
+ (2603:10b6:a03:334:cafe::8e) by SJ0PR05CA0098.outlook.office365.com
+ (2603:10b6:a03:334::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.4 via Frontend Transport; Thu,
+ 15 Jan 2026 07:49:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ SJ1PEPF0000231A.mail.protection.outlook.com (10.167.242.231) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9542.4 via Frontend Transport; Thu, 15 Jan 2026 07:49:25 +0000
+Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 14 Jan
+ 2026 23:49:15 -0800
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Wed, 14 Jan 2026 23:49:14 -0800
+Received: from r-build-bsp-02.mtr.labs.mlnx (10.127.8.9) by mail.nvidia.com
+ (10.126.190.180) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Wed, 14 Jan 2026 23:49:12 -0800
+From: Ciju Rajan K <crajank@nvidia.com>
+To: <hdegoede@redhat.com>, <ilpo.jarvinen@linux.intel.com>,
+	<tglx@linutronix.de>
+CC: <christophe.jaillet@wanadoo.fr>, <andriy.shevchenko@linux.intel.com>,
+	<vadimp@nvidia.com>, <platform-driver-x86@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Ciju Rajan K <crajank@nvidia.com>
+Subject: [PATCH platform-next v4 0/2] Interrupt storm detection
+Date: Thu, 15 Jan 2026 09:49:07 +0200
+Message-ID: <20260115074909.245852-1-crajank@nvidia.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 14 Jan 2026 19:16:30 -0500
-Message-Id: <DFOQB6DGBKBZ.39JQKPB7XDSJG@gmail.com>
-Cc: "Guenter Roeck" <linux@roeck-us.net>,
- <platform-driver-x86@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-hwmon@vger.kernel.org>
-Subject: Re: [PATCH v9 7/7] platform/x86: lenovo-wmi-other: Add HWMON for
- fan reporting/tuning
-From: "Kurt Borja" <kuurtb@gmail.com>
-To: "Rong Zhang" <i@rong.moe>, "Mark Pearson" <mpearson-lenovo@squebb.ca>,
- "Derek J. Clark" <derekjohn.clark@gmail.com>, "Armin Wolf"
- <W_Armin@gmx.de>, "Hans de Goede" <hansg@kernel.org>,
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260114122745.986699-1-i@rong.moe>
- <20260114122745.986699-8-i@rong.moe>
-In-Reply-To: <20260114122745.986699-8-i@rong.moe>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF0000231A:EE_|IA1PR12MB8191:EE_
+X-MS-Office365-Filtering-Correlation-Id: f39d5695-e392-4994-43a6-08de540a9a95
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|36860700013|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?MyEjjhAZ0vw8deKWSaJHAIUKv79E45hX2+2HMqOlyQ7hcnMsbqc6ltb7CQzL?=
+ =?us-ascii?Q?ZhTQzcbNM9WQ7r7EX7/aq8vIwDDPRGer1kWpwkTjZc1UGcoH0ecGnZxgwKuf?=
+ =?us-ascii?Q?OHPFsF82xgcK/sWpI7Y4qgSzycRqM8i2XLtGrimtWcqoqTP97KF/l7JON/KW?=
+ =?us-ascii?Q?fV+tPgpvJ+Pm2/G6okaKcRcnpbyHacTxChjMrDxv2aANWYPzxr3cK0OwffnI?=
+ =?us-ascii?Q?FvI4rZ8Me5XwmsmQTaxd66emJvCU32kseLh8L/K09K3+mgiExdlIbhYvxMqu?=
+ =?us-ascii?Q?T7hburvTthNTVmsKVgpHMi0akgS8jCE4x9CkX+kaoa9RIFJw1giXSn77IRSf?=
+ =?us-ascii?Q?FFW/uyE6mvlf6Hbh5TDIMMVDMCljsWPFxBN/PITbJ6U8QnFlCVnxvDpenmTj?=
+ =?us-ascii?Q?6LR0Q8zt/5r5/QGbRgZ6RsqwLUOG69OC7JzB/mr0uk40JVYkVZf2yighGBgG?=
+ =?us-ascii?Q?whRqYzLiriGtvhIfqlZOM/7UMlgXq8dWz7QQp1IF2x/gsT/Rys51+ZYebs0e?=
+ =?us-ascii?Q?kihhoknCcTzclRBy0TWhsPb+sFFa10wPOc2dceGsgcSv4fbYilgIUEYbNsFQ?=
+ =?us-ascii?Q?5IdkpLtoRioUvrI5wyYbCe6Pc05TMFIiuFOdhLKgK1hOL0Mb02u7ovVamwad?=
+ =?us-ascii?Q?HqYxXcALv97l3CR191xzRfnhYoDe6YvDJaPCyRsiyVagsw5FCXMmNk7BSdG3?=
+ =?us-ascii?Q?27WXEN/5GRZ27bV1PrAMiFlB931hzxRB/vsbFkpjuGC6kWbwYucNouXkCa07?=
+ =?us-ascii?Q?BdZQpGciRSN59ZzECDZBFq6xIhKR/jiZTOhyLNrNxXIivWehJr7eHiK1XfqP?=
+ =?us-ascii?Q?3wtrmb7RuUNACWjVfZtOYiBL7KARuwwSZjiP5ubxpQe8SQXG3yLr8k4WCFLT?=
+ =?us-ascii?Q?EpTdNwdNg2CWLQqKvZWwOSkqomrDPi2ugb2ID36nf0vUii1JPFeQdv+4eTY9?=
+ =?us-ascii?Q?Mr49vvJt60QBBD8ApjFdzeTvoKuPK8TNFy1V03v/OeCla5xt1rMp2KAwUnM1?=
+ =?us-ascii?Q?tEv4OHjr9KZ5Z9SpKiBUGzX/LRaq1sPWA020dDCJd38qqW+3I5LO8V7GeeO8?=
+ =?us-ascii?Q?HphWibZr6na9F9dfeCCPgYA8Oegyvq7zKd6eRGnkVF7/AcntHm5cdwDMKYHo?=
+ =?us-ascii?Q?ETdBET9VlJNfOQhOTRa1fATFsG7B/kknkSYJlJxc+7Qqq48pT0jFGRoI5pOp?=
+ =?us-ascii?Q?dz6GJc0pDdrY843fUh+JkuIT2YAaAlN6Au7qpkxg5/1KlCxOO6Gn8oADxL+k?=
+ =?us-ascii?Q?XlODMHD0nTbEy/EAeYqwoylwlGkMJ1oZvRo7IEKOQrwgjp28niEZ8S7l7f2N?=
+ =?us-ascii?Q?OZXvGSu5+YTJ82jM8UPLnuYkbRn0NU/V0U2jJkNng9q4g8k5iuMurSzzCGpC?=
+ =?us-ascii?Q?2BbjWbh2rz2Bv2XDC9S+/dnLsECcaayW0OFPL/pJfwJ4ZSWKuVZnjS3WUoGC?=
+ =?us-ascii?Q?CJhqtmiySsdqjmWXmYkcuoKNabYfwlqtWzVj5GOGf6r3Yu4ZCZxajxQdpPOK?=
+ =?us-ascii?Q?L+mCkwOIKX+s+uVhpwnzZRZCm/T9uxYk3lTCw8fq4dYf7FkIzhQDUESgcvIh?=
+ =?us-ascii?Q?Wkw4BHWl+9L6Cz+ArvVbSyjIgAbw5gWVG+QKVZaCZ0qOCu8nnkM9VwFL4CVl?=
+ =?us-ascii?Q?fM8BfAYkLnprm1edair9U4xa6V0puUcdGTM0DaT5T5t7J6M7taeSn6riMotn?=
+ =?us-ascii?Q?0hzUjA=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 07:49:25.2867
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f39d5695-e392-4994-43a6-08de540a9a95
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF0000231A.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8191
 
-Hi Rong,
+This patcheset contain:
+ Patch #1 Add generic interrupt storm detection mechanism
+ Patch #2 Enabling interrupt storm detection for mlxreg-hotplug driver 
 
-On Wed Jan 14, 2026 at 7:27 AM -05, Rong Zhang wrote:
-> Register an HWMON device for fan reporting/tuning according to
-> Capability Data 00 (capdata00) and Fan Test Data (capdata_fan) provided
-> by lenovo-wmi-capdata. The corresponding HWMON nodes are:
->
->  - fanX_enable: enable/disable the fan (tunable)
->  - fanX_input: current RPM
->  - fanX_max: maximum RPM
->  - fanX_min: minimum RPM
->  - fanX_target: target RPM (tunable)
->
-> Information from capdata00 and capdata_fan are used to control the
-> visibility and constraints of HWMON attributes. Fan info from capdata00
-> is collected on bind, while fan info from capdata_fan is collected in a
-> callback. Once all fan info is collected, register the HWMON device.
->
-> Signed-off-by: Rong Zhang <i@rong.moe>
-> Reviewed-by: Derek J. Clark <derekjohn.clark@gmail.com>
-> ---
+v0->v4
 
-...
+- Impletemented generic interrupt storm detection as suggested
+   by Thomas Gleixner.
+- Updated the mlxreg-hotplug driver to make use of generic interrupt
+   storm detection.
+- Modified the logic in mlxreg-hotplug driver to track per device
+   interrupts for the the shared IRQ based on the call back function
+   provided by generic interrupt storm detection.
+- Addressed the comments pointed out by Ilpo on earlier versions.
 
-> diff --git a/Documentation/wmi/devices/lenovo-wmi-other.rst b/Documentati=
-on/wmi/devices/lenovo-wmi-other.rst
-> index 821282e07d93c..bd1d733ff286d 100644
-> --- a/Documentation/wmi/devices/lenovo-wmi-other.rst
-> +++ b/Documentation/wmi/devices/lenovo-wmi-other.rst
-> @@ -31,6 +31,8 @@ under the following path:
-> =20
->    /sys/class/firmware-attributes/lenovo-wmi-other/attributes/<attribute>=
-/
-> =20
-> +Additionally, this driver also exports attributes to HWMON.
-> +
->  LENOVO_CAPABILITY_DATA_00
->  -------------------------
-> =20
-> @@ -39,6 +41,11 @@ WMI GUID ``362A3AFE-3D96-4665-8530-96DAD5BB300E``
->  The LENOVO_CAPABILITY_DATA_00 interface provides various information tha=
-t
->  does not rely on the gamezone thermal mode.
-> =20
-> +The following HWMON attributes are implemented:
-> + - fanX_enable: enable/disable the fan (tunable)
 
-I was testing this series and I'm a bit confused about fanX_enable.
+Ciju Rajan K (2):
+  kernel/irq: Add generic interrupt storm detection mechanism
+  platform/mellanox: mlxreg-hotplug: Enabling interrupt storm detection
 
-Judging by this comment and also by taking a quick look at the code, it
-looks like writting 0 to this attribute disables the fan.
+ drivers/platform/mellanox/mlxreg-hotplug.c | 74 +++++++++++++++++-
+ include/linux/interrupt.h                  | 13 ++++
+ include/linux/irqdesc.h                    | 20 +++++
+ include/linux/platform_data/mlxreg.h       |  4 +
+ kernel/irq/manage.c                        |  4 +
+ kernel/irq/spurious.c                      | 87 ++++++++++++++++++++++
+ 6 files changed, 200 insertions(+), 2 deletions(-)
 
-This is however (per hwmon ABI documentation [1]) not how this attribute
-should work. IIUC, it is intended for devices which can disable the fan
-sensor, not the actual fan.
+-- 
+2.47.3
 
-I fail to see how this feature is useful and I also find it dangerous
-for this to be exposed by default, considering the same could be
-achieved with the relaxed module parameter, which at least tells the
-user to be careful.
-
-Apologies if I missed some previous discussion on this.
-
-[1] https://elixir.bootlin.com/linux/v6.19-rc5/source/Documentation/ABI/tes=
-ting/sysfs-class-hwmon#L279
-
---=20
-Thanks,
- ~ Kurt
 
