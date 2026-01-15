@@ -1,41 +1,41 @@
-Return-Path: <platform-driver-x86+bounces-16779-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16781-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC10ED22F2A
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 15 Jan 2026 08:52:05 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F95D22ED3
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 15 Jan 2026 08:49:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E9570300796D
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 15 Jan 2026 07:49:31 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 2ECD8301AB0E
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 15 Jan 2026 07:49:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A8F431353E;
-	Thu, 15 Jan 2026 07:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3A4C32D7F8;
+	Thu, 15 Jan 2026 07:49:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="p9MLiDUn"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="jBtr+eOO"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010045.outbound.protection.outlook.com [52.101.85.45])
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012037.outbound.protection.outlook.com [40.107.209.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5971432825B;
-	Thu, 15 Jan 2026 07:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0BE132C92E;
+	Thu, 15 Jan 2026 07:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768463369; cv=fail; b=ofpFIHvx7UVBMCxPHVNtyLCpcfDg0Vl/A7imgLtiaTjhP2CWbpg0QlWdaexT0GBHOe0FHwkX9jTqdXyFBnksxta99MH27Eeu9OedvZhYjExkafvIcz/oIgI3qoJo8I5YQQISSXPWU4CTVejX3XxOuKpOgcf/XS2xWCSyENIf5PY=
+	t=1768463377; cv=fail; b=lU2LRHUAJIwoSy9mte63nl+ip7nAxNUsZEgXXahcmXX9a4s57U73jCps9OvzIIHiDyprcHKSYyBYzjlXreNNy2W8IibjkEtw4vbKqhyKVBSP6F6nljjL4yqUg07gNToQ9t+eyj8xnH/GCFIkkS/QiKDWt85xpgNQX8AAk/E32Lk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768463369; c=relaxed/simple;
-	bh=e59Na8hQwG4Q776dTUowKtGX/4CQlMHgvb3vC14Ktaw=;
+	s=arc-20240116; t=1768463377; c=relaxed/simple;
+	bh=JX3qAtQoUieq5opq25eT4gJFQYmyFjAWFyC3wnNvKKA=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V/9xmV2sj0Y2yyL/R7WqKbB0IpANfEmwwncgnMHe0pb1KHPLFer9RdKzZFs3FBrU156htfv2S/wrUFFmChZyst4FKmiaKCi9Iga4gVMxXml8Ifjaqxr/QJtOaIWciIgSDRieDnBU+YqU+6lyjCb42oJjUMzOoyAGgkD15FiF944=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=p9MLiDUn; arc=fail smtp.client-ip=52.101.85.45
+	 MIME-Version:Content-Type; b=j7b9LkKsNw8wcPD6Kz84YU8LCCKIA7C6jLhrp/VLokCMtpec3RRt6Sc5au1pvOL7dHI2CEr8ZvwYiVMrP/mUIKjuVwWNU8GkahLq564YVyG+XvERzBSavFwdN0R2+JKdkeWNDeScFu3VnD1rLLU+pI9ZmV8nERSxSFXsFlrh3JM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=jBtr+eOO; arc=fail smtp.client-ip=40.107.209.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=i9po1J2ZgUH94uMK/JlJVDJfPdYe6CG84BOQspMY/EAOLJ9ybmjWxTVuKIUS9xy5S5ooZEkFPv5BozER8OlSx7OE6CQeLHAlgIp1EbzFZHwPvo3MuB6eqZqBGx6Rv3/aK3WdJW8WbeDmbQm56WDZdfUknBJMfkZVmGSRjRLRVo7WwmJ6JToTzr42kaqa523JOP3ckQAdt4fUFe0zljNOdSVENUnI9nhHGIngYEYEOcbmGJ5hmgzl7m+br6SXL4dbQlkZ4HAk7D4w/VYWWa3cPlLWeKAImG5iqOcPSTRXFcD6PdjFS/5/X/k13LhpxK7Y0XcZqXe4yK3Cu33smZEgVA==
+ b=DFXgIK3VEZeuJ24uPqB/vn5KmmKIPhUHodb5EKoiz9bHmpsciQcPrGG/BudnmtxWV3gafIRL8s45oO2lZ1h37vvJD9IAsMAIzr7ZeCBtX3LMerowKNvDv16fi2V2uLzwUS4Ju8UZDNSh41myWbO2eXtijwbSenJcqt9a8d7ko/y8XzAxeA39awOi+3htbPYmsVv97+LEq5JIPm/Jxdw9OSm38uxWDRsGYJsqYQfG4s9kCfw9OrwhOnq+XVJNzXa0zhDe3ldmtpB51TZM46pbOk9yr9NNJXYD7AnA+/ipDipbVFiJz6H+rxEFtmF2hObSoph6Mocp2mevq15j+pRFkg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jEmDEK3BQBiq+x6mCdP6qh2jPXQ/eajxR7qdTc1Q2/M=;
- b=ejY+tFYpcepS3LxX81QcIzAt4ehZNq1/OYrh6JMPmwdxH9YgyShmzKfotLjklJ7/H5BBnzyIEbs98h3xAuEVC6l/k1l3VftD0I8yriONjrPqolkJzDcEfdvs71hR2u03gvrFcDWVSgwHXh6zYsiVaXqWKNOiJtnRhtXOPgzAlTux6pw8roZX2K2cbLl/lSxmcjxAKzRG2Hq6YKZQNhBu5CD1aupNSEu0PAH2l+80hxMdnLSkJhVwwH3FAA+MSRC8Xr7JlYKjHlnYHWpPENvcRw4x26Fk3B6ARS3VEkpkZ/wmpzElIwUERMJpy3A/flIoAxCBDBC4TM6AkH+SAOg8Yw==
+ bh=PMeHGqEsRhGxXhIsyMYMsaGb/ujDmlXDL6pEKvcEgtw=;
+ b=XZgeU5gLKMcO+fX749p0MEYM/OoSsdKDxj8bH5zzTqfW5bW++Jjh7u2TgDJSPVz4doOGLCUsXwSRqvi8qS1TDJZnC1Nd8OOxaluO+2S00v1eljgFToUxhwByk19Oh7/MadCi+8AAyb4lHZ+1gK1aUhftce/Skvm+rxzqdjOR7ksmWnPVEWW1BJDF3t63VeZreqmKkZ1kfi2t4a9poWj4TtxrOJBGyzD9gVgjjdHTJma224aBPqtt5ZU21EGMGC+w0bipyD2o39c075M58ywgboSs2HJoglrGJajzKumiiUOIqi22h7JAslcFOitlWLIDYoyL2jQ9kbsOjhLJQzfQ/w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.118.232) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
@@ -43,17 +43,17 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jEmDEK3BQBiq+x6mCdP6qh2jPXQ/eajxR7qdTc1Q2/M=;
- b=p9MLiDUnPOqoa9MKyp5hmwOLsuZ3+4adksxpdBy4WRIh/paYvbInV3FmhRLwXXE5j5WFdlrjfsj55RFo0cAuxYWnWjDz28wPJpK12g0VGbngyDPTzvalSyzC13p8C7G0jHgDvsZy2/6DCnio9ITGysy7x0xzUEMNNleVzK3KJXP7Qhp3HsBMR9R3KX3hObpiJzyOTTG6Lj7HPFkVnN9f/z6hiF/Yg96tR4qSrxPuMgiTX2m0AB9Mef1/9ftPRISl5yGz1FVSY3+Tn+efm6JESwlALQqTeQMxd7vkRdj4XljoWft35k6zaOqH+RtkroHj1AeCejcuonkUnVuKcSdvoA==
-Received: from SJ0P220CA0014.NAMP220.PROD.OUTLOOK.COM (2603:10b6:a03:41b::22)
- by SA1PR12MB999107.namprd12.prod.outlook.com (2603:10b6:806:4a2::14) with
+ bh=PMeHGqEsRhGxXhIsyMYMsaGb/ujDmlXDL6pEKvcEgtw=;
+ b=jBtr+eOOeixjYwpjafSnO3508n77EFViELLszdmWR8gtlUeW3sxU6noy1QlSaYWVdhpzTFAnQiv0gAtCLVSlOdNQhLO390IF8wbrJb1+NBNcIn8jWU5sGz/Tgj0i7GmYfF3WjhMvf8XZ93Cjb/cZKuTWvaRssZY9Rh5pomNXhJ0VDs/XsJqJBVBWWG1FTO2le1pLTRFRIBsc+95eQtsTPR9ZybQr3z/HN6hAAxRagWtc4sRcQNJxa/Ts1/mK+rH1BKohdpwroKy35G8RvKMgIzyniFIR68FhKHJJa7ODuMad6Uq7CQhbqjIffSLe1LmYt0kFeyFccMqIuSyp0m0tDw==
+Received: from BY3PR05CA0057.namprd05.prod.outlook.com (2603:10b6:a03:39b::32)
+ by LV2PR12MB5941.namprd12.prod.outlook.com (2603:10b6:408:172::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Thu, 15 Jan
- 2026 07:49:24 +0000
-Received: from SJ5PEPF000001CD.namprd05.prod.outlook.com
- (2603:10b6:a03:41b:cafe::3d) by SJ0P220CA0014.outlook.office365.com
- (2603:10b6:a03:41b::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9499.7 via Frontend Transport; Thu,
+ 2026 07:49:26 +0000
+Received: from SJ5PEPF000001CF.namprd05.prod.outlook.com
+ (2603:10b6:a03:39b:cafe::d9) by BY3PR05CA0057.outlook.office365.com
+ (2603:10b6:a03:39b::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.5 via Frontend Transport; Thu,
  15 Jan 2026 07:49:26 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
@@ -62,29 +62,29 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
  216.228.118.232 as permitted sender) receiver=protection.outlook.com;
  client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
 Received: from mail.nvidia.com (216.228.118.232) by
- SJ5PEPF000001CD.mail.protection.outlook.com (10.167.242.42) with Microsoft
+ SJ5PEPF000001CF.mail.protection.outlook.com (10.167.242.43) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9520.1 via Frontend Transport; Thu, 15 Jan 2026 07:49:24 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ 15.20.9520.1 via Frontend Transport; Thu, 15 Jan 2026 07:49:25 +0000
+Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
  (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 14 Jan
- 2026 23:49:17 -0800
+ 2026 23:49:20 -0800
 Received: from drhqmail201.nvidia.com (10.126.190.180) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.20; Wed, 14 Jan 2026 23:49:17 -0800
+ 15.2.2562.20; Wed, 14 Jan 2026 23:49:19 -0800
 Received: from r-build-bsp-02.mtr.labs.mlnx (10.127.8.9) by mail.nvidia.com
  (10.126.190.180) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
- Transport; Wed, 14 Jan 2026 23:49:15 -0800
+ Transport; Wed, 14 Jan 2026 23:49:17 -0800
 From: Ciju Rajan K <crajank@nvidia.com>
 To: <hdegoede@redhat.com>, <ilpo.jarvinen@linux.intel.com>,
 	<tglx@linutronix.de>
 CC: <christophe.jaillet@wanadoo.fr>, <andriy.shevchenko@linux.intel.com>,
 	<vadimp@nvidia.com>, <platform-driver-x86@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, Ciju Rajan K <crajank@nvidia.com>
-Subject: [PATCH platform-next v4 1/2] kernel/irq: Add generic interrupt storm detection mechanism
-Date: Thu, 15 Jan 2026 09:49:08 +0200
-Message-ID: <20260115074909.245852-2-crajank@nvidia.com>
+Subject: [PATCH platform-next v4 2/2] platform/mellanox: mlxreg-hotplug: Enabling interrupt storm detection
+Date: Thu, 15 Jan 2026 09:49:09 +0200
+Message-ID: <20260115074909.245852-3-crajank@nvidia.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260115074909.245852-1-crajank@nvidia.com>
 References: <20260115074909.245852-1-crajank@nvidia.com>
@@ -99,295 +99,233 @@ Content-Type: text/plain
 X-NV-OnPremToCloud: ExternallySecured
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001CD:EE_|SA1PR12MB999107:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5b0e9179-6f7e-4ee4-5bbd-08de540a9a2f
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001CF:EE_|LV2PR12MB5941:EE_
+X-MS-Office365-Filtering-Correlation-Id: 689069e3-2fa3-4cbe-728f-08de540a9aff
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|36860700013|1800799024;
+	BCL:0;ARA:13230040|82310400026|1800799024|376014|36860700013;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?gpp9fnd8QJFwMms+lTTBWMLymqwGmJUrTbEQ+M2pmEgPlcI4NpGHgAZdHHlm?=
- =?us-ascii?Q?5vdMNrctyvZOD2SiQlWwIaTtd3H1ewPBLABOQyryNp3NXflwqFCoPQqXjwk0?=
- =?us-ascii?Q?A9RWmi/cDCrcN5O8BWYAEXwUKtNkwi2xHUPggx09hGxVBM7XupgblshuFymt?=
- =?us-ascii?Q?mKMr3mS1Of1gUwlFzr+TlEmHRiCCC+Nq31EiazCjWEVPvVUKd5awaob2wyKy?=
- =?us-ascii?Q?K3jUme2+Pg8YHUXL70qWSxkBVw0xPCpgfiHJ2aDWLJviz690Uh7+CZCkg2w7?=
- =?us-ascii?Q?Uox3ma3jwnooL7ylSE0W5FQJqLPa/pfs8LcF7QvAGxlyRrwkH1yEfkIua1sQ?=
- =?us-ascii?Q?lI2Sq2SO0Rz/9FmD0TF4XALNqf/sYSK6r6ATBtoW0SDKu15RvWT6bcZeMYQB?=
- =?us-ascii?Q?5A4b0vdIuKVUzvmYT2A5sUfnq/bQ+TkprU7Jmj3DFglCjoUW0WGXagLlALhT?=
- =?us-ascii?Q?yV4a9MCEx1tqhfRkDylLYqa8resaMsBU/Vj92SNckiknFJkwtynb9hFrhp+d?=
- =?us-ascii?Q?EyTMsM/A3kBX0bq/7KFchaJNXHZ9dpPimMCki5etvvrLu0XA2gLFditQyHuL?=
- =?us-ascii?Q?t9d2i5ImcuYOfJwJ0WZ42SrWEJejd7n+phkYGGZJn497RSH6h44rYAYEjXUu?=
- =?us-ascii?Q?MNDA7cKIEX871mDLon3YItEAgsvv1UnfKwJm08DHYcbR4kcMk0UehM1rHHa+?=
- =?us-ascii?Q?xg2jL2MmrrvRVpiB0jCRu8PGlYJftqHeompF+xHrcalrbv24LOjrMKb/a/Lh?=
- =?us-ascii?Q?+uGqdQuHtfwpQdhst5IdMS0G4PoeCrIu3gRYVK82P71RzkYAOA4nsZ5vGlgS?=
- =?us-ascii?Q?yV2tHyjMWvbfKOb/SE2sY/oLGUjqXw+GqGgjIZ4XhJH5ZMVvcR6FATexJlXa?=
- =?us-ascii?Q?Bxz/AUwMgtom1IlM2pJURuup/3t2pMozdBY+VBQTgAw2wGGEj0ngOExX1m7D?=
- =?us-ascii?Q?GzuGOIkxMBGArv0L1lt/VKezBtOut0zv4hRl2J8k5NHIoBwZReNxaMuL0/7a?=
- =?us-ascii?Q?aIhWL5jGpZL/DbQYEobhX9Vq78LjWrB6x3wFZtS5XPhRVk9dUvtjXBg+0GsS?=
- =?us-ascii?Q?0N2AIkCqbfO4H+kk38wO/GLxjolSwmWhHfdEjCFPqKjSDmy5gYfy5DJfL755?=
- =?us-ascii?Q?WIrjPXpJ1bCzxYDBzso443v1IW6Ui3YKqhyj27Xk73515/2I1vKwdcr3TOD6?=
- =?us-ascii?Q?5hYsReoLhbAlvDnjOUdwAjxUlNSJKxCnpbOfP+01n+qVzgK7up1ueV2z7vd0?=
- =?us-ascii?Q?pT95tEtc/E9DE42JuCFZfOK3w4a/K5PwsH3xi417xiPKLkpcaq/DcTTh2mWS?=
- =?us-ascii?Q?xAPQWZbh9Qc46bh9ObiVHVT03PYV3rrawhcb5qYJUzqVukaYmIBepvOkDPbr?=
- =?us-ascii?Q?9Q9MOWAAbNXPNv5i42tcOY716MebEjDny8wAZQZwR5cDiFlIdJ+13a9dN7Ya?=
- =?us-ascii?Q?jUfBwROwf8Zd+WBI6OJuQNnQVjub82qFwd3xOjG5IBWW0iAVoZkfLhxD57FB?=
- =?us-ascii?Q?aZUxgf2vzZcTFQMpqJpT57JG1LHxqAR0qLcRtmd4ZmZozN1cddCs0Ws+/VmY?=
- =?us-ascii?Q?DXp36EhboOS/mYwiBFbnqeOdstKYCXpZkJc/hLqu1SwmwvFX5OdNpFQqbFH9?=
- =?us-ascii?Q?Uinr+btwK6kPJKuNpZymORL7h6FTPPawC+5yIanIC2tjk0xfWaxJ+hbZq6Ni?=
- =?us-ascii?Q?s5FssA=3D=3D?=
+	=?us-ascii?Q?YZ4gJK7woLfgkcXhzdhGleHLKWgg/VZj5wZcmIJS3OLh8z9daaArMB3mO6gd?=
+ =?us-ascii?Q?wYZNcEXSWa7dWCF9aTwPCpORECgZFOpfhg2niN9r/VzOBYvBwQqiwf/+Z7Lw?=
+ =?us-ascii?Q?2c0RtKfrnIZ8kDaal9pW4Wg4PDje58somwSsFE9rCf0b3hjk1Q45WT6VOQPB?=
+ =?us-ascii?Q?EOQFQOj2MHLQtothHVqsxVt845qYd7mkkLPH/8Pk4swB/2PiMWdyfvUsoBHS?=
+ =?us-ascii?Q?CcSKA2a/RTSK5XfBw/VjSOU9kA/zqOpQtzh6o9R0uHCRAjz39wtcI7x9ESpr?=
+ =?us-ascii?Q?nWHa2FL54QdDa9nYDn+MgJLPtrvrLS8en3pwFTEicf3S6AixHUj9exBaEsjT?=
+ =?us-ascii?Q?T/GEYqf+NPQ/Rmti0raiCI+G48bHRPVVuVKGhnK6BXTA3q3ZYr8adqKDyyaF?=
+ =?us-ascii?Q?xgRhpgchqRq6hw8vC+NEq5DMeSIbPWvo93j9vUH27zVPvdJ8h1C7kolr3V+A?=
+ =?us-ascii?Q?wyWHgg2rmljLUIBd7U0cInIQ6JBc7+KTr1NzsDMpuaMA2PGDV+Xp8AAE6KZH?=
+ =?us-ascii?Q?RanFu9XumjE8oZjR/JcKKZ+eHNQ0MIo5ZErMIU5XNyGsRKtYpHcA3TcNhi4+?=
+ =?us-ascii?Q?lBlUDDhdVGVbEh5l4l2ay0JIb/cDdiOTcsitF2RNZ3mWFPU9iKhaR5sadEZ4?=
+ =?us-ascii?Q?oWG+Mmfki7jB1/gVw1Nj9NeoOQg5FNieXAFPYtjDYFIeTbEjuZcRfSnLZQgN?=
+ =?us-ascii?Q?mexyNQnkUEq1Mi+MBRZuBnAZngRjOrhrx0CPiC+WJ0TRHvOUzrIv/uV01UuQ?=
+ =?us-ascii?Q?L8aA6EQ7iKYRSQxSSMybJzwCpj2YztxjuTHOA7UvNjheHeP2Xqrhri01leQj?=
+ =?us-ascii?Q?HIicbNa3tAihJkgXYUIhMQ/SI5qVqUsNIuHW7cSjCtJD7NpHBgW40LHFGqmh?=
+ =?us-ascii?Q?DpEadfqS2V7IdjFY2v8DhtrUxPZ7IPfrmQU7r7d/BBTFMj8cvhqnUv+fKqGs?=
+ =?us-ascii?Q?Rvo0bwnRCtNEnYqeU6fO+ptMBJiXqfH/nmFshLVgPXzlK5Y3P5By32Cku1/8?=
+ =?us-ascii?Q?m0SNgJX3JfG7yGo55YRUxfcJvAdHiWiZOE4oARJ1Pnarn6SfPldiCHyxkKLt?=
+ =?us-ascii?Q?mfeH/vvF4JN5zhrjV0FHKtGvTbTgGEwgiAVz/BBBSKyE7BWYceDV5ggXzJRn?=
+ =?us-ascii?Q?J9vkAblMQTsr9TKa+RFIV4lOIS9TJWtzGhsHPZzGS5KRbblavKSUpgI2wUjT?=
+ =?us-ascii?Q?7wAryKCZ1GYAyzcpAAsprna/VI/Cq2RNtVttlyfechcaXWB7WUVJb7HDPBqf?=
+ =?us-ascii?Q?fbzYyccmt8NJ9n9z3EwrhbZ21+7y9nQxJnlNCs+QH0DK62ARjspPchYUGz85?=
+ =?us-ascii?Q?kR7IwioHEiGhn6zi3U4DbHxg9/g/MUjxsXZSywBxMyDKqsdGfBLhjYh8gy/A?=
+ =?us-ascii?Q?7WsQP8iTmIFd3d5yYrFSUH4h+WTS5uUuTRHpCGUV6H0531qdclOX7HL5rCF6?=
+ =?us-ascii?Q?++Rb24Jqy8yJ4LIhW0bGgAIrZE7qnl3Hf0gs/wAeeECtGGrS0KlIp8xj72HB?=
+ =?us-ascii?Q?woE3nry2QP0fi7Cm9ea5OpzrLO3JT5dDcCFQ4JkX5gCozPjFTBBLZ28SNL5k?=
+ =?us-ascii?Q?IK4t8l4tBH/uFq3rcvqFVjZUwetlL+wZvhHqXYEufuI3HdVPzaVwNNofErMj?=
+ =?us-ascii?Q?uDzdpDUas0Z2AdJa8wpT5MAOn8le4+km5MnU0EG5/t4YxvWmxdhYDVxeS/lD?=
+ =?us-ascii?Q?0wRzJA=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1101;
+	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(36860700013);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 07:49:24.6154
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 07:49:25.9883
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b0e9179-6f7e-4ee4-5bbd-08de540a9a2f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 689069e3-2fa3-4cbe-728f-08de540a9aff
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF000001CD.namprd05.prod.outlook.com
+	SJ5PEPF000001CF.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB999107
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5941
 
-If the hardware is broken, it is possible that faulty device will
-flood interrupt handler with false events. For example, if fan or
-power supply has damaged presence pin, it will cause permanent
-generation of plugged in / plugged out events. As a result, interrupt
-handler will consume a lot of CPU resources and will keep raising
-"UDEV" events to the user space.
+This patch enables the interrupt storm detection feature and
+also adds the per device counter for tracking the faulty
+devices. It also masks the faulty devices from generating
+any further interrupts.
 
-This patch provides a mechanism for detecting interrupt storm.
-Use the following criteria: if the specific interrupt was generated
-'N' times during 'T' seconds, such device is to be considered as
-broken and user will be notified through a call back function.
-This feature can be used by any kernel subsystems or drivers.
+Add field for interrupt storm handling.
+Extend structure mlxreg_core_data with the following field:
+ 'wmark_cntr'   - interrupt storm counter.
 
-The implementation includes:
+Extend structure mlxreg_core_item with the following field:
+ 'storming_bits' - interrupt storming bits mask.
 
-- irq_storm_cb_t: Callback function type for storm notifications
-- struct irq_storm: Per-IRQ storm detection data structure
-- irq_register_storm_detection(): Register storm detection with
-				  configurable parameters
-- irq_unregister_storm_detection(): Unregister storm detection
-- Integration with note_interrupt() for automatic storm checking
-
-Callback API parameters:
-- irq: interrupt number to monitor
-- max_freq: maximum allowed frequency (interrupts per second)
-- dev_id: device identifier passed to callback
-
-Suggested-by: Thomas Gleixner <tglx@linutronix.de>
+Reviewed-by: Vadim Pasternak <vadimp@nvidia.com>
 Signed-off-by: Ciju Rajan K <crajank@nvidia.com>
+--
 ---
- include/linux/interrupt.h | 13 ++++++
- include/linux/irqdesc.h   | 20 +++++++++
- kernel/irq/manage.c       |  4 ++
- kernel/irq/spurious.c     | 87 +++++++++++++++++++++++++++++++++++++++
- 4 files changed, 124 insertions(+)
+ drivers/platform/mellanox/mlxreg-hotplug.c | 74 +++++++++++++++++++++-
+ include/linux/platform_data/mlxreg.h       |  4 ++
+ 2 files changed, 76 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-index 266f2b39213a..9fbda5d08a8f 100644
---- a/include/linux/interrupt.h
-+++ b/include/linux/interrupt.h
-@@ -20,6 +20,7 @@
- #include <asm/ptrace.h>
- #include <asm/irq.h>
- #include <asm/sections.h>
-+#include <linux/jiffies.h>
+diff --git a/drivers/platform/mellanox/mlxreg-hotplug.c b/drivers/platform/mellanox/mlxreg-hotplug.c
+index d246772aafd6..4752477207d4 100644
+--- a/drivers/platform/mellanox/mlxreg-hotplug.c
++++ b/drivers/platform/mellanox/mlxreg-hotplug.c
+@@ -30,6 +30,9 @@
+ #define MLXREG_HOTPLUG_ATTRS_MAX	128
+ #define MLXREG_HOTPLUG_NOT_ASSERT	3
  
- /*
-  * These correspond to the IORESOURCE_IRQ_* defines in
-@@ -139,6 +140,14 @@ struct irqaction {
- 	struct proc_dir_entry	*dir;
- } ____cacheline_internodealigned_in_smp;
- 
-+/**
-+ * irq_storm_cb_t - callback function type for interrupt storm detection
-+ * @irq: interrupt number that is storming
-+ * @freq: detected frequency (interrupts per second)
-+ * @dev_id: device identifier passed during registration
-+ */
-+typedef void (*irq_storm_cb_t)(unsigned int irq, unsigned int freq, void *dev_id);
-+
- extern irqreturn_t no_action(int cpl, void *dev_id);
- 
- /*
-@@ -331,6 +340,10 @@ extern int irq_force_affinity(unsigned int irq, const struct cpumask *cpumask);
- extern int irq_can_set_affinity(unsigned int irq);
- extern int irq_select_affinity(unsigned int irq);
- 
-+extern bool irq_register_storm_detection(unsigned int irq, unsigned int max_freq,
-+					 irq_storm_cb_t cb, void *dev_id);
-+extern void irq_unregister_storm_detection(unsigned int irq);
-+
- extern int __irq_apply_affinity_hint(unsigned int irq, const struct cpumask *m,
- 				     bool setaffinity);
- 
-diff --git a/include/linux/irqdesc.h b/include/linux/irqdesc.h
-index 17902861de76..d27f02371a6c 100644
---- a/include/linux/irqdesc.h
-+++ b/include/linux/irqdesc.h
-@@ -17,6 +17,9 @@ struct irq_desc;
- struct irq_domain;
- struct pt_regs;
- 
-+/* Forward declaration - full definition in interrupt.h */
-+typedef void (*irq_storm_cb_t)(unsigned int, unsigned int, void *);
++/* Interrupt storm frequency */
++#define MLXREG_HOTPLUG_INTR_FREQ_HZ	100
 +
  /**
-  * struct irqstat - interrupt statistics
-  * @cnt:	real-time interrupt count
-@@ -29,6 +32,22 @@ struct irqstat {
- #endif
+  * struct mlxreg_hotplug_priv_data - platform private data:
+  * @irq: platform device interrupt number;
+@@ -339,6 +342,57 @@ static int mlxreg_hotplug_attr_init(struct mlxreg_hotplug_priv_data *priv)
+ 	return 0;
+ }
+ 
++/**
++ * mlxreg_hotplug_storm_handler - generic interrupt storm detection callback
++ * @irq: interrupt number experiencing storm
++ * @freq: detected frequency (interrupts per second)
++ * @dev_id: device data (mlxreg_hotplug_priv_data)
++ *
++ * This callback is invoked by the generic interrupt storm detection mechanism
++ * when an interrupt storm is detected on the shared IRQ line. The driver then
++ * analyzes per-device interrupt counters to identify which specific devices
++ * are causing excessive interrupts without blocking operations.
++ */
++static void mlxreg_hotplug_storm_handler(unsigned int irq, unsigned int freq, void *dev_id)
++{
++	struct mlxreg_hotplug_priv_data *priv = dev_id;
++	struct mlxreg_core_hotplug_platform_data *pdata;
++	struct mlxreg_core_item *item;
++	struct mlxreg_core_data *data;
++	unsigned long asserted;
++	u32 bit;
++
++	dev_warn(priv->dev,
++		 "Interrupt storm detected on IRQ %u (%u interrupts/sec)",
++		 irq, freq);
++
++	pdata = dev_get_platdata(&priv->pdev->dev);
++	item = pdata->items;
++	asserted = item->cache;
++
++	for_each_set_bit(bit, &asserted, 8) {
++		int pos;
++
++		pos = mlxreg_hotplug_item_label_index_get(item->mask, bit);
++		if (pos < 0)
++			goto out;
++
++		data = item->data + pos;
++		/* Check per device interrupt counter */
++		if (data->wmark_cntr >= MLXREG_HOTPLUG_INTR_FREQ_HZ - 1) {
++			dev_err(priv->dev,
++				"Storming bit %d (label: %s) - interrupt masked permanently. Replace broken HW.",
++				bit, data->label);
++			/* Mark bit as storming. */
++			item->storming_bits |= BIT(bit);
++		}
++		data->wmark_cntr = 0;
++	}
++	return;
++ out:
++	dev_err(priv->dev, "Failed to complete interrupt storm handler\n");
++}
++
+ static void
+ mlxreg_hotplug_work_helper(struct mlxreg_hotplug_priv_data *priv,
+ 			   struct mlxreg_core_item *item)
+@@ -371,6 +425,10 @@ mlxreg_hotplug_work_helper(struct mlxreg_hotplug_priv_data *priv,
+ 			goto out;
+ 
+ 		data = item->data + pos;
++
++		/* Counter to keep track of interrupt storm */
++		data->wmark_cntr++;
++
+ 		if (regval & BIT(bit)) {
+ 			if (item->inversed)
+ 				mlxreg_hotplug_device_destroy(priv, data, item->kind);
+@@ -390,9 +448,9 @@ mlxreg_hotplug_work_helper(struct mlxreg_hotplug_priv_data *priv,
+ 	if (ret)
+ 		goto out;
+ 
+-	/* Unmask event. */
++	/* Unmask event, exclude storming bits. */
+ 	ret = regmap_write(priv->regmap, item->reg + MLXREG_HOTPLUG_MASK_OFF,
+-			   item->mask);
++			   item->mask & ~item->storming_bits);
+ 
+  out:
+ 	if (ret)
+@@ -767,6 +825,15 @@ static int mlxreg_hotplug_probe(struct platform_device *pdev)
+ 
+ 	/* Perform initial interrupts setup. */
+ 	mlxreg_hotplug_set_irq(priv);
++
++	/* Register with generic interrupt storm detection */
++	if (!irq_register_storm_detection(priv->irq, MLXREG_HOTPLUG_INTR_FREQ_HZ,
++					  mlxreg_hotplug_storm_handler, priv)) {
++		dev_warn(&pdev->dev, "Failed to register generic interrupt storm detection\n");
++	} else {
++		dev_info(&pdev->dev, "Registered generic storm detection for IRQ %d\n", priv->irq);
++	}
++
+ 	priv->after_probe = true;
+ 
+ 	return 0;
+@@ -776,6 +843,9 @@ static void mlxreg_hotplug_remove(struct platform_device *pdev)
+ {
+ 	struct mlxreg_hotplug_priv_data *priv = dev_get_drvdata(&pdev->dev);
+ 
++	/* Unregister generic interrupt storm detection */
++	irq_unregister_storm_detection(priv->irq);
++
+ 	/* Clean interrupts setup. */
+ 	mlxreg_hotplug_unset_irq(priv);
+ 	devm_free_irq(&pdev->dev, priv->irq, priv);
+diff --git a/include/linux/platform_data/mlxreg.h b/include/linux/platform_data/mlxreg.h
+index f6cca7a035c7..592256570175 100644
+--- a/include/linux/platform_data/mlxreg.h
++++ b/include/linux/platform_data/mlxreg.h
+@@ -131,6 +131,7 @@ struct mlxreg_hotplug_device {
+  * @regnum: number of registers occupied by multi-register attribute;
+  * @slot: slot number, at which device is located;
+  * @secured: if set indicates that entry access is secured;
++ * @wmark_cntr: interrupt storm counter;
+  */
+ struct mlxreg_core_data {
+ 	char label[MLXREG_CORE_LABEL_MAX_SIZE];
+@@ -151,6 +152,7 @@ struct mlxreg_core_data {
+ 	u8 regnum;
+ 	u8 slot;
+ 	u8 secured;
++	unsigned int wmark_cntr;
  };
  
-+/**
-+ * struct irq_storm - interrupt storm detection data
-+ * @max_cnt:		maximum interrupt count per time window
-+ * @last_cnt:		last total interrupt count snapshot
-+ * @next_period:	next time period boundary (jiffies)
-+ * @cb:			callback function to invoke on storm detection
-+ * @dev_id:		device identifier for callback
-+ */
-+struct irq_storm {
-+	unsigned long		max_cnt;
-+	unsigned long		last_cnt;
-+	unsigned long		next_period;
-+	irq_storm_cb_t		cb;
-+	void			*dev_id;
-+};
-+
  /**
-  * struct irq_desc - interrupt descriptor
-  * @irq_common_data:	per irq and chip data passed down to chip functions
-@@ -101,6 +120,7 @@ struct irq_desc {
- #ifdef CONFIG_PROC_FS
- 	struct proc_dir_entry	*dir;
- #endif
-+	struct irq_storm	*irq_storm;
- #ifdef CONFIG_GENERIC_IRQ_DEBUGFS
- 	struct dentry		*debugfs_file;
- 	const char		*dev_name;
-diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
-index 349ae7979da0..d413bf11ffde 100644
---- a/kernel/irq/manage.c
-+++ b/kernel/irq/manage.c
-@@ -1951,6 +1951,10 @@ static struct irqaction *__free_irq(struct irq_desc *desc, void *dev_id)
- 		irq_release_resources(desc);
- 		chip_bus_sync_unlock(desc);
- 		irq_remove_timings(desc);
-+		if (desc->irq_storm) {
-+			kfree(desc->irq_storm);
-+			desc->irq_storm = NULL;
-+		}
- 	}
- 
- 	mutex_unlock(&desc->request_mutex);
-diff --git a/kernel/irq/spurious.c b/kernel/irq/spurious.c
-index 73280ccb74b0..525dc0e384f1 100644
---- a/kernel/irq/spurious.c
-+++ b/kernel/irq/spurious.c
-@@ -22,6 +22,90 @@ static DEFINE_TIMER(poll_spurious_irq_timer, poll_spurious_irqs);
- int irq_poll_cpu;
- static atomic_t irq_poll_active;
- 
-+/* Minimum frequency threshold */
-+#define IRQ_STORM_MIN_FREQ_HZ		50
-+#define IRQ_STORM_MAX_FREQ_SCALE	(IRQ_STORM_MIN_FREQ_HZ * 2)
-+/* Time window over which storm check is performed */
-+#define IRQ_STORM_PERIOD_WINDOW_MS	(IRQ_STORM_MIN_FREQ_HZ * 20)
-+
-+
-+/**
-+ * irq_register_storm_detection - register interrupt storm detection for an IRQ
-+ * @irq: interrupt number
-+ * @max_freq: maximum allowed frequency (interrupts per second)
-+ * @cb: callback function to invoke when storm is detected
-+ * @dev_id: device identifier passed to callback
-+ *
-+ * Returns: true on success, false on failure
-+ */
-+bool irq_register_storm_detection(unsigned int irq, unsigned int max_freq,
-+				  irq_storm_cb_t cb, void *dev_id)
-+{
-+	struct irq_storm *storm;
-+	bool ret = false;
-+
-+	if (max_freq < IRQ_STORM_MIN_FREQ_HZ || !cb)
-+		return false;
-+
-+	storm = kzalloc(sizeof(*storm), GFP_KERNEL);
-+	if (!storm)
-+		return false;
-+
-+	/* Adjust to count per 10ms */
-+	storm->max_cnt = max_freq / (IRQ_STORM_MAX_FREQ_SCALE);
-+	storm->cb = cb;
-+	storm->dev_id = dev_id;
-+
-+	scoped_irqdesc_get_and_buslock(irq, IRQ_GET_DESC_CHECK_GLOBAL) {
-+		if (scoped_irqdesc->action && !scoped_irqdesc->irq_storm) {
-+			storm->last_cnt = scoped_irqdesc->tot_count;
-+			storm->next_period = jiffies + msecs_to_jiffies(IRQ_STORM_PERIOD_WINDOW_MS);
-+			scoped_irqdesc->irq_storm = storm;
-+			ret = true;
-+		}
-+	}
-+
-+	if (!ret)
-+		kfree(storm);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(irq_register_storm_detection);
-+
-+/**
-+ * irq_unregister_storm_detection - unregister interrupt storm detection
-+ * @irq: interrupt number
-+ */
-+void irq_unregister_storm_detection(unsigned int irq)
-+{
-+	scoped_irqdesc_get_and_buslock(irq, IRQ_GET_DESC_CHECK_GLOBAL) {
-+		if (scoped_irqdesc->irq_storm) {
-+			kfree(scoped_irqdesc->irq_storm);
-+			scoped_irqdesc->irq_storm = NULL;
-+		}
-+	}
-+}
-+EXPORT_SYMBOL_GPL(irq_unregister_storm_detection);
-+
-+static void irq_storm_check(struct irq_desc *desc)
-+{
-+	struct irq_storm *storm = desc->irq_storm;
-+	unsigned long delta, now = jiffies;
-+
-+	if (!time_after_eq(now, storm->next_period))
-+		return;
-+
-+	storm->next_period = now + msecs_to_jiffies(IRQ_STORM_PERIOD_WINDOW_MS);
-+	delta = desc->tot_count - storm->last_cnt;
-+	storm->last_cnt = desc->tot_count;
-+	if (delta > storm->max_cnt) {
-+		/* Calculate actual frequency: interrupts per second */
-+		storm->cb(irq_desc_get_irq(desc),
-+			(delta * (IRQ_STORM_MAX_FREQ_SCALE)),
-+			storm->dev_id);
-+	}
-+}
-+
- /*
-  * Recovery handler for misrouted interrupts.
+@@ -167,6 +169,7 @@ struct mlxreg_core_data {
+  * @ind: element's index inside the group;
+  * @inversed: if 0: 0 for signal status is OK, if 1 - 1 is OK;
+  * @health: true if device has health indication, false in other case;
++ * @storming_bits: interrupt storming bits mask;
   */
-@@ -231,6 +315,9 @@ void note_interrupt(struct irq_desc *desc, irqreturn_t action_ret)
- 		return;
- 	}
+ struct mlxreg_core_item {
+ 	struct mlxreg_core_data *data;
+@@ -180,6 +183,7 @@ struct mlxreg_core_item {
+ 	u8 ind;
+ 	u8 inversed;
+ 	u8 health;
++	u32 storming_bits;
+ };
  
-+	if (desc->irq_storm && action_ret == IRQ_HANDLED)
-+		irq_storm_check(desc);
-+
- 	/*
- 	 * We cannot call note_interrupt from the threaded handler
- 	 * because we need to look at the compound of all handlers
+ /**
 -- 
 2.47.3
 
