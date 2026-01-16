@@ -1,75 +1,75 @@
-Return-Path: <platform-driver-x86+bounces-16842-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16845-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6068FD32580
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Jan 2026 15:07:56 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3290CD328D6
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Jan 2026 15:24:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id DED213014D0B
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Jan 2026 14:07:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 72498300059D
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Jan 2026 14:24:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67F7B223DC6;
-	Fri, 16 Jan 2026 14:07:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15D663358B5;
+	Fri, 16 Jan 2026 14:24:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rong.moe header.i=i@rong.moe header.b="b9p7gxSm"
+	dkim=pass (1024-bit key) header.d=rong.moe header.i=i@rong.moe header.b="3e9Wa6p0"
 X-Original-To: platform-driver-x86@vger.kernel.org
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6577322370A;
-	Fri, 16 Jan 2026 14:07:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D02B335573;
+	Fri, 16 Jan 2026 14:24:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768572445; cv=pass; b=RKV9WGCL/TkZr6vg0w9S33RUoHmmzavii/X6rogyp38qCPAcDuxilF7AIWeCjKrLeByOfbhHBp5h9G7/1x8IrbAsFKzFHIcfKovrCf9PDWV9Ms9hwfzL0NoRoWYmO5zvNJsf7OiGRbHJ2lS6zo7zuQj1Uy0kBYVesaRRd8ODpgM=
+	t=1768573461; cv=pass; b=mnTVf6gCuK2U8twG7RHlN8k5ne5A+G2Xm4CT8wDnxZfL9LC7u59hZvuGnpa6ZCYojjw+Eb+0Qx1yXMEtTsGqkT0D6VXVwooP+mL6N4jEz4swR7aS32sb5kREOPkXBWOKHr476+hRt8J2zzmyE/PjatQBYqBvVAYOPvl9OPw20j0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768572445; c=relaxed/simple;
-	bh=/4ASKZwlU8ZF2UcAQ4vTTj7D7jdgA5IZCT6ICaI7BgQ=;
+	s=arc-20240116; t=1768573461; c=relaxed/simple;
+	bh=FWs2PnNmGEuxoZDT5I8S2yiVJoMVZrIC0GaKbsB13T4=;
 	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=BE7Qhc02KWWWia4kIxbsFr4sSC8rVfidBJgnF9CK7/ECkWelxseOhumXaBfKGq1FRC7a+MH/BRCE54T4Red93hM5f5LDJTrn3SBRfLVdqIZhPZ0xbPJFz8K7GFnHuONvEuba3W1PukQikfcx9Bz+RA0M9HAnk1mYrYtcmtDt7S4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (1024-bit key) header.d=rong.moe header.i=i@rong.moe header.b=b9p7gxSm; arc=pass smtp.client-ip=136.143.188.15
+	 Date:MIME-Version; b=aVZttRYuw93I6EamRmA5jEQAjlDAPwW/bGrFHk5ycSKK+jrzMIM6Eh/jfiYkUd1ATjqZZDiqy3hT3J3ku/Kg4S6SrkEsmdDaESdA1o+lKm3AtihWlmLrrgbb6lGrKYOdfWg5qSh8Bn95FpGnPvMAHRwRBSsYY1lqpCTUVigSMCo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (1024-bit key) header.d=rong.moe header.i=i@rong.moe header.b=3e9Wa6p0; arc=pass smtp.client-ip=136.143.188.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
-ARC-Seal: i=1; a=rsa-sha256; t=1768572420; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1768573439; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=h9Dw2f5cq9pDMxWhq8PSL7inSv7bGSrZnwUUW9oFk0aWZnnDC4jABwYdMLjvVi7VxxoLLJKrfWW7qULn/YucgNubV03mxrc0oS07oLRvBViK0a77+EFSaAEQxp9VqTaGrP5LFmTDZlF0/ofEjFlHhL7xo0fGKshQNxt6m301aRM=
+	b=B6jfxmp9ErQRSsa0PPST3oAGpxa/tE9ah5I8INtTik+R5ra0F2i9eqT7otaMcPVCJDHeCd8dPxg3fMzIFzKqUENR/+gc9n6yir3SEykRmIafTjhJTBFu+mx04obYwk64OEfInrrp09WnVjkcAeoSY4LcemnQuoWfrurZCNRbUWg=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1768572420; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=xnRNbo0xQDEhzV7jDjVEKSf/HoadXSTu8ftSzAGBtRc=; 
-	b=d78wDqQYrIcnjCD8Q/rkVfHpiidCvhA9ElyBveEVW/apfET0SulUCxKCTg3wObng938wf26vEY2sNo1t79s7xCSz2lPv31+SZ7vo/GKMkP0F/Vk7Hp3KFRKBNxq1gvWUBsauZyDA3zY3FBDwTyeJ2nB+i1lNhoAo3q3+s66D9uw=
+	t=1768573439; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=oR4IvstyNLo0TnU7LDaYtEwwMXHddPYbx12W1UWDNKg=; 
+	b=AMek1bu8OiwGfTAfSalT+j5/PXDxPHRcUniIXFrhgU+tJS5HKNgAOT6Onmpmkv2ro/6FQXbawTcnjhj4ehsqSP6gICOMnA6pv+BC/INIG5mDCAsGhCXP3Z/TEIIwju/lSwSP8j6ABgRUCwCOP2r7k5VHYKUJJQ7+ZWFhLDtg72g=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=rong.moe;
 	spf=pass  smtp.mailfrom=i@rong.moe;
 	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1768572420;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1768573439;
 	s=zmail; d=rong.moe; i=i@rong.moe;
 	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
-	bh=xnRNbo0xQDEhzV7jDjVEKSf/HoadXSTu8ftSzAGBtRc=;
-	b=b9p7gxSmZ4wH1sILeFEes3Z2z8a8z368dV4YwfBFeDzMHmNayxYsvaV0wB4FgQEl
-	RWVosUPXD4+WM6FE2YYeyU3v4XQ8DirV9Y6mXxCwFXLQ03HAXSrfYgMnDHWZ60i2IAZ
-	K0B+IIq/+Xg9nXz9jHo6kcX2V6Ex3ggqogtOBOBs=
-Received: by mx.zohomail.com with SMTPS id 1768572418485265.3517825505879;
-	Fri, 16 Jan 2026 06:06:58 -0800 (PST)
-Message-ID: <a712de4bd8a34da27f896a6772b80d89f75a40ec.camel@rong.moe>
+	bh=oR4IvstyNLo0TnU7LDaYtEwwMXHddPYbx12W1UWDNKg=;
+	b=3e9Wa6p0gBEPobqL4YhIG3j3IBv+PcmGxSxZaFxOLxeMOvlBylVy919xJNY/xjqy
+	5bx/xGkKKXW9VEskfxfQr62A5Pc+Xy+P2+vfVdoXhnglFBzvmGdi0grzkfn9VqAecL6
+	GDwgMVVQGKpfma2uU0VZwNSicdAXuIp6+IHvn84c=
+Received: by mx.zohomail.com with SMTPS id 1768573436264872.731941015765;
+	Fri, 16 Jan 2026 06:23:56 -0800 (PST)
+Message-ID: <0e7dfebcaa4509e907faa7b43fc8d49ca6729ca2.camel@rong.moe>
 Subject: Re: [PATCH v9 7/7] platform/x86: lenovo-wmi-other: Add HWMON for
  fan reporting/tuning
 From: Rong Zhang <i@rong.moe>
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>
-Cc: Kurt Borja <kuurtb@gmail.com>, Mark Pearson
- <mpearson-lenovo@squebb.ca>,  Armin Wolf <W_Armin@gmx.de>, Hans de Goede
- <hansg@kernel.org>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=	
- <ilpo.jarvinen@linux.intel.com>, Guenter Roeck <linux@roeck-us.net>, 
+To: Kurt Borja <kuurtb@gmail.com>
+Cc: "Derek J. Clark" <derekjohn.clark@gmail.com>, Mark Pearson
+	 <mpearson-lenovo@squebb.ca>, Armin Wolf <W_Armin@gmx.de>, Hans de Goede
+	 <hansg@kernel.org>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=
+	 <ilpo.jarvinen@linux.intel.com>, Guenter Roeck <linux@roeck-us.net>, 
 	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-hwmon@vger.kernel.org
-In-Reply-To: <59A79FD4-0A1C-4FFE-B4BC-D24588785717@gmail.com>
+In-Reply-To: <DFPEEI5LNJXZ.2E32AHA8VUJW3@gmail.com>
 References: <20260114122745.986699-1-i@rong.moe>
 	 <20260114122745.986699-8-i@rong.moe> <DFOQB6DGBKBZ.39JQKPB7XDSJG@gmail.com>
 	 <1a9909f4083d85736a1e28067517ae0899e462f2.camel@rong.moe>
 	 <DFP7SAGSD32N.3SIIV8JMYHWRM@gmail.com>
 	 <9ff2b73e30f06be69b6c0b72b91a19d766310db7.camel@rong.moe>
-	 <59A79FD4-0A1C-4FFE-B4BC-D24588785717@gmail.com>
+	 <DFPEEI5LNJXZ.2E32AHA8VUJW3@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Jan 2026 22:01:45 +0800
+Date: Fri, 16 Jan 2026 22:18:36 +0800
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
@@ -79,10 +79,10 @@ MIME-Version: 1.0
 User-Agent: Evolution 3.56.2-8 
 X-ZohoMailClient: External
 
-Hi Derek,
+Hi Kurt,
 
-On Thu, 2026-01-15 at 09:45 -0800, Derek J. Clark wrote:
-> On January 15, 2026 8:57:42 AM PST, Rong Zhang <i@rong.moe> wrote:
+On Thu, 2026-01-15 at 14:09 -0500, Kurt Borja wrote:
+> On Thu Jan 15, 2026 at 11:57 AM -05, Rong Zhang wrote:
 > > Hi Kurt,
 > >=20
 > > On Thu, 2026-01-15 at 08:58 -0500, Kurt Borja wrote:
@@ -160,10 +160,6 @@ tribute
 > > > > > should work. IIUC, it is intended for devices which can disable t=
 he fan
 > > > > > sensor, not the actual fan.
->=20
-> I agree, it's just for disabling the reporting of the rpm, not for disabl=
-ing the fan. I didn't catch this before.
->=20
 > > > >=20
 > > > > Hmm, what a confusing name :-/
 > > > >=20
@@ -219,109 +215,145 @@ of
 > > mostly based on my understanding on the decompiled ASL code of my
 > > device. I'd like to check the one of your device as a cross-reference
 > > to see if there are more potential bugs.
-> >=20
-> > > As it seems that you can change the RPM in 100 increments,
-> >=20
-> > Yeah. That's also true on my device, but I am not sure if all devices
-> > with the interface behave like this. I'd prefer not making such an
-> > assumption.
-> >=20
 >=20
-> fanY_div maybe makes sense here, defaulting to the known 100 and adjustab=
-le with a DMI quirk table if we find devices that do 200/50/20/etc.?
+> Yep, the ACPI method retval is 0 instead of 1.
 
-Documentation/ABI/testing/sysfs-class-hwmon says
+Given the divergence between your device and mine, I think we could
+just accept both 0 and 1. That should be fine considering that we've
+strictly checked LENOVO_CAPABILITY_DATA_00 and LENOVO_FAN_TEST_DATA
+before exposing fan channels.
 
-   Integer value in powers of two (1, 2, 4, 8, 16, 32, 64, 128).
+> Here is a snippet of what I believe is the fan control stuff on my
+> device (L: 50393):
+>=20
+>=20
+> 	If ((SFV0 =3D=3D 0x04030001))
+> 	{
+> 		Local0 =3D (SFV1 / 0x64)
+> 		^^PC00.LPCB.EC0.LECR (0xD1, One, Local0, 0x02)
+> 		Return (Zero)
+> 	}
+>=20
+> 	If ((SFV0 =3D=3D 0x04030002))
+> 	{
+> 		Local0 =3D (SFV1 / 0x64)
+> 		^^PC00.LPCB.EC0.LECR (0xD1, 0x02, Local0, 0x02)
+> 		Return (Zero)
+> 	}
+>=20
+> 	If ((SFV0 =3D=3D 0x04030004))
+> 	{
+> 		Local0 =3D (SFV1 / 0x64)
+> 		^^PC00.LPCB.EC0.LECR (0xD1, 0x03, Local0, 0x02)
+> 		Return (Zero)
+> 	}
 
-I think we have some minor deviation here, other than that it makes
-sense to me.
+On my device, 0x04030001 always returns 1 after writing to EC
+registers. 0x04030002 is a stub and always returns 0. That was the
+reason why I assumed 1 =3D> success and 0 =3D> failure. Here's the
+corresponding code snippet on my device:
 
-Perhaps it's acceptable as long as we mention this in our
-documentation?
+   If ((DEV1 =3D=3D 0x04))
+   {
+       If ((FEA1 =3D=3D 0x03))
+       {
+           Local0 =3D Buffer (0x06){}
+           Local0 [Zero] =3D 0x46
+           If ((TYP1 =3D=3D One))
+           {
+               Local1 =3D ToInteger (DAT1)
+               If ((Local1 =3D=3D Zero))
+               {
+                   Local0 [One] =3D 0x84
+               }
+               Else
+               {
+                   MBGS ("Fan1S")
+                   Local0 [One] =3D 0x85
+                   Divide (Local1, 0x64, Local2, Local1)
+                   Local0 [0x02] =3D Local1
+               }
+           }
+  =20
+           If ((TYP1 =3D=3D 0x02))
+           {
+               MBGS ("Fan2S")
+               Return (Zero)
+           }
+  =20
+           \_SB.PCI0.LPC0.EC0.ERCD (Local0)
+           Return (One)
+       }
+  =20
+       If ((FEA1 =3D=3D 0x04))
+       {
+           MBGS ("wSet FanNoise")
+           DB2H (DAT1)
+           \_SB.FANL =3D DAT1 /* \_SB_.GZFD.WMAE.DAT1 */
+           Notify (\_TZ.VFAN, 0x80) // Status Change
+       }
+   }
 
-> > > maybe you
-> > > could look into the pwmY attributes [1]. I think it is a better fit f=
-or
-> > > this feature because pwmY_enable allows you to select between manual =
-and
-> > > auto fan control [2], and I believe some user-space tools already use
-> > > this attribute.
-> >=20
-> > For pwmY, I don't see the point why the kernel should adapt to
-> > userspace tools... If we don't have to, don't be overfit.
-> >=20
-> > For pwmY_enable, it is only a good choice if we adopt pwmY. It's weird
-> > to mix pwmY_enable and fanY_target.
-> >=20
-> > @Derek, may I ask for your opinion here? Should we adopt pwmY*?
-> >=20
->=20
-> All the platform drivers I've written used pwmY/pwmY_enable and fanY_inpu=
-t for reporting speed. There is additionally a pwmY_enable mode that sets t=
-he fan to max speed. TBS, I think it's a fundamentally different interface.
->=20
-> > > On the implementation you can use fixp_linear_interpolate() [3] to
-> > > convert between and from pwm duty cycle.
-> >=20
-> > If we adopt this, I could imagine three ways to create a PWM-RPM curve:
-> > (1) PWM[0,255] =3D> RPM[min,max]
-> > (2) PWM[0,255] =3D> RPM[0,max]
-> > (3) PWM[0,255] =3D> RPM[0,a_large_number]
-> >=20
->=20
-> I don't believe this is canonical for pwm, normally you set a fixed speed=
- with pwmY, let the BIOS handle it with auto, or set to max speed with the =
-enable function. Fan curves would need to be under pwmY_auto_point_pwm[X|Z]=
-, but they're usually paired with tempY_auto_point_pwm[X|Y] to set a speed =
-at a given temperature, not necessary to restrict a min/max.
->=20
-> Docs: https://docs.kernel.org/hwmon/sysfs-interface.html
->=20
-> The nature of pwm is that a fixed pulse width determines a fixed fan spee=
-d. It is necessarily a single set value. If you want a range, fanY_[min|max=
-] seems the way to go.
->=20
-> Using pwmY* will also collide with the fan curve patch I'm adding after t=
-his series since newer devices have a 10 value speed Y at temp X curve buil=
-t into the WMI interface. Not insurmountable, but I'd rather avoid the conf=
-lict so we're not matching on GUID or something like that.
+> You can find the full acpidump attached in this email.
 
-Thanks for your detailed information. I'll stick with fanY_target,
-remove fanY_enable, and mention 0 =3D> auto mode in the documentation.
+Thanks for that.
+
+> Do you have any idea of what 0x04030004 might be?
+
+It's "system fan". See
+https://lore.kernel.org/all/CAFqHKTkOZUfDb8cGbGnVPCS9wNbOBsiyOk_MkZR-2_Za6Z=
+PMng@mail.gmail.com/
+
+> This laptop only has 2
+> fans. FW bug?
+
+Nope, that's not a bug as long as LENOVO_CAPABILITY_DATA_00 or
+LENOVO_FAN_TEST_DATA only indicates the presence of fan 1&2. Lenovo
+usually reuses a lot of ASL code among different SKUs, with some other
+mechanism to gate inapplicable functionalities.
+
+So I quickly glanced at the decompiled ASL code of your device...
+
+Method WQA9 is LENOVO_CAPABILITY_DATA_00, and it only exposes fan 4 on
+specific SKUs (L: 47975):
+
+   If (((GSKU =3D=3D 0x02) || (GSKU =3D=3D 0x03)))
+   {
+       Return (Buffer (0x0C)
+       {
+           /* 0000 */  0x04, 0x00, 0x03, 0x04, 0x07, 0x00, 0x00, 0x00,
+           /* 0008 */  0x01, 0x00, 0x00, 0x00
+       })
+   }
+   Else
+   {
+       Return (Buffer (0x0C)
+       {
+           /* 0000 */  0x04, 0x00, 0x03, 0x04, 0x00, 0x00, 0x00, 0x00,
+           /* 0008 */  0x00, 0x00, 0x00, 0x00
+       })
+   }
+
+I assume your device should return the latter buffer, indicating fan 4
+does not exist. That being said, it won't be surprising if the former
+one is returned -- my device's LENOVO_CAPABILITY_DATA_00 indicates the
+presence of fan 1&2 while LENOVO_FAN_TEST_DATA only exposes fan 1.
+
+Method WQAB is LENOVO_FAN_TEST_DATA (L: 48195). It exposes fan 1&2,
+declaring their RPM range to be [1700,5700].
+
+   Return (Buffer (0x1C)
+   {
+       /* 0000 */  0x02, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
+       /* 0008 */  0x02, 0x00, 0x00, 0x00, 0x44, 0x16, 0x00, 0x00,
+       /* 0010 */  0x44, 0x16, 0x00, 0x00, 0xA4, 0x06, 0x00, 0x00,
+       /* 0018 */  0xA4, 0x06, 0x00, 0x00
+   })
+
+So these WMI interfaces on your device are implemented mostly well.
+LENOVO_FAN_TEST_DATA is enough to prevent fan 4 from being exposed on
+your device.
 
 Thanks,
 Rong
-
-> Cheers,
-> Derek
->=20
-> > relax_fan_constraint=3D1 definitely needs (3) as the fan can spin
-> > slower/faster than min/max_rpm. I don't want to create scale mismatches
-> > between relax_fan_constraint=3D1 and =3D0, so only (3) looks viable to =
-me
-> > in any case. Hmm, we are creating a weird PWM-RPM curve with two
-> > plateau [1].
-> >=20
-> > > This is just a suggestion though, I know I came in too late to the
-> > > discussion but I just got this laptop :P
-> >=20
-> > Happy hacking :P
-> >=20
-> > ThinkBook (my device) only implements few Legion interfaces, so your
-> > information here is very valuable.
-> >=20
-> > > [1] https://elixir.bootlin.com/linux/v6.19-rc5/source/Documentation/A=
-BI/testing/sysfs-class-hwmon#L297
-> > > [2] https://elixir.bootlin.com/linux/v6.19-rc5/source/Documentation/A=
-BI/testing/sysfs-class-hwmon#L312
-> > > [3] https://elixir.bootlin.com/linux/v6.19-rc5/source/include/linux/f=
-ixp-arith.h#L145
-> >=20
-> > [1]: Typical curves look like
-> > https://www.overclock.net/threads/are-voltage-controllers-for-fans-bad-=
-and-pwm-controlled-fans-better.1627409/#post-25993378
-> >=20
-> > Thanks,
-> > Rong
 
