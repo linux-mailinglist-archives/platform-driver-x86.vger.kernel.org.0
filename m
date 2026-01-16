@@ -1,128 +1,106 @@
-Return-Path: <platform-driver-x86+bounces-16836-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16841-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DC9D31E55
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Jan 2026 14:34:30 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E3CD32181
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Jan 2026 14:49:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E4C2130574F7
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Jan 2026 13:32:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E0E193011FA1
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Jan 2026 13:45:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9D28285CB8;
-	Fri, 16 Jan 2026 13:32:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BB1822F74A;
+	Fri, 16 Jan 2026 13:45:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="BN7B85MO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KmYWCifW"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1B528468E;
-	Fri, 16 Jan 2026 13:32:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.171.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B74145348
+	for <platform-driver-x86@vger.kernel.org>; Fri, 16 Jan 2026 13:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768570343; cv=none; b=HfBega60wQh9ZKiZAeOa+siK71hPKAj2x0R7iRC1+Bn7e5kpodnF0vKr5NVntHs/wR2ytBkYYcavI8heNuA5OdKxLc1y37w1DNxFDVM9BUlYpGhP+T0OcfOBtyVSdQA7joShv9fcEPGSsUhY3M+4jIK4w+Cqm2UNdqQKCwZlmgk=
+	t=1768571133; cv=none; b=cg/triyRF2EkMR4QGliKeebpnKZEbRkaKxWgPQfjmdeD68OoTMhwiXjsVSm20bJqtD7h20Dkpvy4t4+PwahGWYrCYo70Wg7cJr4gaIt9cNEoZa/sQTBrmaMe1gs7mEBh+KIHYdtvwosFAqvy7NS1Mjembug32Q0bYNvaMw2oqbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768570343; c=relaxed/simple;
-	bh=5uG41aLShCcfj/uFUz7az+7E5DwHNwZzvz9y5mbxRtE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=U6jXG4a8bRAqPT7ScC3YTKn2t4B+s6Ys6RFmFTn8xXfhJ+zhnLIUVQnbuOF9K7bIq4UE8ZND4a3gbsC5k1bv1XvQH9uHZGaHDK2s+Bk/9/LZBfy8tlCQzcZVU1Q8Hi9ccKSdkmStx7jwapzuVb9gUBLfjLx+nwNViZWhRJDIqCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=BN7B85MO; arc=none smtp.client-ip=78.46.171.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Received: from relay11 (localhost.localdomain [127.0.0.1])
-	by relay11.grserver.gr (Proxmox) with ESMTP id D6F00C25E9;
-	Fri, 16 Jan 2026 15:32:14 +0200 (EET)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay11.grserver.gr (Proxmox) with ESMTPS id 70CC5C3F6A;
-	Fri, 16 Jan 2026 15:32:14 +0200 (EET)
-Received: from antheas-z13 (unknown [IPv6:2a05:f6c3:fefd:0:42c:a43d:2848:c282])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id D68E520258D;
-	Fri, 16 Jan 2026 15:32:12 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1768570334;
-	bh=IKZt/JbnpFu3QnnIaWTLBLJBzSG1TZ3OBW978bHJPSY=; h=From:To:Subject;
-	b=BN7B85MOer3++fGkgisqTr1/vopQholrBrk38cMsfHezeLVBBUhXVjMS3BgAlZmfY
-	 VYBYd6CE8/XfhOzXVOif6/4TawKMmFWLnNdQoGUxsKs3IPJ0nV6tvgdkHoZqRQSQ6Z
-	 CVm7pazzDnuk31Z476r2EQMXMRYeJaOpN9sL5+/jB+OofOEACrI8BieVbeC0ru0YkD
-	 ya1MGpzRVZWvP/mSTLyXyBMAijgEcDpxsJTleBX/e74xYN/fCYXLowlWZAe6F1dB7N
-	 KFUAypbffrh2RRtgWenphMOnkWzNFgKfZY7chVSrRZhGf5DpENQT12Xr56E7D9hJiZ
-	 zN7KiexvjhcNQ==
-Authentication-Results: linux3247.grserver.gr;
-	spf=pass (sender IP is 2a05:f6c3:fefd:0:42c:a43d:2848:c282) smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-From: Antheas Kapenekakis <lkml@antheas.dev>
-To: platform-driver-x86@vger.kernel.org,
-	linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Corentin Chary <corentin.chary@gmail.com>,
-	"Luke D . Jones" <luke@ljones.dev>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Denis Benato <denis.benato@linux.dev>,
-	Antheas Kapenekakis <lkml@antheas.dev>,
-	Denis Benato <benato.denis96@gmail.com>
-Subject: [PATCH v11 11/11] HID: asus: add support for the asus-wmi brightness
- handler
-Date: Fri, 16 Jan 2026 14:31:50 +0100
-Message-ID: <20260116133150.5606-12-lkml@antheas.dev>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260116133150.5606-1-lkml@antheas.dev>
-References: <20260116133150.5606-1-lkml@antheas.dev>
+	s=arc-20240116; t=1768571133; c=relaxed/simple;
+	bh=kSdfTOaSQOEWekCPnJ72minDC2Ysz0vnLrX/N4lKcMI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=EyFZ76aVLnwBnFgi/5L44o9CMYMcC0RwXzIbTwI4k3lTtvDIhB4OSj57f+XygRJNaRf8kP140zhTRcHZ1c5nVblv9+/5eRKqKn5+vAqDbHN4cS1UKxv9aeZvuHRgHfmW7H1pjK9b9TgVUXO8bbxCgwXxcuSvpfC+7JeHsOMXhbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KmYWCifW; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768571131; x=1800107131;
+  h=from:to:cc:in-reply-to:references:subject:message-id:
+   date:mime-version:content-transfer-encoding;
+  bh=kSdfTOaSQOEWekCPnJ72minDC2Ysz0vnLrX/N4lKcMI=;
+  b=KmYWCifWq9dSpAleR6RaPFx7RN4TiOn0UT/FtMTwss4ZjPpknFdjptQv
+   RYz4/mXgSyyw35tPQBgVmv1OSG9MvlH0Ssz+gNNqWr78r7oPgxytmS9Tm
+   hF+psDxCVH1qs2cJmyhN1ak0x/g2HwCsdu0OId6LFbUy4WF0LUI81Sdz1
+   BEfhqmRf3UhyjufrB/YiccJIhtIKIqMyhP/0qgGOtQq64vEApT1OnFQLm
+   25v2ZntaLrcIayyEehRUd+CEaK4Bw1uHZN3DBL65xyu9RqUKPqov1mDj8
+   Ch8VIHql9Ke13F7DWGXJu9AK8jyKTQ4XgHWBtDrVZ061LpUc8PyKCiCMy
+   w==;
+X-CSE-ConnectionGUID: Orkj5fYjQ5SROMwII7YBFQ==
+X-CSE-MsgGUID: pWFEp4+SRvODQ7u5DYYgTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69616255"
+X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
+   d="scan'208";a="69616255"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 05:45:30 -0800
+X-CSE-ConnectionGUID: jQDxIXaQQY2F6e71WRob1g==
+X-CSE-MsgGUID: q22lsZq5RbmHjW0SbZB/xw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
+   d="scan'208";a="236507641"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.178])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 05:45:27 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: hansg@kernel.org, jorge.lopez2@hp.com, linux@weissschuh.net, 
+ Mario Limonciello <mario.limonciello@amd.com>
+Cc: platform-driver-x86@vger.kernel.org
+In-Reply-To: <20260115203725.828434-1-mario.limonciello@amd.com>
+References: <20260115203725.828434-1-mario.limonciello@amd.com>
+Subject: Re: [PATCH v2 0/3] Fixes for hp-bioscfg
+Message-Id: <176857112253.7205.11242951143287770501.b4-ty@linux.intel.com>
+Date: Fri, 16 Jan 2026 15:45:22 +0200
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <176857033397.3553103.9242304130852948831@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-If the asus-wmi brightness handler is available, send the
-keyboard brightness events to it instead of passing them
-to userspace. If it is not, fall back to sending them to it.
+On Thu, 15 Jan 2026 14:31:09 -0600, Mario Limonciello wrote:
 
-Reviewed-by: Luke D. Jones <luke@ljones.dev>
-Tested-by: Luke D. Jones <luke@ljones.dev>
-Reviewed-by: Denis Benato <benato.denis96@gmail.com>
-Acked-by: Benjamin Tissoires <bentiss@kernel.org>
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
----
- drivers/hid/hid-asus.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+> When working on fwupd code on an HP system I noticed that all the BIOS
+> settings were missing in fwupd.  I thought I forgot to compile the
+> hp-bioscfg module, but actually it was compiled just not loading.
+> 
+> Once I loaded it, I found various problems with boundary handling and
+> attributes on an HP Z2 Mini G1a.
+> 
+> [...]
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 19fc43f27ff3..50410b1c81ab 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -324,6 +324,17 @@ static int asus_event(struct hid_device *hdev, struct hid_field *field,
- 			 usage->hid & HID_USAGE);
- 	}
- 
-+	if (usage->type == EV_KEY && value) {
-+		switch (usage->code) {
-+		case KEY_KBDILLUMUP:
-+			return !asus_hid_event(ASUS_EV_BRTUP);
-+		case KEY_KBDILLUMDOWN:
-+			return !asus_hid_event(ASUS_EV_BRTDOWN);
-+		case KEY_KBDILLUMTOGGLE:
-+			return !asus_hid_event(ASUS_EV_BRTTOGGLE);
-+		}
-+	}
-+
- 	return 0;
- }
- 
--- 
-2.52.0
 
+Thank you for your contribution, it has been applied to my local
+review-ilpo-fixes branch. Note it will show up in the public
+platform-drivers-x86/review-ilpo-fixes branch only once I've pushed my
+local branch there, which might take a while.
+
+The list of commits applied:
+[1/3] platform/x86: hp-bioscfg: Fix kobject warnings for empty attribute names
+      commit: fdee1b09721605f532352628d0a24623e7062efb
+[2/3] platform/x86: hp-bioscfg: Fix kernel panic in GET_INSTANCE_ID macro
+      commit: bb820f17b68f624547357e207ce9a8c7af3e7845
+[3/3] platform/x86: hp-bioscfg: Fix automatic module loading
+      commit: 791c3c82091eecd862f0d55a7c7a3302a518f599
+
+--
+ i.
 
 
