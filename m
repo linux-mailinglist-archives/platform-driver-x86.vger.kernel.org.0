@@ -1,139 +1,275 @@
-Return-Path: <platform-driver-x86+bounces-16890-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16892-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00C6AD390C6
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 17 Jan 2026 21:08:53 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0084D390FC
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 17 Jan 2026 22:01:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E70793006E3D
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 17 Jan 2026 20:08:50 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 403A030150CA
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 17 Jan 2026 21:01:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BA3C135A53;
-	Sat, 17 Jan 2026 20:08:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C95C2E92B3;
+	Sat, 17 Jan 2026 21:01:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kner3qMm"
+	dkim=pass (1024-bit key) header.d=rong.moe header.i=i@rong.moe header.b="pDSN8ZpA"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69FAE2E228C
-	for <platform-driver-x86@vger.kernel.org>; Sat, 17 Jan 2026 20:08:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768680528; cv=none; b=dMpEWMKqkkqlU6omufjjVzuH6xhqKiZSklvELghUVcGu+qeoJGPZ6x8juXETI4oksFHno0JeE8wwOzbLCMWMWBksvOe9XF1bTrmtxcAxT65SgVliO3IgCx1Ig3e9A1c5R5YMhEWRjeqv3xpxX2DYUtDqbufxb8PZuJDBQJYLZR8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768680528; c=relaxed/simple;
-	bh=az11xVI2VI3m+GIkes3ujiFCYiSSBp8WmRmTIXATdhU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IfDSzp92q2PZXN6baFHpREY2nX/d1iQM3+fs54DVbOsGgpCA4oQ1dVSyWCGn11pIetpyMmmx1gcfd+O68k8vzFD7EG+97Q6tdXUrYuO06qDCr8umVlqnBCcsxrtzCiee7mmXE2hnuQMh9QH7cUZUfhKmlUzEiTXBoQ4Z4sNLep8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kner3qMm; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-383247376a4so27248961fa.3
-        for <platform-driver-x86@vger.kernel.org>; Sat, 17 Jan 2026 12:08:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768680513; x=1769285313; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/RbTl2no563I1t5iVCBq06N85An7LSNG5Mo6eMjPjXY=;
-        b=kner3qMmnl7w7WsIQ+Kz3NG7MILWPUlZJacjj+cN8VDNQzUPHmUWbonRLyr+XwsGfG
-         aro3dw4uY84oQhomAtuhI3RK9JAO+Ug+n4Te82GDpI/k5OXVSn9Fqozpfz3Jw2ww2voS
-         kqqM5a8n5UqpohH+WPluhCc0MIElJU5EOP3DSsHvTYCIYpO112+sfo3c07t7GdDpU0s7
-         aADKXYXhQuEoBc4CAxDl00TDQm0ijgcqmD7/syAYRPYGVgL5QS112VgwjvS7KdrnU8Ow
-         gPZMSRM2kmOCSo6BAQRkWGvC4uPWu+YFuo6VU1IfncWDd+vq9dK7UgIp1lry9WYxlf9u
-         eTyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768680513; x=1769285313;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/RbTl2no563I1t5iVCBq06N85An7LSNG5Mo6eMjPjXY=;
-        b=uos3hHl30S1bHW6jNIYeua6vPXD6o6FOORQo+vJ9OgtrPuVfAC1JCbt/W32vDEcAHC
-         gBZYbrmo6WHLZvGcANRg+Cw2QjegrAmFZIP8btZo8l5KijMHdpYrZ6iPsDxkqBkMFC+S
-         n/NZZVZ8LWHE/shLNjMbanyFdoeX8aM7gbBzMz17WG7xUiWR2+lTdAmrioDkfIbCNK3n
-         yqS73+QO2pBYDySC1pZIFetp7bTItbgRPc2QcMfxpqxQqJ41PGzJFqi3svKfT1gfdAvo
-         t0xE931f2nCf8x28IgcIk6ZiF5vaNk5/yEvc+aAMBFDYgmuGQnUxKfrxkPdMVgRR5omj
-         WnUg==
-X-Gm-Message-State: AOJu0YyCj53SGOhE0CZEtWxfXAYKkZ3BUvuvz4sv5+JhgIZlVNXhmrQw
-	uHV45pb8g3HxboieZn476NowckejcDmYmRovtq3aYsixxzwJc4QjhCibkj9DEP5W
-X-Gm-Gg: AY/fxX7QziaCd70kw2vO1BYW6MO2PE2k8KQ0JmaletTpSj1NwCcLz8Uv3IAWJptX3I9
-	zpEaHUIBqkh8SKJNy5D4T1Mh6/YzprRg+DpEGiq22IZtGc+OgV70iUiw92pBMrc57wRaBxw2Dps
-	yq/EdWOiZGCZdiqaHn2mX+dr+ypInIpln05Ume1Kc7L0dUWdgm8W3wOLbJ6AN+CdHKrzNp6yqow
-	Y77wv0ieC2pIQfoEPfSpeKstD+RIcXv1GAX0JjBKzs+5mIvkAFUVYtJHl8HcdmGJ1YIT7itXPhM
-	jkbH00m12npKolcGn6UBvIbJW5UBZB0lwdnhlcr9q5R8jTRelQEcSGnfmF7QxxQFg4tx5gb2oEF
-	VFd6sv5YwYA2/orY4gY43yiD25DVHpdlPiWJ9bIZefZOOn9pF4nT843fTlw+saNTOYS50jN0J9G
-	tP0iI=
-X-Received: by 2002:a05:651c:991:b0:37b:ab43:8958 with SMTP id 38308e7fff4ca-383866fcdb1mr18469351fa.16.1768680513132;
-        Sat, 17 Jan 2026 12:08:33 -0800 (PST)
-Received: from gl-laptop.flowwow.loc ([2a0c:9a40:8950:800::67d])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38384fb94f6sm19114571fa.49.2026.01.17.12.08.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Jan 2026 12:08:32 -0800 (PST)
-From: Alexey Zagorodnikov <xglooom@gmail.com>
-To: platform-driver-x86@vger.kernel.org
-Cc: Alexey Zagorodnikov <xglooom@gmail.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869B8295DB8;
+	Sat, 17 Jan 2026 21:01:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768683686; cv=pass; b=CxtWdEVJzEZcGUp88LZBs+3gRE6y1L087ATPkNJRLifBNUcDCnFBeH6NS4vbbZj05K6vMPgszFUSrjW47iHdPPVJ4RxntzRLMPmvJ5LZ5sGrdgh/D2rcUnpXXbvJFfS8ecXIwe8EUvJ2hy4MWAYQWXVrm8TZANuqGn8GLTlJfX4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768683686; c=relaxed/simple;
+	bh=hCO1Bdkofqb/zEn9R7/OpNFmRwDr57jKd80E1qS/Ka8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qBs7v1LtAqbrLJJgHj7UeOXzXB5jrfj72pEHzfjL1cNJtt3XZ1p55H8LRq3s1Xx2Q+mvkKPYdJVzSJ9a4mnRQDvvVYdK8kuJWVyvLAkhmTQoyEr/eoiKC1KFs2V+eymZl8lQN1ENOiMopmwUHdpxLSVek/LMV/l1l0LVX/y27Og=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (1024-bit key) header.d=rong.moe header.i=i@rong.moe header.b=pDSN8ZpA; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+ARC-Seal: i=1; a=rsa-sha256; t=1768683660; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=ehHWqjo2K+wf2q2z6/9L84OfPB2xMjy7aPHBsfldeAHPqY0QzS3lXdXsdck9w9NgR0FFxlZ1fM8EnEnFQ5wLPJ0Nz3OXgs7Zb3n38Zt1cW9u4yqRCmSM+/PYT+E7b3hLAzhHBXjbmO8O/T8gVdXLyoevJ8a8BYafnkQXv++asyk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1768683660; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=gtlPC3gy8XxhutncG+3FyWtRsR3d1NXLQVKCeNR6ks8=; 
+	b=AaHQFbds6gdxhf+Q0Mt+jZMIeR7BRPx7GvH8TeXfsvUUbK5hpaXnCQ7cSOGwGtoolc875bSN7KLH3O43F/ETfNJtx6RcM4R8uA86YwNtlvpv010xbPyCvnom6KFNwJK18Hp8ffedDf3fQ+PVuJniWDP/ObcmmMNwQuzfWbYyMRA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1768683660;
+	s=zmail; d=rong.moe; i=i@rong.moe;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=gtlPC3gy8XxhutncG+3FyWtRsR3d1NXLQVKCeNR6ks8=;
+	b=pDSN8ZpAbCuv9ksv3lgm5hhuzqVpuzod7EGUwfm1MXbDjsQlvBYyeb6XxizIzenb
+	AtnVhH8e2c8SJiDZbDTnslt7Q0QmveXp+SsHnoau2pqIQkz9TaoWtWcyM6VIt81S2qp
+	3knkbAT/7EeTLT+8hFzmIslrCVWtwY31idW4zBv0=
+Received: by mx.zohomail.com with SMTPS id 1768683658699990.0651038619397;
+	Sat, 17 Jan 2026 13:00:58 -0800 (PST)
+From: Rong Zhang <i@rong.moe>
+To: Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Armin Wolf <W_Armin@gmx.de>,
 	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/1] platform/x86/amd/pmf: Introduce option to disable Smart PC function in PMF
-Date: Sun, 18 Jan 2026 01:08:11 +0500
-Message-ID: <20260117200819.12383-2-xglooom@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260117200819.12383-1-xglooom@gmail.com>
-References: <20260117200819.12383-1-xglooom@gmail.com>
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Rong Zhang <i@rong.moe>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Kurt Borja <kuurtb@gmail.com>,
+	platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org
+Subject: [PATCH v10 0/7] platform/x86: lenovo-wmi-{capdata,other}: Add HWMON for fan speed
+Date: Sun, 18 Jan 2026 05:00:41 +0800
+Message-ID: <20260117210051.108988-1-i@rong.moe>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-Signed-off-by: Alexey Zagorodnikov <xglooom@gmail.com>
----
- drivers/platform/x86/amd/pmf/core.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+Lenovo WMI Other Mode interface also supports querying or setting fan
+speed RPM. This capability is described by LENOVO_CAPABILITY_DATA_00.
+Besides, LENOVO_FAN_TEST_DATA provides reference data for self-test of
+cooling fans, including minimum and maximum fan speed RPM.
 
-diff --git a/drivers/platform/x86/amd/pmf/core.c b/drivers/platform/x86/amd/pmf/core.c
-index 8fc293c9c5380..00a4fc899c727 100644
---- a/drivers/platform/x86/amd/pmf/core.c
-+++ b/drivers/platform/x86/amd/pmf/core.c
-@@ -53,6 +53,11 @@ static bool force_load;
- module_param(force_load, bool, 0444);
- MODULE_PARM_DESC(force_load, "Force load this driver on supported older platforms (experimental)");
- 
-+/* Force to disable Smart PC Solution */
-+static bool disable_smart_pc;
-+module_param(disable_smart_pc, bool, 0444);
-+MODULE_PARM_DESC(disable_smart_pc, "Disable Smart PC Solution");
-+
- static int amd_pmf_pwr_src_notify_call(struct notifier_block *nb, unsigned long event, void *data)
- {
- 	struct amd_pmf_dev *pmf = container_of(nb, struct amd_pmf_dev, pwr_src_notifier);
-@@ -362,11 +367,15 @@ static void amd_pmf_init_features(struct amd_pmf_dev *dev)
- 		dev_dbg(dev->dev, "SPS enabled and Platform Profiles registered\n");
- 	}
- 
--	amd_pmf_init_smart_pc(dev);
--	if (dev->smart_pc_enabled) {
--		dev_dbg(dev->dev, "Smart PC Solution Enabled\n");
--		/* If Smart PC is enabled, no need to check for other features */
--		return;
-+	if (disable_smart_pc) {
-+		dev->smart_pc_enabled = false;
-+	} else {
-+		amd_pmf_init_smart_pc(dev);
-+		if (dev->smart_pc_enabled) {
-+			dev_dbg(dev->dev, "Smart PC Solution Enabled\n");
-+			/* If Smart PC is enabled, no need to check for other features */
-+			return;
-+		}
- 	}
- 
- 	if (is_apmf_func_supported(dev, APMF_FUNC_AUTO_MODE)) {
+This patchset turns lenovo-wmi-capdata01 into a unified driver (now
+named lenovo-wmi-capdata) for LENOVO_CAPABILITY_DATA_{00,01} and
+LENOVO_FAN_TEST_DATA; then adds HWMON support for lenovo-wmi-other:
+
+ - fanX_div: internal RPM divisor
+ - fanX_input: current RPM
+ - fanX_max: maximum RPM
+ - fanX_min: minimum RPM
+ - fanX_target: target RPM (tunable, 0=auto)
+
+LENOVO_CAPABILITY_DATA_{00,01} presents on all devices, so
+both binds to lenovo-wmi-other. However, some device does not have
+LENOVO_FAN_TEST_DATA and its presence is described by
+LENOVO_CAPABILITY_DATA_00; hence, the former binds to the latter and a
+callback is used to pass the data to lenovo-wmi-other.
+
+Summarizing this scheme:
+
+        lenovo-wmi-other <-> capdata00 <-> capdata_fan
+        |- master            |- component
+                             |- sub-master |- sub-component
+
+The callback will be called once both the master and the sub-component
+are bound to the sub-master (component).
+
+This scheme is essential to solve these issues:
+- The component framework only supports one aggregation per master
+- A binding is only established until all components are found
+- The Fan Test Data interface may be missing on some devices
+- To get rid of queries for the presence of WMI GUIDs
+- The notifier framework cannot cleanly connect capdata_fan to
+  lenovo-wmi-other without introducing assumptions on probing sequence
+
+capdata00 is registered as a component and a sub-master on probe,
+instead of chaining the registrations in one's bind callback. This is
+because calling (un)registration methods of the component framework
+causes deadlock in (un)bind callbacks, i.e., it's impossible to register
+capdata00 as a sub-master/component in its component/sub-master bind
+callback, and vice versa.
+
+The implementation does not rely on a specific binding sequence. This
+has been fuzz-tested using:
+
+	#!/bin/bash
+
+	DRV_DIR=/sys/bus/wmi/drivers/lenovo_wmi_cd
+	CAPDATA_GUIDS=(
+		$(find "$DRV_DIR"/ -name '*-*-*-*-*-*' -printf "%f ")
+	)
+
+	b() {
+		echo -n 'B: '
+		sudo tee "$DRV_DIR"/bind <<<"$1"
+	}
+	u() {
+		echo -n 'U: '
+		sudo tee "$DRV_DIR"/unbind <<<"$1"
+	}
+
+	while read -rsa perm; do
+		for guid in "${perm[@]}"; do
+			u "$guid"
+		done
+		for guid in "${perm[@]}"; do
+			b "$guid"
+		done
+		sensors | grep -A3 lenovo_wmi_other
+		echo '========'
+	done < <(python3 -c "
+	from itertools import permutations
+	guids = '${CAPDATA_GUIDS[*]}'.split()
+	for r in range(1, len(guids) + 1):
+		ps = permutations(guids, r)
+		for p in ps:
+			print(' '.join(p))
+	")
+
+Tested on ThinkBook 14 G7+ ASP.
+
+Changes in v10:
+- Remove fanX_enable due to semantic mismatch with HWMON ABI (thanks
+  Kurt Borja)
+  - By removing it, its functionality (stopping the fan) is hidden
+    behind the module parameter "relax_fan_constraint", so that users
+    won't accidentally stop the fan while in a default setup (ditto)
+- Mention fanX_target=0 means auto in documentation (ditto)
+- Also accept retval=0 while setting the fan (ditto)
+- Add fanX_div (thanks Derek J. Clark)
+- Round down the written value of fanX_target to the nearest multiple of
+  fanX_div, so that the stored value matches the effective value
+- Fix HWMON missing when capdata01 is reprobed
+- Link to v9: https://lore.kernel.org/r/20260114122745.986699-1-i@rong.moe/
+
+Changes in v9:
+- Make kernel-doc.py happy (thanks Ilpo Järvinen, kernel test robot)
+- Link to v8: https://lore.kernel.org/r/20260113172817.393856-1-i@rong.moe/
+
+Changes in v8:
+- Refactor some statements to improve readability (thanks Ilpo Järvinen)
+- Use more commonly used errno (ditto)
+- Fix missing #include (ditto)
+- Link to v7: https://lore.kernel.org/r/20251125194959.157524-1-i@rong.moe/
+
+Changes in v7:
+- Fix missing #include (thanks Ilpo Järvinen)
+- Fix formatting issues (ditto)
+- dev_dbg() instead of dev_info() on probe success (ditto)
+- Rearrange to drop some gotos (ditto)
+- Move the declarations of __free()-managed variables to where they are
+  assigned (ditto)
+- Improve the readability of struct definition and error paths (ditto)
+- Prevent back-and-forth changes (ditto)
+- Fix mistakenly inverted boundary check
+- Emit unaligned access to Fan Test Data's WMI block
+- Properly calculate array index when we truncate Fan Test Data
+- Fix typo
+- Link to v6: https://lore.kernel.org/r/20251122184522.18677-1-i@rong.moe/
+
+Changes in v6:
+- Fix mistaken error paths
+- Link to v5: https://lore.kernel.org/r/20251114175927.52533-1-i@rong.moe/
+
+Changes in v5:
+- Do not cast pointer to non-pointer or vice versa (thanks kernel test
+  robot)
+- Fix missing include (ditto)
+- Link to v4: https://lore.kernel.org/r/20251113191152.96076-1-i@rong.moe/
+
+Changes in v4:
+- Get rid of wmi_has_guid() (thanks Armin Wolf's inspiration)
+  - Add [PATCH v4 6/7], please review & test
+    - Check 0x04050000.supported and bind capdata_fan to capdata00
+  - Rework HWMON registration
+    - Collect fan info from capdata00 and capdata_fan separately
+    - Use a callback to collect fan info from capdata_fan
+    - Trigger HWMON registration only if all fan info is collected
+    - Do not check 0x04050000.supported, implied by the presence of
+      capdata_fan
+- Drop Reviewed-by & Tested-by from [PATCH v4 7/7] due to the changes,
+  please review & test
+- Link to v3: https://lore.kernel.org/r/20251031155349.24693-1-i@rong.moe/
+
+Changes in v3:
+- Fix grammar (thanks Derek J. Clark)
+- Link to v2: https://lore.kernel.org/r/20251030193955.107148-1-i@rong.moe/
+
+Changes in v2:
+- Add a workaround for ACPI methods that return a 4B buffer for u32
+  (thanks Armin Wolf)
+- Fix function documentation (thanks kernel test bot)
+- Reword documentation (thanks Derek J. Clark)
+- Squash min/max reporting patch into the initial HWMON one (ditto)
+- Query 0x04050000 for interface availability (ditto)
+  - New parameter "expose_all_fans" to skip this check
+- Enforce min/max RPM constraint on set (ditto)
+  - New parameter "relax_fan_constraint" to disable this behavior
+  - Drop parameter "ignore_fan_cap", superseded by the next one
+  - New parameter "expose_all_fans" to expose fans w/o such data
+- Assume auto mode on probe (ditto)
+- Do not register HWMON device if no fan can be exposed
+- fanX_target: Return -EBUSY instead of raw target value when fan stops
+- Link to v1: https://lore.kernel.org/r/20251019210450.88830-1-i@rong.moe/
+
+Rong Zhang (7):
+  platform/x86: lenovo-wmi-helpers: Convert returned buffer into u32
+  platform/x86: Rename lenovo-wmi-capdata01 to lenovo-wmi-capdata
+  platform/x86: lenovo-wmi-{capdata,other}: Support multiple Capability
+    Data
+  platform/x86: lenovo-wmi-capdata: Add support for Capability Data 00
+  platform/x86: lenovo-wmi-capdata: Add support for Fan Test Data
+  platform/x86: lenovo-wmi-capdata: Wire up Fan Test Data
+  platform/x86: lenovo-wmi-other: Add HWMON for fan reporting/tuning
+
+ .../wmi/devices/lenovo-wmi-other.rst          |  46 +-
+ drivers/platform/x86/lenovo/Kconfig           |   5 +-
+ drivers/platform/x86/lenovo/Makefile          |   2 +-
+ drivers/platform/x86/lenovo/wmi-capdata.c     | 829 ++++++++++++++++++
+ drivers/platform/x86/lenovo/wmi-capdata.h     |  65 ++
+ drivers/platform/x86/lenovo/wmi-capdata01.c   | 302 -------
+ drivers/platform/x86/lenovo/wmi-capdata01.h   |  25 -
+ drivers/platform/x86/lenovo/wmi-helpers.c     |  21 +-
+ drivers/platform/x86/lenovo/wmi-other.c       | 528 ++++++++++-
+ 9 files changed, 1466 insertions(+), 357 deletions(-)
+ create mode 100644 drivers/platform/x86/lenovo/wmi-capdata.c
+ create mode 100644 drivers/platform/x86/lenovo/wmi-capdata.h
+ delete mode 100644 drivers/platform/x86/lenovo/wmi-capdata01.c
+ delete mode 100644 drivers/platform/x86/lenovo/wmi-capdata01.h
+
+
+base-commit: d12453c7e281d236f77b5c7d7cccbf9e5dfadfe5
 -- 
-2.52.0
+2.51.0
 
 
