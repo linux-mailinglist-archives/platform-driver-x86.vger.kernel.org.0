@@ -1,164 +1,180 @@
-Return-Path: <platform-driver-x86+bounces-16935-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16939-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GAdxGvrRb2mgMQAAu9opvQ
-	(envelope-from <platform-driver-x86+bounces-16935-lists+platform-driver-x86=lfdr.de@vger.kernel.org>)
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 20:05:30 +0100
+	id iDZyLonMb2mgMQAAu9opvQ
+	(envelope-from <platform-driver-x86+bounces-16939-lists+platform-driver-x86=lfdr.de@vger.kernel.org>)
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 19:42:17 +0100
 X-Original-To: lists+platform-driver-x86@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF84349FE0
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 20:05:29 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 958DB49AAF
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 19:42:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 92FC450F770
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 16:03:22 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C14C9827A2C
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 16:30:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D41243D51A;
-	Tue, 20 Jan 2026 15:45:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B51D231A04D;
+	Tue, 20 Jan 2026 16:15:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oliGbYJi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gSj4J1E+"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219AD328B67;
-	Tue, 20 Jan 2026 15:45:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09CC931B108
+	for <platform-driver-x86@vger.kernel.org>; Tue, 20 Jan 2026 16:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768923905; cv=none; b=bc3n9DdCo43yKH6uoFEKBglyVUvRtb0QSX8Ik8FbpgXeAYgW6g1Iw8xrVj1clMfbvoCAvkl167DK3hCImgVAYS7UAZH/XDOryfHEkck3vQww+XaEjgfyBGsXUz3+7fFcxJLTr3/jhpS7sBF0HqCbz83IxM+0WVQnra+q0DUsyzo=
+	t=1768925748; cv=none; b=CLkyQBEoNB+Nwn2r8uVkTl3sxvha2ZhaalcRDyUwXQ/QfdH9rgVur7Mz+HkXcWTSq5R/2rNU/PnTpUzQMyGhfnGbF2MSW746i6u5cTyll6QXGs0UmR8q+g0stwmSbetBHBcHP5SIYYai+bRv8jhSrLrBVnIm0Vq0jG7RBRSKbNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768923905; c=relaxed/simple;
-	bh=Pg2BkQxsBc9dyXpGiautqBpvS/L5bPjmKtyYe6frzsA=;
+	s=arc-20240116; t=1768925748; c=relaxed/simple;
+	bh=5kTMiO6eaOPZeg5Pbd1orb2vNf9F+bXf7bqsj1xJcjI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=r07jCA7o0hNp/EzIAwsYZAnKNkqRA8NoJMcohgn8j+lPcVeGQ3hCUxcaG+uLDzbNBhCLH4K0tFWkvks+NGF5gPZJnTry1gJzN0UxFCWNdegPzG1peqVlG1pYMPWdTGwcU6JRbYMVO5y4tb1it8M3W1qA4zYnahU+K8WsQmnOF/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oliGbYJi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 831C1C16AAE;
-	Tue, 20 Jan 2026 15:45:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768923904;
-	bh=Pg2BkQxsBc9dyXpGiautqBpvS/L5bPjmKtyYe6frzsA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oliGbYJie196+c4ttIbPNu57yqceJ+D1IEs6ZgTZi+shSIQViVl/n4pP6ddDXCiJE
-	 snYjeR4IiJ5p4PHSbQDQmS3GJhcq5eDObwiY9DS9XwImTK7bEkR6/3V34Dh3khbeX/
-	 KUU/benvNWZfSbH0qoPNWc/vUVG8rIdharRIi6Sb9YWgQiM//vUlZT536nNyzZAVCT
-	 gKVSog0yEr7zmaz0fyAPPVzr/Gmln+Ko3qzuWPlHicfHOP1YJBrhDD06os00XNIARr
-	 bdnC3JnigDe/275MmP3mjsCMTWefQYyepvxRZsh9kijUezYZ6n7mkWNfy7Tr4clzFw
-	 xPo7asB6qzXuA==
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-To: Hans de Goede <hansg@kernel.org>,
- Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Linux ACPI <linux-acpi@vger.kernel.org>,
- Kenneth Chan <kenneth.t.chan@gmail.com>, platform-driver-x86@vger.kernel.org,
- Azael Avalos <coproscefalo@gmail.com>,
- Matthew Garrett <matthew.garrett@nebula.com>
-Subject:
- [PATCH v1 2/2] platform/x86: toshiba_haps: Fix memory leaks in add/remove
- routines
-Date: Tue, 20 Jan 2026 16:44:23 +0100
-Message-ID: <10789244.nUPlyArG6x@rafael.j.wysocki>
-Organization: Linux Kernel Development
-In-Reply-To: <3026924.e9J7NaK4W3@rafael.j.wysocki>
-References: <3026924.e9J7NaK4W3@rafael.j.wysocki>
+	 MIME-Version; b=X7egpTMrULox4i9tl/6VcXlo9h/BZvA+o8aTbWvZ3BVqY3lvHAlowf0uWHx13yR1GaRNr8kRGHoFfiYbllJslkqfSepJNNM9/+ARj/GHEPD0pDPrmTRiVYNYqg33yb29pZFS+IAXqoe+ZDBLSI1cN/iU4OwzqX3y/+PUzu7krRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gSj4J1E+; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-5013c912f9fso64205241cf.2
+        for <platform-driver-x86@vger.kernel.org>; Tue, 20 Jan 2026 08:15:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768925745; x=1769530545; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mNqt/8fppsGYGnj2Tu2jRn4PRrvPiuvQkA3GokzXAvA=;
+        b=gSj4J1E+auFB4beeNL4uHTeVIfq7Vv27v87e2zS13W+XLIih8FgN9sielqp17pG3ei
+         QMyqhUdZ2RH/SyNSmShdlCkwdVqC72WKEijUD03sBGszrhPKdO2z3dESuKfaKlmS0OeN
+         1U+kDKcQcVnozIYAX1Bd6avGfqixMcqN6JkvgC03pgPIb6ztljy32aCiUqsYZ1y2d02l
+         LtrRWf+JPyq24g6LqiAPocY29G2vraWi6wzBdCJ4gHJMWAsqYgBd75KuDpp2wJQASIS/
+         HvlJ6851RuM00YZF/2nVs7O/+PREVTubzPaWRqzZ66KwQfyFIbxhO6ftLqelwPedWCkY
+         iWdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768925745; x=1769530545;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=mNqt/8fppsGYGnj2Tu2jRn4PRrvPiuvQkA3GokzXAvA=;
+        b=DA51TJmFcc7tlHUT0DS+b5kc5/rcaSPE2sx+7tLKBAZCdSoOs4rF1nniJ7DZx0gaVe
+         9yBWQrwdo6rfSxbEV2FIahcpg1zXxNwYmZeJfEpDbbx+UWS9DOtuVK+HhfPkywvlxryQ
+         JF4hscjrTRIzcf6YJf5wqP04fMeWe1L98COSXjsfQSQHrpMBWffekmrihIZpmTBr2UVC
+         7V8G5+MoGihOWSmdJpURBGUYeoYCpSRgx3DFW47J3nlLtnECq/a6XaGiqHbPmLy42tvP
+         Ae6qwaYfv1D49BpftKVEePmDpTJGxc9MWvOEc7VDonYorAcNDnryPK3wgzTuijWytbsT
+         +x3A==
+X-Gm-Message-State: AOJu0Yw9dxvZpp87N88mmZCuGzW/pz1jxLMqQyr6MinmtsZNtH78ZQi3
+	Mo1YRxrJ8mbaWPcbUpDqYPVNt6/x3PfyNsygoegjdD1V7NoF/1ZaWS5AfQVU3A==
+X-Gm-Gg: AY/fxX71BKFcoMK8t5u/cpCSlEI8MxBQ16pljEmdpx+6uG2F6aJLJ+UfkGnvqAEMyHu
+	Occ6O2jdp3XxEda1RYyzLpudms/tENYmCNpiB72Yy+AdV444/SMM/PLgwM802fY/JC+mZuV0HWJ
+	euHVJGvxn5xznfm2Yy+B/l/iugPhFX4acGCSkhnzc7uO5vAdajifu+mf6BqgP9mXlWhHtyWy2t4
+	Owqp9aV1MMl9HYIhK0fX4R6Fo0CPo+Hcox1mIPNkQa+g6VFlhgKBnQMXnzd+dACGT1W3eZPY2Yj
+	sJpBRS5uryXqK00llDKuOvBVkcRnHo2CIwuHWF2NbOuHSHGqgjekLXl1eTFc4rQOiuytpy1BliJ
+	sx+3uVp5mv6p1fxdS1BgUIRa6U024iDWCT1Bq8NtlvfTVgPK/ObTZ8P4PYSq71IRddAbcbPo3a+
+	DCBFCCYLY8fvaM7SETVdowsmg/UN3qcr0utDKu23o9FykCMtDq0mUCAY4ECwCXN5xe4wbDm5P3t
+	ZOeHwMxV0X7SfyeNW5ohXwopkAFjQ==
+X-Received: by 2002:a05:622a:38b:b0:4ef:c4de:2ac9 with SMTP id d75a77b69052e-502a1dbcb2bmr168551171cf.17.1768925745314;
+        Tue, 20 Jan 2026 08:15:45 -0800 (PST)
+Received: from office-nix.home (hlfxns018gw-134-41-57-104.dhcp-dynamic.fibreop.ns.bellaliant.net. [134.41.57.104])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-502a1ef8b4fsm96091311cf.27.2026.01.20.08.15.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jan 2026 08:15:44 -0800 (PST)
+From: David McFarland <corngood@gmail.com>
+To: platform-driver-x86@vger.kernel.org
+Cc: David McFarland <corngood@gmail.com>
+Subject: [PATCH v2] platform/x86/intel: disable wakeup_mode during hibernation
+Date: Tue, 20 Jan 2026 12:10:54 -0400
+Message-ID: <20260120161100.29342-2-corngood@gmail.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260120141758.3496-1-corngood@gmail.com>
+References: <20260120141758.3496-1-corngood@gmail.com>
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [0.04 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	CTE_CASE(0.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,nebula.com];
-	TAGGED_FROM(0.00)[bounces-16935-lists,platform-driver-x86=lfdr.de];
-	HAS_ORG_HEADER(0.00)[];
-	DMARC_POLICY_ALLOW(0.00)[kernel.org,quarantine];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
+	TAGGED_FROM(0.00)[bounces-16939-lists,platform-driver-x86=lfdr.de];
+	RCPT_COUNT_TWO(0.00)[2];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rafael@kernel.org,platform-driver-x86@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[platform-driver-x86];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,intel.com:email,rafael.j.wysocki:mid]
-X-Rspamd-Queue-Id: BF84349FE0
+	RCVD_COUNT_FIVE(0.00)[5];
+	DMARC_POLICY_ALLOW(0.00)[gmail.com,none];
+	FROM_NEQ_ENVFROM(0.00)[corngood@gmail.com,platform-driver-x86@vger.kernel.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo]
+X-Rspamd-Queue-Id: 958DB49AAF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Without this change I get the problem described in the linked bug:
 
-toshiba_haps_add() leaks the haps object allocated by it if it returns
-an error after allocating that object successfully.
+> Wakeup event detected during hibernation, rolling back
 
-toshiba_haps_remove() does not free the object pointed to by
-toshiba_haps before clearing that pointer, so it becomes unreachable
-allocated memory.
+The docs for the 'freeze' event say:
 
-Address these memory leaks by freeing the memory in question as
-appropriate.
+> Analogous to @suspend(), but it should not enable the device to signal wakeup
+> events or change its power state.
 
-Fixes: 23d0ba0c908a ("platform/x86: Toshiba HDD Active Protection Sensor")
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+I've been running with this change for several months on my Dell
+Precision 3680.  I haven't tested on any other systems.
+
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218634
 ---
- drivers/platform/x86/toshiba_haps.c |   13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+v1 -> v2: fixed bugzilla link
 
---- a/drivers/platform/x86/toshiba_haps.c
-+++ b/drivers/platform/x86/toshiba_haps.c
-@@ -142,8 +142,8 @@ static void toshiba_haps_remove(struct a
- {
- 	sysfs_remove_group(&device->dev.kobj, &haps_attr_group);
- 
--	if (toshiba_haps)
--		toshiba_haps = NULL;
-+	kfree(toshiba_haps);
-+	toshiba_haps = NULL;
- }
- 
- /* Helper function */
-@@ -195,15 +195,20 @@ static int toshiba_haps_add(struct acpi_
- 	/* Set the protection level, currently at level 2 (Medium) */
- 	ret = toshiba_haps_protection_level(acpi_dev->handle, 2);
- 	if (ret != 0)
--		return ret;
-+		goto err;
- 
- 	ret = sysfs_create_group(&acpi_dev->dev.kobj, &haps_attr_group);
- 	if (ret)
--		return ret;
-+		goto err;
- 
- 	toshiba_haps = haps;
- 
+ drivers/platform/x86/intel/hid.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/platform/x86/intel/hid.c b/drivers/platform/x86/intel/hid.c
+index 560cc063198e..3a9561665b9b 100644
+--- a/drivers/platform/x86/intel/hid.c
++++ b/drivers/platform/x86/intel/hid.c
+@@ -419,6 +419,14 @@ static int intel_hid_pl_suspend_handler(struct device *device)
  	return 0;
-+
-+err:
-+	kfree(haps);
-+
-+	return ret;
  }
  
- #ifdef CONFIG_PM_SLEEP
-
-
++static int intel_hid_pl_freeze_handler(struct device *device)
++{
++	struct intel_hid_priv *priv = dev_get_drvdata(device);
++
++	priv->wakeup_mode = false;
++	return intel_hid_pl_suspend_handler(device);
++}
++
+ static int intel_hid_pl_resume_handler(struct device *device)
+ {
+ 	intel_hid_pm_complete(device);
+@@ -433,7 +441,7 @@ static int intel_hid_pl_resume_handler(struct device *device)
+ static const struct dev_pm_ops intel_hid_pl_pm_ops = {
+ 	.prepare = intel_hid_pm_prepare,
+ 	.complete = intel_hid_pm_complete,
+-	.freeze  = intel_hid_pl_suspend_handler,
++	.freeze  = intel_hid_pl_freeze_handler,
+ 	.thaw  = intel_hid_pl_resume_handler,
+ 	.restore  = intel_hid_pl_resume_handler,
+ 	.suspend  = intel_hid_pl_suspend_handler,
+-- 
+2.52.0
 
 
