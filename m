@@ -1,181 +1,173 @@
-Return-Path: <platform-driver-x86+bounces-16934-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16926-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MAzMFbWlb2kfEgAAu9opvQ
-	(envelope-from <platform-driver-x86+bounces-16934-lists+platform-driver-x86=lfdr.de@vger.kernel.org>)
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 16:56:37 +0100
+	id iM7iJQ64b2kBMQAAu9opvQ
+	(envelope-from <platform-driver-x86+bounces-16926-lists+platform-driver-x86=lfdr.de@vger.kernel.org>)
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 18:14:54 +0100
 X-Original-To: lists+platform-driver-x86@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FAA646DBD
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 16:56:36 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A57C485EC
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 18:14:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 75CA278D5C7
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 15:48:31 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 40D7854C694
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 14:26:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 405F647A0A6;
-	Tue, 20 Jan 2026 15:26:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B36E043D50C;
+	Tue, 20 Jan 2026 14:18:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rong.moe header.i=i@rong.moe header.b="0PcacTF9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hFqZykvh"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4707F47885B;
-	Tue, 20 Jan 2026 15:26:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768922793; cv=pass; b=J88Q7dusxFIPwGIKtV/Igz5sBymVtczr5t1W4uDo/hUtGFFo+ST627eu0iog6/qxZLi9vR/X0EK9yzispK990HyeEIET094PHSbcEpqpK9Ll9SVd04tSrgjnMFWtar1+Eug9AJZHv97id8BlUmlcRSMs+No0Df2+gphEN0WPGIU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768922793; c=relaxed/simple;
-	bh=/MEjD39Yv60OwnFERt0gJFnUej+jKaQNYPVjvXcpC0I=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=aVUqycplnKVBbuS8Wky6ha31Z8tZ0mWDhONMThJKy2tht+nBpa7ofj5d1jT2Zgd7ul3ubnSgDrQzAccA5E3nfCy+ojypS4t+19Qhk0BOtdd5RiQtKaQj2ZdeABGsMNEMydjN/oPiLWl/ao+63xOgEgP3/qMl9UHGObdNKhfHyxw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (1024-bit key) header.d=rong.moe header.i=i@rong.moe header.b=0PcacTF9; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
-ARC-Seal: i=1; a=rsa-sha256; t=1768922765; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=bfQA4AIgthAz2rrJrn4oIzcOABrNM9XzVIf/JwaUR1bfK7sg0gy49EAGEnEckT5YJUJdVxuBMfs6tmf/q6HItv8SC6JseQ7ttr3gysP8KPTKICgmWEe9tPyO9WBBOvgWPxWxEtaBaSbEG2CZlhzckHGuMb+e1UoUmonWPqigKsc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1768922765; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=tDyi04yudMXP7atH5aP6ZBiVSMauESy3wEVpjLDBiXc=; 
-	b=eXIyVscBFSFZMIn7v28tXlTXDLwK1atCVw7mqGj1BKgnmlb7nTsi3SuM2nD9y7qaDvFRjTu+Bl3cYXEbBaPFphUq13OIpqF6StJrmmY+bHUhXHwnFVD55tfB6I3DbZxOjJeyJbS1nFaJALZBw1wist3aYH68wBOoLnrTH4PhMJQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1768922765;
-	s=zmail; d=rong.moe; i=i@rong.moe;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
-	bh=tDyi04yudMXP7atH5aP6ZBiVSMauESy3wEVpjLDBiXc=;
-	b=0PcacTF9ThtgEMaNOblSO+iqGQwtb5CHXFPslaWJzTUcnDluk+nJGCgb+YF0ktTN
-	Vff/sJkeod7E9kMykkfehQFKp1yaH3CNSbQ+q2epgfJFAa7uBlOXxVJq1D64n9qLsWJ
-	fkT1KDZZA78y090JbMsZewfLr+dhEzI5BwksfSsw=
-Received: by mx.zohomail.com with SMTPS id 1768922763922761.8704965565253;
-	Tue, 20 Jan 2026 07:26:03 -0800 (PST)
-Message-ID: <c437e6e73d74b7aedd269328e1b0411a110444d3.camel@rong.moe>
-Subject: Re: [PATCH v10 2/7] platform/x86: Rename lenovo-wmi-capdata01 to
- lenovo-wmi-capdata
-From: Rong Zhang <i@rong.moe>
-To: Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- "Derek J. Clark" <derekjohn.clark@gmail.com>
-Cc: Mark Pearson <mpearson-lenovo@squebb.ca>, Armin Wolf <W_Armin@gmx.de>, 
- Hans de Goede <hansg@kernel.org>, Guenter Roeck <linux@roeck-us.net>, Kurt
- Borja <kuurtb@gmail.com>, 	platform-driver-x86@vger.kernel.org, LKML
- <linux-kernel@vger.kernel.org>, 	linux-hwmon@vger.kernel.org
-In-Reply-To: <dc356678-4be6-3ba8-dd9e-18ba910f5e62@linux.intel.com>
-References: <20260117210051.108988-1-i@rong.moe>
-	 <20260117210051.108988-3-i@rong.moe>
-	 <dc356678-4be6-3ba8-dd9e-18ba910f5e62@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 20 Jan 2026 23:20:56 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12EE242E002
+	for <platform-driver-x86@vger.kernel.org>; Tue, 20 Jan 2026 14:18:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768918724; cv=none; b=i9lNy4Uj1Xpa7O8yC+xCRRD+Xp+RCZohPKcamwZ9CYcuUjvqT1Dzs1g1D8fAZIO5wQEVgnz3ZY+8PakENKvTa9gemWLFiDD8z2eRSxXwvxuMCSqyRO9UHMu5SS4SHl0ZWMVyJd0/10mKib9GzVFz0zQrH2QKBldsAyh7iN4jD3E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768918724; c=relaxed/simple;
+	bh=JfypU5NoSVLxTmCc6m3bhRZsIW0owE++/8JRrOiHfKk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fKNRsdBLxAxNesb3HoX+qOgoxDwzV0LVje/vuoCLuGGbgd1w2XN480xfkFlzRTdKkGnwPglgypOs7na5hWGObvw12WEQUPlUn5P1UHVn7kSb5g+SZiHfLqrS0ukPVm233VslQIG91rN58XAsRVWe27Ky06S5MotPBjisIO91554=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hFqZykvh; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-5029fb0b977so38305641cf.0
+        for <platform-driver-x86@vger.kernel.org>; Tue, 20 Jan 2026 06:18:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768918721; x=1769523521; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=X1is6XRlm0ZQ0xwWLUS14cuBkkKeXRGoTHcBmEUlITU=;
+        b=hFqZykvhjCZStUnT34LruKenZrDbSEwOId1NYhni4Z5VvUkcddAUW5OEVlj0xqoloC
+         B5mPCCU1M4dzTMipA0fhIFcQtmNyWjStUyOMNpIMFkGxz0Cqr7KuWI7w/JbDvqnFriXY
+         OBmIu7JS+6bh17sSITDlEIKUnr/e/N98syX2AULg3cmsQ0bg9zondbTC5JDZcf+qOUjw
+         GS7ohGFqN22ZW7kvQyx0o1U0n1MODAX+nPDuUCNl5VhBmBbVZmW363uDWfh2BgRW0YIg
+         Pk6hUVsPef0EyqsoA6eU4u1++9RJQEG+D3AkeUwSkdSin5bTYv3Cdx6u5hTjk2k0EOZi
+         70Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768918722; x=1769523522;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=X1is6XRlm0ZQ0xwWLUS14cuBkkKeXRGoTHcBmEUlITU=;
+        b=UhsxeDAfcIW4/pXu6TXqTuNXQ8eu636yicpPeI/5hgRnqg/7wr1XtSgmL1aQVnzUfb
+         wzpgKOH8kzzemIk6oi74URW7ZcOynHNJTRfXvkX7P2xb6eAtzSWDr8bTSaagK56cW+rt
+         O4weGQXhN7Y6pTeGW9uUprvdcMIdaMJpdNVmLwapcWsCl0CSYhK+gLvXwwEAPdaQXUpR
+         rh9nUvpB8bcnFOeJ4vvkPlQuzSlQJ2B/MyPhcPO3H/rCyBAPq/CsxpE8Tx1vajRQ7yCT
+         T0qQU+lVK2hUgdA/IJytnel8AdSxLU3x+4OFbk5TSKQPcXd6PjCO8Z3ZqwXH1dKNYRAB
+         FnWQ==
+X-Gm-Message-State: AOJu0YzM/ynoaEUJsP65KQG/6UqPEVEQlV/O1FwC/j1zj1QNU4sXqngU
+	dowh3wU19ty6KfZExOUFjMwex7wVM6HD4vLq2IKn1misF4Nn7bTRR09gYklI40zp
+X-Gm-Gg: AY/fxX4pXvdhmtBEh5Yzc1Bbtwd+sc3byMgF1NN23UtGGAUqvErGwmQZCTQeX78CDs9
+	vNUub4cmblO86qh8jgklQkuvGjCbs7kbxVFoB95jq/1hvatKqYkrhOsY4Rhnldk9OZa1lZHcqiO
+	tlVWOU2bZ4zVMDIhOr3Wk968hfdLMYHXN0FB68wm3HDv8PoJwlZZxWDArNj4HcBL6dKNNtD6jm9
+	ou4NLdd23pSg7/3HZb6Q69b6WDydiBQe3r9ARXWeiUA8WFvmi0e0aQzdWlzKsR/SFk66P+9H0D+
+	LWDTjgV3kRqS0DHLFTGrAZbuMhY+2hV4PVhvaPz4LGo7ZEILmnjmmlKLPyqI8WC0Hga6r9JTsRZ
+	QxxbbNUv/8qhGjSlKu2EBP9QYZtwc8n2x0WVZSmOtvj7MLzL8KnBdQwXeXMGCACDHjat7bydZKq
+	qjo1rjVOOjZbj5KzBue8PulcphSi4RgubH7GQDvQhJLtFmN6kCqDKRJAoIJLN/nxvqIOpuOBa9f
+	/9WOFgQoQ1iT4gHVz4=
+X-Received: by 2002:a05:622a:208:b0:4e8:b446:c023 with SMTP id d75a77b69052e-502a17581f8mr177998841cf.49.1768918721388;
+        Tue, 20 Jan 2026 06:18:41 -0800 (PST)
+Received: from office-nix.home (hlfxns018gw-134-41-57-104.dhcp-dynamic.fibreop.ns.bellaliant.net. [134.41.57.104])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-502a1d77d30sm93461581cf.6.2026.01.20.06.18.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jan 2026 06:18:40 -0800 (PST)
+From: David McFarland <corngood@gmail.com>
+To: platform-driver-x86@vger.kernel.org
+Cc: David McFarland <corngood@gmail.com>
+Subject: [PATCH] platform/x86/intel: disable wakeup_mode during hibernation
+Date: Tue, 20 Jan 2026 10:17:26 -0400
+Message-ID: <20260120141758.3496-1-corngood@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.56.2-8 
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-0.46 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_DKIM_ALLOW(-0.20)[rong.moe:s=zmail];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-16934-lists,platform-driver-x86=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[linux.intel.com,gmail.com];
-	FREEMAIL_CC(0.00)[squebb.ca,gmx.de,kernel.org,roeck-us.net,gmail.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-16926-lists,platform-driver-x86=lfdr.de];
+	FREEMAIL_CC(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_POLICY_ALLOW(0.00)[rong.moe,none];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	DMARC_POLICY_ALLOW(0.00)[gmail.com,none];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[i@rong.moe,platform-driver-x86@vger.kernel.org];
-	DKIM_TRACE(0.00)[rong.moe:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[corngood@gmail.com,platform-driver-x86@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[platform-driver-x86];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo]
-X-Rspamd-Queue-Id: 4FAA646DBD
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 0A57C485EC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, 2026-01-20 at 16:48 +0200, Ilpo J=C3=A4rvinen wrote:
-> On Sun, 18 Jan 2026, Rong Zhang wrote:
->=20
-> > Prepare for the upcoming changes to make it suitable to retrieve
-> > and provide other Capability Data as well.
-> >=20
-> > Signed-off-by: Rong Zhang <i@rong.moe>
-> > Reviewed-by: Derek J. Clark <derekjohn.clark@gmail.com>
-> > Tested-by: Derek J. Clark <derekjohn.clark@gmail.com>
-> > ---
-> >  drivers/platform/x86/lenovo/Kconfig           |   4 +-
-> >  drivers/platform/x86/lenovo/Makefile          |   2 +-
-> >  .../lenovo/{wmi-capdata01.c =3D> wmi-capdata.c} | 124 +++++++++-------=
---
-> >  .../lenovo/{wmi-capdata01.h =3D> wmi-capdata.h} |  10 +-
-> >  drivers/platform/x86/lenovo/wmi-other.c       |  11 +-
-> >  5 files changed, 78 insertions(+), 73 deletions(-)
-> >  rename drivers/platform/x86/lenovo/{wmi-capdata01.c =3D> wmi-capdata.c=
-} (60%)
-> >  rename drivers/platform/x86/lenovo/{wmi-capdata01.h =3D> wmi-capdata.h=
-} (60%)
-> >=20
-> > diff --git a/drivers/platform/x86/lenovo/Kconfig b/drivers/platform/x86=
-/lenovo/Kconfig
-> > index d22b774e0236f..fb96a0f908f03 100644
-> > --- a/drivers/platform/x86/lenovo/Kconfig
-> > +++ b/drivers/platform/x86/lenovo/Kconfig
-> > @@ -233,7 +233,7 @@ config YT2_1380
-> >  	  To compile this driver as a module, choose M here: the module will
-> >  	  be called lenovo-yogabook.
-> > =20
-> > -config LENOVO_WMI_DATA01
-> > +config LENOVO_WMI_DATA
-> >  	tristate
-> >  	depends on ACPI_WMI
->=20
-> This series is in the review-ilpo-next branch now. Thanks to all who have=
-=20
-> participated in getting it into shape!
+Without this change I get the problem described in the linked bug:
 
-Thank you for review and merging too! And thanks to Armin, Derek and
-Kurt for review and testing! ;-)
+> Wakeup event detected during hibernation, rolling back
 
-> While reading it through once again while applying, I start to wonder if=
-=20
-> this config would be better named as LENOVO_WMI_CAPDATA ?
+The docs for the 'freeze' event say:
 
-I didn't thought of that when I substituted all occurrences of
-data01/cd01 with data/cd, but it's definitely a better name for me when
-it pops out.
+> Analogous to @suspend(), but it should not enable the device to signal wakeup
+> events or change its power state.
 
-Hmm... Wait, we have
+I've been running with this change for several months on my Dell
+Precision 3680.  I haven't tested on any other systems.
 
- 	.driver =3D {
--		.name =3D "lenovo_wmi_cd01",
-+		.name =3D "lenovo_wmi_cd",
- 		.probe_type =3D PROBE_PREFER_ASYNCHRONOUS,
- 	},
+Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=27328
+---
+ drivers/platform/x86/intel/hid.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-What about adopting the same name here to make everything more
-consistent? Having a unified name will be neater. @Derek, what do you
-think?
+diff --git a/drivers/platform/x86/intel/hid.c b/drivers/platform/x86/intel/hid.c
+index 560cc063198e..3a9561665b9b 100644
+--- a/drivers/platform/x86/intel/hid.c
++++ b/drivers/platform/x86/intel/hid.c
+@@ -419,6 +419,14 @@ static int intel_hid_pl_suspend_handler(struct device *device)
+ 	return 0;
+ }
+ 
++static int intel_hid_pl_freeze_handler(struct device *device)
++{
++	struct intel_hid_priv *priv = dev_get_drvdata(device);
++
++	priv->wakeup_mode = false;
++	return intel_hid_pl_suspend_handler(device);
++}
++
+ static int intel_hid_pl_resume_handler(struct device *device)
+ {
+ 	intel_hid_pm_complete(device);
+@@ -433,7 +441,7 @@ static int intel_hid_pl_resume_handler(struct device *device)
+ static const struct dev_pm_ops intel_hid_pl_pm_ops = {
+ 	.prepare = intel_hid_pm_prepare,
+ 	.complete = intel_hid_pm_complete,
+-	.freeze  = intel_hid_pl_suspend_handler,
++	.freeze  = intel_hid_pl_freeze_handler,
+ 	.thaw  = intel_hid_pl_resume_handler,
+ 	.restore  = intel_hid_pl_resume_handler,
+ 	.suspend  = intel_hid_pl_suspend_handler,
+-- 
+2.52.0
 
-Thank you all,
-Rong
 
