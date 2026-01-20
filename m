@@ -1,173 +1,145 @@
-Return-Path: <platform-driver-x86+bounces-16926-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16930-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iM7iJQ64b2kBMQAAu9opvQ
-	(envelope-from <platform-driver-x86+bounces-16926-lists+platform-driver-x86=lfdr.de@vger.kernel.org>)
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 18:14:54 +0100
+	id qKQzBxTKb2mgMQAAu9opvQ
+	(envelope-from <platform-driver-x86+bounces-16930-lists+platform-driver-x86=lfdr.de@vger.kernel.org>)
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 19:31:48 +0100
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A57C485EC
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 18:14:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8E29497F5
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 19:31:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 40D7854C694
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 14:26:47 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id ECD4A944581
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 15:09:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B36E043D50C;
-	Tue, 20 Jan 2026 14:18:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9E3944BC80;
+	Tue, 20 Jan 2026 14:54:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hFqZykvh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E3r6Xaev"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12EE242E002
-	for <platform-driver-x86@vger.kernel.org>; Tue, 20 Jan 2026 14:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93BD644B690;
+	Tue, 20 Jan 2026 14:54:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768918724; cv=none; b=i9lNy4Uj1Xpa7O8yC+xCRRD+Xp+RCZohPKcamwZ9CYcuUjvqT1Dzs1g1D8fAZIO5wQEVgnz3ZY+8PakENKvTa9gemWLFiDD8z2eRSxXwvxuMCSqyRO9UHMu5SS4SHl0ZWMVyJd0/10mKib9GzVFz0zQrH2QKBldsAyh7iN4jD3E=
+	t=1768920873; cv=none; b=op2OIV9tBJTyPvA3U3C5IWt1VVNb4ZUAKrYkmVc/4czrKyWhf/J7MuqphF8i2YyEodKoPdTIJ/0/0DGCh3n4omh/fMAMyQ5tkD6lUR02cTxCQM3Dp2rD1aaZWJp4Lzcw3vzgGke2dgGduplggBg+PVopLtgxTtP34yeZg+DKYNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768918724; c=relaxed/simple;
-	bh=JfypU5NoSVLxTmCc6m3bhRZsIW0owE++/8JRrOiHfKk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fKNRsdBLxAxNesb3HoX+qOgoxDwzV0LVje/vuoCLuGGbgd1w2XN480xfkFlzRTdKkGnwPglgypOs7na5hWGObvw12WEQUPlUn5P1UHVn7kSb5g+SZiHfLqrS0ukPVm233VslQIG91rN58XAsRVWe27Ky06S5MotPBjisIO91554=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hFqZykvh; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-5029fb0b977so38305641cf.0
-        for <platform-driver-x86@vger.kernel.org>; Tue, 20 Jan 2026 06:18:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768918721; x=1769523521; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=X1is6XRlm0ZQ0xwWLUS14cuBkkKeXRGoTHcBmEUlITU=;
-        b=hFqZykvhjCZStUnT34LruKenZrDbSEwOId1NYhni4Z5VvUkcddAUW5OEVlj0xqoloC
-         B5mPCCU1M4dzTMipA0fhIFcQtmNyWjStUyOMNpIMFkGxz0Cqr7KuWI7w/JbDvqnFriXY
-         OBmIu7JS+6bh17sSITDlEIKUnr/e/N98syX2AULg3cmsQ0bg9zondbTC5JDZcf+qOUjw
-         GS7ohGFqN22ZW7kvQyx0o1U0n1MODAX+nPDuUCNl5VhBmBbVZmW363uDWfh2BgRW0YIg
-         Pk6hUVsPef0EyqsoA6eU4u1++9RJQEG+D3AkeUwSkdSin5bTYv3Cdx6u5hTjk2k0EOZi
-         70Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768918722; x=1769523522;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X1is6XRlm0ZQ0xwWLUS14cuBkkKeXRGoTHcBmEUlITU=;
-        b=UhsxeDAfcIW4/pXu6TXqTuNXQ8eu636yicpPeI/5hgRnqg/7wr1XtSgmL1aQVnzUfb
-         wzpgKOH8kzzemIk6oi74URW7ZcOynHNJTRfXvkX7P2xb6eAtzSWDr8bTSaagK56cW+rt
-         O4weGQXhN7Y6pTeGW9uUprvdcMIdaMJpdNVmLwapcWsCl0CSYhK+gLvXwwEAPdaQXUpR
-         rh9nUvpB8bcnFOeJ4vvkPlQuzSlQJ2B/MyPhcPO3H/rCyBAPq/CsxpE8Tx1vajRQ7yCT
-         T0qQU+lVK2hUgdA/IJytnel8AdSxLU3x+4OFbk5TSKQPcXd6PjCO8Z3ZqwXH1dKNYRAB
-         FnWQ==
-X-Gm-Message-State: AOJu0YzM/ynoaEUJsP65KQG/6UqPEVEQlV/O1FwC/j1zj1QNU4sXqngU
-	dowh3wU19ty6KfZExOUFjMwex7wVM6HD4vLq2IKn1misF4Nn7bTRR09gYklI40zp
-X-Gm-Gg: AY/fxX4pXvdhmtBEh5Yzc1Bbtwd+sc3byMgF1NN23UtGGAUqvErGwmQZCTQeX78CDs9
-	vNUub4cmblO86qh8jgklQkuvGjCbs7kbxVFoB95jq/1hvatKqYkrhOsY4Rhnldk9OZa1lZHcqiO
-	tlVWOU2bZ4zVMDIhOr3Wk968hfdLMYHXN0FB68wm3HDv8PoJwlZZxWDArNj4HcBL6dKNNtD6jm9
-	ou4NLdd23pSg7/3HZb6Q69b6WDydiBQe3r9ARXWeiUA8WFvmi0e0aQzdWlzKsR/SFk66P+9H0D+
-	LWDTjgV3kRqS0DHLFTGrAZbuMhY+2hV4PVhvaPz4LGo7ZEILmnjmmlKLPyqI8WC0Hga6r9JTsRZ
-	QxxbbNUv/8qhGjSlKu2EBP9QYZtwc8n2x0WVZSmOtvj7MLzL8KnBdQwXeXMGCACDHjat7bydZKq
-	qjo1rjVOOjZbj5KzBue8PulcphSi4RgubH7GQDvQhJLtFmN6kCqDKRJAoIJLN/nxvqIOpuOBa9f
-	/9WOFgQoQ1iT4gHVz4=
-X-Received: by 2002:a05:622a:208:b0:4e8:b446:c023 with SMTP id d75a77b69052e-502a17581f8mr177998841cf.49.1768918721388;
-        Tue, 20 Jan 2026 06:18:41 -0800 (PST)
-Received: from office-nix.home (hlfxns018gw-134-41-57-104.dhcp-dynamic.fibreop.ns.bellaliant.net. [134.41.57.104])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-502a1d77d30sm93461581cf.6.2026.01.20.06.18.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 06:18:40 -0800 (PST)
-From: David McFarland <corngood@gmail.com>
-To: platform-driver-x86@vger.kernel.org
-Cc: David McFarland <corngood@gmail.com>
-Subject: [PATCH] platform/x86/intel: disable wakeup_mode during hibernation
-Date: Tue, 20 Jan 2026 10:17:26 -0400
-Message-ID: <20260120141758.3496-1-corngood@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	s=arc-20240116; t=1768920873; c=relaxed/simple;
+	bh=WkhkmygIvX0tauPzGiNw8mZX+sW+xTTCJQczA8voYHY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=fFTPcVbv2TE46exUuftRQMwf38ePyCHb8eraT8xQAACBASOqphEanC7NqyTWmxpBb/FKZqh2o3kDDwwkO4GEr0tXIDoidkcu6yRhyspRRKgZaT1nH29Jg2VW8suZVsWr58Klo6tEeNTr/TpzA/X7hD4X3CiPJ+MDJQ1p/UHLS1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E3r6Xaev; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768920871; x=1800456871;
+  h=from:to:cc:in-reply-to:references:subject:message-id:
+   date:mime-version:content-transfer-encoding;
+  bh=WkhkmygIvX0tauPzGiNw8mZX+sW+xTTCJQczA8voYHY=;
+  b=E3r6XaevI9fPa/r5kDvaeqxwIOFDZV/pZSHgNw2tHQvkHQ8UXxJLF98F
+   X62Bhb2jDho4LqNDaGoxoxwzY2Mfa7V0RG1c3xuENCn0s3BupgD98mh13
+   S9/ldZ4E5MYY8qCTiIDVXYCFib+r8C4kqpgSWbEsl3t2qAIwlERHD6rAw
+   Soyb2ExrN07E37NVoaLbGb8rxICYy2gZkY++ZK7wlgvuArNAUGButN5vj
+   sW9qRZysoIMgf9z8wcFUS1GNwxEuqYuPaoXhK1y0x6NFSoT7FtY4S6egx
+   9q5lbJcQbGFdFb5//jxtP4s2kzpwfN9so96KNxgqYv6rQtafGLNs1rnFz
+   g==;
+X-CSE-ConnectionGUID: Xwrw/zTKTNiXsDy4UiC26g==
+X-CSE-MsgGUID: 0C0ncLpzTtyGfdYUephfmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="80433190"
+X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
+   d="scan'208";a="80433190"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 06:54:22 -0800
+X-CSE-ConnectionGUID: hFOAhQK/RBC66ZcqmofgZA==
+X-CSE-MsgGUID: +2Gvlf8rSlekB902+iOO/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
+   d="scan'208";a="210286876"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.10])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 06:54:19 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Benjamin Philip <benjamin.philip495@gmail.com>
+Cc: Ike Panhc <ikepanhc@gmail.com>, 
+ Mark Pearson <mpearson-lenovo@squebb.ca>, 
+ "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+ Hans de Goede <hansg@kernel.org>
+In-Reply-To: <20260106184830.34426-1-benjamin.philip495@gmail.com>
+References: <20260106184830.34426-1-benjamin.philip495@gmail.com>
+Subject: Re: [PATCH RESEND] platform/x86: ideadpad-laptop: Clean up style
+ warnings and checks
+Message-Id: <176892085530.15580.3220559549900135862.b4-ty@linux.intel.com>
+Date: Tue, 20 Jan 2026 16:54:15 +0200
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 X-Spamd-Result: default: False [-0.46 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-16926-lists,platform-driver-x86=lfdr.de];
-	FREEMAIL_CC(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[gmail.com,squebb.ca,kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-16930-lists,platform-driver-x86=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	DMARC_POLICY_ALLOW(0.00)[gmail.com,none];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[vger.kernel.org,gmail.com];
+	DMARC_POLICY_ALLOW(0.00)[intel.com,none];
+	DKIM_TRACE(0.00)[intel.com:+];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[corngood@gmail.com,platform-driver-x86@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[ilpo.jarvinen@linux.intel.com,platform-driver-x86@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[platform-driver-x86];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 0A57C485EC
+	TAGGED_RCPT(0.00)[platform-driver-x86];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,intel.com:dkim,linux.intel.com:mid]
+X-Rspamd-Queue-Id: A8E29497F5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Without this change I get the problem described in the linked bug:
+On Wed, 07 Jan 2026 00:18:29 +0530, Benjamin Philip wrote:
 
-> Wakeup event detected during hibernation, rolling back
+> This commit makes some style changes to clean up the following
+> checkpatch warnings and checks at various places in ideapad.c:
+> 
+> - WARNING: quoted string split across lines
+> - WARNING: space prohibited between function name and open parenthesis '('
+> - WARNING: braces {} are not necessary for any arm of this statement
+> - CHECK: Alignment should match open parenthesis
+> 
+> [...]
 
-The docs for the 'freeze' event say:
 
-> Analogous to @suspend(), but it should not enable the device to signal wakeup
-> events or change its power state.
+Thank you for your contribution, it has been applied to my local
+review-ilpo-next branch. Note it will show up in the public
+platform-drivers-x86/review-ilpo-next branch only once I've pushed my
+local branch there, which might take a while.
 
-I've been running with this change for several months on my Dell
-Precision 3680.  I haven't tested on any other systems.
+The list of commits applied:
+[1/1] platform/x86: ideadpad-laptop: Clean up style warnings and checks
+      commit: 779bda29f17f99ecef3d6b1be3eb689d2a477a26
 
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=27328
----
- drivers/platform/x86/intel/hid.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/platform/x86/intel/hid.c b/drivers/platform/x86/intel/hid.c
-index 560cc063198e..3a9561665b9b 100644
---- a/drivers/platform/x86/intel/hid.c
-+++ b/drivers/platform/x86/intel/hid.c
-@@ -419,6 +419,14 @@ static int intel_hid_pl_suspend_handler(struct device *device)
- 	return 0;
- }
- 
-+static int intel_hid_pl_freeze_handler(struct device *device)
-+{
-+	struct intel_hid_priv *priv = dev_get_drvdata(device);
-+
-+	priv->wakeup_mode = false;
-+	return intel_hid_pl_suspend_handler(device);
-+}
-+
- static int intel_hid_pl_resume_handler(struct device *device)
- {
- 	intel_hid_pm_complete(device);
-@@ -433,7 +441,7 @@ static int intel_hid_pl_resume_handler(struct device *device)
- static const struct dev_pm_ops intel_hid_pl_pm_ops = {
- 	.prepare = intel_hid_pm_prepare,
- 	.complete = intel_hid_pm_complete,
--	.freeze  = intel_hid_pl_suspend_handler,
-+	.freeze  = intel_hid_pl_freeze_handler,
- 	.thaw  = intel_hid_pl_resume_handler,
- 	.restore  = intel_hid_pl_resume_handler,
- 	.suspend  = intel_hid_pl_suspend_handler,
--- 
-2.52.0
+--
+ i.
 
 
