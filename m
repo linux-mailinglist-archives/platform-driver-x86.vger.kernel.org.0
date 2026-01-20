@@ -1,197 +1,113 @@
-Return-Path: <platform-driver-x86+bounces-16932-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
+Return-Path: <platform-driver-x86+bounces-16937-lists+platform-driver-x86=lfdr.de@vger.kernel.org>
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yJiPD9rDb2lsMQAAu9opvQ
-	(envelope-from <platform-driver-x86+bounces-16932-lists+platform-driver-x86=lfdr.de@vger.kernel.org>)
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 19:05:14 +0100
+	id yHV+OYq+b2kOMQAAu9opvQ
+	(envelope-from <platform-driver-x86+bounces-16937-lists+platform-driver-x86=lfdr.de@vger.kernel.org>)
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 18:42:34 +0100
 X-Original-To: lists+platform-driver-x86@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D1E4912A
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 19:05:13 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A2148C0B
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 18:42:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 24A86748C52
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 15:28:43 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D54E7806F42
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jan 2026 16:05:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FE2C46AF10;
-	Tue, 20 Jan 2026 15:10:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62C0444CADB;
+	Tue, 20 Jan 2026 15:45:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kcoq7YcA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eac/fBx6"
 X-Original-To: platform-driver-x86@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEFD73D6488;
-	Tue, 20 Jan 2026 15:10:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3516344CAD0;
+	Tue, 20 Jan 2026 15:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768921810; cv=none; b=QC1q+RnOuVhIlCOQs+krovZ8RAuK2+wtkloHk6Kq5W+Tbpj3JANPOWFYuh5U5klbeR6Z0yfwv7fB42GIQn3cXRiXxBxgqPZ9AoDCOKKYkk8eaTffxiArF2APEwh+RZmJXCWG46NnLBeV3UO0bHSeKmLAiUJRr7vyRt4g91oGHo0=
+	t=1768923915; cv=none; b=HBCqKCEVSg2R4RkMfQpanLuzuKRR6kbQVDRL/zUnNrHxzl+dKwuvMgOEyD2APmiNDUyvxHgMYimviSlvcxapKpYjfVsFhWWhA9JuCevvtuCVttGFBOVN5YtHKNt7iqdbCm3o7S3oVxgJOKlbNHytGf4W449/psgtSU/HyF741Cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768921810; c=relaxed/simple;
-	bh=dHVFDy2YS/pxhFOLCdtAotjn8l8gvMlsBBh8NyCWEFk=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=m8Mqsu/H7DcKn6CfgJofplcFgYKt0+NwJQvUwJwLfxUErBaVF19bZqV29HfcfHHqKtCVSIF1aMHXfxq56BqGh4xFgfOs8gHZk7da7aOaYWKiFOPfc+pRZ58yKT8rZ28PVZmpOCG/kQ3zegl5zAOcG/ETTs1ctQZRlJAa2YaYiuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kcoq7YcA; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768921808; x=1800457808;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=dHVFDy2YS/pxhFOLCdtAotjn8l8gvMlsBBh8NyCWEFk=;
-  b=kcoq7YcAloEojviFCRiRGPcHCNE6IzAnHOHUwoo9DyP//3fAdFT1IxLN
-   t8TwrX3kcDcsTEYvVwxIaf4++UEq/7QcMD2ErHZtyEZkVzYnh4kLAJoK7
-   cODWA7Fs8oAbjv6GyLbfx+OGhgcf7YAbH6rc5hWF6lzcSO1ldy9bv2uDF
-   oIrXaeRblBAB+Wa3VsmkPJ9E+d2nrHvgCc7sR1MRSZFeEtShdK0oJdCjb
-   40b9ReFrdP1U3e8YXGcV9paOe9IpL+ooyAD0cVkL2An2kBkYpIb0Qvs0z
-   ChMVJkkQJ5TUguHRDO8O/jt0gSOSkNsPpX5axNP3O6Xu1Sz9bmSylodDh
-   Q==;
-X-CSE-ConnectionGUID: /ZtCFZFkSCu4gaLrtU8lZA==
-X-CSE-MsgGUID: Jeho33wbQxiYbwP+NmUgZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="70105876"
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="70105876"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 07:10:05 -0800
-X-CSE-ConnectionGUID: cicZd60lSl2rtRvb8bnofQ==
-X-CSE-MsgGUID: Y7/0ENclSZqxjCFJJTeODg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="229084865"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.10])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 07:10:03 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 20 Jan 2026 17:10:00 +0200 (EET)
-To: Krishna Chomal <krishna.chomal108@gmail.com>
-cc: Hans de Goede <hansg@kernel.org>, platform-driver-x86@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5 2/2] platform/x86: hp-wmi: Add EC offsets to read
- Victus S thermal profile
-In-Reply-To: <aWpKUa--tT0ZSRKG@archlinux>
-Message-ID: <b2be1f6c-4f2e-cbb1-af52-46a85ecd5edd@linux.intel.com>
-References: <20251218124303.22024-1-krishna.chomal108@gmail.com> <20260113182604.115211-1-krishna.chomal108@gmail.com> <20260113182604.115211-3-krishna.chomal108@gmail.com> <60c0e7ad-f25e-4e73-668b-4bb08dbbb79e@linux.intel.com> <aWpKUa--tT0ZSRKG@archlinux>
+	s=arc-20240116; t=1768923915; c=relaxed/simple;
+	bh=7qWRI5TEMbhJwoDvCA7wEdITDjqQD7+a4DGBF4uDdlk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FfFSW42aXyvezk552OPCrjb1GRmlUUaMbB3YgdUNuCUGYKAfTdJNSbTZ55ij0IHKc3qNSTaONEqYm4YH5eNUgBPUOr1m9OkcMMfWrF4TroU0OC5ptaM6lLtiPQnzlM34rYBvBW+Jl3t/yNOEMG/k8YeRIMZKTYHzvjEioK2D/F8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eac/fBx6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A47A1C16AAE;
+	Tue, 20 Jan 2026 15:45:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768923914;
+	bh=7qWRI5TEMbhJwoDvCA7wEdITDjqQD7+a4DGBF4uDdlk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Eac/fBx659SpDlgJImaVB+pxGBVIEoF3n6gpD7KVsUtXLvLkUo6oNKQcYXkgDqM6U
+	 FejaC4LWAV/6tVtnMZm7aVY1d8IZ0DbehbDIUljTgr3dkrfC0VaxcxFm3/S0zr/N4Y
+	 +t/IjMi0z/faM/vZGjNr8RT44KcHBvNsBl5v2WviNMKMaJ/KPfpzuLvK0acYWG1vUg
+	 dt2p6YewaINw+Hck9CPp2aUfZsGVv4UwPTp7ZdJKjbTGC7YHmnNB5HvKN374m9TsTI
+	 1BRK+qNqCaCdsJnVyRWC+Ng/nwgBywR32ORuAC8u6q/aUcKa0Wwpw2apb5K6Boiyv4
+	 p2vuelXDuwZ/w==
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Hans de Goede <hansg@kernel.org>,
+ Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Linux ACPI <linux-acpi@vger.kernel.org>,
+ Kenneth Chan <kenneth.t.chan@gmail.com>, platform-driver-x86@vger.kernel.org,
+ Azael Avalos <coproscefalo@gmail.com>,
+ Matthew Garrett <matthew.garrett@nebula.com>
+Subject:
+ [PATCH v1 0/2] platform/x86: Fixes for leaks in panasonic-laptop and
+ toshiba-haps drivers
+Date: Tue, 20 Jan 2026 16:42:41 +0100
+Message-ID: <3026924.e9J7NaK4W3@rafael.j.wysocki>
+Organization: Linux Kernel Development
 Precedence: bulk
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 List-Id: <platform-driver-x86.vger.kernel.org>
 List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323328-277296359-1768921331=:972"
-Content-ID: <1d7eb6e3-73c7-bb82-86d6-91d09092f910@linux.intel.com>
-X-Spamd-Result: default: False [-0.96 / 15.00];
-	CTYPE_MIXED_BOGUS(1.00)[];
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [0.04 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	CTE_CASE(0.50)[];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[multipart/mixed,text/plain];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+,1:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-16932-lists,platform-driver-x86=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DMARC_POLICY_ALLOW(0.00)[intel.com,none];
-	DKIM_TRACE(0.00)[intel.com:+];
-	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,nebula.com];
+	TAGGED_FROM(0.00)[bounces-16937-lists,platform-driver-x86=lfdr.de];
+	HAS_ORG_HEADER(0.00)[];
+	DMARC_POLICY_ALLOW(0.00)[kernel.org,quarantine];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ilpo.jarvinen@linux.intel.com,platform-driver-x86@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[rafael@kernel.org,platform-driver-x86@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[platform-driver-x86];
-	MID_RHS_MATCH_FROM(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,intel.com:dkim,linux.intel.com:mid]
-X-Rspamd-Queue-Id: D5D1E4912A
+	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,rafael.j.wysocki:mid]
+X-Rspamd-Queue-Id: 91A2148C0B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi All,
 
---8323328-277296359-1768921331=:972
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <98a0183b-4395-78e7-c010-700f89de2ca7@linux.intel.com>
+These are two fixes for leaks in the panasonic-laptop and toshiba-haps drivers,
+in the "probe error" and "remove" paths.
 
-On Fri, 16 Jan 2026, Krishna Chomal wrote:
+Thanks!
 
-> On Thu, Jan 15, 2026 at 03:26:45PM +0200, Ilpo J=E4rvinen wrote:
-> [snip]
-> > > +static int platform_profile_victus_s_get_ec(enum platform_profile_op=
-tion
-> > > *profile)
-> > > +{
-> > > +=09int ret, i;
-> > > +=09bool current_ctgp_state, current_ppab_state;
-> > > +=09u8 current_dstate, current_gpu_slowdown_temp, tp;
-> > > +=09static const u8 tp_ec_offsets[2] =3D {
-> > > HP_OMEN_EC_THERMAL_PROFILE_OFFSET,
-> > > +
-> > > HP_VICTUS_S_EC_THERMAL_PROFILE_OFFSET };
-> > > +
-> > > +=09/*
-> > > +=09 * Victus S devices have more than 1 EC layouts, hence we cannot
-> > > directly
-> > > +=09 * call omen_thermal_profile_get() like other
-> > > platform_profile_*_get_ec()
-> > > +=09 * variants, since it would only resolve to that 1 type of board.
-> > > Hence
-> > > +=09 * we iteratively query a set of candidates: tp_ec_offsets[] unti=
-l we
-> > > +=09 * find a valid thermal profile.
-> > > +=09 */
-> > > +=09for (i =3D 0 ; i < ARRAY_SIZE(tp_ec_offsets) ; i++) {
-> > > +=09=09ret =3D ec_read(tp_ec_offsets[i], &tp);
-> >=20
-> > I'm not so sure about this. Reading EC offsets and hoping we find the
-> > correct one doesn't sound the best idea. I'd prefer we store the
-> > information like we already do for thermal profiles. Unless there's som=
-e
-> > other way to detect which layout it is?
->=20
-> I explored the Omen Gaming Hub (OGH) behavior on Windows to see if a WMI
-> query exists for readback. OGH appears to default to "Balanced" on first
-> run and tracks state via a profile.json file on the disk. Deleting this
-> file causes the app to lose the current state, suggesting that there is n=
-o
-> official WMI readback query. By implementing EC reads, the driver can
-> actually remain more consistent with the real hardware state than the
-> offcial software.
->=20
-> I agree that iterative EC reads are not ideal. However, since these two
-> offsets (0x95 and 0x59) cover all (or almost all) known Victus/Omen layou=
-ts,
-> the risk of "hoping" is low.
->=20
-> Storing them at compile time in the victus_s array as a part of
-> .driver_data is indeed the best thing. But since we do not know what EC
-> layout is followed by the existing boards in the array, we can take a
-> hybrid approach here:
-> 1. I (and subsequent additions) will store their EC offset in the
->    .driver_data field struct.
-> 2. For already existing boards we will perform this iterative probe once
->    during init, and store it somewhere common.
-> 3. Then platform_profile_victus_s_get_ec() can simply use this "definite"
->    offset to perform the EC read.
 
-I guess we'll have to settle to that but it likely means we'll never be=20
-able to source those offsets because things appear "working" and therefore=
-=20
-cannot get rid of the extra code necessary for the EC offset iteration.
 
-Another alternative would be to add pr_warn() if we don't have the EC=20
-offset yet for a board and not read anything (and hope somebody who has=20
-one of those boards will come to us with the information or patch).
-
---=20
- i.
---8323328-277296359-1768921331=:972--
 
